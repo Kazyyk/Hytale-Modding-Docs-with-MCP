@@ -1,0 +1,4279 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-02-09T21:10:00Z",
+  "progress": {
+    "events": "complete",
+    "ecs": "complete",
+    "commands": "complete",
+    "registries": "complete",
+    "codecs": "complete",
+    "cross_refs": "complete"
+  },
+  "systems": {
+    "events": {
+      "overview": "Programmatic event system using Consumer-based registration. Two parallel hierarchies: standard events (IEvent/IAsyncEvent via IEventBus) and ECS events (EcsEvent/CancellableEcsEvent dispatched through the ECS system pipeline). Registration is done through PluginBase.getEventRegistry() which delegates to the server's EventBus.",
+      "dispatch_mechanism": {
+        "standard_events": "Dispatched via EventBus: eventBus.dispatch(EventClass.class) or eventBus.dispatchFor(EventClass.class).dispatch(new Event(...)). Used by IEvent/IAsyncEvent implementations.",
+        "ecs_events": "Dispatched via ECS stores: entityStore.invoke(ref, event) or componentAccessor.invoke(ref, event). Used by EcsEvent/CancellableEcsEvent subclasses. Completely separate from EventBus — goes through the ECS system pipeline.",
+        "confidence": "high"
+      },
+      "dispatch_sites": {
+        "BootEvent": {
+          "class": "com.hypixel.hytale.server.core.HytaleServer",
+          "method": "boot()",
+          "line": 388,
+          "mechanism": "eventBus.dispatch(BootEvent.class)",
+          "context": "Server boot lifecycle — no event object constructed, uses class-dispatch shorthand"
+        },
+        "ShutdownEvent": {
+          "class": "com.hypixel.hytale.server.core.HytaleServer",
+          "method": "shutdown0()",
+          "line": 440,
+          "mechanism": "eventBus.dispatch(ShutdownEvent.class)",
+          "context": "Server shutdown lifecycle"
+        },
+        "PrepareUniverseEvent": {
+          "class": "com.hypixel.hytale.server.core.universe.Universe",
+          "method": "init",
+          "line": 255,
+          "mechanism": "eventBus dispatch",
+          "context": "Universe initialization with world config provider"
+        },
+        "BreakBlockEvent": {
+          "class": "com.hypixel.hytale.server.core.modules.interaction.BlockHarvestUtils",
+          "method": "block harvest",
+          "line": 581,
+          "mechanism": "entityStore.invoke(ref, event)",
+          "context": "ECS dispatch when a player finishes mining a block"
+        },
+        "PlaceBlockEvent": {
+          "class": "com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils",
+          "method": "block place",
+          "line": 102,
+          "mechanism": "entityStore.invoke(ref, event)",
+          "context": "ECS dispatch when a player places a block"
+        },
+        "DamageBlockEvent": {
+          "class": "com.hypixel.hytale.server.core.modules.interaction.BlockHarvestUtils",
+          "method": "damage tick",
+          "line": 338,
+          "mechanism": "entityStore.invoke(ref, event)",
+          "context": "ECS dispatch for each mining progress tick on a block"
+        },
+        "ChangeGameModeEvent": {
+          "class": "com.hypixel.hytale.server.core.entity.entities.Player",
+          "method": "setGameMode",
+          "line": 796,
+          "mechanism": "componentAccessor.invoke(playerRef, event)",
+          "context": "ECS dispatch when game mode changes"
+        },
+        "SwitchActiveSlotEvent": {
+          "class": "com.hypixel.hytale.server.core.io.handlers.game.InventoryPacketHandler",
+          "method": "slot switch",
+          "lines": [
+            353,
+            406
+          ],
+          "mechanism": "store.invoke(ref, event)",
+          "context": "ECS dispatch when active hotbar slot changes (two call sites — server-request and client-request)"
+        },
+        "InteractivelyPickupItemEvent": {
+          "class": "com.hypixel.hytale.server.core.entity.ItemUtils",
+          "method": "pickupItem()",
+          "line": 35,
+          "mechanism": "componentAccessor.invoke(ref, event)",
+          "context": "ECS dispatch when entity picks up an item"
+        },
+        "DropItemEvent.PlayerRequest": {
+          "class": "com.hypixel.hytale.server.core.io.handlers.game.InventoryPacketHandler",
+          "method": "drop handler",
+          "line": 298,
+          "mechanism": "store.invoke(ref, event)",
+          "context": "ECS dispatch when player requests to drop an item"
+        },
+        "DropItemEvent.Drop": {
+          "class": "com.hypixel.hytale.server.core.entity.ItemUtils",
+          "method": "throwItem()",
+          "line": 87,
+          "mechanism": "componentAccessor.invoke(ref, event)",
+          "context": "ECS dispatch when item is actually thrown into world"
+        },
+        "CraftRecipeEvent.Pre": {
+          "class": "com.hypixel.hytale.builtin.crafting.component.CraftingManager",
+          "method": "craft",
+          "line": 155,
+          "mechanism": "componentAccessor.invoke(ref, preEvent)",
+          "context": "ECS dispatch before crafting — can cancel"
+        },
+        "CraftRecipeEvent.Post": {
+          "class": "com.hypixel.hytale.builtin.crafting.component.CraftingManager",
+          "method": "craft",
+          "line": 184,
+          "mechanism": "componentAccessor.invoke(ref, postEvent)",
+          "context": "ECS dispatch after crafting completes"
+        },
+        "UseBlockEvent.Pre": {
+          "class": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.UseBlockInteraction",
+          "method": "execute",
+          "line": 65,
+          "mechanism": "commandBuffer.invoke(ref, event)",
+          "context": "ECS dispatch before block use — can cancel"
+        },
+        "UseBlockEvent.Post": {
+          "class": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.UseBlockInteraction",
+          "method": "execute",
+          "line": 76,
+          "mechanism": "commandBuffer.invoke(ref, event)",
+          "context": "ECS dispatch after block use completes"
+        },
+        "DiscoverZoneEvent.Display": {
+          "class": "com.hypixel.hytale.server.core.universe.world.WorldMapTracker",
+          "method": "zone discover",
+          "line": 148,
+          "mechanism": "componentAccessor.invoke(ref, event)",
+          "context": "ECS dispatch when player discovers a new zone"
+        },
+        "PlayerConnectEvent": {
+          "class": "com.hypixel.hytale.server.core.universe.Universe",
+          "method": "player connect",
+          "line": 697,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus dispatch when player entity is created and connected"
+        },
+        "PlayerDisconnectEvent": {
+          "class": "com.hypixel.hytale.server.core.universe.Universe",
+          "method": "player disconnect",
+          "line": 767,
+          "mechanism": "eventBus dispatch",
+          "context": "EventBus dispatch when player disconnects"
+        },
+        "PlayerChatEvent": {
+          "class": "com.hypixel.hytale.server.core.io.handlers.game.GamePacketHandler",
+          "method": "chat handler",
+          "line": 367,
+          "mechanism": "eventBus dispatchForAsync",
+          "context": "EventBus async dispatch when player sends chat message"
+        },
+        "PlayerSetupConnectEvent": {
+          "class": "com.hypixel.hytale.server.core.io.handlers.SetupPacketHandler",
+          "method": "auth complete",
+          "line": 123,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus dispatch during early connection (before player entity exists)"
+        },
+        "PlayerSetupDisconnectEvent": {
+          "class": "com.hypixel.hytale.server.core.io.handlers.SetupPacketHandler",
+          "method": "disconnect",
+          "line": 198,
+          "mechanism": "eventBus dispatch",
+          "context": "EventBus dispatch when setup-phase player disconnects"
+        },
+        "AddPlayerToWorldEvent": {
+          "class": "com.hypixel.hytale.server.core.universe.world.World",
+          "method": "addPlayer",
+          "line": 810,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus keyed dispatch when player enters a world"
+        },
+        "DrainPlayerFromWorldEvent": {
+          "class": "com.hypixel.hytale.server.core.universe.world.World",
+          "method": "drainPlayer",
+          "line": 941,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus keyed dispatch when player leaves a world"
+        },
+        "PlayerReadyEvent": {
+          "class": "com.hypixel.hytale.server.core.entity.entities.Player",
+          "method": "onReady",
+          "line": 306,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus keyed dispatch when player signals readiness"
+        },
+        "PlayerCraftEvent": {
+          "class": "com.hypixel.hytale.builtin.crafting.component.CraftingManager",
+          "method": "craft",
+          "line": 194,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus dispatch after crafting (deprecated, replaced by CraftRecipeEvent)"
+        },
+        "PlayerInteractEvent": {
+          "class": "not_found",
+          "method": "N/A",
+          "mechanism": "N/A",
+          "context": "Deprecated — no active instantiation sites found. Replaced by UseBlockEvent and PlayerMouseButtonEvent.",
+          "confidence": "medium"
+        },
+        "PlayerMouseButtonEvent": {
+          "class": "com.hypixel.hytale.server.core.modules.interaction.InteractionModule",
+          "method": "doMouseInteraction()",
+          "line": 407,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus dispatch when player presses/releases a mouse button"
+        },
+        "PlayerMouseMotionEvent": {
+          "class": "com.hypixel.hytale.server.core.modules.interaction.InteractionModule",
+          "method": "doMouseInteraction()",
+          "line": 428,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus dispatch when player moves mouse (drag events)"
+        },
+        "EntityRemoveEvent": {
+          "class": "com.hypixel.hytale.server.core.entity.Entity",
+          "method": "remove",
+          "line": 113,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus keyed dispatch when entity is removed from world"
+        },
+        "LivingEntityInventoryChangeEvent": {
+          "class": "com.hypixel.hytale.server.core.inventory.Inventory",
+          "method": "various",
+          "lines": [
+            183,
+            195,
+            209,
+            247,
+            285,
+            302
+          ],
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus keyed dispatch from multiple inventory change operations"
+        },
+        "LivingEntityUseBlockEvent": {
+          "class": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.UseBlockInteraction",
+          "method": "post-use",
+          "line": 81,
+          "mechanism": "eventBus dispatchFor",
+          "context": "EventBus dispatch after block use (deprecated)"
+        },
+        "GroupPermissionChangeEvent.Added": {
+          "class": "com.hypixel.hytale.server.core.permissions.PermissionsModule",
+          "method": "addGroupPermission()",
+          "line": 110,
+          "mechanism": "eventBus dispatch",
+          "context": "Permissions changed on a group"
+        },
+        "GroupPermissionChangeEvent.Removed": {
+          "class": "com.hypixel.hytale.server.core.permissions.PermissionsModule",
+          "method": "removeGroupPermission()",
+          "line": 118,
+          "mechanism": "eventBus dispatch",
+          "context": "Permissions removed from a group"
+        },
+        "PlayerGroupEvent.Added": {
+          "class": "com.hypixel.hytale.server.core.permissions.PermissionsModule",
+          "method": "addUserToGroup()",
+          "line": 126,
+          "mechanism": "eventBus dispatch",
+          "context": "Player added to permission group"
+        },
+        "PlayerGroupEvent.Removed": {
+          "class": "com.hypixel.hytale.server.core.permissions.PermissionsModule",
+          "method": "removeUserFromGroup()",
+          "line": 134,
+          "mechanism": "eventBus dispatch",
+          "context": "Player removed from permission group"
+        },
+        "PlayerPermissionChangeEvent.PermissionsAdded": {
+          "class": "com.hypixel.hytale.server.core.permissions.PermissionsModule",
+          "method": "addUserPermission()",
+          "line": 94,
+          "mechanism": "eventBus dispatch",
+          "context": "Individual permissions granted to player"
+        },
+        "PlayerPermissionChangeEvent.PermissionsRemoved": {
+          "class": "com.hypixel.hytale.server.core.permissions.PermissionsModule",
+          "method": "removeUserPermission()",
+          "line": 102,
+          "mechanism": "eventBus dispatch",
+          "context": "Individual permissions revoked from player"
+        }
+      },
+      "type_hierarchy": {
+        "IBaseEvent<KeyType>": {
+          "fqcn": "com.hypixel.hytale.event.IBaseEvent",
+          "kind": "interface",
+          "description": "Root marker interface for all events. Generic KeyType allows keyed event dispatch (events can be dispatched for specific keys, or globally).",
+          "confidence": "high"
+        },
+        "IEvent<KeyType>": {
+          "fqcn": "com.hypixel.hytale.event.IEvent",
+          "kind": "interface",
+          "extends": "IBaseEvent<KeyType>",
+          "description": "Marker interface for synchronous events. Most game events implement this.",
+          "confidence": "high"
+        },
+        "IAsyncEvent<KeyType>": {
+          "fqcn": "com.hypixel.hytale.event.IAsyncEvent",
+          "kind": "interface",
+          "extends": "IBaseEvent<KeyType>",
+          "description": "Marker interface for asynchronous events. Listeners receive CompletableFuture<EventType> instead of direct event. Used by PlayerChatEvent.",
+          "confidence": "high"
+        },
+        "ICancellable": {
+          "fqcn": "com.hypixel.hytale.event.ICancellable",
+          "kind": "interface",
+          "description": "Mixin interface for cancellable standard events. Methods: isCancelled(), setCancelled(boolean). Used by PlayerSetupConnectEvent, PlayerInteractEvent, PlayerMouseButtonEvent, PlayerMouseMotionEvent, PlayerChatEvent.",
+          "confidence": "high"
+        },
+        "IProcessedEvent": {
+          "fqcn": "com.hypixel.hytale.event.IProcessedEvent",
+          "kind": "interface",
+          "description": "Interface with processEvent(String) method. Purpose unknown — inferred from usage context.",
+          "confidence": "medium"
+        },
+        "EcsEvent": {
+          "fqcn": "com.hypixel.hytale.component.system.EcsEvent",
+          "kind": "abstract_class",
+          "description": "Base class for ECS pipeline events. Empty abstract class — marker for events dispatched through the ECS system rather than the EventBus. Does NOT extend IEvent — these are a separate dispatch mechanism.",
+          "confidence": "high"
+        },
+        "ICancellableEcsEvent": {
+          "fqcn": "com.hypixel.hytale.component.system.ICancellableEcsEvent",
+          "kind": "interface",
+          "description": "ECS-specific cancellation interface. Same methods as ICancellable: isCancelled(), setCancelled(boolean). Used by ECS events instead of ICancellable.",
+          "confidence": "high"
+        },
+        "CancellableEcsEvent": {
+          "fqcn": "com.hypixel.hytale.component.system.CancellableEcsEvent",
+          "kind": "abstract_class",
+          "extends": "EcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "description": "Convenience base class for cancellable ECS events. Provides default isCancelled/setCancelled implementation with a boolean field.",
+          "confidence": "high"
+        }
+      },
+      "intermediate_event_bases": {
+        "EntityEvent<EntityType, KeyType>": {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.entity.EntityEvent",
+          "kind": "abstract_class",
+          "implements": [
+            "IEvent<KeyType>"
+          ],
+          "description": "Base for entity-related standard events. Carries an entity reference. EntityType must extend Entity.",
+          "fields": [
+            {
+              "name": "entity",
+              "type": "EntityType",
+              "accessor": "getEntity()"
+            }
+          ],
+          "confidence": "high"
+        },
+        "PlayerEvent<KeyType>": {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerEvent",
+          "kind": "abstract_class",
+          "implements": [
+            "IEvent<KeyType>"
+          ],
+          "description": "Base for player events that have an entity reference. Carries both a Ref<EntityStore> and a Player component.",
+          "fields": [
+            {
+              "name": "playerRef",
+              "type": "Ref<EntityStore>",
+              "accessor": "getPlayerRef()"
+            },
+            {
+              "name": "player",
+              "type": "Player",
+              "accessor": "getPlayer()"
+            }
+          ],
+          "confidence": "high"
+        },
+        "PlayerRefEvent<KeyType>": {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerRefEvent",
+          "kind": "abstract_class",
+          "implements": [
+            "IEvent<KeyType>"
+          ],
+          "description": "Base for player events that only need a PlayerRef (lighter than PlayerEvent — no entity store reference). Used by PlayerDisconnectEvent.",
+          "fields": [
+            {
+              "name": "playerRef",
+              "type": "PlayerRef",
+              "accessor": "getPlayerRef()"
+            }
+          ],
+          "confidence": "high"
+        },
+        "PlayerPermissionChangeEvent": {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.permissions.PlayerPermissionChangeEvent",
+          "kind": "abstract_class",
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "description": "Base for permission change events. Carries player UUID. Has inner classes: GroupAdded, GroupRemoved, PermissionsAdded, PermissionsRemoved.",
+          "fields": [
+            {
+              "name": "playerUuid",
+              "type": "UUID",
+              "accessor": "getPlayerUuid()"
+            }
+          ],
+          "confidence": "high"
+        }
+      },
+      "dispatch_infrastructure": {
+        "IEventBus": {
+          "fqcn": "com.hypixel.hytale.event.IEventBus",
+          "kind": "interface",
+          "extends": "IEventRegistry",
+          "description": "Combined registration and dispatch interface. dispatch() fires sync events. dispatchAsync() fires async events. dispatchFor(Class, key) returns an IEventDispatcher for targeted dispatch.",
+          "key_methods": [
+            "dispatch(Class<EventType>) -> EventType",
+            "dispatchAsync(Class<EventType>) -> CompletableFuture<EventType>",
+            "dispatchFor(Class, KeyType) -> IEventDispatcher<EventType, EventType>",
+            "dispatchForAsync(Class, KeyType) -> IEventDispatcher<EventType, CompletableFuture<EventType>>"
+          ],
+          "confidence": "high"
+        },
+        "EventBus": {
+          "fqcn": "com.hypixel.hytale.event.EventBus",
+          "kind": "class",
+          "implements": [
+            "IEventBus"
+          ],
+          "description": "Core implementation. Maps event classes to EventBusRegistry instances (ConcurrentHashMap). Creates SyncEventBusRegistry for IEvent types and AsyncEventBusRegistry for IAsyncEvent types lazily. Has optional event timing.",
+          "key_details": "HytaleServer.get().getEventBus() returns the server's shared EventBus instance.",
+          "confidence": "high"
+        },
+        "IEventDispatcher<EventType, ReturnType>": {
+          "fqcn": "com.hypixel.hytale.event.IEventDispatcher",
+          "kind": "interface",
+          "description": "Returned by dispatchFor(). Has hasListener() (default true) and dispatch(EventType) -> ReturnType. Callers construct the event, then call dispatcher.dispatch(event) to fire it.",
+          "confidence": "high"
+        },
+        "IEventRegistry": {
+          "fqcn": "com.hypixel.hytale.event.IEventRegistry",
+          "kind": "interface",
+          "description": "Listener registration interface. Four registration families: register (keyed sync), registerAsync (keyed async), registerGlobal (all keys sync), registerAsyncGlobal (all keys async), registerUnhandled (fallback sync), registerAsyncUnhandled (fallback async). Each family has 3 overloads: default priority, EventPriority enum, raw short priority.",
+          "confidence": "high"
+        },
+        "EventRegistry": {
+          "fqcn": "com.hypixel.hytale.event.EventRegistry",
+          "kind": "class",
+          "extends": "Registry<EventRegistration<?,?>>",
+          "implements": [
+            "IEventRegistry"
+          ],
+          "description": "Plugin-scoped proxy. Delegates all registrations to a parent IEventRegistry (the EventBus) while tracking them in a Registry for lifecycle management. When a plugin shuts down, all its event registrations are automatically unregistered.",
+          "confidence": "high"
+        },
+        "EventRegistration<KeyType, EventType>": {
+          "fqcn": "com.hypixel.hytale.event.EventRegistration",
+          "kind": "class",
+          "extends": "Registration",
+          "description": "Handle returned by register() calls. Can be used to unregister a listener. Tracks isEnabled state and the event class. Has static combine() for composing registrations.",
+          "confidence": "high"
+        },
+        "EventPriority": {
+          "fqcn": "com.hypixel.hytale.event.EventPriority",
+          "kind": "enum",
+          "values": [
+            {
+              "name": "FIRST",
+              "value": -21844
+            },
+            {
+              "name": "EARLY",
+              "value": -10922
+            },
+            {
+              "name": "NORMAL",
+              "value": 0
+            },
+            {
+              "name": "LATE",
+              "value": 10922
+            },
+            {
+              "name": "LAST",
+              "value": 21844
+            }
+          ],
+          "description": "Priority levels for event listeners. Lower values run first. FIRST is highest priority (runs earliest), LAST is lowest (runs latest). Raw short values allow custom priorities between enum values.",
+          "confidence": "high"
+        }
+      },
+      "listener_registration_pattern": "programmatic_consumer",
+      "listener_registration_description": "Listeners are registered programmatically via Consumer<EventType> callbacks. No annotations are used. The pattern is: eventRegistry.register(EventClass.class, event -> { ... }). Optional parameters: EventPriority, KeyType for keyed dispatch. Returns EventRegistration which can be used to unregister.",
+      "listener_example_code": "// In a plugin's setup() or start() method:\ngetEventRegistry().register(BreakBlockEvent.class, event -> {\n    BlockType blockType = event.getBlockType();\n    if (event.isCancelled()) return;\n    // handle event\n});\n\n// With priority:\ngetEventRegistry().register(EventPriority.EARLY, PlayerChatEvent.class, event -> {\n    // runs before NORMAL priority listeners\n});\n\n// Async event (PlayerChatEvent implements IAsyncEvent):\ngetEventRegistry().registerAsync(PlayerChatEvent.class, future -> {\n    return future.thenApply(event -> {\n        event.setContent(event.getContent().toUpperCase());\n        return event;\n    });\n});",
+      "keyed_dispatch_description": "Events have a KeyType generic parameter. Events with KeyType=Void are unkeyed (global). Events with KeyType=String (like PlayerReadyEvent, PlayerCraftEvent, AddPlayerToWorldEvent, DrainPlayerFromWorldEvent) can be dispatched for specific string keys. Listeners can register for a specific key or use registerGlobal() to receive all keys.",
+      "dual_cancellation_systems": {
+        "description": "There are TWO separate cancellation interfaces. Standard events use ICancellable from com.hypixel.hytale.event. ECS events use ICancellableEcsEvent from com.hypixel.hytale.component.system. Both have identical method signatures (isCancelled/setCancelled) but are separate interfaces.",
+        "confidence": "high"
+      },
+      "concrete_events": [
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.BootEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.HytaleServer",
+            "method": "boot()",
+            "context": "Server boot lifecycle — no event object constructed, uses class-dispatch shorthand. Mechanism: eventBus.dispatch(BootEvent.class). Line 388"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ShutdownEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [],
+          "static_constants": [
+            {
+              "name": "DISCONNECT_PLAYERS",
+              "type": "short",
+              "value": -48
+            },
+            {
+              "name": "UNBIND_LISTENERS",
+              "type": "short",
+              "value": -40
+            },
+            {
+              "name": "SHUTDOWN_WORLDS",
+              "type": "short",
+              "value": -32
+            }
+          ],
+          "notes": "Static constants suggest these are priority values for shutdown-phase listeners — listeners at these priorities handle specific shutdown stages.",
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.HytaleServer",
+            "method": "shutdown0()",
+            "context": "Server shutdown lifecycle. Mechanism: eventBus.dispatch(ShutdownEvent.class). Line 440"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.PrepareUniverseEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": true,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "worldConfigProvider",
+              "type": "WorldConfigProvider",
+              "accessor": "getWorldConfigProvider()",
+              "mutable": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.universe.Universe",
+            "method": "init",
+            "context": "Universe initialization with world config provider. Mechanism: eventBus dispatch. Line 255"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "itemInHand",
+              "type": "ItemStack",
+              "accessor": "getItemInHand()",
+              "nullable": true
+            },
+            {
+              "name": "targetBlock",
+              "type": "Vector3i",
+              "accessor": "getTargetBlock()",
+              "mutable": true
+            },
+            {
+              "name": "blockType",
+              "type": "BlockType",
+              "accessor": "getBlockType()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.modules.interaction.BlockHarvestUtils",
+            "method": "block harvest",
+            "context": "ECS dispatch when a player finishes mining a block. Mechanism: entityStore.invoke(ref, event). Line 581"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.PlaceBlockEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "itemInHand",
+              "type": "ItemStack",
+              "accessor": "getItemInHand()",
+              "nullable": true
+            },
+            {
+              "name": "targetBlock",
+              "type": "Vector3i",
+              "accessor": "getTargetBlock()",
+              "mutable": true
+            },
+            {
+              "name": "rotation",
+              "type": "RotationTuple",
+              "accessor": "getRotation()",
+              "mutable": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils",
+            "method": "block place",
+            "context": "ECS dispatch when a player places a block. Mechanism: entityStore.invoke(ref, event). Line 102"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.DamageBlockEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "itemInHand",
+              "type": "ItemStack",
+              "accessor": "getItemInHand()",
+              "nullable": true
+            },
+            {
+              "name": "targetBlock",
+              "type": "Vector3i",
+              "accessor": "getTargetBlock()",
+              "mutable": true
+            },
+            {
+              "name": "blockType",
+              "type": "BlockType",
+              "accessor": "getBlockType()"
+            },
+            {
+              "name": "currentDamage",
+              "type": "float",
+              "accessor": "getCurrentDamage()"
+            },
+            {
+              "name": "damage",
+              "type": "float",
+              "accessor": "getDamage()",
+              "mutable": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.modules.interaction.BlockHarvestUtils",
+            "method": "damage tick",
+            "context": "ECS dispatch for each mining progress tick on a block. Mechanism: entityStore.invoke(ref, event). Line 338"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.ChangeGameModeEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "gameMode",
+              "type": "GameMode",
+              "accessor": "getGameMode()",
+              "mutable": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.entity.entities.Player",
+            "method": "setGameMode",
+            "context": "ECS dispatch when game mode changes. Mechanism: componentAccessor.invoke(playerRef, event). Line 796"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.SwitchActiveSlotEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "inventorySectionId",
+              "type": "int",
+              "accessor": "getInventorySectionId()"
+            },
+            {
+              "name": "previousSlot",
+              "type": "int",
+              "accessor": "getPreviousSlot()"
+            },
+            {
+              "name": "newSlot",
+              "type": "byte",
+              "accessor": "getNewSlot()",
+              "mutable": true
+            },
+            {
+              "name": "serverRequest",
+              "type": "boolean",
+              "accessor": "isServerRequest()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.io.handlers.game.InventoryPacketHandler",
+            "method": "slot switch",
+            "context": "ECS dispatch when active hotbar slot changes (two call sites — server-request and client-request). Mechanism: store.invoke(ref, event). Lines [353, 406]"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.InteractivelyPickupItemEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "itemStack",
+              "type": "ItemStack",
+              "accessor": "getItemStack()",
+              "mutable": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.entity.ItemUtils",
+            "method": "pickupItem()",
+            "context": "ECS dispatch when entity picks up an item. Mechanism: componentAccessor.invoke(ref, event). Line 35"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.DropItemEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [],
+          "inner_classes": [
+            {
+              "name": "Drop",
+              "description": "Fired when an item is actually being dropped into the world.",
+              "fields": [
+                {
+                  "name": "itemStack",
+                  "type": "ItemStack",
+                  "accessor": "getItemStack()",
+                  "mutable": true
+                },
+                {
+                  "name": "throwSpeed",
+                  "type": "float",
+                  "accessor": "getThrowSpeed()",
+                  "mutable": true
+                }
+              ]
+            },
+            {
+              "name": "PlayerRequest",
+              "description": "Fired when a player requests to drop an item (before the drop happens).",
+              "fields": [
+                {
+                  "name": "inventorySectionId",
+                  "type": "int",
+                  "accessor": "getInventorySectionId()"
+                },
+                {
+                  "name": "slotId",
+                  "type": "short",
+                  "accessor": "getSlotId()"
+                }
+              ]
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.io.handlers.game.InventoryPacketHandler",
+            "method": "drop handler",
+            "context": "PlayerRequest: ECS dispatch when player requests to drop an item (line 298); Drop: ECS dispatch when item is actually thrown into world in com.hypixel.hytale.server.core.entity.ItemUtils.throwItem() (line 87)"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.CraftRecipeEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "craftedRecipe",
+              "type": "CraftingRecipe",
+              "accessor": "getCraftedRecipe()"
+            },
+            {
+              "name": "quantity",
+              "type": "int",
+              "accessor": "getQuantity()"
+            }
+          ],
+          "inner_classes": [
+            {
+              "name": "Pre",
+              "description": "Fired before crafting — can be cancelled to prevent crafting."
+            },
+            {
+              "name": "Post",
+              "description": "Fired after successful crafting — informational, cannot meaningfully cancel."
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.builtin.crafting.component.CraftingManager",
+            "method": "craft",
+            "context": "Pre: ECS dispatch before crafting — can cancel (line 155); Post: ECS dispatch after crafting completes (line 184)"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent",
+          "extends": "EcsEvent",
+          "implements": [],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "interactionType",
+              "type": "InteractionType",
+              "accessor": "getInteractionType()"
+            },
+            {
+              "name": "context",
+              "type": "InteractionContext",
+              "accessor": "getContext()"
+            },
+            {
+              "name": "targetBlock",
+              "type": "Vector3i",
+              "accessor": "getTargetBlock()"
+            },
+            {
+              "name": "blockType",
+              "type": "BlockType",
+              "accessor": "getBlockType()"
+            }
+          ],
+          "inner_classes": [
+            {
+              "name": "Pre",
+              "description": "Fired before block use. Implements ICancellableEcsEvent — can cancel the interaction.",
+              "cancellable": true
+            },
+            {
+              "name": "Post",
+              "description": "Fired after block use. Not cancellable.",
+              "cancellable": false
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.UseBlockInteraction",
+            "method": "execute",
+            "context": "Pre: ECS dispatch before block use — can cancel (line 65); Post: ECS dispatch after block use completes (line 76)"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.ecs.DiscoverZoneEvent",
+          "extends": "EcsEvent",
+          "implements": [],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "discoveryInfo",
+              "type": "WorldMapTracker.ZoneDiscoveryInfo",
+              "accessor": "getDiscoveryInfo()"
+            }
+          ],
+          "inner_classes": [
+            {
+              "name": "Display",
+              "description": "Fired when zone discovery UI should be displayed. Implements ICancellableEcsEvent — can cancel the display.",
+              "cancellable": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.universe.world.WorldMapTracker",
+            "method": "zone discover",
+            "context": "Display: ECS dispatch when player discovers a new zone. Mechanism: componentAccessor.invoke(ref, event). Line 148"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.entity.EntityRemoveEvent",
+          "extends": "EntityEvent<Entity, String>",
+          "implements": [
+            "IEvent<String>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "String",
+          "data_fields": [
+            {
+              "name": "entity",
+              "type": "Entity",
+              "accessor": "getEntity()",
+              "inherited_from": "EntityEvent"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.entity.Entity",
+            "method": "remove",
+            "context": "EventBus keyed dispatch when entity is removed from world. Mechanism: eventBus dispatchFor. Line 113"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.entity.LivingEntityInventoryChangeEvent",
+          "extends": "EntityEvent<LivingEntity, String>",
+          "implements": [
+            "IEvent<String>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "String",
+          "data_fields": [
+            {
+              "name": "entity",
+              "type": "LivingEntity",
+              "accessor": "getEntity()",
+              "inherited_from": "EntityEvent"
+            },
+            {
+              "name": "itemContainer",
+              "type": "ItemContainer",
+              "accessor": "getItemContainer()"
+            },
+            {
+              "name": "transaction",
+              "type": "Transaction",
+              "accessor": "getTransaction()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.inventory.Inventory",
+            "method": "various",
+            "context": "EventBus keyed dispatch from multiple inventory change operations. Mechanism: eventBus dispatchFor. Lines [183, 195, 209, 247, 285, 302]"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.entity.LivingEntityUseBlockEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<String>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": true,
+          "key_type": "String",
+          "data_fields": [
+            {
+              "name": "ref",
+              "type": "Ref<EntityStore>",
+              "accessor": "getRef()"
+            },
+            {
+              "name": "blockType",
+              "type": "String",
+              "accessor": "getBlockType()"
+            }
+          ],
+          "notes": "Deprecated — likely replaced by UseBlockEvent ECS events.",
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.UseBlockInteraction",
+            "method": "post-use",
+            "context": "EventBus dispatch after block use (deprecated). Mechanism: eventBus dispatchFor. Line 81"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "holder",
+              "type": "Holder<EntityStore>",
+              "accessor": "getHolder()"
+            },
+            {
+              "name": "playerRef",
+              "type": "PlayerRef",
+              "accessor": "getPlayerRef()"
+            },
+            {
+              "name": "player",
+              "type": "Player",
+              "accessor": "getPlayer()",
+              "deprecated": true,
+              "notes": "Uses holder.getComponent(Player.getComponentType())"
+            },
+            {
+              "name": "world",
+              "type": "World",
+              "accessor": "getWorld()",
+              "nullable": true,
+              "mutable": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.universe.Universe",
+            "method": "player connect",
+            "context": "EventBus dispatch when player entity is created and connected. Mechanism: eventBus dispatchFor. Line 697"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent",
+          "extends": "PlayerRefEvent<Void>",
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "playerRef",
+              "type": "PlayerRef",
+              "accessor": "getPlayerRef()",
+              "inherited_from": "PlayerRefEvent"
+            },
+            {
+              "name": "disconnectReason",
+              "type": "PacketHandler.DisconnectReason",
+              "accessor": "getDisconnectReason()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.universe.Universe",
+            "method": "player disconnect",
+            "context": "EventBus dispatch when player disconnects. Mechanism: eventBus dispatch. Line 767"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerChatEvent",
+          "extends": null,
+          "implements": [
+            "IAsyncEvent<String>",
+            "ICancellable"
+          ],
+          "cancellable": true,
+          "async": true,
+          "deprecated": false,
+          "key_type": "String",
+          "data_fields": [
+            {
+              "name": "sender",
+              "type": "PlayerRef",
+              "accessor": "getSender()",
+              "mutable": true
+            },
+            {
+              "name": "targets",
+              "type": "List<PlayerRef>",
+              "accessor": "getTargets()",
+              "mutable": true
+            },
+            {
+              "name": "content",
+              "type": "String",
+              "accessor": "getContent()",
+              "mutable": true
+            },
+            {
+              "name": "formatter",
+              "type": "PlayerChatEvent.Formatter",
+              "accessor": "getFormatter()",
+              "mutable": true
+            }
+          ],
+          "inner_types": [
+            {
+              "name": "Formatter",
+              "kind": "interface",
+              "description": "Functional interface: Message format(PlayerRef, String). DEFAULT_FORMATTER uses server.chat.playerMessage translation."
+            }
+          ],
+          "notes": "This is the only async event in the concrete event set. Uses IAsyncEvent, meaning listeners receive CompletableFuture and can perform async operations.",
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.io.handlers.game.GamePacketHandler",
+            "method": "chat handler",
+            "context": "EventBus async dispatch when player sends chat message. Mechanism: eventBus dispatchForAsync. Line 367"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>",
+            "ICancellable"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "packetHandler",
+              "type": "PacketHandler",
+              "accessor": "getPacketHandler()"
+            },
+            {
+              "name": "username",
+              "type": "String",
+              "accessor": "getUsername()"
+            },
+            {
+              "name": "uuid",
+              "type": "UUID",
+              "accessor": "getUuid()"
+            },
+            {
+              "name": "auth",
+              "type": "PlayerAuthentication",
+              "accessor": "getAuth()"
+            },
+            {
+              "name": "referralData",
+              "type": "byte[]",
+              "accessor": "getReferralData()",
+              "nullable": true
+            },
+            {
+              "name": "referralSource",
+              "type": "HostAddress",
+              "accessor": "getReferralSource()",
+              "nullable": true
+            },
+            {
+              "name": "reason",
+              "type": "String",
+              "accessor": "getReason()",
+              "mutable": true,
+              "default": "You have been disconnected from the server!"
+            },
+            {
+              "name": "clientReferral",
+              "type": "ClientReferral",
+              "accessor": "getClientReferral()",
+              "nullable": true
+            }
+          ],
+          "extra_methods": [
+            {
+              "name": "referToServer(String host, int port)",
+              "description": "Redirects the connecting player to another server. Max 4096 bytes referral data."
+            },
+            {
+              "name": "isReferralConnection()",
+              "description": "Whether this connection was referred from another server."
+            }
+          ],
+          "notes": "Cancelling this event disconnects the player with the reason message. referToServer() enables server-to-server transfers.",
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.io.handlers.SetupPacketHandler",
+            "method": "auth complete",
+            "context": "EventBus dispatch during early connection (before player entity exists). Mechanism: eventBus dispatchFor. Line 123"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerSetupDisconnectEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "username",
+              "type": "String",
+              "accessor": "getUsername()"
+            },
+            {
+              "name": "uuid",
+              "type": "UUID",
+              "accessor": "getUuid()"
+            },
+            {
+              "name": "auth",
+              "type": "PlayerAuthentication",
+              "accessor": "getAuth()"
+            },
+            {
+              "name": "disconnectReason",
+              "type": "PacketHandler.DisconnectReason",
+              "accessor": "getDisconnectReason()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.io.handlers.SetupPacketHandler",
+            "method": "disconnect",
+            "context": "EventBus dispatch when setup-phase player disconnects. Mechanism: eventBus dispatch. Line 198"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.AddPlayerToWorldEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<String>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "String",
+          "data_fields": [
+            {
+              "name": "holder",
+              "type": "Holder<EntityStore>",
+              "accessor": "getHolder()"
+            },
+            {
+              "name": "world",
+              "type": "World",
+              "accessor": "getWorld()"
+            },
+            {
+              "name": "broadcastJoinMessage",
+              "type": "boolean",
+              "accessor": "shouldBroadcastJoinMessage()",
+              "mutable": true,
+              "default": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.universe.world.World",
+            "method": "addPlayer",
+            "context": "EventBus keyed dispatch when player enters a world. Mechanism: eventBus dispatchFor. Line 810"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.DrainPlayerFromWorldEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<String>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "String",
+          "data_fields": [
+            {
+              "name": "holder",
+              "type": "Holder<EntityStore>",
+              "accessor": "getHolder()"
+            },
+            {
+              "name": "world",
+              "type": "World",
+              "accessor": "getWorld()",
+              "mutable": true
+            },
+            {
+              "name": "transform",
+              "type": "Transform",
+              "accessor": "getTransform()",
+              "mutable": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.universe.world.World",
+            "method": "drainPlayer",
+            "context": "EventBus keyed dispatch when player leaves a world. Mechanism: eventBus dispatchFor. Line 941"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent",
+          "extends": "PlayerEvent<String>",
+          "implements": [
+            "IEvent<String>",
+            "ICancellable"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": true,
+          "key_type": "String",
+          "data_fields": [
+            {
+              "name": "playerRef",
+              "type": "Ref<EntityStore>",
+              "accessor": "getPlayerRef()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "player",
+              "type": "Player",
+              "accessor": "getPlayer()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "actionType",
+              "type": "InteractionType",
+              "accessor": "getActionType()"
+            },
+            {
+              "name": "clientUseTime",
+              "type": "long",
+              "accessor": "getClientUseTime()"
+            },
+            {
+              "name": "itemInHand",
+              "type": "ItemStack",
+              "accessor": "getItemInHand()"
+            },
+            {
+              "name": "targetBlock",
+              "type": "Vector3i",
+              "accessor": "getTargetBlock()"
+            },
+            {
+              "name": "targetRef",
+              "type": "Ref<EntityStore>",
+              "accessor": "getTargetRef()"
+            },
+            {
+              "name": "targetEntity",
+              "type": "Entity",
+              "accessor": "getTargetEntity()"
+            }
+          ],
+          "notes": "Deprecated — likely replaced by ECS UseBlockEvent and PlayerMouseButtonEvent.",
+          "fired_by": {
+            "class": "not_found",
+            "method": "N/A",
+            "context": "Deprecated — no active instantiation sites found. Replaced by UseBlockEvent and PlayerMouseButtonEvent."
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent",
+          "extends": "PlayerEvent<Void>",
+          "implements": [
+            "IEvent<Void>",
+            "ICancellable"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "playerRef",
+              "type": "Ref<EntityStore>",
+              "accessor": "getPlayerRef()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "player",
+              "type": "Player",
+              "accessor": "getPlayer()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "playerRefComponent",
+              "type": "PlayerRef",
+              "accessor": "getPlayerRefComponent()"
+            },
+            {
+              "name": "clientUseTime",
+              "type": "long",
+              "accessor": "getClientUseTime()"
+            },
+            {
+              "name": "itemInHand",
+              "type": "Item",
+              "accessor": "getItemInHand()"
+            },
+            {
+              "name": "targetBlock",
+              "type": "Vector3i",
+              "accessor": "getTargetBlock()"
+            },
+            {
+              "name": "targetEntity",
+              "type": "Entity",
+              "accessor": "getTargetEntity()"
+            },
+            {
+              "name": "screenPoint",
+              "type": "Vector2f",
+              "accessor": "getScreenPoint()"
+            },
+            {
+              "name": "mouseButton",
+              "type": "MouseButtonEvent",
+              "accessor": "getMouseButton()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.modules.interaction.InteractionModule",
+            "method": "doMouseInteraction()",
+            "context": "EventBus dispatch when player presses/releases a mouse button. Mechanism: eventBus dispatchFor. Line 407"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerMouseMotionEvent",
+          "extends": "PlayerEvent<Void>",
+          "implements": [
+            "IEvent<Void>",
+            "ICancellable"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "playerRef",
+              "type": "Ref<EntityStore>",
+              "accessor": "getPlayerRef()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "player",
+              "type": "Player",
+              "accessor": "getPlayer()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "clientUseTime",
+              "type": "long",
+              "accessor": "getClientUseTime()"
+            },
+            {
+              "name": "itemInHand",
+              "type": "Item",
+              "accessor": "getItemInHand()"
+            },
+            {
+              "name": "targetBlock",
+              "type": "Vector3i",
+              "accessor": "getTargetBlock()"
+            },
+            {
+              "name": "targetEntity",
+              "type": "Entity",
+              "accessor": "getTargetEntity()"
+            },
+            {
+              "name": "screenPoint",
+              "type": "Vector2f",
+              "accessor": "getScreenPoint()"
+            },
+            {
+              "name": "mouseMotion",
+              "type": "MouseMotionEvent",
+              "accessor": "getMouseMotion()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.modules.interaction.InteractionModule",
+            "method": "doMouseInteraction()",
+            "context": "EventBus dispatch when player moves mouse (drag events). Mechanism: eventBus dispatchFor. Line 428"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent",
+          "extends": "PlayerEvent<String>",
+          "implements": [
+            "IEvent<String>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "String",
+          "data_fields": [
+            {
+              "name": "playerRef",
+              "type": "Ref<EntityStore>",
+              "accessor": "getPlayerRef()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "player",
+              "type": "Player",
+              "accessor": "getPlayer()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "readyId",
+              "type": "int",
+              "accessor": "getReadyId()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.entity.entities.Player",
+            "method": "onReady",
+            "context": "EventBus keyed dispatch when player signals readiness. Mechanism: eventBus dispatchFor. Line 306"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerCraftEvent",
+          "extends": "PlayerEvent<String>",
+          "implements": [
+            "IEvent<String>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": true,
+          "key_type": "String",
+          "data_fields": [
+            {
+              "name": "playerRef",
+              "type": "Ref<EntityStore>",
+              "accessor": "getPlayerRef()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "player",
+              "type": "Player",
+              "accessor": "getPlayer()",
+              "inherited_from": "PlayerEvent"
+            },
+            {
+              "name": "craftedRecipe",
+              "type": "CraftingRecipe",
+              "accessor": "getCraftedRecipe()"
+            },
+            {
+              "name": "quantity",
+              "type": "int",
+              "accessor": "getQuantity()"
+            }
+          ],
+          "notes": "Deprecated (forRemoval=true) — replaced by CraftRecipeEvent ECS events.",
+          "fired_by": {
+            "class": "com.hypixel.hytale.builtin.crafting.component.CraftingManager",
+            "method": "craft",
+            "context": "EventBus dispatch after crafting (deprecated, replaced by CraftRecipeEvent). Mechanism: eventBus dispatchFor. Line 194"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.permissions.GroupPermissionChangeEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "groupName",
+              "type": "String",
+              "accessor": "getGroupName()"
+            }
+          ],
+          "inner_classes": [
+            {
+              "name": "Added",
+              "description": "Permissions added to a group.",
+              "extra_fields": [
+                {
+                  "name": "addedPermissions",
+                  "type": "Set<String>",
+                  "accessor": "getAddedPermissions()"
+                }
+              ]
+            },
+            {
+              "name": "Removed",
+              "description": "Permissions removed from a group.",
+              "extra_fields": [
+                {
+                  "name": "removedPermissions",
+                  "type": "Set<String>",
+                  "accessor": "getRemovedPermissions()"
+                }
+              ]
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.permissions.PermissionsModule",
+            "method": "addGroupPermission()",
+            "context": "Added: Permissions changed on a group (line 110); Removed: Permissions removed from a group (line 118)"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.permissions.PlayerGroupEvent",
+          "extends": "PlayerPermissionChangeEvent",
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "playerUuid",
+              "type": "UUID",
+              "accessor": "getPlayerUuid()",
+              "inherited_from": "PlayerPermissionChangeEvent"
+            },
+            {
+              "name": "groupName",
+              "type": "String",
+              "accessor": "getGroupName()"
+            }
+          ],
+          "inner_classes": [
+            {
+              "name": "Added",
+              "description": "Player added to a group."
+            },
+            {
+              "name": "Removed",
+              "description": "Player removed from a group."
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.permissions.PermissionsModule",
+            "method": "addUserToGroup()",
+            "context": "Added: Player added to permission group (line 126); Removed: Player removed from permission group (line 134)"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.event.events.permissions.PlayerPermissionChangeEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "playerUuid",
+              "type": "UUID",
+              "accessor": "getPlayerUuid()"
+            }
+          ],
+          "inner_classes": [
+            {
+              "name": "GroupAdded",
+              "description": "Player added to a group.",
+              "extra_fields": [
+                {
+                  "name": "groupName",
+                  "type": "String",
+                  "accessor": "getGroupName()"
+                }
+              ]
+            },
+            {
+              "name": "GroupRemoved",
+              "description": "Player removed from a group.",
+              "extra_fields": [
+                {
+                  "name": "groupName",
+                  "type": "String",
+                  "accessor": "getGroupName()"
+                }
+              ]
+            },
+            {
+              "name": "PermissionsAdded",
+              "description": "Individual permissions granted.",
+              "extra_fields": [
+                {
+                  "name": "addedPermissions",
+                  "type": "Set<String>",
+                  "accessor": "getAddedPermissions()"
+                }
+              ]
+            },
+            {
+              "name": "PermissionsRemoved",
+              "description": "Individual permissions revoked.",
+              "extra_fields": [
+                {
+                  "name": "removedPermissions",
+                  "type": "Set<String>",
+                  "accessor": "getRemovedPermissions()"
+                }
+              ]
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.permissions.PermissionsModule",
+            "method": "addUserPermission()",
+            "context": "PermissionsAdded: Individual permissions granted to player (line 94); PermissionsRemoved: Individual permissions revoked from player (line 102)"
+          },
+          "confidence": "high"
+        }
+      ],
+      "plugin_lifecycle_integration": {
+        "description": "PluginBase creates an EventRegistry in its constructor, backed by HytaleServer.get().getEventBus(). The EventRegistry is scoped to the plugin's lifecycle — it only accepts registrations when the plugin state is not NONE or DISABLED. On shutdown, all registrations are automatically unregistered via the shutdownTasks list.",
+        "access_method": "PluginBase.getEventRegistry()",
+        "return_type": "com.hypixel.hytale.event.EventRegistry",
+        "confidence": "high"
+      }
+    },
+    "commands": {
+      "overview": "Builder-pattern command system with automatic permission generation, argument type parsing, tab completion suggestions, and plugin-scoped registration. Commands are defined by extending base classes and declaring arguments as fields using builder methods (withRequiredArg, withOptionalArg, etc.). Registration is through PluginBase.getCommandRegistry() which delegates to the singleton CommandManager. Commands run on ForkJoinPool.commonPool().",
+      "confidence": "high",
+      "type_hierarchy": {
+        "AbstractCommand": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.AbstractCommand",
+          "kind": "abstract_class",
+          "description": "Core command base class. Provides the builder API for defining arguments, subcommands, usage variants, aliases, and permissions. execute(CommandContext) returns CompletableFuture<Void>.",
+          "key_methods": [
+            "withRequiredArg(String name, String desc, ArgumentType<T>) -> RequiredArg<T>",
+            "withOptionalArg(String name, String desc, ArgumentType<T>) -> OptionalArg<T>",
+            "withDefaultArg(String name, String desc, ArgumentType<T>, T default, String defaultDesc) -> DefaultArg<T>",
+            "withFlagArg(String name, String desc) -> FlagArg",
+            "withListRequiredArg(String name, String desc, ArgumentType<T>) -> ListRequiredArg<T>",
+            "withListOptionalArg(String name, String desc, ArgumentType<T>) -> ListOptionalArg<T>",
+            "withListDefaultArg(String name, String desc, ArgumentType<T>, List<T> default, String defaultDesc) -> ListDefaultArg<T>",
+            "addSubCommand(AbstractCommand) -> void",
+            "addUsageVariant(AbstractCommand) -> void",
+            "addAliases(String...) -> void",
+            "requirePermission(String) -> void",
+            "setPermissionGroups(String...) -> void",
+            "setPermissionGroup(GameMode) -> void",
+            "setUnavailableInSingleplayer(boolean) -> void",
+            "setAllowsExtraArguments(boolean) -> void",
+            "abstract execute(CommandContext) -> CompletableFuture<Void>"
+          ],
+          "confidence": "high"
+        },
+        "AbstractAsyncCommand": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand",
+          "kind": "abstract_class",
+          "extends": "AbstractCommand",
+          "description": "Async command base. execute() delegates to executeAsync(). Provides runAsync(context, runnable, executor) helper for running work on a specific executor with error handling.",
+          "key_methods": [
+            "abstract executeAsync(CommandContext) -> CompletableFuture<Void>",
+            "runAsync(CommandContext, Runnable, Executor) -> CompletableFuture<Void>"
+          ],
+          "confidence": "high"
+        },
+        "CommandBase": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.CommandBase",
+          "kind": "abstract_class",
+          "extends": "AbstractAsyncCommand",
+          "description": "Synchronous command base. executeAsync() wraps executeSync() in a CompletableFuture. Most simple commands extend this.",
+          "key_methods": [
+            "abstract executeSync(CommandContext) -> void"
+          ],
+          "confidence": "high"
+        },
+        "AbstractPlayerCommand": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand",
+          "kind": "abstract_class",
+          "extends": "AbstractAsyncCommand",
+          "description": "Player-only command base. Resolves the sender to a PlayerRef, Ref<EntityStore>, Store<EntityStore>, and World. Runs the command body on the world's executor. Errors if sender is not a player or is not in a world.",
+          "key_methods": [
+            "abstract execute(CommandContext, Store<EntityStore>, Ref<EntityStore>, PlayerRef, World) -> void"
+          ],
+          "confidence": "high"
+        },
+        "AbstractCommandCollection": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection",
+          "kind": "abstract_class",
+          "extends": "AbstractAsyncCommand",
+          "description": "Subcommand group container. When invoked directly (without a subcommand), shows usage listing of all subcommands. Commands like /entity, /chunk, /server are collections.",
+          "confidence": "high"
+        }
+      },
+      "dispatch_infrastructure": {
+        "CommandManager": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.CommandManager",
+          "kind": "class",
+          "description": "Singleton command dispatcher and registry. Handles command input tokenization, argument parsing, permission checking, and dispatch. Commands run on ForkJoinPool.commonPool(). Registers 55+ built-in commands in registerCommands().",
+          "key_methods": [
+            "get() -> CommandManager (singleton)",
+            "register(AbstractCommand) -> void",
+            "handleCommand(CommandSender, String) -> void",
+            "registerCommands() -> void (built-in registration)",
+            "getCommandRegistration() -> Map<String, AbstractCommand>"
+          ],
+          "dispatch_flow": [
+            "1. handleCommand(sender, inputString) called",
+            "2. Runs on ForkJoinPool.commonPool() via CompletableFuture.runAsync()",
+            "3. Tokenizes input string (respects quoted strings)",
+            "4. Looks up command by name (case-insensitive) or alias",
+            "5. Parses arguments using command's declared ArgumentTypes",
+            "6. Checks permissions (sender.hasPermission, recurses up parent chain)",
+            "7. Calls command.execute(CommandContext) which returns CompletableFuture<Void>"
+          ],
+          "confidence": "high"
+        },
+        "CommandRegistry": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.CommandRegistry",
+          "kind": "class",
+          "extends": "Registry<CommandRegistration>",
+          "description": "Plugin-scoped proxy. registerCommand(AbstractCommand) sets the command's owner to the plugin, then delegates to CommandManager.get().register(command). Tracks registrations for lifecycle management — auto-unregisters on plugin shutdown.",
+          "key_methods": [
+            "registerCommand(AbstractCommand) -> CommandRegistration"
+          ],
+          "confidence": "high"
+        },
+        "CommandRegistration": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.CommandRegistration",
+          "kind": "class",
+          "extends": "Registration",
+          "description": "Wraps an AbstractCommand with isEnabled/unregister lifecycle management. Same pattern as EventRegistration.",
+          "confidence": "high"
+        },
+        "CommandContext": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.CommandContext",
+          "kind": "class",
+          "description": "Execution context passed to command's execute(). Holds the sender, parsed argument values, original input string, and the command that was called.",
+          "key_methods": [
+            "get(Argument<?, T>) -> T (retrieve parsed argument value)",
+            "sender() -> CommandSender",
+            "senderAs(Class<T>) -> T (cast sender to specific type)",
+            "senderAsPlayerRef() -> Ref<EntityStore> (resolve sender's entity ref)",
+            "isPlayer() -> boolean",
+            "provided(Argument) -> boolean (check if optional arg was provided)",
+            "sendMessage(Message) -> void"
+          ],
+          "confidence": "high"
+        },
+        "CommandSender": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.CommandSender",
+          "kind": "interface",
+          "extends": [
+            "IMessageReceiver",
+            "PermissionHolder"
+          ],
+          "description": "Represents who executed the command. Players and the console implement this. Has getDisplayName() and getUuid().",
+          "confidence": "high"
+        },
+        "CommandOwner": {
+          "fqcn": "com.hypixel.hytale.server.core.command.system.CommandOwner",
+          "kind": "interface",
+          "description": "Interface for command ownership. PluginBase and CommandManager implement this. Used for auto-generating permission strings.",
+          "key_methods": [
+            "getName() -> String"
+          ],
+          "confidence": "high"
+        }
+      },
+      "argument_type_system": {
+        "overview": "Hierarchical argument type system with parsing, validation, tab-completion suggestions, and examples. ArgumentType<DataType> is the abstract base. SingleArgumentType parses a single token, MultiArgumentType parses multiple tokens, ProcessedArgumentType transforms one parsed type into another, ListArgumentType wraps elements in brackets.",
+        "base_classes": {
+          "ArgumentType<DataType>": {
+            "fqcn": "com.hypixel.hytale.server.core.command.system.arguments.types.ArgumentType",
+            "description": "Abstract base. Has name, argumentUsage, examples, numberOfParameters. Implements SuggestionProvider.",
+            "key_methods": [
+              "abstract parse(String[], ParseResult) -> DataType",
+              "suggest(CommandSender, String textAlreadyEntered, int numParametersTyped, SuggestionResult) -> void",
+              "processedGet(CommandSender, CommandContext, Argument) -> DataType"
+            ]
+          },
+          "SingleArgumentType<DataType>": {
+            "description": "Most common — parses a single string token. parse(String, ParseResult) -> DataType."
+          },
+          "MultiArgumentType<DataType>": {
+            "description": "Parses multiple tokens (e.g., x y z for Vector3i). Uses withParameter() to declare sub-parameters."
+          },
+          "ProcessedArgumentType<InputType, OutputType>": {
+            "description": "Transforms one ArgumentType result to another (e.g., BLOCK_TYPE_KEY -> BLOCK_ID)."
+          },
+          "ListArgumentType<DataType>": {
+            "description": "Wraps a base ArgumentType to accept bracket-delimited lists (e.g., [a, b, c])."
+          }
+        },
+        "builtin_arg_types": {
+          "primitives": [
+            {
+              "name": "BOOLEAN",
+              "type": "Boolean",
+              "examples": [
+                "true",
+                "false"
+              ]
+            },
+            {
+              "name": "INTEGER",
+              "type": "Integer",
+              "examples": [
+                "-27432",
+                "-1",
+                "0",
+                "1",
+                "56346"
+              ]
+            },
+            {
+              "name": "STRING",
+              "type": "String",
+              "examples": [
+                "\"Hytale is really cool!\""
+              ]
+            },
+            {
+              "name": "FLOAT",
+              "type": "Float",
+              "examples": [
+                "3.14159",
+                "-2.5",
+                "7"
+              ]
+            },
+            {
+              "name": "DOUBLE",
+              "type": "Double",
+              "examples": [
+                "-3.14",
+                "0.0",
+                "3.141596"
+              ]
+            },
+            {
+              "name": "UUID",
+              "type": "UUID",
+              "examples": [
+                "<random UUID>"
+              ]
+            },
+            {
+              "name": "COLOR",
+              "type": "Integer (ARGB)",
+              "examples": [
+                "#FF0000",
+                "#00FF00FF",
+                "16711680",
+                "0xFF0000"
+              ]
+            }
+          ],
+          "player": [
+            {
+              "name": "PLAYER_UUID",
+              "type": "UUID",
+              "description": "Resolves username to UUID by searching online players, falls back to UUID parse."
+            },
+            {
+              "name": "PLAYER_REF",
+              "type": "PlayerRef",
+              "description": "Resolves username to PlayerRef by searching online players. processedGet() falls back to sender if arg not provided."
+            },
+            {
+              "name": "GAME_PROFILE_LOOKUP",
+              "type": "PublicGameProfile",
+              "description": "Sync profile lookup — searches online players, then queries auth service by UUID or username."
+            },
+            {
+              "name": "GAME_PROFILE_LOOKUP_ASYNC",
+              "type": "CompletableFuture<PublicGameProfile>",
+              "description": "Async variant of profile lookup."
+            }
+          ],
+          "spatial": [
+            {
+              "name": "RELATIVE_DOUBLE_COORD",
+              "type": "Coord",
+              "examples": [
+                "5.0",
+                "~-2.3",
+                "0.0"
+              ],
+              "description": "Single coordinate, supports ~ prefix for relative values."
+            },
+            {
+              "name": "RELATIVE_INT_COORD",
+              "type": "IntCoord",
+              "examples": [
+                "5",
+                "~-2",
+                "0"
+              ]
+            },
+            {
+              "name": "RELATIVE_INTEGER",
+              "type": "RelativeInteger",
+              "examples": [
+                "5",
+                "~-2",
+                "0"
+              ]
+            },
+            {
+              "name": "RELATIVE_FLOAT",
+              "type": "RelativeFloat",
+              "examples": [
+                "90.0",
+                "~-45.5",
+                "~"
+              ]
+            },
+            {
+              "name": "VECTOR2I",
+              "type": "Vector2i",
+              "description": "Two integers (x z).",
+              "num_params": 2
+            },
+            {
+              "name": "VECTOR3I",
+              "type": "Vector3i",
+              "description": "Three integers (x y z).",
+              "num_params": 3
+            },
+            {
+              "name": "RELATIVE_VECTOR3I",
+              "type": "RelativeVector3i",
+              "description": "Three optionally relative integers.",
+              "num_params": 3
+            },
+            {
+              "name": "RELATIVE_BLOCK_POSITION",
+              "type": "RelativeIntPosition",
+              "description": "Block position with ~ support.",
+              "num_params": 3
+            },
+            {
+              "name": "RELATIVE_POSITION",
+              "type": "RelativeDoublePosition",
+              "description": "Entity position with ~ support.",
+              "num_params": 3
+            },
+            {
+              "name": "RELATIVE_CHUNK_POSITION",
+              "type": "RelativeChunkPosition",
+              "description": "Chunk position (x z) with ~ support.",
+              "num_params": 2
+            },
+            {
+              "name": "ROTATION",
+              "type": "Vector3f",
+              "description": "Pitch/yaw/roll as three floats.",
+              "num_params": 3
+            }
+          ],
+          "asset_types": [
+            {
+              "name": "MODEL_ASSET",
+              "type": "ModelAsset"
+            },
+            {
+              "name": "WEATHER_ASSET",
+              "type": "Weather"
+            },
+            {
+              "name": "INTERACTION_ASSET",
+              "type": "Interaction"
+            },
+            {
+              "name": "ROOT_INTERACTION_ASSET",
+              "type": "RootInteraction"
+            },
+            {
+              "name": "EFFECT_ASSET",
+              "type": "EntityEffect"
+            },
+            {
+              "name": "ENVIRONMENT_ASSET",
+              "type": "Environment"
+            },
+            {
+              "name": "ITEM_ASSET",
+              "type": "Item"
+            },
+            {
+              "name": "BLOCK_TYPE_ASSET",
+              "type": "BlockType"
+            },
+            {
+              "name": "PARTICLE_SYSTEM",
+              "type": "ParticleSystem"
+            },
+            {
+              "name": "HITBOX_COLLISION_CONFIG",
+              "type": "HitboxCollisionConfig"
+            },
+            {
+              "name": "REPULSION_CONFIG",
+              "type": "RepulsionConfig"
+            },
+            {
+              "name": "SOUND_EVENT_ASSET",
+              "type": "SoundEvent"
+            },
+            {
+              "name": "AMBIENCE_FX_ASSET",
+              "type": "AmbienceFX"
+            }
+          ],
+          "enum_types": [
+            {
+              "name": "GAME_MODE",
+              "type": "GameMode",
+              "description": "Via GameModeArgumentType."
+            },
+            {
+              "name": "SOUND_CATEGORY",
+              "type": "SoundCategory",
+              "description": "Via EnumArgumentType."
+            },
+            {
+              "name": "forEnum(name, Class<E>)",
+              "description": "Static factory for creating EnumArgumentType for any enum."
+            }
+          ],
+          "block_types": [
+            {
+              "name": "BLOCK_TYPE_KEY",
+              "type": "String",
+              "examples": [
+                "Wood_Drywood_Planks_Half"
+              ]
+            },
+            {
+              "name": "BLOCK_ID",
+              "type": "Integer",
+              "description": "Wraps BLOCK_TYPE_KEY, converts key to integer ID via BlockType.getAssetMap().getIndex()."
+            },
+            {
+              "name": "WEIGHTED_BLOCK_TYPE",
+              "type": "Pair<Integer, String>",
+              "description": "Weight + block type key.",
+              "num_params": 2
+            },
+            {
+              "name": "BLOCK_PATTERN",
+              "type": "BlockPattern",
+              "description": "Bracket-list of weighted blocks with optional rotation (e.g., [20%Rock_Stone, 80%Rock_Shale])."
+            },
+            {
+              "name": "BLOCK_MASK",
+              "type": "BlockMask",
+              "description": "Bracket-list of block masks (e.g., [!Fluid_Water, >Grass_Full])."
+            }
+          ],
+          "range_types": [
+            {
+              "name": "INT_RANGE",
+              "type": "Pair<Integer, Integer>",
+              "description": "Min max pair.",
+              "num_params": 2
+            },
+            {
+              "name": "RELATIVE_INT_RANGE",
+              "type": "RelativeIntegerRange",
+              "description": "Relative min max pair.",
+              "num_params": 2
+            }
+          ],
+          "operator_types": [
+            {
+              "name": "INTEGER_COMPARISON_OPERATOR",
+              "type": "IntegerComparisonOperator",
+              "values": [
+                ">",
+                "<",
+                ">=",
+                "<=",
+                "%",
+                "!%",
+                "=",
+                "!="
+              ]
+            },
+            {
+              "name": "INTEGER_OPERATION",
+              "type": "IntegerOperation",
+              "values": [
+                "+",
+                "-",
+                "*",
+                "/",
+                "%",
+                "="
+              ]
+            }
+          ],
+          "entity_types": [
+            {
+              "name": "ENTITY_ID",
+              "type": "ArgWrapper<EntityWrappedArg, UUID>",
+              "description": "UUID parsed as entity reference."
+            }
+          ],
+          "timing_types": [
+            {
+              "name": "TICK_RATE",
+              "type": "Integer (ticks per second)",
+              "examples": [
+                "30tps",
+                "33ms",
+                "60",
+                "20tps",
+                "50ms"
+              ],
+              "description": "Accepts tps suffix, ms suffix (converted to TPS), or raw integer."
+            }
+          ]
+        },
+        "confidence": "high"
+      },
+      "permission_model": {
+        "auto_generation": {
+          "plugin_commands": "plugin.getBasePermission() + \".command.\" + commandName",
+          "builtin_commands": "\"hytale.system.command.\" + commandName",
+          "description": "Permissions are auto-generated when a command is registered. For plugin commands, the permission is derived from the plugin's base permission string. For built-in commands owned by CommandManager, the prefix is 'hytale.system.command.'."
+        },
+        "explicit_permissions": {
+          "description": "Commands can declare additional permissions via requirePermission(String). Built-in commands use HytalePermissions.fromCommand(String) factory. Examples: HytalePermissions.fromCommand(\"kill.self\"), HytalePermissions.fromCommand(\"gamemode.self\")."
+        },
+        "permission_groups": {
+          "description": "setPermissionGroup(GameMode) or setPermissionGroups(String...) restricts a command to specific game modes. E.g., HelpCommand uses setPermissionGroup(GameMode.Adventure) — available in adventure mode."
+        },
+        "checking": {
+          "description": "hasPermission(CommandSender) checks sender.hasPermission(permission) and recurses up the parent command chain. All parents in the chain must also pass their permission checks."
+        },
+        "confidence": "high"
+      },
+      "usage_variant_pattern": {
+        "description": "Commands support multiple usage patterns via addUsageVariant(). A command like /kill has two variants: 'kill' (self, extends AbstractPlayerCommand) and 'kill <player>' (other, extends CommandBase with RequiredArg<PlayerRef>). Each variant is a separate AbstractCommand subclass with its own argument declarations and permissions. The parser tries each variant and uses the first that matches.",
+        "examples": [
+          {
+            "command": "kill",
+            "variants": [
+              "kill (self — kills executing player)",
+              "kill <player> (other — kills target player)"
+            ]
+          },
+          {
+            "command": "gamemode",
+            "variants": [
+              "gamemode <gamemode> (self)",
+              "gamemode <gamemode> <player> (other)"
+            ]
+          },
+          {
+            "command": "give",
+            "variants": [
+              "give <item> [quantity] [durability] [metadata] (self)",
+              "give <player> <item> [quantity] [durability] [metadata] (other)"
+            ]
+          }
+        ],
+        "confidence": "high"
+      },
+      "subcommand_pattern": {
+        "description": "Commands can have named subcommands via addSubCommand(). These are dispatched by name as the first argument. AbstractCommandCollection is a convenience base that shows all subcommands when invoked without arguments. Examples: /entity has subcommands (clone, remove, effect, count, etc.), /chunk has subcommands (load, unload, regenerate, etc.).",
+        "confidence": "high"
+      },
+      "builtin_commands": {
+        "description": "CommandManager.registerCommands() registers 55+ built-in commands. These cover gameplay, administration, debugging, and world management.",
+        "categories": {
+          "player": [
+            "gamemode (gm)",
+            "kill",
+            "give",
+            "sudo",
+            "refer",
+            "player (zone, camera subcommands)",
+            "toggleblockplacementoverride"
+          ],
+          "server": [
+            "kick",
+            "stop",
+            "who",
+            "maxplayers",
+            "auth (login, logout, status, etc.)"
+          ],
+          "world_entity": [
+            "entity (clone, remove, effect, count, dump, invulnerable, intangible, etc.)",
+            "spawn"
+          ],
+          "world_chunk": [
+            "chunk (load, unload, regenerate, info, lighting, etc.)"
+          ],
+          "world_gen": [
+            "worldgen (benchmark, reload)"
+          ],
+          "utility": [
+            "help (?)",
+            "teleport (tp)",
+            "time",
+            "weather",
+            "say",
+            "message (msg)",
+            "scoreboard"
+          ],
+          "debug": [
+            "ping",
+            "version",
+            "log",
+            "server (stats, gc, dump)",
+            "packetstats",
+            "stresstest",
+            "assets",
+            "packs",
+            "hitdetection"
+          ],
+          "builder_tools": [
+            "fill",
+            "copy",
+            "paste",
+            "undo",
+            "redo",
+            "selection"
+          ]
+        },
+        "confidence": "high"
+      },
+      "example_commands": {
+        "KickCommand": {
+          "fqcn": "com.hypixel.hytale.server.core.command.commands.server.KickCommand",
+          "extends": "CommandBase",
+          "description": "Simple sync command. Takes a required PlayerRef argument. Disconnects the player with a message.",
+          "arguments": [
+            {
+              "name": "player",
+              "type": "PLAYER_REF",
+              "kind": "required"
+            }
+          ],
+          "pattern": "kick <player>"
+        },
+        "GameModeCommand": {
+          "fqcn": "com.hypixel.hytale.server.core.command.commands.player.GameModeCommand",
+          "extends": "AbstractPlayerCommand",
+          "description": "Player command with self/other variant pattern. Takes a GameMode argument. Has alias 'gm'. Separate permissions for self vs other.",
+          "arguments": [
+            {
+              "name": "gamemode",
+              "type": "GAME_MODE",
+              "kind": "required"
+            }
+          ],
+          "aliases": [
+            "gm"
+          ],
+          "permissions": [
+            "gamemode.self (self variant)",
+            "gamemode.other (other variant)"
+          ],
+          "pattern": "gamemode <gamemode> | gamemode <gamemode> <player>"
+        },
+        "KillCommand": {
+          "fqcn": "com.hypixel.hytale.server.core.command.commands.player.KillCommand",
+          "extends": "AbstractPlayerCommand",
+          "description": "Player command with self/other variant. Self variant uses AbstractPlayerCommand for player resolution. Other variant takes RequiredArg<PlayerRef>.",
+          "permissions": [
+            "kill.self (self variant)",
+            "kill.other (other variant)"
+          ],
+          "pattern": "kill | kill <player>",
+          "notes": "Uses Damage.CommandSource and DamageCause.COMMAND with max-float damage to kill."
+        },
+        "GiveCommand": {
+          "fqcn": "com.hypixel.hytale.server.core.command.commands.player.inventory.GiveCommand",
+          "extends": "AbstractPlayerCommand",
+          "description": "Demonstrates all argument wrapper types (RequiredArg, DefaultArg, OptionalArg) plus addSubCommand and addUsageVariant. Gives an item to the player's inventory.",
+          "arguments": [
+            {
+              "name": "item",
+              "type": "ITEM_ASSET",
+              "kind": "required"
+            },
+            {
+              "name": "quantity",
+              "type": "INTEGER",
+              "kind": "default",
+              "default_value": 1
+            },
+            {
+              "name": "durability",
+              "type": "DOUBLE",
+              "kind": "optional"
+            },
+            {
+              "name": "metadata",
+              "type": "STRING",
+              "kind": "optional",
+              "notes": "Parsed as BsonDocument JSON"
+            }
+          ],
+          "subcommands": [
+            "GiveArmorCommand"
+          ],
+          "permissions": [
+            "give.self (self variant)",
+            "give.other (other variant)"
+          ],
+          "pattern": "give <item> [quantity] [durability] [metadata] | give <player> <item> [quantity] [durability] [metadata]"
+        },
+        "HelpCommand": {
+          "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.help.HelpCommand",
+          "extends": "AbstractAsyncCommand",
+          "description": "Async command with usage variant. Opens a UI page (CommandListPage) when invoked by a player. Has alias '?' and is available in Adventure mode via setPermissionGroup(GameMode.Adventure).",
+          "aliases": [
+            "?"
+          ],
+          "permission_group": "Adventure",
+          "pattern": "help | help <command>"
+        }
+      },
+      "plugin_registration_flow": {
+        "description": "Plugin command registration flows through PluginBase.getCommandRegistry() which returns a CommandRegistry (extends Registry<CommandRegistration>). CommandRegistry.registerCommand(command) sets the command's owner to the plugin, then delegates to CommandManager.get().register(command). CommandManager validates the command, calls completeRegistration(), and stores it by name and aliases.",
+        "code_flow": [
+          "1. Plugin calls getCommandRegistry().registerCommand(myCommand)",
+          "2. CommandRegistry sets command owner to plugin (CommandOwner)",
+          "3. CommandRegistry delegates to CommandManager.get().register(command)",
+          "4. CommandManager validates command name and arguments",
+          "5. CommandManager calls command.completeRegistration() (resolves permissions)",
+          "6. CommandManager stores command by name and all aliases",
+          "7. Permission auto-generated: plugin.getBasePermission() + '.command.' + name"
+        ],
+        "access_method": "PluginBase.getCommandRegistry()",
+        "return_type": "com.hypixel.hytale.server.core.command.system.CommandRegistry",
+        "confidence": "high"
+      },
+      "plugin_example_code": "// In a plugin's setup() method:\npublic class MyPlugin extends PluginBase {\n    @Override\n    protected void setup() {\n        getCommandRegistry().registerCommand(new MyCommand());\n    }\n}\n\npublic class MyCommand extends CommandBase {\n    private final RequiredArg<PlayerRef> targetArg = \n        this.withRequiredArg(\"target\", \"Target player\", ArgTypes.PLAYER_REF);\n    private final DefaultArg<Integer> countArg = \n        this.withDefaultArg(\"count\", \"Number of times\", ArgTypes.INTEGER, 1, \"1\");\n    private final OptionalArg<String> reasonArg = \n        this.withOptionalArg(\"reason\", \"Optional reason\", ArgTypes.STRING);\n\n    public MyCommand() {\n        super(\"mycommand\", \"Does something cool\");\n        this.addAliases(\"mc\");\n    }\n\n    @Override\n    protected void executeSync(CommandContext context) {\n        PlayerRef target = this.targetArg.get(context);\n        int count = this.countArg.get(context);\n        if (this.reasonArg.provided(context)) {\n            String reason = this.reasonArg.get(context);\n        }\n        context.sendMessage(Message.translation(\"myplugin.mycommand.success\"));\n    }\n}"
+    },
+    "ecs": {
+      "overview": "Archetype-based Entity Component System (ECS) with typed stores, component queries, event systems, ticking systems, and command buffers. The ECS is generic over an ECS_TYPE parameter — the two concrete types are EntityStore (for game entities) and ChunkStore (for chunk-level data). Components are data classes, Systems process entities matching archetype queries, and CommandBuffers defer mutations. The plugin API accesses ECS via PluginBase.getEntityStoreRegistry() and PluginBase.getChunkStoreRegistry().",
+      "confidence": "high",
+      "core_types": {
+        "Component<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.Component",
+          "kind": "interface",
+          "description": "Base interface for all ECS components. Extends Cloneable. Components are per-entity data — stored in archetype chunks alongside entities that share the same component set. Has clone() and cloneSerializable() methods.",
+          "confidence": "high"
+        },
+        "Resource<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.Resource",
+          "kind": "interface",
+          "description": "Base interface for ECS resources. Resources are singleton-like per-store data (not per-entity). Extends Cloneable. Used for shared state like spatial indices.",
+          "confidence": "high"
+        },
+        "ComponentType<ECS_TYPE, T extends Component<ECS_TYPE>>": {
+          "fqcn": "com.hypixel.hytale.component.ComponentType",
+          "kind": "class",
+          "description": "Type-safe handle for a registered component. Returned by registerComponent(). Implements Query (can be used directly as a single-component query). Has index for O(1) array lookup into archetype chunks. Implements Comparable for sorting.",
+          "confidence": "high"
+        },
+        "ResourceType<ECS_TYPE, T extends Resource<ECS_TYPE>>": {
+          "fqcn": "com.hypixel.hytale.component.ResourceType",
+          "kind": "class",
+          "description": "Type-safe handle for a registered resource. Returned by registerResource().",
+          "confidence": "high"
+        },
+        "Ref<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.Ref",
+          "kind": "class",
+          "description": "Entity reference — a typed pointer to an entity within a Store. Contains a volatile index into the store's entity array. Can be invalidated (index set to MIN_VALUE) when entity is removed. Has isValid() check and tracks invalidation cause for debugging.",
+          "fields": [
+            {
+              "name": "store",
+              "type": "Store<ECS_TYPE>",
+              "accessor": "getStore()"
+            },
+            {
+              "name": "index",
+              "type": "int (volatile)",
+              "accessor": "getIndex()"
+            }
+          ],
+          "confidence": "high"
+        },
+        "Holder<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.Holder",
+          "kind": "class",
+          "description": "Entity data container — holds an Archetype and array of Components. Used for entity transfer between stores, serialization, and spawning. Thread-safe via StampedLock. Supports add/remove/get/put component operations. The 'blueprint' from which entities are added to stores.",
+          "key_methods": [
+            "addComponent(ComponentType, Component)",
+            "removeComponent(ComponentType)",
+            "getComponent(ComponentType) -> T",
+            "putComponent(ComponentType, Component)",
+            "ensureComponent(ComponentType)",
+            "clone() -> Holder",
+            "cloneSerializable(ComponentRegistry.Data) -> Holder"
+          ],
+          "confidence": "high"
+        },
+        "Store<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.Store",
+          "kind": "class",
+          "implements": [
+            "ComponentAccessor<ECS_TYPE>"
+          ],
+          "description": "Main entity container. Manages entity storage in archetype chunks, system registration, ticking, event dispatch, and command buffer pooling. Thread-affine (asserts current thread). Entities are stored in ArchetypeChunks indexed by their component composition (Archetype). Systems are matched to archetype chunks via BitSet indices.",
+          "key_methods": [
+            "getComponent(Ref, ComponentType) -> T",
+            "addEntity(Holder, AddReason) -> Ref",
+            "removeEntity(Ref, Holder, RemoveReason) -> Holder",
+            "addComponent(Ref, ComponentType, Component)",
+            "removeComponent(Ref, ComponentType)",
+            "invoke(Ref, EcsEvent) — dispatch entity-level ECS event",
+            "invoke(EcsEvent) — dispatch store-level ECS event",
+            "invoke(EntityEventType, Ref, EcsEvent)",
+            "invoke(WorldEventType, EcsEvent)",
+            "getEntityCount() -> int",
+            "getExternalData() -> ECS_TYPE",
+            "getRegistry() -> ComponentRegistry",
+            "getResource(ResourceType) -> Resource",
+            "shutdown()"
+          ],
+          "notes": "Store is the central hub. It implements ComponentAccessor<ECS_TYPE> which defines the full component/entity/event API.",
+          "confidence": "high"
+        },
+        "ComponentAccessor<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.ComponentAccessor",
+          "kind": "interface",
+          "description": "Main API interface for interacting with the ECS from systems and event handlers. Defines getComponent, addComponent, removeComponent, addEntity, removeEntity, getResource, getExternalData, and four invoke() overloads for ECS event dispatch.",
+          "invoke_overloads": [
+            "invoke(Ref<ECS_TYPE>, EcsEvent) — dispatch to entity's event systems",
+            "invoke(EntityEventType, Ref<ECS_TYPE>, EcsEvent) — dispatch to specific entity event type",
+            "invoke(EcsEvent) — dispatch store-wide event",
+            "invoke(WorldEventType, EcsEvent) — dispatch to specific world event type"
+          ],
+          "confidence": "high"
+        },
+        "CommandBuffer<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.CommandBuffer",
+          "kind": "class",
+          "description": "Deferred command buffer. Systems receive a CommandBuffer during tick/event handling and enqueue mutations (add/remove entity, add/remove component) that are applied after the current system finishes. Prevents iterator invalidation during system execution. Pooled per-store for reuse.",
+          "confidence": "high"
+        },
+        "Archetype<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.Archetype",
+          "kind": "class",
+          "description": "Immutable set of ComponentTypes that defines an entity's component composition. Entities with the same Archetype are stored together in the same ArchetypeChunk for cache-friendly iteration. Supports add/remove operations that return new Archetype instances.",
+          "confidence": "high"
+        },
+        "ArchetypeChunk<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.ArchetypeChunk",
+          "kind": "class",
+          "description": "Storage chunk for entities sharing the same Archetype. Component data is stored in arrays indexed by entity position within the chunk. Systems iterate over ArchetypeChunks that match their Query.",
+          "confidence": "high"
+        }
+      },
+      "registry_infrastructure": {
+        "ComponentRegistry<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.ComponentRegistry",
+          "kind": "class",
+          "implements": [
+            "IComponentRegistry<ECS_TYPE>"
+          ],
+          "description": "Central registry for an ECS domain. Manages component types, resource types, system types, systems, entity event types, world event types, and system groups. Each concrete store type (EntityStore, ChunkStore) has its own static ComponentRegistry. Supports dynamic registration and unregistration with data change tracking.",
+          "key_methods": [
+            "registerComponent(Class, Supplier) -> ComponentType",
+            "registerComponent(Class, String id, BuilderCodec) -> ComponentType (serializable)",
+            "registerResource(Class, Supplier) -> ResourceType",
+            "registerResource(Class, String id, BuilderCodec) -> ResourceType (serializable)",
+            "registerSystemType(Class) -> SystemType",
+            "registerEntityEventType(Class) -> EntityEventType",
+            "registerWorldEventType(Class) -> WorldEventType",
+            "registerSystemGroup() -> SystemGroup",
+            "registerSystem(ISystem) -> void",
+            "registerSpatialResource(Supplier<SpatialStructure>) -> ResourceType",
+            "addStore(ECS_TYPE, IResourceStorage, Consumer<Store>) -> Store",
+            "unregisterComponent(ComponentType)",
+            "unregisterSystem(Class)"
+          ],
+          "confidence": "high"
+        },
+        "IComponentRegistry<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.IComponentRegistry",
+          "kind": "interface",
+          "description": "Public registration interface. Both ComponentRegistry and ComponentRegistryProxy implement this. Defines all registration methods for components, resources, systems, system types, event types, and system groups.",
+          "confidence": "high"
+        },
+        "ComponentRegistryProxy<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.ComponentRegistryProxy",
+          "kind": "class",
+          "implements": [
+            "IComponentRegistry<ECS_TYPE>"
+          ],
+          "description": "Plugin-scoped proxy for ComponentRegistry. Delegates all registrations to the real ComponentRegistry while tracking unregister callbacks. On plugin shutdown, all registered components, resources, systems, event types, and system groups are automatically unregistered. Same pattern as EventRegistry and CommandRegistry.",
+          "confidence": "high"
+        }
+      },
+      "system_hierarchy": {
+        "ISystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.ISystem",
+          "kind": "interface",
+          "description": "Base interface for all ECS systems. Has lifecycle hooks: onSystemRegistered(), onSystemUnregistered(). Declares dependencies via getDependencies() and belongs to a SystemGroup.",
+          "confidence": "high"
+        },
+        "System<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.System",
+          "kind": "abstract_class",
+          "implements": [
+            "ISystem<ECS_TYPE>"
+          ],
+          "description": "Abstract base class providing convenience registration methods (registerComponent, registerResource). Most system types extend this.",
+          "confidence": "high"
+        },
+        "QuerySystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.QuerySystem",
+          "kind": "interface",
+          "extends": [
+            "ISystem<ECS_TYPE>"
+          ],
+          "description": "Systems that operate on entities matching a Query. The query tests archetypes to determine which archetype chunks this system should process. getQuery() returns the required component combination.",
+          "confidence": "high"
+        },
+        "EntityEventSystem<ECS_TYPE, EventType extends EcsEvent>": {
+          "fqcn": "com.hypixel.hytale.component.system.EntityEventSystem",
+          "kind": "abstract_class",
+          "implements": [
+            "QuerySystem<ECS_TYPE>"
+          ],
+          "description": "Handles ECS events at the per-entity level. Only fires for entities matching the system's query. handle() receives entity index, archetype chunk, store, command buffer, and event. Automatically skips cancelled events via shouldProcessEvent().",
+          "key_methods": [
+            "abstract handle(int index, ArchetypeChunk, Store, CommandBuffer, EventType)"
+          ],
+          "confidence": "high"
+        },
+        "WorldEventSystem<ECS_TYPE, EventType extends EcsEvent>": {
+          "fqcn": "com.hypixel.hytale.component.system.WorldEventSystem",
+          "kind": "abstract_class",
+          "implements": [
+            "ISystem<ECS_TYPE>"
+          ],
+          "description": "Handles ECS events at the store level (not per-entity). handle() receives store, command buffer, and event.",
+          "key_methods": [
+            "abstract handle(Store, CommandBuffer, EventType)"
+          ],
+          "confidence": "high"
+        },
+        "RefSystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.RefSystem",
+          "kind": "abstract_class",
+          "extends": "System<ECS_TYPE>",
+          "implements": [
+            "QuerySystem<ECS_TYPE>"
+          ],
+          "description": "Entity lifecycle system. Fires onEntityAdded() when an entity matching the query is added to the store, onEntityRemove() when removed. Receives AddReason/RemoveReason enums.",
+          "key_methods": [
+            "abstract onEntityAdded(Ref, AddReason, Store, CommandBuffer)",
+            "abstract onEntityRemove(Ref, RemoveReason, Store, CommandBuffer)"
+          ],
+          "confidence": "high"
+        },
+        "RefChangeSystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.RefChangeSystem",
+          "kind": "abstract_class",
+          "extends": "System<ECS_TYPE>",
+          "implements": [
+            "QuerySystem<ECS_TYPE>"
+          ],
+          "description": "Fires when an entity's archetype changes (component added/removed) and the entity transitions into or out of the system's query.",
+          "confidence": "high"
+        },
+        "HolderSystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.HolderSystem",
+          "kind": "abstract_class",
+          "description": "Fires when Holders (entity blueprints) are added to or removed from a store. Receives the Holder and Ref.",
+          "confidence": "high"
+        },
+        "StoreSystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.StoreSystem",
+          "kind": "abstract_class",
+          "description": "Store lifecycle system. Fires onSystemAddedToStore() and onSystemRemovedFromStore().",
+          "confidence": "high"
+        },
+        "ArchetypeChunkSystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.ArchetypeChunkSystem",
+          "kind": "abstract_class",
+          "implements": [
+            "QuerySystem<ECS_TYPE>"
+          ],
+          "description": "Archetype chunk lifecycle system. Fires when the system is added to or removed from matching archetype chunks.",
+          "confidence": "high"
+        },
+        "TickingSystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.tick.TickingSystem",
+          "kind": "interface",
+          "description": "Marker interface for systems that tick every frame. Has getTickRate().",
+          "confidence": "high"
+        },
+        "ArchetypeTickingSystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.tick.ArchetypeTickingSystem",
+          "kind": "abstract_class",
+          "implements": [
+            "QuerySystem<ECS_TYPE>",
+            "TickingSystem<ECS_TYPE>"
+          ],
+          "description": "Per-archetype-chunk ticking. tick(dt, archetypeChunk, store, commandBuffer) called for each matching chunk every frame.",
+          "confidence": "high"
+        },
+        "EntityTickingSystem<ECS_TYPE>": {
+          "fqcn": "com.hypixel.hytale.component.system.tick.EntityTickingSystem",
+          "kind": "abstract_class",
+          "extends": "ArchetypeTickingSystem<ECS_TYPE>",
+          "description": "Per-entity ticking. tick(dt, index, archetypeChunk, store, commandBuffer) called for each entity in each matching chunk. Supports optional parallelization via isParallel(archetypeChunkSize, taskCount).",
+          "key_methods": [
+            "abstract tick(float dt, int index, ArchetypeChunk, Store, CommandBuffer)",
+            "boolean isParallel(int archetypeChunkSize, int taskCount)"
+          ],
+          "confidence": "high"
+        }
+      },
+      "event_dispatch": {
+        "entity_event_types": {
+          "EntityEventType<ECS_TYPE, Event extends EcsEvent>": {
+            "fqcn": "com.hypixel.hytale.component.event.EntityEventType",
+            "description": "Registered entity-level ECS event type. Created via registerEntityEventType(Class). Systems extending EntityEventSystem<ECS_TYPE, Event> handle these events for entities matching their query."
+          },
+          "WorldEventType<ECS_TYPE, Event extends EcsEvent>": {
+            "fqcn": "com.hypixel.hytale.component.event.WorldEventType",
+            "description": "Registered store-level ECS event type. Created via registerWorldEventType(Class). Systems extending WorldEventSystem<ECS_TYPE, Event> handle these."
+          }
+        },
+        "dispatch_methods": {
+          "entity_dispatch": "store.invoke(ref, event) or componentAccessor.invoke(ref, event) — dispatches to all EntityEventSystems whose query matches the entity's archetype",
+          "typed_entity_dispatch": "store.invoke(entityEventType, ref, event) — dispatches to a specific registered EntityEventType",
+          "store_dispatch": "store.invoke(event) — dispatches to all WorldEventSystems",
+          "typed_store_dispatch": "store.invoke(worldEventType, event) — dispatches to a specific registered WorldEventType"
+        },
+        "cancellation": "EntityEventSystem and WorldEventSystem extend EventSystem which checks ICancellableEcsEvent.isCancelled() via shouldProcessEvent() before calling handle(). Cancelled events are skipped.",
+        "confidence": "high"
+      },
+      "concrete_stores": {
+        "EntityStore": {
+          "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+          "description": "Per-world entity store. Implements WorldProvider. Has static REGISTRY (ComponentRegistry<EntityStore>) shared across all worlds. Manages entity references by UUID and network ID. Each World creates an EntityStore and adds it to the shared registry via REGISTRY.addStore().",
+          "static_fields": [
+            "REGISTRY: ComponentRegistry<EntityStore> — shared component registry for all entity stores",
+            "SEND_PACKET_GROUP: SystemGroup<EntityStore> — system group for packet-sending systems",
+            "HOLDER_CODEC_KEY: CodecKey<Holder<EntityStore>> — codec key for entity serialization"
+          ],
+          "key_methods": [
+            "start(IResourceStorage) — creates a Store<EntityStore> via REGISTRY.addStore()",
+            "getRefFromUUID(UUID) -> Ref<EntityStore>",
+            "getRefFromNetworkId(int) -> Ref<EntityStore>",
+            "takeNextNetworkId() -> int"
+          ],
+          "plugin_access": "PluginBase.getEntityStoreRegistry() returns ComponentRegistryProxy<EntityStore>",
+          "confidence": "high"
+        },
+        "ChunkStore": {
+          "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.ChunkStore",
+          "description": "Per-world chunk data store. Same pattern as EntityStore but for chunk-level components and systems. Has its own static ComponentRegistry<ChunkStore>.",
+          "plugin_access": "PluginBase.getChunkStoreRegistry() returns ComponentRegistryProxy<ChunkStore>",
+          "confidence": "high"
+        }
+      },
+      "key_patterns": {
+        "archetype_pattern": "Entities with the same set of components share an Archetype. Entities with the same Archetype are stored together in ArchetypeChunks for cache-friendly iteration. Adding or removing a component changes the entity's Archetype and may move it to a different chunk.",
+        "command_buffer_pattern": "Systems cannot directly mutate the store during iteration. Instead, they enqueue mutations (addEntity, removeEntity, addComponent, removeComponent) into a CommandBuffer which is applied after the system finishes. This prevents ConcurrentModificationException during iteration.",
+        "query_pattern": "Systems declare a Query (often just a ComponentType) that filters which ArchetypeChunks they process. Only entities whose Archetype contains the required components will be processed by the system.",
+        "system_group_pattern": "SystemGroups order system execution within a tick. Systems in the same group run together. SEND_PACKET_GROUP on EntityStore groups all packet-sending systems.",
+        "dependency_pattern": "Systems declare dependencies via getDependencies(). The runtime uses these to determine execution order within a group."
+      },
+      "plugin_registration": {
+        "entity_store": {
+          "access": "PluginBase.getEntityStoreRegistry()",
+          "return_type": "ComponentRegistryProxy<EntityStore>",
+          "capabilities": [
+            "registerComponent(Class, String id, BuilderCodec) — register serializable component",
+            "registerComponent(Class, Supplier) — register transient component",
+            "registerResource(Class, String id, BuilderCodec) — register serializable resource",
+            "registerResource(Class, Supplier) — register transient resource",
+            "registerSystem(ISystem) — register a system (ticking, event, lifecycle)",
+            "registerEntityEventType(Class) — register custom entity event type",
+            "registerWorldEventType(Class) — register custom world event type",
+            "registerSystemType(Class) — register system type",
+            "registerSystemGroup() — register system group"
+          ],
+          "description": "Plugins register components, systems, and event types via the ComponentRegistryProxy. All registrations are automatically unregistered on plugin shutdown."
+        },
+        "chunk_store": {
+          "access": "PluginBase.getChunkStoreRegistry()",
+          "return_type": "ComponentRegistryProxy<ChunkStore>",
+          "description": "Same API as entity store but for chunk-level data."
+        },
+        "confidence": "high"
+      },
+      "plugin_example_code": "// In a plugin's setup() method:\npublic class MyPlugin extends PluginBase {\n    private static ComponentType<EntityStore, HealthComponent> HEALTH_TYPE;\n\n    @Override\n    protected void setup() {\n        // Register a serializable component\n        HEALTH_TYPE = getEntityStoreRegistry().registerComponent(\n            HealthComponent.class, \"myplugin:health\", HealthComponent.CODEC);\n\n        // Register a ticking system\n        getEntityStoreRegistry().registerSystem(new HealthRegenSystem());\n\n        // Register an entity event handler\n        getEntityStoreRegistry().registerSystem(new OnDamageSystem());\n    }\n}\n\n// Ticking system example\npublic class HealthRegenSystem extends EntityTickingSystem<EntityStore> {\n    @Override\n    public Query<EntityStore> getQuery() {\n        return MyPlugin.HEALTH_TYPE;\n    }\n\n    @Override\n    public void tick(float dt, int index, ArchetypeChunk<EntityStore> chunk,\n                     Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer) {\n        HealthComponent health = chunk.getComponent(index, MyPlugin.HEALTH_TYPE);\n        health.regenerate(dt);\n    }\n}"
+    },
+    "registries": {
+      "overview": "Three-layer registry architecture: (1) Generic Registry<T extends Registration> base providing lifecycle-aware registration with preconditions and auto-unregistration, (2) Plugin-specific registries (EventRegistry, CommandRegistry, BlockStateRegistry, AssetRegistry, etc.) wrapping domain APIs, (3) Static global registries (AssetRegistry at com.hypixel.hytale.assetstore) that hold the actual data. All plugin registries share the same pattern: delegate registration to a global backend while tracking cleanup callbacks for plugin shutdown.",
+      "confidence": "high",
+      "generic_registry_pattern": {
+        "Registry<T extends Registration>": {
+          "fqcn": "com.hypixel.hytale.registry.Registry",
+          "kind": "abstract_class",
+          "description": "Base class for all plugin-scoped registries. Has a BooleanSupplier precondition (checked before registration — e.g., 'plugin must not be NONE or DISABLED'), a list of BooleanConsumer shutdown tasks, and a RegistrationWrapFunction to wrap returned objects with lifecycle management. On shutdown, tasks are executed in reverse order. Can be enabled/disabled independently.",
+          "key_methods": [
+            "register(T) -> T (precondition-checked, wrapped registration)",
+            "shutdown() -> void (runs all unregister callbacks in LIFO order)",
+            "enable() / disable()"
+          ],
+          "confidence": "high"
+        },
+        "Registration": {
+          "fqcn": "com.hypixel.hytale.registry.Registration",
+          "kind": "class",
+          "description": "Base registration handle. Holds BooleanSupplier isEnabled and Runnable unregister. Tracks registered state. All concrete registration types (EventRegistration, CommandRegistration, BlockStateRegistration) extend this.",
+          "key_methods": [
+            "isEnabled() -> BooleanSupplier",
+            "unregister() -> void (only if enabled and previously registered)"
+          ],
+          "confidence": "high"
+        }
+      },
+      "asset_system": {
+        "overview": "Assets are game data loaded from JSON files in asset packs. Each asset type has an AssetStore, an AssetMap (storage/indexing), and a codec. Assets are registered globally in a static AssetRegistry. Plugins can register custom asset stores via PluginBase.getAssetRegistry().",
+        "AssetMap<K, T extends JsonAsset<K>>": {
+          "fqcn": "com.hypixel.hytale.assetstore.AssetMap",
+          "kind": "abstract_class",
+          "description": "Storage and indexing layer for assets. Supports key-based lookup, path tracking, asset pack origin, tag-based grouping, hierarchy (getChildren), and bulk load/remove operations. Concrete implementations use StampedLock for thread-safe optimistic reads.",
+          "key_methods": [
+            "getAsset(K key) -> T",
+            "getAsset(String assetPack, K key) -> T",
+            "getPath(K key) -> Path",
+            "getAssetPack(K key) -> String",
+            "getKeys(Path) -> Set<K>",
+            "getChildren(K key) -> Set<K>",
+            "getAssetCount() -> int",
+            "getKeysForTag(int tagIndex) -> Set<K>",
+            "getKeysForPack(String assetPack) -> Set<K>"
+          ],
+          "confidence": "high"
+        },
+        "static_AssetRegistry": {
+          "fqcn": "com.hypixel.hytale.assetstore.AssetRegistry",
+          "kind": "class",
+          "description": "Global static registry mapping asset classes to AssetStores. Thread-safe via ReentrantReadWriteLock. Fires RegisterAssetStoreEvent and RemoveAssetStoreEvent on registration. Manages a global tag index system for asset tagging. One store per asset class (putIfAbsent semantics).",
+          "key_fields": [
+            "ASSET_LOCK: ReadWriteLock — global lock for store registration",
+            "storeMap: Map<Class<? extends JsonAssetWithMap>, AssetStore<?, ?, ?>> — class-to-store mapping"
+          ],
+          "confidence": "high"
+        },
+        "plugin_AssetRegistry": {
+          "fqcn": "com.hypixel.hytale.server.core.plugin.registry.AssetRegistry",
+          "kind": "class",
+          "description": "Plugin-scoped proxy. Single method: register(AssetStore) delegates to static AssetRegistry.register() while tracking cleanup. Fluent API (returns this). Access: PluginBase.getAssetRegistry().",
+          "confidence": "high"
+        },
+        "concrete_asset_example": {
+          "BlockType": {
+            "fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType",
+            "description": "Extends JsonAssetWithMap<K, BlockTypeAssetMap>. Rich asset type with nested structures: visual properties (textures, shaders, opacity), physical properties (bounding boxes, materials), interaction data, farming data, bench data. References other assets (Item, SoundEvent, ModelParticle). Uses codec annotations for UI editor integration.",
+            "static_access": "BlockType.getAssetMap() -> BlockTypeAssetMap",
+            "confidence": "high"
+          }
+        }
+      },
+      "block_state_registry": {
+        "BlockStateRegistry": {
+          "fqcn": "com.hypixel.hytale.server.core.universe.world.meta.BlockStateRegistry",
+          "kind": "class",
+          "extends": "Registry<BlockStateRegistration>",
+          "description": "Plugin-scoped registry for custom block states. Delegates to BlockStateModule.get() for actual registration. Precondition: plugin must be enabled.",
+          "key_methods": [
+            "registerBlockState(Class<T>, String key, Codec<T>) -> BlockStateRegistration",
+            "registerBlockState(Class<T>, String key, Codec<T>, Class<D> dataClass, Codec<D> dataCodec) -> BlockStateRegistration"
+          ],
+          "access": "PluginBase.getBlockStateRegistry()",
+          "confidence": "high"
+        }
+      },
+      "plugin_registries_summary": {
+        "description": "PluginBase exposes 10+ registries, all following the same pattern: precondition-gated registration + shutdown cleanup.",
+        "registries": [
+          {
+            "name": "getEventRegistry()",
+            "type": "EventRegistry",
+            "domain": "Event listeners"
+          },
+          {
+            "name": "getCommandRegistry()",
+            "type": "CommandRegistry",
+            "domain": "Commands"
+          },
+          {
+            "name": "getBlockStateRegistry()",
+            "type": "BlockStateRegistry",
+            "domain": "Custom block states"
+          },
+          {
+            "name": "getEntityRegistry()",
+            "type": "EntityRegistry",
+            "domain": "Entity type registration"
+          },
+          {
+            "name": "getTaskRegistry()",
+            "type": "TaskRegistry",
+            "domain": "Scheduled/recurring tasks"
+          },
+          {
+            "name": "getEntityStoreRegistry()",
+            "type": "ComponentRegistryProxy<EntityStore>",
+            "domain": "ECS components/systems for entities"
+          },
+          {
+            "name": "getChunkStoreRegistry()",
+            "type": "ComponentRegistryProxy<ChunkStore>",
+            "domain": "ECS components/systems for chunks"
+          },
+          {
+            "name": "getAssetRegistry()",
+            "type": "AssetRegistry",
+            "domain": "Custom asset stores"
+          },
+          {
+            "name": "getCodecRegistry(...)",
+            "type": "CodecMapRegistry / MapKeyMapRegistry",
+            "domain": "Codec registration (3 overloads)"
+          },
+          {
+            "name": "getClientFeatureRegistry()",
+            "type": "ClientFeatureRegistry",
+            "domain": "Client-side features"
+          },
+          {
+            "name": "withConfig(BuilderCodec<T>)",
+            "type": "Config<T>",
+            "domain": "Plugin configuration from JSON"
+          }
+        ],
+        "confidence": "high"
+      }
+    },
+    "codecs": {
+      "overview": "BSON/JSON serialization framework with declarative builder pattern, JSON Schema generation, plugin codec registration, and versioned asset configuration. Codecs handle all persistent data: asset definitions, player data, world storage, plugin config. Two codec map registration mechanisms allow plugins to extend polymorphic type hierarchies.",
+      "core_types": {
+        "Codec<T>": {
+          "fqcn": "com.hypixel.hytale.codec.Codec",
+          "kind": "interface",
+          "extends": [
+            "RawJsonCodec<T>",
+            "SchemaConvertable<T>"
+          ],
+          "description": "Root codec interface. Encodes T to BsonValue and decodes BsonValue to T. Also supports raw JSON via RawJsonCodec. Implements SchemaConvertable for JSON Schema generation. Provides static constants for primitive codecs: STRING, BOOLEAN, DOUBLE, FLOAT, BYTE, SHORT, INTEGER, LONG, plus array codecs (IntArrayCodec, LongArrayCodec, FloatArrayCodec, DoubleArrayCodec, ArrayCodec) and UUIDBinaryCodec.",
+          "key_methods": [
+            "T decode(BsonValue bsonValue, ExtraInfo extraInfo)",
+            "BsonValue encode(T value, ExtraInfo extraInfo)",
+            "T decodeJson(RawJsonReader reader, ExtraInfo extraInfo) throws IOException",
+            "Schema toSchema(SchemaContext context)"
+          ],
+          "primitive_codecs": [
+            "STRING",
+            "BOOLEAN",
+            "DOUBLE",
+            "FLOAT",
+            "BYTE",
+            "SHORT",
+            "INTEGER",
+            "LONG"
+          ],
+          "confidence": "high"
+        },
+        "KeyedCodec<T>": {
+          "fqcn": "com.hypixel.hytale.codec.KeyedCodec",
+          "kind": "class",
+          "description": "Named codec field: a key (String) + Codec<T> pair. Keys must start with uppercase. Provides get/put operations against BsonDocument with error wrapping. Supports required flag and inheritance (getAndInherit delegates to InheritCodec for parent-child asset resolution).",
+          "key_methods": [
+            "T getNow(BsonDocument document, ExtraInfo extraInfo)",
+            "T getOrNull(BsonDocument document, ExtraInfo extraInfo)",
+            "T getOrDefault(BsonDocument document, ExtraInfo extraInfo, T def)",
+            "Optional<T> getAndInherit(BsonDocument document, T parent, ExtraInfo extraInfo)",
+            "void put(BsonDocument document, T value, ExtraInfo extraInfo)"
+          ],
+          "key_constraint": "Key must start with uppercase character (enforced in constructor)",
+          "confidence": "high"
+        },
+        "BuilderCodec<T>": {
+          "fqcn": "com.hypixel.hytale.codec.builder.BuilderCodec",
+          "kind": "class",
+          "implements": [
+            "Codec<T>",
+            "DirectDecodeCodec<T>",
+            "RawJsonCodec<T>",
+            "InheritCodec<T>",
+            "ValidatableCodec<T>"
+          ],
+          "description": "Declarative codec builder for complex types. Defines fields as BuilderField entries (key -> getter/setter pairs with codecs), supports parent codec inheritance (appendInherited), versioning (minVersion/maxVersion per field, auto-computed codec version), validation (per-field and object-level BiConsumer<T, ValidationResults>), afterDecode hooks, UI metadata (Metadata, UIDisplayMode), and documentation strings. The primary mechanism for defining asset JSON schemas.",
+          "key_fields": {
+            "tClass": "Class<T> — the target type",
+            "supplier": "Supplier<T> — factory for new instances",
+            "parentCodec": "BuilderCodec<? super T> — parent for inheritance",
+            "entries": "Map<String, List<BuilderField<T, ?>>> — field definitions",
+            "validator": "BiConsumer<T, ValidationResults> — object-level validation",
+            "afterDecode": "BiConsumer<T, ExtraInfo> — post-decode hook",
+            "documentation": "String — human-readable documentation",
+            "metadata": "List<Metadata> — UI editor metadata",
+            "codecVersion": "int — current version (auto-computed from field versions if unset)",
+            "versioned": "boolean — whether version field is written/read"
+          },
+          "version_constants": {
+            "UNSET_VERSION": "Integer.MIN_VALUE",
+            "UNSET_MAX_VERSION": "Integer.MAX_VALUE",
+            "INITIAL_VERSION": "0"
+          },
+          "confidence": "high"
+        },
+        "SchemaConvertable<T>": {
+          "fqcn": "com.hypixel.hytale.codec.schema.SchemaConvertable",
+          "kind": "interface",
+          "description": "Any codec that can generate a JSON Schema via toSchema(SchemaContext). Codec<T> extends this, so all codecs can produce schemas. Used by the asset editor toolchain to generate UI forms.",
+          "key_methods": [
+            "Schema toSchema(SchemaContext context)",
+            "Schema toSchema(SchemaContext context, T defaultValue)"
+          ],
+          "confidence": "high"
+        }
+      },
+      "codec_map_infrastructure": {
+        "overview": "Two polymorphic codec dispatch mechanisms: string-keyed (StringCodecMapCodec) for type discriminators like 'Type': 'Sword', and class-keyed (MapKeyMapCodec) for Class-based dispatch. Both are extensible by plugins via registry proxies.",
+        "StringCodecMapCodec<T, C>": {
+          "fqcn": "com.hypixel.hytale.codec.lookup.StringCodecMapCodec",
+          "kind": "abstract class",
+          "extends": "ACodecMapCodec<String, T, C>",
+          "description": "String-keyed polymorphic codec. Uses a StringTreeMap for prefix-tree lookup of codec by discriminator key. Thread-safe via StampedLock. Subclass AssetCodecMapCodec adds asset-specific registration that integrates with AssetRegistry.",
+          "key_methods": [
+            "register(Priority priority, String id, Class<? extends T> aClass, C codec)",
+            "remove(Class<? extends T> aClass)",
+            "T decodeJson(RawJsonReader reader, ExtraInfo extraInfo)"
+          ],
+          "thread_safety": "StampedLock for concurrent read access to StringTreeMap",
+          "confidence": "high"
+        },
+        "MapKeyMapCodec<V>": {
+          "fqcn": "com.hypixel.hytale.codec.lookup.MapKeyMapCodec",
+          "kind": "class",
+          "extends": "AMapProvidedMapCodec<Class<? extends V>, V, Codec<V>, TypeMap<V>>",
+          "description": "Class-keyed polymorphic codec. Maps Class<? extends V> -> Codec<V>. Maintains bidirectional idToClass/classToId maps. On register/unregister, notifies all ACTIVE_MAPS (WeakReference set of TypeMap instances) to stay in sync. Thread-safe via static StampedLock.",
+          "key_methods": [
+            "register(Class<T> tClass, String id, Codec<T> codec)",
+            "unregister(Class<T> tClass)"
+          ],
+          "live_update_mechanism": "Static ACTIVE_MAPS set of WeakReference<TypeMap>. On register(), iterates all active maps and calls tryUpgrade(). This means newly registered codecs become available to all existing TypeMap instances immediately.",
+          "thread_safety": "Static StampedLock DATA_LOCK for all register/unregister operations",
+          "confidence": "high"
+        }
+      },
+      "plugin_codec_registration": {
+        "overview": "PluginBase exposes three getCodecRegistry() overloads and withConfig() for codec-related plugin registration. All follow the same pattern: lazily create per-mapCodec registry, track unregister callbacks for plugin lifecycle.",
+        "CodecMapRegistry<T, C>": {
+          "fqcn": "com.hypixel.hytale.server.core.plugin.registry.CodecMapRegistry",
+          "kind": "class",
+          "implements": "IRegistry",
+          "description": "Plugin-scoped string-keyed codec registration. Wraps a StringCodecMapCodec and tracks unregister callbacks. On register, delegates to mapCodec.register() and adds shutdown cleanup that acquires AssetRegistry.ASSET_LOCK before removal. Inner class Assets<T, C> specializes for asset types (casts to AssetCodecMapCodec).",
+          "key_methods": [
+            "register(String id, Class<? extends T> aClass, C codec) -> CodecMapRegistry<T, C>",
+            "register(Priority priority, String id, Class<? extends T> aClass, C codec) -> CodecMapRegistry<T, C>"
+          ],
+          "access": "PluginBase.getCodecRegistry(StringCodecMapCodec<T, C>)",
+          "inner_classes": {
+            "Assets<T extends JsonAsset<?>, C>": "Specialization for asset codec maps — register() casts mapCodec to AssetCodecMapCodec and delegates"
+          },
+          "confidence": "high"
+        },
+        "MapKeyMapRegistry<V>": {
+          "fqcn": "com.hypixel.hytale.server.core.plugin.registry.MapKeyMapRegistry",
+          "kind": "class",
+          "implements": "IRegistry",
+          "description": "Plugin-scoped class-keyed codec registration. Wraps a MapKeyMapCodec<V>. On register, delegates to mapCodec.register() and adds shutdown cleanup. Unregister is conditional: skipped on full server shutdown (boolean parameter), only runs on plugin disable.",
+          "key_methods": [
+            "register(Class<T> tClass, String id, Codec<T> codec) -> MapKeyMapRegistry<V>"
+          ],
+          "access": "PluginBase.getCodecRegistry(MapKeyMapCodec<V>)",
+          "shutdown_behavior": "Unregister callback receives boolean 'shutdown' — if true (full server shutdown), skip removal since everything is being torn down anyway",
+          "confidence": "high"
+        },
+        "plugin_access_methods": [
+          {
+            "method": "getCodecRegistry(StringCodecMapCodec<T, C>) -> CodecMapRegistry<T, C>",
+            "description": "For string-discriminated polymorphic types (e.g., different block behaviors keyed by a 'Type' field)"
+          },
+          {
+            "method": "getCodecRegistry(AssetCodecMapCodec<K, T>) -> CodecMapRegistry.Assets<T, ?>",
+            "description": "For asset-specific polymorphic types (e.g., custom item subtypes)"
+          },
+          {
+            "method": "getCodecRegistry(MapKeyMapCodec<V>) -> MapKeyMapRegistry<V>",
+            "description": "For class-keyed polymorphic types (e.g., extending abstract component types)"
+          }
+        ]
+      },
+      "plugin_configuration": {
+        "withConfig": {
+          "fqcn_method": "com.hypixel.hytale.server.core.plugin.PluginBase.withConfig",
+          "signatures": [
+            "protected final <T> Config<T> withConfig(BuilderCodec<T> configCodec)",
+            "protected final <T> Config<T> withConfig(String name, BuilderCodec<T> configCodec)"
+          ],
+          "description": "Creates a Config<T> for plugin configuration loaded from JSON. Must be called before setup (PluginState.NONE) — throws IllegalStateException otherwise. Default name is 'config' (loads from plugin's dataDirectory). Config<T> objects are tracked in this.configs list and loaded during plugin setup phase.",
+          "precondition": "Must be called before setup (PluginState.NONE)",
+          "default_name": "config",
+          "confidence": "high"
+        }
+      },
+      "patterns": {
+        "asset_codec_pattern": "Asset types (Item, BlockType, etc.) use AssetBuilderCodec.builder() which extends BuilderCodec to add asset-specific features: appendInherited(parentCodec) for asset inheritance chains, validators for correctness, UI metadata for editor integration, versioning for backwards compatibility. Fields defined as keyed(KeyedCodec, getter, setter) triples.",
+        "inheritance_chain": "BuilderCodec supports parent codec inheritance via parentCodec field. When decoding, InheritCodec.decodeAndInherit() merges parent values with child overrides. This is how asset packs can extend base game assets.",
+        "json_schema_generation": "All codecs implement SchemaConvertable.toSchema(). BuilderCodec produces ObjectSchema with per-field entries. This drives the asset editor UI (UIDisplayMode metadata controls how fields render).",
+        "thread_safety_pattern": "StringCodecMapCodec uses StampedLock per instance. MapKeyMapCodec uses a static StampedLock (DATA_LOCK) shared across all instances. CodecMapRegistry/MapKeyMapRegistry acquire AssetRegistry.ASSET_LOCK (ReadWriteLock) during unregister to coordinate with asset loading."
+      },
+      "json_schema_examples": [
+        {
+          "asset_type": "block",
+          "loader_class": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType",
+          "codec_class": "com.hypixel.hytale.assetstore.codec.AssetBuilderCodec<String, BlockType>",
+          "notes": "BlockType is defined as a nested asset within an Item definition (via the 'BlockType' field on Item), not as a standalone asset file. The codec uses appendInherited for most fields, enabling asset pack inheritance chains.",
+          "schema_fields": [
+            {
+              "json_key": "Group",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Block group identifier. Used by BlockSets. A group of '@Tech' prevents physics from being applied."
+            },
+            {
+              "json_key": "BlockListAssetId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Reference to a BlockList asset for use in builder tool brushes."
+            },
+            {
+              "json_key": "PrefabListAssetId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Reference to a PrefabList asset for use in builder tool brushes."
+            },
+            {
+              "json_key": "DrawType",
+              "java_type": "DrawType",
+              "json_type": "string (enum: Cube, Model, Cross, Empty, Fluid, ...)",
+              "required": true,
+              "default_value": "Cube",
+              "description": "How the block is rendered. Cube is standard voxel, Model uses a custom 3D model, Cross renders as X-shaped planes."
+            },
+            {
+              "json_key": "Textures",
+              "java_type": "BlockTypeTextures[]",
+              "json_type": "array of objects",
+              "required": false,
+              "default_value": null,
+              "description": "Block face textures. Each entry defines Up/Down/North/South/East/West texture paths and a weight for random selection."
+            },
+            {
+              "json_key": "TextureSideMask",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Texture used as a side mask overlay."
+            },
+            {
+              "json_key": "CubeShadingMode",
+              "java_type": "ShadingMode",
+              "json_type": "string (enum: Standard, Flat)",
+              "required": true,
+              "default_value": "Standard",
+              "description": "Shading mode for cube-type blocks."
+            },
+            {
+              "json_key": "CustomModelTexture",
+              "java_type": "CustomModelTexture[]",
+              "json_type": "array of objects",
+              "required": false,
+              "default_value": null,
+              "description": "Textures for custom model blocks. Each entry has a texture path and a weight."
+            },
+            {
+              "json_key": "CustomModel",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Path to a .blockymodel file for Model draw type blocks."
+            },
+            {
+              "json_key": "BlockBreakingDecalId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Reference to a BlockBreakingDecal asset overlaid when block is damaged."
+            },
+            {
+              "json_key": "Material",
+              "java_type": "BlockMaterial",
+              "json_type": "string (enum: Solid, Empty, Liquid, ...)",
+              "required": true,
+              "default_value": "Empty",
+              "description": "Physical material type. Affects collision, sound, and physics behavior."
+            },
+            {
+              "json_key": "Opacity",
+              "java_type": "Opacity",
+              "json_type": "string (enum: Solid, Transparent, SemiTransparent)",
+              "required": true,
+              "default_value": "Solid",
+              "description": "Light transmission behavior."
+            },
+            {
+              "json_key": "RequiresAlphaBlending",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether the block texture requires alpha blending for transparency."
+            },
+            {
+              "json_key": "CustomModelScale",
+              "java_type": "Float",
+              "json_type": "number",
+              "required": false,
+              "default_value": 1.0,
+              "description": "Scale factor for custom model blocks."
+            },
+            {
+              "json_key": "CustomModelAnimation",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Animation file path for animated custom model blocks."
+            },
+            {
+              "json_key": "Light",
+              "java_type": "ColorLight",
+              "json_type": "object (color + intensity)",
+              "required": false,
+              "default_value": null,
+              "description": "Light emitted by this block when placed in the world."
+            },
+            {
+              "json_key": "TickProcedure",
+              "java_type": "TickProcedure",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Defines block tick behavior (e.g., crop growth, fire spread)."
+            },
+            {
+              "json_key": "ConnectedBlockRuleSet",
+              "java_type": "ConnectedBlockRuleSet",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Rules for connected block textures (e.g., fences, walls that connect to neighbors)."
+            },
+            {
+              "json_key": "Effect",
+              "java_type": "ShaderType[]",
+              "json_type": "array of strings (enum: None, Foliage, Water, ...)",
+              "required": false,
+              "default_value": [
+                "None"
+              ],
+              "description": "Shader effects applied to the block."
+            },
+            {
+              "json_key": "TransitionTexture",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Texture used for smooth transitions between this block and adjacent blocks."
+            },
+            {
+              "json_key": "TransitionToGroups",
+              "java_type": "String[]",
+              "json_type": "array of strings",
+              "required": false,
+              "default_value": null,
+              "description": "Block groups this block transitions to visually."
+            },
+            {
+              "json_key": "TransitionToTag",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Block tag this block transitions to visually."
+            },
+            {
+              "json_key": "BlockParticleSetId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Reference to a BlockParticleSet for particles spawned on entity interaction (stepping, breaking)."
+            },
+            {
+              "json_key": "ParticleColor",
+              "java_type": "Color",
+              "json_type": "string (hex color)",
+              "required": false,
+              "default_value": null,
+              "description": "Color tint for block interaction particles."
+            },
+            {
+              "json_key": "Particles",
+              "java_type": "ModelParticle[]",
+              "json_type": "array of objects",
+              "required": false,
+              "default_value": null,
+              "description": "Ambient particles spawned on top of placed blocks of this type."
+            },
+            {
+              "json_key": "RandomRotation",
+              "java_type": "RandomRotation",
+              "json_type": "string (enum: None, Yaw, Full, ...)",
+              "required": true,
+              "default_value": "None",
+              "description": "Random rotation applied when block is placed for visual variety."
+            },
+            {
+              "json_key": "VariantRotation",
+              "java_type": "VariantRotation",
+              "json_type": "string (enum: None, Yaw, Debug)",
+              "required": true,
+              "default_value": "None",
+              "description": "Variant-based rotation for block states."
+            },
+            {
+              "json_key": "FlipType",
+              "java_type": "BlockFlipType",
+              "json_type": "string (enum)",
+              "required": false,
+              "default_value": "SYMMETRIC",
+              "description": "How the block can be flipped."
+            },
+            {
+              "json_key": "RotationYawPlacementOffset",
+              "java_type": "Rotation",
+              "json_type": "string (enum: None, 90, 180, 270)",
+              "required": true,
+              "default_value": "None",
+              "description": "Yaw rotation offset applied at placement time."
+            },
+            {
+              "json_key": "Seats",
+              "java_type": "RotatedMountPointsArray",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Seat mount points for sittable blocks (chairs, benches)."
+            },
+            {
+              "json_key": "Beds",
+              "java_type": "RotatedMountPointsArray",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Bed mount points for sleeping blocks."
+            },
+            {
+              "json_key": "MovementSettings",
+              "java_type": "BlockMovementSettings",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Custom movement modifiers when entities walk on/through this block (e.g., slow, slip)."
+            },
+            {
+              "json_key": "Flags",
+              "java_type": "BlockFlags",
+              "json_type": "object {IsUsable: boolean, IsStackable: boolean}",
+              "required": false,
+              "default_value": null,
+              "description": "Boolean flags. IsUsable: block can be used/interacted with. IsStackable: blocks can be stacked."
+            },
+            {
+              "json_key": "Bench",
+              "java_type": "Bench",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Crafting bench configuration if this block is a crafting station."
+            },
+            {
+              "json_key": "Gathering",
+              "java_type": "BlockGathering",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Resource gathering configuration for harvestable blocks."
+            },
+            {
+              "json_key": "PlacementSettings",
+              "java_type": "BlockPlacementSettings",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Custom placement behavior and constraints."
+            },
+            {
+              "json_key": "Farming",
+              "java_type": "FarmingData",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Farming/crop growth configuration for agricultural blocks."
+            },
+            {
+              "json_key": "IsDoor",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether this block behaves as a door (open/close interaction)."
+            },
+            {
+              "json_key": "AllowsMultipleUsers",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether multiple players can use this block simultaneously (e.g., large benches)."
+            },
+            {
+              "json_key": "HitboxType",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": "Full",
+              "description": "Reference to a BlockBoundingBox asset defining the collision shape."
+            },
+            {
+              "json_key": "InteractionHitboxType",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Separate hitbox for interaction raycasting (can differ from collision hitbox)."
+            },
+            {
+              "json_key": "InteractionHint",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Translation key for text shown under crosshair when aiming at block. {key} is replaced with interaction binding."
+            },
+            {
+              "json_key": "DamageToEntities",
+              "java_type": "Integer",
+              "json_type": "integer",
+              "required": false,
+              "default_value": 0,
+              "description": "Damage dealt to entities standing on/in this block (e.g., cacti, lava)."
+            },
+            {
+              "json_key": "Interactions",
+              "java_type": "Map<InteractionType, String>",
+              "json_type": "object (enum keys -> RootInteraction asset refs)",
+              "required": false,
+              "default_value": null,
+              "description": "Maps interaction types to RootInteraction assets defining block use behavior."
+            },
+            {
+              "json_key": "BlockSoundSetId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": "EMPTY",
+              "description": "Reference to a BlockSoundSet for placement, breaking, and step sounds."
+            },
+            {
+              "json_key": "AmbientSoundEventId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Looping ambient sound emitted by this block when placed or held."
+            },
+            {
+              "json_key": "InteractionSoundEventId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "One-shot sound played when interacting with this block."
+            },
+            {
+              "json_key": "Looping",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether the block's custom model animation loops."
+            },
+            {
+              "json_key": "SupportDropType",
+              "java_type": "SupportDropType",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "What happens when block support is lost (drop as item, destroy, convert to physics entity)."
+            },
+            {
+              "json_key": "MaxSupportDistance",
+              "java_type": "Integer",
+              "json_type": "integer (0-14)",
+              "required": false,
+              "default_value": null,
+              "description": "Maximum distance at which this block can provide structural support."
+            },
+            {
+              "json_key": "SupportsRequiredFor",
+              "java_type": "BlockSupportsRequiredForType",
+              "json_type": "string (enum: All, Existence, Physics)",
+              "required": true,
+              "default_value": "All",
+              "description": "What the support requirement applies to."
+            },
+            {
+              "json_key": "Support",
+              "java_type": "Map<BlockFace, RequiredBlockFaceSupport[]>",
+              "json_type": "object (face -> support requirements)",
+              "required": false,
+              "default_value": null,
+              "description": "Required support conditions per face. Empty means block is always supported."
+            },
+            {
+              "json_key": "Supporting",
+              "java_type": "Map<BlockFace, BlockFaceSupport[]>",
+              "json_type": "object (face -> support provided)",
+              "required": false,
+              "default_value": null,
+              "description": "Support this block provides to adjacent blocks per face."
+            },
+            {
+              "json_key": "IgnoreSupportWhenPlaced",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether support requirements are ignored when a player places this block."
+            },
+            {
+              "json_key": "Aliases",
+              "java_type": "String[]",
+              "json_type": "array of strings",
+              "required": false,
+              "default_value": null,
+              "description": "Alternative names for this block type used in command matching."
+            },
+            {
+              "json_key": "Tint",
+              "java_type": "Color[]",
+              "json_type": "array of hex color strings",
+              "required": false,
+              "default_value": null,
+              "description": "Color tint applied to all block faces. Shorthand for setting all 6 face tints at once."
+            },
+            {
+              "json_key": "TintUp",
+              "java_type": "Color[]",
+              "json_type": "array of hex color strings",
+              "required": false,
+              "default_value": null,
+              "description": "Color tint for the top face."
+            },
+            {
+              "json_key": "TintDown",
+              "java_type": "Color[]",
+              "json_type": "array of hex color strings",
+              "required": false,
+              "default_value": null,
+              "description": "Color tint for the bottom face."
+            },
+            {
+              "json_key": "TintNorth",
+              "java_type": "Color[]",
+              "json_type": "array of hex color strings",
+              "required": false,
+              "default_value": null,
+              "description": "Color tint for the north face."
+            },
+            {
+              "json_key": "TintSouth",
+              "java_type": "Color[]",
+              "json_type": "array of hex color strings",
+              "required": false,
+              "default_value": null,
+              "description": "Color tint for the south face."
+            },
+            {
+              "json_key": "TintWest",
+              "java_type": "Color[]",
+              "json_type": "array of hex color strings",
+              "required": false,
+              "default_value": null,
+              "description": "Color tint for the west face."
+            },
+            {
+              "json_key": "TintEast",
+              "java_type": "Color[]",
+              "json_type": "array of hex color strings",
+              "required": false,
+              "default_value": null,
+              "description": "Color tint for the east face."
+            },
+            {
+              "json_key": "BiomeTint",
+              "java_type": "Integer",
+              "json_type": "integer (biome color index)",
+              "required": false,
+              "default_value": null,
+              "description": "Biome color index applied to all faces. Shorthand for setting all 6 face biome tints."
+            },
+            {
+              "json_key": "BiomeTintUp",
+              "java_type": "Integer",
+              "json_type": "integer",
+              "required": false,
+              "default_value": 0,
+              "description": "Biome color index for the top face."
+            },
+            {
+              "json_key": "BiomeTintDown",
+              "java_type": "Integer",
+              "json_type": "integer",
+              "required": false,
+              "default_value": 0,
+              "description": "Biome color index for the bottom face."
+            },
+            {
+              "json_key": "BiomeTintNorth",
+              "java_type": "Integer",
+              "json_type": "integer",
+              "required": false,
+              "default_value": 0,
+              "description": "Biome color index for the north face."
+            },
+            {
+              "json_key": "BiomeTintSouth",
+              "java_type": "Integer",
+              "json_type": "integer",
+              "required": false,
+              "default_value": 0,
+              "description": "Biome color index for the south face."
+            },
+            {
+              "json_key": "BiomeTintWest",
+              "java_type": "Integer",
+              "json_type": "integer",
+              "required": false,
+              "default_value": 0,
+              "description": "Biome color index for the west face."
+            },
+            {
+              "json_key": "BiomeTintEast",
+              "java_type": "Integer",
+              "json_type": "integer",
+              "required": false,
+              "default_value": 0,
+              "description": "Biome color index for the east face."
+            },
+            {
+              "json_key": "State",
+              "java_type": "StateData",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Block state configuration (e.g., multi-state blocks like doors open/closed, crops growth stages)."
+            },
+            {
+              "json_key": "BlockEntity",
+              "java_type": "Holder<ChunkStore>",
+              "json_type": "object (ECS component holder)",
+              "required": false,
+              "default_value": null,
+              "description": "ECS components attached to this block as a block entity (e.g., inventory, display data)."
+            },
+            {
+              "json_key": "Rail",
+              "java_type": "RailConfig",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Rail configuration for minecart-style rail blocks."
+            }
+          ],
+          "confidence": "high"
+        },
+        {
+          "asset_type": "item",
+          "loader_class": "com.hypixel.hytale.server.core.asset.type.item.config.Item",
+          "codec_class": "com.hypixel.hytale.assetstore.codec.AssetBuilderCodec<String, Item>",
+          "notes": "Items are the primary asset type in Hytale. Blocks are defined as nested BlockType definitions within items. Most fields support inheritance via appendInherited, allowing asset pack items to extend base game items. The codec has an afterDecode hook (processConfig) that computes defaults for maxStack, interactions, and other derived fields.",
+          "schema_fields": [
+            {
+              "json_key": "Icon",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Path to the item icon image (e.g., 'Icons/ItemsGenerated/{assetId}.png')."
+            },
+            {
+              "json_key": "Categories",
+              "java_type": "String[]",
+              "json_type": "array of strings",
+              "required": false,
+              "default_value": null,
+              "description": "List of categories this item appears in on the creative library menu."
+            },
+            {
+              "json_key": "IconProperties",
+              "java_type": "AssetIconProperties",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Advanced icon rendering properties. Hidden in the editor UI."
+            },
+            {
+              "json_key": "TranslationProperties",
+              "java_type": "ItemTranslationProperties",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Custom translation keys for item name and description."
+            },
+            {
+              "json_key": "ItemLevel",
+              "java_type": "Integer",
+              "json_type": "integer",
+              "required": false,
+              "default_value": 0,
+              "description": "Item power/tier level."
+            },
+            {
+              "json_key": "Reticle",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Reference to an ItemReticleConfig asset for custom crosshair."
+            },
+            {
+              "json_key": "MaxStack",
+              "java_type": "Integer",
+              "json_type": "integer (>0)",
+              "required": false,
+              "default_value": "auto (100 for stackable, 1 for tools/weapons)",
+              "description": "Maximum stack size in inventory. Auto-computed if not set: 100 for plain items, 1 for tools/weapons/armor."
+            },
+            {
+              "json_key": "Quality",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Reference to an ItemQuality asset (affects item entity rendering)."
+            },
+            {
+              "json_key": "ItemEntity",
+              "java_type": "ItemEntityConfig",
+              "json_type": "object",
+              "required": true,
+              "default_value": "ItemEntityConfig.DEFAULT",
+              "description": "Configuration for how this item appears as a dropped entity in the world."
+            },
+            {
+              "json_key": "SoundEventId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Reference to a SoundEvent asset played when using this item."
+            },
+            {
+              "json_key": "ItemSoundSetId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": "ISS_Default",
+              "description": "Reference to an ItemSoundSet asset for item interaction sounds."
+            },
+            {
+              "json_key": "Set",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Item set identifier for grouping related items (e.g., armor sets)."
+            },
+            {
+              "json_key": "Model",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Path to a .blockymodel file for item rendering."
+            },
+            {
+              "json_key": "Scale",
+              "java_type": "Double",
+              "json_type": "number",
+              "required": false,
+              "default_value": 1.0,
+              "description": "Scale factor for item model rendering."
+            },
+            {
+              "json_key": "Texture",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": "Items/Unknown.png",
+              "description": "Path to the item model texture."
+            },
+            {
+              "json_key": "Animation",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Animation file path for item model."
+            },
+            {
+              "json_key": "UsePlayerAnimations",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether this item uses player animation overrides."
+            },
+            {
+              "json_key": "PlayerAnimationsId",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": "Default",
+              "description": "Reference to an ItemPlayerAnimations asset for player hold/use animations."
+            },
+            {
+              "json_key": "DroppedItemAnimation",
+              "java_type": "String",
+              "json_type": "string",
+              "required": false,
+              "default_value": null,
+              "description": "Animation for the item when dropped in the world."
+            },
+            {
+              "json_key": "Particles",
+              "java_type": "ModelParticle[]",
+              "json_type": "array of objects",
+              "required": false,
+              "default_value": null,
+              "description": "Particles played when this item is held (third person)."
+            },
+            {
+              "json_key": "FirstPersonParticles",
+              "java_type": "ModelParticle[]",
+              "json_type": "array of objects",
+              "required": false,
+              "default_value": null,
+              "description": "Particles played when this item is held (first person)."
+            },
+            {
+              "json_key": "Trails",
+              "java_type": "ModelTrail[]",
+              "json_type": "array of objects",
+              "required": false,
+              "default_value": null,
+              "description": "Trail effects attached to this item when held."
+            },
+            {
+              "json_key": "Light",
+              "java_type": "ColorLight",
+              "json_type": "object (color + intensity)",
+              "required": false,
+              "default_value": null,
+              "description": "Light emitted when this item is held or dropped."
+            },
+            {
+              "json_key": "Recipe",
+              "java_type": "CraftingRecipe",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Inline crafting recipe that produces this item. Auto-generates a CraftingRecipe asset with this item as primary output."
+            },
+            {
+              "json_key": "ResourceTypes",
+              "java_type": "ItemResourceType[]",
+              "json_type": "array of {Id: string, Quantity: integer(>0)}",
+              "required": false,
+              "default_value": null,
+              "description": "Resource types and quantities this item provides when used as a crafting ingredient."
+            },
+            {
+              "json_key": "Tool",
+              "java_type": "ItemTool",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Tool configuration (mining speed, tool type, harvest level)."
+            },
+            {
+              "json_key": "BlockSelectorTool",
+              "java_type": "BlockSelectorToolData",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Block selector tool configuration for builder tools."
+            },
+            {
+              "json_key": "BuilderTool",
+              "java_type": "BuilderToolData",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Builder tool configuration for creative building tools."
+            },
+            {
+              "json_key": "Weapon",
+              "java_type": "ItemWeapon",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Weapon configuration (damage, attack speed, range, combos)."
+            },
+            {
+              "json_key": "Armor",
+              "java_type": "ItemArmor",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Armor configuration (defense, slot, equip model)."
+            },
+            {
+              "json_key": "Glider",
+              "java_type": "ItemGlider",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Glider configuration for hang-glider items."
+            },
+            {
+              "json_key": "Utility",
+              "java_type": "ItemUtility",
+              "json_type": "object",
+              "required": false,
+              "default_value": "ItemUtility.DEFAULT",
+              "description": "Utility item configuration (consumables, throwables)."
+            },
+            {
+              "json_key": "PortalKey",
+              "java_type": "PortalKey",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Portal key configuration for items that open portals."
+            },
+            {
+              "json_key": "Container",
+              "java_type": "ItemStackContainerConfig",
+              "json_type": "object",
+              "required": false,
+              "default_value": "ItemStackContainerConfig.DEFAULT",
+              "description": "Item stack container configuration (e.g., bags that hold other items)."
+            },
+            {
+              "json_key": "Consumable",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether this item is consumed on use."
+            },
+            {
+              "json_key": "Variant",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether this item is a visual variant (e.g., connected block variant). Filtered from creative library by default."
+            },
+            {
+              "json_key": "MaxDurability",
+              "java_type": "Double",
+              "json_type": "number",
+              "required": false,
+              "default_value": 0.0,
+              "description": "Maximum durability points. 0 means unbreakable."
+            },
+            {
+              "json_key": "FuelQuality",
+              "java_type": "Double",
+              "json_type": "number",
+              "required": false,
+              "default_value": 1.0,
+              "description": "Fuel quality multiplier when used as furnace fuel."
+            },
+            {
+              "json_key": "DurabilityLossOnHit",
+              "java_type": "Double",
+              "json_type": "number",
+              "required": false,
+              "default_value": 0.0,
+              "description": "Durability points lost per hit when used as a weapon."
+            },
+            {
+              "json_key": "BlockType",
+              "java_type": "String (contained BlockType asset)",
+              "json_type": "object (inline BlockType definition)",
+              "required": false,
+              "default_value": null,
+              "description": "Inline block type definition. Makes this item placeable as a block. The BlockType inherits the item's ID."
+            },
+            {
+              "json_key": "Interactions",
+              "java_type": "Map<InteractionType, String>",
+              "json_type": "object (enum keys -> RootInteraction asset refs)",
+              "required": false,
+              "default_value": null,
+              "description": "Maps interaction types (Primary, Secondary, SwapFrom, etc.) to RootInteraction assets."
+            },
+            {
+              "json_key": "InteractionConfig",
+              "java_type": "InteractionConfiguration",
+              "json_type": "object",
+              "required": false,
+              "default_value": "auto (DEFAULT or DEFAULT_WEAPON)",
+              "description": "Interaction configuration (aim distance, cooldowns). Auto-set based on weapon presence."
+            },
+            {
+              "json_key": "InteractionVars",
+              "java_type": "Map<String, String>",
+              "json_type": "object (string -> RootInteraction refs)",
+              "required": false,
+              "default_value": null,
+              "description": "Named interaction variables for dynamic interaction resolution."
+            },
+            {
+              "json_key": "ItemAppearanceConditions",
+              "java_type": "Map<String, ItemAppearanceCondition[]>",
+              "json_type": "object (EntityStat -> conditions)",
+              "required": false,
+              "default_value": null,
+              "description": "Per-EntityStat array of appearance conditions. Only one condition active at a time."
+            },
+            {
+              "json_key": "DisplayEntityStatsHUD",
+              "java_type": "String[]",
+              "json_type": "array of strings",
+              "required": false,
+              "default_value": null,
+              "description": "EntityStat IDs whose HUD UI should be displayed when holding this item."
+            },
+            {
+              "json_key": "PullbackConfig",
+              "java_type": "ItemPullbackConfig",
+              "json_type": "object",
+              "required": false,
+              "default_value": null,
+              "description": "Overrides first-person arm offset when close to obstacles."
+            },
+            {
+              "json_key": "ClipsGeometry",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether the item model clips through world geometry."
+            },
+            {
+              "json_key": "RenderDeployablePreview",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether to show a placement preview ghost when holding this item."
+            },
+            {
+              "json_key": "DropOnDeath",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether this item drops on player death."
+            },
+            {
+              "json_key": "State",
+              "java_type": "Map<String, Item>",
+              "json_type": "object (state name -> contained Item)",
+              "required": false,
+              "default_value": null,
+              "description": "State variants of this item. Each entry is a contained Item asset inheriting from the parent."
+            }
+          ],
+          "confidence": "high"
+        },
+        {
+          "asset_type": "crafting_recipe",
+          "loader_class": "com.hypixel.hytale.server.core.asset.type.item.config.CraftingRecipe",
+          "codec_class": "com.hypixel.hytale.assetstore.codec.AssetBuilderCodec<String, CraftingRecipe>",
+          "notes": "CraftingRecipe can be defined either as a standalone asset or inline within an Item definition (via the 'Recipe' field). When inline, the item auto-generates outputs. Validation enforces: KnowledgeRequired only on Crafting/DiagramCrafting benches, DiagramCrafting max 1 output, Fieldcraft recipes should not have TimeSeconds. MaterialQuantity is a sub-codec with fields: Material (String, item ref), ResourceType (String), Tags (String[]), Quantity (Integer), and Quality (String).",
+          "schema_fields": [
+            {
+              "json_key": "Input",
+              "java_type": "MaterialQuantity[]",
+              "json_type": "array of {Material?: string, ResourceType?: string, Tags?: string[], Quantity: integer, Quality?: string}",
+              "required": true,
+              "default_value": null,
+              "description": "Required input materials. Each entry specifies an item (by Material ID), resource type, or tags, plus a quantity."
+            },
+            {
+              "json_key": "Output",
+              "java_type": "MaterialQuantity[]",
+              "json_type": "array of MaterialQuantity objects",
+              "required": false,
+              "default_value": "[]",
+              "description": "Output materials produced by the recipe. If empty and PrimaryOutput is set, auto-populated."
+            },
+            {
+              "json_key": "PrimaryOutput",
+              "java_type": "MaterialQuantity",
+              "json_type": "object (MaterialQuantity)",
+              "required": false,
+              "default_value": null,
+              "description": "Primary output material. When recipe is inline on an Item, this is auto-set to the parent item."
+            },
+            {
+              "json_key": "OutputQuantity",
+              "java_type": "Integer",
+              "json_type": "integer",
+              "required": false,
+              "default_value": 1,
+              "description": "Quantity of primary output produced per craft."
+            },
+            {
+              "json_key": "BenchRequirement",
+              "java_type": "BenchRequirement[]",
+              "json_type": "array of {Type: string(enum), Id?: string, Categories?: string[], RequiredTierLevel?: integer}",
+              "required": false,
+              "default_value": null,
+              "description": "Required crafting stations. Type is a BenchType enum (Crafting, Smelting, DiagramCrafting, etc.). Id references a specific bench. Categories and RequiredTierLevel further constrain."
+            },
+            {
+              "json_key": "TimeSeconds",
+              "java_type": "Double",
+              "json_type": "number (>=0)",
+              "required": false,
+              "default_value": 0.0,
+              "description": "Crafting time in seconds. 0 means instant. Should not be set for Fieldcraft recipes."
+            },
+            {
+              "json_key": "KnowledgeRequired",
+              "java_type": "Boolean",
+              "json_type": "boolean",
+              "required": false,
+              "default_value": false,
+              "description": "Whether this recipe must be discovered/learned before use. Only valid for Crafting and DiagramCrafting bench types."
+            },
+            {
+              "json_key": "RequiredMemoriesLevel",
+              "java_type": "Integer",
+              "json_type": "integer (>=1)",
+              "required": false,
+              "default_value": 1,
+              "description": "Minimum Memories level required. Level 1 means always available. Higher levels gate recipes behind progression."
+            }
+          ],
+          "confidence": "high"
+        }
+      ]
+    }
+  }
+}

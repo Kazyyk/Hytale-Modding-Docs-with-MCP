@@ -1,0 +1,237 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-02-09T21:10:00Z",
+  "relationships": [
+    {
+      "source": {"fqcn": "com.hypixel.hytale.event.EventRegistry", "kind": "event_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.registry.Registry", "kind": "registry"},
+      "relationship": "extends",
+      "context": "EventRegistry extends Registry<EventRegistration<?,?>> — event registration tracking uses the generic registry framework",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.event.EventRegistration", "kind": "event_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.registry.Registration", "kind": "registry"},
+      "relationship": "extends",
+      "context": "EventRegistration extends Registration — event registration handles use the generic registration lifecycle (isEnabled, unregister)",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.event.EventRegistry", "kind": "event_infrastructure"},
+      "relationship": "uses",
+      "context": "PluginBase.getEventRegistry() provides plugin-scoped event registration. EventRegistry delegates to HytaleServer.get().getEventBus().",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore", "kind": "component"},
+      "relationship": "uses",
+      "context": "PlayerConnectEvent carries a Holder<EntityStore> — connects event system to ECS. Event handler can access entity components through the holder.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.event.events.player.PlayerEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore", "kind": "component"},
+      "relationship": "uses",
+      "context": "PlayerEvent carries Ref<EntityStore> — all PlayerEvent subclasses provide ECS entity store reference.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType", "kind": "asset"},
+      "relationship": "uses",
+      "context": "BreakBlockEvent carries a BlockType reference — connects events to the asset/registry system.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.event.events.ecs.DamageBlockEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType", "kind": "asset"},
+      "relationship": "uses",
+      "context": "DamageBlockEvent carries a BlockType reference.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType", "kind": "asset"},
+      "relationship": "uses",
+      "context": "UseBlockEvent carries a BlockType reference.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.event.events.ecs.CraftRecipeEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.asset.type.item.config.CraftingRecipe", "kind": "asset"},
+      "relationship": "uses",
+      "context": "CraftRecipeEvent carries a CraftingRecipe reference — connects events to item/recipe assets.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.component.system.EcsEvent", "kind": "component"},
+      "target": {"fqcn": "com.hypixel.hytale.event.IEvent", "kind": "event_infrastructure"},
+      "relationship": "parallel_hierarchy",
+      "context": "EcsEvent does NOT extend IEvent. ECS events have a separate dispatch mechanism through the ECS system pipeline, not through EventBus. This is a deliberate architectural split.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.command.system.CommandRegistry", "kind": "command_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.registry.Registry", "kind": "registry"},
+      "relationship": "extends",
+      "context": "CommandRegistry extends Registry<CommandRegistration> — command registration uses the same generic registry framework as event registration.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.command.system.CommandRegistration", "kind": "command_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.registry.Registration", "kind": "registry"},
+      "relationship": "extends",
+      "context": "CommandRegistration extends Registration — same lifecycle pattern (isEnabled, unregister) as EventRegistration.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.command.system.CommandRegistry", "kind": "command_infrastructure"},
+      "relationship": "uses",
+      "context": "PluginBase.getCommandRegistry() provides plugin-scoped command registration. CommandRegistry delegates to CommandManager singleton.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.command.system.CommandOwner", "kind": "command_infrastructure"},
+      "relationship": "implements",
+      "context": "PluginBase implements CommandOwner — provides getName() used for auto-generating command permission strings.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.command.system.CommandRegistry", "kind": "command_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.command.system.CommandManager", "kind": "command_infrastructure"},
+      "relationship": "delegates_to",
+      "context": "CommandRegistry.registerCommand() delegates to CommandManager.get().register(command) after setting the command's owner.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand", "kind": "command_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore", "kind": "component"},
+      "relationship": "uses",
+      "context": "AbstractPlayerCommand resolves CommandSender to Ref<EntityStore>, Store<EntityStore>, PlayerRef, and World. Player commands interact with the ECS through these references.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes", "kind": "command_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType", "kind": "asset"},
+      "relationship": "uses",
+      "context": "ArgTypes.BLOCK_TYPE_ASSET and BLOCK_TYPE_KEY/BLOCK_ID reference BlockType — commands can accept asset types as arguments via AssetArgumentType.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes", "kind": "command_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.asset.type.item.config.Item", "kind": "asset"},
+      "relationship": "uses",
+      "context": "ArgTypes.ITEM_ASSET enables commands to accept Item assets as arguments (e.g., GiveCommand).",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.command.system.CommandSender", "kind": "command_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.permissions.PermissionHolder", "kind": "permissions"},
+      "relationship": "extends",
+      "context": "CommandSender extends PermissionHolder — permission checking for commands goes through the permission system. hasPermission() is the gating mechanism.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.component.ComponentRegistryProxy", "kind": "ecs"},
+      "relationship": "uses",
+      "context": "PluginBase.getEntityStoreRegistry() and getChunkStoreRegistry() return ComponentRegistryProxy instances. Plugins interact with the ECS through these scoped proxies.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.component.ComponentRegistryProxy", "kind": "ecs"},
+      "target": {"fqcn": "com.hypixel.hytale.component.ComponentRegistry", "kind": "ecs"},
+      "relationship": "delegates_to",
+      "context": "ComponentRegistryProxy delegates all registration calls to the underlying ComponentRegistry while tracking unregister callbacks for plugin lifecycle management.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore", "kind": "ecs"},
+      "target": {"fqcn": "com.hypixel.hytale.component.ComponentRegistry", "kind": "ecs"},
+      "relationship": "owns",
+      "context": "EntityStore has a static REGISTRY: ComponentRegistry<EntityStore> — the shared component registry for all entity stores across all worlds.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.universe.world.World", "kind": "universe"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore", "kind": "ecs"},
+      "relationship": "owns",
+      "context": "Each World has an EntityStore instance. World creates a Store<EntityStore> via EntityStore.REGISTRY.addStore() during initialization.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.component.system.EntityEventSystem", "kind": "ecs"},
+      "target": {"fqcn": "com.hypixel.hytale.component.system.EcsEvent", "kind": "ecs"},
+      "relationship": "handles",
+      "context": "EntityEventSystem<ECS_TYPE, EventType extends EcsEvent> handles ECS events dispatched via store.invoke(ref, event) for entities matching the system's query.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.component.Store", "kind": "ecs"},
+      "target": {"fqcn": "com.hypixel.hytale.component.ComponentAccessor", "kind": "ecs"},
+      "relationship": "implements",
+      "context": "Store implements ComponentAccessor — the main API for component access, entity management, and event dispatch. ComponentAccessor.invoke() is the ECS event dispatch mechanism.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.plugin.registry.CodecMapRegistry", "kind": "codec_infrastructure"},
+      "relationship": "uses",
+      "context": "PluginBase.getCodecRegistry() (3 overloads) returns CodecMapRegistry or MapKeyMapRegistry instances. Lazily created per mapCodec, cached in codecMapRegistries map.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.registry.CodecMapRegistry", "kind": "codec_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.codec.lookup.StringCodecMapCodec", "kind": "codec"},
+      "relationship": "delegates_to",
+      "context": "CodecMapRegistry wraps a StringCodecMapCodec and delegates register() calls to it. On unregister, acquires AssetRegistry.ASSET_LOCK before calling mapCodec.remove().",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.registry.MapKeyMapRegistry", "kind": "codec_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.codec.lookup.MapKeyMapCodec", "kind": "codec"},
+      "relationship": "delegates_to",
+      "context": "MapKeyMapRegistry wraps a MapKeyMapCodec<V> and delegates register() calls to it. Conditional unregister: skips on full server shutdown.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.registry.CodecMapRegistry", "kind": "codec_infrastructure"},
+      "target": {"fqcn": "com.hypixel.hytale.assetstore.AssetRegistry", "kind": "registry"},
+      "relationship": "uses",
+      "context": "CodecMapRegistry and MapKeyMapRegistry both acquire AssetRegistry.ASSET_LOCK (writeLock) during unregister operations. This coordinates codec removal with asset loading to prevent races.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType", "kind": "asset"},
+      "target": {"fqcn": "com.hypixel.hytale.codec.builder.BuilderCodec", "kind": "codec"},
+      "relationship": "uses",
+      "context": "BlockType uses AssetBuilderCodec (extends BuilderCodec) for JSON serialization. Defines its entire schema declaratively through the builder codec pattern.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.asset.type.item.config.Item", "kind": "asset"},
+      "target": {"fqcn": "com.hypixel.hytale.codec.builder.BuilderCodec", "kind": "codec"},
+      "relationship": "uses",
+      "context": "Item uses AssetBuilderCodec.builder() for JSON serialization with appendInherited for parent chain, validators, UI metadata, and versioning.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.codec.builder.BuilderCodec", "kind": "codec"},
+      "relationship": "uses",
+      "context": "PluginBase.withConfig(BuilderCodec<T>) creates Config<T> from plugin's dataDirectory. Must be called before setup. Primary mechanism for plugin configuration loading.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.codec.lookup.MapKeyMapCodec", "kind": "codec"},
+      "target": {"fqcn": "com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap", "kind": "codec"},
+      "relationship": "owns",
+      "context": "MapKeyMapCodec maintains static ACTIVE_MAPS (WeakReference set). On register/unregister, iterates all active TypeMaps and calls tryUpgrade() — live propagation of codec changes to all consumers.",
+      "confidence": "high"
+    }
+  ]
+}
