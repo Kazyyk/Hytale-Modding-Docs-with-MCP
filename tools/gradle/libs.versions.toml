@@ -1,0 +1,11 @@
+[versions]
+vineflower = "1.11.2"
+javaparser = "3.28.0"
+gson = "2.11.0"
+junit-jupiter = "5.12.1"
+
+[libraries]
+vineflower = { module = "org.vineflower:vineflower", version.ref = "vineflower" }
+javaparser = { module = "com.github.javaparser:javaparser-core", version.ref = "javaparser" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }

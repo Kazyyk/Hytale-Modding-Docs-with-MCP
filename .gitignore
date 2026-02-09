@@ -1,0 +1,23 @@
+# JAR files (too large, user-provided)
+input/*.jar
+
+# Decompiled source (too large for git, regenerated from JAR)
+artifacts/decompiled/
+
+# Gradle build outputs
+tools/.gradle/
+tools/build/
+tools/app/.gradle/
+tools/app/build/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Gradle wrapper (optional — can be committed, but regenerated easily)
+# tools/gradle/
