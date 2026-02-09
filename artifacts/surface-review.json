@@ -1,0 +1,390 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-02-09T20:31:47.836614Z",
+  "borderline_cases": [
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.setup.ClientFeature",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.registry.ClientFeatureRegistry but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.auth.ClientReferral",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.MapMarker",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.ecs.DiscoverZoneEvent -> com.hypixel.hytale.server.core.universe.world.WorldMapTracker but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.io.PacketStatsRecorder",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent -> com.hypixel.hytale.server.core.io.PacketHandler but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.connection.PongType",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent -> com.hypixel.hytale.server.core.io.PacketHandler but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.connection.Pong",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent -> com.hypixel.hytale.server.core.io.PacketHandler but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.io.ValidationResult",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent -> com.hypixel.hytale.protocol.HostAddress but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.connection.DisconnectType",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent -> com.hypixel.hytale.server.core.io.PacketHandler.DisconnectReason but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.MapImage",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.modules.entity.EntityRegistry -> com.hypixel.hytale.server.core.universe.world.World -> com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.world.SpawnBlockParticleSystem",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.modules.entity.EntityRegistry -> com.hypixel.hytale.server.core.universe.world.World -> com.hypixel.hytale.server.core.universe.world.WorldNotificationHandler but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.world.UpdateBlockDamage",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.modules.entity.EntityRegistry -> com.hypixel.hytale.server.core.universe.world.World -> com.hypixel.hytale.server.core.universe.world.WorldNotificationHandler but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interaction.SyncInteractionChain",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent -> com.hypixel.hytale.server.core.entity.InteractionContext -> com.hypixel.hytale.server.core.entity.InteractionChain but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.inventory.UpdatePlayerInventory",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.inventory.Inventory but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.window.UpdateWindow",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.entity.entities.player.windows.WindowManager but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.window.OpenWindow",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.entity.entities.player.windows.WindowManager but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.Page",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.entity.entities.player.pages.PageManager but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomPage",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.entity.entities.player.pages.PageManager but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomPageEvent",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.entity.entities.player.pages.PageManager but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.HudComponent",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.entity.entities.player.hud.HudManager but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomUICommand",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginManager -> com.hypixel.hytale.server.core.plugin.PluginListPageManager -> com.hypixel.hytale.server.core.plugin.pages.PluginListPage -> com.hypixel.hytale.server.core.ui.builder.UICommandBuilder but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginManager -> com.hypixel.hytale.server.core.plugin.PluginListPageManager -> com.hypixel.hytale.server.core.plugin.pages.PluginListPage -> com.hypixel.hytale.server.core.ui.builder.UIEventBuilder but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBinding",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginManager -> com.hypixel.hytale.server.core.plugin.PluginListPageManager -> com.hypixel.hytale.server.core.plugin.pages.PluginListPage -> com.hypixel.hytale.server.core.ui.builder.UIEventBuilder but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.patterns.Pattern",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.builder.BuilderCodec -> com.hypixel.hytale.codec.schema.config.ObjectSchema -> com.hypixel.hytale.codec.schema.config.StringSchema but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.supplier.IDoubleRange",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.util.NoiseBlockArray.Entry but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.property.NoiseProperty",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.util.NoiseBlockArray.Entry but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.supplier.IDoubleCoordinateSupplier2d",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.util.NoiseBlockArray.Entry but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.supplier.IDoubleCoordinateSupplier",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.container.WaterContainer.Entry but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.world.UpdateSunSettings",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.modules.entity.EntityRegistry -> com.hypixel.hytale.server.core.universe.world.World -> com.hypixel.hytale.server.core.universe.world.WorldConfig -> com.hypixel.hytale.server.core.universe.world.ClientEffectWorldSettings but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.world.UpdatePostFxSettings",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.modules.entity.EntityRegistry -> com.hypixel.hytale.server.core.universe.world.World -> com.hypixel.hytale.server.core.universe.world.WorldConfig -> com.hypixel.hytale.server.core.universe.world.ClientEffectWorldSettings but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.UpdateWorldMapSettings",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.modules.entity.EntityRegistry -> com.hypixel.hytale.server.core.universe.world.World -> com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager -> com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapSettings but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.window.WindowAction",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.entity.entities.player.windows.WindowManager -> com.hypixel.hytale.server.core.entity.entities.player.windows.Window but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.window.WindowType",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.entity.entities.player.windows.WindowManager -> com.hypixel.hytale.server.core.entity.entities.player.windows.Window but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent -> com.hypixel.hytale.server.core.entity.entities.Player -> com.hypixel.hytale.server.core.entity.entities.player.pages.PageManager -> com.hypixel.hytale.server.core.entity.entities.player.pages.CustomUIPage but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolState",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.protocol.ItemBase -> com.hypixel.hytale.protocol.ItemBuilderToolData but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolArgGroup",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.condition.ICoordinateCondition",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry.Entry -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.world.SetChunk",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.modules.entity.EntityRegistry -> com.hypixel.hytale.server.core.universe.world.World -> com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk -> com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk -> com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.camera.CameraShakeEffect",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent -> com.hypixel.hytale.server.core.entity.InteractionContext -> com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction -> com.hypixel.hytale.server.core.modules.interaction.interaction.config.InteractionEffects -> com.hypixel.hytale.protocol.InteractionEffects but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolBrushData",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.ToolArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BrushShape",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData.Values but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BrushOrigin",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData.Values but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BrushAxis",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData.Values but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.logic.point.IPointGenerator",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry.Entry -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType -> com.hypixel.hytale.server.worldgen.cave.CaveType but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.supplier.IFloatRange",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry.Entry -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType -> com.hypixel.hytale.server.worldgen.cave.CaveType but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.condition.IHeightThresholdInterpreter",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry.Entry -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType -> com.hypixel.hytale.server.worldgen.cave.CaveType but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.condition.ICoordinateRndCondition",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry.Entry -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.condition.IBlockFluidCondition",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry.Entry -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.world.SetFluids",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.modules.entity.EntityRegistry -> com.hypixel.hytale.server.core.universe.world.World -> com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk -> com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk -> com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection -> com.hypixel.hytale.server.core.universe.world.chunk.section.FluidSection but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolIntArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.IntArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolBoolArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.BoolArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolBrushShapeArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.BrushShapeArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolBrushOriginArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.BrushOriginArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolBrushAxisArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.BrushAxisArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolRotationArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.BrushRotationArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolBlockArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.BlockArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolMaskArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.MaskArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolStringArg",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent -> com.hypixel.hytale.server.core.asset.type.item.config.Item -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool -> com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData -> com.hypixel.hytale.server.core.asset.type.buildertool.config.args.StringArg but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.condition.IIntCondition",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry.Entry -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType -> com.hypixel.hytale.server.worldgen.cave.element.CaveNode -> com.hypixel.hytale.server.worldgen.cave.element.CavePrefab but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.logic.ResultBuffer.ResultBuffer2d",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.climate.UniqueClimateGenerator.Entry -> com.hypixel.hytale.server.worldgen.climate.UniqueClimateGenerator -> com.hypixel.hytale.server.worldgen.climate.ClimateNoise -> com.hypixel.hytale.server.worldgen.climate.ClimateNoise.Buffer but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.logic.ResultBuffer",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.climate.UniqueClimateGenerator.Entry -> com.hypixel.hytale.server.worldgen.climate.UniqueClimateGenerator -> com.hypixel.hytale.server.worldgen.climate.ClimateNoise -> com.hypixel.hytale.server.worldgen.climate.ClimateNoise.Buffer but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.logic.cell.evaluator.PointEvaluator",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.climate.UniqueClimateGenerator.Entry -> com.hypixel.hytale.server.worldgen.climate.UniqueClimateGenerator -> com.hypixel.hytale.server.worldgen.climate.ClimateNoise -> com.hypixel.hytale.server.worldgen.climate.ClimateNoise.Grid but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.logic.cell.CellDistanceFunction",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.climate.UniqueClimateGenerator.Entry -> com.hypixel.hytale.server.worldgen.climate.UniqueClimateGenerator -> com.hypixel.hytale.server.worldgen.climate.ClimateNoise -> com.hypixel.hytale.server.worldgen.climate.ClimateNoise.Grid but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.supplier.IDoubleCoordinateHashSupplier",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeCoverEntry.Entry -> com.hypixel.hytale.server.worldgen.cave.CaveNodeType -> com.hypixel.hytale.server.worldgen.cave.prefab.CavePrefabContainer -> com.hypixel.hytale.server.worldgen.cave.prefab.CavePrefabContainer.CavePrefabEntry -> com.hypixel.hytale.server.worldgen.cave.prefab.CavePrefabContainer.CavePrefabEntry.CavePrefabConfig but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    }
+  ]
+}

@@ -29,3 +29,11 @@ application {
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
+
+tasks.register<JavaExec>("classify") {
+    group = "application"
+    description = "Phase 2: Classify API surface from class-index.json"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass = "com.hytale.indexer.SurfaceClassifier"
+    jvmArgs = listOf("-Xmx4g")
+}
