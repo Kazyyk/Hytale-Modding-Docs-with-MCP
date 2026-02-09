@@ -68,7 +68,7 @@ hytale-modding-mcp/
 
 1. **Vineflower handles Java 25 bytecode.** Vineflower 1.11.2 was released after Java 25 GA (Nov 2025 vs Sep 2025) and handles modern Java features. However, explicit class file version 69 support is not confirmed in release notes. If decompilation fails on specific classes, they will be logged and skipped.
 
-2. **JavaParser language level set to JAVA_21.** JavaParser 3.28.0 claims Java 25 support, but the `LanguageLevel` enum may not have a `JAVA_25` constant yet. We use `JAVA_21` which covers all finalized features (records, sealed classes, pattern matching for switch). Decompiled output from Vineflower should not contain syntax beyond what JAVA_21 covers.
+2. **JavaParser language level set to JAVA_21.** JAVA_25 is available but causes 15 extra parse failures due to stricter `yield` keyword handling in Vineflower's decompiled output. JAVA_21 gives 99.9% parse rate (5,232/5,237). The one file needing JAVA_25 (ArrayVoxelSpace, JEP 513 flexible constructors) is an internal implementation detail. A two-pass approach (JAVA_21 first, JAVA_25 fallback) is deferred to post-MVP.
 
 3. **Inner classes are indexed as separate entries.** Both the outer class and inner class appear as top-level entries in class-index.json, with the inner class using dot-separated FQCN (e.g., `Outer.Inner`).
 

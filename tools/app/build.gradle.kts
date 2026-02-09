@@ -23,6 +23,7 @@ java {
 
 application {
     mainClass = "com.hytale.indexer.Main"
+    applicationDefaultJvmArgs = listOf("-Xmx4g")
 }
 
 tasks.named<Test>("test") {
