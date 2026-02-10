@@ -9,8 +9,6 @@ tags:
   - "overview"
 ---
 
-> Auto-generated from the Hytale server JAR. All documentation is mechanically derived from the game's bytecode — never from external sources.
-
 ## Overview
 
 Hytale's server-side modding API allows plugins to extend the game through a Java plugin system. Plugins are Java classes that extend `PluginBase`, with a lifecycle driven by three methods:
