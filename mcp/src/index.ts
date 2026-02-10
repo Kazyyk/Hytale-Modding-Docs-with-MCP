@@ -104,5 +104,20 @@ export class HytaleModdingMCP extends McpAgent<Env> {
   }
 }
 
-// Serve the MCP agent at /sse and /mcp endpoints
-export default HytaleModdingMCP.serve("/sse", { binding: "MCP_OBJECT" });
+// Primary handler on /mcp (Streamable HTTP)
+const handler = HytaleModdingMCP.serve("/mcp", { binding: "MCP_OBJECT" });
+
+// Expose /mcp as primary, rewrite /sse for backwards compatibility
+export default {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
+    const url = new URL(request.url);
+
+    if (url.pathname === "/sse" || url.pathname.startsWith("/sse/")) {
+      const rewritten = new URL(request.url);
+      rewritten.pathname = url.pathname.replace(/^\/sse/, "/mcp");
+      return handler.fetch(new Request(rewritten, request), env, ctx);
+    }
+
+    return handler.fetch(request, env, ctx);
+  },
+};
