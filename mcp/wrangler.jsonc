@@ -23,7 +23,16 @@
   "migrations": [
     {
       "tag": "v1",
-      "new_sqlite_classes": ["HytaleServerAPIIndex"]
+      "new_sqlite_classes": ["HytaleModdingMCP"]
+    },
+    {
+      "tag": "v2",
+      "renamed_classes": [
+        {
+          "from": "HytaleModdingMCP",
+          "to": "HytaleServerAPIIndex"
+        }
+      ]
     }
   ],
 
