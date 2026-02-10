@@ -1,0 +1,33 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hytale-modding-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-06-09",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Workers AI binding — provides env.AI and env.AI.autorag()
+  "ai": {
+    "binding": "AI"
+  },
+
+  // Durable Object backing the McpAgent sessions
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "MCP_OBJECT",
+        "class_name": "HytaleModdingMCP"
+      }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["HytaleModdingMCP"]
+    }
+  ],
+
+  "observability": {
+    "enabled": true
+  }
+}
