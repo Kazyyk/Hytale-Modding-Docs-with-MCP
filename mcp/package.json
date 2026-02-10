@@ -1,5 +1,5 @@
 {
-  "name": "hytale-modding-mcp",
+  "name": "hytale-server-api-index-mcp",
   "version": "1.0.0",
   "private": true,
   "scripts": {

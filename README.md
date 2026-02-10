@@ -1,14 +1,16 @@
-# Hytale Modding Docs (with MCP)
+# Hytale Server API Index
 
 Automatically generated API documentation for the Hytale dedicated server, served as a static site and queryable via MCP.
 
-**Live site:** [hytale-docs.kazyyk.dev](https://hytale-docs.kazyyk.dev)
+**Live site:** [api.hytale.kazyyk.dev](https://api.hytale.kazyyk.dev)
 
-**Live MCP server:** [mcp.hytale-docs.kazyyk.dev/mcp](https://mcp.hytale-docs.kazyyk.dev/mcp) ([/sse](https://mcp.hytale-docs.kazyyk.dev/sse) also available)
+**Live MCP server:** [mcp.hytale.kazyyk.dev/mcp](https://mcp.hytale.kazyyk.dev/mcp) ([/sse](https://mcp.hytale.kazyyk.dev/sse) also available)
 
-## What This Is
+## What This Is / What This Is Not
 
-A four-phase pipeline that takes a Hytale server JAR, decompiles it, classifies the plugin API surface, maps game systems, and generates 65 structured markdown documents covering events, commands, JSON schemas, key classes, and internals. The output feeds both a Starlight documentation site and a Cloudflare AI Search corpus accessible through a remote MCP server.
+**What this is:** An automated API reference index generated from the Hytale server JAR. It is a tooling pipeline that decompiles, classifies, and maps the server's internal APIs into a structured, searchable reference for mod developers.
+
+**What this is not:** Official documentation, manually authored content, or a replacement for Hypixel Studios' own documentation efforts. Every documented type, method, and field is mechanically derived from the game files.
 
 ## Architecture
 
@@ -75,22 +77,22 @@ A remote MCP server on Cloudflare Workers exposes the documentation corpus via s
 
 ### Connecting
 
-The MCP endpoint is `https://mcp.hytale-docs.kazyyk.dev/mcp` (HTTP transport). An SSE endpoint is also available at `/sse`.
+The MCP endpoint is `https://mcp.hytale.kazyyk.dev/mcp` (HTTP transport). An SSE endpoint is also available at `/sse`.
 
 Most MCP-compatible clients can connect using the HTTP URL directly. Examples:
 
 **Claude Code:**
 ```bash
-claude mcp add --transport http hytale-modding https://mcp.hytale-docs.kazyyk.dev/mcp
+claude mcp add --transport http hytale-server-api-index https://mcp.hytale.kazyyk.dev/mcp
 ```
 
 **Claude Desktop** (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
-    "hytale-modding": {
+    "hytale-server-api-index": {
       "type": "http",
-      "url": "https://mcp.hytale-docs.kazyyk.dev/mcp"
+      "url": "https://mcp.hytale.kazyyk.dev/mcp"
     }
   }
 }
@@ -105,7 +107,7 @@ A GitHub Action (`.github/workflows/sync-docs-r2.yml`) syncs `output/docs/` to t
 ## Project Structure
 
 ```
-hytale-modding-mcp/
+hytale-server-api-index/
 ├── AGENTS.md                  # Agent instructions (CLAUDE.md symlinks here)
 ├── CONTRIBUTING.md            # Contribution guidelines
 ├── LICENSE                    # Project license

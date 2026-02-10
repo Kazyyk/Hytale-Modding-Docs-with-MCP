@@ -4,22 +4,22 @@ import starlight from "@astrojs/starlight";
 // https://astro.build/config
 export default defineConfig({
   // TODO: Replace with your actual domain once deployed
-  site: "https://hytale-docs.kazyyk.dev",
+  site: "https://api.hytale.kazyyk.dev",
   integrations: [
     starlight({
-      title: "Hytale Modding Docs",
+      title: "Hytale Server API Index",
       description:
         "Auto-generated API reference for Hytale server modding — plugins, events, commands, ECS, and JSON schemas.",
       social: [
         {
           icon: "github",
           label: "GitHub",
-          href: "https://github.com/Kazyyk/Hytale-Modding-Docs",
+          href: "https://github.com/Kazyyk/Hytale-Server-API-Index",
         },
       ],
       editLink: {
         baseUrl:
-          "https://github.com/Kazyyk/Hytale-Modding-Docs/edit/main/output/docs/",
+          "https://github.com/Kazyyk/Hytale-Server-API-Index/edit/main/output/docs/",
       },
       customCss: ["./src/styles/custom.css"],
       sidebar: [
