@@ -4,7 +4,7 @@ Automatically generated API documentation for the Hytale dedicated server, serve
 
 **Live site:** [hytale-docs.kazyyk.dev](https://hytale-docs.kazyyk.dev)
 
-**Live MCP server:** [mcp.hytale-docs.kazyyk.dev/mcp](https://mcp.hytale-docs.kazyyk.dev/mcp) (Alternative SSE endpoint: /sse)
+**Live MCP server:** [mcp.hytale-docs.kazyyk.dev/mcp](https://mcp.hytale-docs.kazyyk.dev/mcp) ([/sse](https://mcp.hytale-docs.kazyyk.dev/sse) also available)
 
 ## What This Is
 
