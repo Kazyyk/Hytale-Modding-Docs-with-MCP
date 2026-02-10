@@ -1,5 +1,5 @@
 ---
-title: "Hytale Server API Documentation"
+title: "Hytale API Documentation"
 kind: "overview"
 api_surface: "public"
 generator_version: "1.0.0"
@@ -9,7 +9,7 @@ tags:
   - "overview"
 ---
 
-# Hytale Server API Documentation
+# Hytale API Documentation
 
 > Auto-generated from the Hytale server JAR. All documentation is mechanically derived from the game's bytecode — never from external sources.
 
