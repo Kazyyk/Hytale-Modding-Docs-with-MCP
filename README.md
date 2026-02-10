@@ -7,13 +7,15 @@ All documentation is mechanically derived from the game files — never from ext
 ## Prerequisites
 
 - **Java 25 JDK** (tested with Temurin 25.0.2)
+- **Node.js 22** (for the documentation site)
 
-No other dependencies needed — the Gradle wrapper in `tools/` handles build tooling automatically.
+No other dependencies needed — the Gradle wrapper in `tools/` handles build tooling automatically, and `npm install` in `site/` handles the site.
 
 ## Usage
 
-1. Place `HytaleServer.jar` in the `input/` directory.
-2. Run the Phase 1 indexer:
+### Phase 1: Decompile & Index
+
+Place `HytaleServer.jar` in the `input/` directory and run:
 
 ```bash
 ./tools/run.sh input/HytaleServer.jar
@@ -23,14 +25,44 @@ This produces:
 - `artifacts/decompiled/` — Full decompiled Java source tree
 - `artifacts/class-index.json` — Structured index of every class, method, field, and annotation
 
+### Phase 2: Classify API Surface
+
+```bash
+./tools/classify.sh
+```
+
+This reads `class-index.json` and produces:
+- `artifacts/surface.json` — 811 API surface types
+- `artifacts/internal-index.json` — 6,062 internal types
+- `artifacts/surface-review.json` — Borderline cases flagged for human review
+
+### Phases 3-4: Map Systems & Generate Docs
+
+Phases 3 and 4 are Claude Code agent work. They read the decompiled source and Phase 1-2 artifacts, then produce:
+
+- `artifacts/systems.json` — 5 mapped systems (events, commands, ECS, registries, codecs), 31 events with dispatch traces, 3 JSON schema extractions
+- `artifacts/cross-refs.json` — 32 cross-references
+- `output/docs/` — 65 markdown files (landing page, API overview, 31 event docs, 4 command docs, 3 JSON schema docs, 18 key class docs, index pages, internals disclaimer)
+
+### Documentation Site
+
+```bash
+cd site
+npm install
+npm run dev       # Syncs docs + starts dev server at localhost:4321
+npm run build     # Syncs docs + builds static site to dist/
+```
+
+The site deploys to Cloudflare Pages at `https://hytale-docs.kazyyk.dev`. Full-text search is provided by Pagefind, built into Starlight.
+
 ## Pipeline Overview
 
 | Phase | What | How | Status |
 |-------|------|-----|--------|
-| 1. Decompile & Index | Decompile JAR, parse source, produce class index | Vineflower + JavaParser (deterministic) | **Implemented** |
-| 2. Classify API Surface | Separate plugin API from internals | Seed-and-expand algorithm | Planned |
-| 3. Map Systems | Identify events, ECS, commands, registries, JSON schemas | LLM-assisted exploration | Planned |
-| 4. Generate Docs | Produce markdown documentation | Templated + LLM prose | Planned |
+| 1. Decompile & Index | Decompile JAR, parse source, produce class index | Vineflower + JavaParser (deterministic) | **Complete** |
+| 2. Classify API Surface | Separate plugin API from internals | Seed-and-expand algorithm | **Complete** |
+| 3. Map Systems | Identify events, ECS, commands, registries, JSON schemas | LLM-assisted exploration | **Complete** |
+| 4. Generate Docs | Produce markdown documentation | Templated + LLM prose | **Complete** |
 
 See `spec/generator-spec.md` for the full engineering specification.
 
@@ -45,13 +77,29 @@ hytale-modding-mcp/
 ├── input/                  # Place HytaleServer.jar here
 ├── artifacts/              # Pipeline intermediate outputs
 │   ├── decompiled/         # (gitignored — too large)
-│   └── class-index.json    # Structured class index (committed)
+│   ├── class-index.json    # Phase 1: structured class index
+│   ├── surface.json        # Phase 2: API surface types
+│   ├── internal-index.json # Phase 2: internal types
+│   ├── surface-review.json # Phase 2: borderline cases
+│   ├── systems.json        # Phase 3: mapped systems
+│   └── cross-refs.json     # Phase 3: cross-references
 ├── output/
-│   └── docs/               # Generated documentation (Phases 2-4)
-└── tools/                  # Phase 1 CLI tool (Java + Gradle)
-    ├── run.sh              # Entry point
-    ├── gradlew             # Gradle wrapper
-    └── app/                # Java source
+│   └── docs/               # Phase 4: generated documentation (65 markdown files)
+├── tools/                  # Phase 1-2 CLI tools (Java + Gradle)
+│   ├── run.sh              # Phase 1 entry point
+│   ├── classify.sh         # Phase 2 entry point
+│   ├── gradlew             # Gradle wrapper
+│   └── app/                # Java source
+└── site/                   # Documentation site (Astro Starlight)
+    ├── astro.config.mjs    # Starlight config (sidebar, theme, metadata)
+    ├── package.json
+    ├── scripts/
+    │   └── sync-docs.mjs   # Copies + patches docs at build time
+    ├── src/
+    │   ├── content.config.ts   # Extended frontmatter schema
+    │   ├── content/docs/       # Synced from output/docs/ (gitignored)
+    │   └── styles/custom.css   # Hytale-themed color overrides
+    └── public/             # Static assets (favicon, etc.)
 ```
 
 ## Tooling Versions
@@ -63,6 +111,14 @@ hytale-modding-mcp/
 | JavaParser | 3.28.0 | Source parser. Explicit Java 25 support (records, sealed classes, pattern matching, flexible constructors). |
 | Gradle | 9.3.1 | Build tool (via wrapper). Java 25 toolchain support. |
 | Gson | 2.11.0 | JSON serialization for class-index.json. |
+| Astro | 5 | Static site framework for the documentation site. |
+| Starlight | 0.37.6 | Astro documentation theme with built-in Pagefind search. |
+| Node.js | 22 | Required for the documentation site build. |
+
+## Next Steps
+
+- **RAG corpus:** Upload generated docs to a Cloudflare R2 bucket and connect Cloudflare AI Search for retrieval-augmented generation.
+- **MCP server:** Deploy a Cloudflare Worker as a public MCP server for programmatic access to the documentation.
 
 ## Assumptions
 
