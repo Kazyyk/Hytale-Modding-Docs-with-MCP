@@ -1,6 +1,6 @@
-# Hytale Server API Index MCP Server
+# Hytale API Index MCP Server
 
-A remote [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server deployed on Cloudflare Workers that exposes the Hytale server API documentation corpus via semantic search.
+A remote [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server deployed on Cloudflare Workers that exposes the Hytale API documentation corpus via semantic search.
 
 ## Architecture
 
@@ -24,7 +24,7 @@ The Worker uses the Cloudflare Agents SDK `McpAgent` class to implement the MCP 
 
 ### `search_docs`
 
-Semantic search over the Hytale server API documentation corpus.
+Semantic search over the Hytale API documentation corpus.
 
 **Parameters:**
 - `query` (string, required) — Natural language search query
@@ -51,8 +51,8 @@ npx wrangler deploy
 ```
 
 The server will be live at:
-`https://hytale-server-api-index-mcp.<your-account>.workers.dev/mcp` (HTTP transport)
-and `https://hytale-server-api-index-mcp.<your-account>.workers.dev/sse` (SSE transport)
+`https://hytale-api-index-mcp.<your-account>.workers.dev/mcp` (HTTP transport)
+and `https://hytale-api-index-mcp.<your-account>.workers.dev/sse` (SSE transport)
 
 ### Connect an MCP Client
 
@@ -60,16 +60,16 @@ The server exposes both `/mcp` (HTTP transport) and `/sse` (SSE transport) endpo
 
 **Claude Code:**
 ```bash
-claude mcp add --transport http hytale-server-api-index https://hytale-server-api-index-mcp.<your-account>.workers.dev/mcp
+claude mcp add --transport http hytale-api-index https://hytale-api-index-mcp.<your-account>.workers.dev/mcp
 ```
 
 **Claude Desktop** (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
-    "hytale-server-api-index": {
+    "hytale-api-index": {
       "type": "http",
-      "url": "https://hytale-server-api-index-mcp.<your-account>.workers.dev/mcp"
+      "url": "https://hytale-api-index-mcp.<your-account>.workers.dev/mcp"
     }
   }
 }

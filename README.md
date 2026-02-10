@@ -1,4 +1,4 @@
-# Hytale Server API Index
+# Hytale API Index
 
 Automatically generated API documentation for the Hytale dedicated server, served as a static site and queryable via MCP.
 
@@ -83,14 +83,14 @@ Most MCP-compatible clients can connect using the HTTP URL directly. Examples:
 
 **Claude Code:**
 ```bash
-claude mcp add --transport http hytale-server-api-index https://mcp.hytale.kazyyk.dev/mcp
+claude mcp add --transport http hytale-api-index https://mcp.hytale.kazyyk.dev/mcp
 ```
 
 **Claude Desktop** (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
-    "hytale-server-api-index": {
+    "hytale-api-index": {
       "type": "http",
       "url": "https://mcp.hytale.kazyyk.dev/mcp"
     }
@@ -107,7 +107,7 @@ A GitHub Action (`.github/workflows/sync-docs-r2.yml`) syncs `output/docs/` to t
 ## Project Structure
 
 ```
-hytale-server-api-index/
+hytale-api-index/
 ├── AGENTS.md                  # Agent instructions (CLAUDE.md symlinks here)
 ├── CONTRIBUTING.md            # Contribution guidelines
 ├── LICENSE                    # Project license

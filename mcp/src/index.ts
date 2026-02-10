@@ -30,25 +30,25 @@ function formatSearchResults(
     .join("\n\n");
 }
 
-export class HytaleServerAPIIndex extends McpAgent<Env> {
+export class HytaleAPIIndex extends McpAgent<Env> {
   server = new McpServer({
-    name: "hytale-server-api-index",
+    name: "hytale-api-index",
     version: "1.0.0",
   });
 
   async init() {
-    // Primary tool: semantic search over the Hytale server API documentation corpus
+    // Primary tool: semantic search over the Hytale API documentation corpus
     this.server.tool(
       "search_docs",
-      "Search the Hytale server API documentation corpus. Returns relevant " +
+      "Search the Hytale API documentation corpus. Returns relevant " +
         "chunks from decompiled API docs covering events, commands, JSON " +
         "schemas, key classes, and system internals. Use this to answer " +
-        "questions about the Hytale server modding API.",
+        "questions about the Hytale modding API.",
       {
         query: z
           .string()
           .describe(
-            "Natural language search query about Hytale server modding " +
+            "Natural language search query about Hytale modding " +
               "(e.g. 'how to cancel a block break event', " +
               "'player inventory commands', 'block state schema')"
           ),
@@ -105,7 +105,7 @@ export class HytaleServerAPIIndex extends McpAgent<Env> {
 }
 
 // Primary handler on /mcp (Streamable HTTP)
-const handler = HytaleServerAPIIndex.serve("/mcp", { binding: "MCP_OBJECT" });
+const handler = HytaleAPIIndex.serve("/mcp", { binding: "MCP_OBJECT" });
 
 // Expose /mcp as primary, rewrite /sse for backwards compatibility
 export default {

@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in contributing to Hytale Server API Index!
+Thanks for your interest in contributing to Hytale API Index!
 
 ## Legal Notice
 
@@ -77,8 +77,8 @@ the intellectual property of Hypixel Studios. By contributing, you agree that:
 
 ```bash
 # Clone the repo
-git clone https://github.com/Kazyyk/Hytale-Server-API-Index.git
-cd Hytale-Server-API-Index
+git clone https://github.com/Kazyyk/Hytale-API-Index.git
+cd Hytale-API-Index
 
 # Site development
 cd site

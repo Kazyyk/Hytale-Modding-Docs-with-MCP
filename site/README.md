@@ -1,6 +1,6 @@
-# Hytale Server API Index — Starlight Site
+# Hytale API Index — Starlight Site
 
-Astro Starlight documentation site for the auto-generated Hytale server API reference.
+Astro Starlight documentation site for the auto-generated Hytale API reference.
 
 ## How It Works
 

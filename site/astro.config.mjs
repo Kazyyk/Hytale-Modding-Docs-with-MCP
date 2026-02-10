@@ -7,19 +7,19 @@ export default defineConfig({
   site: "https://api.hytale.kazyyk.dev",
   integrations: [
     starlight({
-      title: "Hytale Server API Index",
+      title: "Hytale API Index",
       description:
         "Auto-generated API reference for Hytale server modding — plugins, events, commands, ECS, and JSON schemas.",
       social: [
         {
           icon: "github",
           label: "GitHub",
-          href: "https://github.com/Kazyyk/Hytale-Server-API-Index",
+          href: "https://github.com/Kazyyk/Hytale-API-Index",
         },
       ],
       editLink: {
         baseUrl:
-          "https://github.com/Kazyyk/Hytale-Server-API-Index/edit/main/output/docs/",
+          "https://github.com/Kazyyk/Hytale-API-Index/edit/main/output/docs/",
       },
       customCss: ["./src/styles/custom.css"],
       sidebar: [
