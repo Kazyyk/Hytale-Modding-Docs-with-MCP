@@ -60,6 +60,7 @@ function walkFiles(dir, base = dir) {
  */
 function rewriteLinks(content, fileDir, fileSet) {
   let danglingCount = 0;
+  const danglingFound = [];
 
   const rewritten = content.replace(
     /\[([^\]]*)\]\(([^)]*\.md(?:#[^)]*)?)\)/g,
@@ -86,6 +87,7 @@ function rewriteLinks(content, fileDir, fileSet) {
       const normalized = resolve("/", resolved).slice(1); // Use resolve trick to normalize
       if (!fileSet.has(normalized)) {
         danglingCount++;
+        danglingFound.push({ target: normalized, text });
         // Convert to inline code text instead of a broken link
         return `\`${text}\``;
       }
@@ -117,7 +119,7 @@ function rewriteLinks(content, fileDir, fileSet) {
     }
   );
 
-  return { content: rewritten, danglingCount };
+  return { content: rewritten, danglingCount, danglingTargets: danglingFound };
 }
 
 function patchLandingPage(content) {
@@ -151,6 +153,7 @@ let synced = 0;
 let linksRewritten = 0;
 let danglingTotal = 0;
 const danglingTargets = new Set();
+const danglingDetails = new Map();
 
 for (const relPath of files) {
   const src = join(SOURCE_DIR, relPath);
@@ -169,6 +172,11 @@ for (const relPath of files) {
   const result = rewriteLinks(content, fileDir, fileSet);
   content = result.content;
   danglingTotal += result.danglingCount;
+  for (const d of result.danglingTargets) {
+    danglingTargets.add(d.target);
+    if (!danglingDetails.has(d.target)) danglingDetails.set(d.target, []);
+    danglingDetails.get(d.target).push({ source: relPath, text: d.text });
+  }
 
   // Patch root landing page for Starlight splash template
   if (relPath === "index.md") {
@@ -180,3 +188,14 @@ for (const relPath of files) {
 }
 
 console.log(`Synced ${synced} files, rewrote ${linksRewritten} internal links, stripped ${danglingTotal} dangling links.`);
+
+if (danglingTargets.size > 0) {
+  console.log(`\n=== DANGLING LINKS: ${danglingTargets.size} missing targets ===`);
+  for (const [target, refs] of [...danglingDetails.entries()].sort()) {
+    console.log(`  MISSING: ${target} (${refs.length} link${refs.length > 1 ? "s" : ""})`);
+    for (const r of refs) {
+      console.log(`    ← ${r.source}  [${r.text}]`);
+    }
+  }
+  console.log("=== END DANGLING LINKS ===\n");
+}
