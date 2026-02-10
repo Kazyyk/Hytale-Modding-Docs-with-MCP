@@ -38,7 +38,7 @@ HytaleServer.jar
                     (Cloudflare Workers)
                           │
                           ▼
-                   Claude Code / Desktop
+                   MCP Client
 ```
 
 ## Pipeline
@@ -72,18 +72,20 @@ Deployed automatically on push via Cloudflare Pages git integration.
 
 ## MCP Server
 
-A remote MCP server on Cloudflare Workers exposes the documentation corpus via semantic search. It uses Cloudflare AI Search (Vectorize + Workers AI) for retrieval with query rewriting and BGE reranking, returning raw chunks that Claude synthesizes directly.
+A remote MCP server on Cloudflare Workers exposes the documentation corpus via semantic search. It uses Cloudflare AI Search (Vectorize + Workers AI) for retrieval with query rewriting and BGE reranking, returning raw document chunks for the client to process.
 
-### Connect from Claude Code
+### Connecting
 
+The MCP endpoint is `https://mcp.hytale-docs.kazyyk.dev/mcp` (HTTP transport). An SSE endpoint is also available at `/sse`.
+
+Most MCP-compatible clients can connect using the HTTP URL directly. Examples:
+
+**Claude Code:**
 ```bash
 claude mcp add --transport http hytale-modding https://mcp.hytale-docs.kazyyk.dev/mcp
 ```
 
-### Connect from Claude Desktop
-
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
-
+**Claude Desktop** (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
@@ -105,7 +107,7 @@ A GitHub Action (`.github/workflows/sync-r2.yml`) syncs `output/docs/` to the R2
 
 ```
 hytale-modding-mcp/
-├── CLAUDE.md                  # Claude Code project instructions
+├── AGENTS.md                  # Agent instructions (CLAUDE.md symlinks here)
 ├── README.md                  # This file
 ├── spec/
 │   └── generator-spec.md     # Engineering specification
@@ -165,8 +167,7 @@ cd tools && ./run.sh ../input/HytaleServer.jar
 # Phase 2: Classify API surface
 cd tools && ./classify.sh
 
-# Phases 3-4: Run via Claude Code (LLM-assisted)
-# See CLAUDE.md for instructions
+# Phases 3-4: LLM-assisted (see AGENTS.md for instructions)
 
 # Build site locally
 cd site && npm install && npm run dev

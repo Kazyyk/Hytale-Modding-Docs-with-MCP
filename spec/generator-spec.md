@@ -576,7 +576,7 @@ public void onPlayerJoin(PlayerJoinEvent event) {
 ## 4. Exploration Heuristics
 
 These are the pattern-matching rules the agent applies during Phase 3. They
-should be encoded in the Claude Code project instructions so the agent applies
+should be encoded in the agent instructions (AGENTS.md) so the agent applies
 them consistently across runs.
 
 ### 4.1 Identifying the Event System
@@ -657,13 +657,13 @@ EXTRACT:
 
 ---
 
-## 5. Claude Code Project Instructions (CLAUDE.md)
+## 5. Agent Instructions (AGENTS.md)
 
-This file goes in the root of the generator project and instructs Claude Code
+This file goes in the root of the generator project and instructs the LLM agent
 on how to operate the pipeline.
 
 ```markdown
-# Hytale Documentation Generator — Claude Code Instructions
+# Hytale Documentation Generator — Agent Instructions
 
 ## Project Overview
 
@@ -754,7 +754,7 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 | **Vineflower** | Java decompiler (modern Fernflower fork) | 1 |
 | **JavaParser** | Parse decompiled Java source into AST | 1 |
 | **Java 25 JDK** | Required to run Hytale-compatible tooling | 1 |
-| **Claude Code** | LLM agent for classification and generation | 2, 3, 4 |
+| **LLM Agent** | AI coding agent for classification and generation | 2, 3, 4 |
 | **Git** | Version control for artifacts and output | All |
 
 ### Build tooling (TBD)
@@ -762,7 +762,7 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 The Phase 1 tooling (decompile + parse + index) should be a small CLI tool,
 likely written in Java or Kotlin since it needs JavaParser. This tool takes a
 JAR path as input and produces the `artifacts/` outputs. It can be invoked by
-Claude Code via shell but does not itself require LLM involvement.
+the LLM agent via shell but does not itself require LLM involvement.
 
 ---
 

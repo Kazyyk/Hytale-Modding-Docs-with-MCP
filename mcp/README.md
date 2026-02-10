@@ -5,7 +5,7 @@ A remote [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server
 ## Architecture
 
 ```
-Claude Code / Desktop / MCP Client
+MCP Client
         │
         ▼
   MCP Worker (Cloudflare Workers)
@@ -53,29 +53,28 @@ npx wrangler deploy
 The server will be live at:
 `https://hytale-modding-mcp.<your-account>.workers.dev/sse`
 
-### Connect from Claude Desktop
+### Connect an MCP Client
 
-Add to your Claude Desktop MCP config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+The server exposes both `/mcp` (HTTP transport) and `/sse` (SSE transport) endpoints. Most MCP-compatible clients can connect using the URL directly.
 
+**Claude Code:**
+```bash
+claude mcp add --transport http hytale-modding https://hytale-modding-mcp.<your-account>.workers.dev/mcp
+```
+
+**Claude Desktop** (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
     "hytale-modding": {
-      "command": "npx",
-      "args": [
-        "mcp-remote",
-        "https://hytale-modding-mcp.<your-account>.workers.dev/sse"
-      ]
+      "type": "http",
+      "url": "https://hytale-modding-mcp.<your-account>.workers.dev/mcp"
     }
   }
 }
 ```
 
-### Connect from Claude Code
-
-```bash
-claude mcp add-json "hytale-modding" '{"command":"npx","args":["mcp-remote","https://hytale-modding-mcp.<your-account>.workers.dev/sse"]}'
-```
+**Other MCP clients** — point at either endpoint URL.
 
 ### Local Development
 
@@ -90,7 +89,7 @@ npx @modelcontextprotocol/inspector@latest
 
 ## Design Decisions
 
-- **`search()` over `aiSearch()`**: We return raw chunks rather than AI-generated answers. Claude Code / Desktop already has Claude for synthesis — using `aiSearch()` would double-LLM the response, waste tokens, and add latency.
+- **`search()` over `aiSearch()`**: We return raw chunks rather than AI-generated answers. MCP clients typically have their own LLM for synthesis — using `aiSearch()` would double-LLM the response, waste tokens, and add latency.
 - **Query rewriting enabled**: The AI Search query rewrite step reformulates natural language into retrieval-optimized queries, improving recall for conversational questions.
 - **Reranking enabled**: BGE reranker reorders initial vector results by semantic relevance, improving precision.
 - **No authentication**: This is a public documentation corpus. Auth can be added later via the Cloudflare Agents SDK OAuth provider pattern.
