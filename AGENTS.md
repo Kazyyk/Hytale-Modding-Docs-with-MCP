@@ -1,4 +1,4 @@
-# Hytale Server API Index — Agent Instructions
+# Hytale API Index — Agent Instructions
 
 ## Project Overview
 
