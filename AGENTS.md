@@ -84,4 +84,5 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 - **Phase 1 CLI:** `tools/run.sh input/HytaleServer.jar` — Decompiles JAR and
   produces class-index.json. Java + Gradle project using Vineflower 1.11.2
   and JavaParser 3.28.0.
-- **Phases 2-4:** LLM agent work (not yet implemented).
+- **Phases 2-4:** LLM agent work. See `spec/generator-spec.md` for
+  exploration heuristics and output templates.

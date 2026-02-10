@@ -51,7 +51,8 @@ npx wrangler deploy
 ```
 
 The server will be live at:
-`https://hytale-modding-mcp.<your-account>.workers.dev/sse`
+`https://hytale-modding-mcp.<your-account>.workers.dev/mcp` (HTTP transport)
+and `https://hytale-modding-mcp.<your-account>.workers.dev/sse` (SSE transport)
 
 ### Connect an MCP Client
 

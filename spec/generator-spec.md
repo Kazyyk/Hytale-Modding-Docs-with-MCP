@@ -1,11 +1,11 @@
 # Hytale Modding Documentation Generator — Engineering Spec
 
-> **Version:** 0.1.0-draft
-> **Status:** Design phase
+> **Version:** 1.0.0
+> **Status:** Complete — all four phases implemented
 > **Purpose:** Define the pipeline, output schema, and exploration strategy for
 > mechanically generating searchable, human-readable documentation from the
 > Hytale server JAR. The generated output serves two consumers: a static
-> documentation site (Cloudflare Pages) and a RAG corpus (Cloudflare AutoRAG via
+> documentation site (Cloudflare Pages) and a RAG corpus (Cloudflare AI Search via
 > MCP).
 
 ---
@@ -757,12 +757,16 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 | **LLM Agent** | AI coding agent for classification and generation | 2, 3, 4 |
 | **Git** | Version control for artifacts and output | All |
 
-### Build tooling (TBD)
+### Build tooling
 
-The Phase 1 tooling (decompile + parse + index) should be a small CLI tool,
-likely written in Java or Kotlin since it needs JavaParser. This tool takes a
-JAR path as input and produces the `artifacts/` outputs. It can be invoked by
-the LLM agent via shell but does not itself require LLM involvement.
+The Phase 1-2 tooling is a Java CLI in `tools/` (Gradle project using
+Vineflower 1.11.2 and JavaParser 3.28.0). Entry points:
+- `tools/run.sh <jar>` — Decompile and produce `class-index.json`
+- `tools/classify.sh` — Classify API surface from the class index
+
+The CLI takes a JAR path as input and produces the `artifacts/` outputs. It
+can be invoked by the LLM agent via shell but does not itself require LLM
+involvement.
 
 ---
 

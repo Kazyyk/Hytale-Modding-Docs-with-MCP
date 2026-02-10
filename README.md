@@ -57,10 +57,9 @@ See `spec/generator-spec.md` for the full engineering specification.
 65 markdown files organized by system:
 
 - **31 Events** — Player, block, entity, chat, command, and server lifecycle events with dispatch context, parameters, and cancellation behavior
-- **4 Commands** — Built-in command implementations with argument schemas and permission requirements
-- **3 JSON Schemas** — Block state, prefab, and creature type data asset schemas with field types, defaults, and validation rules
-- **18 Key Classes** — Plugin entry points, registries, ECS components, command framework, and server internals
-- **Section indexes** — Overview pages for each category with cross-references
+- **22 Key Classes** — Plugin entry points, command framework, registries, ECS components, and server internals
+- **3 JSON Schemas** — Block, item, and crafting recipe data asset schemas with field types, defaults, and validation rules
+- **Section indexes** — Overview pages for each category including command system reference with 55+ built-in commands
 
 Every file includes structured frontmatter (kind, FQCN, package, API surface, related types, tags) that drives site navigation and RAG chunk metadata.
 
@@ -101,14 +100,17 @@ See `mcp/README.md` for setup, deployment, and design decisions.
 
 ## CI/CD
 
-A GitHub Action (`.github/workflows/sync-r2.yml`) syncs `output/docs/` to the R2 bucket on push to `main`, excluding JSON metadata files. AI Search re-indexes automatically when the bucket changes.
+A GitHub Action (`.github/workflows/sync-docs-r2.yml`) syncs `output/docs/` to the R2 bucket on push to `main`, excluding JSON metadata files. AI Search re-indexes automatically when the bucket changes.
 
 ## Project Structure
 
 ```
 hytale-modding-mcp/
 ├── AGENTS.md                  # Agent instructions (CLAUDE.md symlinks here)
+├── CONTRIBUTING.md            # Contribution guidelines
+├── LICENSE                    # Project license
 ├── README.md                  # This file
+├── SECURITY.md                # Security policy
 ├── spec/
 │   └── generator-spec.md     # Engineering specification
 ├── input/                     # Place HytaleServer.jar here
@@ -140,7 +142,7 @@ hytale-modding-mcp/
 │   └── package.json
 └── .github/
     └── workflows/
-        └── sync-r2.yml        # R2 bucket sync on push
+        └── sync-docs-r2.yml   # R2 bucket sync on push
 ```
 
 ## Tooling
