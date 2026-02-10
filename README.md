@@ -4,7 +4,7 @@ Automatically generated API documentation for the Hytale dedicated server, serve
 
 **Live site:** [hytale-docs.kazyyk.dev](https://hytale-docs.kazyyk.dev)
 
-**Live MCP server:** [mcp.hytale-docs.kazyyk.dev/mcp](https://mcp.hytale-docs.kazyyk.dev/mcp) (Alternative SSE endpoint: [mcp.hytale-docs.kazyyk.dev/sse](https://mcp.hytale-docs.kazyyk.dev/sse))
+**Live MCP server:** [mcp.hytale-docs.kazyyk.dev/mcp](https://mcp.hytale-docs.kazyyk.dev/mcp) (Alternative SSE endpoint: /sse)
 
 ## What This Is
 
@@ -78,7 +78,7 @@ A remote MCP server on Cloudflare Workers exposes the documentation corpus via s
 
 ```bash
 claude mcp add-json "hytale-modding" \
-  '{"command":"npx","args":["mcp-remote","https://mcp.hytale-docs.kazyyk.dev/sse"]}'
+  '{"command":"npx","args":["mcp-remote","https://mcp.hytale-docs.kazyyk.dev/mcp"]}'
 ```
 
 ### Connect from Claude Desktop
@@ -92,7 +92,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
       "command": "npx",
       "args": [
         "mcp-remote",
-        "https://mcp.hytale-docs.kazyyk.dev/sse"
+        "https://mcp.hytale-docs.kazyyk.dev/mcp"
       ]
     }
   }
