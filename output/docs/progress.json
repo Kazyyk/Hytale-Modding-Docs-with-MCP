@@ -70,6 +70,10 @@
     "api/classes/PlayerRef.md",
     "api/classes/ItemStack.md",
     "api/classes/SystemType.md",
-    "api/classes/EcsEvent.md"
+    "api/classes/EcsEvent.md",
+    "api/classes/EventRegistration.md",
+    "api/classes/EventPriority.md",
+    "api/classes/IEventBus.md",
+    "api/classes/CommandRegistration.md"
   ]
 }

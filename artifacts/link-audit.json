@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-02-10T06:35:00Z",
+  "total_links_scanned": 377,
+  "total_files_scanned": 73,
+  "dangling_targets": [
+    {
+      "target": "api/classes/EventRegistration.md",
+      "surface_classification": "public",
+      "action": "generated",
+      "referenced_by": [
+        { "source": "api/classes/EventRegistry.md", "text": "EventRegistration", "count": 2 },
+        { "source": "api/classes/PluginBase.md", "text": "EventRegistration", "count": 1 },
+        { "source": "api/events/index.md", "text": "EventRegistration", "count": 1 }
+      ]
+    },
+    {
+      "target": "api/classes/EventPriority.md",
+      "surface_classification": "public",
+      "action": "generated",
+      "referenced_by": [
+        { "source": "api/events/index.md", "text": "EventPriority", "count": 1 }
+      ]
+    },
+    {
+      "target": "api/classes/IEventBus.md",
+      "surface_classification": "public",
+      "action": "generated",
+      "referenced_by": [
+        { "source": "api/events/index.md", "text": "IEventBus", "count": 1 }
+      ]
+    },
+    {
+      "target": "api/classes/CommandRegistration.md",
+      "surface_classification": "public",
+      "action": "generated",
+      "referenced_by": [
+        { "source": "api/classes/PluginBase.md", "text": "CommandRegistration", "count": 1 }
+      ]
+    }
+  ],
+  "wrong_path_links": 0,
+  "missing_pages_generated": 4,
+  "internal_links_stripped": 0,
+  "remaining_violations": 0
+}
