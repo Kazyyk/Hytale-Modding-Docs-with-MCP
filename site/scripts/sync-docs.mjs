@@ -32,6 +32,7 @@ function walkFiles(dir, base = dir) {
 
 /**
  * Rewrites internal markdown links from .md paths to Starlight clean URLs.
+ * Converts dangling links (targets that don't exist) to inline code text.
  *
  * Transforms:
  *   [Events](events/index.md)         → [Events](events/)
@@ -39,21 +40,28 @@ function walkFiles(dir, base = dir) {
  *   [Schemas](../schemas/index.md)    → [Schemas](../schemas/)
  *   [Command](AbstractCommand.md)     → [Command](abstractcommand/)
  *   [Ref](Store.md#ref-section)       → [Ref](store/#ref-section)
+ *   [Missing](Missing.md)             → `Missing` (dangling link)
  *
  * Starlight lowercases all slugs and serves each page as a directory
  * (e.g., Store.md → /api/classes/store/), so this function:
- *   1. Strips .md extensions
- *   2. Strips /index suffixes
- *   3. Lowercases path segments (preserving ../ navigation)
- *   4. Ensures trailing slash on non-anchor, non-dot paths
+ *   1. Checks if target file exists; if not, converts to code text
+ *   2. Strips .md extensions
+ *   3. Strips /index suffixes
+ *   4. Lowercases path segments (preserving ../ navigation)
+ *   5. Ensures trailing slash on non-anchor, non-dot paths
  *
  * Leaves external links (http://, https://) and anchor-only links (#foo)
  * untouched.
+ *
+ * @param {string} content - Markdown file content
+ * @param {string} fileDir - Directory of the current file (relative to docs root)
+ * @param {Set<string>} fileSet - Set of all .md file paths (relative to docs root)
+ * @returns {{ content: string, danglingCount: number }}
  */
-function rewriteLinks(content) {
-  // Match markdown links: [text](url) and [text](url#anchor)
-  // Only process links whose URL portion contains .md
-  return content.replace(
+function rewriteLinks(content, fileDir, fileSet) {
+  let danglingCount = 0;
+
+  const rewritten = content.replace(
     /\[([^\]]*)\]\(([^)]*\.md(?:#[^)]*)?)\)/g,
     (_match, text, href) => {
       // Split off anchor if present
@@ -70,6 +78,16 @@ function rewriteLinks(content) {
       // Skip external links (shouldn't have .md but just in case)
       if (path.startsWith("http://") || path.startsWith("https://")) {
         return `[${text}](${href})`;
+      }
+
+      // Check if the target file exists by resolving relative to fileDir
+      const resolved = join(fileDir, path).replace(/\\/g, "/");
+      // Normalize away any leading "./" and resolve ".." segments
+      const normalized = resolve("/", resolved).slice(1); // Use resolve trick to normalize
+      if (!fileSet.has(normalized)) {
+        danglingCount++;
+        // Convert to inline code text instead of a broken link
+        return `\`${text}\``;
       }
 
       // Strip .md extension
@@ -98,6 +116,8 @@ function rewriteLinks(content) {
       return `[${text}](${path}${anchor})`;
     }
   );
+
+  return { content: rewritten, danglingCount };
 }
 
 function patchLandingPage(content) {
@@ -124,10 +144,13 @@ if (!existsSync(SOURCE_DIR)) {
 }
 
 const files = walkFiles(SOURCE_DIR);
+const fileSet = new Set(files);
 console.log(`Syncing ${files.length} markdown files from output/docs/ → site/src/content/docs/`);
 
 let synced = 0;
 let linksRewritten = 0;
+let danglingTotal = 0;
+const danglingTargets = new Set();
 
 for (const relPath of files) {
   const src = join(SOURCE_DIR, relPath);
@@ -141,8 +164,11 @@ for (const relPath of files) {
   const mdLinkCount = (content.match(/\]\([^)]*\.md/g) || []).length;
   linksRewritten += mdLinkCount;
 
-  // Rewrite .md links to clean URLs
-  content = rewriteLinks(content);
+  // Rewrite .md links to clean URLs (dangling links become code text)
+  const fileDir = dirname(relPath);
+  const result = rewriteLinks(content, fileDir, fileSet);
+  content = result.content;
+  danglingTotal += result.danglingCount;
 
   // Patch root landing page for Starlight splash template
   if (relPath === "index.md") {
@@ -153,4 +179,4 @@ for (const relPath of files) {
   synced++;
 }
 
-console.log(`Synced ${synced} files, rewrote ${linksRewritten} internal links.`);
+console.log(`Synced ${synced} files, rewrote ${linksRewritten} internal links, stripped ${danglingTotal} dangling links.`);
