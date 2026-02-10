@@ -37,5 +37,6 @@ jobs:
           aws s3 sync output/docs/ s3://${{ env.R2_BUCKET }}/ \
             --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
             --delete \
+            --exclude ".gitkeep" \
             --exclude "*.json" \
             --exclude "progress.json"
