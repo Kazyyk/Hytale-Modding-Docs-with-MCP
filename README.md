@@ -77,8 +77,7 @@ A remote MCP server on Cloudflare Workers exposes the documentation corpus via s
 ### Connect from Claude Code
 
 ```bash
-claude mcp add-json "hytale-modding" \
-  '{"command":"npx","args":["mcp-remote","https://mcp.hytale-docs.kazyyk.dev/mcp"]}'
+claude mcp add --transport http hytale-modding https://mcp.hytale-docs.kazyyk.dev/mcp
 ```
 
 ### Connect from Claude Desktop
@@ -89,11 +88,8 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 {
   "mcpServers": {
     "hytale-modding": {
-      "command": "npx",
-      "args": [
-        "mcp-remote",
-        "https://mcp.hytale-docs.kazyyk.dev/mcp"
-      ]
+      "type": "http",
+      "url": "https://mcp.hytale-docs.kazyyk.dev/mcp"
     }
   }
 }
