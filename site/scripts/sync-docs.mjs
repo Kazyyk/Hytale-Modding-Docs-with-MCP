@@ -37,8 +37,15 @@ function walkFiles(dir, base = dir) {
  *   [Events](events/index.md)         → [Events](events/)
  *   [Events](api/events/index.md)     → [Events](api/events/)
  *   [Schemas](../schemas/index.md)    → [Schemas](../schemas/)
- *   [Command](AbstractCommand.md)     → [Command](AbstractCommand)
- *   [Ref](Store.md#ref-section)       → [Ref](Store#ref-section)
+ *   [Command](AbstractCommand.md)     → [Command](abstractcommand/)
+ *   [Ref](Store.md#ref-section)       → [Ref](store/#ref-section)
+ *
+ * Starlight lowercases all slugs and serves each page as a directory
+ * (e.g., Store.md → /api/classes/store/), so this function:
+ *   1. Strips .md extensions
+ *   2. Strips /index suffixes
+ *   3. Lowercases path segments (preserving ../ navigation)
+ *   4. Ensures trailing slash on non-anchor, non-dot paths
  *
  * Leaves external links (http://, https://) and anchor-only links (#foo)
  * untouched.
@@ -74,6 +81,18 @@ function rewriteLinks(content) {
       // Handle bare "index" (e.g., a link to index.md from the same directory)
       if (path === "index") {
         path = ".";
+      }
+
+      // Lowercase path segments (Starlight lowercases all slugs)
+      // Preserve ../ and ./ navigation prefixes
+      path = path.split("/").map(segment =>
+        segment === ".." || segment === "." ? segment : segment.toLowerCase()
+      ).join("/");
+
+      // Ensure trailing slash for Starlight directory-style URLs
+      // Skip for "." paths and paths that already end with "/"
+      if (path !== "." && !path.endsWith("/")) {
+        path += "/";
       }
 
       return `[${text}](${path}${anchor})`;
