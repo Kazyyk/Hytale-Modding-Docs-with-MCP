@@ -58,11 +58,11 @@ public class MyCommand extends CommandBase {
 
 | Class | Use Case |
 |-------|----------|
-| [CommandBase](CommandBase.md) | Most commands — synchronous `executeSync(CommandContext)` |
+| [CommandBase](../classes/CommandBase.md) | Most commands — synchronous `executeSync(CommandContext)` |
 | AbstractAsyncCommand | Async commands — `executeAsync(CommandContext)` returns `CompletableFuture<Void>` |
 | AbstractPlayerCommand | Player-only commands — auto-resolves sender to `PlayerRef`, `Ref<EntityStore>`, `World` |
 | AbstractCommandCollection | Subcommand groups — shows usage listing when invoked without a subcommand |
-| [AbstractCommand](AbstractCommand.md) | Core base class — provides the builder API for all argument types |
+| [AbstractCommand](../classes/AbstractCommand.md) | Core base class — provides the builder API for all argument types |
 
 ## Argument Builder Methods
 
@@ -202,8 +202,8 @@ Commands can have named subcommands via `addSubCommand()`. `AbstractCommandColle
 
 ## Related
 
-- **[AbstractCommand](AbstractCommand.md)** — Core builder API for commands
-- **[CommandBase](CommandBase.md)** — Synchronous command base class
-- **[CommandContext](CommandContext.md)** — Execution context passed to command handlers
-- **[CommandSender](CommandSender.md)** — Who executed the command
+- **[AbstractCommand](../classes/AbstractCommand.md)** — Core builder API for commands
+- **[CommandBase](../classes/CommandBase.md)** — Synchronous command base class
+- **[CommandContext](../classes/CommandContext.md)** — Execution context passed to command handlers
+- **[CommandSender](../classes/CommandSender.md)** — Who executed the command
 - **[CommandRegistry](../classes/CommandRegistry.md)** — Plugin-scoped registration
