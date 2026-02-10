@@ -1,0 +1,17 @@
+{
+  "name": "hytale-modding-docs-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "sync": "node scripts/sync-docs.mjs",
+    "dev": "npm run sync && astro dev",
+    "build": "npm run sync && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.17.1",
+    "@astrojs/starlight": "^0.37.6",
+    "sharp": "^0.33.5"
+  }
+}

@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Astro cache
+.astro/
+
+# Synced docs (generated from output/docs/ at build time)
+src/content/docs/
+
+# Test docs (development only)
+test-docs/
