@@ -256,6 +256,123 @@ site content and the RAG corpus.
 notes. The structural content (signatures, type hierarchies, field lists) is
 templated from the structured artifacts.
 
+#### Link Resolution Rules
+
+Every markdown link in generated documentation must follow these rules. These
+apply to all links in body text, Related Types sections, and tables.
+
+**Rule 1: Every `.md` link must resolve.**
+If a generated file contains `[Foo](Foo.md)` or `[Foo](../classes/Foo.md)`,
+the target file must exist in the output set. No exceptions.
+
+- If the type has a generated page: link to it with the correct relative path.
+- If the type is API surface but has no page yet: do not link to it. Use
+  inline code (`` `Foo` ``) as a placeholder. Phase 4.1 will generate the
+  missing page and convert the placeholder back to a link.
+- If the type is internal (not API surface): always use inline code, never a
+  link.
+
+**Rule 2: Relative paths must be correct for the file's location.**
+Links are relative to the file that contains them. A file at
+`api/commands/index.md` linking to a class page must use `../classes/Foo.md`,
+not `Foo.md` (which would resolve to `api/commands/Foo.md`).
+
+Common patterns:
+- Same directory: `[Bar](Bar.md)`
+- Sibling directory: `[Bar](../classes/Bar.md)`
+- Child directory: `[Bar](events/Bar.md)`
+- Parent index: `[Overview](../events/index.md)`
+
+**Rule 3: Internal types are never linked.**
+Types not in `artifacts/surface.json` (or explicitly marked as internal) must
+be referenced as inline code, not links. This includes:
+- Implementation classes (`EventBus`, `CommandManager`, `SyncEventBusRegistry`)
+- Non-public interfaces (`IEventRegistry`, `IBaseEvent`, `IAsyncEvent`)
+- Infrastructure types (`PluginState`, `PluginManifest`, `PacketHandler`)
+
+Exception: If an internal type is the *only* way to accomplish a task that
+plugin developers need (e.g., a factory class with no public alternative),
+it may be linked and should be flagged for surface reclassification in
+`artifacts/surface-review.json`.
+
+**Rule 4: Bidirectional references must both resolve.**
+If page A links to page B in its Related Types section, page B should link
+back to page A. Both links must resolve. When generating a new page, check
+whether existing pages already reference it and ensure the link paths are
+consistent in both directions.
+
+**Rule 5: Batch selection must be systematic, not curated.**
+Phase 4 must not rely on hand-picked "key types" lists. The file generation
+set must be derived from:
+1. All types in `artifacts/surface.json` that are referenced by method
+   signatures, return types, parameter types, or superclass/interface
+   declarations of other generated pages.
+2. All overview/index pages for each directory.
+3. All event types identified in `artifacts/systems.json`.
+
+Any type that appears in a generated page's method signatures, Related Types
+section, or prose cross-references must either have its own page or be
+rendered as inline code.
+
+---
+
+### Phase 4.1 — Validate & Gap-Fill
+
+**Goal:** Verify that every `.md` link in the generated documentation resolves
+to a file that exists in the output set, and generate any missing pages.
+
+**Inputs:**
+- `output/docs/` — The full generated markdown tree from Phase 4.
+- `artifacts/surface.json` — API surface classification from Phase 2.
+- `artifacts/systems.json` — System mappings from Phase 3.
+- `artifacts/decompiled/` — Decompiled source for generating gap-fill pages.
+
+**Outputs:**
+- `artifacts/link-audit.json` — Structured report of all link targets, their
+  resolution status, and any corrective actions taken.
+- Additional files written to `output/docs/` for any gap-filled types.
+- Updated `output/docs/progress.json` with gap-fill entries.
+
+**Process:**
+
+1. **Scan.** Walk every `.md` file in `output/docs/`. For each markdown link
+   targeting a `.md` file, resolve the relative path to a normalized absolute
+   path within the output tree.
+
+2. **Classify.** For each link target that does not have a corresponding file:
+   - Look up the type name in `artifacts/surface.json`.
+   - If it is an API surface type (public): flag as **must-generate**.
+   - If it is an internal type: flag as **must-strip** (convert the link to
+     inline code text in the source doc).
+   - If it cannot be found in either index: flag as **unknown** for human
+     review.
+
+3. **Generate.** For each must-generate type, produce a documentation page
+   following the same templates and quality rules as Phase 4. Write it to the
+   appropriate location in `output/docs/`.
+
+4. **Fix wrong-path links.** For each link that targets the correct filename
+   but in the wrong directory (e.g., `api/commands/AbstractCommand.md` when
+   the file exists at `api/classes/AbstractCommand.md`), correct the relative
+   path in the source `.md` file.
+
+5. **Strip internal links.** For each must-strip type, replace the markdown
+   link with inline code text in the source doc (e.g.,
+   `[EventBus](EventBus.md)` → `` `EventBus` ``).
+
+6. **Write audit report.** Produce `artifacts/link-audit.json` recording every
+   link target, its resolution, and the action taken.
+
+7. **Assert zero remaining.** After all corrections, re-scan the output tree.
+   If any `.md` link still targets a nonexistent file, fail with an error
+   listing the remaining violations. Do not proceed to deployment.
+
+**LLM involvement:** Moderate. Generating gap-fill pages requires the same
+prose generation as Phase 4. The scan, classify, and fix steps are mechanical.
+
+**Idempotency:** This phase is safe to re-run. It will not duplicate pages that
+already exist and will only generate pages for targets that are still missing.
+
 ---
 
 ## 3. Output Schema — Generated Markdown
@@ -734,6 +851,16 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 - Every generated file must have complete frontmatter per the spec.
 - When you don't know something, say "Purpose unknown — inferred from
   usage context" rather than guessing.
+- Every .md link must resolve to a file in the output set. If a target
+  file does not exist, use inline code (`TypeName`) instead of a link.
+  Phase 4.1 will gap-fill missing API surface pages.
+- Links must use correct relative paths for the file's directory location.
+  A file in api/commands/ linking to api/classes/Foo.md must use
+  ../classes/Foo.md, not Foo.md.
+- Internal types (not in surface.json) are never linked — always use
+  inline code.
+- After Phase 4 generation, run Phase 4.1 to validate all links resolve.
+  The pipeline must not deploy with any dangling .md links.
 
 ## File Locations
 
@@ -815,3 +942,75 @@ These are known unknowns to resolve during implementation.
    significantly between updates. The versioning strategy handles this, but
    the generator may need a "diff" mode that highlights what changed between
    versions for the documentation site.
+
+---
+
+## 9. Build-Time Link Assertion
+
+The sync script (`site/scripts/sync-docs.mjs`) supports a `--strict` flag
+that causes the build to fail if any dangling links are detected.
+
+**Behavior:**
+- Without `--strict`: Dangling links are stripped to inline code and logged as
+  warnings. The build succeeds. This is the development/iteration mode.
+- With `--strict`: Dangling links are logged as errors and the process exits
+  with code 1. The build fails. This is the CI/deployment mode.
+
+**CI integration:** The Cloudflare Pages build command should use:
+```
+npm run build -- --strict
+```
+
+This ensures that no deployment can go live with broken internal references.
+The sync script passes unrecognized arguments through, so the `--strict` flag
+is consumed by the sync step before Astro builds.
+
+**Dangling link report format:**
+```
+=== DANGLING LINKS: N missing targets ===
+  MISSING: api/classes/EventRegistration.md (4 links)
+    ← api/classes/EventRegistry.md  [EventRegistration]
+    ← api/classes/PluginBase.md     [EventRegistration]
+    ...
+=== END DANGLING LINKS ===
+ERROR: --strict mode: 13 dangling links found across 8 missing targets. Build aborted.
+```
+
+---
+
+## Appendix: Link Audit JSON Schema
+
+`artifacts/link-audit.json` records the results of Phase 4.1 validation.
+
+```json
+{
+  "generated_at": "2026-02-10T06:00:00Z",
+  "total_links_scanned": 377,
+  "total_files_scanned": 65,
+  "dangling_targets": [
+    {
+      "target": "api/classes/EventRegistration.md",
+      "surface_classification": "public",
+      "action": "generated",
+      "referenced_by": [
+        { "source": "api/classes/EventRegistry.md", "text": "EventRegistration", "count": 2 },
+        { "source": "api/classes/PluginBase.md", "text": "EventRegistration", "count": 1 },
+        { "source": "api/events/index.md", "text": "EventRegistration", "count": 1 }
+      ]
+    },
+    {
+      "target": "api/commands/AbstractCommand.md",
+      "surface_classification": "n/a",
+      "action": "path_corrected",
+      "corrected_to": "../classes/AbstractCommand.md",
+      "referenced_by": [
+        { "source": "api/commands/index.md", "text": "AbstractCommand", "count": 2 }
+      ]
+    }
+  ],
+  "wrong_path_links": 6,
+  "missing_pages_generated": 4,
+  "internal_links_stripped": 0,
+  "remaining_violations": 0
+}
+```

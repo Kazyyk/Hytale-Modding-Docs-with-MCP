@@ -3,14 +3,21 @@
  *
  * - Copies all .md files preserving directory structure
  * - Rewrites internal .md links to Starlight-compatible clean URLs
+ * - Detects dangling links (targets that don't exist) and strips them to code text
  * - Patches root index.md with Starlight splash template + hero
  * - Skips non-markdown files (meta.json, progress.json)
  * - Runs as part of `npm run build` and `npm run dev`
+ *
+ * Flags:
+ *   --strict  Fail with exit code 1 if any dangling links are detected.
+ *             Use in CI/deployment builds to enforce zero broken references.
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { resolve, dirname, relative, join } from "node:path";
 import { readdirSync, statSync } from "node:fs";
+
+const STRICT = process.argv.includes("--strict");
 
 const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "../..");
 const SOURCE_DIR = join(PROJECT_ROOT, "output/docs");
@@ -198,4 +205,9 @@ if (danglingTargets.size > 0) {
     }
   }
   console.log("=== END DANGLING LINKS ===\n");
+
+  if (STRICT) {
+    console.error(`ERROR: --strict mode: ${danglingTotal} dangling links found across ${danglingTargets.size} missing targets. Build aborted.`);
+    process.exit(1);
+  }
 }

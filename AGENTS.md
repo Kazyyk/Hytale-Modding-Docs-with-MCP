@@ -58,6 +58,60 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 5. Generate index files for each directory.
 6. Write output to `output/docs/`.
 
+### Phase 4.1: Validate Links & Gap-Fill
+
+Run this after Phase 4 completes, before deploying. It is safe to re-run.
+
+1. **Scan all generated docs for link targets.**
+   Walk every `.md` file in `output/docs/`. For each markdown link targeting
+   a `.md` file (regex: `\[...\](...\.md...)`), resolve the relative path
+   against the file's directory to get a normalized path within the output
+   tree.
+
+2. **Build the file set.**
+   Collect all `.md` files in `output/docs/` into a set of normalized paths.
+
+3. **Identify violations.** For each link target not in the file set:
+   - **Wrong path?** Check if a file with the same basename exists elsewhere
+     in the tree. If so, correct the relative path in the source file.
+     Example: `api/commands/index.md` links to `AbstractCommand.md` but the
+     file is at `api/classes/AbstractCommand.md` → fix to
+     `../classes/AbstractCommand.md`.
+   - **Missing API surface type?** Look up the type name in
+     `artifacts/surface.json`. If it's a public API type, generate its
+     documentation page using the same templates and quality rules as Phase 4.
+   - **Internal type?** Convert the link to inline code: `[Foo](Foo.md)` →
+     `` `Foo` ``.
+   - **Unknown?** Log it for human review. Do not guess.
+
+4. **Generate missing pages.** For each must-generate type:
+   - Load the decompiled source from `artifacts/decompiled/`.
+   - Load any relevant context from `artifacts/systems.json`.
+   - Generate the page following the standard class/interface/enum template.
+   - Write to the correct location in `output/docs/`.
+   - Add the file to `output/docs/progress.json`.
+
+5. **Write the audit report** to `artifacts/link-audit.json` (schema in the
+   spec addendum). This documents every violation found and the action taken.
+
+6. **Re-scan and assert zero violations.** After all fixes and generation,
+   scan again. If any `.md` link still targets a nonexistent file, stop and
+   report the failures. Do not proceed.
+
+### Link rules (apply during Phase 4 AND Phase 4.1)
+
+- Every `.md` link must resolve to a file in `output/docs/`. If the file
+  doesn't exist, use inline code (`` `TypeName` ``) instead of a link.
+- Relative paths must be correct for the file's directory. A file in
+  `api/commands/` linking to a class in `api/classes/` must use
+  `../classes/Foo.md`, not `Foo.md`.
+- Internal types (not in `surface.json`) are NEVER linked. Use inline code.
+- When generating a new page, check whether existing pages already reference
+  it and ensure bidirectional links are consistent.
+- Do not curate "key types" lists by hand. Derive the generation set from
+  `surface.json` cross-referenced with types actually referenced by existing
+  generated pages.
+
 ## Quality Rules
 
 - Never invent API that doesn't exist in the source.
