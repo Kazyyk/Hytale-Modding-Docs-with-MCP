@@ -12,8 +12,6 @@ tags:
   - "class"
 ---
 
-# LivingEntity
-
 > Package: `com.hypixel.hytale.server.core.entity`
 
 ```java

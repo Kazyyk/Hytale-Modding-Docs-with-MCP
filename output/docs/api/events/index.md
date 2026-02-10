@@ -12,8 +12,6 @@ tags:
   - "ecs-events"
 ---
 
-# Event System
-
 > Package: `com.hypixel.hytale.event` (infrastructure) + `com.hypixel.hytale.server.core.event.events` (concrete events)
 
 Hytale has a **dual event system** with two parallel hierarchies that use completely separate dispatch mechanisms.

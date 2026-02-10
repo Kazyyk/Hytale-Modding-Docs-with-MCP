@@ -13,8 +13,6 @@ tags:
   - lifecycle
 ---
 
-# PlayerDisconnectEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.player`
 > Extends: `PlayerRefEvent<Void>`
 > Implements: `IEvent<Void>`

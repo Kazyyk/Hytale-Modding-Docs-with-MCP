@@ -13,8 +13,6 @@ tags:
   - "asset"
 ---
 
-# Item Schema
-
 > Class: `com.hypixel.hytale.server.core.asset.type.item.config.Item`
 > Codec: `AssetBuilderCodec<String, Item>`
 

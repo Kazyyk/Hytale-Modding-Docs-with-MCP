@@ -18,8 +18,6 @@ tags:
   - lifecycle
 ---
 
-# Universe
-
 **Package:** `com.hypixel.hytale.server.core.universe`
 
 ```java

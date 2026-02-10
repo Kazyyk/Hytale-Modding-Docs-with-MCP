@@ -12,8 +12,6 @@ tags:
   - lifecycle
 ---
 
-# CommandRegistration
-
 **Package:** `com.hypixel.hytale.server.core.command.system`
 
 ```java

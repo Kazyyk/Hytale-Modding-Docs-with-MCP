@@ -13,8 +13,6 @@ tags:
   - "asset"
 ---
 
-# Block Type Schema
-
 > Class: `com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType`
 > Codec: `AssetBuilderCodec<String, BlockType>`
 

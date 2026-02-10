@@ -12,8 +12,6 @@ tags:
   - lifecycle
 ---
 
-# PlayerReadyEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.player`
 > Extends: `PlayerEvent<String>`
 > Implements: `IEvent<String>`

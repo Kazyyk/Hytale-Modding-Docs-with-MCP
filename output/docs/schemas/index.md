@@ -11,8 +11,6 @@ tags:
   - "codec"
 ---
 
-# JSON Asset Schemas
-
 > Codec infrastructure: `com.hypixel.hytale.codec`
 
 Hytale uses a data-driven asset system where game content (blocks, items, recipes, etc.) is defined in JSON files within asset packs. The serialization framework is built on a declarative `BuilderCodec` pattern that generates both the JSON parser and the JSON Schema simultaneously.

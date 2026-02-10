@@ -14,8 +14,6 @@ tags:
   - cancellable
 ---
 
-# PlayerMouseMotionEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.player`
 > Extends: `PlayerEvent<Void>`
 > Implements: `IEvent<Void>`, `ICancellable`

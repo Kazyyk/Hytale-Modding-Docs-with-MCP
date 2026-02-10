@@ -12,8 +12,6 @@ tags:
   - server
 ---
 
-# BootEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events`
 > Implements: `IEvent<Void>`
 > Cancellable: No

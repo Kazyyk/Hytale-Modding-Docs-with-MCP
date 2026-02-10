@@ -14,8 +14,6 @@ tags:
   - abstract
 ---
 
-# EcsEvent
-
 **Package:** `com.hypixel.hytale.component.system`
 
 ```java

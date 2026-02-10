@@ -14,8 +14,6 @@ tags:
   - cancellable
 ---
 
-# PlayerChatEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.player`
 > Implements: `IAsyncEvent<String>`, `ICancellable`
 > Cancellable: Yes

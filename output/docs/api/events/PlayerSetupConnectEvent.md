@@ -13,8 +13,6 @@ tags:
   - cancellable
 ---
 
-# PlayerSetupConnectEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.player`
 > Implements: `IEvent<Void>`, `ICancellable`
 > Cancellable: Yes

@@ -12,8 +12,6 @@ tags:
   - plugin-scoped
 ---
 
-# CommandRegistry
-
 **Package:** `com.hypixel.hytale.server.core.command.system`
 
 ```java

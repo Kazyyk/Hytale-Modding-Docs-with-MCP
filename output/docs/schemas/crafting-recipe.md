@@ -13,8 +13,6 @@ tags:
   - "asset"
 ---
 
-# Crafting Recipe Schema
-
 > Class: `com.hypixel.hytale.server.core.asset.type.item.config.CraftingRecipe`
 > Codec: `AssetBuilderCodec<String, CraftingRecipe>`
 

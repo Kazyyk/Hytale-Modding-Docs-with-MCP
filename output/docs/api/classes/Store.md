@@ -16,8 +16,6 @@ tags:
   - container
 ---
 
-# Store
-
 **Package:** `com.hypixel.hytale.component`
 
 ```java

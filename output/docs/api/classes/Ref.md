@@ -13,8 +13,6 @@ tags:
   - identity
 ---
 
-# Ref
-
 **Package:** `com.hypixel.hytale.component`
 
 ```java

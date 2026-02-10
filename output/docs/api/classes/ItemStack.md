@@ -16,8 +16,6 @@ tags:
   - immutable-style
 ---
 
-# ItemStack
-
 **Package:** `com.hypixel.hytale.server.core.inventory`
 
 ```java

@@ -14,8 +14,6 @@ tags:
   - cancellable
 ---
 
-# PlayerInteractEvent
-
 > **DEPRECATED** -- This event is deprecated. Use [`UseBlockEvent`](./UseBlockEvent.md) (ECS event) for block interactions and [`PlayerMouseButtonEvent`](./PlayerMouseButtonEvent.md) for mouse input handling instead.
 
 > Package: `com.hypixel.hytale.server.core.event.events.player`
