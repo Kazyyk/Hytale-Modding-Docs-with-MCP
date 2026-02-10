@@ -1,4 +1,4 @@
-# Hytale Modding Documentation Generator — Engineering Spec
+# Hytale Server API Index — Engineering Spec
 
 > **Version:** 1.0.0
 > **Status:** Complete — all four phases implemented
@@ -780,7 +780,7 @@ This file goes in the root of the generator project and instructs the LLM agent
 on how to operate the pipeline.
 
 ```markdown
-# Hytale Documentation Generator — Agent Instructions
+# Hytale Server API Index — Agent Instructions
 
 ## Project Overview
 

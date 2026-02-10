@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "hytale-modding-mcp",
+  "name": "hytale-server-api-index-mcp",
   "main": "src/index.ts",
   "compatibility_date": "2025-06-09",
   "compatibility_flags": ["nodejs_compat"],
@@ -15,7 +15,7 @@
     "bindings": [
       {
         "name": "MCP_OBJECT",
-        "class_name": "HytaleModdingMCP"
+        "class_name": "HytaleServerAPIIndex"
       }
     ]
   },
@@ -23,7 +23,7 @@
   "migrations": [
     {
       "tag": "v1",
-      "new_sqlite_classes": ["HytaleModdingMCP"]
+      "new_sqlite_classes": ["HytaleServerAPIIndex"]
     }
   ],
 

@@ -1,6 +1,6 @@
-# Hytale Modding Docs — Starlight Site
+# Hytale Server API Index — Starlight Site
 
-Astro Starlight documentation site for the auto-generated Hytale modding API reference.
+Astro Starlight documentation site for the auto-generated Hytale server API reference.
 
 ## How It Works
 
