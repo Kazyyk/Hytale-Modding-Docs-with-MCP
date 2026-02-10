@@ -121,6 +121,8 @@ Run this after Phase 4 completes, before deploying. It is safe to re-run.
 - Cross-references must be bidirectional: if A references B, B must
   reference A.
 - Every generated file must have complete frontmatter per the spec.
+- Do not include a `# Title` H1 in the markdown body. The frontmatter
+  `title` field is rendered as the page heading by Starlight.
 - When you don't know something, say "Purpose unknown — inferred from
   usage context" rather than guessing.
 

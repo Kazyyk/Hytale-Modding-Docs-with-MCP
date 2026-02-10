@@ -11,8 +11,6 @@ tags:
   - "builder-pattern"
 ---
 
-# Command System
-
 > Package: `com.hypixel.hytale.server.core.command.system`
 
 A builder-pattern command system with typed argument parsing, automatic permission generation, tab completion, usage variants, and subcommand support. Commands run on `ForkJoinPool.commonPool()`.

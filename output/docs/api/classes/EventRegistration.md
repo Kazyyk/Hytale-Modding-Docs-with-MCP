@@ -12,8 +12,6 @@ tags:
   - lifecycle
 ---
 
-# EventRegistration
-
 **Package:** `com.hypixel.hytale.event`
 
 ```java

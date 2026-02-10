@@ -13,8 +13,6 @@ tags:
   - zone
 ---
 
-# DiscoverZoneEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.ecs`
 > Extends: `EcsEvent`
 > Cancellable: No (base class) -- see inner class below

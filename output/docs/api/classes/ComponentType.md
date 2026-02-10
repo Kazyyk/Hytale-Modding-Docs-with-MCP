@@ -17,8 +17,6 @@ tags:
   - registry
 ---
 
-# ComponentType
-
 **Package:** `com.hypixel.hytale.component`
 
 ```java

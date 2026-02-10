@@ -13,8 +13,6 @@ tags:
   - deprecated
 ---
 
-# LivingEntityUseBlockEvent
-
 > **DEPRECATED** -- This event is deprecated. Use [`UseBlockEvent`](./UseBlockEvent.md) (ECS event) instead.
 
 > Package: `com.hypixel.hytale.server.core.event.events.entity`

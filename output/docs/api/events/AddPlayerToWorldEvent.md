@@ -12,8 +12,6 @@ tags:
   - world
 ---
 
-# AddPlayerToWorldEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.player`
 > Implements: `IEvent<String>`
 > Cancellable: No

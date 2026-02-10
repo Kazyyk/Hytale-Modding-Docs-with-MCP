@@ -19,8 +19,6 @@ tags:
   - network
 ---
 
-# PlayerRef
-
 **Package:** `com.hypixel.hytale.server.core.universe`
 
 ```java

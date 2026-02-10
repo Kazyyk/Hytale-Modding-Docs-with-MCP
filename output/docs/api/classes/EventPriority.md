@@ -11,8 +11,6 @@ tags:
   - enum
 ---
 
-# EventPriority
-
 **Package:** `com.hypixel.hytale.event`
 
 ```java

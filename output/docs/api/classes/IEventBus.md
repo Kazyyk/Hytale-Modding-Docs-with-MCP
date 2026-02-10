@@ -13,8 +13,6 @@ tags:
   - interface
 ---
 
-# IEventBus
-
 **Package:** `com.hypixel.hytale.event`
 
 ```java

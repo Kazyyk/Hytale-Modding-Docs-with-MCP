@@ -11,8 +11,6 @@ tags:
   - "class"
 ---
 
-# CommandContext
-
 > Package: `com.hypixel.hytale.server.core.command.system`
 
 Execution context passed to a command's `execute()` or `executeSync()` method. Holds the sender, parsed argument values, the original input string, and the command that was invoked.

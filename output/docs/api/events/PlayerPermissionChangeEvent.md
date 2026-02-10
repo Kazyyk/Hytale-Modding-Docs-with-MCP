@@ -12,8 +12,6 @@ tags:
   - player
 ---
 
-# PlayerPermissionChangeEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.permissions`
 > Implements: `IEvent<Void>`
 > Cancellable: No

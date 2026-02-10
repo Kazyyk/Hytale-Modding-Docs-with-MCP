@@ -12,8 +12,6 @@ tags:
   - "abstract"
 ---
 
-# AbstractCommand
-
 > Package: `com.hypixel.hytale.server.core.command.system`
 
 Core abstract base class for all commands. Provides the builder API for declaring arguments, subcommands, usage variants, aliases, and permissions. Subclass this (or one of its convenience subclasses) and implement `execute(CommandContext)` to define a command.

@@ -13,8 +13,6 @@ tags:
   - cancellable
 ---
 
-# ChangeGameModeEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.ecs`
 > Extends: `CancellableEcsEvent`
 > Implements: `ICancellableEcsEvent`

@@ -12,8 +12,6 @@ tags:
   - "abstract"
 ---
 
-# CommandBase
-
 > Package: `com.hypixel.hytale.server.core.command.system.basecommands`
 
 Synchronous command base class. Wraps `execute(CommandContext)` to call `executeSync(CommandContext)` and return `null` (no future). Most simple commands extend this class.

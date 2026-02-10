@@ -9,8 +9,6 @@ tags:
   - "disclaimer"
 ---
 
-# Internal Types
-
 > **These are internal implementation types. They are not part of the stable plugin API and may change without notice between Hytale versions.**
 
 The Hytale server JAR contains **6,062 internal types** that support the game's implementation. These types are used by the server's core systems but are not intended for direct use by plugin developers.

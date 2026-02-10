@@ -12,8 +12,6 @@ tags:
   - "archetype"
 ---
 
-# Entity Component System (ECS)
-
 > Package: `com.hypixel.hytale.component`
 
 Hytale uses an archetype-based Entity Component System for game entity and chunk data management. The ECS is generic over an `ECS_TYPE` parameter — the two concrete store types are:

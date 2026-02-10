@@ -9,8 +9,6 @@ tags:
   - "overview"
 ---
 
-# API Reference
-
 > 811 plugin-facing types across the Hytale server API.
 
 ## Plugin Lifecycle

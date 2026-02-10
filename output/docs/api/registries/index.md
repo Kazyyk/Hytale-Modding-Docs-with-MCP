@@ -11,8 +11,6 @@ tags:
   - "lifecycle"
 ---
 
-# Registry System
-
 > Package: `com.hypixel.hytale.registry` (base) + `com.hypixel.hytale.server.core.plugin.registry` (plugin registries)
 
 Hytale uses a three-layer registry architecture for managing plugin registrations with automatic lifecycle cleanup.

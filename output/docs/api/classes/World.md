@@ -22,8 +22,6 @@ tags:
   - player
 ---
 
-# World
-
 **Package:** `com.hypixel.hytale.server.core.universe.world`
 
 ```java

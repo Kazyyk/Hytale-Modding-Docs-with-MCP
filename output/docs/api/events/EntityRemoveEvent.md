@@ -12,8 +12,6 @@ tags:
   - lifecycle
 ---
 
-# EntityRemoveEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.entity`
 > Extends: `EntityEvent<Entity, String>`
 > Implements: `IEvent<String>`

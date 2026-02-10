@@ -12,8 +12,6 @@ tags:
   - group
 ---
 
-# GroupPermissionChangeEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.permissions`
 > Implements: `IEvent<Void>`
 > Cancellable: No

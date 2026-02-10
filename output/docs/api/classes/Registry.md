@@ -13,8 +13,6 @@ tags:
   - "class"
 ---
 
-# Registry\<T extends Registration\>
-
 **Package:** `com.hypixel.hytale.registry`
 
 ```java

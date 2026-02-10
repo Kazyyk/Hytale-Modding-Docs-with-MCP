@@ -14,8 +14,6 @@ tags:
   - plugin-scoped
 ---
 
-# EventRegistry
-
 **Package:** `com.hypixel.hytale.event`
 
 ```java

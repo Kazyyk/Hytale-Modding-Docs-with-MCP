@@ -13,8 +13,6 @@ tags:
   - "interface"
 ---
 
-# CommandSender
-
 > Package: `com.hypixel.hytale.server.core.command.system`
 
 Interface representing the entity that executed a command. Extends `IMessageReceiver` (can receive messages) and `PermissionHolder` (has permissions). Implemented by `Player` and the server console.

@@ -11,8 +11,6 @@ tags:
   - "overview"
 ---
 
-# ECS Systems
-
 > Package: `com.hypixel.hytale.component.system`
 
 Systems process entities matching archetype queries. They are the logic layer of the ECS — components hold data, systems operate on it.

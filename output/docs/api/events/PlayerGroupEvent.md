@@ -13,8 +13,6 @@ tags:
   - group
 ---
 
-# PlayerGroupEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.permissions`
 > Extends: `PlayerPermissionChangeEvent`
 > Implements: `IEvent<Void>`

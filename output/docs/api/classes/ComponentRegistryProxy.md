@@ -18,8 +18,6 @@ tags:
   - event
 ---
 
-# ComponentRegistryProxy
-
 **Package:** `com.hypixel.hytale.component`
 
 ```java

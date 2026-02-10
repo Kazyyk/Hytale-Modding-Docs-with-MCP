@@ -12,8 +12,6 @@ tags:
   - inventory
 ---
 
-# LivingEntityInventoryChangeEvent
-
 > Package: `com.hypixel.hytale.server.core.event.events.entity`
 > Extends: `EntityEvent<LivingEntity, String>`
 > Implements: `IEvent<String>`

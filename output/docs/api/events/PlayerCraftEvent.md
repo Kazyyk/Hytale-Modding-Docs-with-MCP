@@ -13,8 +13,6 @@ tags:
   - deprecated
 ---
 
-# PlayerCraftEvent
-
 > **DEPRECATED (forRemoval=true)** -- This event is deprecated and scheduled for removal. Use `CraftRecipeEvent` (ECS event) instead.
 
 > Package: `com.hypixel.hytale.server.core.event.events.player`

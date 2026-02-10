@@ -15,8 +15,6 @@ tags:
   - "registry"
 ---
 
-# PluginBase
-
 **Package:** `com.hypixel.hytale.server.core.plugin`
 
 ```java

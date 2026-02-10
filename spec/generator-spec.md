@@ -437,6 +437,10 @@ Every generated markdown file includes YAML frontmatter. This metadata drives
 both the static site (navigation, search, cross-linking) and the RAG (chunk
 metadata for retrieval filtering).
 
+**Important:** The `title` field is rendered as the page's H1 heading by
+Starlight. Do **not** include a `# Title` line in the markdown body — this
+creates a duplicate heading on every page.
+
 ```yaml
 ---
 # Required for all files
@@ -474,8 +478,6 @@ tags:                                 # Free-form tags for RAG filtering
 ---
 (frontmatter as above)
 ---
-
-# JavaPlugin
 
 > Package: `com.hypixel.hytale.plugin`
 > Extends: [`Object`]()
@@ -554,8 +556,6 @@ public Logger getLogger()
 (frontmatter with kind: "event", cancellable: true/false)
 ---
 
-# PlayerJoinEvent
-
 > Package: `com.hypixel.hytale.event.player`
 > Extends: [`PlayerEvent`](./PlayerEvent.md)
 > Cancellable: Yes / No
@@ -602,8 +602,6 @@ public void onPlayerJoin(PlayerJoinEvent event) {
 (frontmatter with kind: "component")
 ---
 
-# PositionComponent
-
 > Package: `com.hypixel.hytale.ecs.component`
 > Implements: [`Component`](../classes/Component.md)
 
@@ -639,8 +637,6 @@ public void onPlayerJoin(PlayerJoinEvent event) {
 ---
 (frontmatter with kind: "schema")
 ---
-
-# Block Definition Schema
 
 > Asset path: `Common/Blocks/<block_name>.json`
 > Deserialized by: [`BlockDefinitionLoader`](../internals/classes/BlockDefinitionLoader.md)
