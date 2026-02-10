@@ -45,8 +45,9 @@ function walkFiles(dir, base = dir) {
  *   [Events](events/index.md)         → [Events](events/)
  *   [Events](api/events/index.md)     → [Events](api/events/)
  *   [Schemas](../schemas/index.md)    → [Schemas](../schemas/)
- *   [Command](AbstractCommand.md)     → [Command](abstractcommand/)
- *   [Ref](Store.md#ref-section)       → [Ref](store/#ref-section)
+ *   [Command](AbstractCommand.md)     → [Command](../abstractcommand/)  (from non-index)
+ *   [Command](AbstractCommand.md)     → [Command](abstractcommand/)     (from index)
+ *   [Ref](Store.md#ref-section)       → [Ref](../store/#ref-section)    (from non-index)
  *   [Missing](Missing.md)             → `Missing` (dangling link)
  *
  * Starlight lowercases all slugs and serves each page as a directory
@@ -56,6 +57,7 @@ function walkFiles(dir, base = dir) {
  *   3. Strips /index suffixes
  *   4. Lowercases path segments (preserving ../ navigation)
  *   5. Ensures trailing slash on non-anchor, non-dot paths
+ *   6. For non-index pages, prepends ../ to escape the page's virtual directory
  *
  * Leaves external links (http://, https://) and anchor-only links (#foo)
  * untouched.
@@ -63,9 +65,10 @@ function walkFiles(dir, base = dir) {
  * @param {string} content - Markdown file content
  * @param {string} fileDir - Directory of the current file (relative to docs root)
  * @param {Set<string>} fileSet - Set of all .md file paths (relative to docs root)
+ * @param {boolean} isIndex - Whether the source file is an index.md page
  * @returns {{ content: string, danglingCount: number }}
  */
-function rewriteLinks(content, fileDir, fileSet) {
+function rewriteLinks(content, fileDir, fileSet, isIndex = false) {
   let danglingCount = 0;
   const danglingFound = [];
 
@@ -122,6 +125,20 @@ function rewriteLinks(content, fileDir, fileSet) {
         path += "/";
       }
 
+      // Starlight serves non-index pages as directories:
+      //   CommandContext.md → /api/classes/commandcontext/
+      // This shifts the browser's base URL one level deeper than the
+      // filesystem directory, so relative links need an extra ../ to
+      // escape the page's virtual directory. Index pages are unaffected
+      // because their URL directory matches the filesystem directory.
+      if (!isIndex) {
+        if (path === ".") {
+          path = "../";
+        } else {
+          path = "../" + path;
+        }
+      }
+
       return `[${text}](${path}${anchor})`;
     }
   );
@@ -176,7 +193,8 @@ for (const relPath of files) {
 
   // Rewrite .md links to clean URLs (dangling links become code text)
   const fileDir = dirname(relPath);
-  const result = rewriteLinks(content, fileDir, fileSet);
+  const isIndex = relPath === "index.md" || relPath.endsWith("/index.md");
+  const result = rewriteLinks(content, fileDir, fileSet, isIndex);
   content = result.content;
   danglingTotal += result.danglingCount;
   for (const d of result.danglingTargets) {
