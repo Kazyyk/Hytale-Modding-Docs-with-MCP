@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-02-09T20:31:47.836614Z",
-  "total_internal_types": 6062,
+  "generated_at": "2026-02-18T21:03:00.255138Z",
+  "total_internal_types": 6188,
   "types": [
     {
       "fqcn": "com.hypixel.hytale.sneakythrow.function.ThrowableBiFunction",
@@ -1124,6 +1124,10 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.worldgen.HytaleWorldGenProvider.WorldGenBuilderCodec",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.worldgen.HytaleWorldGenProvider",
       "tag": "internal"
     },
@@ -1157,6 +1161,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.worldgen.map.GeneratorChunkWorldMap",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.WorldGenPrefabLoader.PrefabPathCollector",
       "tag": "internal"
     },
     {
@@ -1245,6 +1253,14 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.worldgen.loader.util.FileMaskCache",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.AssetFileSystem.Resource",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.AssetFileSystem",
       "tag": "internal"
     },
     {
@@ -1840,6 +1856,10 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.worldgen.WorldGenConfig",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.worldgen.climate.ClimateMaskProvider",
       "tag": "internal"
     },
@@ -2392,6 +2412,14 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.fluid.FireFluidTicker.FlammabilityConfig",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.fluid.FireFluidTicker",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.asset.type.fluid.FluidTypePacketGenerator",
       "tag": "internal"
     },
@@ -2529,6 +2557,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.asset.type.item.FieldcraftCategoryPacketGenerator",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.gameplay.SleepConfig",
       "tag": "internal"
     },
     {
@@ -2932,6 +2964,26 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.config.UpdateConfig.AutoApplyMode",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.config.UpdateConfig",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.config.RateLimitConfig",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.config.ModConfig",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.config.BackupConfig",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.auth.MemoryAuthCredentialStoreProvider",
       "tag": "internal"
     },
@@ -3189,10 +3241,6 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.entity.reference.PersistentRefCount",
-      "tag": "internal"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.entity.reference.PersistentRef",
       "tag": "internal"
     },
     {
@@ -3480,6 +3528,10 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.io.handlers.IWorldPacketHandler",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.io.handlers.game.InventoryPacketHandler",
       "tag": "internal"
     },
@@ -3584,27 +3636,11 @@
       "tag": "internal"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.HytaleServerConfig.ModConfig",
-      "tag": "internal"
-    },
-    {
       "fqcn": "com.hypixel.hytale.server.core.HytaleServerConfig.Module",
       "tag": "internal"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.HytaleServerConfig.RateLimitConfig",
-      "tag": "internal"
-    },
-    {
       "fqcn": "com.hypixel.hytale.server.core.HytaleServerConfig.TimeoutProfile",
-      "tag": "internal"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.HytaleServerConfig.UpdateConfig.AutoApplyMode",
-      "tag": "internal"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.HytaleServerConfig.UpdateConfig",
       "tag": "internal"
     },
     {
@@ -4128,10 +4164,6 @@
       "tag": "internal"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand",
-      "tag": "internal"
-    },
-    {
       "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncPlayerCommand",
       "tag": "internal"
     },
@@ -4141,10 +4173,6 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.CommandBase",
-      "tag": "internal"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractTargetPlayerCommand",
       "tag": "internal"
     },
     {
@@ -4181,6 +4209,18 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.command.system.CommandValidationResults",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.pages.UIGalleryPage.Category",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.pages.UIGalleryPage.UIGalleryEventData",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.pages.UIGalleryPage",
       "tag": "internal"
     },
     {
@@ -5000,6 +5040,10 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.UIGalleryCommand",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.DebugKnockbackCommand",
       "tag": "internal"
     },
@@ -5008,15 +5052,23 @@
       "tag": "internal"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.LatencySimulationCommand.Set",
-      "tag": "internal"
-    },
-    {
       "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.LatencySimulationCommand",
       "tag": "internal"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.ServerKnockbackCommand",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.StreamPriorityCommand.Preset",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.StreamPriorityCommand.Reset",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.StreamPriorityCommand",
       "tag": "internal"
     },
     {
@@ -5456,6 +5508,14 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.environment.EnvironmentChunk.BulkWriter.ColumnWriter",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.environment.EnvironmentChunk.BulkWriter",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.systems.ChunkSystems.EnsureBlockSection",
       "tag": "internal"
     },
@@ -5636,6 +5696,10 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.ChunkStore.ChunkStorage",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore.NetworkIdSystem",
       "tag": "internal"
     },
@@ -5668,11 +5732,27 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.RocksDbChunkStorageProvider.Loader",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.RocksDbChunkStorageProvider.RocksDbResource",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.RocksDbChunkStorageProvider.Saver",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.RocksDbChunkStorageProvider",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.IndexedStorageChunkStorageProvider.IndexedStorageCache.CacheEntryMetricData",
       "tag": "internal"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.IndexedStorageChunkStorageProvider.IndexedStorageCacheSetupSystem",
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.IndexedStorageChunkStorageProvider.IndexedStorageCache",
       "tag": "internal"
     },
     {
@@ -5684,7 +5764,15 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.IndexedStorageChunkStorageProvider",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.MigrationChunkStorageProvider.MigrationChunkLoader",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.MigrationChunkStorageProvider.MigrationData",
       "tag": "internal"
     },
     {
@@ -5769,6 +5857,14 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.commands.world.WorldSaveCommand",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.commands.world.WorldRocksDbCommand.CompactCommand",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.commands.world.WorldRocksDbCommand",
       "tag": "internal"
     },
     {
@@ -5980,6 +6076,18 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.MarkersCollectorImpl",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.MapMarkerBuilder",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.MarkersCollector",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.providers.DeathMarkerProvider",
       "tag": "internal"
     },
@@ -5992,6 +6100,14 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.providers.OtherPlayersMarkerProvider",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.providers.SharedMarkersProvider",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.providers.POIMarkerProvider",
       "tag": "internal"
     },
@@ -6000,7 +6116,39 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.providers.PersonalMarkersProvider",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.providers.RespawnMarkerProvider",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.utils.MapMarkerUtils",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.user.UserMarkerValidator.CanRemove",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.user.UserMarkerValidator.CanSpawn",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.user.UserMarkerValidator.Fail",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.user.UserMarkerValidator.PlaceResult",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.user.UserMarkerValidator.RemoveResult",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.user.UserMarkerValidator",
       "tag": "internal"
     },
     {
@@ -6036,7 +6184,15 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager.MarkerAndItsStore",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager.MarkerReference",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager.PlayerMarkerReference",
       "tag": "internal"
     },
     {
@@ -6484,6 +6640,10 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.modules.entity.component.NPCMarkerComponent",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.modules.entity.component.DisplayNameComponent",
       "tag": "internal"
     },
@@ -6844,7 +7004,7 @@
       "tag": "internal"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.modules.entity.system.ModelSystems.UpdateCrouchingBoundingBox",
+      "fqcn": "com.hypixel.hytale.server.core.modules.entity.system.ModelSystems.UpdateMovementStateBoundingBox",
       "tag": "internal"
     },
     {
@@ -7029,6 +7189,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.modules.entity.damage.RespawnSystems.ClearInteractionsRespawnSystem",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.entity.damage.RespawnSystems.ClearRespawnUI",
       "tag": "internal"
     },
     {
@@ -7892,6 +8056,18 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.modules.anchoraction.AnchorActionModule.WorldThreadAnchorActionHandler",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.anchoraction.AnchorActionModule",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.anchoraction.AnchorActionHandler",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.modules.i18n.parser.LangFileParser.TranslationParseException",
       "tag": "internal"
     },
@@ -8445,14 +8621,6 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.ChainingInteraction.ChainingTag",
-      "tag": "internal"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.ChainingInteraction.Data",
-      "tag": "internal"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.ChainingInteraction",
       "tag": "internal"
     },
     {
@@ -9064,14 +9232,6 @@
       "tag": "internal"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockState.Data",
-      "tag": "internal"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockState",
-      "tag": "internal"
-    },
-    {
       "fqcn": "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockStateSystems.AddOrRemove",
       "tag": "internal"
     },
@@ -9464,6 +9624,10 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.flock.FlockSystems.FlockDebugSystem",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.flock.FlockSystems.PlayerChangeGameModeEventSystem",
       "tag": "internal"
     },
@@ -9477,6 +9641,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.flock.FlockMembershipSystems.EntityRef",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.flock.FlockMembershipSystems.FilterPlayerFlockDamageSystem",
       "tag": "internal"
     },
     {
@@ -9593,6 +9761,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.npc.interactions.SpawnNPCInteraction.SpawnData",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.interactions.SpawnNPCInteraction.WeightedNPCSpawn",
       "tag": "internal"
     },
     {
@@ -11053,6 +11225,18 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.npc.role.support.PositionCache",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.role.support.DebugSupport.DebugFlagsChangeListener",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.role.support.DebugSupport.EntityVisData",
+      "tag": "internal"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.role.support.DebugSupport.SensorVisData",
       "tag": "internal"
     },
     {
@@ -13272,6 +13456,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.PacketRegistry.PacketDirection",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.PacketRegistry.PacketInfo",
       "tag": "protocol"
     },
@@ -13289,6 +13477,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.ModifierTarget",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.PlayerSkinUpdate",
       "tag": "protocol"
     },
     {
@@ -13313,6 +13505,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.SortType",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.TransformUpdate",
       "tag": "protocol"
     },
     {
@@ -13381,6 +13577,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.CameraPerspectiveType",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.NewSpawnUpdate",
       "tag": "protocol"
     },
     {
@@ -13464,6 +13664,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.RepulsionUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.ProjectileInteraction",
       "tag": "protocol"
     },
@@ -13504,11 +13708,19 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.UIComponentsUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.SoftParticle",
       "tag": "protocol"
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.AppliedForce",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.IntangibleUpdate",
       "tag": "protocol"
     },
     {
@@ -13544,6 +13756,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.NameplateUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.EqualizerEffect",
       "tag": "protocol"
     },
@@ -13569,6 +13785,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.EntityUpdate",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.EntityEffectsUpdate",
       "tag": "protocol"
     },
     {
@@ -13636,6 +13856,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.InteractableUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.io.PacketStatsRecorder.PacketStatsEntry",
       "tag": "protocol"
     },
@@ -13684,6 +13908,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.ItemUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.NoiseType",
       "tag": "protocol"
     },
@@ -13712,6 +13940,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.DynamicLightUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.AnimationSlot",
       "tag": "protocol"
     },
@@ -13721,6 +13953,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.MountedUpdate",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.InteractionsUpdate",
       "tag": "protocol"
     },
     {
@@ -13753,6 +13989,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.BlockMount",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.PropUpdate",
       "tag": "protocol"
     },
     {
@@ -13856,6 +14096,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.InvulnerableUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.Rotation",
       "tag": "protocol"
     },
@@ -13908,6 +14152,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.HitboxCollisionUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.Bench",
       "tag": "protocol"
     },
@@ -13936,6 +14184,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.EquipmentUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.WieldingInteraction",
       "tag": "protocol"
     },
@@ -13953,6 +14205,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.MaterialQuantity",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.MovementStatesUpdate",
       "tag": "protocol"
     },
     {
@@ -13988,7 +14244,7 @@
       "tag": "protocol"
     },
     {
-      "fqcn": "com.hypixel.hytale.protocol.PickupLocation",
+      "fqcn": "com.hypixel.hytale.protocol.PredictionUpdate",
       "tag": "protocol"
     },
     {
@@ -14193,6 +14449,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolPasteClipboard",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolSetEntityCollision",
       "tag": "protocol"
     },
     {
@@ -15104,6 +15364,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.CreateUserMarker",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.UpdateWorldMapVisible",
       "tag": "protocol"
     },
@@ -15112,11 +15376,27 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.HeightDeltaIconComponent",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.PlacedByMarkerComponent",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.TeleportToWorldMapMarker",
       "tag": "protocol"
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.MapImage",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.MapMarkerComponent",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.PlayerMarkerComponent",
       "tag": "protocol"
     },
     {
@@ -15129,6 +15409,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.ContextMenuItem",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.TintComponent",
       "tag": "protocol"
     },
     {
@@ -15213,6 +15497,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.packets.interface_.SetPage",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.UpdateAnchorUI",
       "tag": "protocol"
     },
     {
@@ -15432,7 +15720,15 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.ModelUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.ItemPlayerAnimations",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.EntityStatsUpdate",
       "tag": "protocol"
     },
     {
@@ -15497,6 +15793,14 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.ParticleAnimationFrame",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.AudioUpdate",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.ActiveAnimationsUpdate",
       "tag": "protocol"
     },
     {
@@ -15648,6 +15952,10 @@
       "tag": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.RespondToHitUpdate",
+      "tag": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.CameraAxis",
       "tag": "protocol"
     },
@@ -15681,6 +15989,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.protocol.ParticleSpawner",
+      "tag": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.BlockUpdate",
       "tag": "protocol"
     },
     {
@@ -16244,6 +16556,10 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.storage.IndexedStorageFile",
+      "tag": "internal"
+    },
+    {
       "fqcn": "com.hypixel.hytale.common.benchmark.TimeDistributionRecorder",
       "tag": "internal"
     },
@@ -16465,6 +16781,34 @@
     },
     {
       "fqcn": "com.hypixel.hytale.procedurallib.util.IntToIntFunction",
+      "tag": "procedural"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.file.FileIOSystem.PathArray",
+      "tag": "procedural"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.file.FileIOSystem.Provider.DefaultIOFileSystem",
+      "tag": "procedural"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.file.FileIOSystem.Provider",
+      "tag": "procedural"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.file.FileIOSystem",
+      "tag": "procedural"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.file.FileIO",
+      "tag": "procedural"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.file.AssetLoader",
+      "tag": "procedural"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.file.AssetPath",
       "tag": "procedural"
     },
     {
@@ -16932,6 +17276,10 @@
       "tag": "procedural"
     },
     {
+      "fqcn": "com.hypixel.hytale.procedurallib.json.JsonResourceLoader",
+      "tag": "procedural"
+    },
+    {
       "fqcn": "com.hypixel.hytale.procedurallib.json.BasicHeightThresholdInterpreterJsonLoader.Constants",
       "tag": "procedural"
     },
@@ -17384,6 +17732,10 @@
       "tag": "internal"
     },
     {
+      "fqcn": "com.hypixel.hytale.builtin.worldgen.WorldGenPlugin.Version",
+      "tag": "builtin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.worldgen.WorldGenPlugin",
       "tag": "builtin"
     },
@@ -17745,6 +18097,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.buildertools.utils.FluidPatternHelper",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.PrototypePlayerBuilderToolSettings.EntityChange",
       "tag": "builtin"
     },
     {
@@ -18276,6 +18632,10 @@
       "tag": "builtin"
     },
     {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.commands.LayerCommand",
+      "tag": "builtin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.buildertools.commands.ExpandCommand",
       "tag": "builtin"
     },
@@ -18460,6 +18820,10 @@
       "tag": "builtin"
     },
     {
+      "fqcn": "com.hypixel.hytale.builtin.creativehub.ui.ReturnToHubButtonUI",
+      "tag": "builtin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.creativehub.interactions.HubPortalInteraction",
       "tag": "builtin"
     },
@@ -18473,6 +18837,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.creativehub.command.HubCommand",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.creativehub.systems.ReturnToHubButtonSystem",
       "tag": "builtin"
     },
     {
@@ -18556,6 +18924,10 @@
       "tag": "builtin"
     },
     {
+      "fqcn": "com.hypixel.hytale.builtin.mounts.MountSystems.RemoveMountedHolder",
+      "tag": "builtin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.mounts.MountSystems.TeleportMountedEntity",
       "tag": "builtin"
     },
@@ -18589,6 +18961,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.mounts.NPCMountSystems.OnAdd",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.mounts.NPCMountSystems.OnPlayerRemove",
       "tag": "builtin"
     },
     {
@@ -18657,6 +19033,26 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.mounts.npc.ActionMount",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.randomtick.procedures.ChangeIntoBlockProcedure",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.randomtick.procedures.SpreadToProcedure",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.randomtick.RandomTickPlugin",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.randomtick.RandomTick",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.randomtick.RandomTickSystem",
       "tag": "builtin"
     },
     {
@@ -19680,6 +20076,10 @@
       "tag": "builtin"
     },
     {
+      "fqcn": "com.hypixel.hytale.builtin.adventure.objectives.markers.ObjectiveTaskMarker",
+      "tag": "builtin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.adventure.objectives.markers.reachlocation.ReachLocationMarkerSystems.EnsureNetworkSendable",
       "tag": "builtin"
     },
@@ -20041,6 +20441,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.adventure.teleporter.system.ClearUsedTeleporterSystem",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.adventure.teleporter.system.TurnOffTeleportersSystem",
       "tag": "builtin"
     },
     {
@@ -21300,6 +21704,10 @@
       "tag": "builtin"
     },
     {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.ReusableList",
+      "tag": "builtin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.plugin.HytaleGenerator",
       "tag": "builtin"
     },
@@ -21349,6 +21757,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.density.nodes.FloorDensity",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.density.nodes.YSampledDensity",
       "tag": "builtin"
     },
     {
@@ -21920,6 +22332,10 @@
       "tag": "builtin"
     },
     {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.biome.Biome",
+      "tag": "builtin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.biome.SimpleBiomeType",
       "tag": "builtin"
     },
@@ -21929,6 +22345,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.biome.EnvironmentSource",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.biome.SimpleBiome",
       "tag": "builtin"
     },
     {
@@ -21965,6 +22385,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.BaseHeightPositionProvider",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.BoundPositionProvider",
       "tag": "builtin"
     },
     {
@@ -22164,6 +22588,10 @@
       "tag": "builtin"
     },
     {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.worldstructure.WorldStructure",
+      "tag": "builtin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.SettingsAsset",
       "tag": "builtin"
     },
@@ -22221,6 +22649,14 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.propstageiterations.PropRuntimeAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.bounds.IntegerBounds3dAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.bounds.DecimalBounds3dAsset",
       "tag": "builtin"
     },
     {
@@ -22337,6 +22773,34 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.worldstructures.basic.BiomeRangeAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.framework.FrameworkAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.framework.DecimalConstantsFrameworkAsset.Entries",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.framework.DecimalConstantsFrameworkAsset.EntryAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.framework.DecimalConstantsFrameworkAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.framework.PositionsFrameworkAsset.Entries",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.framework.PositionsFrameworkAsset.EntryAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.framework.PositionsFrameworkAsset",
       "tag": "builtin"
     },
     {
@@ -22517,6 +22981,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.density.MinDensityAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.density.YSampledDensityAsset",
       "tag": "builtin"
     },
     {
@@ -22932,6 +23400,10 @@
       "tag": "builtin"
     },
     {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.FrameworkPositionProviderAsset",
+      "tag": "builtin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.ImportedPositionProviderAsset",
       "tag": "builtin"
     },
@@ -22941,6 +23413,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.SpherePositionProviderAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.BoundPositionProviderAsset",
       "tag": "builtin"
     },
     {
@@ -22989,6 +23465,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.material.MaterialAsset",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.material.OrthogonalRotationAsset",
       "tag": "builtin"
     },
     {
@@ -23245,6 +23725,10 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.biomemap.SimpleBiomeMap",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.Registry",
       "tag": "builtin"
     },
     {
@@ -23981,6 +24465,26 @@
     },
     {
       "fqcn": "com.hypixel.hytale.builtin.beds.sleep.systems.player.RegisterTrackerSystem",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.beds.sleep.systems.player.SleepNotificationSystem.BigServer",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.beds.sleep.systems.player.SleepNotificationSystem.NotReady",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.beds.sleep.systems.player.SleepNotificationSystem.NotificationState",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.beds.sleep.systems.player.SleepNotificationSystem.SmallServer",
+      "tag": "builtin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.beds.sleep.systems.player.SleepNotificationSystem",
       "tag": "builtin"
     },
     {

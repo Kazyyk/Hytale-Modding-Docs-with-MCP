@@ -1,15 +1,15 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-02-09T20:31:47.836614Z",
-  "total_api_types": 811,
+  "generated_at": "2026-02-18T21:03:00.255138Z",
+  "total_api_types": 828,
   "seed_types": [
-    "com.hypixel.hytale.server.core.plugin.JavaPluginInit",
-    "com.hypixel.hytale.common.plugin.PluginIdentifier",
-    "com.hypixel.hytale.server.core.plugin.PluginState",
-    "com.hypixel.hytale.server.core.plugin.PluginManager",
-    "com.hypixel.hytale.server.core.plugin.JavaPlugin",
-    "com.hypixel.hytale.server.core.plugin.PluginBase",
     "com.hypixel.hytale.common.plugin.PluginManifest",
+    "com.hypixel.hytale.server.core.plugin.PluginBase",
+    "com.hypixel.hytale.server.core.plugin.JavaPlugin",
+    "com.hypixel.hytale.server.core.plugin.PluginManager",
+    "com.hypixel.hytale.server.core.plugin.PluginState",
+    "com.hypixel.hytale.common.plugin.PluginIdentifier",
+    "com.hypixel.hytale.server.core.plugin.JavaPluginInit",
     "com.hypixel.hytale.server.core.command.system.CommandRegistry",
     "com.hypixel.hytale.server.core.plugin.registry.AssetRegistry",
     "com.hypixel.hytale.server.core.plugin.registry.CodecMapRegistry",
@@ -106,31 +106,7 @@
   ],
   "types": [
     {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.JavaPluginInit",
-      "inclusion_reason": "seed:tier1",
-      "expansion_path": [],
-      "category": "plugin"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.common.plugin.PluginIdentifier",
-      "inclusion_reason": "seed:tier1",
-      "expansion_path": [],
-      "category": "plugin"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginState",
-      "inclusion_reason": "seed:tier1",
-      "expansion_path": [],
-      "category": "plugin"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginManager",
-      "inclusion_reason": "seed:tier1",
-      "expansion_path": [],
-      "category": "plugin"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.JavaPlugin",
+      "fqcn": "com.hypixel.hytale.common.plugin.PluginManifest",
       "inclusion_reason": "seed:tier1",
       "expansion_path": [],
       "category": "plugin"
@@ -142,7 +118,31 @@
       "category": "plugin"
     },
     {
-      "fqcn": "com.hypixel.hytale.common.plugin.PluginManifest",
+      "fqcn": "com.hypixel.hytale.server.core.plugin.JavaPlugin",
+      "inclusion_reason": "seed:tier1",
+      "expansion_path": [],
+      "category": "plugin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginManager",
+      "inclusion_reason": "seed:tier1",
+      "expansion_path": [],
+      "category": "plugin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginState",
+      "inclusion_reason": "seed:tier1",
+      "expansion_path": [],
+      "category": "plugin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.common.plugin.PluginIdentifier",
+      "inclusion_reason": "seed:tier1",
+      "expansion_path": [],
+      "category": "plugin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.JavaPluginInit",
       "inclusion_reason": "seed:tier1",
       "expansion_path": [],
       "category": "plugin"
@@ -706,26 +706,18 @@
       "category": "event"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginInit",
+      "fqcn": "com.hypixel.hytale.common.semver.Semver",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.JavaPluginInit"
+        "com.hypixel.hytale.common.plugin.PluginManifest"
       ],
-      "category": "plugin"
+      "category": "util"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginClassLoader",
+      "fqcn": "com.hypixel.hytale.common.plugin.AuthorInfo",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.JavaPluginInit"
-      ],
-      "category": "plugin"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginManager.PluginBridgeClassLoader",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager"
+        "com.hypixel.hytale.common.plugin.PluginManifest"
       ],
       "category": "plugin"
     },
@@ -733,49 +725,25 @@
       "fqcn": "com.hypixel.hytale.common.semver.SemverRange",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager"
+        "com.hypixel.hytale.common.plugin.PluginManifest"
       ],
       "category": "util"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+      "fqcn": "com.hypixel.hytale.common.plugin.PluginManifest.CoreBuilder",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager"
-      ],
-      "category": "universe"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginListPageManager.SessionSettings",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager"
+        "com.hypixel.hytale.common.plugin.PluginManifest"
       ],
       "category": "plugin"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
+      "fqcn": "com.hypixel.hytale.codec.Codec",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager"
+        "com.hypixel.hytale.common.plugin.PluginManifest"
       ],
-      "category": "plugin"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.metrics.MetricsRegistry",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager"
-      ],
-      "category": "metrics"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginType",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.JavaPlugin"
-      ],
-      "category": "plugin"
+      "category": "codec"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.util.Config",
@@ -800,6 +768,14 @@
         "com.hypixel.hytale.server.core.plugin.PluginBase"
       ],
       "category": "logging"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase"
+      ],
+      "category": "universe"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.ChunkStore",
@@ -834,36 +810,60 @@
       "category": "codec"
     },
     {
-      "fqcn": "com.hypixel.hytale.common.semver.Semver",
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginType",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.common.plugin.PluginManifest"
-      ],
-      "category": "util"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.common.plugin.AuthorInfo",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.common.plugin.PluginManifest"
+        "com.hypixel.hytale.server.core.plugin.PluginBase"
       ],
       "category": "plugin"
     },
     {
-      "fqcn": "com.hypixel.hytale.common.plugin.PluginManifest.CoreBuilder",
+      "fqcn": "com.hypixel.hytale.metrics.MetricsRegistry",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.common.plugin.PluginManifest"
+        "com.hypixel.hytale.server.core.plugin.PluginBase"
+      ],
+      "category": "metrics"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginClassLoader",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.JavaPlugin"
       ],
       "category": "plugin"
     },
     {
-      "fqcn": "com.hypixel.hytale.codec.Codec",
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginManager.PluginBridgeClassLoader",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.common.plugin.PluginManifest"
+        "com.hypixel.hytale.server.core.plugin.PluginManager"
       ],
-      "category": "codec"
+      "category": "plugin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginListPageManager.SessionSettings",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager"
+      ],
+      "category": "plugin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager"
+      ],
+      "category": "plugin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginInit",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.JavaPluginInit"
+      ],
+      "category": "plugin"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.command.system.CommandRegistration",
@@ -896,6 +896,22 @@
         "com.hypixel.hytale.server.core.plugin.registry.CodecMapRegistry"
       ],
       "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.LatencySimulationCommand.Set",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.command.system.CommandManager"
+      ],
+      "category": "command"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.StreamPriorityCommand.Set",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.command.system.CommandManager"
+      ],
+      "category": "command"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.universe.PlayerRef",
@@ -1317,107 +1333,44 @@
       "fqcn": "com.hypixel.hytale.common.semver.SemverSatisfies",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
+        "com.hypixel.hytale.common.plugin.PluginManifest",
         "com.hypixel.hytale.common.semver.SemverRange"
       ],
       "category": "util"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.universe.world.WorldProvider",
+      "fqcn": "com.hypixel.hytale.codec.RawJsonCodec",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore"
-      ],
-      "category": "universe"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.component.IResourceStorage",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.component.Store",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.store.CodecKey",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore"
+        "com.hypixel.hytale.common.plugin.PluginManifest",
+        "com.hypixel.hytale.codec.Codec"
       ],
       "category": "codec"
     },
     {
-      "fqcn": "com.hypixel.hytale.component.Component",
+      "fqcn": "com.hypixel.hytale.codec.schema.SchemaConvertable",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.plugin.PluginListPageManager.SessionSettings"
+        "com.hypixel.hytale.common.plugin.PluginManifest",
+        "com.hypixel.hytale.codec.Codec"
       ],
-      "category": "component"
+      "category": "codec"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.pages.PluginListPage",
+      "fqcn": "com.hypixel.hytale.codec.util.RawJsonReader",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.plugin.PluginListPageManager"
+        "com.hypixel.hytale.common.plugin.PluginManifest",
+        "com.hypixel.hytale.codec.Codec"
       ],
-      "category": "plugin"
+      "category": "codec"
     },
     {
       "fqcn": "com.hypixel.hytale.codec.ExtraInfo",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.config.Schema",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.SchemaContext",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.metrics.MetricResults",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry"
-      ],
-      "category": "metrics"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.RawJsonCodec",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginBase",
-        "com.hypixel.hytale.codec.builder.BuilderCodec"
+        "com.hypixel.hytale.common.plugin.PluginManifest",
+        "com.hypixel.hytale.codec.Codec"
       ],
       "category": "codec"
     },
@@ -1449,7 +1402,7 @@
       "category": "codec"
     },
     {
-      "fqcn": "com.hypixel.hytale.codec.util.RawJsonReader",
+      "fqcn": "com.hypixel.hytale.codec.schema.config.ObjectSchema",
       "inclusion_reason": "expansion",
       "expansion_path": [
         "com.hypixel.hytale.server.core.plugin.PluginBase",
@@ -1458,7 +1411,7 @@
       "category": "codec"
     },
     {
-      "fqcn": "com.hypixel.hytale.codec.schema.config.ObjectSchema",
+      "fqcn": "com.hypixel.hytale.codec.schema.SchemaContext",
       "inclusion_reason": "expansion",
       "expansion_path": [
         "com.hypixel.hytale.server.core.plugin.PluginBase",
@@ -1519,6 +1472,42 @@
         "com.hypixel.hytale.logger.HytaleLogger"
       ],
       "category": "logging"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.WorldProvider",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore"
+      ],
+      "category": "universe"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.IResourceStorage",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.Store",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.store.CodecKey",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore"
+      ],
+      "category": "codec"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.IChunkLoader",
@@ -1665,6 +1654,15 @@
       "category": "asset"
     },
     {
+      "fqcn": "com.hypixel.hytale.codec.schema.config.Schema",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec"
+      ],
+      "category": "codec"
+    },
+    {
       "fqcn": "com.hypixel.hytale.codec.lookup.AMapProvidedMapCodec",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -1683,13 +1681,31 @@
       "category": "codec"
     },
     {
-      "fqcn": "com.hypixel.hytale.codec.schema.SchemaConvertable",
+      "fqcn": "com.hypixel.hytale.metrics.MetricResults",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.common.plugin.PluginManifest",
-        "com.hypixel.hytale.codec.Codec"
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.metrics.MetricsRegistry"
       ],
-      "category": "codec"
+      "category": "metrics"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.Component",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager",
+        "com.hypixel.hytale.server.core.plugin.PluginListPageManager.SessionSettings"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.pages.PluginListPage",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager",
+        "com.hypixel.hytale.server.core.plugin.PluginListPageManager"
+      ],
+      "category": "plugin"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.command.system.MatchResult",
@@ -1778,6 +1794,15 @@
       "expansion_path": [
         "com.hypixel.hytale.server.core.command.system.CommandRegistry",
         "com.hypixel.hytale.server.core.command.system.AbstractCommand"
+      ],
+      "category": "command"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractTargetPlayerCommand",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.command.system.CommandManager",
+        "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.LatencySimulationCommand.Set"
       ],
       "category": "command"
     },
@@ -2493,6 +2518,15 @@
       "category": "asset"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.blocktick.config.RandomTickProcedure",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.event.events.ecs.DamageBlockEvent",
+        "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType"
+      ],
+      "category": "asset"
+    },
+    {
       "fqcn": "com.hypixel.hytale.protocol.ShaderType",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -2979,7 +3013,16 @@
       "category": "io"
     },
     {
-      "fqcn": "com.hypixel.hytale.protocol.Packet",
+      "fqcn": "com.hypixel.hytale.protocol.ToServerPacket",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent",
+        "com.hypixel.hytale.server.core.io.PacketHandler"
+      ],
+      "category": "protocol"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.ToClientPacket",
       "inclusion_reason": "expansion",
       "expansion_path": [
         "com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent",
@@ -2995,6 +3038,15 @@
         "com.hypixel.hytale.server.core.io.PacketHandler"
       ],
       "category": "io"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.NetworkChannel",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent",
+        "com.hypixel.hytale.server.core.io.PacketHandler"
+      ],
+      "category": "protocol"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.inventory.Inventory",
@@ -3285,202 +3337,12 @@
       "category": "math"
     },
     {
-      "fqcn": "com.hypixel.hytale.component.task.ParallelTask",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.component.system.tick.EntityTickingSystem.SystemTaskData",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.component.system.tick.EntityTickingSystem",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.component.system.data.EntityDataSystem.SystemTaskData",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.component.system.data.EntityDataSystem",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.metrics.metric.HistoricMetric",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store"
-      ],
-      "category": "metrics"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.component.metric.ArchetypeChunkData",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.component.ArchetypeChunk",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.function.consumer.IntBiObjectConsumer",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store"
-      ],
-      "category": "util"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
-        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage"
-      ],
-      "category": "entity"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.ui.builder.UICommandBuilder",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
-        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage"
-      ],
-      "category": "ui"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.ui.builder.UIEventBuilder",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
-        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage"
-      ],
-      "category": "ui"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.pages.PluginListPage.PluginListPageEventData",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
-        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage"
-      ],
-      "category": "plugin"
-    },
-    {
       "fqcn": "com.hypixel.hytale.codec.store.CodecStore",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
+        "com.hypixel.hytale.common.plugin.PluginManifest",
+        "com.hypixel.hytale.codec.Codec",
         "com.hypixel.hytale.codec.ExtraInfo"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.config.Schema.InheritSettings",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.config.Schema.SchemaTypeField",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.lookup.ObjectCodecMapCodec",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.codecs.array.ArrayCodec",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.NamedSchema",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.SchemaContext"
       ],
       "category": "codec"
     },
@@ -3605,6 +3467,16 @@
       "category": "codec"
     },
     {
+      "fqcn": "com.hypixel.hytale.codec.schema.NamedSchema",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.codec.builder.BuilderCodec",
+        "com.hypixel.hytale.codec.schema.SchemaContext"
+      ],
+      "category": "codec"
+    },
+    {
       "fqcn": "com.hypixel.hytale.codec.builder.BuilderCodec.BuilderBase",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -3643,6 +3515,96 @@
         "com.hypixel.hytale.codec.builder.BuilderCodec.KeyEntry"
       ],
       "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.task.ParallelTask",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.system.tick.EntityTickingSystem.SystemTaskData",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.system.tick.EntityTickingSystem",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.system.data.EntityDataSystem.SystemTaskData",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.system.data.EntityDataSystem",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.metrics.metric.HistoricMetric",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store"
+      ],
+      "category": "metrics"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.metric.ArchetypeChunkData",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.ArchetypeChunk",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.function.consumer.IntBiObjectConsumer",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store"
+      ],
+      "category": "util"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.modules.entity.player.ChunkTracker.ChunkVisibility",
@@ -3695,6 +3657,56 @@
       "category": "asset"
     },
     {
+      "fqcn": "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.config.Schema.InheritSettings",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.config.Schema.SchemaTypeField",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.lookup.ObjectCodecMapCodec",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.codecs.array.ArrayCodec",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema"
+      ],
+      "category": "codec"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.worldgen.util.NoiseBlockArray.Entry",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -3745,6 +3757,46 @@
       "category": "entity"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager",
+        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
+        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage"
+      ],
+      "category": "entity"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.ui.builder.UICommandBuilder",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager",
+        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
+        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage"
+      ],
+      "category": "ui"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.ui.builder.UIEventBuilder",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager",
+        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
+        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage"
+      ],
+      "category": "ui"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.pages.PluginListPage.PluginListPageEventData",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager",
+        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
+        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage"
+      ],
+      "category": "plugin"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.command.system.exceptions.CommandException",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -3781,6 +3833,16 @@
         "com.hypixel.hytale.server.core.command.system.CommandRegistry",
         "com.hypixel.hytale.server.core.command.system.AbstractCommand",
         "com.hypixel.hytale.server.core.command.system.arguments.system.DefaultArg"
+      ],
+      "category": "command"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.command.system.CommandManager",
+        "com.hypixel.hytale.server.core.command.commands.utility.net.NetworkCommand.LatencySimulationCommand.Set",
+        "com.hypixel.hytale.server.core.command.system.basecommands.AbstractTargetPlayerCommand"
       ],
       "category": "command"
     },
@@ -3996,16 +4058,6 @@
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager.MarkerProvider",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
-        "com.hypixel.hytale.server.core.universe.world.World",
-        "com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager"
-      ],
-      "category": "universe"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager.PlayerMarkerReference",
       "inclusion_reason": "expansion",
       "expansion_path": [
         "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
@@ -4915,6 +4967,16 @@
       "category": "entity"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.Packet",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent",
+        "com.hypixel.hytale.server.core.io.PacketHandler",
+        "com.hypixel.hytale.protocol.ToServerPacket"
+      ],
+      "category": "protocol"
+    },
+    {
       "fqcn": "com.hypixel.hytale.metrics.MetricsRegistry.Metric",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -4935,6 +4997,16 @@
       "category": "protocol"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.modules.entity.player.PlayerSettings",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent",
+        "com.hypixel.hytale.server.core.entity.entities.Player",
+        "com.hypixel.hytale.server.core.inventory.Inventory"
+      ],
+      "category": "entity"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -4945,14 +5017,14 @@
       "category": "inventory"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.modules.entity.player.PlayerSettings",
+      "fqcn": "com.hypixel.hytale.protocol.PickupLocation",
       "inclusion_reason": "expansion",
       "expansion_path": [
         "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent",
         "com.hypixel.hytale.server.core.entity.entities.Player",
         "com.hypixel.hytale.server.core.inventory.Inventory"
       ],
-      "category": "entity"
+      "category": "protocol"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.entity.entities.player.data.PlayerWorldData",
@@ -5295,204 +5367,6 @@
       "category": "protocol"
     },
     {
-      "fqcn": "com.hypixel.hytale.component.task.ParallelRangeTask",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store",
-        "com.hypixel.hytale.component.task.ParallelTask"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.component.system.data.ArchetypeDataSystem",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store",
-        "com.hypixel.hytale.component.system.data.EntityDataSystem"
-      ],
-      "category": "component"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.metrics.metric.HistoricMetric.Builder",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store",
-        "com.hypixel.hytale.metrics.metric.HistoricMetric"
-      ],
-      "category": "metrics"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.function.consumer.IntObjectConsumer",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
-        "com.hypixel.hytale.component.Store",
-        "com.hypixel.hytale.component.ArchetypeChunk"
-      ],
-      "category": "util"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.ui.Value",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
-        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage",
-        "com.hypixel.hytale.server.core.ui.builder.UICommandBuilder"
-      ],
-      "category": "ui"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.ui.builder.EventData",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
-        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage",
-        "com.hypixel.hytale.server.core.ui.builder.UIEventBuilder"
-      ],
-      "category": "ui"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIDisplayMode.DisplayMode",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIDisplayMode",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditor.EditorComponent",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditor",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditorFeatures.EditorFeature",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditorFeatures",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditorPreview.PreviewType",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditorPreview",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIRebuildCaches.ClientCache",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIRebuildCaches",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIButton",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.WrappedCodec",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
-        "com.hypixel.hytale.codec.schema.config.Schema",
-        "com.hypixel.hytale.codec.codecs.array.ArrayCodec"
-      ],
-      "category": "codec"
-    },
-    {
       "fqcn": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.server.combat.DamageCalculator",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -5537,6 +5411,50 @@
       "category": "codec"
     },
     {
+      "fqcn": "com.hypixel.hytale.component.task.ParallelRangeTask",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store",
+        "com.hypixel.hytale.component.task.ParallelTask"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.system.data.ArchetypeDataSystem",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store",
+        "com.hypixel.hytale.component.system.data.EntityDataSystem"
+      ],
+      "category": "component"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.metrics.metric.HistoricMetric.Builder",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store",
+        "com.hypixel.hytale.metrics.metric.HistoricMetric"
+      ],
+      "category": "metrics"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.function.consumer.IntObjectConsumer",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "com.hypixel.hytale.component.Store",
+        "com.hypixel.hytale.component.ArchetypeChunk"
+      ],
+      "category": "util"
+    },
+    {
       "fqcn": "com.hypixel.hytale.assetstore.AssetHolder",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -5557,6 +5475,138 @@
         "com.hypixel.hytale.assetstore.RawAsset"
       ],
       "category": "asset"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIDisplayMode.DisplayMode",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIDisplayMode",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditor.EditorComponent",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditor",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditorFeatures.EditorFeature",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditorFeatures",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditorPreview.PreviewType",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditorPreview",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIRebuildCaches.ClientCache",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIRebuildCaches",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIButton",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata"
+      ],
+      "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.codec.WrappedCodec",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+        "com.hypixel.hytale.codec.schema.config.Schema",
+        "com.hypixel.hytale.codec.codecs.array.ArrayCodec"
+      ],
+      "category": "codec"
     },
     {
       "fqcn": "com.hypixel.hytale.server.worldgen.util.BlockFluidEntry",
@@ -5603,6 +5653,28 @@
       "category": "worldgen"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.ui.Value",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager",
+        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
+        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage",
+        "com.hypixel.hytale.server.core.ui.builder.UICommandBuilder"
+      ],
+      "category": "ui"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.ui.builder.EventData",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginManager",
+        "com.hypixel.hytale.server.core.plugin.PluginListPageManager",
+        "com.hypixel.hytale.server.core.plugin.pages.PluginListPage",
+        "com.hypixel.hytale.server.core.ui.builder.UIEventBuilder"
+      ],
+      "category": "ui"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.universe.world.accessor.IChunkAccessorSync.TestBlockFunction",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -5612,6 +5684,28 @@
         "com.hypixel.hytale.server.core.universe.world.accessor.IChunkAccessorSync"
       ],
       "category": "universe"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.ChainingInteraction.Data",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
+        "com.hypixel.hytale.server.core.universe.world.World",
+        "com.hypixel.hytale.server.core.universe.world.WorldConfig",
+        "com.hypixel.hytale.server.core.universe.world.storage.provider.IChunkStorageProvider"
+      ],
+      "category": "modules"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockState.Data",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
+        "com.hypixel.hytale.server.core.universe.world.World",
+        "com.hypixel.hytale.server.core.universe.world.WorldConfig",
+        "com.hypixel.hytale.server.core.universe.world.storage.provider.IChunkStorageProvider"
+      ],
+      "category": "core"
     },
     {
       "fqcn": "com.hypixel.hytale.math.shape.Box2D",
@@ -5724,13 +5818,35 @@
       "category": "asset"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.asset.type.gameplay.SleepConfig",
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.gameplay.sleep.SleepConfig",
       "inclusion_reason": "expansion",
       "expansion_path": [
         "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
         "com.hypixel.hytale.server.core.universe.world.World",
         "com.hypixel.hytale.server.core.asset.type.gameplay.GameplayConfig",
         "com.hypixel.hytale.server.core.asset.type.gameplay.WorldConfig"
+      ],
+      "category": "asset"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.gameplay.worldmap.PlayersMapMarkerConfig",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
+        "com.hypixel.hytale.server.core.universe.world.World",
+        "com.hypixel.hytale.server.core.asset.type.gameplay.GameplayConfig",
+        "com.hypixel.hytale.server.core.asset.type.gameplay.WorldMapConfig"
+      ],
+      "category": "asset"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.gameplay.worldmap.UserMapMarkerConfig",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
+        "com.hypixel.hytale.server.core.universe.world.World",
+        "com.hypixel.hytale.server.core.asset.type.gameplay.GameplayConfig",
+        "com.hypixel.hytale.server.core.asset.type.gameplay.WorldMapConfig"
       ],
       "category": "asset"
     },
@@ -6054,6 +6170,28 @@
       "category": "entity"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.user.UserMapMarkersStore",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent",
+        "com.hypixel.hytale.server.core.entity.entities.Player",
+        "com.hypixel.hytale.server.core.entity.entities.player.data.PlayerConfigData",
+        "com.hypixel.hytale.server.core.entity.entities.player.data.PlayerWorldData"
+      ],
+      "category": "universe"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.user.UserMapMarker",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent",
+        "com.hypixel.hytale.server.core.entity.entities.Player",
+        "com.hypixel.hytale.server.core.entity.entities.player.data.PlayerConfigData",
+        "com.hypixel.hytale.server.core.entity.entities.player.data.PlayerWorldData"
+      ],
+      "category": "universe"
+    },
+    {
       "fqcn": "com.hypixel.hytale.server.core.entity.entities.player.data.PlayerRespawnPointData",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -6076,18 +6214,7 @@
       "category": "entity"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.IndexedStorageChunkStorageProvider.IndexedStorageCache",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent",
-        "com.hypixel.hytale.server.core.entity.entities.Player",
-        "com.hypixel.hytale.server.core.entity.entities.player.data.PlayerConfigData",
-        "com.hypixel.hytale.server.core.universe.Universe"
-      ],
-      "category": "universe"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.IndexedStorageChunkStorageProvider",
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.worldstore.WorldMarkersResource",
       "inclusion_reason": "expansion",
       "expansion_path": [
         "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent",
@@ -6461,11 +6588,23 @@
       "category": "math"
     },
     {
+      "fqcn": "com.hypixel.hytale.codec.validation.LegacyValidator",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.codec.builder.BuilderCodec",
+        "com.hypixel.hytale.codec.builder.BuilderCodec.Builder",
+        "com.hypixel.hytale.codec.builder.BuilderCodec.BuilderBase",
+        "com.hypixel.hytale.codec.builder.BuilderField.FieldBuilder"
+      ],
+      "category": "codec"
+    },
+    {
       "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditor.Timeline",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
         "com.hypixel.hytale.codec.schema.config.Schema",
         "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata",
         "com.hypixel.hytale.codec.schema.metadata.ui.UIEditor"
@@ -6476,23 +6615,11 @@
       "fqcn": "com.hypixel.hytale.codec.schema.metadata.ui.UIEditor.WeightedTimeline",
       "inclusion_reason": "expansion",
       "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginManager",
-        "com.hypixel.hytale.metrics.MetricsRegistry",
+        "com.hypixel.hytale.server.core.plugin.PluginBase",
+        "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
         "com.hypixel.hytale.codec.schema.config.Schema",
         "com.hypixel.hytale.codec.schema.config.Schema.HytaleMetadata",
         "com.hypixel.hytale.codec.schema.metadata.ui.UIEditor"
-      ],
-      "category": "codec"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.codec.validation.LegacyValidator",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.PluginBase",
-        "com.hypixel.hytale.codec.builder.BuilderCodec",
-        "com.hypixel.hytale.codec.builder.BuilderCodec.Builder",
-        "com.hypixel.hytale.codec.builder.BuilderCodec.BuilderBase",
-        "com.hypixel.hytale.codec.builder.BuilderField.FieldBuilder"
       ],
       "category": "codec"
     },
@@ -6653,6 +6780,30 @@
       "category": "math"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.ChainingInteraction",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
+        "com.hypixel.hytale.server.core.universe.world.World",
+        "com.hypixel.hytale.server.core.universe.world.WorldConfig",
+        "com.hypixel.hytale.server.core.universe.world.storage.provider.IChunkStorageProvider",
+        "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.ChainingInteraction.Data"
+      ],
+      "category": "modules"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockState",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
+        "com.hypixel.hytale.server.core.universe.world.World",
+        "com.hypixel.hytale.server.core.universe.world.WorldConfig",
+        "com.hypixel.hytale.server.core.universe.world.storage.provider.IChunkStorageProvider",
+        "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockState.Data"
+      ],
+      "category": "core"
+    },
+    {
       "fqcn": "com.hypixel.hytale.math.shape.Shape2D",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -6749,6 +6900,18 @@
       "category": "universe"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.gameplay.sleep.SleepSoundsConfig",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
+        "com.hypixel.hytale.server.core.universe.world.World",
+        "com.hypixel.hytale.server.core.asset.type.gameplay.GameplayConfig",
+        "com.hypixel.hytale.server.core.asset.type.gameplay.WorldConfig",
+        "com.hypixel.hytale.server.core.asset.type.gameplay.sleep.SleepConfig"
+      ],
+      "category": "asset"
+    },
+    {
       "fqcn": "com.hypixel.hytale.assetstore.AssetUpdateQuery.RebuildCacheBuilder",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -6807,18 +6970,6 @@
         "com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap"
       ],
       "category": "protocol"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.storage.IndexedStorageFile",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent",
-        "com.hypixel.hytale.server.core.entity.entities.Player",
-        "com.hypixel.hytale.server.core.entity.entities.player.data.PlayerConfigData",
-        "com.hypixel.hytale.server.core.universe.Universe",
-        "com.hypixel.hytale.server.core.universe.world.storage.provider.IndexedStorageChunkStorageProvider.IndexedStorageCache"
-      ],
-      "category": "core"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.asset.type.fluid.Fluid",
@@ -7271,6 +7422,19 @@
       "category": "worldgen"
     },
     {
+      "fqcn": "com.hypixel.hytale.server.core.entity.reference.PersistentRef",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
+        "com.hypixel.hytale.server.core.universe.world.World",
+        "com.hypixel.hytale.server.core.universe.world.WorldConfig",
+        "com.hypixel.hytale.server.core.universe.world.storage.provider.IChunkStorageProvider",
+        "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockState.Data",
+        "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockState"
+      ],
+      "category": "entity"
+    },
+    {
       "fqcn": "com.hypixel.hytale.math.codec.Vector2dArrayCodec",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -7486,6 +7650,20 @@
         "com.hypixel.hytale.server.core.asset.type.fluid.FluidTicker"
       ],
       "category": "asset"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.FluidDrawType",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent",
+        "com.hypixel.hytale.server.core.entity.entities.Player",
+        "com.hypixel.hytale.server.core.modules.entity.component.CollisionResultComponent",
+        "com.hypixel.hytale.server.core.modules.collision.CollisionResult",
+        "com.hypixel.hytale.server.core.modules.collision.CollisionConfig",
+        "com.hypixel.hytale.server.core.asset.type.fluid.Fluid",
+        "com.hypixel.hytale.protocol.Fluid"
+      ],
+      "category": "protocol"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.prefab.selection.mask.BlockFilter.ParsedFilterParts",
