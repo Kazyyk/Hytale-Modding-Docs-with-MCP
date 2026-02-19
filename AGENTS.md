@@ -98,6 +98,28 @@ Run this after Phase 4 completes, before deploying. It is safe to re-run.
    scan again. If any `.md` link still targets a nonexistent file, stop and
    report the failures. Do not proceed.
 
+### Phase 4.2: Validate Docs Against Source
+
+Run this after Phase 4.1 completes. It is safe to re-run.
+
+Cross-references generated documentation against decompiled source to catch
+errors that link validation cannot detect:
+
+1. **Accessor name mismatches** — verifies every `getX()` / `isX()` /
+   `willX()` in doc tables exists in the decompiled `.java` source,
+   walking the inheritance chain.
+2. **ECS store type mismatches** — verifies listening examples use the
+   correct `Store` type parameter (`ChunkStore` vs `EntityStore`) by
+   checking the event's dispatch system.
+3. **Stale uniqueness claims** — detects phrases like "only async event"
+   and cross-checks against the full event corpus.
+4. **Undefined placeholders** — flags `MAX`, `TBD`, `TODO`, `UNKNOWN` in
+   doc content.
+
+CLI: `./tools/validate.sh` (or `python3 tools/validate-docs.py`)
+
+Exit code 0 = pass, 1 = issues found.
+
 ### Link rules (apply during Phase 4 AND Phase 4.1)
 
 - Every `.md` link must resolve to a file in `output/docs/`. If the file
@@ -140,5 +162,10 @@ Run this after Phase 4 completes, before deploying. It is safe to re-run.
 - **Phase 1 CLI:** `tools/run.sh input/HytaleServer.jar` — Decompiles JAR and
   produces class-index.json. Java + Gradle project using Vineflower 1.11.2
   and JavaParser 3.28.0.
-- **Phases 2-4:** LLM agent work. See `spec/generator-spec.md` for
+- **Phase 2 CLI:** `tools/classify.sh` — Classifies types into API surface
+  vs internal.
+- **Phases 3-4:** LLM agent work. See `spec/generator-spec.md` for
   exploration heuristics and output templates.
+- **Phase 4.2 CLI:** `tools/validate.sh` — Cross-references docs against
+  decompiled source. Catches accessor mismatches, store type errors, stale
+  claims, and placeholders.
