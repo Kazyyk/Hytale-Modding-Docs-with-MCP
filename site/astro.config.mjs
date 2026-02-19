@@ -3,7 +3,6 @@ import starlight from "@astrojs/starlight";
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: Replace with your actual domain once deployed
   site: "https://hydex.kazyyk.dev",
   integrations: [
     starlight({
