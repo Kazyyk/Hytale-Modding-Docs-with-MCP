@@ -1,4 +1,4 @@
-# Hytale API Index — Agent Instructions
+# Hydex — Agent Instructions
 
 ## Project Overview
 

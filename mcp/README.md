@@ -1,4 +1,4 @@
-# Hytale API Index MCP Server
+# Hydex MCP Server
 
 A remote [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server deployed on Cloudflare Workers that exposes the Hytale API documentation corpus via semantic search.
 
@@ -51,8 +51,8 @@ npx wrangler deploy
 ```
 
 The server will be live at:
-`https://hytale-api-index-mcp.<your-account>.workers.dev/mcp` (HTTP transport)
-and `https://hytale-api-index-mcp.<your-account>.workers.dev/sse` (SSE transport)
+`https://hydex-mcp.<your-account>.workers.dev/mcp` (HTTP transport)
+and `https://hydex-mcp.<your-account>.workers.dev/sse` (SSE transport)
 
 ### Connect an MCP Client
 
@@ -60,16 +60,16 @@ The server exposes both `/mcp` (HTTP transport) and `/sse` (SSE transport) endpo
 
 **Claude Code:**
 ```bash
-claude mcp add --transport http hytale-api-index https://hytale-api-index-mcp.<your-account>.workers.dev/mcp
+claude mcp add --transport http hydex https://hydex-mcp.<your-account>.workers.dev/mcp
 ```
 
 **Claude Desktop** (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
-    "hytale-api-index": {
+    "hydex": {
       "type": "http",
-      "url": "https://hytale-api-index-mcp.<your-account>.workers.dev/mcp"
+      "url": "https://hydex-mcp.<your-account>.workers.dev/mcp"
     }
   }
 }

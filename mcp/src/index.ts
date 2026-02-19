@@ -32,7 +32,7 @@ function formatSearchResults(
 
 export class HytaleAPIIndex extends McpAgent<Env> {
   server = new McpServer({
-    name: "hytale-api-index",
+    name: "hydex",
     version: "1.0.0",
   });
 

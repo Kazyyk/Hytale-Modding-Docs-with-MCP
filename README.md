@@ -1,10 +1,10 @@
-# Hytale API Index
+# Hydex
 
 Automatically generated API documentation for the Hytale dedicated server, served as a static site and queryable via MCP.
 
-**Live site:** [api.hytale.kazyyk.dev](https://api.hytale.kazyyk.dev)
+**Live site:** [hydex.kazyyk.dev](https://hydex.kazyyk.dev)
 
-**Live MCP server:** [mcp.hytale.kazyyk.dev/mcp](https://mcp.hytale.kazyyk.dev/mcp) ([/sse](https://mcp.hytale.kazyyk.dev/sse) also available)
+**Live MCP server:** [mcp.hydex.kazyyk.dev/mcp](https://mcp.hydex.kazyyk.dev/mcp) ([/sse](https://mcp.hydex.kazyyk.dev/sse) also available)
 
 ## What This Is / What This Is Not
 
@@ -77,22 +77,22 @@ A remote MCP server on Cloudflare Workers exposes the documentation corpus via s
 
 ### Connecting
 
-The MCP endpoint is `https://mcp.hytale.kazyyk.dev/mcp` (HTTP transport). An SSE endpoint is also available at `/sse`.
+The MCP endpoint is `https://mcp.hydex.kazyyk.dev/mcp` (HTTP transport). An SSE endpoint is also available at `/sse`.
 
 Most MCP-compatible clients can connect using the HTTP URL directly. Examples:
 
 **Claude Code:**
 ```bash
-claude mcp add --transport http hytale-api-index https://mcp.hytale.kazyyk.dev/mcp
+claude mcp add --transport http hydex https://mcp.hydex.kazyyk.dev/mcp
 ```
 
 **Claude Desktop** (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
-    "hytale-api-index": {
+    "hydex": {
       "type": "http",
-      "url": "https://mcp.hytale.kazyyk.dev/mcp"
+      "url": "https://mcp.hydex.kazyyk.dev/mcp"
     }
   }
 }
@@ -107,7 +107,7 @@ A GitHub Action (`.github/workflows/sync-docs-r2.yml`) syncs `output/docs/` to t
 ## Project Structure
 
 ```
-hytale-api-index/
+hydex/
 ├── AGENTS.md                  # Agent instructions (CLAUDE.md symlinks here)
 ├── CONTRIBUTING.md            # Contribution guidelines
 ├── LICENSE                    # Project license
@@ -179,6 +179,10 @@ cd site && npm install && npm run dev
 # Deploy MCP server
 cd mcp && npm install && npx wrangler deploy
 ```
+
+## Acknowledgments
+
+Built with [Vineflower](https://github.com/Vineflower/vineflower), [JavaParser](https://javaparser.org/), [Astro Starlight](https://starlight.astro.build/), [Cloudflare Workers](https://workers.cloudflare.com/), and [Claude Code](https://claude.ai/claude-code).
 
 ## License
 
