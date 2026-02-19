@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-02-09T21:10:00Z",
+  "generated_at": "2026-02-18T17:00:00Z",
   "relationships": [
     {
       "source": {"fqcn": "com.hypixel.hytale.event.EventRegistry", "kind": "event_infrastructure"},
@@ -231,6 +231,104 @@
       "target": {"fqcn": "com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap", "kind": "codec"},
       "relationship": "owns",
       "context": "MapKeyMapCodec maintains static ACTIVE_MAPS (WeakReference set). On register/unregister, iterates all active TypeMaps and calls tryUpgrade() — live propagation of codec changes to all consumers.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.modules.entity.EntityRegistry", "kind": "registry"},
+      "target": {"fqcn": "com.hypixel.hytale.registry.Registry", "kind": "registry"},
+      "relationship": "extends",
+      "context": "EntityRegistry extends Registry<EntityRegistration> — entity type registration uses the generic registry framework.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.modules.entity.EntityRegistry", "kind": "registry"},
+      "relationship": "uses",
+      "context": "PluginBase.getEntityRegistry() provides plugin-scoped entity type registration.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.universe.world.meta.BlockStateRegistry", "kind": "registry"},
+      "target": {"fqcn": "com.hypixel.hytale.registry.Registry", "kind": "registry"},
+      "relationship": "extends",
+      "context": "BlockStateRegistry extends Registry<BlockStateRegistration> — block state registration uses the generic registry framework.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.universe.world.meta.BlockStateRegistry", "kind": "registry"},
+      "relationship": "uses",
+      "context": "PluginBase.getBlockStateRegistry() provides plugin-scoped block state registration.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.task.TaskRegistry", "kind": "registry"},
+      "relationship": "uses",
+      "context": "PluginBase.getTaskRegistry() provides plugin-scoped task scheduling.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.registry.ClientFeatureRegistry", "kind": "registry"},
+      "relationship": "uses",
+      "context": "PluginBase.getClientFeatureRegistry() provides plugin-scoped client feature and tag registration.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.registry.ClientFeatureRegistry", "kind": "registry"},
+      "target": {"fqcn": "com.hypixel.hytale.assetstore.AssetRegistry", "kind": "registry"},
+      "relationship": "uses",
+      "context": "ClientFeatureRegistry.registerClientTag() delegates to AssetRegistry.registerClientTag() for client-visible tag management.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.universe.world.events.ecs.ChunkSaveEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.universe.world.storage.ChunkStore", "kind": "ecs"},
+      "relationship": "dispatched_through",
+      "context": "ChunkSaveEvent is dispatched through the ChunkStore ECS pipeline during chunk serialization.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.universe.world.events.ecs.ChunkUnloadEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.universe.world.storage.ChunkStore", "kind": "ecs"},
+      "relationship": "dispatched_through",
+      "context": "ChunkUnloadEvent is dispatched through the ChunkStore ECS pipeline during chunk unloading.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.universe.world.events.ecs.MoonPhaseChangeEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.modules.time.WorldTimeResource", "kind": "ecs"},
+      "relationship": "fired_by",
+      "context": "MoonPhaseChangeEvent fired by WorldTimeResource when moon phase changes. Dispatched as world-level ECS event.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.asset.LoadAssetEvent", "kind": "event"},
+      "target": {"fqcn": "com.hypixel.hytale.assetstore.AssetRegistry", "kind": "registry"},
+      "relationship": "triggers",
+      "context": "LoadAssetEvent triggers the asset loading pipeline — AssetRegistryLoader responds to this event to load all registered AssetStores.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase", "kind": "plugin"},
+      "target": {"fqcn": "com.hypixel.hytale.server.core.plugin.registry.AssetRegistry", "kind": "registry"},
+      "relationship": "uses",
+      "context": "PluginBase.getAssetRegistry() provides plugin-scoped asset store registration with automatic cleanup on plugin unload.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType", "kind": "asset"},
+      "target": {"fqcn": "com.hypixel.hytale.assetstore.codec.AssetBuilderCodec", "kind": "codec"},
+      "relationship": "serialized_by",
+      "context": "BlockType uses AssetBuilderCodec for JSON serialization. Defines schema declaratively through builder codec pattern with appendInherited for parent chain.",
+      "confidence": "high"
+    },
+    {
+      "source": {"fqcn": "com.hypixel.hytale.server.core.asset.type.item.config.Item", "kind": "asset"},
+      "target": {"fqcn": "com.hypixel.hytale.assetstore.codec.AssetBuilderCodec", "kind": "codec"},
+      "relationship": "serialized_by",
+      "context": "Item uses AssetBuilderCodec for JSON serialization with validators, UI metadata, and versioning.",
       "confidence": "high"
     }
   ]
