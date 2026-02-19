@@ -1,5 +1,5 @@
 ---
-title: "Hytale API Documentation"
+title: "Hydex — Hytale API Documentation"
 kind: "overview"
 api_surface: "public"
 generator_version: "1.0.0"

@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "hytale-api-index-mcp",
+  "name": "hydex-mcp",
   "main": "src/index.ts",
   "compatibility_date": "2025-06-09",
   "compatibility_flags": ["nodejs_compat"],
