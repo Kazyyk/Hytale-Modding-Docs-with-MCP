@@ -1,6 +1,6 @@
 # Hydex
 
-Automatically generated API documentation for the Hytale dedicated server, served as a static site and queryable via MCP.
+Reverse-engineered API reference for Hytale modding, derived from the server JAR. Served as a static site and queryable via MCP.
 
 **Live site:** [hydex.kazyyk.dev](https://hydex.kazyyk.dev)
 
@@ -8,7 +8,7 @@ Automatically generated API documentation for the Hytale dedicated server, serve
 
 ## What This Is / What This Is Not
 
-**What this is:** An automated API reference index generated from the Hytale server JAR. It is a tooling pipeline that decompiles, classifies, and maps the server's internal APIs into a structured, searchable reference for mod developers.
+**What this is:** A reverse-engineered API reference derived from the Hytale server JAR. A four-phase tooling pipeline decompiles, classifies, and maps the server's internal APIs into a structured, searchable reference for mod developers.
 
 **What this is not:** Official documentation, manually authored content, or a replacement for Hypixel Studios' own documentation efforts. Every documented type, method, and field is mechanically derived from the game files.
 
@@ -49,8 +49,8 @@ HytaleServer.jar
 |-------|------|--------|--------|
 | 1. Decompile & Index | Decompile JAR, parse source, produce class index | Vineflower + JavaParser (deterministic) | **Complete** |
 | 2. Classify API Surface | Separate plugin API from internals | Seed-and-expand algorithm | **Complete** |
-| 3. Map Systems | Identify events, ECS, commands, registries, JSON schemas | LLM-assisted exploration | **Complete** |
-| 4. Generate Docs | Produce markdown documentation | Templated + LLM prose | **Complete** |
+| 3. Map Systems | Identify events, ECS, commands, registries, JSON schemas | Heuristic analysis + source tracing | **Complete** |
+| 4. Generate Docs | Produce markdown documentation | Templated generation + source-derived prose | **Complete** |
 
 See `spec/generator-spec.md` for the full engineering specification.
 
@@ -171,7 +171,7 @@ cd tools && ./run.sh ../input/HytaleServer.jar
 # Phase 2: Classify API surface
 cd tools && ./classify.sh
 
-# Phases 3-4: LLM-assisted (see AGENTS.md for instructions)
+# Phases 3-4: See AGENTS.md for instructions
 
 # Build site locally
 cd site && npm install && npm run dev
