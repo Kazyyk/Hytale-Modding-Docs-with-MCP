@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.entity.LivingEntityInventoryC
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - entity
   - inventory
@@ -16,32 +16,26 @@ tags:
 > Extends: `EntityEvent<LivingEntity, String>`
 > Implements: `IEvent<String>`
 > Cancellable: No
-> Key type: `String`
 
-Dispatched when a living entity's inventory changes. This event fires from multiple inventory operations and provides the affected item container and the transaction that describes the change. This event cannot be cancelled -- it is a notification of a change that has already occurred.
-
-Because the key type is `String`, this event is dispatched with a keyed dispatch. Listeners can filter by the entity's type key.
+Standard event dispatched when a living entity's inventory changes. This event fires from multiple inventory operations and provides the affected item container and the transaction that describes the change. This event cannot be cancelled -- it is a notification of a change that has already occurred.
 
 ## Fields / Accessors
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `entity` | `LivingEntity` | `getEntity()` | No | The living entity whose inventory changed. Inherited from `EntityEvent`. |
-| `itemContainer` | `ItemContainer` | `getItemContainer()` | No | The item container that was modified. |
-| `transaction` | `Transaction` | `getTransaction()` | No | The transaction describing the inventory change (items added, removed, or moved). |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `entity` | `LivingEntity` | `getEntity()` | No | No |
+| `itemContainer` | `ItemContainer` | `getItemContainer()` | No | No |
+| `transaction` | `Transaction` | `getTransaction()` | No | No |
+
+- **entity** -- The living entity whose inventory changed. Inherited from `EntityEvent`.
+- **itemContainer** -- The item container that was modified.
+- **transaction** -- The transaction describing the inventory change (items added, removed, or moved).
 
 ## Fired By
 
 This event is dispatched from multiple sites within the `Inventory` class, covering various inventory mutation operations:
 
-- `Inventory` (line 183) via `eventBus.dispatchFor()`
-- `Inventory` (line 195) via `eventBus.dispatchFor()`
-- `Inventory` (line 209) via `eventBus.dispatchFor()`
-- `Inventory` (line 247) via `eventBus.dispatchFor()`
-- `Inventory` (line 285) via `eventBus.dispatchFor()`
-- `Inventory` (line 302) via `eventBus.dispatchFor()`
-
-All dispatch sites fire after the inventory operation completes, providing a consistent notification mechanism for any inventory change on a living entity.
+- `Inventory` (lines 183, 195, 209, 247, 285, 302) via `eventBus dispatchFor` -- EventBus keyed dispatch from multiple inventory change operations.
 
 ## Listening
 
@@ -58,4 +52,4 @@ getEventRegistry().register(LivingEntityInventoryChangeEvent.class, event -> {
 
 ## Related Events
 
-- [`PlayerCraftEvent`](./PlayerCraftEvent.md) -- **deprecated** event that fires specifically for crafting operations, which also result in inventory changes.
+- [`PlayerCraftEvent`](./PlayerCraftEvent.md) -- Deprecated event that fires specifically for crafting operations, which also result in inventory changes.

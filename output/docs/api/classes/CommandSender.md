@@ -2,26 +2,24 @@
 title: "CommandSender"
 kind: "interface"
 package: "com.hypixel.hytale.server.core.command.system"
-api_surface: "public"
+api_surface: true
 extends:
   - "IMessageReceiver"
   - "PermissionHolder"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "commands"
   - "interface"
 ---
 
-> Package: `com.hypixel.hytale.server.core.command.system`
-
-Interface representing the entity that executed a command. Extends `IMessageReceiver` (can receive messages) and `PermissionHolder` (has permissions). Implemented by `Player` and the server console.
-
-## Interface Signature
+**Package:** `com.hypixel.hytale.server.core.command.system`
 
 ```java
 public interface CommandSender extends IMessageReceiver, PermissionHolder
 ```
+
+Interface representing the entity that executed a command. Extends `IMessageReceiver` (can receive messages) and `PermissionHolder` (has permissions). Implemented by [Player](Player.md) and the server console.
 
 ## Methods
 

@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.PlaceBlockEvent"
 api_surface: "public"
 cancellable: true
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - block
@@ -28,13 +28,13 @@ ECS event dispatched when a player places a block in the world. Cancelling this 
 | `targetBlock` | `Vector3i` | `getTargetBlock()` | Yes | No |
 | `rotation` | `RotationTuple` | `getRotation()` | Yes | No |
 
-- **itemInHand** -- The item the player is holding when placing the block. May be `null` if the placement is triggered programmatically without an item context.
-- **targetBlock** -- The world-space coordinates where the block will be placed. Mutable -- changing this redirects the placement location.
-- **rotation** -- The rotation applied to the placed block. Mutable -- changing this alters the block's orientation.
+- **itemInHand** -- The item the player is holding when placing the block. May be `null` if the placement is not item-driven.
+- **targetBlock** -- The world-space coordinates where the block is being placed. Mutable via `setTargetBlock(@Nonnull Vector3i)` -- changing this redirects where the block is placed.
+- **rotation** -- The rotation applied to the placed block. Mutable via `setRotation(@Nonnull RotationTuple)` -- changing this alters the block's orientation.
 
 ## Fired By
 
-- `BlockPlaceUtils` (line 102) via `entityStore.invoke(ref, event)` -- ECS dispatch when a player places a block into the world.
+- `BlockPlaceUtils` (lines 102-103) via `entityStore.invoke(ref, event)` -- ECS dispatch when a player places a block.
 
 ## Listening
 

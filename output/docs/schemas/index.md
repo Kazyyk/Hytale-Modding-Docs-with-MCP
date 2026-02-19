@@ -3,7 +3,7 @@ title: "JSON Asset Schemas"
 kind: "overview"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "schemas"
   - "json"
@@ -73,6 +73,7 @@ Both registry types support live propagation — newly registered codecs are imm
 | [Block](block.md) | `BlockType` | 40+ | Block type definition (rendering, physics, interactions) |
 | [Item](item.md) | `Item` | 50+ | Item definition (UI, gameplay, crafting) |
 | [Crafting Recipe](crafting-recipe.md) | `CraftingRecipe` | 8 | Crafting recipe definition |
+| [NPC Spawn](npc-spawn.md) | `NPCSpawn` | 6 | NPC spawn conditions and parameters |
 
 ## Key Codec Types
 

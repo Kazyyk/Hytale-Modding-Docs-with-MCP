@@ -1,11 +1,11 @@
 ---
-title: EventRegistration
-kind: class
+title: "EventRegistration"
+kind: "class"
 package: com.hypixel.hytale.event
 api_surface: true
 extends: Registration
 generator_version: "1.0.0"
-generated_at: "2026-02-10T06:35:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - event
   - registration

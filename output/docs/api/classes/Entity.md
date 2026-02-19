@@ -1,20 +1,20 @@
 ---
 title: "Entity"
-kind: "class"
+kind: "abstract class"
 package: "com.hypixel.hytale.server.core.entity"
-api_surface: "public"
+api_surface: true
 extends: ~
 implements:
   - "Component<EntityStore>"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:45:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "entity"
   - "ecs"
   - "class"
 ---
 
-> Package: `com.hypixel.hytale.server.core.entity`
+**Package:** `com.hypixel.hytale.server.core.entity`
 
 ```java
 public abstract class Entity implements Component<EntityStore>
@@ -162,6 +162,6 @@ Static inner class containing animation ID helper constants for default entity a
 - [Ref](Ref.md) -- entity reference handle used with `getReference()` / `setReference()`
 - [ComponentType](ComponentType.md) -- type key for accessing `Entity` as a component
 - `Component` -- the ECS component interface that `Entity` implements
-- `World` -- the world container that entities are loaded into
+- [World](World.md) -- the world container that entities are loaded into
 - `BuilderCodec` -- serialization codec for entity data
 - `Holder` -- snapshot container created by `toHolder()`

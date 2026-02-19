@@ -1,13 +1,13 @@
 ---
-title: EventRegistry
-kind: class
+title: "EventRegistry"
+kind: "class"
 package: com.hypixel.hytale.event
 api_surface: true
 extends: Registry<EventRegistration<?, ?>>
 implements:
   - IEventRegistry
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - event
   - registry
@@ -30,7 +30,7 @@ Internally, `EventRegistry` delegates every registration call to a parent `IEven
 public EventRegistry(
     @Nonnull List<BooleanConsumer> registrations,
     @Nonnull BooleanSupplier precondition,
-    String preconditionMessage,
+    @Nullable String preconditionMessage,
     @Nonnull IEventRegistry parent
 )
 ```

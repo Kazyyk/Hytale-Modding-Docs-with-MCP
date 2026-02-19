@@ -7,7 +7,7 @@ extends: ~
 implements:
   - "CommandOwner"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "plugin"
   - "lifecycle"
@@ -34,20 +34,21 @@ Plugins progress through a defined state machine managed by `PluginState`:
 | `START` | Entered when `start0()` is called, immediately before `start()` runs. |
 | `ENABLED` | Set after `start()` completes successfully. The plugin is fully operational. |
 | `SHUTDOWN` | Entered when `shutdown0()` is called. The plugin's `shutdown()` override runs in this state. |
-| `DISABLED` | Set after shutdown completes or if `setup()`/`start()` throws an exception. |
+| `DISABLED` | Set after shutdown completes successfully (when no prior failure occurred). |
+| `FAILED` | Set if `setup()` or `start()` throws an exception, or after shutdown if a prior failure existed. |
 
 ### State Transitions
 
 ```
 NONE --> SETUP --> START --> ENABLED --> SHUTDOWN --> DISABLED
-  |               |
-  +-- (exception) +-- (exception)
-  |               |
-  v               v
-DISABLED        DISABLED
+  |               |                                    |
+  +-- (exception) +-- (exception)          (prior failure)
+  |               |                                    |
+  v               v                                    v
+FAILED          FAILED                              FAILED
 ```
 
-If `setup()` or `start()` throws an exception, the plugin transitions directly to `DISABLED`. The `SHUTDOWN` state is only reached during normal server-initiated shutdown of an enabled plugin.
+If `setup()` or `start()` throws an exception, the plugin transitions directly to `FAILED`. The `SHUTDOWN` state is only reached during normal server-initiated shutdown. After shutdown, the plugin transitions to `DISABLED` if no failure occurred, or `FAILED` if a prior failure cause exists.
 
 ### Lifecycle Methods
 
@@ -57,13 +58,13 @@ Override these methods to define your plugin's behavior. Do not call them direct
 protected void setup()
 ```
 
-Called during the setup phase. Use this to register events, commands, and other resources. All registry accessors are available. If this method throws, the plugin transitions to `DISABLED`.
+Called during the setup phase. Use this to register events, commands, and other resources. All registry accessors are available. If this method throws, the plugin transitions to `FAILED`.
 
 ```java
 protected void start()
 ```
 
-Called after setup completes. Use this for initialization that depends on the server being ready. If this method throws, the plugin transitions to `DISABLED`.
+Called after setup completes. Use this for initialization that depends on the server being ready. If this method throws, the plugin transitions to `FAILED`.
 
 ```java
 protected void shutdown()
@@ -90,7 +91,7 @@ Constructs the plugin base from a `PluginInit` provided by the server. Sets up t
 
 ## Registry Accessors
 
-These methods provide plugin-scoped registries. All registrations made through these registries are automatically cleaned up when the plugin shuts down. Each registry enforces a precondition: the plugin must be in an active state (`SETUP`, `START`, or `ENABLED`). Calling registration methods when the plugin is `NONE`, `DISABLED`, or `SHUTDOWN` throws `IllegalStateException`.
+These methods provide plugin-scoped registries. All registrations made through these registries are automatically cleaned up when the plugin shuts down. Each registry enforces a precondition: the plugin must not be in `NONE` or `DISABLED` state. Calling registration methods when the plugin is in those states throws `IllegalStateException`.
 
 | Registry | Method | Returns |
 |---|---|---|
@@ -285,13 +286,13 @@ Returns the plugin's logger instance. The logger tag includes the plugin name an
 public boolean isEnabled()
 ```
 
-Returns `true` if the plugin is in an active state (not `NONE`, `DISABLED`, or `SHUTDOWN`).
+Returns `true` if the plugin is not disabled. Delegates to `!isDisabled()`.
 
 ```java
 public boolean isDisabled()
 ```
 
-Returns `true` if the plugin is in `NONE`, `DISABLED`, or `SHUTDOWN` state.
+Returns `true` if the plugin is in `NONE`, `DISABLED`, `SHUTDOWN`, or `FAILED` state.
 
 ```java
 @Nonnull
@@ -383,7 +384,7 @@ public class MyPlugin extends PluginBase {
 - `PluginState` -- lifecycle state enum
 - `PluginManifest` -- plugin metadata from the manifest file
 - `PluginIdentifier` -- unique plugin identity
-- `ComponentRegistryProxy` -- ECS component registration proxy
+- [ComponentRegistryProxy](ComponentRegistryProxy.md) -- ECS component registration proxy
 - `BlockStateRegistry` -- block state registration
 - `EntityRegistry` -- entity type registration
 - `TaskRegistry` -- task scheduling registration

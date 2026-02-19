@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.permissions.GroupPermissionCh
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - permissions
   - group
@@ -15,19 +15,16 @@ tags:
 > Package: `com.hypixel.hytale.server.core.event.events.permissions`
 > Implements: `IEvent<Void>`
 > Cancellable: No
-> Key type: `Void`
 
-Base event for permission changes on a named group. This class is not dispatched directly -- its inner classes `Added` and `Removed` are the concrete events fired by the permissions system.
-
-This event cannot be cancelled -- it is a notification of a change that has already occurred in the permissions module.
-
-Because the key type is `Void`, this event is dispatched globally -- all registered listeners receive it regardless of key.
+Abstract base event for permission changes on a named group. This class is not dispatched directly -- its inner classes `Added` and `Removed` are the concrete events fired by the permissions system. This event cannot be cancelled -- it is a notification of a change that has already occurred.
 
 ## Fields / Accessors (Base)
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `groupName` | `String` | `getGroupName()` | No | The name of the permission group that was modified. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `groupName` | `String` | `getGroupName()` | No | No |
+
+- **groupName** -- The name of the permission group that was modified.
 
 ## Inner Classes
 
@@ -35,23 +32,27 @@ Because the key type is `Void`, this event is dispatched globally -- all registe
 
 Dispatched when permissions are added to a group.
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `groupName` | `String` | `getGroupName()` | No | Inherited from base class. |
-| `addedPermissions` | `Set<String>` | `getAddedPermissions()` | No | The set of permission strings that were added to the group. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `groupName` | `String` | `getGroupName()` | No | No |
+| `addedPermissions` | `Set<String>` | `getAddedPermissions()` | No | No |
 
-**Fired by:** `PermissionsModule.addGroupPermission()` (line 110) via `eventBus.dispatchFor()`.
+- **addedPermissions** -- The set of permission strings that were added to the group. Returned as an unmodifiable set.
+
+**Fired by:** `PermissionsModule.addGroupPermission()` (line 110) via `eventBus dispatch`.
 
 ### GroupPermissionChangeEvent.Removed
 
 Dispatched when permissions are removed from a group.
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `groupName` | `String` | `getGroupName()` | No | Inherited from base class. |
-| `removedPermissions` | `Set<String>` | `getRemovedPermissions()` | No | The set of permission strings that were removed from the group. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `groupName` | `String` | `getGroupName()` | No | No |
+| `removedPermissions` | `Set<String>` | `getRemovedPermissions()` | No | No |
 
-**Fired by:** `PermissionsModule.removeGroupPermission()` (line 118) via `eventBus.dispatchFor()`.
+- **removedPermissions** -- The set of permission strings that were removed from the group. Returned as an unmodifiable set.
+
+**Fired by:** `PermissionsModule.removeGroupPermission()` (line 118) via `eventBus dispatch`.
 
 ## Listening
 
@@ -73,14 +74,5 @@ getEventRegistry().register(GroupPermissionChangeEvent.Removed.class, event -> {
 
 ## Related Events
 
-- [`PlayerGroupEvent`](./PlayerGroupEvent.md) -- fired when a player is added to or removed from a group. This is the player-membership counterpart to group-permission changes.
-- [`PlayerPermissionChangeEvent`](./PlayerPermissionChangeEvent.md) -- fired when a player's individual permissions or group memberships change. Part of the broader permissions event cluster.
-
-### Permissions Event Flow
-
-```
-GroupPermissionChangeEvent.Added / .Removed   -- group's permissions change
-PlayerGroupEvent.Added / .Removed             -- player's group membership changes
-PlayerPermissionChangeEvent.PermissionsAdded / .PermissionsRemoved  -- player's direct permissions change
-PlayerPermissionChangeEvent.GroupAdded / .GroupRemoved              -- player's group membership (alternate view)
-```
+- [`PlayerGroupEvent`](./PlayerGroupEvent.md) -- Fired when a player is added to or removed from a group. This is the player-membership counterpart to group-permission changes.
+- [`PlayerPermissionChangeEvent`](./PlayerPermissionChangeEvent.md) -- Fired when a player's individual permissions or group memberships change.

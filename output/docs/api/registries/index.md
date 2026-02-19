@@ -4,7 +4,7 @@ kind: "overview"
 package: "com.hypixel.hytale.registry"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "registries"
   - "overview"
@@ -37,6 +37,9 @@ Each subsystem has a registry class that wraps domain-specific APIs:
 | `EventRegistry` | `Registry<EventRegistration>` | `EventBus` |
 | `CommandRegistry` | `Registry<CommandRegistration>` | `CommandManager` |
 | `BlockStateRegistry` | `Registry<BlockStateRegistration>` | `BlockStateModule` |
+| `EntityRegistry` | `Registry<EntityRegistration>` | `EntityModule` |
+| `TaskRegistry` | `Registry<TaskRegistration>` | Scheduled/recurring task infrastructure |
+| `ClientFeatureRegistry` | `Registry<ClientFeatureRegistration>` | Client-visible feature infrastructure |
 | `ComponentRegistryProxy` | implements `IComponentRegistry` | `ComponentRegistry` |
 | `CodecMapRegistry` | implements `IRegistry` | `StringCodecMapCodec` |
 | `MapKeyMapRegistry` | implements `IRegistry` | `MapKeyMapCodec` |
@@ -73,6 +76,40 @@ All registries are accessed through `PluginBase` methods:
 | `getCodecRegistry(MapKeyMapCodec)` | `MapKeyMapRegistry` | Class-keyed codecs |
 | `getClientFeatureRegistry()` | `ClientFeatureRegistry` | Client features |
 | `withConfig(BuilderCodec<T>)` | `Config<T>` | Plugin JSON config |
+
+## Registry Details
+
+### BlockStateRegistry
+
+Registers custom block states that extend the block type system. Delegates to `BlockStateModule.get()` for actual registration.
+
+```java
+getBlockStateRegistry().registerBlockState(
+    MyBlockState.class, "myplugin:glowing", myCodec);
+
+// With associated data:
+getBlockStateRegistry().registerBlockState(
+    MyBlockState.class, "myplugin:glowing",
+    myCodec, MyData.class, myDataCodec);
+```
+
+### EntityRegistry
+
+Registers custom entity types. Delegates to `EntityModule.get().registerEntity()`. Manages entity type definitions including class, factory, and codec.
+
+```java
+getEntityRegistry().registerEntity(
+    "myplugin:custom_mob", MyMob.class,
+    world -> new MyMob(world), MyMob.CODEC);
+```
+
+### TaskRegistry
+
+Registers scheduled and recurring tasks with lifecycle-aware cleanup on plugin shutdown. Manages `CompletableFuture` and `ScheduledFuture` tasks.
+
+### ClientFeatureRegistry
+
+Registers client-visible features and tags. Has `registerClientTag(String)` for registering tags that are exposed to the client.
 
 ## Registration Flow Example
 

@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent"
 api_surface: "public"
 cancellable: true
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - block
@@ -31,12 +31,12 @@ This event is the terminal event in the block-mining lifecycle. Each mining tick
 | `blockType` | `BlockType` | `getBlockType()` | No | No |
 
 - **itemInHand** -- The item the player is holding when breaking the block. May be `null` if the player is empty-handed.
-- **targetBlock** -- The world-space coordinates of the block being broken. Mutable -- changing this redirects which block is destroyed.
+- **targetBlock** -- The world-space coordinates of the block being broken. Mutable via `setTargetBlock(@Nonnull Vector3i)` -- changing this redirects which block is destroyed.
 - **blockType** -- The type of the block being broken.
 
 ## Fired By
 
-- `BlockHarvestUtils` (line 581) via `entityStore.invoke(ref, event)` -- ECS dispatch when a player finishes mining a block and the harvest succeeds.
+- `BlockHarvestUtils` (lines 581-582) via `entityStore.invoke(ref, event)` -- ECS dispatch when a player finishes mining a block and the harvest succeeds.
 
 ## Listening
 

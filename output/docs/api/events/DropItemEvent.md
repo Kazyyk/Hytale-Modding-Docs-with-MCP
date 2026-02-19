@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.DropItemEvent"
 api_surface: "public"
 cancellable: true
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - item
@@ -46,7 +46,7 @@ Fired when a player requests to drop an item from their inventory. This occurs b
 
 ### Fired By
 
-- `InventoryPacketHandler` (line 298) via `store.invoke(ref, event)` -- ECS dispatch when a player requests to drop an item from inventory.
+- `InventoryPacketHandler` (line 302) via `store.invoke(ref, event)` -- ECS dispatch when a player requests to drop an item from inventory.
 
 ### Listening
 
@@ -91,12 +91,12 @@ Fired when an item is actually being dropped into the world as an item entity. T
 | `itemStack` | `ItemStack` | `getItemStack()` | Yes | No |
 | `throwSpeed` | `float` | `getThrowSpeed()` | Yes | No |
 
-- **itemStack** -- The item being dropped. Mutable -- changing this alters what item entity is spawned in the world.
-- **throwSpeed** -- The velocity at which the item is thrown. Mutable -- set to `0` for a simple drop, or increase for a stronger throw.
+- **itemStack** -- The item being dropped. Mutable via `setItemStack(@Nonnull ItemStack)` -- changing this alters what item entity is spawned in the world.
+- **throwSpeed** -- The velocity at which the item is thrown. Mutable via `setThrowSpeed(float)` -- set to `0` for a simple drop, or increase for a stronger throw.
 
 ### Fired By
 
-- `ItemUtils.throwItem()` (line 87) via `componentAccessor.invoke(ref, event)` -- ECS dispatch when an item is being dropped into the world.
+- `ItemUtils.throwItem()` (lines 75-76) via `componentAccessor.invoke(ref, event)` -- ECS dispatch when an item is being dropped into the world.
 
 ### Listening
 

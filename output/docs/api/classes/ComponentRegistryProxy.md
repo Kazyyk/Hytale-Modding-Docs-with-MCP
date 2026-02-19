@@ -1,13 +1,13 @@
 ---
-title: ComponentRegistryProxy
-kind: class
+title: "ComponentRegistryProxy"
+kind: "class"
 package: com.hypixel.hytale.component
 api_surface: true
 extends: ~
 implements:
   - IComponentRegistry<ECS_TYPE>
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - registry
@@ -83,16 +83,18 @@ Registers a spatial resource -- a specialized resource that provides spatial ind
 
 ```java
 @Nonnull
+@Override
 public <T extends ISystem<ECS_TYPE>> SystemType<ECS_TYPE, T> registerSystemType(@Nonnull Class<? super T> systemTypeClass)
 ```
 
-Registers a system type. Systems are the "S" in ECS -- they contain the logic that operates on entities matching a query. The returned `SystemType` handle is used to reference the system in scheduling and dependency declarations.
+Registers a system type. Systems are the "S" in ECS -- they contain the logic that operates on entities matching a query. The returned [SystemType](SystemType.md) handle is used to reference the system in scheduling and dependency declarations.
 
 ```java
+@Override
 public void registerSystem(@Nonnull ISystem<ECS_TYPE> system)
 ```
 
-Registers a system instance. The system must have been created from a `SystemType` registered via `registerSystemType()`. This adds the system to the store's tick pipeline.
+Registers a system instance. The system is added to the store's tick pipeline. An unregister callback is recorded so the system is removed when the plugin shuts down (unless it is a full server shutdown).
 
 ### System Group Registration
 

@@ -1,11 +1,11 @@
 ---
-title: IEventBus
-kind: interface
+title: "IEventBus"
+kind: "interface"
 package: com.hypixel.hytale.event
 api_surface: true
 extends: IEventRegistry
 generator_version: "1.0.0"
-generated_at: "2026-02-10T06:35:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - event
   - eventbus

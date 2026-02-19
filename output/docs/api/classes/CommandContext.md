@@ -1,25 +1,23 @@
 ---
 title: "CommandContext"
-kind: "class"
+kind: "final class"
 package: "com.hypixel.hytale.server.core.command.system"
-api_surface: "public"
+api_surface: true
 extends: ~
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "commands"
   - "class"
 ---
 
-> Package: `com.hypixel.hytale.server.core.command.system`
-
-Execution context passed to a command's `execute()` or `executeSync()` method. Holds the sender, parsed argument values, the original input string, and the command that was invoked.
-
-## Class Signature
+**Package:** `com.hypixel.hytale.server.core.command.system`
 
 ```java
 public final class CommandContext
 ```
+
+Execution context passed to a command's `execute()` or `executeSync()` method. Holds the sender, parsed argument values, the original input string, and the command that was invoked.
 
 ## Constructor
 

@@ -3,7 +3,7 @@ title: "Hytale API Documentation"
 kind: "overview"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "landing-page"
   - "overview"
@@ -46,13 +46,13 @@ Data-driven content definition through JSON asset files. Block types, items, cra
 
 ## API Surface
 
-This documentation covers **811 plugin-facing API types** out of 6,873 total types in the server JAR. The remaining 6,062 types are internal implementation details not intended for plugin use.
+This documentation covers **828 plugin-facing API types** out of 7,016 total types in the server JAR. The remaining 6,188 types are internal implementation details not intended for plugin use.
 
 - [API Reference](api/index.md) — Plugin-facing classes, events, commands, components, and registries.
 - [Internal Types](internals/index.md) — Internal types are not documented individually. They are not part of the stable plugin API and may change without notice.
 
 ## Build Information
 
-- **JAR Hash:** `sha256:b728b1b83750fadfbacc7ae98bb7ae424d5947114bc13308337e8fd5dab364a8`
+- **JAR Hash:** `sha256:b89a867ba775816f0c6046a333b1c671f7154e5ff2b3819ef7ad6409cfaae784`
 - **Generator Version:** 1.0.0
-- **Generated:** 2026-02-09
+- **Generated:** 2026-02-18

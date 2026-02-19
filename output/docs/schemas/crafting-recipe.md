@@ -5,7 +5,7 @@ asset_type: "CraftingRecipe"
 package: "com.hypixel.hytale.server.core.asset.type.item.config"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "schemas"
   - "json"
@@ -22,7 +22,7 @@ Crafting recipes define how items are created from input materials at crafting s
 
 | JSON Key | Java Type | JSON Type | Required | Default | Description |
 |----------|-----------|-----------|----------|---------|-------------|
-| `Input` | `MaterialQuantity[]` | `array of MaterialQuantity` | yes | — | Required input materials. Each entry specifies an item (by Material ID), resource type, or tags, plus a quantity. |
+| `Input` | `MaterialQuantity[]` | `array of MaterialQuantity` | yes | -- | Required input materials. Each entry specifies an item (by Material ID), resource type, or tags, plus a quantity. |
 | `Output` | `MaterialQuantity[]` | `array of MaterialQuantity` | no | `[]` | Output materials produced by the recipe. If empty and `PrimaryOutput` is set, auto-populated. |
 | `PrimaryOutput` | `MaterialQuantity` | `object` | no | `null` | Primary output material. When recipe is inline on an Item, this is auto-set to the parent item. |
 | `OutputQuantity` | `Integer` | `integer` | no | `1` | Quantity of primary output produced per craft. |
@@ -104,5 +104,5 @@ When defined inline, `PrimaryOutput` is auto-set to the containing item.
 
 ## Related
 
-- **[Item Schema](item.md)** — Parent asset type with inline `Recipe` field
-- **[JSON Asset Schemas Overview](index.md)** — BuilderCodec pattern documentation
+- **[Item Schema](item.md)** -- Parent asset type with inline `Recipe` field
+- **[JSON Asset Schemas Overview](index.md)** -- BuilderCodec pattern documentation

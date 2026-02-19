@@ -1,26 +1,24 @@
 ---
 title: "CommandBase"
-kind: "class"
+kind: "abstract class"
 package: "com.hypixel.hytale.server.core.command.system.basecommands"
-api_surface: "public"
+api_surface: true
 extends: "AbstractCommand"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "commands"
   - "class"
   - "abstract"
 ---
 
-> Package: `com.hypixel.hytale.server.core.command.system.basecommands`
-
-Synchronous command base class. Wraps `execute(CommandContext)` to call `executeSync(CommandContext)` and return `null` (no future). Most simple commands extend this class.
-
-## Class Signature
+**Package:** `com.hypixel.hytale.server.core.command.system.basecommands`
 
 ```java
 public abstract class CommandBase extends AbstractCommand
 ```
+
+Synchronous command base class. Wraps `execute(CommandContext)` to call `executeSync(CommandContext)` and return `null` (no future). Most simple commands extend this class.
 
 ## Constructors
 

@@ -4,7 +4,7 @@ kind: "overview"
 package: "com.hypixel.hytale.component.system"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "ecs"
   - "systems"

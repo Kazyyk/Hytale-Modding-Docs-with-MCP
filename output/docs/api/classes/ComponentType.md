@@ -1,6 +1,6 @@
 ---
-title: ComponentType
-kind: class
+title: "ComponentType"
+kind: "class"
 package: com.hypixel.hytale.component
 api_surface: true
 extends: ~
@@ -8,7 +8,7 @@ implements:
   - Comparable<ComponentType<ECS_TYPE, ?>>
   - Query<ECS_TYPE>
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - component

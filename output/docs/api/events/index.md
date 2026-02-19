@@ -4,7 +4,7 @@ kind: "overview"
 package: "com.hypixel.hytale.event"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "events"
   - "overview"
@@ -139,9 +139,21 @@ IBaseEvent<KeyType>
 │   ├── PlayerSetupDisconnectEvent
 │   ├── PlayerChatEvent (IAsyncEvent + ICancellable)
 │   ├── AddPlayerToWorldEvent
-│   └── DrainPlayerFromWorldEvent
+│   ├── DrainPlayerFromWorldEvent
+│   ├── AllWorldsLoadedEvent
+│   ├── AllNPCsLoadedEvent
+│   ├── LoadedNPCEvent
+│   ├── AssetPackRegisterEvent
+│   ├── AssetPackUnregisterEvent
+│   ├── LoadAssetEvent
+│   ├── GenerateSchemaEvent
+│   ├── GenerateDefaultLanguageEvent
+│   ├── MessagesUpdated
+│   ├── WorldPathChangedEvent
+│   └── SingleplayerRequestAccessEvent
 └── IAsyncEvent<KeyType>               (asynchronous)
-    └── PlayerChatEvent
+    ├── PlayerChatEvent
+    └── SendCommonAssetsEvent
 ```
 
 ### ECS Events
@@ -158,14 +170,25 @@ EcsEvent
 │   ├── DropItemEvent
 │   │   ├── .Drop
 │   │   └── .PlayerRequest
-│   └── CraftRecipeEvent
-│       ├── .Pre
-│       └── .Post
+│   ├── CraftRecipeEvent
+│   │   ├── .Pre
+│   │   └── .Post
+│   ├── ChunkSaveEvent
+│   ├── ChunkUnloadEvent
+│   └── PrefabPasteEvent
 ├── UseBlockEvent
 │   ├── .Pre (+ ICancellableEcsEvent)
 │   └── .Post
-└── DiscoverZoneEvent
-    └── .Display (+ ICancellableEcsEvent)
+├── DiscoverZoneEvent
+│   └── .Display (+ ICancellableEcsEvent)
+├── MoonPhaseChangeEvent
+├── PrefabPlaceEntityEvent
+├── DiscoverInstanceEvent
+│   └── .Display (+ ICancellableEcsEvent)
+└── KillFeedEvent
+    ├── .DecedentMessage (+ CancellableEcsEvent)
+    ├── .Display (+ CancellableEcsEvent)
+    └── .KillerMessage (+ CancellableEcsEvent)
 ```
 
 ## Concrete Events
@@ -210,6 +233,18 @@ EcsEvent
 | [CraftRecipeEvent](CraftRecipeEvent.md) | ECS | Yes | Crafting (Pre/Post) |
 | [DiscoverZoneEvent](DiscoverZoneEvent.md) | ECS | Display: Yes | Zone discovery |
 
+### ECS / World Events
+
+| Event | Type | Cancellable | Description |
+|-------|------|-------------|-------------|
+| `MoonPhaseChangeEvent` | ECS | No | Moon phase changes during time progression |
+| `ChunkSaveEvent` | ECS | Yes | Chunk is being saved to storage |
+| `ChunkUnloadEvent` | ECS | Yes | Chunk is being unloaded from memory |
+| `PrefabPasteEvent` | ECS | Yes | Prefab is being pasted into the world |
+| `PrefabPlaceEntityEvent` | ECS | No | Prefab places an entity into the world |
+| `DiscoverInstanceEvent` | ECS | Display: Yes | Instance discovery |
+| `KillFeedEvent` | ECS | Inner: Yes | Kill feed notifications (DecedentMessage/Display/KillerMessage) |
+
 ### Entity Events
 
 | Event | Type | Cancellable | Description |
@@ -225,6 +260,25 @@ EcsEvent
 | [GroupPermissionChangeEvent](GroupPermissionChangeEvent.md) | Standard | No | Group permissions changed (Added/Removed) |
 | [PlayerGroupEvent](PlayerGroupEvent.md) | Standard | No | Player group membership changed (Added/Removed) |
 | [PlayerPermissionChangeEvent](PlayerPermissionChangeEvent.md) | Standard | No | Player permissions changed (GroupAdded/GroupRemoved/PermissionsAdded/PermissionsRemoved) |
+
+### Server Infrastructure Events
+
+These events are primarily used by internal server infrastructure. They are part of the API surface and plugins can listen for them, but they are most relevant for advanced use cases such as asset management, localization, and server lifecycle orchestration.
+
+| Event | Type | Cancellable | Description |
+|-------|------|-------------|-------------|
+| `AllWorldsLoadedEvent` | Standard | No | All worlds have completed loading |
+| `AllNPCsLoadedEvent` | Standard | No | All NPC builders have been loaded |
+| `LoadedNPCEvent` | Standard | No | A single NPC builder has been loaded |
+| `AssetPackRegisterEvent` | Standard | No | An asset pack is registered with the server |
+| `AssetPackUnregisterEvent` | Standard | No | An asset pack is unregistered from the server |
+| `LoadAssetEvent` | Standard | No | Dispatched during asset loading phase at boot |
+| `GenerateSchemaEvent` | Standard | No | Fired during schema generation for editor toolchain |
+| `GenerateDefaultLanguageEvent` | Standard | No | Fired during default language generation for i18n |
+| `MessagesUpdated` | Standard | No | Translation messages changed or removed |
+| `WorldPathChangedEvent` | Standard | No | World path configuration changed |
+| `SingleplayerRequestAccessEvent` | Standard | No | Singleplayer mode requests access control |
+| `SendCommonAssetsEvent` | Async | No | Common assets being sent to a connecting client |
 
 ## Related
 

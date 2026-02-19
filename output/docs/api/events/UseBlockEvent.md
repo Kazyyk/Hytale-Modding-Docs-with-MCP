@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent"
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - block
@@ -17,9 +17,7 @@ tags:
 > Extends: `EcsEvent`
 > Cancellable: No (base class) -- see inner classes below
 
-ECS event dispatched when a player interacts with (uses) a block. The base class is **not** cancellable; it serves as the common supertype for the `Pre` and `Post` inner classes.
-
-This event uses a Pre/Post pattern: `UseBlockEvent.Pre` fires before the interaction takes effect and can be cancelled, while `UseBlockEvent.Post` fires after the interaction has completed and is informational only.
+Abstract ECS event dispatched when a player interacts with (uses) a block. Uses a Pre/Post pattern: `UseBlockEvent.Pre` fires before the interaction and can be cancelled, while `UseBlockEvent.Post` fires after the interaction has completed.
 
 ## Fields / Accessors (Base Class)
 
@@ -31,7 +29,7 @@ This event uses a Pre/Post pattern: `UseBlockEvent.Pre` fires before the interac
 | `blockType` | `BlockType` | `getBlockType()` | No | No |
 
 - **interactionType** -- The type of interaction being performed on the block.
-- **context** -- Additional context about the interaction (e.g., which face was clicked, cursor position).
+- **context** -- Additional context about the interaction.
 - **targetBlock** -- The world-space coordinates of the block being used.
 - **blockType** -- The type of block being interacted with.
 
@@ -82,7 +80,7 @@ getEntityStoreRegistry().registerSystem(new MyUseBlockPreHandler());
 > Extends: `UseBlockEvent`
 > Cancellable: No
 
-Fired **after** the block interaction has completed. This is an informational event -- the interaction has already occurred and cannot be undone via cancellation.
+Fired **after** the block interaction has completed. This is an informational event -- the interaction has already occurred and cannot be undone.
 
 ### Fired By
 
@@ -117,4 +115,4 @@ getEntityStoreRegistry().registerSystem(new MyUseBlockPostHandler());
 
 - [`BreakBlockEvent`](./BreakBlockEvent.md) -- Fired when a block is mined/destroyed, as opposed to interacted with.
 - [`PlaceBlockEvent`](./PlaceBlockEvent.md) -- Fired when a block is placed.
-- [`LivingEntityUseBlockEvent`](./LivingEntityUseBlockEvent.md) -- Deprecated standard-event predecessor. Use `UseBlockEvent` instead.
+- [`LivingEntityUseBlockEvent`](./LivingEntityUseBlockEvent.md) -- Deprecated standard-event predecessor.

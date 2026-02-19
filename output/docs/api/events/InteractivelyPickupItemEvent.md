@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.InteractivelyPickupItemEv
 api_surface: "public"
 cancellable: true
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - item
@@ -26,11 +26,11 @@ ECS event dispatched when an entity picks up an item from the world. Cancelling 
 |-------|------|----------|---------|----------|
 | `itemStack` | `ItemStack` | `getItemStack()` | Yes | No |
 
-- **itemStack** -- The item being picked up. Mutable -- changing this alters what the entity receives in their inventory.
+- **itemStack** -- The item being picked up. Mutable via `setItemStack(@Nonnull ItemStack)` -- changing this alters what the entity receives in their inventory.
 
 ## Fired By
 
-- `ItemUtils.pickupItem()` (line 35) via `componentAccessor.invoke(ref, event)` -- ECS dispatch when an entity picks up an item from the world.
+- `ItemUtils.pickupItem()` (lines 34-35) via `componentAccessor.invoke(ref, event)` -- ECS dispatch when an entity picks up an item from the world.
 
 ## Listening
 
@@ -53,9 +53,6 @@ public class MyPickupHandler extends EntityEventSystem<EntityStore, Interactivel
         if (isBannedItem(item)) {
             event.setCancelled(true);
         }
-
-        // Example: double the stack size on pickup
-        event.setItemStack(item.withCount(item.getCount() * 2));
     }
 }
 

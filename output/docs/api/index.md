@@ -3,13 +3,13 @@ title: "API Reference"
 kind: "overview"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "api"
   - "overview"
 ---
 
-> 811 plugin-facing types across the Hytale server API.
+> 828 plugin-facing types across the Hytale server API.
 
 ## Plugin Lifecycle
 

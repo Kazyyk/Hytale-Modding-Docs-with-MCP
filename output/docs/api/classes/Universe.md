@@ -1,6 +1,6 @@
 ---
-title: Universe
-kind: class
+title: "Universe"
+kind: "class"
 package: com.hypixel.hytale.server.core.universe
 api_surface: true
 extends: JavaPlugin
@@ -8,7 +8,7 @@ implements:
   - IMessageReceiver
   - MetricProvider
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:45:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - universe
   - world

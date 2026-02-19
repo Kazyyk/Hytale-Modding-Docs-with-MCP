@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.player.PlayerChatEvent"
 api_surface: "public"
 cancellable: true
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - player
   - chat
@@ -17,28 +17,31 @@ tags:
 > Package: `com.hypixel.hytale.server.core.event.events.player`
 > Implements: `IAsyncEvent<String>`, `ICancellable`
 > Cancellable: Yes
-> Key type: `String`
+> Async: Yes
 
-Dispatched asynchronously when a player sends a chat message. This is the **only async event** in the Hytale event system -- listeners receive a `CompletableFuture` rather than the event directly, enabling non-blocking processing of chat messages.
+Asynchronous event dispatched when a player sends a chat message. Listeners receive a `CompletableFuture` and can perform asynchronous operations before the message is sent. See also [`SendCommonAssetsEvent`](./SendCommonAssetsEvent.md) for another async event.
 
-All data fields are mutable, allowing listeners to modify the sender, target list, message content, and formatting before the message is delivered.
-
-Because the key type is `String`, this event is dispatched with a string key and listeners can filter by key value.
+All data fields are mutable, allowing listeners to modify the sender, target list, message content, and formatting before the message is delivered. Cancelling this event prevents the chat message from being broadcast.
 
 ## Fields / Accessors
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `sender` | `PlayerRef` | `getSender()` | Yes | The player who sent the message. |
-| `targets` | `List<PlayerRef>` | `getTargets()` | Yes | The list of players who will receive the message. |
-| `content` | `String` | `getContent()` | Yes | The raw text content of the chat message. |
-| `formatter` | `PlayerChatEvent.Formatter` | `getFormatter()` | Yes | The formatter used to produce the final `Message` from sender and content. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `sender` | `PlayerRef` | `getSender()` | Yes | No |
+| `targets` | `List<PlayerRef>` | `getTargets()` | Yes | No |
+| `content` | `String` | `getContent()` | Yes | No |
+| `formatter` | `PlayerChatEvent.Formatter` | `getFormatter()` | Yes | No |
+
+- **sender** -- The player who sent the message. Mutable via `setSender(@Nonnull PlayerRef)`.
+- **targets** -- The list of players who will receive the message. Mutable via `setTargets(@Nonnull List<PlayerRef>)`.
+- **content** -- The text content of the chat message. Mutable via `setContent(@Nonnull String)`.
+- **formatter** -- The formatter used to convert the message into a `Message` object for display. Defaults to `DEFAULT_FORMATTER` which uses the `server.chat.playerMessage` translation with `username` and `message` parameters. Mutable via `setFormatter(@Nonnull PlayerChatEvent.Formatter)`.
 
 ## Inner Types
 
 ### Formatter (interface)
 
-Functional interface that controls how the chat message is formatted for display.
+Functional interface for formatting chat messages.
 
 ```java
 public interface Formatter {
@@ -47,34 +50,29 @@ public interface Formatter {
 }
 ```
 
-The `DEFAULT_FORMATTER` uses the `server.chat.playerMessage` translation key to produce the formatted message.
+The default formatter (`DEFAULT_FORMATTER`) uses `Message.translation("server.chat.playerMessage").param("username", playerRef.getUsername()).param("message", msg)`.
 
 ## Fired By
 
-- `GamePacketHandler` (line 367) via `eventBus.dispatchForAsync()` -- async dispatch when a player sends a chat message through the game packet handler.
+- `GamePacketHandler` (line 367) via `eventBus dispatchForAsync` -- EventBus async dispatch when player sends a chat message.
 
 ## Listening
 
-Because `PlayerChatEvent` implements `IAsyncEvent`, you must use `registerAsync` instead of `register`. The callback receives a `CompletableFuture<PlayerChatEvent>` rather than the event directly.
+Because `PlayerChatEvent` implements `IAsyncEvent`, use `registerAsync` for async handling or `register` for synchronous handling.
 
 ```java
-getEventRegistry().registerAsync(PlayerChatEvent.class, future -> {
-    return future.thenApply(event -> {
-        // Modify message content
-        event.setContent(event.getContent().toUpperCase());
-        return event;
-    });
+// Synchronous listener:
+getEventRegistry().register(PlayerChatEvent.class, event -> {
+    String content = event.getContent();
+
+    // Example: censor profanity
+    event.setContent(censorProfanity(content));
 });
-```
 
-To cancel the event asynchronously:
-
-```java
+// Async listener (can perform I/O):
 getEventRegistry().registerAsync(PlayerChatEvent.class, future -> {
     return future.thenApply(event -> {
-        if (event.getContent().contains("blocked")) {
-            event.setCancelled(true);
-        }
+        event.setContent(event.getContent().toUpperCase());
         return event;
     });
 });
@@ -82,7 +80,5 @@ getEventRegistry().registerAsync(PlayerChatEvent.class, future -> {
 
 ## Related Events
 
-This event is unique in the Hytale event system as the only async event. There are no directly related events in the same lifecycle, but it is part of the broader player event family:
-
-- [`PlayerConnectEvent`](./PlayerConnectEvent.md) -- fired when the player connects. The player must be connected before chat events can fire.
-- [`PlayerDisconnectEvent`](./PlayerDisconnectEvent.md) -- fired when the player disconnects. No further chat events fire after this.
+- [`PlayerConnectEvent`](./PlayerConnectEvent.md) -- Fired when a player connects to the server.
+- [`PlayerDisconnectEvent`](./PlayerDisconnectEvent.md) -- Fired when a player disconnects from the server.

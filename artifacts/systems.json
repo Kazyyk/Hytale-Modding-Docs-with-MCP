@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-02-09T21:10:00Z",
+  "generated_at": "2026-02-18T17:00:00Z",
   "progress": {
     "events": "complete",
     "ecs": "complete",
@@ -21,16 +21,23 @@
         "BootEvent": {
           "class": "com.hypixel.hytale.server.core.HytaleServer",
           "method": "boot()",
-          "line": 388,
+          "line": 407,
           "mechanism": "eventBus.dispatch(BootEvent.class)",
           "context": "Server boot lifecycle — no event object constructed, uses class-dispatch shorthand"
         },
         "ShutdownEvent": {
           "class": "com.hypixel.hytale.server.core.HytaleServer",
           "method": "shutdown0()",
-          "line": 440,
+          "line": 459,
           "mechanism": "eventBus.dispatch(ShutdownEvent.class)",
           "context": "Server shutdown lifecycle"
+        },
+        "LoadAssetEvent": {
+          "class": "com.hypixel.hytale.server.core.HytaleServer",
+          "method": "boot()",
+          "lines": [333, 334],
+          "mechanism": "dispatchFor(LoadAssetEvent.class).dispatch(new LoadAssetEvent(...))",
+          "context": "Server boot lifecycle — dispatched during asset loading phase"
         },
         "PrepareUniverseEvent": {
           "class": "com.hypixel.hytale.server.core.universe.Universe",
@@ -42,14 +49,14 @@
         "BreakBlockEvent": {
           "class": "com.hypixel.hytale.server.core.modules.interaction.BlockHarvestUtils",
           "method": "block harvest",
-          "line": 581,
+          "lines": [581, 582],
           "mechanism": "entityStore.invoke(ref, event)",
           "context": "ECS dispatch when a player finishes mining a block"
         },
         "PlaceBlockEvent": {
           "class": "com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils",
           "method": "block place",
-          "line": 102,
+          "lines": [102, 103],
           "mechanism": "entityStore.invoke(ref, event)",
           "context": "ECS dispatch when a player places a block"
         },
@@ -63,7 +70,7 @@
         "ChangeGameModeEvent": {
           "class": "com.hypixel.hytale.server.core.entity.entities.Player",
           "method": "setGameMode",
-          "line": 796,
+          "line": 798,
           "mechanism": "componentAccessor.invoke(playerRef, event)",
           "context": "ECS dispatch when game mode changes"
         },
@@ -71,8 +78,8 @@
           "class": "com.hypixel.hytale.server.core.io.handlers.game.InventoryPacketHandler",
           "method": "slot switch",
           "lines": [
-            353,
-            406
+            357,
+            415
           ],
           "mechanism": "store.invoke(ref, event)",
           "context": "ECS dispatch when active hotbar slot changes (two call sites — server-request and client-request)"
@@ -80,35 +87,35 @@
         "InteractivelyPickupItemEvent": {
           "class": "com.hypixel.hytale.server.core.entity.ItemUtils",
           "method": "pickupItem()",
-          "line": 35,
+          "lines": [34, 35],
           "mechanism": "componentAccessor.invoke(ref, event)",
           "context": "ECS dispatch when entity picks up an item"
         },
         "DropItemEvent.PlayerRequest": {
           "class": "com.hypixel.hytale.server.core.io.handlers.game.InventoryPacketHandler",
           "method": "drop handler",
-          "line": 298,
+          "line": 302,
           "mechanism": "store.invoke(ref, event)",
           "context": "ECS dispatch when player requests to drop an item"
         },
         "DropItemEvent.Drop": {
           "class": "com.hypixel.hytale.server.core.entity.ItemUtils",
           "method": "throwItem()",
-          "line": 87,
+          "lines": [75, 76],
           "mechanism": "componentAccessor.invoke(ref, event)",
           "context": "ECS dispatch when item is actually thrown into world"
         },
         "CraftRecipeEvent.Pre": {
           "class": "com.hypixel.hytale.builtin.crafting.component.CraftingManager",
           "method": "craft",
-          "line": 155,
+          "lines": [156, 157],
           "mechanism": "componentAccessor.invoke(ref, preEvent)",
           "context": "ECS dispatch before crafting — can cancel"
         },
         "CraftRecipeEvent.Post": {
           "class": "com.hypixel.hytale.builtin.crafting.component.CraftingManager",
           "method": "craft",
-          "line": 184,
+          "lines": [185, 186],
           "mechanism": "componentAccessor.invoke(ref, postEvent)",
           "context": "ECS dispatch after crafting completes"
         },
@@ -286,6 +293,27 @@
           "line": 102,
           "mechanism": "eventBus dispatch",
           "context": "Individual permissions revoked from player"
+        },
+        "MoonPhaseChangeEvent": {
+          "class": "com.hypixel.hytale.server.core.modules.time.WorldTimeResource",
+          "method": "tick",
+          "lines": [120, 121],
+          "mechanism": "componentAccessor.invoke(event)",
+          "context": "ECS dispatch when the moon phase changes during time progression"
+        },
+        "ChunkSaveEvent": {
+          "class": "com.hypixel.hytale.server.core.universe.world.storage.component.ChunkSavingSystems",
+          "method": "save",
+          "lines": [76, 95],
+          "mechanism": "componentAccessor.invoke(event)",
+          "context": "ECS dispatch when a chunk is being saved (two call sites — different save paths)"
+        },
+        "ChunkUnloadEvent": {
+          "class": "com.hypixel.hytale.server.core.universe.world.storage.component.ChunkUnloadingSystem",
+          "method": "unload",
+          "line": 83,
+          "mechanism": "componentAccessor.invoke(event)",
+          "context": "ECS dispatch when a chunk is being unloaded from memory"
         }
       },
       "type_hierarchy": {
@@ -520,7 +548,7 @@
           "fired_by": {
             "class": "com.hypixel.hytale.server.core.HytaleServer",
             "method": "boot()",
-            "context": "Server boot lifecycle — no event object constructed, uses class-dispatch shorthand. Mechanism: eventBus.dispatch(BootEvent.class). Line 388"
+            "context": "Server boot lifecycle — no event object constructed, uses class-dispatch shorthand. Mechanism: eventBus.dispatch(BootEvent.class). Line 407"
           },
           "confidence": "high"
         },
@@ -556,7 +584,7 @@
           "fired_by": {
             "class": "com.hypixel.hytale.server.core.HytaleServer",
             "method": "shutdown0()",
-            "context": "Server shutdown lifecycle. Mechanism: eventBus.dispatch(ShutdownEvent.class). Line 440"
+            "context": "Server shutdown lifecycle. Mechanism: eventBus.dispatch(ShutdownEvent.class). Line 459"
           },
           "confidence": "high"
         },
@@ -617,7 +645,7 @@
           "fired_by": {
             "class": "com.hypixel.hytale.server.core.modules.interaction.BlockHarvestUtils",
             "method": "block harvest",
-            "context": "ECS dispatch when a player finishes mining a block. Mechanism: entityStore.invoke(ref, event). Line 581"
+            "context": "ECS dispatch when a player finishes mining a block. Mechanism: entityStore.invoke(ref, event). Lines 581-582"
           },
           "confidence": "high"
         },
@@ -654,7 +682,7 @@
           "fired_by": {
             "class": "com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils",
             "method": "block place",
-            "context": "ECS dispatch when a player places a block. Mechanism: entityStore.invoke(ref, event). Line 102"
+            "context": "ECS dispatch when a player places a block. Mechanism: entityStore.invoke(ref, event). Lines 102-103"
           },
           "confidence": "high"
         },
@@ -726,7 +754,7 @@
           "fired_by": {
             "class": "com.hypixel.hytale.server.core.entity.entities.Player",
             "method": "setGameMode",
-            "context": "ECS dispatch when game mode changes. Mechanism: componentAccessor.invoke(playerRef, event). Line 796"
+            "context": "ECS dispatch when game mode changes. Mechanism: componentAccessor.invoke(playerRef, event). Line 798"
           },
           "confidence": "high"
         },
@@ -766,7 +794,7 @@
           "fired_by": {
             "class": "com.hypixel.hytale.server.core.io.handlers.game.InventoryPacketHandler",
             "method": "slot switch",
-            "context": "ECS dispatch when active hotbar slot changes (two call sites — server-request and client-request). Mechanism: store.invoke(ref, event). Lines [353, 406]"
+            "context": "ECS dispatch when active hotbar slot changes (two call sites — server-request and client-request). Mechanism: store.invoke(ref, event). Lines [357, 415]"
           },
           "confidence": "high"
         },
@@ -791,7 +819,7 @@
           "fired_by": {
             "class": "com.hypixel.hytale.server.core.entity.ItemUtils",
             "method": "pickupItem()",
-            "context": "ECS dispatch when entity picks up an item. Mechanism: componentAccessor.invoke(ref, event). Line 35"
+            "context": "ECS dispatch when entity picks up an item. Mechanism: componentAccessor.invoke(ref, event). Lines 34-35"
           },
           "confidence": "high"
         },
@@ -845,7 +873,7 @@
           "fired_by": {
             "class": "com.hypixel.hytale.server.core.io.handlers.game.InventoryPacketHandler",
             "method": "drop handler",
-            "context": "PlayerRequest: ECS dispatch when player requests to drop an item (line 298); Drop: ECS dispatch when item is actually thrown into world in com.hypixel.hytale.server.core.entity.ItemUtils.throwItem() (line 87)"
+            "context": "PlayerRequest: ECS dispatch when player requests to drop an item (line 302); Drop: ECS dispatch when item is actually thrown into world in com.hypixel.hytale.server.core.entity.ItemUtils.throwItem() (lines 75-76)"
           },
           "confidence": "high"
         },
@@ -884,7 +912,7 @@
           "fired_by": {
             "class": "com.hypixel.hytale.builtin.crafting.component.CraftingManager",
             "method": "craft",
-            "context": "Pre: ECS dispatch before crafting — can cancel (line 155); Post: ECS dispatch after crafting completes (line 184)"
+            "context": "Pre: ECS dispatch before crafting — can cancel (lines 156-157); Post: ECS dispatch after crafting completes (lines 185-186)"
           },
           "confidence": "high"
         },
@@ -1795,6 +1823,511 @@
             "context": "PermissionsAdded: Individual permissions granted to player (line 94); PermissionsRemoved: Individual permissions revoked from player (line 102)"
           },
           "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.universe.world.events.AllWorldsLoadedEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Purpose unknown — inferred from usage context. Fired when all worlds have completed loading."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.AllNPCsLoadedEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "allNPCs",
+              "type": "Int2ObjectMap<BuilderInfo>",
+              "accessor": "getAllNPCs()"
+            },
+            {
+              "name": "loadedNPCs",
+              "type": "Int2ObjectMap<BuilderInfo>",
+              "accessor": "getLoadedNPCs()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Fired when all NPC builders have been loaded. Carries maps of all and loaded NPC builder info."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.spawning.LoadedNPCEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "builderInfo",
+              "type": "BuilderInfo",
+              "accessor": "getBuilderInfo()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Fired when a single NPC builder is loaded."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.asset.AssetPackRegisterEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "assetPack",
+              "type": "AssetPack",
+              "accessor": "getAssetPack()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Fired when an asset pack is registered with the server."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.asset.AssetPackUnregisterEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "assetPack",
+              "type": "AssetPack",
+              "accessor": "getAssetPack()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Fired when an asset pack is unregistered from the server."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.asset.LoadAssetEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "bootStart",
+              "type": "long",
+              "accessor": "getBootStart()"
+            },
+            {
+              "name": "reasons",
+              "type": "List<String>",
+              "accessor": "getReasons()"
+            },
+            {
+              "name": "shouldShutdown",
+              "type": "boolean",
+              "accessor": "isShouldShutdown()",
+              "mutable": true
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.HytaleServer",
+            "method": "boot()",
+            "context": "Server boot lifecycle — dispatched during asset loading phase. Mechanism: dispatchFor(LoadAssetEvent.class).dispatch(new LoadAssetEvent(...)). Lines 333-334"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.asset.GenerateSchemaEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "schemas",
+              "type": "Map<String,Schema>",
+              "accessor": "getSchemas()"
+            },
+            {
+              "name": "context",
+              "type": "SchemaContext",
+              "accessor": "getContext()"
+            },
+            {
+              "name": "vsCodeConfig",
+              "type": "BsonDocument",
+              "accessor": "getVsCodeConfig()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Fired during schema generation for editor toolchain integration."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.modules.i18n.event.GenerateDefaultLanguageEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "translationFiles",
+              "type": "ConcurrentHashMap<String,TranslationMap>",
+              "accessor": "getTranslationFiles()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Fired during default language generation for i18n system."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.modules.i18n.event.MessagesUpdated",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "changedMessages",
+              "type": "Map<String,Map<String,String>>",
+              "accessor": "getChangedMessages()"
+            },
+            {
+              "name": "removedMessages",
+              "type": "Map<String,Map<String,String>>",
+              "accessor": "getRemovedMessages()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Fired when translation messages are updated (changed or removed)."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.universe.world.path.WorldPathChangedEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "worldPath",
+              "type": "WorldPath",
+              "accessor": "getWorldPath()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Fired when the world path configuration changes."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.modules.singleplayer.SingleplayerRequestAccessEvent",
+          "extends": null,
+          "implements": [
+            "IEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "access",
+              "type": "Access",
+              "accessor": "getAccess()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Fired when singleplayer mode requests access control."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.asset.common.events.SendCommonAssetsEvent",
+          "extends": null,
+          "implements": [
+            "IAsyncEvent<Void>"
+          ],
+          "cancellable": false,
+          "async": true,
+          "deprecated": false,
+          "key_type": "Void",
+          "data_fields": [
+            {
+              "name": "packetHandler",
+              "type": "PacketHandler",
+              "accessor": "getPacketHandler()"
+            },
+            {
+              "name": "assets",
+              "type": "Asset[]",
+              "accessor": "getAssets()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "Async event fired when common assets are being sent to a connecting client."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.universe.world.events.ecs.MoonPhaseChangeEvent",
+          "extends": "EcsEvent",
+          "implements": [],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "newMoonPhase",
+              "type": "int",
+              "accessor": "getNewMoonPhase()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.modules.time.WorldTimeResource",
+            "method": "tick",
+            "context": "ECS dispatch when the moon phase changes during time progression. Mechanism: componentAccessor.invoke(event). Lines 120-121"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.universe.world.events.ecs.ChunkSaveEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "chunk",
+              "type": "WorldChunk",
+              "accessor": "getChunk()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.universe.world.storage.component.ChunkSavingSystems",
+            "method": "save",
+            "context": "ECS dispatch when a chunk is being saved (two call sites — different save paths). Mechanism: componentAccessor.invoke(event). Lines [76, 95]"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.universe.world.events.ecs.ChunkUnloadEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "chunk",
+              "type": "WorldChunk",
+              "accessor": "getChunk()"
+            },
+            {
+              "name": "resetKeepAlive",
+              "type": "boolean",
+              "accessor": "isResetKeepAlive()"
+            }
+          ],
+          "fired_by": {
+            "class": "com.hypixel.hytale.server.core.universe.world.storage.component.ChunkUnloadingSystem",
+            "method": "unload",
+            "context": "ECS dispatch when a chunk is being unloaded from memory. Mechanism: componentAccessor.invoke(event). Line 83"
+          },
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.prefab.event.PrefabPasteEvent",
+          "extends": "CancellableEcsEvent",
+          "implements": [
+            "ICancellableEcsEvent"
+          ],
+          "cancellable": true,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "prefabId",
+              "type": "int",
+              "accessor": "getPrefabId()"
+            },
+            {
+              "name": "pasteStart",
+              "type": "boolean",
+              "accessor": "isPasteStart()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "ECS dispatch when a prefab is being pasted into the world. Can be cancelled to prevent the paste."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.prefab.event.PrefabPlaceEntityEvent",
+          "extends": "EcsEvent",
+          "implements": [],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [
+            {
+              "name": "prefabId",
+              "type": "int",
+              "accessor": "getPrefabId()"
+            },
+            {
+              "name": "holder",
+              "type": "Holder<EntityStore>",
+              "accessor": "getHolder()"
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "ECS dispatch when a prefab places an entity into the world."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.builtin.instances.event.DiscoverInstanceEvent",
+          "extends": "EcsEvent",
+          "implements": [],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [],
+          "inner_classes": [
+            {
+              "name": "Display",
+              "description": "Fired when instance discovery UI should be displayed. Implements ICancellableEcsEvent — can cancel the display.",
+              "cancellable": true
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "ECS dispatch when an instance is discovered."
+          },
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.core.modules.entity.damage.event.KillFeedEvent",
+          "extends": "EcsEvent",
+          "implements": [],
+          "cancellable": false,
+          "async": false,
+          "deprecated": false,
+          "key_type": "N/A (EcsEvent)",
+          "data_fields": [],
+          "inner_classes": [
+            {
+              "name": "DecedentMessage",
+              "description": "Fired for the death message shown to the killed entity. Extends CancellableEcsEvent.",
+              "cancellable": true
+            },
+            {
+              "name": "Display",
+              "description": "Fired when kill feed UI should be displayed. Extends CancellableEcsEvent.",
+              "cancellable": true
+            },
+            {
+              "name": "KillerMessage",
+              "description": "Fired for the kill message shown to the killer entity. Extends CancellableEcsEvent.",
+              "cancellable": true
+            }
+          ],
+          "fired_by": {
+            "class": "unknown",
+            "method": "unknown",
+            "context": "ECS dispatch for kill feed notifications. Inner classes handle different message targets."
+          },
+          "confidence": "medium"
         }
       ],
       "plugin_lifecycle_integration": {
@@ -1875,7 +2408,7 @@
         "CommandManager": {
           "fqcn": "com.hypixel.hytale.server.core.command.system.CommandManager",
           "kind": "class",
-          "description": "Singleton command dispatcher and registry. Handles command input tokenization, argument parsing, permission checking, and dispatch. Commands run on ForkJoinPool.commonPool(). Registers 55+ built-in commands in registerCommands().",
+          "description": "Singleton command dispatcher and registry. Handles command input tokenization, argument parsing, permission checking, and dispatch. Commands run on ForkJoinPool.commonPool(). Registers 58 built-in commands in registerCommands().",
           "key_methods": [
             "get() -> CommandManager (singleton)",
             "register(AbstractCommand) -> void",
@@ -2353,7 +2886,8 @@
         "confidence": "high"
       },
       "builtin_commands": {
-        "description": "CommandManager.registerCommands() registers 55+ built-in commands. These cover gameplay, administration, debugging, and world management.",
+        "description": "CommandManager.registerCommands() registers 58 built-in commands. These cover gameplay, administration, debugging, and world management.",
+        "total_count": 58,
         "categories": {
           "player": [
             "gamemode (gm)",
@@ -2362,21 +2896,27 @@
             "sudo",
             "refer",
             "player (zone, camera subcommands)",
-            "toggleblockplacementoverride"
+            "toggleblockplacementoverride",
+            "sleep"
           ],
           "server": [
             "kick",
             "stop",
             "who",
             "maxplayers",
-            "auth (login, logout, status, etc.)"
+            "auth (login, logout, status, etc.)",
+            "update (Status, Cancel, Patchline, Download, Apply, Check)",
+            "network",
+            "version"
           ],
           "world_entity": [
-            "entity (clone, remove, effect, count, dump, invulnerable, intangible, etc.)",
-            "spawn"
+            "entity (collection with subcommands: clone, remove, effect, count, dump, invulnerable, intangible, etc.)",
+            "spawn",
+            "repulsion"
           ],
           "world_chunk": [
-            "chunk (load, unload, regenerate, info, lighting, etc.)"
+            "chunk (load, unload, regenerate, info, lighting, etc.)",
+            "stopnetworkchunksending"
           ],
           "world_gen": [
             "worldgen (benchmark, reload)"
@@ -2388,18 +2928,25 @@
             "weather",
             "say",
             "message (msg)",
-            "scoreboard"
+            "scoreboard",
+            "commands (meta-command listing)",
+            "bindings",
+            "tagpattern"
           ],
           "debug": [
             "ping",
-            "version",
             "log",
             "server (stats, gc, dump)",
             "packetstats",
             "stresstest",
             "assets",
             "packs",
-            "hitdetection"
+            "hitdetection",
+            "debugplayerposition",
+            "messagetranslationtest",
+            "hudmanagertest",
+            "showbuildertoolshud",
+            "git"
           ],
           "builder_tools": [
             "fill",
@@ -2855,6 +3402,41 @@
         "system_group_pattern": "SystemGroups order system execution within a tick. Systems in the same group run together. SEND_PACKET_GROUP on EntityStore groups all packet-sending systems.",
         "dependency_pattern": "Systems declare dependencies via getDependencies(). The runtime uses these to determine execution order within a group."
       },
+      "component_types_summary": {
+        "total_count": "173+",
+        "description": "Over 173 component types found across EntityStore and ChunkStore registries.",
+        "key_categories": {
+          "builtin_plugin_components": [
+            "AmbienceTracker",
+            "PlayerSomnolence",
+            "SleepTracker",
+            "PortalDevice",
+            "VoidEvent",
+            "VoidSpawner",
+            "PlayerMemories",
+            "DeployableComponent",
+            "Teleporter",
+            "BlockMountComponent",
+            "MinecartComponent",
+            "MountedComponent",
+            "NPCMountComponent",
+            "ParkourCheckpoint",
+            "DamageMemory",
+            "TargetMemory"
+          ],
+          "player_specific_components": [
+            "MovementManager",
+            "CameraManager",
+            "HotbarManager",
+            "WindowManager",
+            "PageManager",
+            "HudManager",
+            "PlayerConfigData",
+            "PlayerRespawnPointData"
+          ]
+        },
+        "confidence": "high"
+      },
       "plugin_registration": {
         "entity_store": {
           "access": "PluginBase.getEntityStoreRegistry()",
@@ -2962,6 +3544,42 @@
             "registerBlockState(Class<T>, String key, Codec<T>, Class<D> dataClass, Codec<D> dataCodec) -> BlockStateRegistration"
           ],
           "access": "PluginBase.getBlockStateRegistry()",
+          "confidence": "high"
+        }
+      },
+      "entity_registry": {
+        "EntityRegistry": {
+          "fqcn": "com.hypixel.hytale.server.core.modules.entity.EntityRegistry",
+          "kind": "class",
+          "extends": "Registry<EntityRegistration>",
+          "description": "Plugin-scoped registry for entity types. Delegates to EntityModule.get().registerEntity() for actual registration. Manages entity type definitions including class, factory, and codec.",
+          "key_methods": [
+            "registerEntity(String key, Class<T>, Function<World,T>, DirectDecodeCodec<T>) -> EntityRegistration"
+          ],
+          "access": "PluginBase.getEntityRegistry()",
+          "confidence": "high"
+        }
+      },
+      "task_registry": {
+        "TaskRegistry": {
+          "fqcn": "com.hypixel.hytale.server.core.task.TaskRegistry",
+          "kind": "class",
+          "extends": "Registry<TaskRegistration>",
+          "description": "Plugin-scoped registry for scheduled and recurring tasks. Manages CompletableFuture and ScheduledFuture tasks with lifecycle-aware cleanup on plugin shutdown.",
+          "access": "PluginBase.getTaskRegistry()",
+          "confidence": "high"
+        }
+      },
+      "client_feature_registry": {
+        "ClientFeatureRegistry": {
+          "fqcn": "com.hypixel.hytale.server.core.registry.ClientFeatureRegistry",
+          "kind": "class",
+          "extends": "Registry<ClientFeatureRegistration>",
+          "description": "Plugin-scoped registry for client-visible features. Manages ClientFeature registrations and client-visible tags. Has registerClientTag(String) for registering tags that are exposed to the client.",
+          "key_methods": [
+            "registerClientTag(String) -> ClientFeatureRegistration"
+          ],
+          "access": "PluginBase.getClientFeatureRegistry()",
           "confidence": "high"
         }
       },
