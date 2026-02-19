@@ -37,18 +37,18 @@ ECS event dispatched when a chunk is being unloaded from memory. Cancelling this
 
 ## Listening
 
-ECS events are handled by `EntityEventSystem` subclasses, not by `getEventRegistry().register()`.
+ECS events are handled by `EntityEventSystem` subclasses, not by `getEventRegistry().register()`. Chunk events operate on the `ChunkStore` pipeline, not `EntityStore`.
 
 ```java
-public class MyChunkUnloadHandler extends EntityEventSystem<EntityStore, ChunkUnloadEvent> {
+public class MyChunkUnloadHandler extends EntityEventSystem<ChunkStore, ChunkUnloadEvent> {
     @Override
-    public Query<EntityStore> getQuery() {
+    public Query<ChunkStore> getQuery() {
         return MY_COMPONENT_TYPE;
     }
 
     @Override
-    public void handle(int index, ArchetypeChunk<EntityStore> chunk,
-                       Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer,
+    public void handle(int index, ArchetypeChunk<ChunkStore> chunk,
+                       Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer,
                        ChunkUnloadEvent event) {
         WorldChunk worldChunk = event.getChunk();
 
@@ -60,7 +60,7 @@ public class MyChunkUnloadHandler extends EntityEventSystem<EntityStore, ChunkUn
 }
 
 // Register in plugin setup():
-getEntityStoreRegistry().registerSystem(new MyChunkUnloadHandler());
+getChunkStoreRegistry().registerSystem(new MyChunkUnloadHandler());
 ```
 
 ## Related Events

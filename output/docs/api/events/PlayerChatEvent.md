@@ -19,7 +19,7 @@ tags:
 > Cancellable: Yes
 > Async: Yes
 
-Asynchronous event dispatched when a player sends a chat message. This is the only async event in the concrete event set -- listeners receive a `CompletableFuture` and can perform asynchronous operations before the message is sent.
+Asynchronous event dispatched when a player sends a chat message. Listeners receive a `CompletableFuture` and can perform asynchronous operations before the message is sent. See also [`SendCommonAssetsEvent`](./SendCommonAssetsEvent.md) for another async event.
 
 All data fields are mutable, allowing listeners to modify the sender, target list, message content, and formatting before the message is delivered. Cancelling this event prevents the chat message from being broadcast.
 

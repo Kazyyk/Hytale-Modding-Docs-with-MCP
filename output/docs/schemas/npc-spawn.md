@@ -32,8 +32,8 @@ NPC spawn definitions control which NPCs can spawn, under what environmental con
 
 | JSON Key | Java Type | JSON Type | Required | Default | Description |
 |----------|-----------|-----------|----------|---------|-------------|
-| `DayTimeRange` | `double[]` | `array of 2 numbers` | no | `[0.0, MAX]` | Hour range within which the NPCs will spawn (between 0 and 24). Values are divided by 24 internally to normalize to a 0-1 range. Must contain exactly 2 elements, both >= 0. |
-| `MoonPhaseRange` | `int[]` | `array of 2 integers` | no | `[0, MAX]` | Moon phase range during which the NPCs will spawn. Must contain exactly 2 elements, both >= 0. |
+| `DayTimeRange` | `double[]` | `array of 2 numbers` | no | `[0.0, Double.MAX_VALUE]` | Hour range within which the NPCs will spawn (between 0 and 24). Default is unbounded (always spawns). Values are divided by 24 internally to normalize to a 0-1 range. Must contain exactly 2 elements, both >= 0. |
+| `MoonPhaseRange` | `int[]` | `array of 2 integers` | no | `[0, Integer.MAX_VALUE]` | Moon phase range during which the NPCs will spawn. Default is unbounded (all phases). Must contain exactly 2 elements, both >= 0. |
 | `ScaleDayTimeRange` | `Boolean` | `boolean` | no | `true` | If true, instead of using absolute hour values for DayTimeRange, it will be scaled based on the world's DaytimePortion. 0 and 24 represent the middle of the night portion. 6 represents sunrise. 12 represents the middle of the day portion. 18 represents sunset. |
 
 ### Light Conditions
