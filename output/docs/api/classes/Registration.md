@@ -5,7 +5,7 @@ package: "com.hypixel.hytale.registry"
 api_surface: true
 extends: ~
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "registry"
   - "registration"

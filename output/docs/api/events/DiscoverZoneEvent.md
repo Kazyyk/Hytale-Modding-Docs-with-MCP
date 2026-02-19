@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.DiscoverZoneEvent"
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - world
@@ -17,7 +17,7 @@ tags:
 > Extends: `EcsEvent`
 > Cancellable: No (base class) -- see inner class below
 
-ECS event dispatched when a player discovers a new zone in the world. The base class is **not** cancellable -- zone discovery itself always proceeds. The `Display` inner class fires for the visual notification and can be cancelled to suppress the on-screen display.
+Abstract ECS event dispatched when a player discovers a new zone in the world. The base class is **not** cancellable -- zone discovery itself always proceeds. The `Display` inner class fires for the visual notification and can be cancelled to suppress the on-screen display.
 
 ## Fields / Accessors (Base Class)
 
@@ -26,10 +26,6 @@ ECS event dispatched when a player discovers a new zone in the world. The base c
 | `discoveryInfo` | `WorldMapTracker.ZoneDiscoveryInfo` | `getDiscoveryInfo()` | No | No |
 
 - **discoveryInfo** -- Contains information about the discovered zone, including zone identity and discovery metadata from the world map tracker.
-
-## Fired By
-
-- `WorldMapTracker` (line 148) via `componentAccessor.invoke(ref, event)` -- ECS dispatch when a player enters and discovers a new zone.
 
 ---
 
@@ -40,6 +36,10 @@ ECS event dispatched when a player discovers a new zone in the world. The base c
 > Cancellable: Yes
 
 Fired after zone discovery to trigger the on-screen display notification. Cancelling this event suppresses the visual notification while the zone is still recorded as discovered.
+
+### Fired By
+
+- `WorldMapTracker` (line 148) via `componentAccessor.invoke(ref, event)` -- ECS dispatch when a player discovers a new zone.
 
 ### Listening
 
@@ -67,32 +67,6 @@ public class MyZoneDisplayHandler extends EntityEventSystem<EntityStore, Discove
 getEntityStoreRegistry().registerSystem(new MyZoneDisplayHandler());
 ```
 
-### Listening (Base Class)
-
-To listen to all zone discoveries regardless of display:
-
-```java
-public class MyZoneDiscoverHandler extends EntityEventSystem<EntityStore, DiscoverZoneEvent> {
-    @Override
-    public Query<EntityStore> getQuery() {
-        return MY_COMPONENT_TYPE;
-    }
-
-    @Override
-    public void handle(int index, ArchetypeChunk<EntityStore> chunk,
-                       Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer,
-                       DiscoverZoneEvent event) {
-        WorldMapTracker.ZoneDiscoveryInfo info = event.getDiscoveryInfo();
-
-        // Example: track zone discovery for achievements
-        achievementTracker.onZoneDiscovered(info);
-    }
-}
-
-// Register in plugin setup():
-getEntityStoreRegistry().registerSystem(new MyZoneDiscoverHandler());
-```
-
 ## Related Events
 
-There are no directly related ECS events. Zone discovery is a standalone world exploration event.
+- [`DiscoverInstanceEvent`](./DiscoverInstanceEvent.md) -- Similar ECS event for instance discovery. Follows the same base/Display pattern.

@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.ChangeGameModeEvent"
 api_surface: "public"
 cancellable: true
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - player
@@ -26,11 +26,11 @@ ECS event dispatched when a player's game mode is about to change. Cancelling th
 |-------|------|----------|---------|----------|
 | `gameMode` | `GameMode` | `getGameMode()` | Yes | No |
 
-- **gameMode** -- The game mode being switched to. Mutable -- changing this alters which game mode the player will be placed in.
+- **gameMode** -- The game mode being switched to. Mutable via `setGameMode(@Nonnull GameMode)` -- changing this alters which game mode the player will be placed in.
 
 ## Fired By
 
-- `Player.setGameMode` (line 796) via `componentAccessor.invoke(playerRef, event)` -- ECS dispatch when a player's game mode changes.
+- `Player.setGameMode` (line 798) via `componentAccessor.invoke(playerRef, event)` -- ECS dispatch when a player's game mode changes.
 
 ## Listening
 

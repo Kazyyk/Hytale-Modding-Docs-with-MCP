@@ -6,29 +6,31 @@ fqcn: "com.hypixel.hytale.server.core.event.events.PrepareUniverseEvent"
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - lifecycle
-  - server
+  - deprecated
 ---
+
+> **DEPRECATED** -- This event is deprecated.
 
 > Package: `com.hypixel.hytale.server.core.event.events`
 > Implements: `IEvent<Void>`
 > Cancellable: No
 
-**Deprecated.** This event is deprecated and may be removed in a future version.
-
-Dispatched during universe initialization to provide listeners with access to the world configuration provider. Listeners can use this event to inspect or mutate the `WorldConfigProvider` before worlds are created. The world config provider field is mutable, allowing listeners to replace the provider entirely.
+Standard event dispatched during universe initialization. Provides listeners with access to the world configuration provider. The `worldConfigProvider` field is mutable, allowing listeners to replace the provider entirely before worlds are created.
 
 ## Fields / Accessors
 
-| Accessor | Return Type | Description |
-|----------|-------------|-------------|
-| `getWorldConfigProvider()` | `WorldConfigProvider` | Returns the current world configuration provider. Mutable -- listeners may replace this value. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `worldConfigProvider` | `WorldConfigProvider` | `getWorldConfigProvider()` | Yes | No |
+
+- **worldConfigProvider** -- The world configuration provider used to configure worlds in the universe. Mutable via `setWorldConfigProvider(WorldConfigProvider)`.
 
 ## Fired By
 
-- Dispatched by `Universe.init` (line 255) via the event bus during universe initialization. The event carries the `WorldConfigProvider` used to configure worlds in the universe.
+- `Universe.init` (line 255) via `eventBus dispatch` -- Dispatched during universe initialization with the world config provider.
 
 ## Listening
 
@@ -41,5 +43,6 @@ getEventRegistry().register(PrepareUniverseEvent.class, event -> {
 
 ## Related Events
 
-- [`BootEvent`](./BootEvent.md) -- fires earlier in the server lifecycle, before universes are initialized.
-- [`ShutdownEvent`](./ShutdownEvent.md) -- fires during server shutdown, after universes have been active.
+- [`BootEvent`](./BootEvent.md) -- Fires earlier in the server lifecycle, before universes are initialized.
+- [`ShutdownEvent`](./ShutdownEvent.md) -- Fires during server shutdown.
+- [`AllWorldsLoadedEvent`](./AllWorldsLoadedEvent.md) -- Fires after all worlds have completed loading.

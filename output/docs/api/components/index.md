@@ -4,7 +4,7 @@ kind: "overview"
 package: "com.hypixel.hytale.component"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "ecs"
   - "overview"
@@ -40,6 +40,23 @@ A `Ref<ECS_TYPE>` is a typed pointer to an entity within a `Store`. Contains a v
 ### Holders
 
 A `Holder<ECS_TYPE>` is an entity data container — a blueprint holding an `Archetype` and array of `Component`s. Used for entity transfer between stores, serialization, and spawning.
+
+## Component Types
+
+Over 173 component types are registered across `EntityStore` and `ChunkStore` registries in the dual-store architecture:
+
+- **`EntityStore`** — Entity-level components for players, NPCs, mobs, items, and other game entities.
+- **`ChunkStore`** — Chunk-level components for world data management.
+
+Key built-in component categories include:
+
+| Category | Examples |
+|----------|----------|
+| Builtin Plugin | `AmbienceTracker`, `PlayerSomnolence`, `SleepTracker`, `PortalDevice`, `Teleporter` |
+| Player Specific | `MovementManager`, `CameraManager`, `HotbarManager`, `WindowManager`, `PageManager`, `HudManager` |
+| Gameplay | `DeployableComponent`, `BlockMountComponent`, `MinecartComponent`, `MountedComponent` |
+| AI/NPC | `NPCMountComponent`, `DamageMemory`, `TargetMemory`, `PlayerMemories` |
+| World | `ParkourCheckpoint`, `VoidEvent`, `VoidSpawner` |
 
 ## Plugin Registration
 
@@ -101,12 +118,12 @@ Components are accessed through `Store<ECS_TYPE>` (which implements `ComponentAc
 
 | Method | Description |
 |--------|-------------|
-| `getComponent(Ref, ComponentType) → T` | Get component data for an entity |
+| `getComponent(Ref, ComponentType) -> T` | Get component data for an entity |
 | `addComponent(Ref, ComponentType, Component)` | Add component to entity |
 | `removeComponent(Ref, ComponentType)` | Remove component from entity |
-| `addEntity(Holder, AddReason) → Ref` | Add entity to store |
-| `removeEntity(Ref, Holder, RemoveReason) → Holder` | Remove entity |
-| `getResource(ResourceType) → Resource` | Get store-level resource |
+| `addEntity(Holder, AddReason) -> Ref` | Add entity to store |
+| `removeEntity(Ref, Holder, RemoveReason) -> Holder` | Remove entity |
+| `getResource(ResourceType) -> Resource` | Get store-level resource |
 | `invoke(Ref, EcsEvent)` | Dispatch entity-level ECS event |
 | `invoke(EcsEvent)` | Dispatch store-level ECS event |
 

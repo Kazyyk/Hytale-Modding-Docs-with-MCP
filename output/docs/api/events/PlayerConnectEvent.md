@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent"
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - player
   - connection
@@ -17,24 +17,27 @@ tags:
 > Implements: `IEvent<Void>`
 > Cancellable: No
 
-Dispatched when a player entity has been created and the player is fully connected to the server. This event fires after the setup phase is complete (after `PlayerSetupConnectEvent`) and provides access to the player's entity holder and reference.
+Standard event dispatched when a player entity has been created and connected to the server. This fires after the setup phase is complete (after `PlayerSetupConnectEvent`) and provides access to the player's entity holder and reference.
 
 The `world` field is mutable, allowing listeners to override which world the player initially spawns into. If set to `null`, the server uses its default world selection logic.
 
-Because the key type is `Void`, this event is dispatched globally -- all registered listeners receive it regardless of key.
-
 ## Fields / Accessors
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `holder` | `Holder<EntityStore>` | `getHolder()` | No | The entity holder for the connected player. |
-| `playerRef` | `PlayerRef` | `getPlayerRef()` | No | Reference to the connected player. |
-| `player` | `Player` | `getPlayer()` | No | **Deprecated.** Use `holder.getComponent(Player.getComponentType())` instead. |
-| `world` | `World` | `getWorld()` | Yes | The world the player will be placed into. Nullable -- mutable to override spawn world. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `holder` | `Holder<EntityStore>` | `getHolder()` | No | No |
+| `playerRef` | `PlayerRef` | `getPlayerRef()` | No | No |
+| `player` | `Player` | `getPlayer()` | No | No |
+| `world` | `World` | `getWorld()` | Yes | Yes |
+
+- **holder** -- The entity holder for the connecting player's ECS store.
+- **playerRef** -- Reference to the connected player, usable for sending messages and tracking identity.
+- **player** -- The `Player` component. Deprecated -- use `holder.getComponent(Player.getComponentType())` instead.
+- **world** -- The world the player will be placed in. May be `null`. Mutable via `setWorld(@Nullable World)` -- changing this redirects the player's initial world.
 
 ## Fired By
 
-- Dispatched by `Universe` (line 697) via `eventBus.dispatchFor()` when the player entity is created and connected. This fires after the setup phase completes and the player entity exists in the ECS.
+- `Universe` (line 697) via `eventBus dispatchFor` -- EventBus dispatch when player entity is created and connected.
 
 ## Listening
 
@@ -42,15 +45,20 @@ Because the key type is `Void`, this event is dispatched globally -- all registe
 getEventRegistry().register(PlayerConnectEvent.class, event -> {
     PlayerRef playerRef = event.getPlayerRef();
     World world = event.getWorld();
-    // Player entity is now available
+
+    // Example: redirect all players to a specific world
+    if (world == null) {
+        event.setWorld(myDefaultWorld);
+    }
 });
 ```
 
 ## Related Events
 
-- [`PlayerSetupConnectEvent`](./PlayerSetupConnectEvent.md) -- fired before this event, during early connection before the player entity exists. Previous step in the connection flow.
-- [`PlayerDisconnectEvent`](./PlayerDisconnectEvent.md) -- the counterpart event fired when the player disconnects after being fully connected.
-- [`AddPlayerToWorldEvent`](./AddPlayerToWorldEvent.md) -- fired after this event when the player enters a world. Next step in the connection flow.
+- [`PlayerSetupConnectEvent`](./PlayerSetupConnectEvent.md) -- Fired earlier in the connection lifecycle, during the setup phase (before the player entity exists). Can be cancelled to reject the connection.
+- [`PlayerDisconnectEvent`](./PlayerDisconnectEvent.md) -- Fired when a connected player disconnects.
+- [`AddPlayerToWorldEvent`](./AddPlayerToWorldEvent.md) -- Fired when the player is actually added to a world.
+- [`PlayerReadyEvent`](./PlayerReadyEvent.md) -- Fired when the player signals readiness after connecting.
 
 ### Connection Flow
 

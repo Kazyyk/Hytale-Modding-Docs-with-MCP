@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.CraftRecipeEvent"
 api_surface: "public"
 cancellable: true
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - crafting
@@ -18,7 +18,7 @@ tags:
 > Implements: `ICancellableEcsEvent`
 > Cancellable: Yes
 
-ECS event superclass for crafting operations. Uses a Pre/Post pattern:
+Abstract ECS event superclass for crafting operations. Uses a Pre/Post pattern:
 
 - **`CraftRecipeEvent.Pre`** -- Fired before crafting occurs. Can be cancelled to prevent the craft.
 - **`CraftRecipeEvent.Post`** -- Fired after crafting succeeds. Informational -- while technically cancellable (inherited from `CancellableEcsEvent`), the craft has already completed.
@@ -44,7 +44,7 @@ Fired **before** the crafting operation takes effect. Cancelling this event prev
 
 ### Fired By
 
-- `CraftingManager` (line 155) via `componentAccessor.invoke(ref, event)` -- ECS dispatch before a crafting operation executes.
+- `CraftingManager` (lines 156-157) via `componentAccessor.invoke(ref, preEvent)` -- ECS dispatch before a crafting operation executes.
 
 ### Listening
 
@@ -84,7 +84,7 @@ Fired **after** the crafting operation has completed successfully. The ingredien
 
 ### Fired By
 
-- `CraftingManager` (line 184) via `componentAccessor.invoke(ref, event)` -- ECS dispatch after a crafting operation completes.
+- `CraftingManager` (lines 185-186) via `componentAccessor.invoke(ref, postEvent)` -- ECS dispatch after a crafting operation completes.
 
 ### Listening
 

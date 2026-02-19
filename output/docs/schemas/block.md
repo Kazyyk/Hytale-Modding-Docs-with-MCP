@@ -5,7 +5,7 @@ asset_type: "BlockType"
 package: "com.hypixel.hytale.server.core.asset.type.blocktype.config"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "schemas"
   - "json"
@@ -100,6 +100,7 @@ Block type definitions control how a block is rendered, how it interacts with ph
 | `PlacementSettings` | `BlockPlacementSettings` | `object` | no | `null` | Custom placement behavior and constraints. |
 | `Farming` | `FarmingData` | `object` | no | `null` | Farming/crop growth configuration for agricultural blocks. |
 | `TickProcedure` | `TickProcedure` | `object` | no | `null` | Defines block tick behavior (e.g., crop growth, fire spread). |
+| `RandomTickProcedure` | `RandomTickProcedure` | `object` | no | `null` | Defines random block tick behavior, evaluated on a randomized schedule rather than every tick. |
 | `Seats` | `RotatedMountPointsArray` | `object` | no | `null` | Seat mount points for sittable blocks (chairs, benches). |
 | `Beds` | `RotatedMountPointsArray` | `object` | no | `null` | Bed mount points for sleeping blocks. |
 | `ConnectedBlockRuleSet` | `ConnectedBlockRuleSet` | `object` | no | `null` | Rules for connected block textures (e.g., fences, walls that connect to neighbors). |
@@ -129,6 +130,6 @@ Block type definitions control how a block is rendered, how it interacts with ph
 
 ## Related
 
-- **[Item Schema](item.md)** — Parent asset type (BlockType is nested within Item)
-- **[JSON Asset Schemas Overview](index.md)** — BuilderCodec pattern documentation
-- **[ECS Overview](../api/components/index.md)** — BlockEntity uses ECS components
+- **[Item Schema](item.md)** -- Parent asset type (BlockType is nested within Item)
+- **[JSON Asset Schemas Overview](index.md)** -- BuilderCodec pattern documentation
+- **[ECS Overview](../api/components/index.md)** -- BlockEntity uses ECS components

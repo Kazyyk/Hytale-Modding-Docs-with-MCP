@@ -6,39 +6,39 @@ fqcn: "com.hypixel.hytale.server.core.event.events.player.PlayerCraftEvent"
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - player
   - crafting
   - deprecated
 ---
 
-> **DEPRECATED (forRemoval=true)** -- This event is deprecated and scheduled for removal. Use `CraftRecipeEvent` (ECS event) instead.
+> **DEPRECATED (forRemoval=true)** -- This event is deprecated and scheduled for removal. Use [`CraftRecipeEvent`](./CraftRecipeEvent.md) (ECS event) instead.
 
 > Package: `com.hypixel.hytale.server.core.event.events.player`
 > Extends: `PlayerEvent<String>`
 > Implements: `IEvent<String>`
 > Cancellable: No
-> Key type: `String`
 
-Dispatched after a player crafts an item using a crafting recipe. This event is deprecated with `forRemoval=true`, meaning it will be removed in a future version. The ECS-based `CraftRecipeEvent` is the intended replacement.
-
-This event cannot be cancelled -- it fires after the crafting operation has completed.
-
-Because the key type is `String`, this event is dispatched with a keyed dispatch.
+Standard event dispatched after a player crafts an item. This event fires after the crafting operation has completed and cannot be cancelled. It has been replaced by the ECS-based `CraftRecipeEvent` which provides pre/post hooks and cancellation support.
 
 ## Fields / Accessors
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `playerRef` | `Ref<EntityStore>` | `getPlayerRef()` | No | ECS reference to the player entity. Inherited from `PlayerEvent`. |
-| `player` | `Player` | `getPlayer()` | No | The player who crafted the item. Inherited from `PlayerEvent`. |
-| `craftedRecipe` | `CraftingRecipe` | `getCraftedRecipe()` | No | The recipe that was crafted. |
-| `quantity` | `int` | `getQuantity()` | No | The number of items produced by the crafting operation. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `playerRef` | `Ref<EntityStore>` | `getPlayerRef()` | No | No |
+| `player` | `Player` | `getPlayer()` | No | No |
+| `craftedRecipe` | `CraftingRecipe` | `getCraftedRecipe()` | No | No |
+| `quantity` | `int` | `getQuantity()` | No | No |
+
+- **playerRef** -- ECS reference to the player entity. Inherited from `PlayerEvent`.
+- **player** -- The player who crafted the item. Inherited from `PlayerEvent`.
+- **craftedRecipe** -- The recipe that was crafted.
+- **quantity** -- The number of items produced by the crafting operation.
 
 ## Fired By
 
-- `CraftingManager.craft()` (line 194) via `eventBus.dispatchFor()` -- dispatched after a crafting operation completes successfully. This is a post-craft notification.
+- `CraftingManager.craft()` (line 194) via `eventBus dispatchFor` -- EventBus dispatch after crafting (deprecated, replaced by CraftRecipeEvent).
 
 ## Listening
 
@@ -56,18 +56,18 @@ getEventRegistry().register(PlayerCraftEvent.class, event -> {
 
 ## Migration
 
-Replace usage of `PlayerCraftEvent` with the ECS-based `CraftRecipeEvent`:
+Replace usage with the ECS-based `CraftRecipeEvent`:
 
 ```java
 // Old (deprecated, will be removed):
 getEventRegistry().register(PlayerCraftEvent.class, event -> { ... });
 
 // New (preferred):
-// Register an EntityEventSystem<EntityStore, CraftRecipeEvent> instead.
+// Register an EntityEventSystem<EntityStore, CraftRecipeEvent.Pre> instead.
 // See CraftRecipeEvent documentation for the ECS event handler pattern.
 ```
 
 ## Related Events
 
-- `CraftRecipeEvent` -- the ECS-based replacement for this event. Provides richer context and integrates with the ECS event system.
-- [`LivingEntityInventoryChangeEvent`](./LivingEntityInventoryChangeEvent.md) -- fires alongside this event when crafting modifies the player's inventory.
+- [`CraftRecipeEvent`](./CraftRecipeEvent.md) -- The ECS-based replacement. Provides Pre/Post hooks and cancellation support.
+- [`LivingEntityInventoryChangeEvent`](./LivingEntityInventoryChangeEvent.md) -- Fires alongside this event when crafting modifies the player's inventory.

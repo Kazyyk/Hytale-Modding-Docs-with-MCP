@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.player.PlayerSetupDisconnectE
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - player
   - connection
@@ -16,24 +16,27 @@ tags:
 > Implements: `IEvent<Void>`
 > Cancellable: No
 
-Dispatched when a player disconnects during the setup phase, before a player entity has been created. This covers disconnects that occur after authentication but before the connection flow reaches `PlayerConnectEvent`. Because no player entity exists at this point, only lightweight identity fields (username, UUID, auth) are available.
+Standard event dispatched when a player disconnects during the setup phase, before a player entity has been created. Because no player entity exists at this point, only lightweight identity fields (username, UUID, auth) are available.
 
-This event is the setup-phase counterpart to `PlayerDisconnectEvent`, which handles disconnects after the player entity is fully created.
-
-Because the key type is `Void`, this event is dispatched globally -- all registered listeners receive it regardless of key.
+This event is the setup-phase counterpart to [`PlayerDisconnectEvent`](./PlayerDisconnectEvent.md), which handles disconnects after the player entity is fully created.
 
 ## Fields / Accessors
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `username` | `String` | `getUsername()` | No | The disconnecting player's username. |
-| `uuid` | `UUID` | `getUuid()` | No | The disconnecting player's UUID. |
-| `auth` | `PlayerAuthentication` | `getAuth()` | No | Authentication data for the disconnecting player. |
-| `disconnectReason` | `PacketHandler.DisconnectReason` | `getDisconnectReason()` | No | The reason for the disconnect. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `username` | `String` | `getUsername()` | No | No |
+| `uuid` | `UUID` | `getUuid()` | No | No |
+| `auth` | `PlayerAuthentication` | `getAuth()` | No | No |
+| `disconnectReason` | `PacketHandler.DisconnectReason` | `getDisconnectReason()` | No | No |
+
+- **username** -- The disconnecting player's username.
+- **uuid** -- The disconnecting player's UUID.
+- **auth** -- Authentication data for the disconnecting player.
+- **disconnectReason** -- The reason for the disconnect.
 
 ## Fired By
 
-- Dispatched by `SetupPacketHandler` (line 198) via `eventBus.dispatch()` when a player disconnects during the setup phase before entity creation.
+- `SetupPacketHandler` (line 198) via `eventBus dispatch` -- EventBus dispatch when a setup-phase player disconnects.
 
 ## Listening
 
@@ -48,5 +51,5 @@ getEventRegistry().register(PlayerSetupDisconnectEvent.class, event -> {
 
 ## Related Events
 
-- [`PlayerSetupConnectEvent`](./PlayerSetupConnectEvent.md) -- the setup-phase connection event. This disconnect event is the inverse of `PlayerSetupConnectEvent`.
-- [`PlayerDisconnectEvent`](./PlayerDisconnectEvent.md) -- fired when a fully connected player disconnects (after entity creation). Use this for post-setup disconnects.
+- [`PlayerSetupConnectEvent`](./PlayerSetupConnectEvent.md) -- The setup-phase connection event. This is the inverse.
+- [`PlayerDisconnectEvent`](./PlayerDisconnectEvent.md) -- Fired when a fully connected player disconnects (after entity creation).

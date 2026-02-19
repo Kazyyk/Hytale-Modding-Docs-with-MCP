@@ -1,26 +1,24 @@
 ---
 title: "AbstractCommand"
-kind: "class"
+kind: "abstract class"
 package: "com.hypixel.hytale.server.core.command.system"
-api_surface: "public"
+api_surface: true
 extends: ~
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "commands"
   - "class"
   - "abstract"
 ---
 
-> Package: `com.hypixel.hytale.server.core.command.system`
-
-Core abstract base class for all commands. Provides the builder API for declaring arguments, subcommands, usage variants, aliases, and permissions. Subclass this (or one of its convenience subclasses) and implement `execute(CommandContext)` to define a command.
-
-## Class Signature
+**Package:** `com.hypixel.hytale.server.core.command.system`
 
 ```java
 public abstract class AbstractCommand
 ```
+
+Core abstract base class for all commands. Provides the builder API for declaring arguments, subcommands, usage variants, aliases, and permissions. Subclass this (or one of its convenience subclasses) and implement `execute(CommandContext)` to define a command.
 
 ## Constructors
 

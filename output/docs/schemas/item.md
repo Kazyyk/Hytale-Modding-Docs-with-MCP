@@ -5,7 +5,7 @@ asset_type: "Item"
 package: "com.hypixel.hytale.server.core.asset.type.item.config"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:30:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "schemas"
   - "json"
@@ -65,6 +65,7 @@ Items are the primary asset type in Hytale. Blocks are defined as nested [BlockT
 | `MaxStack` | `Integer` | `integer` (>0) | no | auto | Maximum stack size in inventory. Auto-computed if not set: 100 for plain items, 1 for tools/weapons/armor. |
 | `MaxDurability` | `Double` | `number` | no | `0.0` | Maximum durability points. 0 means unbreakable. |
 | `DurabilityLossOnHit` | `Double` | `number` | no | `0.0` | Durability points lost per hit when used as a weapon. |
+| `DurabilityLossOnDeath` | `Boolean` | `boolean` | no | `false` | Whether this item should lose durability on death, if so configured in DeathConfig. |
 | `FuelQuality` | `Double` | `number` | no | `1.0` | Fuel quality multiplier when used as furnace fuel. |
 | `Consumable` | `Boolean` | `boolean` | no | `false` | Whether this item is consumed on use. |
 | `DropOnDeath` | `Boolean` | `boolean` | no | `false` | Whether this item drops on player death. |
@@ -127,6 +128,6 @@ Items are the primary asset type in Hytale. Blocks are defined as nested [BlockT
 
 ## Related
 
-- **[Block Type Schema](block.md)** — Nested block type definition
-- **[Crafting Recipe Schema](crafting-recipe.md)** — Inline recipe definition
-- **[JSON Asset Schemas Overview](index.md)** — BuilderCodec pattern documentation
+- **[Block Type Schema](block.md)** -- Nested block type definition
+- **[Crafting Recipe Schema](crafting-recipe.md)** -- Inline recipe definition
+- **[JSON Asset Schemas Overview](index.md)** -- BuilderCodec pattern documentation

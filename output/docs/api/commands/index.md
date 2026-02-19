@@ -4,7 +4,7 @@ kind: "overview"
 package: "com.hypixel.hytale.server.core.command.system"
 api_surface: "public"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "commands"
   - "overview"
@@ -13,7 +13,7 @@ tags:
 
 > Package: `com.hypixel.hytale.server.core.command.system`
 
-A builder-pattern command system with typed argument parsing, automatic permission generation, tab completion, usage variants, and subcommand support. Commands run on `ForkJoinPool.commonPool()`.
+A builder-pattern command system with typed argument parsing, automatic permission generation, tab completion suggestions, usage variants, and subcommand support. Commands run on `ForkJoinPool.commonPool()`.
 
 ## Defining a Command
 
@@ -105,8 +105,11 @@ Declared as fields on the command class. Available on `AbstractCommand`:
 |------|-----------|--------|-------------|
 | `RELATIVE_DOUBLE_COORD` | `Coord` | 1 | Single coordinate, `~` prefix for relative |
 | `RELATIVE_INT_COORD` | `IntCoord` | 1 | Integer coordinate, `~` prefix |
+| `RELATIVE_INTEGER` | `RelativeInteger` | 1 | Relative integer value, `~` prefix |
+| `RELATIVE_FLOAT` | `RelativeFloat` | 1 | Relative float value, `~` prefix |
 | `VECTOR2I` | `Vector2i` | 2 | Two integers (x z) |
 | `VECTOR3I` | `Vector3i` | 3 | Three integers (x y z) |
+| `RELATIVE_VECTOR3I` | `RelativeVector3i` | 3 | Three optionally relative integers |
 | `RELATIVE_BLOCK_POSITION` | `RelativeIntPosition` | 3 | Block position with `~` support |
 | `RELATIVE_POSITION` | `RelativeDoublePosition` | 3 | Entity position with `~` support |
 | `RELATIVE_CHUNK_POSITION` | `RelativeChunkPosition` | 2 | Chunk position with `~` support |
@@ -120,19 +123,34 @@ Declared as fields on the command class. Available on `AbstractCommand`:
 | `ITEM_ASSET` | `Item` |
 | `MODEL_ASSET` | `ModelAsset` |
 | `WEATHER_ASSET` | `Weather` |
+| `INTERACTION_ASSET` | `Interaction` |
+| `ROOT_INTERACTION_ASSET` | `RootInteraction` |
 | `EFFECT_ASSET` | `EntityEffect` |
 | `ENVIRONMENT_ASSET` | `Environment` |
 | `PARTICLE_SYSTEM` | `ParticleSystem` |
+| `HITBOX_COLLISION_CONFIG` | `HitboxCollisionConfig` |
+| `REPULSION_CONFIG` | `RepulsionConfig` |
 | `SOUND_EVENT_ASSET` | `SoundEvent` |
+| `AMBIENCE_FX_ASSET` | `AmbienceFX` |
 
 ### Block Types
 
 | Name | Java Type | Description |
 |------|-----------|-------------|
 | `BLOCK_TYPE_KEY` | `String` | Block type key (e.g., `Wood_Drywood_Planks_Half`) |
-| `BLOCK_ID` | `Integer` | Block type key → integer ID |
+| `BLOCK_ID` | `Integer` | Block type key -> integer ID |
+| `WEIGHTED_BLOCK_TYPE` | `Pair<Integer, String>` | Weight + block type key |
 | `BLOCK_PATTERN` | `BlockPattern` | Weighted block list `[20%Rock_Stone, 80%Rock_Shale]` |
 | `BLOCK_MASK` | `BlockMask` | Block mask list `[!Fluid_Water, >Grass_Full]` |
+
+### Ranges & Operators
+
+| Name | Java Type | Description |
+|------|-----------|-------------|
+| `INT_RANGE` | `Pair<Integer, Integer>` | Min max pair |
+| `RELATIVE_INT_RANGE` | `RelativeIntegerRange` | Relative min max pair |
+| `INTEGER_COMPARISON_OPERATOR` | `IntegerComparisonOperator` | `>`, `<`, `>=`, `<=`, `%`, `!%`, `=`, `!=` |
+| `INTEGER_OPERATION` | `IntegerOperation` | `+`, `-`, `*`, `/`, `%`, `=` |
 
 ### Enums & Other
 
@@ -185,17 +203,17 @@ Commands can have named subcommands via `addSubCommand()`. `AbstractCommandColle
 
 ## Built-in Commands
 
-55+ built-in commands organized by category:
+58 built-in commands organized by category:
 
 | Category | Commands |
 |----------|----------|
-| Player | `gamemode` (`gm`), `kill`, `give`, `sudo`, `refer`, `player` |
-| Server | `kick`, `stop`, `who`, `maxplayers`, `auth` |
-| World/Entity | `entity` (clone, remove, effect, etc.), `spawn` |
-| World/Chunk | `chunk` (load, unload, regenerate, info, etc.) |
+| Player | `gamemode` (`gm`), `kill`, `give`, `sudo`, `refer`, `player` (zone, camera), `toggleblockplacementoverride`, `sleep` |
+| Server | `kick`, `stop`, `who`, `maxplayers`, `auth` (login, logout, status), `update` (Status, Cancel, Patchline, Download, Apply, Check), `network`, `version` |
+| World/Entity | `entity` (clone, remove, effect, count, dump, invulnerable, intangible, etc.), `spawn`, `repulsion` |
+| World/Chunk | `chunk` (load, unload, regenerate, info, lighting, etc.), `stopnetworkchunksending` |
 | World Gen | `worldgen` (benchmark, reload) |
-| Utility | `help` (`?`), `teleport` (`tp`), `time`, `weather`, `say`, `message` (`msg`), `scoreboard` |
-| Debug | `ping`, `version`, `log`, `server`, `packetstats`, `stresstest`, `assets`, `packs` |
+| Utility | `help` (`?`), `teleport` (`tp`), `time`, `weather`, `say`, `message` (`msg`), `scoreboard`, `commands`, `bindings`, `tagpattern` |
+| Debug | `ping`, `log`, `server` (stats, gc, dump), `packetstats`, `stresstest`, `assets`, `packs`, `hitdetection`, `debugplayerposition`, `messagetranslationtest`, `hudmanagertest`, `showbuildertoolshud`, `git` |
 | Builder Tools | `fill`, `copy`, `paste`, `undo`, `redo`, `selection` |
 
 ## Related

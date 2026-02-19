@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.SwitchActiveSlotEvent"
 api_surface: "public"
 cancellable: true
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - inventory
@@ -18,7 +18,7 @@ tags:
 > Implements: `ICancellableEcsEvent`
 > Cancellable: Yes
 
-ECS event dispatched when the active hotbar slot changes. This fires for both client-initiated slot switches (player pressing hotbar keys) and server-initiated slot switches (programmatic changes). The `serverRequest` field distinguishes the two origins.
+ECS event dispatched when the active hotbar slot changes. Fires for both client-initiated slot switches (player pressing hotbar keys) and server-initiated slot switches (programmatic changes). The `serverRequest` field distinguishes the two origins. An additional `isClientRequest()` convenience method returns the inverse.
 
 Cancelling this event prevents the active slot from changing. The `newSlot` field is mutable, allowing listeners to redirect the selection to a different slot.
 
@@ -33,13 +33,12 @@ Cancelling this event prevents the active slot from changing. The `newSlot` fiel
 
 - **inventorySectionId** -- The inventory section being switched within (identifies the hotbar section).
 - **previousSlot** -- The slot index that was active before this switch.
-- **newSlot** -- The slot index being switched to. Mutable -- changing this redirects which slot becomes active.
-- **serverRequest** -- `true` if this slot switch was initiated by the server, `false` if initiated by the client (player input).
+- **newSlot** -- The slot index being switched to. Mutable via `setNewSlot(byte)` -- changing this redirects which slot becomes active.
+- **serverRequest** -- `true` if initiated by the server, `false` if initiated by the client (player input). Also accessible as `isClientRequest()`.
 
 ## Fired By
 
-- `InventoryPacketHandler` (line 353) via `store.invoke(ref, event)` -- ECS dispatch for server-initiated slot switch.
-- `InventoryPacketHandler` (line 406) via `store.invoke(ref, event)` -- ECS dispatch for client-initiated slot switch.
+- `InventoryPacketHandler` (lines 357, 415) via `store.invoke(ref, event)` -- ECS dispatch when active hotbar slot changes (two call sites -- server-request and client-request).
 
 ## Listening
 
@@ -73,4 +72,4 @@ getEntityStoreRegistry().registerSystem(new MySlotSwitchHandler());
 
 ## Related Events
 
-- [`DropItemEvent.PlayerRequest`](./DropItemEvent.md#dropitemeventplayerrequest) -- Also dispatched from `InventoryPacketHandler`, fired when a player requests to drop an item from inventory.
+- [`DropItemEvent`](./DropItemEvent.md) -- Also dispatched from `InventoryPacketHandler`, related to inventory manipulation.

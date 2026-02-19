@@ -1,18 +1,18 @@
 ---
 title: "LivingEntity"
-kind: "class"
+kind: "abstract class"
 package: "com.hypixel.hytale.server.core.entity"
-api_surface: "public"
+api_surface: true
 extends:
   - "Entity"
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:45:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - "entity"
   - "class"
 ---
 
-> Package: `com.hypixel.hytale.server.core.entity`
+**Package:** `com.hypixel.hytale.server.core.entity`
 
 ```java
 public abstract class LivingEntity extends Entity
@@ -43,14 +43,21 @@ Returns this entity's current inventory.
 public Inventory setInventory(Inventory inventory)
 ```
 
-Replaces this entity's inventory with the given inventory. Returns the previous inventory.
+Replaces this entity's inventory with the given inventory. Returns the resulting inventory after replacement.
 
 ```java
 @Nonnull
 public Inventory setInventory(Inventory inventory, boolean ensureCapacity)
 ```
 
-Replaces this entity's inventory. When `ensureCapacity` is `true`, the new inventory is validated to have at least the capacity required by this entity type. Returns the previous inventory.
+Replaces this entity's inventory. When `ensureCapacity` is `true`, the new inventory's capacity is validated and any overflow items are added to the combined hotbar-first container. Returns the resulting inventory.
+
+```java
+@Nonnull
+public Inventory setInventory(Inventory inventory, boolean ensureCapacity, List<ItemStack> remainder)
+```
+
+Replaces this entity's inventory with explicit remainder handling. When `ensureCapacity` is `true` and the inventory needs to be resized, overflow items are placed into the `remainder` list. Returns the resulting inventory.
 
 ### Breathing
 

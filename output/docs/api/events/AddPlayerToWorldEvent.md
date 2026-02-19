@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.player.AddPlayerToWorldEvent"
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - player
   - world
@@ -16,23 +16,25 @@ tags:
 > Implements: `IEvent<String>`
 > Cancellable: No
 
-Dispatched when a player enters a world. This event fires both during the initial connection flow (after `PlayerConnectEvent`) and whenever a player is transferred between worlds.
+Standard event dispatched when a player enters a world. This fires both during the initial connection flow (after `PlayerConnectEvent`) and whenever a player is transferred between worlds.
 
 The `broadcastJoinMessage` field controls whether a join message is broadcast to other players in the world. It defaults to `true` and can be set to `false` to suppress the message.
 
-Because the key type is `String`, this event supports keyed dispatch. Listeners can register for a specific key or use `registerGlobal()` to receive all dispatches.
-
 ## Fields / Accessors
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `holder` | `Holder<EntityStore>` | `getHolder()` | No | The entity holder for the player entering the world. |
-| `world` | `World` | `getWorld()` | No | The world the player is entering. |
-| `broadcastJoinMessage` | `boolean` | `shouldBroadcastJoinMessage()` | Yes | Whether to broadcast a join message. Default: `true`. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `holder` | `Holder<EntityStore>` | `getHolder()` | No | No |
+| `world` | `World` | `getWorld()` | No | No |
+| `broadcastJoinMessage` | `boolean` | `shouldBroadcastJoinMessage()` | Yes | No |
+
+- **holder** -- The entity holder for the player entering the world.
+- **world** -- The world the player is entering.
+- **broadcastJoinMessage** -- Whether to broadcast a join message. Default: `true`. Mutable via `setBroadcastJoinMessage(boolean)`.
 
 ## Fired By
 
-- Dispatched by `World.addPlayer()` (line 810) via `eventBus.dispatchFor()` using keyed dispatch when a player enters a world.
+- `World.addPlayer()` (line 810) via `eventBus dispatchFor` -- EventBus keyed dispatch when a player enters a world.
 
 ## Listening
 
@@ -41,15 +43,19 @@ Because the key type is `String`, this event supports keyed dispatch. Listeners 
 getEventRegistry().registerGlobal(AddPlayerToWorldEvent.class, event -> {
     World world = event.getWorld();
     boolean announce = event.shouldBroadcastJoinMessage();
-    // Handle player entering a world
+
+    // Example: suppress join messages in specific worlds
+    if (isQuietWorld(world)) {
+        event.setBroadcastJoinMessage(false);
+    }
 });
 ```
 
 ## Related Events
 
-- [`DrainPlayerFromWorldEvent`](./DrainPlayerFromWorldEvent.md) -- the counterpart event fired when a player leaves a world. This event and `DrainPlayerFromWorldEvent` are inverses.
-- [`PlayerConnectEvent`](./PlayerConnectEvent.md) -- fired before this event during the initial connection flow. Previous step in the connection flow.
-- [`PlayerReadyEvent`](./PlayerReadyEvent.md) -- fired after this event when the player signals readiness. Next step in the connection flow.
+- [`DrainPlayerFromWorldEvent`](./DrainPlayerFromWorldEvent.md) -- The counterpart event fired when a player leaves a world.
+- [`PlayerConnectEvent`](./PlayerConnectEvent.md) -- Fired before this event during the initial connection flow.
+- [`PlayerReadyEvent`](./PlayerReadyEvent.md) -- Fired after this event when the player signals readiness.
 
 ### Connection Flow
 

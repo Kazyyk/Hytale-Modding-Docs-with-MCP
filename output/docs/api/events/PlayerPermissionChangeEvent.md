@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.permissions.PlayerPermissionC
 api_surface: "public"
 cancellable: false
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - permissions
   - player
@@ -15,65 +15,62 @@ tags:
 > Package: `com.hypixel.hytale.server.core.event.events.permissions`
 > Implements: `IEvent<Void>`
 > Cancellable: No
-> Key type: `Void`
 
-Base event for all player-level permission changes. This class provides the `playerUuid` field shared by all player permission events. It has four inner classes covering the four types of player permission changes: direct permission grants/revocations and group membership additions/removals.
-
-This event cannot be cancelled -- it is a notification of a change that has already occurred.
-
-Because the key type is `Void`, this event is dispatched globally -- all registered listeners receive it regardless of key.
+Abstract base event for all player-level permission changes. Provides the `playerUuid` field shared by all player permission events. Has four inner classes covering the four types of player permission changes: direct permission grants/revocations and group membership additions/removals.
 
 ## Fields / Accessors (Base)
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `playerUuid` | `UUID` | `getPlayerUuid()` | No | The UUID of the player whose permissions changed. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `playerUuid` | `UUID` | `getPlayerUuid()` | No | No |
+
+- **playerUuid** -- The UUID of the player whose permissions changed.
 
 ## Inner Classes
-
-### PlayerPermissionChangeEvent.GroupAdded
-
-Dispatched when a player is added to a permission group (from the permission-change perspective).
-
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `playerUuid` | `UUID` | `getPlayerUuid()` | No | Inherited from base class. |
-| `groupName` | `String` | `getGroupName()` | No | The name of the group the player was added to. |
-
-Purpose unknown -- inferred from structure. No direct dispatch site found for this specific inner class; group membership changes are dispatched via `PlayerGroupEvent.Added` instead.
-
-### PlayerPermissionChangeEvent.GroupRemoved
-
-Dispatched when a player is removed from a permission group (from the permission-change perspective).
-
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `playerUuid` | `UUID` | `getPlayerUuid()` | No | Inherited from base class. |
-| `groupName` | `String` | `getGroupName()` | No | The name of the group the player was removed from. |
-
-Purpose unknown -- inferred from structure. No direct dispatch site found for this specific inner class; group membership changes are dispatched via `PlayerGroupEvent.Removed` instead.
 
 ### PlayerPermissionChangeEvent.PermissionsAdded
 
 Dispatched when direct permissions are granted to a player.
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `playerUuid` | `UUID` | `getPlayerUuid()` | No | Inherited from base class. |
-| `addedPermissions` | `Set<String>` | `getAddedPermissions()` | No | The set of permission strings that were granted to the player. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `playerUuid` | `UUID` | `getPlayerUuid()` | No | No |
+| `addedPermissions` | `Set<String>` | `getAddedPermissions()` | No | No |
 
-**Fired by:** `PermissionsModule.addUserPermission()` (line 94) via `eventBus.dispatchFor()`.
+- **addedPermissions** -- The set of permission strings that were granted. Returned as an unmodifiable set.
+
+**Fired by:** `PermissionsModule.addUserPermission()` (line 94) via `eventBus dispatch`.
 
 ### PlayerPermissionChangeEvent.PermissionsRemoved
 
 Dispatched when direct permissions are revoked from a player.
 
-| Field | Type | Accessor | Mutable | Notes |
-|-------|------|----------|---------|-------|
-| `playerUuid` | `UUID` | `getPlayerUuid()` | No | Inherited from base class. |
-| `removedPermissions` | `Set<String>` | `getRemovedPermissions()` | No | The set of permission strings that were revoked from the player. |
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `playerUuid` | `UUID` | `getPlayerUuid()` | No | No |
+| `removedPermissions` | `Set<String>` | `getRemovedPermissions()` | No | No |
 
-**Fired by:** `PermissionsModule.removeUserPermission()` (line 102) via `eventBus.dispatchFor()`.
+- **removedPermissions** -- The set of permission strings that were revoked. Returned as an unmodifiable set.
+
+**Fired by:** `PermissionsModule.removeUserPermission()` (line 102) via `eventBus dispatch`.
+
+### PlayerPermissionChangeEvent.GroupAdded
+
+Dispatched when a player is added to a permission group (from the permission-change perspective).
+
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `playerUuid` | `UUID` | `getPlayerUuid()` | No | No |
+| `groupName` | `String` | `getGroupName()` | No | No |
+
+### PlayerPermissionChangeEvent.GroupRemoved
+
+Dispatched when a player is removed from a permission group (from the permission-change perspective).
+
+| Field | Type | Accessor | Mutable | Nullable |
+|-------|------|----------|---------|----------|
+| `playerUuid` | `UUID` | `getPlayerUuid()` | No | No |
+| `groupName` | `String` | `getGroupName()` | No | No |
 
 ## Listening
 
@@ -91,30 +88,12 @@ getEventRegistry().register(PlayerPermissionChangeEvent.PermissionsRemoved.class
     Set<String> removed = event.getRemovedPermissions();
     // Handle revoked player permissions
 });
-
-// Listen for group membership changes via the base type
-getEventRegistry().register(PlayerPermissionChangeEvent.GroupAdded.class, event -> {
-    UUID playerUuid = event.getPlayerUuid();
-    String groupName = event.getGroupName();
-    // Handle player added to group
-});
 ```
 
 ## Related Events
 
-- [`PlayerGroupEvent`](./PlayerGroupEvent.md) -- extends this class. The `Added` and `Removed` inner classes of `PlayerGroupEvent` are the primary dispatch targets for group membership changes.
-- [`GroupPermissionChangeEvent`](./GroupPermissionChangeEvent.md) -- fired when a group's own permissions change (distinct from which players belong to the group).
-
-### Permissions Event Cluster
-
-The permissions system fires events at two levels:
-
-**Group level:**
-- `GroupPermissionChangeEvent.Added` / `.Removed` -- a group's permission set changes
-
-**Player level:**
-- `PlayerPermissionChangeEvent.PermissionsAdded` / `.PermissionsRemoved` -- a player's direct permissions change
-- `PlayerGroupEvent.Added` / `.Removed` (extends `PlayerPermissionChangeEvent`) -- a player's group membership changes
+- [`PlayerGroupEvent`](./PlayerGroupEvent.md) -- Extends this class. The `Added` and `Removed` inner classes are the primary dispatch targets for group membership changes.
+- [`GroupPermissionChangeEvent`](./GroupPermissionChangeEvent.md) -- Fired when a group's own permissions change.
 
 ### Inheritance Hierarchy
 

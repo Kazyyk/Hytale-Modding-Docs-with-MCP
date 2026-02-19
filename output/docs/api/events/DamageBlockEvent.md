@@ -6,7 +6,7 @@ fqcn: "com.hypixel.hytale.server.core.event.events.ecs.DamageBlockEvent"
 api_surface: "public"
 cancellable: true
 generator_version: "1.0.0"
-generated_at: "2026-02-09T23:10:00Z"
+generated_at: "2026-02-18T17:30:00Z"
 tags:
   - ecs
   - block
@@ -33,10 +33,10 @@ This event fires repeatedly as the player mines. Once cumulative damage reaches 
 | `damage` | `float` | `getDamage()` | Yes | No |
 
 - **itemInHand** -- The item the player is holding while mining. May be `null` if the player is empty-handed.
-- **targetBlock** -- The world-space coordinates of the block being mined. Mutable -- changing this redirects which block receives damage.
+- **targetBlock** -- The world-space coordinates of the block being mined. Mutable via `setTargetBlock(@Nonnull Vector3i)` -- changing this redirects which block receives damage.
 - **blockType** -- The type of block being mined.
 - **currentDamage** -- The cumulative damage already applied to the block before this tick. Read-only.
-- **damage** -- The damage to be applied on this tick. Mutable -- set to `0` to nullify this tick, or increase to speed up mining.
+- **damage** -- The damage to be applied on this tick. Mutable via `setDamage(float)` -- set to `0` to nullify this tick, or increase to speed up mining.
 
 ## Fired By
 
