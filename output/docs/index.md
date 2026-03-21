@@ -33,10 +33,13 @@ The `api_surface` frontmatter field indicates whether a type is part of the
 plugin-facing API (`true`) or an internal implementation type (`false`). All
 types receive full documentation regardless of classification.
 
+The sidebar covers the most important packages grouped by category. All 911
+packages are searchable — use the search bar (⌘K) to find any type by name.
+
 ## Key Entry Points
 
 ### Plugin Development
-- `com.hypixel.hytale.plugin` — Plugin base classes and initialization
+- [`PluginBase`](packages/com-hypixel-hytale-server-core-plugin/PluginBase.md) — The base class for all Hytale server plugins
 - [`com.hypixel.hytale.server.core.plugin`](packages/com-hypixel-hytale-server-core-plugin/index.md) — Plugin manager, lifecycle, class loading
 
 ### Events
@@ -63,7 +66,7 @@ types receive full documentation regardless of classification.
 - [`com.hypixel.hytale.server.npc.role`](packages/com-hypixel-hytale-server-npc-role/index.md) — NPC roles and behavior profiles
 
 ### Assets & Codecs
-- `com.hypixel.hytale.assetstore` — Asset loading and management
+- [`com.hypixel.hytale.assetstore.map`](packages/com-hypixel-hytale-assetstore-map/index.md) — Asset maps and lookup tables
 - [`com.hypixel.hytale.codec`](packages/com-hypixel-hytale-codec/index.md) — JSON serialization framework
 
 ### Protocol
