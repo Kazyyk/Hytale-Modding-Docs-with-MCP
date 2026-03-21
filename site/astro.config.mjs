@@ -18,11 +18,6 @@ export default defineConfig({
           collapsed: false,
           items: [
             {
-              label: "Plugin System",
-              autogenerate: { directory: "packages/com-hypixel-hytale-plugin" },
-              collapsed: true,
-            },
-            {
               label: "Plugin Core",
               autogenerate: { directory: "packages/com-hypixel-hytale-server-core-plugin" },
               collapsed: true,
