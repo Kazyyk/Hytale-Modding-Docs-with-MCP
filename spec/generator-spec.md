@@ -1,4 +1,4 @@
-# Hytale API Index — Engineering Spec
+# Hydex — Engineering Spec
 
 > **Version:** 1.0.0
 > **Status:** Complete — all four phases implemented
@@ -906,7 +906,7 @@ This section defines what goes in the project's `CLAUDE.md` to instruct the
 LLM agent on how to operate the pipeline.
 
 ```markdown
-# Hytale Documentation Generator — Agent Instructions
+# Hydex — Agent Instructions
 
 ## Project Overview
 

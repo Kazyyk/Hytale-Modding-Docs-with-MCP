@@ -1,4 +1,4 @@
-# Hytale API Index — Starlight Site
+# Hydex — Starlight Site
 
 Astro Starlight documentation site for the auto-generated Hytale API reference.
 
