@@ -1,0 +1,868 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T12:00:00Z",
+  "domain": "npc_core",
+  "overview": "The NPC core subsystem implements a data-driven AI architecture for non-player characters in the Hytale server. It is built on top of the ECS (Entity Component System) framework, with NPCs represented as entities in an EntityStore. The architecture centers on the concept of a 'Role' — a runtime-built behavior definition constructed from JSON asset data via a Builder pattern. Each NPC entity has an NPCEntity component that holds a Role, which in turn contains state machines, instructions (sensors, actions, motions), a blackboard connection, and support objects for combat, entities, world interaction, and state management. The system uses a hierarchical Sensor/Action/Motion component model where Sensors detect conditions, Actions perform behaviors, and Motions control body/head movement. Decision-making uses a utility-based Evaluator system with scored Conditions and weighted Options. State transitions between behavioral states are managed by a StateTransitionController that runs prioritized action lists during transitions.",
+  "confidence": "high",
+  "subsections": {
+    "core_components": {
+      "overview": "Core components are the fundamental building blocks of NPC behavior, organized into a hierarchy: Sensors detect world state, Actions perform behaviors, and Motions control movement. All extend AnnotatedComponentBase which provides parent-child context tracking for debugging. Components are constructed from Builder objects (deserialized from JSON assets) and operate on EntityStore Refs.",
+      "base_types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.AnnotatedComponentBase",
+          "purpose": "Abstract base for all NPC behavior components. Implements IAnnotatedComponent, providing parent/index context for component tree traversal and debug info.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.SensorBase",
+          "purpose": "Base class for all sensors. Sensors evaluate world state and return boolean matches. Supports 'once' semantics (triggers only once until cleared). Method: matches(Ref, Role, dt, Store) -> boolean.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.ActionBase",
+          "purpose": "Base class for all actions. Actions perform behaviors when their state-machine branch is active. Supports 'once' semantics and activate/deactivate lifecycle. Methods: canExecute(...), execute(Ref, Role, InfoProvider, dt, Store) -> boolean.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.MotionBase",
+          "purpose": "Abstract base for all motion components. Implements the Motion interface.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.BodyMotionBase",
+          "purpose": "Base class for body (translation/locomotion) motions. These control where the NPC moves.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.HeadMotionBase",
+          "purpose": "Base class for head (look direction) motions. These control where the NPC looks.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.ActionWithDelay",
+          "purpose": "Action base that adds a configurable delay (random range) before execution. Registers delay with EntitySupport.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.WeightedAction",
+          "purpose": "Decorator that wraps an Action with a weight value, used for probabilistic selection among multiple actions.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase",
+          "purpose": "Base class for entity filters that evaluate whether a target entity matches criteria.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.IEntityFilter",
+          "purpose": "Interface for entity filters. Defines matchesEntity(selfRef, targetRef, Role, Store) and a cost() method for optimization (filters sorted by cost, cheapest first). Cost tiers: MINIMAL(0), LOW(100), MID(200), HIGH(300), EXTREME(400).",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.SensorWithEntityFilters",
+          "purpose": "Sensor that evaluates against a sorted array of IEntityFilter instances. Filters are sorted by cost at construction for early-exit optimization. Also extracts view angle from EntityFilterViewSector if present.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.ISensorEntityCollector",
+          "purpose": "Interface for collecting entities that match/don't match sensor filters. Supports early termination (terminateOnFirstMatch). Used by entity-scanning sensors.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.ISensorEntityPrioritiser",
+          "purpose": "Interface for prioritizing detected entities. Provides separate NPC and Player prioritizers, and a pickTarget method that selects the best target from candidates.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.corecomponents.BlockTarget",
+          "purpose": "Represents a targeted block position with chunk revision tracking and resource reservation support via the Blackboard ResourceView.",
+          "confidence": "high"
+        }
+      ],
+      "categories": {
+        "statemachine": {
+          "overview": "Components that interact with the NPC state machine. Allow sensors to check current state and actions to change state.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.statemachine.ActionState",
+            "com.hypixel.hytale.server.npc.corecomponents.statemachine.ActionParentState",
+            "com.hypixel.hytale.server.npc.corecomponents.statemachine.ActionToggleStateEvaluator",
+            "com.hypixel.hytale.server.npc.corecomponents.statemachine.SensorState",
+            "com.hypixel.hytale.server.npc.corecomponents.statemachine.SensorIsBusy"
+          ],
+          "patterns": {
+            "state_check": "SensorState checks role.getStateSupport().inState(stateIndex) and optionally inSubState(subStateIndex). Supports component-local states.",
+            "state_change": "ActionState sets state via role.getStateSupport().setState(state, subState, clearOnce, false). If a StateEvaluator is active, manual state changes are suppressed.",
+            "state_evaluator_toggle": "ActionToggleStateEvaluator enables/disables the utility-based StateEvaluator component, allowing manual state control when needed."
+          }
+        },
+        "combat": {
+          "overview": "Combat-related components for attacking, aiming, damage sensing, and backing-away detection.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.combat.ActionAttack",
+            "com.hypixel.hytale.server.npc.corecomponents.combat.ActionApplyEntityEffect",
+            "com.hypixel.hytale.server.npc.corecomponents.combat.BodyMotionAimCharge",
+            "com.hypixel.hytale.server.npc.corecomponents.combat.HeadMotionAim",
+            "com.hypixel.hytale.server.npc.corecomponents.combat.SensorDamage",
+            "com.hypixel.hytale.server.npc.corecomponents.combat.SensorIsBackingAway"
+          ]
+        },
+        "movement": {
+          "overview": "Movement components for pathfinding, wandering, flying, teleporting, maintaining distance, and detecting ground/air state.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionFind",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionFindBase",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionFindWithTarget",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionWander",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionWanderBase",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionWanderInCircle",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionWanderInRect",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionMoveAway",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionMaintainDistance",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionMatchLook",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionTeleport",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionLeave",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionLand",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionTakeOff",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.ActionCrouch",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.ActionOverrideAltitude",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.ActionRecomputePath",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.SensorInAir",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.SensorOnGround",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.SensorNav",
+            "com.hypixel.hytale.server.npc.corecomponents.movement.SensorMotionController"
+          ]
+        },
+        "entity": {
+          "overview": "Entity-targeting components: sensors for detecting players, NPCs, and specific targets; actions for setting targets, overriding attitudes, and notifying; entity filters for evaluating candidate targets by altitude, attitude, combat state, inventory, line of sight, view sector, etc.; and entity prioritisers for ranking targets.",
+          "types": {
+            "sensors": [
+              "com.hypixel.hytale.server.npc.corecomponents.entity.SensorEntity",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.SensorEntityBase",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.SensorPlayer",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.SensorTarget",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.SensorSelf",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.SensorCount",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.SensorKill",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.SensorBeacon"
+            ],
+            "actions": [
+              "com.hypixel.hytale.server.npc.corecomponents.entity.ActionSetMarkedTarget",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.ActionReleaseTarget",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.ActionOverrideAttitude",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.ActionNotify",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.ActionSetStat",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.ActionIgnoreForAvoidance",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.ActionBeacon"
+            ],
+            "head_motions": [
+              "com.hypixel.hytale.server.npc.corecomponents.entity.HeadMotionWatch"
+            ],
+            "filters": [
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterAltitude",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterAnd",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterAttitude",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterCombat",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterHeightDifference",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterInsideBlock",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterInventory",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterItemInHand",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterLineOfSight",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterMany",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterMovementState",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterNot",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterNPCGroup",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterOr",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterSpotsMe",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterStandingOnBlock",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterStat",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterViewSector"
+            ],
+            "prioritisers": [
+              "com.hypixel.hytale.server.npc.corecomponents.entity.prioritisers.SensorEntityPrioritiserDefault",
+              "com.hypixel.hytale.server.npc.corecomponents.entity.prioritisers.SensorEntityPrioritiserAttitude"
+            ]
+          }
+        },
+        "interaction": {
+          "overview": "Components for NPC-player interaction: detecting interaction capability, locking on interaction targets, and managing interactable state.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.interaction.ActionLockOnInteractionTarget",
+            "com.hypixel.hytale.server.npc.corecomponents.interaction.ActionSetInteractable",
+            "com.hypixel.hytale.server.npc.corecomponents.interaction.SensorCanInteract",
+            "com.hypixel.hytale.server.npc.corecomponents.interaction.SensorHasInteracted",
+            "com.hypixel.hytale.server.npc.corecomponents.interaction.SensorInteractionContext"
+          ]
+        },
+        "lifecycle": {
+          "overview": "Components for NPC lifecycle management: spawning, despawning, dying, removing, role changes, and age-based sensors.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.lifecycle.ActionSpawn",
+            "com.hypixel.hytale.server.npc.corecomponents.lifecycle.ActionDespawn",
+            "com.hypixel.hytale.server.npc.corecomponents.lifecycle.ActionDelayDespawn",
+            "com.hypixel.hytale.server.npc.corecomponents.lifecycle.ActionDie",
+            "com.hypixel.hytale.server.npc.corecomponents.lifecycle.ActionRemove",
+            "com.hypixel.hytale.server.npc.corecomponents.lifecycle.ActionRole",
+            "com.hypixel.hytale.server.npc.corecomponents.lifecycle.SensorAge"
+          ]
+        },
+        "items": {
+          "overview": "Components for NPC inventory management: picking up items, dropping items, inventory manipulation, and detecting dropped items.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.items.ActionPickUpItem",
+            "com.hypixel.hytale.server.npc.corecomponents.items.ActionDropItem",
+            "com.hypixel.hytale.server.npc.corecomponents.items.ActionInventory",
+            "com.hypixel.hytale.server.npc.corecomponents.items.SensorDroppedItem"
+          ]
+        },
+        "world": {
+          "overview": "Components for world interaction: block sensing, path sensing, block placement, leash management, position storage, time/weather/light sensing, search rays, events, and world navigation paths.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorBlock",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorBlockChange",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorBlockType",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorCanPlace",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorEntityEvent",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorEvent",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorInWater",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorLeash",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorLight",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorPath",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorReadPosition",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorSearchRay",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorTime",
+            "com.hypixel.hytale.server.npc.corecomponents.world.SensorWeather",
+            "com.hypixel.hytale.server.npc.corecomponents.world.ActionMakePath",
+            "com.hypixel.hytale.server.npc.corecomponents.world.ActionPlaceBlock",
+            "com.hypixel.hytale.server.npc.corecomponents.world.ActionResetBlockSensors",
+            "com.hypixel.hytale.server.npc.corecomponents.world.ActionResetPath",
+            "com.hypixel.hytale.server.npc.corecomponents.world.ActionResetSearchRays",
+            "com.hypixel.hytale.server.npc.corecomponents.world.ActionSetBlockToPlace",
+            "com.hypixel.hytale.server.npc.corecomponents.world.ActionSetLeashPosition",
+            "com.hypixel.hytale.server.npc.corecomponents.world.ActionStorePosition",
+            "com.hypixel.hytale.server.npc.corecomponents.world.ActionTriggerSpawners",
+            "com.hypixel.hytale.server.npc.corecomponents.world.BodyMotionPath",
+            "com.hypixel.hytale.server.npc.corecomponents.world.HeadMotionObserve"
+          ]
+        },
+        "audiovisual": {
+          "overview": "Components for visual/audio feedback: animations, sounds, particles, model attachments, appearance changes, and display names.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionAppearance",
+            "com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionDisplayName",
+            "com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionModelAttachment",
+            "com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionPlayAnimation",
+            "com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionPlaySound",
+            "com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionSpawnParticles",
+            "com.hypixel.hytale.server.npc.corecomponents.audiovisual.SensorAnimation"
+          ]
+        },
+        "utility": {
+          "overview": "Generic utility components: no-ops, random selection, sequences, flags, timouts, boolean logic for sensors (and/or/not/any/many), evaluation wrappers, and motion sequences.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.utility.ActionNothing",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.ActionRandom",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.ActionResetInstructions",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.ActionSequence",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.ActionSetFlag",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.ActionTimeout",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.BodyMotionNothing",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.BodyMotionSequence",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.HeadMotionNothing",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.HeadMotionSequence",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.MotionSequence",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorAdjustPosition",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorAnd",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorAny",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorEval",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorFlag",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorMany",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorNot",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorOr",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorRandom",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorSwitch",
+            "com.hypixel.hytale.server.npc.corecomponents.utility.SensorValueProviderWrapper"
+          ]
+        },
+        "timer": {
+          "overview": "Timer-related components: setting alarms, timer-gated actions/motions, and alarm/timer sensors. Timer actions have sub-variants (start, stop, pause, restart, continue, modify) registered via builders.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.timer.ActionSetAlarm",
+            "com.hypixel.hytale.server.npc.corecomponents.timer.ActionTimer",
+            "com.hypixel.hytale.server.npc.corecomponents.timer.BodyMotionTimer",
+            "com.hypixel.hytale.server.npc.corecomponents.timer.HeadMotionTimer",
+            "com.hypixel.hytale.server.npc.corecomponents.timer.MotionTimer",
+            "com.hypixel.hytale.server.npc.corecomponents.timer.SensorAlarm",
+            "com.hypixel.hytale.server.npc.corecomponents.timer.SensorTimer"
+          ]
+        },
+        "debug": {
+          "overview": "Debug/testing components for logging, test assertions, and motion probing.",
+          "types": [
+            "com.hypixel.hytale.server.npc.corecomponents.debug.ActionLog",
+            "com.hypixel.hytale.server.npc.corecomponents.debug.ActionTest",
+            "com.hypixel.hytale.server.npc.corecomponents.debug.BodyMotionTestProbe"
+          ]
+        }
+      },
+      "builder_pattern": {
+        "overview": "Every core component type has a corresponding Builder class (e.g., BuilderActionBase, BuilderSensorState). Builders are JSON-deserialized data objects that are resolved at spawn time into runtime component instances via BuilderSupport and BuilderManager. This enables data-driven NPC behavior — all behavior is defined in JSON assets and compiled into component trees at entity spawn.",
+        "confidence": "high"
+      }
+    },
+    "systems": {
+      "overview": "ECS systems that process NPC components each tick. They form a dependency-ordered pipeline from pre-tick (position caching, target validation) through behavior evaluation and steering to post-tick cleanup. Most systems extend SteppableTickingSystem, which checks for Frozen state and StepComponent (single-step debugging) before ticking.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.SteppableTickingSystem",
+          "purpose": "Abstract base for NPC ticking systems. Checks Frozen component and StepComponent before delegating to steppedTick(). Enables NPC freezing and single-step debugging.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.RoleBuilderSystem",
+          "purpose": "HolderSystem that constructs the Role object from the Builder when an NPC entity is added to the store. Sets up model, display name, interactions, event support, timers, StateEvaluator, ValueStore, and appearance. The central initialization point for NPC behavior. Depends on: EntityStatsSystems.Setup, PhysicsValuesAddSystem.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.BalancingInitialisationSystem",
+          "purpose": "HolderSystem that applies NPC-specific stat modifiers (health max) from the Role's balance asset configuration. Runs after RoleBuilderSystem and EntityStatsSystems.Setup.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.PositionCacheSystems",
+          "purpose": "Multi-system class. UpdateSystem uses spatial resources (player, NPC, item spatial indices) to populate the PositionCache with nearby entities within configured search radii. RoleActivateSystem initializes the PositionCache configuration from the Role's instructions. OnFlockJoinSystem re-initializes position cache when flock membership changes.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.RoleSystems",
+          "purpose": "Multi-system class containing the main behavior pipeline. PreBehaviourSupportTickSystem validates/clears marked entity targets (removes dead, creative, invalid), clears steering, clears once-flags. BehaviourTickSystem iterates all NPC entities and calls role.tick(ref, dt, store) — the main behavior tree execution. PostBehaviourSupportTickSystem clears overrides, ticks combat/world/entity support, updates state support. RoleActivateSystem activates the state machine and motion controllers at spawn. RoleDebugSystem renders debug visualizations.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.StateEvaluatorSystem",
+          "purpose": "Ticking system that runs the utility-based StateEvaluator to evaluate state options and potentially switch the NPC's behavioral state. Runs AFTER PreBehaviourSupportTickSystem and BEFORE BehaviourTickSystem. Skips evaluation if state transitions are currently running.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.AvoidanceSystem",
+          "purpose": "Post-behavior system that blends avoidance and separation steering vectors into the NPC's body steering. Runs AFTER BehaviourTickSystem. Handles entity collision avoidance and flock separation.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.SteeringSystem",
+          "purpose": "Applies the computed body and head steering vectors through the active MotionController to actually move the NPC transform. Runs AFTER AvoidanceSystem and KnockbackSystems, BEFORE TransformSystems.EntityTrackerUpdate.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.NPCPreTickSystem",
+          "purpose": "Handles despawn logic: checks despawn timers, plays despawn animations, checks if NPC should despawn based on SpawningPlugin criteria. Runs BEFORE DeathSystems.CorpseRemoval. Despawn check runs every 30 seconds.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.ComputeVelocitySystem",
+          "purpose": "Computes NPC velocity from position delta (current - previous position / dt) and writes to the Velocity component. This is derived velocity, not input velocity.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.MovementStatesSystem",
+          "purpose": "Updates MovementStatesComponent based on computed velocity. Runs AFTER ComputeVelocitySystem. Delegates to role.updateMovementState().",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.NPCVelocityInstructionSystem",
+          "purpose": "Processes Velocity.Instruction events (Set/Add) for NPCs, delegating to role.processSetVelocityInstruction() and role.processAddVelocityInstruction(). Handles externally-applied forces like knockback.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.BlackboardSystems",
+          "purpose": "Multi-system class. InitSystem initializes the Blackboard resource on world load. TickingSystem runs every 5 seconds to clean up blackboard views. BreakBlockEventSystem and DamageBlockEventSystem forward block events to the Blackboard.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.TimerSystem",
+          "purpose": "Ticks all timer Tickable objects stored in the Timers component.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.NPCDamageSystems",
+          "purpose": "Multi-system class. DamageReceivedSystem records damage taken in NPCEntity.getDamageData(). DamageDealtSystem records damage dealt. DamageReceivedEventViewSystem publishes damage events to the Blackboard EntityEventView. FilterDamageSystem cancels damage from entities that fail canCauseDamage() checks. DropDeathItems handles NPC death item drops.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.NPCDeathSystems",
+          "purpose": "Multi-system class. EntityViewSystem publishes death events to the Blackboard EntityEventView. NPCKillsEntitySystem records kills in the source NPC's DamageData.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.NPCInteractionSystems",
+          "purpose": "Multi-system class. AddSimulationManagerSystem adds an InteractionManager with NPCInteractionSimulationHandler to NPCs. TickHeldInteractionsSystem ticks held/equipped item interactions.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.NPCSystems",
+          "purpose": "Multi-system class with lifecycle systems. AddedSystem initializes NPCs on load (blackboard view, components). AddedFromExternalSystem handles NPCs from world gen/prefabs. AddedFromWorldGenSystem handles world gen IDs. OnDeathSystem manages death animation timing. OnTeleportSystem notifies the Role of teleports. ModelChangeSystem updates motion controllers on model changes. PrefabPlaceEntityEventSystem handles flock remapping for prefab entities. KillFeed systems manage NPC kill feed messages.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.NPCSpatialSystem",
+          "purpose": "Maintains a spatial index (SpatialResource) of NPC positions for efficient range queries by other systems.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.SpawnReferenceSystems",
+          "purpose": "Multi-system class managing spawn beacon and spawn marker references. Tracks NPC-to-spawner relationships, handles timeout when spawner is lost, triggers despawn, and manages spawn counts.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.RoleChangeSystem",
+          "purpose": "Ticking system that processes queued role change requests. Removes the entity, clears old role/components (beacons, events, timers, state evaluator, value store), sets new role index, re-adds entity, optionally changes appearance and state.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.MessageSupportSystem",
+          "purpose": "Abstract base and concrete implementations for ticking NPC message slots (BeaconSupport, PlayerBlockEventSupport, NPCBlockEventSupport, PlayerEntityEventSupport, NPCEntityEventSupport). Deactivates expired message slots.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.FailedSpawnSystem",
+          "purpose": "Immediately removes entities that have a FailedSpawnComponent (spawn failures from RoleBuilderSystem).",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.NewSpawnStartTickingSystem",
+          "purpose": "Removes the NonTicking component from newly spawned NPCs after their first frame, enabling them to tick. Runs AFTER StepCleanupSystem.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.systems.StepCleanupSystem",
+          "purpose": "Removes StepComponent after a single-step tick completes. Runs last (RootDependency.lastSet).",
+          "confidence": "high"
+        }
+      ],
+      "execution_order": [
+        "PositionCacheSystems.UpdateSystem — populates nearby entity lists from spatial indices",
+        "RoleSystems.PreBehaviourSupportTickSystem — validates targets, clears steering/flags",
+        "StateEvaluatorSystem — evaluates utility-based state options, may switch state",
+        "RoleSystems.BehaviourTickSystem — executes role.tick() (main behavior tree)",
+        "AvoidanceSystem — blends avoidance/separation into steering",
+        "SteeringSystem — applies steering via MotionController to transform",
+        "RoleSystems.PostBehaviourSupportTickSystem — ticks support objects, clears overrides, updates state",
+        "ComputeVelocitySystem — derives velocity from position change",
+        "MovementStatesSystem — updates movement state from velocity",
+        "NPCPreTickSystem — manages despawn timers and animations",
+        "TimerSystem — ticks NPC timers",
+        "MessageSupportSystem variants — tick message slot aging",
+        "StepCleanupSystem — removes StepComponent (runs last)"
+      ],
+      "execution_order_confidence": "medium — dependencies are explicitly declared in source but some orderings between independent systems are inferred"
+    },
+    "state_transitions": {
+      "overview": "NPC behavior is organized into named states and sub-states, managed by StateSupport (accessed via role.getStateSupport()). State transitions are controlled by StateTransitionController, which maps from-state/to-state pairs to ActionLists that run during transitions. Transitions support priority — multiple action lists can apply to the same transition edge, run in priority order via CompositeActionList. The from/to state indices are packed into a single int key via (from << 16) + to.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.statetransition.StateTransitionController",
+          "purpose": "Maps state transition edges (from-state, to-state) to prioritized ActionLists. When a state change occurs, initiateStateTransition() is called and runTransitionActions() is called each tick until all transition actions complete. Transitions can be defined with wildcard from/to states (all main states).",
+          "confidence": "high"
+        }
+      ],
+      "patterns": {
+        "state_change_flow": "1. StateEvaluator or ActionState triggers a state change via StateSupport.setState(). 2. StateSupport calls StateTransitionController.initiateStateTransition(fromState, toState). 3. Each tick, runTransitionActions() is called — it executes the mapped ActionList(s) in priority order. 4. While transitions are running, StateEvaluator evaluation is suppressed (isRunningTransitionActions() returns true). 5. After all transition actions complete, normal behavior resumes in the new state.",
+        "manual_vs_evaluator": "ActionState checks if a StateEvaluator is active before changing state — if the evaluator is active, manual state changes from ActionState are suppressed. ActionToggleStateEvaluator can disable the evaluator to allow manual control.",
+        "component_local_states": "In addition to global states, SensorState/ActionState support 'component local' states — per-component state indices that don't affect the global state machine."
+      },
+      "confidence": "high"
+    },
+    "decision_making": {
+      "overview": "NPC decision-making uses a utility-based evaluation system. The StateEvaluator (an ECS Component on the NPC entity) periodically evaluates a set of StateOptions, each associated with a target state and a list of Conditions. Each Condition produces a utility score [0,1], and the Option's total utility is the product of all its condition scores (with a compensation factor). The highest-scoring option's state is selected. A predictability parameter controls whether the best option is always chosen or whether probabilistic selection among top options occurs.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.decisionmaker.core.Evaluator",
+          "purpose": "Abstract base for utility evaluators. Holds a sorted list of OptionHolders, evaluates each option's utility, and selects the best. Supports predictability-based probabilistic selection among top options.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.decisionmaker.core.EvaluationContext",
+          "purpose": "Context object for evaluation: minimum utility threshold, minimum weight coefficient, predictability (0-1), and timestamp. Reset between evaluations.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.decisionmaker.core.Option",
+          "purpose": "Abstract base for evaluator options. Contains a description, an array of Condition asset references, and a weight coefficient. Calculates utility as the product of all condition scores with compensation factor.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.decisionmaker.stateevaluator.StateEvaluator",
+          "purpose": "Concrete Evaluator that is an ECS Component. Evaluates StateOptions at a configurable frequency (default 0.1s). Has a cooldown after state switches (default 2s). Minimum utility threshold default 0.1. Cloneable for ECS serialization.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.decisionmaker.stateevaluator.StateOption",
+          "purpose": "An Option that maps to a state/sub-state. Contains state name, sub-state name, and resolved integer indices.",
+          "confidence": "high"
+        }
+      ],
+      "condition_types": {
+        "overview": "Conditions are loaded from JSON assets and cached in an AssetRegistry. They come in three base types: SimpleCondition (boolean true/false mapped to configurable utility values), CurveCondition (normalized input mapped through a ResponseCurve), and ScaledCurveCondition. Conditions are sorted by 'simplicity' (cost) for early-exit optimization.",
+        "registered_types": [
+          {"key": "OwnStatPercent", "class": "SelfStatPercentageCondition", "description": "Evaluates self stat as percentage via response curve"},
+          {"key": "TargetStatPercent", "class": "TargetStatPercentageCondition", "description": "Evaluates target stat as percentage via response curve"},
+          {"key": "OwnStatAbsolute", "class": "SelfStatAbsoluteCondition", "description": "Evaluates self stat absolute value"},
+          {"key": "TargetStatAbsolute", "class": "TargetStatAbsoluteCondition", "description": "Evaluates target stat absolute value"},
+          {"key": "HasTarget", "class": "HasTargetCondition", "description": "Boolean: whether NPC has a marked target"},
+          {"key": "TimeOfDay", "class": "TimeOfDayCondition", "description": "Evaluates based on time of day"},
+          {"key": "IsInState", "class": "IsInStateCondition", "description": "Boolean: whether NPC is in a specific state"},
+          {"key": "NearbyCount", "class": "NearbyCountCondition", "description": "Evaluates count of nearby entities"},
+          {"key": "TimeSinceLastUsed", "class": "TimeSinceLastUsedCondition", "description": "Evaluates time elapsed since last use"},
+          {"key": "TargetDistance", "class": "TargetDistanceCondition", "description": "Evaluates distance to target via response curve"},
+          {"key": "Randomiser", "class": "RandomiserCondition", "description": "Produces a random utility value"},
+          {"key": "LineOfSight", "class": "LineOfSightCondition", "description": "Boolean: whether NPC has line of sight to target"},
+          {"key": "TargetMovementState", "class": "TargetMovementStateCondition", "description": "Boolean: whether target is in a specific movement state"}
+        ],
+        "simplicity_tiers": [
+          {"tier": 0, "name": "ALWAYS_TRUE_SIMPLICITY", "description": "Cheapest — constant true"},
+          {"tier": 10, "name": "BOOLEAN_CHECK_SIMPLICITY", "description": "Simple boolean checks (SimpleCondition)"},
+          {"tier": 20, "name": "NORMALISED_CURVE_SIMPLICITY", "description": "Normalized input through response curve (CurveCondition)"},
+          {"tier": 30, "name": "SCALED_CURVE_SIMPLICITY", "description": "Scaled curve evaluations"},
+          {"tier": 40, "name": "HIGH_COST_SIMPLICITY", "description": "Expensive checks (raycasts, etc.)"}
+        ]
+      },
+      "confidence": "high"
+    },
+    "blackboard": {
+      "overview": "The Blackboard is a shared, world-level ECS Resource that provides spatial, event-based, and type-based data views to NPC sensors. It is initialized per-world and provides views for block types, block events, entity events, resources (reservable positions), attitudes, and interactions. Views are accessed by chunk coordinates or entity reference. The Blackboard is cleaned up every 5 seconds via BlackboardSystems.TickingSystem.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.blackboard.Blackboard",
+          "purpose": "ECS Resource that holds a ConcurrentHashMap of IBlackboardViewManager instances keyed by view class. Provides getView() methods by chunk coordinate, entity ref, or index. Forwards block break/damage events to BlockEventView.",
+          "confidence": "high"
+        }
+      ],
+      "view_types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.blackboard.view.blocktype.BlockTypeView",
+          "purpose": "Tracks block type positions for NPC block sensors. Managed by BlockTypeViewManager (multi-instance, chunk-based).",
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.blackboard.view.event.block.BlockEventView",
+          "purpose": "Tracks block events (break, damage) with BlockEventType categorization. Singleton per world.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.blackboard.view.event.entity.EntityEventView",
+          "purpose": "Tracks entity events (damage, death) with EntityEventType categorization. Processes attacked events from NPCDamageSystems and NPCDeathSystems. Singleton per world.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.blackboard.view.resource.ResourceView",
+          "purpose": "Manages reservable block positions (e.g., for building NPCs). Supports reservation/clearing via entity reference. Managed by ResourceViewManager (multi-instance).",
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.blackboard.view.attitude.AttitudeView",
+          "purpose": "Provides attitude data (friend/foe/neutral) between entities. Singleton per world.",
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.blackboard.view.interaction.InteractionView",
+          "purpose": "Tracks interaction availability and reservation status between NPCs and players. Singleton per world.",
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.blackboard.view.combat.InterpretedCombatData",
+          "purpose": "Provides interpreted combat data for NPC decision making.",
+          "confidence": "low"
+        }
+      ],
+      "event_types": {
+        "block_events": ["BlockEventType — enumeration of block event categories"],
+        "entity_events": ["EntityEventType — enumeration including DAMAGE and DEATH"]
+      },
+      "confidence": "high"
+    },
+    "sensors": {
+      "overview": "The sensor info system provides structured data flow between sensors and the actions/motions they feed. InfoProvider is the core interface, providing position data (IPositionProvider), parameter data (ParameterProvider), and extensible extra info (ExtraInfoProvider). When a sensor matches, it produces an InfoProvider that downstream actions/motions consume to know where to move, what to target, etc.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.InfoProvider",
+          "purpose": "Interface for providing sensor output data. Methods: getPositionProvider(), getParameterProvider(int), getExtraInfo(Class), passExtraInfo(E), hasPosition().",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.InfoProviderBase",
+          "purpose": "Abstract base implementing InfoProvider. Holds optional ParameterProvider and a map of ExtraInfoProvider instances keyed by type class. Supports passExtraInfo for parent-to-child data flow.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider",
+          "purpose": "Interface for position data: hasPosition(), providePosition(Vector3d), getX/Y/Z(), getTarget() -> Ref, clear().",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.PositionProvider",
+          "purpose": "Concrete IPositionProvider that stores x/y/z coordinates. Can set target from entity ref (reads TransformComponent, checks DeathComponent). Used as the primary position data container for sensor output.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.EntityPositionProvider",
+          "purpose": "Position provider that also holds a target entity reference.",
+          "confidence": "medium"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.CachedPositionProvider",
+          "purpose": "Position provider with caching capabilities.",
+          "confidence": "low"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.IPathProvider",
+          "purpose": "Interface for path data, extending IPositionProvider.",
+          "confidence": "low"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.PathProvider",
+          "purpose": "Concrete path provider implementation.",
+          "confidence": "low"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.ExtraInfoProvider",
+          "purpose": "Interface for extensible extra info in sensor output. Just defines getType() -> Class.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.ValueWrappedInfoProvider",
+          "purpose": "InfoProvider that wraps a value along with position/parameter data.",
+          "confidence": "low"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.sensorinfo.WrappedInfoProvider",
+          "purpose": "InfoProvider that wraps/delegates to another InfoProvider.",
+          "confidence": "low"
+        }
+      ],
+      "parameter_providers": [
+        "com.hypixel.hytale.server.npc.sensorinfo.parameterproviders.ParameterProvider",
+        "com.hypixel.hytale.server.npc.sensorinfo.parameterproviders.SingleParameterProvider",
+        "com.hypixel.hytale.server.npc.sensorinfo.parameterproviders.MultipleParameterProvider",
+        "com.hypixel.hytale.server.npc.sensorinfo.parameterproviders.IntParameterProvider",
+        "com.hypixel.hytale.server.npc.sensorinfo.parameterproviders.DoubleParameterProvider",
+        "com.hypixel.hytale.server.npc.sensorinfo.parameterproviders.StringParameterProvider",
+        "com.hypixel.hytale.server.npc.sensorinfo.parameterproviders.SingleIntParameterProvider",
+        "com.hypixel.hytale.server.npc.sensorinfo.parameterproviders.SingleDoubleParameterProvider",
+        "com.hypixel.hytale.server.npc.sensorinfo.parameterproviders.SingleStringParameterProvider"
+      ],
+      "data_flow": "Sensor.matches() -> if true, Sensor.getSensorInfo() returns InfoProvider -> InfoProvider is passed to Action.execute()/Motion methods -> Actions read position/parameters/extra info to determine behavior targets",
+      "confidence": "high"
+    },
+    "additional_components": {
+      "overview": "ECS components that are added to NPC entities alongside the NPCEntity component to support various subsystems.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.components.StepComponent",
+          "purpose": "Marker component for single-step debugging. Holds a tickLength value. When present, frozen NPCs receive exactly one tick with this duration.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.components.Timers",
+          "purpose": "Holds an array of Tickable timer objects that are ticked by TimerSystem each frame.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.components.FailedSpawnComponent",
+          "purpose": "Marker component added when RoleBuilderSystem fails to build a role. FailedSpawnSystem immediately removes entities with this component.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.components.SpawnReference",
+          "purpose": "Abstract base for spawn source references. Tracks an InvalidatablePersistentRef to the spawner entity with a 30-second timeout for lost markers.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.components.SpawnBeaconReference",
+          "purpose": "Concrete SpawnReference for legacy spawn beacons.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.components.SpawnMarkerReference",
+          "purpose": "Concrete SpawnReference for spawn markers.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.components.SortBufferProviderResource",
+          "purpose": "ECS resource — purpose unknown from name alone, likely provides sort buffers for NPC processing.",
+          "confidence": "low"
+        }
+      ],
+      "messaging_components": {
+        "overview": "Components for NPC message passing and event notification. Each support type holds NPCMessage slots that are ticked for aging and activation state.",
+        "types": [
+          "com.hypixel.hytale.server.npc.components.messaging.MessageSupport",
+          "com.hypixel.hytale.server.npc.components.messaging.NPCMessage",
+          "com.hypixel.hytale.server.npc.components.messaging.EventMessage",
+          "com.hypixel.hytale.server.npc.components.messaging.EventSupport",
+          "com.hypixel.hytale.server.npc.components.messaging.EntityEventSupport",
+          "com.hypixel.hytale.server.npc.components.messaging.BeaconSupport",
+          "com.hypixel.hytale.server.npc.components.messaging.PlayerBlockEventSupport",
+          "com.hypixel.hytale.server.npc.components.messaging.NPCBlockEventSupport",
+          "com.hypixel.hytale.server.npc.components.messaging.PlayerEntityEventSupport",
+          "com.hypixel.hytale.server.npc.components.messaging.NPCEntityEventSupport"
+        ]
+      }
+    },
+    "value_store": {
+      "overview": "A per-entity key-value store for NPC behavioral parameters, allowing sensors and actions to share named values across the behavior tree without hardcoded state.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.valuestore.ValueStore",
+          "purpose": "ECS Component providing typed slot-based storage: string[], int[], double[] arrays. Slots are allocated by name via ValueStore.Builder using SlotMapper. Values default to Integer.MIN_VALUE / -Double.MAX_VALUE.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.valuestore.ValueStoreValidator",
+          "purpose": "Build-time validator that detects conflicting exclusive writes to the same ValueStore parameter. Tracks ValueUsage records (READ/WRITE/EXCLUSIVE_WRITE) per parameter name and type.",
+          "confidence": "high"
+        }
+      ],
+      "confidence": "high"
+    },
+    "storage": {
+      "overview": "Persistent parameter storage for NPC state that survives across ticks and is serializable.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.storage.PersistentParameter",
+          "purpose": "Abstract base for persistable parameter values. Marks chunk dirty via TransformComponent when set, triggering world save.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.storage.ParameterStore",
+          "purpose": "Abstract typed map of named PersistentParameter instances. Lazily creates parameters on first access and marks entity for save.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.storage.AlarmStore",
+          "purpose": "Concrete ParameterStore of Alarm objects. Serializable via BuilderCodec with a MapCodec of Alarm entries.",
+          "confidence": "high"
+        }
+      ],
+      "confidence": "high"
+    },
+    "metadata": {
+      "overview": "Metadata about captured NPCs, used for item representation of captured creatures.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.metadata.CapturedNPCMetadata",
+          "purpose": "Data class for captured NPC metadata: icon path, NPC name translation key, and full item icon path. Serializable via BuilderCodec. Used with KEY='CapturedEntity' for item metadata.",
+          "confidence": "high"
+        }
+      ],
+      "confidence": "high"
+    },
+    "validators": {
+      "overview": "Build-time and load-time validation for NPC role definitions.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.validators.NPCRoleValidator",
+          "purpose": "LateValidator that validates NPC role names are spawnable. Used in JSON schema validation for spawn configurations.",
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.validators.NPCLoadTimeValidationHelper",
+          "purpose": "Comprehensive validation context used during role building. Validates animations against the spawn model, validates motion controller requirements are met, validates inventory/hotbar/offhand slot references, detects duplicate entity filters, tracks state stack for hierarchical validation, and delegates value store validation.",
+          "confidence": "high"
+        }
+      ],
+      "confidence": "high"
+    }
+  },
+  "cross_references": {
+    "events_used": [
+      {
+        "event": "com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent",
+        "usage": "Forwarded by BlackboardSystems.BreakBlockEventSystem to Blackboard.onEntityBreakBlock()",
+        "store_type": "EntityStore"
+      },
+      {
+        "event": "com.hypixel.hytale.server.core.event.events.ecs.DamageBlockEvent",
+        "usage": "Forwarded by BlackboardSystems.DamageBlockEventSystem to Blackboard.onEntityDamageBlock()",
+        "store_type": "EntityStore"
+      },
+      {
+        "event": "com.hypixel.hytale.server.core.modules.entity.damage.Damage",
+        "usage": "Processed by NPCDamageSystems (filter, receive, deal, event view) and NPCDeathSystems",
+        "store_type": "EntityStore"
+      },
+      {
+        "event": "com.hypixel.hytale.server.core.modules.entity.damage.event.KillFeedEvent",
+        "usage": "NPCSystems.KillFeedDecedentEventSystem cancels kill feed for NPC deaths; KillFeedKillerEventSystem sets NPC name on kill messages to players",
+        "store_type": "EntityStore"
+      },
+      {
+        "event": "com.hypixel.hytale.server.core.prefab.event.PrefabPlaceEntityEvent",
+        "usage": "NPCSystems.PrefabPlaceEntityEventSystem remaps flock IDs for NPCs placed via prefabs",
+        "store_type": "EntityStore"
+      }
+    ],
+    "ecs_stores_used": [
+      {
+        "store": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "usage": "All NPC systems operate on EntityStore. NPCEntity, StateEvaluator, ValueStore, Timers, StepComponent, SpawnBeaconReference, SpawnMarkerReference, FailedSpawnComponent, and all messaging components are EntityStore components."
+      }
+    ],
+    "ecs_resources_used": [
+      {
+        "resource": "com.hypixel.hytale.server.npc.blackboard.Blackboard",
+        "usage": "World-level resource providing shared spatial/event data views for NPC sensors"
+      },
+      {
+        "resource": "com.hypixel.hytale.server.npc.systems.RoleChangeSystem.RoleChangeQueue",
+        "usage": "Queue resource for deferred role change requests"
+      },
+      {
+        "resource": "com.hypixel.hytale.server.npc.systems.NewSpawnStartTickingSystem.QueueResource",
+        "usage": "Queue resource for newly spawned NPCs that need their NonTicking component removed"
+      },
+      {
+        "resource": "com.hypixel.hytale.server.core.modules.time.WorldTimeResource",
+        "usage": "Used for spawn timing, despawn checks, and game time tracking"
+      },
+      {
+        "resource": "com.hypixel.hytale.component.spatial.SpatialResource",
+        "usage": "NPCSpatialSystem maintains NPC spatial index; PositionCacheSystems queries player, NPC, item, spawn marker, and spawn beacon spatial indices"
+      }
+    ],
+    "components_registered": [
+      "com.hypixel.hytale.server.npc.entities.NPCEntity — main NPC component, registered via NPCPlugin",
+      "com.hypixel.hytale.server.npc.decisionmaker.stateevaluator.StateEvaluator — utility evaluator component",
+      "com.hypixel.hytale.server.npc.valuestore.ValueStore — per-entity value store",
+      "com.hypixel.hytale.server.npc.components.Timers — timer array component",
+      "com.hypixel.hytale.server.npc.components.StepComponent — debug step component",
+      "com.hypixel.hytale.server.npc.components.FailedSpawnComponent — spawn failure marker",
+      "com.hypixel.hytale.server.npc.components.SpawnBeaconReference — beacon spawn tracking",
+      "com.hypixel.hytale.server.npc.components.SpawnMarkerReference — marker spawn tracking",
+      "com.hypixel.hytale.server.npc.components.messaging.BeaconSupport — beacon messaging",
+      "com.hypixel.hytale.server.npc.components.messaging.PlayerBlockEventSupport — player block event messaging",
+      "com.hypixel.hytale.server.npc.components.messaging.NPCBlockEventSupport — NPC block event messaging",
+      "com.hypixel.hytale.server.npc.components.messaging.PlayerEntityEventSupport — player entity event messaging",
+      "com.hypixel.hytale.server.npc.components.messaging.NPCEntityEventSupport — NPC entity event messaging"
+    ],
+    "external_systems_referenced": [
+      "com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems — death handling, corpse removal",
+      "com.hypixel.hytale.server.core.modules.entity.system.TransformSystems — entity position tracking",
+      "com.hypixel.hytale.server.core.modules.entity.system.ModelSystems — model spawning, bounding box",
+      "com.hypixel.hytale.server.core.modules.entitystats.EntityStatsSystems — stat initialization",
+      "com.hypixel.hytale.server.core.modules.physics.systems.GenericVelocityInstructionSystem — physics velocity",
+      "com.hypixel.hytale.server.core.modules.physics.systems.PhysicsValuesAddSystem — physics values",
+      "com.hypixel.hytale.server.core.modules.entity.teleport.TeleportSystems — teleport handling",
+      "com.hypixel.hytale.server.core.entity.knockback.KnockbackSystems — knockback application",
+      "com.hypixel.hytale.server.core.modules.entity.system.PlayerSpatialSystem — player spatial index",
+      "com.hypixel.hytale.server.core.modules.interaction.InteractionModule — interaction system",
+      "com.hypixel.hytale.server.spawning.SpawningPlugin — spawn/despawn management",
+      "com.hypixel.hytale.server.flock.FlockPlugin — flock management"
+    ],
+    "plugin_interaction_points": [
+      "NPCPlugin.get() — singleton access to the NPC plugin, which holds component types, resource types, builder manager, role indices, and benchmarking state",
+      "Role.tick(ref, dt, store) — the main behavior entry point called by BehaviourTickSystem",
+      "RoleChangeSystem.requestRoleChange() — static method to queue an NPC role change at runtime",
+      "StateSupport.setState() — changes NPC behavioral state, triggering transitions",
+      "NPCEntity.getRole() — access to the NPC's behavior definition"
+    ]
+  }
+}

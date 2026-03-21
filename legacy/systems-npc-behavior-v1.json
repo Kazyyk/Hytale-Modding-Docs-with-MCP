@@ -1,0 +1,1184 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T12:00:00Z",
+  "domain": "npc_behavior",
+  "overview": "The NPC behavior subsystem is a data-driven, JSON-configured AI framework centered on the NPCPlugin (a JavaPlugin). NPC types are defined as 'Roles' loaded from JSON asset files (Server/NPC/Roles/*.json). Each NPC entity (NPCEntity, extending LivingEntity) is assigned a Role at spawn time. Roles define a behavior tree of Instructions, each with a Sensor (condition), BodyMotion (movement), HeadMotion (head tracking), and ActionList (side effects). Motion is governed by pluggable MotionControllers (Walk/Fly/Dive) that handle physics, collision, and steering. Navigation uses A* pathfinding. NPCs observe the world through a Blackboard system (block/entity events, attitudes) and can evaluate expressions via a built-in scripting language. The entire system runs as ECS systems registered on the EntityStore.",
+  "confidence": "high",
+  "subsections": {
+    "plugin_core": {
+      "overview": "NPCPlugin is the central entry point, extending JavaPlugin. It manages NPC loading, spawning, asset registration, ECS system registration, and provides the BuilderFactory/BuilderManager infrastructure for JSON-driven NPC type definitions. It registers the NPCEntity type, interaction types, asset stores (AttitudeGroup, ItemAttitudeGroup, BalanceAsset, Condition), and over 20 ECS systems.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.NPCPlugin",
+          "kind": "class",
+          "extends": "com.hypixel.hytale.server.core.plugin.JavaPlugin",
+          "purpose": "Central plugin class. Singleton accessed via NPCPlugin.get(). Registers all NPC-related ECS components, resources, systems, commands, event handlers, asset stores, and builder factories.",
+          "key_fields": [
+            "builderManager (BuilderManager) — manages JSON-to-Role loading pipeline",
+            "blackboardResourceType — ECS resource for NPC blackboard",
+            "npcSpatialResource — KDTree-based spatial index for NPC proximity queries"
+          ],
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.AllNPCsLoadedEvent",
+          "kind": "class",
+          "implements": "com.hypixel.hytale.event.IEvent<Void>",
+          "purpose": "Standard event (not ECS) dispatched after all NPC role definitions have been loaded. Carries Int2ObjectMap<BuilderInfo> of all NPCs and loaded NPCs.",
+          "confidence": "high"
+        }
+      ],
+      "registered_ecs_systems": [
+        "BlackboardSystems.InitSystem",
+        "BlackboardSystems.TickingSystem",
+        "BlackboardSystems.DamageBlockEventSystem",
+        "BlackboardSystems.BreakBlockEventSystem",
+        "CombatViewSystems.Ensure",
+        "CombatViewSystems.EntityRemoved",
+        "CombatViewSystems.Ticking",
+        "NPCSystems.ModelChangeSystem",
+        "RoleBuilderSystem",
+        "BalancingInitialisationSystem",
+        "RoleSystems.RoleActivateSystem",
+        "PositionCacheSystems.RoleActivateSystem",
+        "NPCInteractionSystems.AddSimulationManagerSystem",
+        "NPCInteractionSystems.TickHeldInteractionsSystem",
+        "FailedSpawnSystem",
+        "NPCSystems.AddedSystem",
+        "NPCSystems.AddedFromExternalSystem",
+        "NPCSystems.AddedFromWorldGenSystem",
+        "NPCSystems.AddSpawnEntityEffectSystem",
+        "RoleSystems.BehaviourTickSystem",
+        "RoleSystems.PreBehaviourSupportTickSystem",
+        "StateEvaluatorSystem",
+        "PositionCacheSystems.UpdateSystem",
+        "NPCPreTickSystem",
+        "AvoidanceSystem",
+        "SteeringSystem",
+        "RoleSystems.PostBehaviourSupportTickSystem",
+        "RoleSystems.RoleDebugSystem",
+        "TimerSystem",
+        "ComputeVelocitySystem",
+        "MovementStatesSystem",
+        "MessageSupportSystem.BeaconSystem",
+        "MessageSupportSystem.NPCBlockEventSystem",
+        "MessageSupportSystem.PlayerBlockEventSystem",
+        "MessageSupportSystem.NPCEntityEventSystem",
+        "MessageSupportSystem.PlayerEntityEventSystem",
+        "StepCleanupSystem",
+        "NewSpawnStartTickingSystem",
+        "RoleChangeSystem",
+        "NPCSpatialSystem",
+        "NPCDeathSystems.NPCKillsEntitySystem",
+        "NPCDeathSystems.EntityViewSystem",
+        "NPCDamageSystems.FilterDamageSystem",
+        "NPCDamageSystems.DamageReceivedSystem",
+        "NPCDamageSystems.DamageDealtSystem",
+        "NPCDamageSystems.DamageReceivedEventViewSystem",
+        "NPCDamageSystems.DropDeathItems",
+        "NPCSystems.OnTeleportSystem",
+        "NPCSystems.OnDeathSystem",
+        "NPCSystems.LegacyWorldGenId",
+        "NPCSystems.KillFeedKillerEventSystem",
+        "NPCSystems.KillFeedDecedentEventSystem",
+        "NPCSystems.PrefabPlaceEntityEventSystem",
+        "NPCVelocityInstructionSystem",
+        "NPCPlugin.NPCEntityRegenerateStatsSystem"
+      ],
+      "registered_ecs_components": [
+        "CombatViewSystems.CombatData",
+        "NPCRunTestsCommand.NPCTestData",
+        "BeaconSupport",
+        "NPCBlockEventSupport",
+        "PlayerBlockEventSupport",
+        "NPCEntityEventSupport",
+        "PlayerEntityEventSupport",
+        "StepComponent",
+        "FailedSpawnComponent",
+        "Timers",
+        "StateEvaluator",
+        "ValueStore"
+      ],
+      "registered_ecs_resources": [
+        "Blackboard",
+        "CombatViewSystems.CombatDataPool",
+        "RoleChangeSystem.RoleChangeQueue",
+        "NewSpawnStartTickingSystem.QueueResource",
+        "SortBufferProviderResource",
+        "AStarNodePoolProviderSimple",
+        "SpatialResource<Ref<EntityStore>, EntityStore> (KDTree-backed NPC spatial index)"
+      ]
+    },
+    "entity": {
+      "overview": "NPCEntity is the core ECS component for NPC entities, extending LivingEntity and implementing INonPlayerCharacter. It is registered as entity type 'NPC'. Each NPCEntity holds a reference to its Role (behavior profile), a PathManager for path-following, a DamageData tracker, blackboard views for observing block/entity events, an AlarmStore for timed triggers, and leash/spawn position data.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.entities.NPCEntity",
+          "kind": "class",
+          "extends": "com.hypixel.hytale.server.core.entity.LivingEntity",
+          "implements": "com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter",
+          "purpose": "Primary NPC entity component. Holds Role reference, PathManager, blackboard views, despawn state, leash point, hover parameters, model scale, spawn configuration, and reserved-by tracking for player interactions.",
+          "key_methods": [
+            "getRole() — returns the active Role behavior profile",
+            "playAnimation(ref, slot, animationId, accessor) — plays animation on the NPC model",
+            "notifyBlockChange(type, notification) — routes block event to appropriate EventSupport component (player vs NPC source)",
+            "notifyEntityEvent(type, notification) — routes entity event to appropriate EventSupport component",
+            "setAppearance(ref, modelAsset, accessor) — changes the NPC's visual model",
+            "getBlockTypeBlackboardView(ref, store) — lazily initializes and returns block type observation view",
+            "addReservation/removeReservation/isReserved — player interaction reservation system"
+          ],
+          "codec_fields": [
+            "Env (String) — environment asset ID",
+            "HvrPhs (Double) — hover phase",
+            "HvrHght (Double) — hover height",
+            "SpawnName (String) — spawn role name",
+            "MdlScl (Double) — initial model scale",
+            "SpawnConfig (String) — spawn configuration name",
+            "SpawnInstant (Instant) — spawn timestamp",
+            "AlarmStore (AlarmStore) — persisted alarm data",
+            "WorldgenId (Integer) — legacy worldgen ID (deprecated)",
+            "PathManager (PathManager) — persisted path state",
+            "LeashPos (Vector3d) — leash anchor position",
+            "LeashHdg/LeashPtch (Double) — leash heading/pitch",
+            "RoleName (String) — current role identifier"
+          ],
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.entities.PathManager",
+          "kind": "class",
+          "purpose": "Manages the NPC's current path state. Supports both prefab paths (UUID-keyed from WorldPathData) and transient paths (runtime-computed). Persisted via CODEC.",
+          "key_methods": [
+            "setPrefabPath(uuid, path) — assigns a world-placed prefab path",
+            "setTransientPath(path) — assigns a runtime-computed path",
+            "isFollowingPath() — checks if NPC has an active path",
+            "getPath(ref, accessor) — resolves and returns the current IPath, lazily loading prefab paths from WorldPathData"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "asset_config": {
+      "overview": "NPC types are defined via JSON files loaded by the BuilderManager from 'Server/NPC/Roles/*.json'. The builder system uses a factory pattern: each JSON type field maps to a Builder<T> implementation. BuilderRole is the top-level builder that produces Role instances. The system supports inheritance (BuilderRoleAbstract for base definitions, BuilderRoleVariant for variants). NPC definitions reference assets for models, items, attitudes, block sets, interactions, drop lists, and balance configurations.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.asset.builder.BuilderManager",
+          "kind": "class",
+          "purpose": "Manages loading, validation, and hot-reloading of NPC JSON asset definitions from asset packs."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.asset.builder.BuilderFactory",
+          "kind": "class",
+          "purpose": "Generic factory that maps JSON 'Type' fields to Builder<T> implementations. Supports a default builder and 'Component' type for generic wrappers. Used for all NPC behavior categories (Role, BodyMotion, HeadMotion, Action, Sensor, Instruction, etc.)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.asset.builder.Builder",
+          "kind": "class",
+          "purpose": "Base class for all JSON-driven NPC component builders. Subclassed for each behavior type."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.asset.builder.BuilderInfo",
+          "kind": "class",
+          "purpose": "Wrapper holding a Builder, its key name, numeric index, source path, and validation state. Used in the AllNPCsLoadedEvent."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.asset.builder.BuilderSupport",
+          "kind": "class",
+          "purpose": "Context object passed during Role construction. Provides access to the NPCEntity, expression ExecutionContext, instruction slot allocation, interaction tracking, and RoleStats."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptor",
+          "kind": "class",
+          "purpose": "Metadata descriptor for a builder, used for schema generation and documentation."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.asset.builder.SpawnableWithModelBuilder",
+          "kind": "class",
+          "purpose": "Base builder for types that can be spawned with a model (BuilderRole extends this). Implements ISpawnable for spawn-test integration."
+        }
+      ],
+      "builder_categories": {
+        "Role": "Top-level NPC role definition. Factory class 'Role'.",
+        "BodyMotion": "Body movement behaviors (Wander, Seek, Flee, Path, etc.). Factory class 'BodyMotion'.",
+        "HeadMotion": "Head tracking behaviors (Aim, Watch, Observe). Factory class 'HeadMotion'.",
+        "Action": "Side-effect actions (Attack, State, Spawn, Despawn, etc.). Factory class 'Action'.",
+        "Sensor": "Condition evaluators (Player, Damage, State, Timer, etc.). Factory class 'Sensor'.",
+        "Instruction": "Composite behavior nodes combining Sensor+BodyMotion+HeadMotion+Actions. Factory class 'Instruction'.",
+        "ActionList": "Ordered/blocking/atomic action sequences. Factory class 'ActionList'.",
+        "Path": "Transient path definitions. Factory class 'Path'."
+      },
+      "json_schema_path": "NPCRole.json",
+      "asset_paths": {
+        "roles": "Server/NPC/Roles",
+        "attitude_groups": "NPC/Attitude/Roles",
+        "item_attitude_groups": "NPC/Attitude/Items",
+        "balance_assets": "NPC/Balancing",
+        "decision_conditions": "NPC/DecisionMaking/Conditions"
+      },
+      "confidence": "high"
+    },
+    "roles": {
+      "overview": "Role is the runtime behavior profile for an NPC. It is constructed from a BuilderRole and holds all configuration: combat support, state machine, entity tracking, world interaction, movement controllers, instruction tree, inventory, flock behavior, avoidance, and separation parameters. The Role processes its instruction tree each tick via the BehaviourTickSystem.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.Role",
+          "kind": "class",
+          "implements": "com.hypixel.hytale.server.npc.util.IAnnotatedComponentCollection",
+          "purpose": "Runtime NPC behavior profile. Holds all behavior state: instruction tree (rootInstruction), motion controllers, steering accumulators, support objects (combat, state, entity, world, position cache, debug), inventory config, flock parameters, avoidance settings, and leash behavior.",
+          "key_fields": [
+            "rootInstruction — root of the behavior tree",
+            "interactionInstruction — behavior subtree for player interactions",
+            "deathInstruction — behavior subtree for death handling",
+            "motionControllers — Map<String, MotionController>, e.g. 'Walk', 'Fly', 'Dive'",
+            "activeMotionController — currently active locomotion mode",
+            "bodySteering / headSteering — accumulated steering outputs",
+            "steeringForceAvoidCollision — collision avoidance force",
+            "groupSteeringAccumulator — flock steering (alignment/separation/cohesion)",
+            "combatSupport / stateSupport / markedEntitySupport / worldSupport / entitySupport / positionCache / debugSupport — support subsystems"
+          ],
+          "key_config": [
+            "appearance — model asset ID",
+            "initialMaxHealth — starting HP",
+            "hotbarItems / offHandItems / armor — equipment",
+            "dropListId — loot table on death",
+            "deathAnimationTime / despawnAnimationTime — timing",
+            "breathesInAir / breathesInWater — breathing medium",
+            "invulnerable — damage immunity flag",
+            "inertia / knockbackScale — physics",
+            "flockWeightAlignment/Separation/Cohesion/InfluenceRange — flock boid weights",
+            "stayInEnvironment / allowedEnvironments — environment confinement",
+            "balanceAsset — reference to BalanceAsset for combat tuning",
+            "interactionVars — template variables for interaction system"
+          ],
+          "confidence": "high"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.builders.BuilderRole",
+          "kind": "class",
+          "extends": "com.hypixel.hytale.server.npc.asset.builder.SpawnableWithModelBuilder",
+          "implements": "com.hypixel.hytale.server.npc.role.SpawnEffect",
+          "purpose": "JSON builder that produces Role instances. Defines all configurable fields with typed holders and validators."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.builders.BuilderRoleAbstract",
+          "kind": "class",
+          "purpose": "Abstract/base role definition for inheritance. Allows shared configuration across role variants."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.builders.BuilderRoleVariant",
+          "kind": "class",
+          "purpose": "Role variant that inherits from and overrides a base role definition."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.RoleDebugFlags",
+          "kind": "enum",
+          "purpose": "Debug flag enum for NPC role debugging. 35 flags covering instruction tracing, motion controller debugging, visualization, and display options. Supports named presets (none, all, move, steer, valid, block, display, default).",
+          "values": [
+            "TraceFail", "TraceSuccess", "TraceSensorFailures", "Flock", "FlockDamage",
+            "MotionControllerSteer", "Collisions", "BlockCollisions", "ProbeBlockCollisions",
+            "MotionControllerMove", "ValidatePositions", "SteeringRole", "DisplayState",
+            "DisplayFlock", "DisplayTime", "DisplayTarget", "DisplayAnim", "DisplayLightLevel",
+            "DisplayCustom", "DisplayHP", "DisplayStamina", "Overlaps", "Pathfinder",
+            "DisplaySpeed", "DisplayFreeSlots", "DisplayInternalId", "DisplayName",
+            "ValidateMath", "VisAvoidance", "VisSeparation", "VisAiming", "VisMarkedTargets",
+            "VisSensorRanges", "VisLeashPosition", "VisFlock", "BeaconMessages"
+          ]
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.SpawnEffect",
+          "kind": "interface",
+          "purpose": "Interface for spawn particle effects. Implemented by BuilderRole. Spawns particles at spawn position using the player spatial resource for visibility."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.RoleUtils",
+          "kind": "class",
+          "purpose": "Utility methods for Role operations."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.RoleDebugDisplay",
+          "kind": "class",
+          "purpose": "Handles debug display rendering for NPC roles based on active debug flags."
+        }
+      ],
+      "support_classes": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.support.CombatSupport",
+          "purpose": "Manages NPC combat state: active attacks, attack overrides, friendly damage, flock damage filtering, and damage group exclusions. Uses tag-based attack types (Melee, Ranged, Block)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.support.StateSupport",
+          "purpose": "Manages the NPC state machine. Tracks current state/subState via integer indices mapped through StateMappingHelper. Handles state transitions, busy states, interactable player tracking, and contextual interactions. Integrates with StateTransitionController."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.support.MarkedEntitySupport",
+          "purpose": "Manages named entity target slots (e.g. 'Attack', 'AimingReference'). NPCs can mark and track multiple entity targets by slot name."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.support.WorldSupport",
+          "purpose": "Manages NPC world interaction: block placement, search rays, stored positions."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.support.EntitySupport",
+          "purpose": "Manages entity-related data: display names, entity filters, entity group membership."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.support.PositionCache",
+          "purpose": "Caches spatial data for the NPC: nearby entities, block lookups, opaque block sets. Updated by PositionCacheSystems."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.support.DebugSupport",
+          "purpose": "Manages debug flags and debug flag change listeners (MotionControllers listen for flag changes)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.support.RoleStats",
+          "purpose": "Tracks role-specific statistics."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.role.support.EntityList",
+          "purpose": "Utility for maintaining lists of entity references."
+        }
+      ],
+      "confidence": "high"
+    },
+    "instructions": {
+      "overview": "The instruction system implements a hierarchical behavior tree. Each Instruction node combines a Sensor (condition), an optional BodyMotion (movement steering), an optional HeadMotion (head tracking), and an ActionList (side effects). Instructions can be nested (sub-instructions evaluated when sensor matches) or leaf nodes (execute motion+actions). The system supports tree mode (depth-first evaluation with backtracking), weighted random selection, and continue-after semantics.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.Instruction",
+          "kind": "class",
+          "implements": ["com.hypixel.hytale.server.npc.instructions.RoleStateChange", "com.hypixel.hytale.server.npc.util.IAnnotatedComponentCollection"],
+          "purpose": "Core behavior tree node. Combines a Sensor, BodyMotion, HeadMotion, and ActionList. Supports nesting (instructionList), tree mode evaluation, weighted chance, and tags for debugging.",
+          "key_fields": [
+            "sensor — condition that must match for this instruction to execute",
+            "instructionList — child instructions (branch node) OR empty (leaf node)",
+            "bodyMotion — movement steering behavior (null for branch nodes)",
+            "headMotion — head tracking behavior (null for branch nodes)",
+            "actions — ActionList of side effects",
+            "weight — probability weight for random selection",
+            "treeMode — if true, evaluates as depth-first tree with backtracking",
+            "continueAfter — if true, continues evaluating siblings after matching",
+            "name / tag — debugging identifiers"
+          ]
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.InstructionRandomized",
+          "kind": "class",
+          "purpose": "Instruction variant that selects among children using weighted random."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.Sensor",
+          "kind": "interface",
+          "purpose": "Condition evaluator interface. matches(ref, role, dt, store) returns true if the sensor's condition is met. Provides optional InfoProvider for passing data to actions/motions. NULL sentinel for always-true."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.Action",
+          "kind": "interface",
+          "purpose": "Side-effect action interface. execute(ref, role, info, dt, store) performs the action. Supports activation/deactivation lifecycle and canExecute pre-check."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.ActionList",
+          "kind": "class",
+          "purpose": "Ordered sequence of Actions with blocking (sequential one-at-a-time) and atomic (all-or-nothing) execution modes."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.Motion",
+          "kind": "interface",
+          "purpose": "Base interface for movement behaviors. computeSteering(ref, role, info, dt, steering, accessor) computes desired movement. Supports preComputeSteering, activate, and deactivate lifecycle."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.BodyMotion",
+          "kind": "interface",
+          "extends": "Motion",
+          "purpose": "Body movement interface. getSteeringMotion() returns the effective motion for steering computation."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.HeadMotion",
+          "kind": "interface",
+          "extends": "Motion",
+          "purpose": "Head tracking interface. Same as Motion but applied to head rotation."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.NullSensor",
+          "kind": "class",
+          "purpose": "Always-true sensor sentinel. Used as the default sensor when no condition is specified."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.instructions.RoleStateChange",
+          "kind": "interface",
+          "purpose": "Marker interface for types that receive role state change notifications."
+        }
+      ],
+      "registered_body_motions": [
+        "Nothing", "Wander", "WanderInCircle", "WanderInRect", "Timer", "Sequence",
+        "Flee", "Seek", "Leave", "Path", "TakeOff", "TestProbe", "Teleport", "Land",
+        "MatchLook", "MaintainDistance", "AimCharge"
+      ],
+      "registered_head_motions": [
+        "Aim", "Watch", "Observe", "Sequence", "Timer", "Nothing"
+      ],
+      "registered_actions": [
+        "Appearance", "Timeout", "Spawn", "Nothing", "Attack", "State", "ReleaseTarget",
+        "SetMarkedTarget", "Inventory", "DisplayName", "Sequence", "Random", "Beacon",
+        "SetLeashPosition", "PlaySound", "Despawn", "PlayAnimation", "DelayDespawn",
+        "SpawnParticles", "Crouch", "TimerStart", "TimerContinue", "TimerPause",
+        "TimerModify", "TimerStop", "TimerRestart", "Test", "Log", "Role", "SetFlag",
+        "DropItem", "PickUpItem", "ResetInstructions", "ParentState", "Notify",
+        "TriggerSpawners", "ResetBlockSensors", "MakePath", "OverrideAttitude",
+        "SetInteractable", "LockOnInteractionTarget", "StorePosition", "SetBlockToPlace",
+        "PlaceBlock", "RecomputePath", "IgnoreForAvoidance", "ModelAttachment", "SetAlarm",
+        "ToggleStateEvaluator", "OverrideAltitude", "ResetSearchRays", "Die", "Remove",
+        "ApplyEntityEffect", "ResetPath", "SetStat"
+      ],
+      "registered_sensors": [
+        "Any", "And", "Or", "Not", "Player", "Mob", "State", "InAir", "OnGround", "Eval",
+        "Damage", "IsBackingAway", "Kill", "Beacon", "MotionController", "Leash", "Time",
+        "Count", "Target", "Timer", "Switch", "Light", "Age", "Flag", "DroppedItem", "Path",
+        "Weather", "Block", "BlockChange", "EntityEvent", "Random", "CanInteract",
+        "HasInteracted", "ReadPosition", "Animation", "CanPlaceBlock", "Nav", "InWater",
+        "IsBusy", "InteractionContext", "Alarm", "AdjustPosition", "SearchRay", "BlockType",
+        "Self", "ValueProviderWrapper"
+      ],
+      "registered_entity_filters": [
+        "Attitude", "LineOfSight", "HeightDifference", "ViewSector", "Combat", "ItemInHand",
+        "NPCGroup", "MovementState", "SpotsMe", "StandingOnBlock", "Stat", "Inventory",
+        "Not", "And", "Or", "Altitude", "InsideBlock"
+      ],
+      "registered_entity_prioritisers": [
+        "Attitude"
+      ],
+      "confidence": "high"
+    },
+    "movement": {
+      "overview": "The movement system provides pluggable locomotion controllers for NPCs. Each Role can have multiple MotionControllers (keyed by type string) and switches between them. The three built-in controllers handle walking (with climbing/jumping/hovering), flying (3D movement with roll/altitude), and diving (underwater swimming). All controllers extend MotionControllerBase which handles physics, collision detection, force application, and heading blending. Steering output from the instruction tree is consumed by the active controller.",
+      "controllers": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.controllers.MotionController",
+          "kind": "interface",
+          "purpose": "Interface for NPC locomotion. Defines steer(), probeMove(), updateMovementState(), and numerous query methods (inAir, inWater, onGround, getMaximumSpeed, etc.). Includes static isInMovementState() for checking entity movement states (CLIMBING, FALLING, CROUCHING, FLYING, JUMPING, SPRINTING, RUNNING, IDLE, WALKING, ANY)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.controllers.MotionControllerBase",
+          "kind": "abstract class",
+          "implements": "MotionController",
+          "purpose": "Base implementation with physics, collision detection (using CollisionModule), force velocity damping, heading computation, and debug visualization. Handles maxHorizontalSpeed, gravity, inertia, knockbackScale, force application."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.controllers.MotionControllerWalk",
+          "kind": "class",
+          "extends": "MotionControllerBase",
+          "type_name": "Walk",
+          "purpose": "Ground-based locomotion. Handles walking, climbing (maxClimbHeight), jumping (jumpHeight/jumpForce), hovering, fluid interaction, horizontal speed control, acceleration, and turn angle constraints. Supports multiple motion kinds: ASCENDING, DESCENDING, DROPPING, STANDING, MOVING."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.controllers.MotionControllerFly",
+          "kind": "class",
+          "extends": "MotionControllerBase",
+          "type_name": "Fly",
+          "purpose": "Aerial locomotion. Full 3D movement with climb/sink angles, roll, altitude constraints (min/maxHeightOverGround), auto-leveling, desired altitude override, deceleration, and speed thresholds."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.controllers.MotionControllerDive",
+          "kind": "class",
+          "extends": "MotionControllerBase",
+          "type_name": "Dive",
+          "purpose": "Underwater locomotion. Controls swim depth, dive depth limits, water depth constraints, surface-relative swimming, sink ratio, and fluid-specific fall speed. Motion kinds: SWIMMING, SWIMMING_TURNING, MOVING."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.controllers.ProbeMoveData",
+          "kind": "class",
+          "purpose": "Data container for probeMove() calls — used by A* pathfinding to test whether movement to a position is valid."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.controllers.BuilderMotionControllerMapUtil",
+          "kind": "class",
+          "purpose": "Utility for building the motion controller map from JSON configuration."
+        }
+      ],
+      "steering": {
+        "overview": "Steering is a value object that accumulates desired translation (Vector3d), rotation (yaw/pitch/roll), max distance constraints, and relative turn speed. Each tick, the instruction tree's BodyMotion and HeadMotion write into body/head Steering objects, which are then consumed by the active MotionController.",
+        "types": [
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.Steering",
+            "kind": "class",
+            "purpose": "Accumulator for desired movement. Holds translation vector, yaw/pitch/roll rotation, max distance, relative turn speed, and presence flags for each component."
+          },
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.GroupSteeringAccumulator",
+            "kind": "class",
+            "purpose": "Accumulates flock boid steering (alignment, separation, cohesion) for group movement."
+          }
+        ]
+      },
+      "steering_forces": {
+        "overview": "Steering forces are reusable computation objects for common movement patterns. They compute a Steering output given self/target/group positions.",
+        "types": [
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.steeringforces.SteeringForce",
+            "kind": "interface",
+            "purpose": "Base interface. compute(Steering) returns true if force was applied."
+          },
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.steeringforces.SteeringForceWithTarget",
+            "kind": "abstract class",
+            "purpose": "Base for forces needing self and target positions. Applies component selector for 2D/3D projection."
+          },
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.steeringforces.SteeringForceWithGroup",
+            "kind": "abstract class",
+            "purpose": "Base for forces operating on groups of entities. add() accumulates nearby entities, then compute() produces the force."
+          },
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.steeringforces.SteeringForcePursue",
+            "kind": "class",
+            "purpose": "Moves toward a target with stop/slowdown distance and falloff curve."
+          },
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.steeringforces.SteeringForceEvade",
+            "kind": "class",
+            "purpose": "Moves away from a target (inverse of pursue)."
+          },
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.steeringforces.SteeringForceAvoidCollision",
+            "kind": "class",
+            "extends": "SteeringForceWithGroup",
+            "purpose": "Avoids collisions with nearby entities. Supports Slowdown and Steer avoidance modes. Computes collision time with nearby entities and generates evasive steering."
+          },
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.steeringforces.SteeringForceWander",
+            "kind": "class",
+            "purpose": "Random wandering movement."
+          },
+          {
+            "fqcn": "com.hypixel.hytale.server.npc.movement.steeringforces.SteeringForceRotate",
+            "kind": "class",
+            "purpose": "Rotation-only steering force."
+          }
+        ]
+      },
+      "enums": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.MovementState",
+          "values": ["JUMPING", "FLYING", "CROUCHING", "RUNNING", "SPRINTING", "FALLING", "CLIMBING", "WALKING", "IDLE", "ANY"],
+          "purpose": "Movement state enum used by sensors to check NPC locomotion state."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.NavState",
+          "values": ["INIT", "PROGRESSING", "BLOCKED", "DEFER", "AT_GOAL", "ABORTED"],
+          "purpose": "Navigation/pathfinding progress state. Reported by MotionController."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.MotionKind",
+          "values": ["ASCENDING", "DESCENDING", "DROPPING", "STANDING", "MOVING", "FLYING", "SWIMMING", "SWIMMING_TURNING"],
+          "purpose": "Low-level motion kind enum used internally by motion controllers."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.FlockMembershipType",
+          "values": ["Leader", "Follower", "Member", "NotMember", "Any"],
+          "purpose": "Flock membership type for NPC flock behavior filtering."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.movement.FlockPlayerMembership",
+          "kind": "class",
+          "purpose": "Tracks player membership in NPC flocks."
+        }
+      ],
+      "confidence": "high"
+    },
+    "navigation": {
+      "overview": "Navigation uses A* pathfinding implemented in AStarBase/AStarWithTarget. Paths are computed on a discretized grid with configurable step size, max path length, open/total node limits, and diagonal movement support. The AStarEvaluator interface defines goal-reaching and heuristic estimation. AStarNode pools are managed to avoid allocation pressure. PathFollower handles smooth path following with waypoint radius, speed control, path smoothing, and heading blending.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarBase",
+          "kind": "class",
+          "purpose": "Core A* pathfinding implementation. Manages open/visited node sets, search direction computation, position-to-index mapping, and iterative path expansion via probeMove on the MotionController. Configurable: maxPathLength (default 200), openNodesLimit (default 80), totalNodesLimit (default 400), canMoveDiagonal."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarWithTarget",
+          "kind": "class",
+          "extends": "AStarBase",
+          "purpose": "A* variant that navigates toward a specific target position. initComputePath() accepts start and end positions. findClosestPath() builds the best partial path if the goal is unreachable."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarEvaluator",
+          "kind": "interface",
+          "purpose": "Strategy interface for A* goal testing and heuristic estimation. isGoalReached() and estimateToGoal() are called during pathfinding."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarNode",
+          "kind": "class",
+          "implements": "IWaypoint",
+          "purpose": "A* search node. Holds position, travel cost, estimate-to-goal, predecessor link, successor array with step costs, and open/closed state. Supports path adjustment via adjustOptimalPath()."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarNodePool",
+          "kind": "class",
+          "purpose": "Object pool for AStarNode instances to reduce GC pressure during pathfinding."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarNodePoolProvider",
+          "kind": "interface",
+          "purpose": "Provider interface for AStarNodePool instances."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarNodePoolProviderSimple",
+          "kind": "class",
+          "purpose": "Simple pool provider implementation. Registered as an ECS resource on the EntityStore."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarNodePoolSimple",
+          "kind": "class",
+          "purpose": "Simple node pool implementation."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.PathFollower",
+          "kind": "class",
+          "purpose": "Smooth path-following controller. Tracks current waypoint, computes steering direction with path smoothing, waypoint radius, heading blending, and speed control. Supports frozen waypoints for precise positioning."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.IWaypoint",
+          "kind": "interface",
+          "purpose": "Interface for path waypoints. getPosition() and getLength()."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarDebugBase",
+          "kind": "class",
+          "purpose": "Debug visualization helper for A* pathfinding."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.navigation.AStarDebugWithTarget",
+          "kind": "class",
+          "purpose": "Debug visualization helper for targeted A* pathfinding."
+        }
+      ],
+      "confidence": "high"
+    },
+    "expression_system": {
+      "overview": "The NPC expression system is a lightweight scripting language for evaluating conditions and computing values in NPC behavior definitions. Expressions are compiled to bytecode-like instruction sequences via a Lexer/Parser pipeline, then executed on a stack-based ExecutionContext. The system supports NUMBER, STRING, BOOLEAN, and array types, with a standard library of math/utility functions. Scopes provide variable bindings via suppliers (allowing lazy evaluation of runtime state). Used by the 'Eval' sensor and value provider components.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.Expression",
+          "kind": "class",
+          "purpose": "Entry point for expression compilation and execution. compile() parses a string expression into an instruction list; execute() runs it; evaluate() does both in one step."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.ExecutionContext",
+          "kind": "class",
+          "purpose": "Stack-based execution engine. Holds operand stack, scope, and defines all arithmetic/logical/comparison instruction constants (PLUS, MINUS, MULTIPLY, DIVIDE, EQUAL, GREATER, LOGICAL_AND, etc.). Also holds combatConfig and interactionVars context.",
+          "instructions": [
+            "UNARY_PLUS", "UNARY_MINUS", "LOGICAL_NOT", "BITWISE_NOT",
+            "EXPONENTIATION", "REMAINDER", "DIVIDE", "MULTIPLY", "MINUS", "PLUS",
+            "GREATER_EQUAL", "GREATER", "LESS_EQUAL", "LESS",
+            "NOT_EQUAL", "EQUAL", "NOT_EQUAL_BOOL", "EQUAL_BOOL",
+            "BITWISE_AND", "BITWISE_XOR", "BITWISE_OR",
+            "LOGICAL_AND", "LOGICAL_OR"
+          ]
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.ValueType",
+          "kind": "enum",
+          "values": ["VOID", "NUMBER", "STRING", "BOOLEAN", "EMPTY_ARRAY", "NUMBER_ARRAY", "STRING_ARRAY", "BOOLEAN_ARRAY"],
+          "purpose": "Type system for expression values. isAssignableType() handles type checking with EMPTY_ARRAY assignable to any typed array."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.Scope",
+          "kind": "interface",
+          "purpose": "Variable binding interface. Provides typed suppliers (getStringSupplier, getNumberSupplier, getBooleanSupplier, and array variants) and function bindings. Supports hierarchical scoping via parent delegation."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.StdScope",
+          "kind": "class",
+          "implements": "Scope",
+          "purpose": "Standard scope implementation with symbol table. Supports constants, variables, suppliers, and functions (invariant=cacheable, variant=must-recompute). Manages typed symbols: SymbolNumber, SymbolString, SymbolBoolean, SymbolFunction, and array variants."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.StdLib",
+          "kind": "class",
+          "extends": "StdScope",
+          "purpose": "Standard library singleton providing built-in constants and functions.",
+          "built_in_constants": ["true", "false", "PI"],
+          "built_in_functions": [
+            "max(NUMBER, NUMBER) -> NUMBER [invariant]",
+            "min(NUMBER, NUMBER) -> NUMBER [invariant]",
+            "isEmpty(STRING) -> BOOLEAN [invariant]",
+            "isEmptyStringArray(STRING_ARRAY) -> BOOLEAN [invariant]",
+            "isEmptyNumberArray(NUMBER_ARRAY) -> BOOLEAN [invariant]",
+            "random() -> NUMBER [variant]",
+            "randomInRange(NUMBER, NUMBER) -> NUMBER [variant]",
+            "makeRange(NUMBER) -> NUMBER_ARRAY [invariant]"
+          ]
+        }
+      ],
+      "compiler_types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.compile.Token",
+          "kind": "enum",
+          "purpose": "Token types for the expression lexer. Includes identifiers, literals (STRING, NUMBER), brackets, comma, arithmetic operators (+, -, *, /, %, **), comparison operators (==, !=, <, >, <=, >=), bitwise operators (&, |, ^, ~), and logical operators (&&, ||, !). Each token has precedence and flags."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.compile.CompileContext",
+          "kind": "class",
+          "purpose": "Compilation context that drives the Lexer -> Parser -> instruction generation pipeline."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.compile.Lexer",
+          "kind": "class",
+          "purpose": "Tokenizer for expression strings."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.expression.compile.Parser",
+          "kind": "class",
+          "purpose": "Operator-precedence parser that generates ExecutionContext.Instruction sequences."
+        }
+      ],
+      "confidence": "high"
+    },
+    "commands": {
+      "overview": "NPC-specific commands are registered under NPCCommand (an AbstractCommandCollection). They provide server operators with tools for spawning, debugging, managing, and testing NPCs. NPCCommand defines a custom argument type NPC_ROLE that resolves role names to BuilderInfo with fuzzy matching suggestions.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCCommand",
+          "kind": "class",
+          "extends": "com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection",
+          "purpose": "Root NPC command collection. Defines NPC_ROLE argument type for role name parsing with auto-suggestions."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCSpawnCommand",
+          "kind": "class",
+          "extends": "AbstractPlayerCommand",
+          "purpose": "Spawns NPCs at the player's position. Supports optional flock group, count, debug flags, and model override."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCAllCommand",
+          "kind": "class",
+          "purpose": "Bulk operations on all NPCs."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCAppearanceCommand",
+          "kind": "class",
+          "purpose": "Changes NPC model/appearance."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCAttackCommand",
+          "kind": "class",
+          "purpose": "Forces NPC to attack."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCBenchmarkCommand",
+          "kind": "class",
+          "purpose": "NPC performance benchmarking."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCBlackboardCommand",
+          "kind": "class",
+          "purpose": "Inspects/modifies NPC blackboard state."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCCleanCommand",
+          "kind": "class",
+          "purpose": "Removes NPCs from the world."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCDebugCommand",
+          "kind": "class",
+          "purpose": "Toggles debug flags on NPCs."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCDumpCommand",
+          "kind": "class",
+          "purpose": "Dumps NPC state for debugging."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCFreezeCommand",
+          "kind": "class",
+          "purpose": "Freezes NPC behavior processing."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCThawCommand",
+          "kind": "class",
+          "purpose": "Resumes frozen NPC behavior."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCGiveCommand",
+          "kind": "class",
+          "purpose": "Gives items to an NPC."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCMessageCommand",
+          "kind": "class",
+          "purpose": "Sends messages to/from NPCs."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCPathCommand",
+          "kind": "class",
+          "purpose": "NPC pathfinding commands."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCRoleCommand",
+          "kind": "class",
+          "purpose": "Changes NPC role at runtime."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCRunTestsCommand",
+          "kind": "class",
+          "purpose": "Runs NPC behavior tests. Defines NPCTestData component for tracking test state."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCSensorStatsCommand",
+          "kind": "class",
+          "purpose": "Reports sensor execution statistics."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCStepCommand",
+          "kind": "class",
+          "purpose": "Single-step NPC behavior for debugging."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCTestCommand",
+          "kind": "class",
+          "purpose": "NPC test utilities."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCMultiSelectCommandBase",
+          "kind": "class",
+          "purpose": "Base class for commands that operate on multiple selected NPCs."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCWorldCommandBase",
+          "kind": "class",
+          "purpose": "Base class for NPC commands operating at world scope."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.commands.NPCCommandUtils",
+          "kind": "class",
+          "purpose": "Shared utilities for NPC commands."
+        }
+      ],
+      "confidence": "high"
+    },
+    "interactions": {
+      "overview": "NPC interactions define how players interact with NPCs. Three interaction types are registered on the Interaction codec: UseNPC (basic player-NPC interaction), ContextualUseNPC (interaction with a context string), and SpawnNPC (block interaction that spawns an NPC). Interactions integrate with the Blackboard's InteractionView for reservation tracking (preventing multiple players from interacting with the same NPC simultaneously).",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.interactions.UseNPCInteraction",
+          "kind": "class",
+          "extends": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction",
+          "purpose": "Standard player-NPC use interaction. Checks player validity, NPC willingness to interact (via StateSupport.willInteractWith), and reservation status via the Blackboard InteractionView. Default ID is '*UseNPC'."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.interactions.ContextualUseNPCInteraction",
+          "kind": "class",
+          "extends": "SimpleInstantInteraction",
+          "purpose": "Player-NPC interaction with a context string parameter. Extends UseNPC with a 'Context' field that passes contextual information to the NPC's behavior system."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.interactions.SpawnNPCInteraction",
+          "kind": "class",
+          "extends": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.SimpleBlockInteraction",
+          "purpose": "Block interaction that spawns an NPC. Supports single EntityId or WeightedEntityIds (weighted random selection), SpawnOffset, SpawnYawOffset (radians), and SpawnChance (probability). Computes spawn position relative to the interacted block's rotation."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.interactions.NPCInteractionSimulationHandler",
+          "kind": "class",
+          "purpose": "Handles interaction simulation for NPC interaction previews."
+        }
+      ],
+      "registered_interaction_codecs": [
+        {"name": "ContextualUseNPC", "class": "ContextualUseNPCInteraction"},
+        {"name": "UseNPC", "class": "UseNPCInteraction"},
+        {"name": "SpawnNPC", "class": "SpawnNPCInteraction"}
+      ],
+      "confidence": "high"
+    },
+    "config": {
+      "overview": "Configuration assets define NPC attitudes (how NPCs regard different groups and items), combat balancing, and decision-making conditions. These are loaded as asset stores from JSON files.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.config.AttitudeGroup",
+          "kind": "class",
+          "purpose": "Defines attitudes (Friendly, Hostile, Neutral, etc.) toward NPC groups by tag. Loaded from 'NPC/Attitude/Roles/*.json'. Maps Attitude enum values to arrays of NPC group tag names.",
+          "asset_path": "NPC/Attitude/Roles"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.config.ItemAttitudeGroup",
+          "kind": "class",
+          "purpose": "Defines attitudes toward items by item tag. Loaded from 'NPC/Attitude/Items/*.json'. Maps Sentiment enum (which maps to Attitude) to arrays of item tags.",
+          "asset_path": "NPC/Attitude/Items"
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.config.balancing.BalanceAsset",
+          "kind": "class",
+          "purpose": "Combat balancing parameters for NPCs. Loaded from 'NPC/Balancing/*.json'. Currently supports applying an EntityEffect at spawn time. Uses codec-based inheritance.",
+          "asset_path": "NPC/Balancing"
+        }
+      ],
+      "confidence": "high"
+    },
+    "animations": {
+      "overview": "NPC animations are controlled through AnimationSlot mapping. NPCAnimationSlot maps NPC-specific slot names to the core AnimationSlot protocol enum.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.animations.NPCAnimationSlot",
+          "kind": "enum (deprecated)",
+          "values": ["Status", "Action", "Face"],
+          "purpose": "Maps NPC animation slot names to AnimationSlot protocol enum. Deprecated in favor of direct AnimationSlot usage."
+        }
+      ],
+      "confidence": "high"
+    },
+    "pages": {
+      "overview": "UI pages for NPC-related server interactions.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.pages.EntitySpawnPage",
+          "kind": "class",
+          "purpose": "Server-side UI page for NPC spawning interface."
+        }
+      ],
+      "confidence": "medium"
+    },
+    "path": {
+      "overview": "Path-related builders for defining NPC movement paths via JSON.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.path.builders.BuilderRelativeWaypointDefinition",
+          "kind": "class",
+          "purpose": "Builder for relative waypoint definitions (waypoints positioned relative to a reference point)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.path.builders.BuilderTransientPathDefinition",
+          "kind": "class",
+          "purpose": "Builder for transient (runtime-computed) path definitions."
+        }
+      ],
+      "confidence": "medium"
+    },
+    "util": {
+      "overview": "Utility types supporting NPC behavior. Includes physics math, aiming helpers, block placement, inventory management, position probing, damage tracking, and timer/alarm facilities.",
+      "types": [
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.AimingData",
+          "kind": "class",
+          "purpose": "Data container for NPC aiming calculations (target tracking for ranged attacks)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.AimingHelper",
+          "kind": "class",
+          "purpose": "Utility methods for computing aiming trajectories and lead prediction."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.Alarm",
+          "kind": "class",
+          "purpose": "Timer-based alarm trigger. Part of AlarmStore on NPCEntity."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.AttitudeMemoryEntry",
+          "kind": "class",
+          "purpose": "Stores attitude memory for NPCs that remember past interactions with entities."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.BlockPlacementHelper",
+          "kind": "class",
+          "purpose": "Utility for NPC block placement operations."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.ComponentInfo",
+          "kind": "class",
+          "purpose": "Metadata for annotated NPC components."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.DamageData",
+          "kind": "class",
+          "purpose": "Tracks recent damage received by an NPC (amount, source, type)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.IAnnotatedComponent",
+          "kind": "interface",
+          "purpose": "Interface for NPC behavior components that carry annotation metadata."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.IAnnotatedComponentCollection",
+          "kind": "interface",
+          "purpose": "Collection interface for annotated components (Role and Instruction implement this)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.IComponentExecutionControl",
+          "kind": "interface",
+          "purpose": "Interface for components with execution control (enable/disable)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.IEntityByPriorityFilter",
+          "kind": "interface",
+          "purpose": "Interface for filtering and prioritizing entities for NPC targeting."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.InventoryHelper",
+          "kind": "class",
+          "purpose": "Utility for NPC inventory operations."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.NPCPhysicsMath",
+          "kind": "class",
+          "purpose": "Physics math utilities specific to NPC movement (collision queries, position validation)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.PositionProbeAir",
+          "kind": "class",
+          "extends": "PositionProbeBase",
+          "purpose": "Probes air-space positions for flying NPCs (checks height over ground, ceiling clearance)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.PositionProbeWater",
+          "kind": "class",
+          "extends": "PositionProbeBase",
+          "purpose": "Probes water-space positions for diving NPCs (checks water depth, surface/floor distance)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.PositionProbeBase",
+          "kind": "class",
+          "purpose": "Base class for position probing used by motion controllers."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.RayBlockHitTest",
+          "kind": "class",
+          "purpose": "Ray-block intersection testing for NPC vision/search rays."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.RootSolver",
+          "kind": "class",
+          "purpose": "Numerical root solving for physics computations (e.g. trajectory intersection)."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.SensorSupportBenchmark",
+          "kind": "class",
+          "purpose": "Performance benchmarking for sensor evaluation."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.Timer",
+          "kind": "class",
+          "purpose": "General-purpose timer for NPC behavior timing."
+        },
+        {
+          "fqcn": "com.hypixel.hytale.server.npc.util.ViewTest",
+          "kind": "class",
+          "purpose": "View cone/sector testing for NPC perception (field of view checks)."
+        }
+      ],
+      "confidence": "high"
+    }
+  },
+  "cross_references": {
+    "events_used": [
+      {
+        "event": "com.hypixel.hytale.server.npc.AllNPCsLoadedEvent",
+        "type": "standard (IEvent)",
+        "dispatched_by": "NPCPlugin after builder loading",
+        "consumed_by": "NPCPlugin.onNPCsLoaded"
+      },
+      {
+        "event": "com.hypixel.hytale.server.core.asset.LoadAssetEvent",
+        "type": "standard (IEvent)",
+        "consumed_by": "NPCPlugin at priority -8 — triggers NPC asset loading from asset packs"
+      },
+      {
+        "event": "com.hypixel.hytale.assetstore.event.LoadedAssetsEvent<ModelAsset>",
+        "consumed_by": "NPCPlugin.onModelsChanged"
+      },
+      {
+        "event": "com.hypixel.hytale.assetstore.event.LoadedAssetsEvent<NPCGroup>",
+        "consumed_by": "NPCPlugin.onNPCGroupsLoaded"
+      },
+      {
+        "event": "com.hypixel.hytale.assetstore.event.LoadedAssetsEvent<AttitudeGroup>",
+        "consumed_by": "NPCPlugin.onAttitudeGroupsLoaded"
+      },
+      {
+        "event": "com.hypixel.hytale.assetstore.event.LoadedAssetsEvent<ItemAttitudeGroup>",
+        "consumed_by": "NPCPlugin.onItemAttitudeGroupsLoaded"
+      },
+      {
+        "event": "com.hypixel.hytale.assetstore.event.LoadedAssetsEvent<BalanceAsset>",
+        "consumed_by": "NPCPlugin.onBalanceAssetsChanged (static)"
+      },
+      {
+        "event": "com.hypixel.hytale.server.core.universe.world.path.WorldPathChangedEvent",
+        "consumed_by": "NPCPlugin.onPathChange"
+      },
+      {
+        "event": "com.hypixel.hytale.server.core.asset.AssetPackRegisterEvent",
+        "consumed_by": "NPCPlugin — triggers NPC builder loading for new asset packs"
+      },
+      {
+        "event": "com.hypixel.hytale.server.core.asset.AssetPackUnregisterEvent",
+        "consumed_by": "NPCPlugin — unloads builders for removed asset packs"
+      },
+      {
+        "event": "com.hypixel.hytale.server.core.asset.GenerateSchemaEvent",
+        "consumed_by": "NPCPlugin.onSchemaGenerate — generates NPCRole.json schema"
+      }
+    ],
+    "ecs_components_used": [
+      "NPCEntity (ComponentType<EntityStore, NPCEntity>) — core NPC component",
+      "ModelComponent — visual model reference",
+      "ActiveAnimationComponent — animation state",
+      "TransformComponent — position/rotation",
+      "HeadRotation — head orientation",
+      "Velocity — velocity vector",
+      "PhysicsValues — physics parameters",
+      "MovementStatesComponent — movement state flags",
+      "EffectControllerComponent — active entity effects",
+      "DeathComponent — death state",
+      "DisplayNameComponent — display name",
+      "PersistentModel — persisted model reference",
+      "UUIDComponent — entity UUID",
+      "Player — player identification (for interaction routing)",
+      "WorldGenId — legacy worldgen tracking",
+      "PositionDataComponent — position data",
+      "BoundingBox — collision bounds",
+      "Interactable — interaction state",
+      "Frozen — freeze state for /npc freeze command"
+    ],
+    "ecs_resources_used": [
+      "Blackboard — NPC perception system (block/entity/interaction views)",
+      "WorldTimeResource — day/night cycle for time sensors",
+      "WorldPathData — prefab path storage",
+      "SpatialResource (KDTree) — NPC spatial index and player spatial index"
+    ],
+    "command_registrations": [
+      {
+        "parent": "NPCCommand (AbstractCommandCollection)",
+        "subcommands": [
+          "NPCSpawnCommand — spawn NPCs",
+          "NPCAllCommand — bulk NPC operations",
+          "NPCAppearanceCommand — change appearance",
+          "NPCAttackCommand — force attack",
+          "NPCBenchmarkCommand — performance testing",
+          "NPCBlackboardCommand — blackboard inspection",
+          "NPCCleanCommand — remove NPCs",
+          "NPCDebugCommand — toggle debug flags",
+          "NPCDumpCommand — dump state",
+          "NPCFreezeCommand — freeze behavior",
+          "NPCThawCommand — resume behavior",
+          "NPCGiveCommand — give items",
+          "NPCMessageCommand — send messages",
+          "NPCPathCommand — pathfinding commands",
+          "NPCRoleCommand — change role",
+          "NPCRunTestsCommand — run tests",
+          "NPCSensorStatsCommand — sensor stats",
+          "NPCStepCommand — single-step behavior",
+          "NPCTestCommand — test utilities"
+        ]
+      }
+    ],
+    "external_system_integration": {
+      "flock_system": "NPCs integrate with FlockPlugin for boid-style group behavior. Roles define flock weights (alignment/separation/cohesion), allowed flock roles, and spawn types. FlockMembershipType tracks leader/follower/member status.",
+      "entity_module": "NPCEntity is registered as an entity type via EntityModule. Uses EntityStore for ECS storage.",
+      "collision_module": "Motion controllers use CollisionModule for block collision detection and resolution.",
+      "interaction_module": "Three interaction types are registered on the Interaction codec. NPCInteractionSystems manage interaction simulation.",
+      "spawning_system": "BuilderRole implements ISpawnable for integration with the world spawning system. WorldNPCSpawn configurations tracked.",
+      "asset_system": "NPC definitions are loaded as asset packs via the AssetModule/AssetRegistry infrastructure.",
+      "damage_system": "NPCDamageSystems integrates with DamageSystems for damage filtering, receiving, and dealing.",
+      "tag_set_system": "NPCGroup tags from TagSetPlugin used for attitude and entity filtering.",
+      "entity_stats_system": "EntityStatMap/EntityStatType integration for NPC stat tracking."
+    }
+  }
+}
