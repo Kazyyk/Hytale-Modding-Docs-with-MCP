@@ -102,17 +102,18 @@ function rewriteLinks(content, fileDir, fileSet, isIndex = false) {
         return `\`${text}\``;
       }
 
-      // Convert dotted package dir names to hyphens (matching rewritePackagePath)
-      path = path.split("/").map(segment => {
-        // Only convert segments that look like Java package names (contain dots)
-        if (segment !== ".." && segment !== "." && segment.includes(".")) {
-          return segment.replace(/\./g, "-");
-        }
-        return segment;
-      }).join("/");
-
-      // Strip .md extension
+      // Strip .md extension FIRST (before dot-to-hyphen conversion)
       path = path.replace(/\.md$/, "");
+
+      // Convert dotted package dir names to hyphens (matching rewritePackagePath)
+      // Only convert directory segments, not the final filename segment
+      const pathParts = path.split("/");
+      for (let i = 0; i < pathParts.length - 1; i++) {
+        if (pathParts[i] !== ".." && pathParts[i] !== "." && pathParts[i].includes(".")) {
+          pathParts[i] = pathParts[i].replace(/\./g, "-");
+        }
+      }
+      path = pathParts.join("/");
 
       // Strip trailing /index (Starlight serves index.md as the directory root)
       path = path.replace(/\/index$/, "/");
