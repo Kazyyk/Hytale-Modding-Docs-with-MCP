@@ -1,0 +1,1088 @@
+{
+  "modules": [
+    "com.hypixel.hytale.math",
+    "com.hypixel.hytale.procedurallib",
+    "com.hypixel.hytale.assetstore",
+    "com.hypixel.hytale.common"
+  ],
+  "generated_at": "2026-03-20T00:00:00Z",
+  "total_files_read": {
+    "math": 81,
+    "procedurallib": 151,
+    "assetstore": 40,
+    "common": 47,
+    "total": 319
+  },
+  "files_not_readable": [],
+
+  "math": {
+    "purpose": "Core math library providing vector types, matrix operations, shapes, raycasting, block geometry iteration, hit detection, and numeric utilities. All vector types are mutable with fluent APIs, cached hash codes, and codec integration for JSON serialization.",
+    "total_types": 81,
+
+    "vectors": {
+      "purpose": "Comprehensive set of 2D, 3D, and 4D vector types covering int, long, float, and double precisions. All are mutable classes with fluent modifier methods that return 'this'. Hash codes are lazily computed and cached (reset to 0 on mutation).",
+      "types": {
+        "Vec2f": {
+          "class": "com.hypixel.hytale.math.Vec2f",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:float", "y:float"],
+          "serialization": "ByteBuf (little-endian int bits)",
+          "purpose": "Lightweight 2D float vector for network serialization. No arithmetic operations — used as a raw data carrier."
+        },
+        "Vec3f": {
+          "class": "com.hypixel.hytale.math.Vec3f",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:float", "y:float", "z:float"],
+          "serialization": "ByteBuf (little-endian int bits)",
+          "purpose": "Lightweight 3D float vector for network serialization. No arithmetic operations."
+        },
+        "Vec4f": {
+          "class": "com.hypixel.hytale.math.Vec4f",
+          "kind": "class",
+          "mutable": false,
+          "components": ["x:float", "y:float", "z:float", "w:float"],
+          "serialization": "ByteBuf (little-endian int bits)",
+          "purpose": "Immutable 4D float vector for network serialization."
+        },
+        "Vector2d": {
+          "class": "com.hypixel.hytale.math.vector.Vector2d",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:double", "y:double"],
+          "codec": "BuilderCodec with X/Y DOUBLE keys",
+          "constants": ["ZERO", "UP", "DOWN", "LEFT", "RIGHT", "ALL_ONES", "DIRECTIONS"],
+          "operations": ["assign", "add", "addScaled", "subtract", "negate", "scale", "dot", "distanceTo", "distanceSquaredTo", "normalize", "setLength", "clampLength", "floor", "ceil", "clipToZero", "closeToZero", "isFinite", "lerp", "lerpUnclamped", "min", "max"],
+          "purpose": "Full-featured 2D double vector with arithmetic, distance, normalization, interpolation. Random constructor for random direction."
+        },
+        "Vector2i": {
+          "class": "com.hypixel.hytale.math.vector.Vector2i",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:int", "y:int"],
+          "codec": "BuilderCodec with X/Y INTEGER keys",
+          "constants": ["ZERO", "UP", "DOWN", "LEFT", "RIGHT", "ALL_ONES", "DIRECTIONS"],
+          "operations": ["assign", "add", "addScaled", "subtract", "negate", "scale", "dot", "distanceTo", "distanceSquaredTo", "normalize", "setLength", "clampLength", "min", "max"],
+          "purpose": "Full-featured 2D int vector."
+        },
+        "Vector2l": {
+          "class": "com.hypixel.hytale.math.vector.Vector2l",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:long", "y:long"],
+          "codec": "BuilderCodec with X/Y LONG keys",
+          "constants": ["ZERO", "UP", "DOWN", "LEFT", "RIGHT", "ALL_ONES", "DIRECTIONS"],
+          "operations": ["assign", "add", "addScaled", "subtract", "negate", "scale(long)", "scale(double)", "dot", "distanceTo", "distanceSquaredTo", "normalize", "setLength", "clampLength", "min", "max"],
+          "purpose": "Full-featured 2D long vector, for world-space coordinate precision."
+        },
+        "Vector3d": {
+          "class": "com.hypixel.hytale.math.vector.Vector3d",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:double", "y:double", "z:double"],
+          "codec": "BuilderCodec with X/Y/Z DOUBLE keys",
+          "constants": ["ZERO", "UP/POS_Y", "DOWN/NEG_Y", "FORWARD/NEG_Z/NORTH", "BACKWARD/POS_Z/SOUTH", "RIGHT/POS_X/EAST", "LEFT/NEG_X/WEST", "ALL_ONES", "MIN", "MAX", "BLOCK_SIDES", "BLOCK_EDGES", "BLOCK_CORNERS", "CARDINAL_DIRECTIONS"],
+          "operations": ["assign", "assign(yaw,pitch)", "add", "addScaled", "subtract", "negate", "scale", "cross", "dot", "distanceTo", "distanceSquaredTo", "normalize", "setLength", "clampLength", "rotateX", "rotateY", "rotateZ", "floor", "ceil", "clipToZero", "closeToZero", "isInside", "isFinite", "lerp", "lerpUnclamped", "directionTo", "min", "max", "toVector3i", "toVector3f"],
+          "purpose": "Primary 3D double vector — the most widely used spatial type. Supports yaw/pitch construction for direction vectors, axis rotations, block containment testing, and conversion to int/float variants."
+        },
+        "Vector3f": {
+          "class": "com.hypixel.hytale.math.vector.Vector3f",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:float", "y:float", "z:float"],
+          "codec": "BuilderCodec with X/Y/Z FLOAT keys",
+          "rotation_codec": "BuilderCodec with Pitch/Yaw/Roll FLOAT keys",
+          "dual_purpose": "Used as both a spatial vector (x,y,z) and a rotation (pitch=x, yaw=y, roll=z)",
+          "rotation_accessors": ["getPitch/setPitch (x)", "getYaw/setYaw (y)", "getRoll/setRoll (z)", "addPitch", "addYaw", "addRoll", "addRotationOnAxis", "flipRotationOnAxis"],
+          "operations": ["assign", "assign(yaw,pitch)", "add", "addScaled", "subtract", "negate", "scale", "cross", "dot", "distanceTo", "distanceSquaredTo", "normalize", "setLength", "clampLength", "rotateX", "rotateY", "rotateZ", "floor", "ceil", "clipToZero", "closeToZero", "isInside", "isFinite", "lerp", "lerpUnclamped", "lerpAngle", "directionTo", "lookAt", "min", "max", "toVector3d"],
+          "constants": ["ZERO", "UP", "DOWN", "FORWARD/NORTH", "BACKWARD/SOUTH", "RIGHT/EAST", "LEFT/WEST", "ALL_ONES", "MIN", "MAX", "NaN", "BLOCK_SIDES", "BLOCK_EDGES", "BLOCK_CORNERS", "CARDINAL_DIRECTIONS"],
+          "purpose": "3D float vector dual-purposed as rotation holder. lookAt() computes yaw/pitch from relative position. lerpAngle() for smooth rotation interpolation."
+        },
+        "Vector3i": {
+          "class": "com.hypixel.hytale.math.vector.Vector3i",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:int", "y:int", "z:int"],
+          "codec": "BuilderCodec with X/Y/Z INTEGER keys",
+          "constants": ["ZERO", "UP", "DOWN", "FORWARD/NORTH", "BACKWARD/SOUTH", "RIGHT/EAST", "LEFT/WEST", "ALL_ONES", "MIN", "MAX", "BLOCK_SIDES", "BLOCK_EDGES", "BLOCK_CORNERS", "CARDINAL_DIRECTIONS"],
+          "operations": ["assign", "add", "addScaled", "subtract", "negate", "scale(int)", "scale(double)", "cross", "dot", "distanceTo", "distanceSquaredTo", "normalize", "setLength", "clampLength", "min", "max", "toVector3d", "toVector3f", "toVector3l", "directionTo"],
+          "purpose": "3D integer vector — fundamental block coordinate type. Widely used for block positions throughout the server."
+        },
+        "Vector3l": {
+          "class": "com.hypixel.hytale.math.vector.Vector3l",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:long", "y:long", "z:long"],
+          "codec": "BuilderCodec with X/Y/Z LONG keys",
+          "constants": ["ZERO", "UP", "DOWN", "FORWARD/NORTH", "BACKWARD/SOUTH", "RIGHT/EAST", "LEFT/WEST", "ALL_ONES", "MIN", "MAX", "BLOCK_SIDES", "BLOCK_EDGES", "BLOCK_CORNERS", "CARDINAL_DIRECTIONS"],
+          "operations": ["assign", "add", "addScaled", "subtract", "negate", "scale(long)", "scale(double)", "cross", "dot", "distanceTo", "distanceSquaredTo", "normalize", "setLength", "clampLength", "min", "max", "toVector3i", "toVector3d", "directionTo"],
+          "purpose": "3D long vector for world-space precision. toVector3i uses MathUtil.floor."
+        },
+        "Vector4d": {
+          "class": "com.hypixel.hytale.math.vector.Vector4d",
+          "kind": "class",
+          "mutable": true,
+          "components": ["x:double", "y:double", "z:double", "w:double"],
+          "operations": ["assign", "lerp", "perspectiveTransform", "isInsideFrustum", "get(component)", "setDirection(w=0)", "setPosition(w=1)"],
+          "factory_methods": ["newPosition(x,y,z) → w=1", "newDirection(x,y,z) → w=0"],
+          "purpose": "Homogeneous 4D vector for projection/view transformations. w=1 for positions, w=0 for directions. perspectiveTransform divides by w."
+        }
+      },
+      "relative_vectors": {
+        "purpose": "Wrappers that pair a vector with a 'relative' boolean flag. When relative=true, resolve() adds the stored vector to the input; otherwise returns a clone of the input. All have BuilderCodec with Vector + Relative fields.",
+        "types": ["RelativeVector2d", "RelativeVector2i", "RelativeVector2l", "RelativeVector3d", "RelativeVector3i", "RelativeVector3l"]
+      },
+      "spatial_types": {
+        "Transform": {
+          "class": "com.hypixel.hytale.math.vector.Transform",
+          "kind": "class",
+          "fields": ["position:Vector3d", "rotation:Vector3f"],
+          "codecs": ["CODEC (radians)", "CODEC_DEGREES (degrees ↔ radians)"],
+          "relative_flags": "Bitmask constants: X_IS_RELATIVE=1, Y_IS_RELATIVE=2, Z_IS_RELATIVE=4, YAW_IS_RELATIVE=8, PITCH_IS_RELATIVE=16, ROLL_IS_RELATIVE=32, RELATIVE_TO_BLOCK=64",
+          "operations": ["assign", "getDirection", "getAxisDirection", "getAxis", "clone", "applyMaskedRelativeTransform"],
+          "purpose": "Position + rotation pair with relative transform support via bitmask. applyMaskedRelativeTransform applies selective relative offsets from a source."
+        },
+        "Location": {
+          "class": "com.hypixel.hytale.math.vector.Location",
+          "kind": "class",
+          "fields": ["world:String (nullable)", "position:Vector3d", "rotation:Vector3f"],
+          "operations": ["getDirection", "getAxisDirection", "getAxis", "toTransform"],
+          "purpose": "World-qualified position + rotation. Extends Transform concept with an optional world name string."
+        }
+      },
+      "spatial_query_utils": {
+        "VectorBoxUtil": {
+          "class": "com.hypixel.hytale.math.vector.VectorBoxUtil",
+          "kind": "utility class",
+          "purpose": "Iterates over collections of positioned objects, invoking a consumer for each within an axis-aligned box (apothem-based). Optimized path for FastCollection inputs. Supports Iterable and Int2ObjectMap inputs with 1-3 extra consumer parameters."
+        },
+        "VectorSphereUtil": {
+          "class": "com.hypixel.hytale.math.vector.VectorSphereUtil",
+          "kind": "utility class",
+          "purpose": "Same as VectorBoxUtil but with ellipsoidal distance check (x/rx)^2 + (y/ry)^2 + (z/rz)^2 <= 1. Supports separate radii per axis."
+        }
+      }
+    },
+
+    "matrices_and_rotation": {
+      "Mat4f": {
+        "class": "com.hypixel.hytale.math.Mat4f",
+        "kind": "class",
+        "mutable": false,
+        "purpose": "Immutable 4x4 float matrix for network serialization (ByteBuf). 16 public final float fields. SIZE=64 bytes. Has identity() factory and serialize/deserialize."
+      },
+      "Matrix4d": {
+        "class": "com.hypixel.hytale.math.matrix.Matrix4d",
+        "kind": "class",
+        "mutable": true,
+        "storage": "double[16] column-major",
+        "operations": ["identity", "assign", "translate", "scale", "multiplyPosition", "multiplyDirection", "multiply(Vector4d)", "multiply(Matrix4d)", "invert", "projectionOrtho", "projectionFrustum", "projectionCone", "viewTarget", "viewDirection", "rotateAxis", "setRotateAxis", "rotateEuler", "setRotateEuler", "asFloatData"],
+        "purpose": "Full 4x4 double matrix used for view, projection, and model transforms. Supports orthogonal/frustum/cone projection setup, look-at view matrix, axis/euler rotation, matrix multiplication, inversion, and vector transformation."
+      },
+      "Quatf": {
+        "class": "com.hypixel.hytale.math.Quatf",
+        "kind": "class",
+        "mutable": false,
+        "components": ["x:float", "y:float", "z:float", "w:float"],
+        "serialization": "ByteBuf (little-endian int bits)",
+        "purpose": "Immutable quaternion for network serialization. No rotation operations — purely a data carrier."
+      },
+      "Axis": {
+        "class": "com.hypixel.hytale.math.Axis",
+        "kind": "enum",
+        "values": ["X", "Y", "Z"],
+        "operations": ["rotate(Vector3i/Vector3d, angle)", "rotate(Vector3i/Vector3d) (90-degree)", "flip(Vector3i/Vector3d)", "flipRotation(Vector3f)"],
+        "each_has": "direction:Vector3i (unit vector)",
+        "purpose": "Axis enum with 90-degree rotation and flip operations for block-aligned transforms."
+      }
+    },
+
+    "ranges": {
+      "Range": {
+        "class": "com.hypixel.hytale.math.Range",
+        "fields": ["min:float", "max:float"],
+        "purpose": "Simple mutable float min/max range. No interpolation."
+      },
+      "FloatRange": {
+        "class": "com.hypixel.hytale.math.range.FloatRange",
+        "fields": ["inclusiveMin:float", "inclusiveMax:float", "range:float (computed)"],
+        "codec": "FloatRangeArrayCodec → JSON [min, max] array",
+        "operations": ["getFloat(factor)", "includes(value)"],
+        "purpose": "Inclusive float range with factor-based interpolation: getFloat(factor) returns min + range * factor, clamped to max."
+      },
+      "IntRange": {
+        "class": "com.hypixel.hytale.math.range.IntRange",
+        "fields": ["inclusiveMin:int", "inclusiveMax:int", "range:int (computed)"],
+        "codec": "IntRangeArrayCodec → JSON [min, max] array",
+        "operations": ["getInt(factor)", "includes(value)"],
+        "purpose": "Inclusive int range with factor-based interpolation using fastFloor."
+      },
+      "IntRangeBoundValidator": {
+        "class": "com.hypixel.hytale.math.range.IntRangeBoundValidator",
+        "kind": "validator",
+        "purpose": "Codec validator that enforces min/max bounds on either the lower or upper bound of an IntRange. Updates schema with integer constraints."
+      }
+    },
+
+    "codecs": {
+      "purpose": "Array-format codecs for serializing math types to/from JSON arrays and BSON.",
+      "types": {
+        "FloatRangeArrayCodec": "Serializes FloatRange as [min, max] JSON array. Validates min <= max.",
+        "IntRangeArrayCodec": "Serializes IntRange as [min, max] JSON array. Validates min <= max.",
+        "Vector2dArrayCodec": "Deprecated. Serializes Vector2d as [x, y] array.",
+        "Vector3dArrayCodec": "Deprecated. Serializes Vector3d as [x, y, z] array.",
+        "Vector3iArrayCodec": "Deprecated. Serializes Vector3i as [x, y, z] array."
+      },
+      "note": "Array codecs are deprecated in favor of BuilderCodec with named keys (X/Y/Z)."
+    },
+
+    "shapes": {
+      "Shape": {
+        "class": "com.hypixel.hytale.math.shape.Shape",
+        "kind": "interface",
+        "methods": ["contains(Vector3d)", "forEachBlock(TriIntPredicate)", "forEachBlock(TriIntObjPredicate)"],
+        "purpose": "Base interface for 3D shapes that support point containment and block iteration."
+      },
+      "Shape2D": {
+        "class": "com.hypixel.hytale.math.shape.Shape2D",
+        "kind": "interface",
+        "methods": ["contains(double x, double y)"],
+        "purpose": "Base interface for 2D shapes."
+      },
+      "Box": {
+        "class": "com.hypixel.hytale.math.shape.Box",
+        "kind": "class",
+        "implements": "Shape",
+        "fields": ["min:Vector3d", "max:Vector3d"],
+        "codec": "BuilderCodec with Min/Max Vector3d",
+        "operations": ["width/height/depth", "center", "contains(point)", "contains(Box)", "containsInclusive", "overlaps", "intersect", "expand", "expandToFit", "offset", "forEachBlock", "forEachEdgeBlock", "forEachFaceBlock", "rotate(Axis)", "horizontallyCentered"],
+        "constants": ["UNIT", "ZERO"],
+        "purpose": "Axis-aligned bounding box — the primary 3D shape type. Supports intersection, overlap testing, block iteration (including edges and faces only), axis rotation, and expansion."
+      },
+      "Box2D": {
+        "class": "com.hypixel.hytale.math.shape.Box2D",
+        "kind": "class",
+        "implements": "Shape2D",
+        "fields": ["min:Vector2d", "max:Vector2d"],
+        "purpose": "2D axis-aligned bounding box."
+      },
+      "Cylinder": {
+        "class": "com.hypixel.hytale.math.shape.Cylinder",
+        "kind": "class",
+        "implements": "Shape",
+        "fields": ["center:Vector3d", "radiusX:double", "radiusZ:double", "height:double"],
+        "purpose": "Cylindrical shape with elliptical cross-section and block iteration."
+      },
+      "Ellipsoid": {
+        "class": "com.hypixel.hytale.math.shape.Ellipsoid",
+        "kind": "class",
+        "implements": "Shape",
+        "fields": ["center:Vector3d", "radiusX:double", "radiusY:double", "radiusZ:double"],
+        "purpose": "Ellipsoidal shape with per-axis radii and block iteration."
+      },
+      "OriginShape": {
+        "class": "com.hypixel.hytale.math.shape.OriginShape",
+        "kind": "class",
+        "fields": ["shape:Shape", "origin:Vector3d"],
+        "purpose": "Wraps a Shape with an origin offset for positioned shapes."
+      },
+      "Rectangle": {
+        "class": "com.hypixel.hytale.math.shape.Rectangle",
+        "kind": "class",
+        "implements": "Shape2D",
+        "fields": ["x:double", "y:double", "width:double", "height:double"],
+        "purpose": "Simple 2D rectangle."
+      },
+      "Quad2d": {
+        "class": "com.hypixel.hytale.math.shape.Quad2d",
+        "kind": "class",
+        "purpose": "2D quadrilateral defined by 4 Vector2d vertices."
+      },
+      "Quad4d": {
+        "class": "com.hypixel.hytale.math.shape.Quad4d",
+        "kind": "class",
+        "purpose": "4D quadrilateral (4 Vector4d vertices) for hit detection in projected space. Supports matrix multiplication, frustum test, random point sampling."
+      },
+      "Triangle2d": {
+        "class": "com.hypixel.hytale.math.shape.Triangle2d",
+        "kind": "class",
+        "purpose": "2D triangle with barycentric coordinate containment test."
+      },
+      "Triangle4d": {
+        "class": "com.hypixel.hytale.math.shape.Triangle4d",
+        "kind": "class",
+        "purpose": "4D triangle for hit detection — stores visible triangle after frustum clipping for random hit point sampling."
+      },
+      "ViewUtil": {
+        "class": "com.hypixel.hytale.math.shape.ViewUtil",
+        "kind": "utility class",
+        "purpose": "Viewport-to-normalized coordinate conversion utilities."
+      }
+    },
+
+    "block_geometry": {
+      "purpose": "Block-level shape iteration utilities. Each generates block coordinates inside or on the surface of a geometric primitive. All use TriIntPredicate or TriIntObjPredicate callbacks that return false to abort iteration early.",
+      "types": {
+        "BlockSphereUtil": "Iterates blocks inside a sphere/ellipsoid. Supports solid and hollow (shell) modes with configurable thickness.",
+        "BlockCubeUtil": "Iterates blocks inside a cube. Supports solid and hollow modes.",
+        "BlockConeUtil": "Iterates blocks inside a cone. Supports solid and hollow modes.",
+        "BlockCylinderUtil": "Iterates blocks inside a cylinder. Supports solid and hollow modes.",
+        "BlockDiamondUtil": "Iterates blocks inside a diamond (octahedron). Supports solid and hollow modes.",
+        "BlockDomeUtil": "Iterates blocks inside a dome (upper hemisphere). Supports solid and hollow modes.",
+        "BlockInvertedDomeUtil": "Iterates blocks inside an inverted dome (lower hemisphere).",
+        "BlockPyramidUtil": "Iterates blocks inside a pyramid. Supports solid and hollow modes.",
+        "BlockTorusUtil": "Iterates blocks inside a torus with major/minor radii.",
+        "BlockUtil": "Shared inner utility — contains toEdge() helper for hollow shell generation."
+      }
+    },
+
+    "iterators": {
+      "BlockIterator": {
+        "class": "com.hypixel.hytale.math.iterator.BlockIterator",
+        "kind": "utility class",
+        "purpose": "Voxel traversal (DDA ray marching) along a direction vector. Visits each block the ray passes through. Returns false to abort. Supports generic typed procedure callbacks.",
+        "inner_types": ["BlockIteratorProcedure", "BlockIteratorProcedurePlus1<T>", "BlockIteratorProcedurePlus2<T,V>", "BlockIteratorProcedurePlus3<T,V,K>"]
+      },
+      "BoxBlockIterator": {
+        "class": "com.hypixel.hytale.math.iterator.BoxBlockIterator",
+        "purpose": "Iterates all integer coordinates within a 3D box region."
+      },
+      "LineIterator": {
+        "class": "com.hypixel.hytale.math.iterator.LineIterator",
+        "purpose": "Bresenham-style 3D line iterator between two integer coordinates."
+      },
+      "CircleIterator": {
+        "class": "com.hypixel.hytale.math.iterator.CircleIterator",
+        "purpose": "Iterates 2D coordinates in expanding concentric square rings."
+      },
+      "CircleSpiralIterator": {
+        "class": "com.hypixel.hytale.math.iterator.CircleSpiralIterator",
+        "purpose": "Iterates 2D coordinates in a spiral pattern from center outward."
+      },
+      "SpiralIterator": {
+        "class": "com.hypixel.hytale.math.iterator.SpiralIterator",
+        "purpose": "Iterates 2D coordinates in an outward spiral, sorted by distance."
+      }
+    },
+
+    "hit_detection": {
+      "purpose": "View-space hit detection system for testing whether 3D geometry (quads, points) is visible through a camera projection. Used for click/target detection.",
+      "types": {
+        "HitDetectionExecutor": {
+          "class": "com.hypixel.hytale.math.hitdetection.HitDetectionExecutor",
+          "purpose": "Core executor: combines projection + view matrices, transforms model quads into clip space, clips against frustum planes, picks random hit point on visible triangle, inverse-projects to world space, and tests line-of-sight. Returns closest visible hit."
+        },
+        "HitDetectionBuffer": "Scratch buffers for transformed quads, triangles, vertex lists during hit detection.",
+        "MatrixProvider": "Interface returning a Matrix4d — used for projection and view matrix sources.",
+        "LineOfSightProvider": "Interface testing if a ray from origin to hit point is unobstructed. Default returns true.",
+        "Vector4dBufferList": "Fixed-capacity ring buffer of Vector4d for frustum clipping vertex lists.",
+        "FrustumProjectionProvider": "Frustum (perspective) projection matrix provider with rotation. Codec-configurable.",
+        "OrthogonalProjectionProvider": "Orthogonal projection matrix provider with rotation. Codec-configurable.",
+        "DirectionViewProvider": "View matrix provider from position + direction + up vector. Codec-configurable yaw/pitch offsets."
+      }
+    },
+
+    "raycast": {
+      "RaycastAABB": {
+        "class": "com.hypixel.hytale.math.raycast.RaycastAABB",
+        "purpose": "Slab-method AABB ray intersection test. Returns nearest t-parameter. Variant methods provide hit normal (nx,ny,nz) via functional consumers. Supports 0-3 extra generic parameters on the consumer.",
+        "inner_types": ["RaycastConsumer", "RaycastConsumerPlus1<T>", "RaycastConsumerPlus2<T,K>", "RaycastConsumerPlus3<T,K,L>"]
+      }
+    },
+
+    "random": {
+      "RandomExtra": {
+        "class": "com.hypixel.hytale.math.random.RandomExtra",
+        "kind": "utility class",
+        "purpose": "ThreadLocalRandom-based utilities: randomBinomial, randomRange (int/long/float/double/Duration), randomBoolean, randomElement, randomWeightedElement (double/int weights, with/without filter), jitter (Vector3d), reservoirSample, pickWeightedIndex."
+      },
+      "FastRandom": {
+        "class": "com.hypixel.hytale.math.util.FastRandom",
+        "kind": "class",
+        "extends": "Random",
+        "purpose": "XorShift128+ PRNG. Faster than java.util.Random. Provides next(bits), nextLong, nextInt, nextDouble, nextFloat, nextBoolean. Seedable."
+      }
+    },
+
+    "utilities": {
+      "MathUtil": {
+        "class": "com.hypixel.hytale.math.util.MathUtil",
+        "purpose": "Central math utilities: clamp (int/float/double/long), floor/ceil (fast variants using int cast), fastRound, lerp, lerpAngle, wrapAngle, clipToZero, closeToZero, length(3d), toRadians, PITCH_EDGE_PADDING constant."
+      },
+      "TrigMathUtil": {
+        "class": "com.hypixel.hytale.math.util.TrigMathUtil",
+        "purpose": "Fast trigonometry using lookup tables with 65536 entries. sin, cos (float/double), atan2. Higher precision than standard Math.sin but faster."
+      },
+      "HashUtil": {
+        "class": "com.hypixel.hytale.math.util.HashUtil",
+        "purpose": "Hash functions: hash(long...) for vector hash codes, coordHash(seed,x,y,z) for coordinate-seeded hashing, random(seed,x,y,z) returning [0,1) double from coordinate hash."
+      },
+      "NumberUtil": {
+        "class": "com.hypixel.hytale.math.util.NumberUtil",
+        "purpose": "Numeric parsing utilities: tryParseInt, tryParseLong, tryParseDouble, tryParseFloat with fallback defaults."
+      },
+      "ChunkUtil": {
+        "class": "com.hypixel.hytale.math.util.ChunkUtil",
+        "purpose": "Chunk coordinate math: SIZE=32, HEIGHT=320, HEIGHT_SECTIONS=10. Block↔chunk index conversions, column indexing, chunk coordinate packing/unpacking to long, toByteArray converters. NOT_FOUND sentinel.",
+        "constants": {
+          "SIZE": 32,
+          "HEIGHT": 320,
+          "HEIGHT_SECTIONS": 10,
+          "SIZE_BLOCKS": 32768,
+          "SIZE_BLOCKS_COLUMN": 327680
+        }
+      },
+      "NearestBlockUtil": {
+        "class": "com.hypixel.hytale.math.util.NearestBlockUtil",
+        "purpose": "Finds the nearest block matching a predicate within a search radius using expanding search."
+      },
+      "VarInt": {
+        "class": "com.hypixel.hytale.math.data.VarInt",
+        "purpose": "Variable-length integer encoding/decoding (signed/unsigned, int/long) for DataInput/DataOutput and byte arrays. ZigZag encoding for signed values."
+      }
+    }
+  },
+
+  "procedurallib": {
+    "purpose": "Procedural generation library providing noise functions, noise composition properties, cellular/point generators, conditions, coordinate randomizers, range suppliers, and JSON loaders for data-driven procedural configuration. This is a standalone library that the worldgen system builds upon.",
+    "total_types": 151,
+
+    "noise_functions": {
+      "purpose": "Core noise function interfaces and implementations. All noise functions take a seed parameter and spatial coordinates, returning a value typically in [-1, 1] range.",
+      "interfaces": {
+        "NoiseFunction": "Combined 2D + 3D noise interface (extends NoiseFunction2d and NoiseFunction3d).",
+        "NoiseFunction2d": "FunctionalInterface: get(seed, seedOffset, x, y) → double.",
+        "NoiseFunction3d": "FunctionalInterface: get(seed, seedOffset, x, y, z) → double."
+      },
+      "NoiseFunctionPair": {
+        "purpose": "Combines separate 2D and 3D noise functions into a single NoiseFunction implementation."
+      },
+      "NoiseType": {
+        "kind": "enum",
+        "values": ["SIMPLEX", "OLD_SIMPLEX", "VALUE", "PERLIN", "CELL", "DISTANCE", "CONSTANT", "GRID", "MESH", "BRANCH", "POINT"],
+        "purpose": "Enum identifying the algorithm type of a noise function."
+      },
+      "implementations": {
+        "SimplexNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.SimplexNoise",
+          "purpose": "Simplex noise implementation with 2D and 3D variants. Uses gradient tables and simplex grid."
+        },
+        "OldSimplexNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.OldSimplexNoise",
+          "purpose": "Legacy simplex noise variant — different gradient computation."
+        },
+        "PerlinNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.PerlinNoise",
+          "purpose": "Classic Perlin noise with 2D and 3D evaluation using fade/grad functions."
+        },
+        "ValueNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.ValueNoise",
+          "purpose": "Value noise — interpolates random values at integer lattice points."
+        },
+        "CellNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.CellNoise",
+          "purpose": "Cell (Worley/Voronoi) noise based on CellDistanceFunction and PointEvaluator. Returns normalized distance to nearest cell point."
+        },
+        "CellularNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.CellularNoise",
+          "purpose": "Low-level cellular noise utilities: CELL_2D and CELL_3D lookup tables for cell point offsets (256 entries each)."
+        },
+        "ConstantNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.ConstantNoise",
+          "purpose": "Returns a fixed constant value for all coordinates."
+        },
+        "GridNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.GridNoise",
+          "purpose": "Grid-based noise using GridCellDistanceFunction."
+        },
+        "MeshNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.MeshNoise",
+          "purpose": "Mesh-based noise with configurable cell distance functions."
+        },
+        "HexMeshNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.HexMeshNoise",
+          "purpose": "Hexagonal mesh noise using HexCellDistanceFunction."
+        },
+        "DistanceNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.DistanceNoise",
+          "purpose": "Distance-to-cell-center noise with configurable Distance2Function (LINEAR, CUBIC, FLAT, CIRCLE, DIAMOND, ROUNDED_SQUARE). Combines cell lookup with distance formula."
+        },
+        "BranchNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.BranchNoise",
+          "purpose": "Branch/river-like noise: generates linear features connecting cell centers. Uses parent cell lookup, line cell distance, and configurable fade/thickness/density."
+        },
+        "PointNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.PointNoise",
+          "purpose": "Point-based noise using IPointGenerator for nearest/transition queries."
+        },
+        "GeneralNoise": {
+          "class": "com.hypixel.hytale.procedurallib.logic.GeneralNoise",
+          "purpose": "Shared noise utilities: fastFloor, interpolation helpers (interpHermite, interpQuintic), gradients (gradCoord2D/3D), limit() clamping to [0,1]."
+        }
+      },
+      "support_types": {
+        "DoubleArray": "Double2 and Double3 record-like classes for cell point offsets.",
+        "ResultBuffer": "Thread-local result buffers (ResultBuffer2d, ResultBuffer3d, Bounds2d) holding nearest cell info: distance, cell hash, cell coordinates, point coordinates."
+      }
+    },
+
+    "noise_properties": {
+      "purpose": "Composable noise decorators that transform, combine, or modify NoiseProperty instances. Each implements get(seed, x, y) and get(seed, x, y, z). This is the primary composition mechanism for building complex noise pipelines.",
+      "base_interface": {
+        "NoiseProperty": "Interface with get(seed, x, y) and get(seed, x, y, z) returning [0,1] range."
+      },
+      "NoisePropertyType": {
+        "kind": "enum",
+        "values": ["DISTORTED", "MAX", "MIN", "MULTIPLY", "NORMALIZE", "FORMULA", "SCALE", "SUM", "INVERT", "OFFSET", "ROTATE", "GRADIENT", "CURVE", "BLEND"]
+      },
+      "types": {
+        "SingleNoiseProperty": "Wraps a NoiseFunction with seed offset. Normalizes [-1,1] → [0,1] via value*0.5+0.5.",
+        "FractalNoiseProperty": "Octave-based fractal noise with lacunarity, persistence, and configurable FractalFunction (FBM, RIGID_MULTI, BILLOW).",
+        "ScaleNoiseProperty": "Scales input coordinates by scaleX/scaleY/scaleZ before delegating.",
+        "OffsetNoiseProperty": "Adds offset to input coordinates before delegating.",
+        "RotateNoiseProperty": "Rotates input coordinates via CoordinateRotator before delegating.",
+        "DistortedNoiseProperty": "Applies coordinate randomizer (ICoordinateRandomizer) to inputs before delegating.",
+        "NormalizeNoiseProperty": "Maps output from [min, min+range] → [0,1] via GeneralNoise.limit.",
+        "InvertNoiseProperty": "Returns 1 - delegate.get().",
+        "CurveNoiseProperty": "Applies a DoubleUnaryOperator (e.g. PowerCurve, BezierCurve) to output. PowerCurve: a*x^b clamped.",
+        "NoiseFormulaProperty": "Applies a formula enum (NORMAL, ABS, INV_ABS, SQUARED) to output.",
+        "SumNoiseProperty": "Weighted sum of multiple properties. Each Entry has a factor. Result clamped to [0,1].",
+        "MultiplyNoiseProperty": "Multiplies outputs of multiple properties.",
+        "MaxNoiseProperty": "Takes maximum of multiple properties. Short-circuits at >0.999999.",
+        "MinNoiseProperty": "Takes minimum of multiple properties. Short-circuits at <0.00001.",
+        "BlendNoiseProperty": "Blends between multiple properties based on an alpha property and threshold array (lerp between adjacent thresholds).",
+        "GradientNoiseProperty": "Computes gradient (magnitude, angle, or absolute angle) of noise using finite differences."
+      }
+    },
+
+    "cellular_system": {
+      "purpose": "Voronoi/cellular noise infrastructure with cell distance functions, point evaluators, and jitter control.",
+      "cell_distance_functions": {
+        "CellDistanceFunction": "Interface for computing nearest cell point in 2D/3D. Supports nearest, transition (two nearest), and collect operations.",
+        "GridCellDistanceFunction": "Square grid cells with hash-based point offsets.",
+        "HexCellDistanceFunction": "Hexagonal grid cells with hex-to-cartesian scaling.",
+        "BorderDistanceFunction": "Computes distance to cell border rather than center.",
+        "PointDistanceFunction": "Interface for distance metric: distance2D/3D. Implementations in DistanceCalculationMode."
+      },
+      "distance_modes": {
+        "DistanceCalculationMode": {
+          "kind": "enum",
+          "values": ["EUCLIDEAN", "MANHATTAN", "NATURAL", "MAX"],
+          "purpose": "Each provides a PointDistanceFunction. NATURAL = euclidean + manhattan."
+        },
+        "MeasurementMode": {
+          "kind": "enum",
+          "values": ["CENTRE_DISTANCE", "BORDER_DISTANCE"]
+        }
+      },
+      "point_evaluators": {
+        "PointEvaluator": "Interface for evaluating cell points: registers distance/hash into ResultBuffer. Supports 2D and 3D, plus point collection.",
+        "NormalPointEvaluator": "Standard distance-based evaluator with predefined EUCLIDEAN/MANHATTAN/NATURAL/MAX instances.",
+        "DistancePointEvaluator": "Distance evaluator with configurable distance modifier (ISeedDoubleRange).",
+        "DensityPointEvaluator": "Wraps evaluator with density condition — skips cells that fail IIntCondition based on hash.",
+        "JitterPointEvaluator": "Wraps evaluator with CellJitter for point offset scaling.",
+        "SkipCellPointEvaluator": "Wraps evaluator to skip cells in a pattern (CHECKERBOARD, ALTERNATING) based on cell coordinates.",
+        "BorderPointEvaluator": "Computes perpendicular distance to cell border midpoint.",
+        "BranchEvaluator": "Complex evaluator for branch/river features: connects parent cell to neighbor via line distance."
+      },
+      "cell_jitter": {
+        "CellJitter": "Interface controlling how much cell points deviate from cell centers.",
+        "DefaultCellJitter": "1.0 jitter on all axes (default).",
+        "ConstantCellJitter": "Configurable per-axis jitter values."
+      },
+      "cell_types": {
+        "CellType": {
+          "kind": "enum",
+          "values": ["SQUARE", "HEX"]
+        },
+        "CellPointFunction": "Interface for cell point hash/offset computation."
+      }
+    },
+
+    "point_generators": {
+      "purpose": "Generators that produce nearest-point queries for cellular features. Used by PointNoise and other spatial systems.",
+      "types": {
+        "IPointGenerator": "Interface: nearest2D/3D, transition2D/3D, collect, getInterval.",
+        "PointGenerator": "Core implementation using CellDistanceFunction + PointEvaluator + seedOffset.",
+        "ScaledPointGenerator": "Wraps PointGenerator with coordinate scaling.",
+        "OffsetPointGenerator": "Wraps generator with coordinate offset.",
+        "DistortedPointGenerator": "Wraps generator with ICoordinateRandomizer distortion."
+      },
+      "PointConsumer": "Generic callback for point collection: accept(x, y, T)."
+    },
+
+    "conditions": {
+      "purpose": "Boolean condition types used by the procedural system for threshold checks, noise masks, coordinate evaluation, and density control.",
+      "interfaces": {
+        "IDoubleCondition": "eval(double) → boolean. Optional eval(seed, IntToDoubleFunction).",
+        "IDoubleThreshold": "eval(double) and eval(double, factor) → boolean. Factor-parameterized thresholds.",
+        "IIntCondition": "eval(int) → boolean.",
+        "ICoordinateCondition": "eval(seed, x, y) and eval(seed, x, y, z) → boolean.",
+        "ICoordinateRndCondition": "eval(seed, x, z, y, Random) → boolean.",
+        "IBlockFluidCondition": "eval(blockId, fluidId) → boolean.",
+        "IHeightThresholdInterpreter": "Height-dependent threshold: getThreshold(seed, x, y, height) → float. Includes getLowestNonOne, getHighestNonZero, isSpawnable."
+      },
+      "implementations": {
+        "DefaultDoubleCondition": "Constant true/false double condition.",
+        "DefaultDoubleThresholdCondition": "Constant true/false threshold condition.",
+        "SingleDoubleCondition": "Returns true if input < threshold.",
+        "DoubleThresholdCondition": "Wraps IDoubleThreshold as IDoubleCondition.",
+        "DoubleThreshold.Single": "Min/max range threshold with factor-based narrowing.",
+        "DoubleThreshold.Multiple": "OR-combination of Single thresholds.",
+        "ConstantIntCondition": "Constant true/false int condition.",
+        "DefaultCoordinateCondition": "Constant true/false coordinate condition.",
+        "DefaultCoordinateRndCondition": "Constant true/false random coordinate condition.",
+        "ConstantBlockFluidCondition": "Constant true/false block fluid condition.",
+        "NoiseMaskCondition": "Evaluates NoiseProperty at coordinates, then applies IDoubleCondition to result.",
+        "HeightCondition": "Uses IHeightThresholdInterpreter; passes if threshold > random().",
+        "HeightThresholdCoordinateCondition": "Uses IHeightThresholdInterpreter; passes if threshold >= coordHash random.",
+        "BasicHeightThresholdInterpreter": "Interpolates threshold array by height. Pre-computes lowestNonOne/highestNonZero.",
+        "NoiseHeightThresholdInterpreter": "Blends between multiple BasicHeightThresholdInterpreters based on noise value."
+      }
+    },
+
+    "random_utilities": {
+      "purpose": "Coordinate transformation and randomization for procedural distortion.",
+      "types": {
+        "ICoordinateRandomizer": "Interface: randomDoubleX/Y/Z(seed, x, y[, z]).",
+        "CoordinateRandomizer": "Applies noise-based amplitude randomization per axis using AmplitudeNoiseProperty arrays.",
+        "CoordinateRotator": "Applies 2D/3D rotation matrix from pitch/yaw angles. Pre-computes 3x3 rotation matrix.",
+        "CoordinateOriginRotator": "CoordinateRotator with origin offset — rotates around a specific point.",
+        "RotatedCoordinateRandomizer": "Applies rotation before randomization."
+      }
+    },
+
+    "suppliers": {
+      "purpose": "Value supplier interfaces and implementations for coordinate-dependent double/float values. Used to parameterize noise and conditions.",
+      "interfaces": {
+        "IDoubleRange": "getValue(factor), getValue(DoubleSupplier), getValue(Random), getValue(seed,x,y,supplier2d), getValue(seed,x,y,z,supplier3d).",
+        "IFloatRange": "Float equivalent of IDoubleRange.",
+        "ISeedDoubleRange": "FunctionalInterface: getValue(seed, value). DIRECT passthrough.",
+        "IDoubleCoordinateSupplier": "get(seed, x, y) and get(seed, x, y, z).",
+        "IDoubleCoordinateSupplier2d": "get(seed, x, y).",
+        "IDoubleCoordinateSupplier3d": "get(seed, x, y, z).",
+        "IFloatCoordinateSupplier": "Float equivalent of IDoubleCoordinateSupplier.",
+        "IDoubleCoordinateHashSupplier": "get(seed, x, y, hash).",
+        "IFloatCoordinateHashSupplier": "get(seed, x, y, hash).",
+        "FloatSupplier": "FunctionalInterface: getAsFloat()."
+      },
+      "implementations": {
+        "DoubleRange.Constant": "Fixed value. ZERO and ONE singletons.",
+        "DoubleRange.Linear": "Linear interpolation: min + (max-min) * factor.",
+        "DoubleRange.Curve": "Curved interpolation via PowerCurve.",
+        "DoubleRange.Random": "Random value in [min, max) range.",
+        "DoubleRangeCoordinateHashSupplier": "Applies IDoubleRange to coordinate hash.",
+        "DoubleRangeNoiseSupplier": "Applies IDoubleRange to NoiseProperty value.",
+        "FloatRange.Constant": "Fixed float value.",
+        "FloatRange.Linear": "Linear float interpolation.",
+        "FloatRange.Random": "Random float in [min, max).",
+        "FloatRangeNoiseSupplier": "Applies IFloatRange to NoiseProperty value.",
+        "ConstantDoubleCoordinateHashSupplier": "Fixed double. ZERO and ONE singletons.",
+        "ConstantFloatCoordinateHashSupplier": "Fixed float. ZERO and ONE singletons."
+      }
+    },
+
+    "file_system": {
+      "purpose": "Procedural library's own asset/file loading abstraction — separate from the main assetstore package.",
+      "types": {
+        "AssetLoader<T>": "Interface: type() → Class<T>, load(InputStream) → T.",
+        "AssetPath": "Immutable path pair: relative path + absolute filepath. Comparable. Factory methods fromAbsolute/fromRelative.",
+        "FileIO": "Static utility interface for file operations: exists, resolve, load, list (with disable/filter). Platform-independent path comparison (name-by-name). Thread-local FileIOSystem.",
+        "FileIOSystem": "Interface for file system abstraction: baseRoot, roots (layered path array), resolve, load. Thread-local provider pattern. Default uses current directory."
+      }
+    },
+
+    "json_loaders": {
+      "purpose": "JSON configuration loaders for data-driven procedural generation parameters. Each loader reads a Gson JsonElement and produces the corresponding noise/condition/property object.",
+      "total_types": 35,
+      "base_types": {
+        "JsonLoader<K,T>": "Abstract base class with seed string, data folder, json element. Provides helpers: loadNoise, loadCondition, loadDouble, loadProperty, etc.",
+        "JsonResourceLoader<T>": "Extends JsonLoader for resource-based loading.",
+        "Loader": "Simple functional interface for loading.",
+        "SeedResource": "Resource with seed tracking.",
+        "SeedString<K>": "Seed key string for hierarchical resource identification.",
+        "SeedResourcePointGenerator": "SeedResource-based IPointGenerator wrapper.",
+        "NoiseTypeJson": "Maps NoiseType enum to the corresponding JsonLoader class."
+      },
+      "noise_loaders": [
+        "SimplexNoiseJsonLoader",
+        "OldSimplexNoiseJsonLoader",
+        "PerlinNoiseJsonLoader",
+        "ValueNoiseJsonLoader",
+        "ConstantNoiseJsonLoader",
+        "CellNoiseJsonLoader",
+        "DistanceNoiseJsonLoader",
+        "GridNoiseJsonLoader",
+        "MeshNoiseJsonLoader",
+        "BranchNoiseJsonLoader",
+        "PointNoiseJsonLoader",
+        "NoiseFunctionJsonLoader"
+      ],
+      "property_loaders": [
+        "NoisePropertyJsonLoader",
+        "BlendNoisePropertyJsonLoader",
+        "CurveNoisePropertyJsonLoader",
+        "GradientNoisePropertyJsonLoader"
+      ],
+      "condition_loaders": [
+        "DoubleConditionJsonLoader",
+        "DoubleThresholdJsonLoader",
+        "NoiseMaskConditionJsonLoader",
+        "HeightThresholdInterpreterJsonLoader",
+        "BasicHeightThresholdInterpreterJsonLoader",
+        "NoiseHeightThresholdInterpreterJsonLoader"
+      ],
+      "range_loaders": [
+        "DoubleRangeJsonLoader",
+        "FloatRangeJsonLoader"
+      ],
+      "other_loaders": [
+        "CoordinateRandomizerJsonLoader",
+        "CoordinateRotatorJsonLoader",
+        "PointGeneratorJsonLoader",
+        "PointEvaluatorJsonLoader",
+        "CellDistanceFunctionJsonLoader",
+        "CellBorderDistanceFunctionJsonLoader",
+        "AbstractCellJitterJsonLoader"
+      ]
+    },
+
+    "utility": {
+      "IntToIntFunction": {
+        "class": "com.hypixel.hytale.procedurallib.util.IntToIntFunction",
+        "kind": "FunctionalInterface",
+        "purpose": "int → int function, used by IIntCondition."
+      }
+    }
+  },
+
+  "assetstore": {
+    "purpose": "Generic asset loading, registration, and management framework. Assets are JSON-configured game data objects loaded from asset packs, decoded via codecs, stored in typed AssetMaps, and managed through AssetStore lifecycle events. Supports inheritance (parent assets), tags, validation, and layered pack loading.",
+    "total_types": 40,
+
+    "core_types": {
+      "AssetStore": {
+        "class": "com.hypixel.hytale.assetstore.AssetStore",
+        "kind": "class",
+        "generic": "AssetStore<K, T extends JsonAsset<K>>",
+        "purpose": "Central asset store managing a single asset type. Handles loading, validation, registration, removal, and iteration of assets. Supports layered loading from multiple packs with load-order dependencies (loadsBefore/loadsAfter). Fires lifecycle events.",
+        "key_methods": ["load", "loadFromPath", "validate", "register", "remove", "get", "getOrThrow", "forEach", "getAssetMap"],
+        "configuration": {
+          "key_type": "K (typically String)",
+          "value_type": "T extends JsonAsset<K>",
+          "asset_map": "AssetMap<K, T>",
+          "codec": "AssetCodec<K, T>",
+          "path": "String (asset directory path)",
+          "loadsBefore": "List<String>",
+          "loadsAfter": "List<String>"
+        }
+      },
+      "AssetRegistry": {
+        "class": "com.hypixel.hytale.assetstore.AssetRegistry",
+        "purpose": "Registry of all AssetStore instances. Manages store registration, topological ordering based on load dependencies, and coordinated loading/unloading across all stores."
+      },
+      "JsonAsset<K>": {
+        "class": "com.hypixel.hytale.assetstore.JsonAsset",
+        "kind": "class",
+        "purpose": "Base class for all loadable game assets. Has key (K), tags (String[]), and parent reference. Tags are expanded into flat+keyed forms (e.g., Material, Solid, Material=Solid)."
+      },
+      "RawAsset": {
+        "class": "com.hypixel.hytale.assetstore.RawAsset",
+        "purpose": "Unstructured raw asset as a JSON element before decoding."
+      },
+      "DecodedAsset<K,T>": {
+        "class": "com.hypixel.hytale.assetstore.DecodedAsset",
+        "purpose": "Holder for a decoded asset paired with its AssetExtraInfo metadata."
+      },
+      "AssetPack": {
+        "class": "com.hypixel.hytale.assetstore.AssetPack",
+        "purpose": "Represents a loaded asset pack (directory of asset files). Tracks pack path and manages the files within."
+      },
+      "AssetHolder<K,T>": {
+        "class": "com.hypixel.hytale.assetstore.AssetHolder",
+        "purpose": "Wrapper holding an asset reference with its store context."
+      }
+    },
+
+    "loading_pipeline": {
+      "AssetLoadResult": {
+        "class": "com.hypixel.hytale.assetstore.AssetLoadResult",
+        "kind": "enum",
+        "values": ["LOADED", "REPLACED", "PARENT_MISMATCH", "DUPLICATE_KEY", "VALIDATION_FAILED", "DECODE_ERROR", "UNKNOWN_ERROR"],
+        "purpose": "Enum describing the outcome of an individual asset load attempt."
+      },
+      "AssetUpdateQuery": {
+        "class": "com.hypixel.hytale.assetstore.AssetUpdateQuery",
+        "purpose": "Query object for determining which assets need updating during a reload."
+      },
+      "AssetKeyValidator": {
+        "class": "com.hypixel.hytale.assetstore.AssetKeyValidator",
+        "purpose": "Validates asset keys (typically strings) against naming rules."
+      },
+      "AssetValidationResults": {
+        "class": "com.hypixel.hytale.assetstore.AssetValidationResults",
+        "purpose": "Collects validation warnings and errors during asset loading."
+      },
+      "AssetReferences": {
+        "class": "com.hypixel.hytale.assetstore.AssetReferences",
+        "purpose": "Tracks cross-references between assets for dependency resolution."
+      },
+      "MissingAssetException": {
+        "class": "com.hypixel.hytale.assetstore.MissingAssetException",
+        "purpose": "Thrown when a required asset is not found in the store."
+      },
+      "AssetConstants": {
+        "class": "com.hypixel.hytale.assetstore.AssetConstants",
+        "purpose": "Magic number constants: EXPECTED_CHILDREN_PER_ASSET=3, EXPECTED_ASSETS_PER_PATH=1, EXPECTED_VALUES_PER_TAG=3, EXPECTED_ASSETS_PER_TAG=3."
+      },
+      "AssetExtraInfo<K>": {
+        "class": "com.hypixel.hytale.assetstore.AssetExtraInfo",
+        "purpose": "Extended codec ExtraInfo carrying asset path, parent chain, tag resolver, and cross-reference tracking for use during decoding."
+      }
+    },
+
+    "codec_system": {
+      "purpose": "Asset-specific codec types that extend the general codec framework for asset serialization.",
+      "types": {
+        "AssetCodec<K,T>": {
+          "class": "com.hypixel.hytale.assetstore.codec.AssetCodec",
+          "kind": "interface",
+          "extends": "Codec<T>",
+          "purpose": "Interface adding asset-specific decode: decodeAsset(BsonValue, AssetExtraInfo). Handles ID extraction, parent resolution, and tag processing."
+        },
+        "AssetBuilderCodec<K,T>": {
+          "class": "com.hypixel.hytale.assetstore.codec.AssetBuilderCodec",
+          "extends": "BuilderCodec<T> implements AssetCodec<K,T>",
+          "purpose": "Primary asset codec builder. Manages ID field, parent inheritance, tags codec (Map<String, String[]>), and asset-specific schema generation. Supports inheritable fields that fall back to parent values."
+        },
+        "AssetCodecMapCodec": {
+          "class": "com.hypixel.hytale.assetstore.codec.AssetCodecMapCodec",
+          "purpose": "Codec for maps whose values are assets (keyed by asset ID)."
+        },
+        "ContainedAssetCodec<K,T>": {
+          "class": "com.hypixel.hytale.assetstore.codec.ContainedAssetCodec",
+          "purpose": "Codec for assets that are contained/nested within other assets."
+        }
+      }
+    },
+
+    "asset_maps": {
+      "purpose": "Storage containers for loaded assets, providing key-based and index-based lookup.",
+      "types": {
+        "AssetMap<K,T>": {
+          "class": "com.hypixel.hytale.assetstore.AssetMap",
+          "kind": "interface",
+          "methods": ["get(K)", "put(K,T)", "remove(K)", "contains(K)", "forEach", "size", "isEmpty", "values", "keys"],
+          "purpose": "Base interface for asset storage maps."
+        },
+        "DefaultAssetMap<K,T>": {
+          "purpose": "Simple HashMap-backed asset map. The default storage for most asset types."
+        },
+        "IndexedAssetMap<K,T>": {
+          "purpose": "Assets stored with integer indices for fast array-style access."
+        },
+        "IndexedLookupTableAssetMap<K,T>": {
+          "purpose": "Integer-indexed with secondary lookup table for tag-based queries."
+        },
+        "LookupTableAssetMap<K,T>": {
+          "purpose": "Asset map with secondary tag-based lookup tables."
+        },
+        "AssetMapWithIndexes<K,T>": {
+          "purpose": "AssetMap augmented with integer index assignment."
+        },
+        "ProvidedIndexAssetMap<K,T>": {
+          "purpose": "Asset map where indices are provided by the assets themselves."
+        },
+        "BlockTypeAssetMap": {
+          "purpose": "Specialized asset map for block types."
+        },
+        "CaseInsensitiveHashStrategy": {
+          "purpose": "fastutil hash strategy for case-insensitive string keys."
+        },
+        "JsonAssetWithMap": {
+          "purpose": "JsonAsset variant that carries its own sub-map of child assets."
+        }
+      }
+    },
+
+    "events": {
+      "purpose": "Lifecycle events fired during asset store operations.",
+      "types": {
+        "AssetStoreEvent": "Base event for asset store operations.",
+        "RegisterAssetStoreEvent": "Fired when an AssetStore is registered with the AssetRegistry.",
+        "RemoveAssetStoreEvent": "Fired when an AssetStore is removed from the registry.",
+        "AssetsEvent": "Base for events related to asset content changes.",
+        "LoadedAssetsEvent": "Fired after assets are loaded into a store.",
+        "RemovedAssetsEvent": "Fired after assets are removed from a store.",
+        "GenerateAssetsEvent": "Fired to trigger programmatic asset generation.",
+        "AssetStoreMonitorEvent": "Monitoring event for asset store operations (extends MonitorEvent).",
+        "AssetMonitorEvent": "Monitoring event for individual asset operations (extends MonitorEvent)."
+      }
+    },
+
+    "iteration": {
+      "AssetStoreIterator": {
+        "class": "com.hypixel.hytale.assetstore.iterator.AssetStoreIterator",
+        "purpose": "Topological sort iterator for AssetStore load order. Resolves loadsBefore/loadsAfter dependencies."
+      },
+      "CircularDependencyException": {
+        "class": "com.hypixel.hytale.assetstore.iterator.CircularDependencyException",
+        "purpose": "Thrown when asset store load dependencies form a cycle."
+      }
+    }
+  },
+
+  "common": {
+    "purpose": "Shared utility classes used across multiple subsystems: benchmarking, custom collections, weighted maps, plugin metadata, semantic versioning, threading, tuples, and general-purpose utilities.",
+    "total_types": 47,
+
+    "benchmark": {
+      "purpose": "Performance measurement utilities for tracking min/max/average/count statistics.",
+      "types": {
+        "ContinuousValueRecorder": "Tracks min/max/sum/count for double values. reset(), record(double), getAverage/Min/Max.",
+        "DiscreteValueRecorder": "Tracks min/max/sum/count for long values with formatted table output.",
+        "TimeRecorder": "Records execution time using System.nanoTime. start/stop/reset pattern.",
+        "TimeDistributionRecorder": "Combines TimeRecorder with DiscreteValueRecorder for timing distributions."
+      }
+    },
+
+    "collections": {
+      "purpose": "Custom collection types for performance-sensitive scenarios.",
+      "types": {
+        "BucketList<T extends BucketItem>": {
+          "purpose": "Fixed-capacity list where items know their own index (via BucketItem). O(1) add/remove by swapping with last element. Used for entity/component pools."
+        },
+        "BucketItem": "Interface for items in BucketList: getIndex/setIndex.",
+        "BucketItemPool<T extends BucketItem>": "Object pool backed by BucketList with acquire/release semantics.",
+        "Flag": "Bit flag abstraction: single named boolean flag with mask.",
+        "Flags": "Collection of Flag instances with combined bitmask operations."
+      }
+    },
+
+    "fastutil_wrappers": {
+      "purpose": "Custom wrappers around fastutil collections for specific hash strategies.",
+      "types": {
+        "HLongOpenHashSet": "Long open hash set with custom hash/comparison strategy.",
+        "HLongSet": "Interface for the custom long set.",
+        "HObjectOpenHashSet<T>": "Object open hash set with custom hash/comparison strategy."
+      }
+    },
+
+    "maps": {
+      "DefaultMap<K,V>": {
+        "purpose": "Map wrapper that returns a default value for missing keys instead of null."
+      },
+      "IWeightedElement": {
+        "purpose": "Interface for elements with a numeric weight (getWeight)."
+      },
+      "IWeightedMap<T>": {
+        "purpose": "Interface for weighted random selection from a collection."
+      },
+      "WeightedMap<T extends IWeightedElement>": {
+        "purpose": "Implementation of weighted random selection. Tracks total weight. randomElement() picks proportionally. Supports add/remove/clear."
+      }
+    },
+
+    "plugin_metadata": {
+      "purpose": "Plugin identification and manifest types.",
+      "types": {
+        "PluginIdentifier": "Unique plugin ID with name and version.",
+        "PluginManifest": "Full plugin manifest: identifier, description, author info, dependencies.",
+        "AuthorInfo": "Plugin author metadata: name, URL."
+      }
+    },
+
+    "semver": {
+      "purpose": "Semantic versioning implementation for plugin dependency resolution.",
+      "types": {
+        "Semver": {
+          "purpose": "Parses and represents a semantic version (major.minor.patch with optional pre-release and build metadata). Implements Comparable.",
+          "codec": "CODEC (string-based)",
+          "methods": ["parse(String)", "getMajor", "getMinor", "getPatch", "getPreRelease", "getBuildMetadata", "compareTo"]
+        },
+        "SemverComparator": {
+          "purpose": "Comparison operators for version constraints: GT, GTE, LT, LTE, EQ, NEQ."
+        },
+        "SemverRange": {
+          "purpose": "Version range constraint (comparator + version). Supports satisfies(Semver) check."
+        },
+        "SemverSatisfies": {
+          "purpose": "Collection of SemverRange constraints that must all be satisfied."
+        }
+      }
+    },
+
+    "threading": {
+      "HytaleForkJoinThreadFactory": {
+        "class": "com.hypixel.hytale.common.thread.HytaleForkJoinThreadFactory",
+        "purpose": "Custom ForkJoinPool thread factory with configurable thread name prefix and daemon flag."
+      },
+      "Tickable": {
+        "class": "com.hypixel.hytale.common.thread.ticking.Tickable",
+        "kind": "interface",
+        "methods": ["tick()"],
+        "purpose": "Interface for objects that update each game tick."
+      }
+    },
+
+    "tuples": {
+      "BoolDoublePair": {
+        "purpose": "Pair of boolean + double primitive values. Avoids boxing."
+      },
+      "BoolIntPair": {
+        "purpose": "Pair of boolean + int primitive values. Avoids boxing."
+      }
+    },
+
+    "utilities": {
+      "ArrayUtil": "Array operations: contains, indexOf, remove, toSet, flatten, copyOf, concat, with element manipulation for Object/int/double/boolean arrays.",
+      "AudioUtil": "Audio conversion utilities: decibelsToLinear, linearToDecibels.",
+      "BitSetUtil": "BitSet operations: toIntArray, fromIntArray, intersects, union.",
+      "BitUtil": "Bit manipulation: isPowerOf2, nextPowerOf2, countBits, highBit, lowBit.",
+      "CompletableFutureUtil": "Utility for combining multiple CompletableFuture instances.",
+      "ExceptionUtil": "Exception helpers: getRootCause, getStackTraceAsString.",
+      "FormatUtil": "String formatting: formatBytes, formatDuration, formatNumber, formatPercent, pad.",
+      "GCUtil": "Garbage collection monitoring: getGCTime, getGCCount.",
+      "HardwareUtil": "Hardware info: getProcessorCount, getTotalMemory, getFreeMemory, getMaxMemory, getCPUName.",
+      "ListUtil": "List operations: unmodifiableAdd, unmodifiableRemove, combine, randomElement.",
+      "MapUtil": "Map operations: merge, invert, computeIfAbsent variants.",
+      "ManifestUtil": "JAR manifest reading utility (in java subpackage).",
+      "NetworkUtil": "Network address parsing: parseAddress(host:port) → InetSocketAddress.",
+      "PathUtil": "Path string manipulation: normalizeAssetPath, getExtension, removeExtension.",
+      "PatternUtil": "Regex pattern helpers: globToRegex, compile with caching.",
+      "RandomUtil": "Random utilities: nextGaussian(mean, stddev), nextBetween(min, max).",
+      "StringCompareUtil": "Levenshtein edit distance and similarity scoring for fuzzy matching.",
+      "StringUtil": "String operations: capitalize, uncapitalize, repeat, join, truncate, isBlank, etc. Includes PascalCase↔camelCase conversion and repeat char/string.",
+      "SystemUtil": "System environment: getEnvOrDefault, getPropertyOrDefault.",
+      "TimeUtil": "Time formatting: formatNanos, formatMillis, toTickDuration, durationBetween."
+    }
+  },
+
+  "cross_references": {
+    "math_to_procedurallib": [
+      "procedurallib.logic.GeneralNoise uses math.util.MathUtil for fastFloor",
+      "procedurallib.condition.HeightThresholdCoordinateCondition uses math.util.HashUtil for coordinate hashing",
+      "procedurallib.random.CoordinateRotator uses math.util.TrigMathUtil for sin/cos",
+      "procedurallib uses math.util.MathUtil.clamp extensively"
+    ],
+    "math_to_assetstore": [
+      "No direct dependencies from assetstore to math — assetstore is type-agnostic"
+    ],
+    "math_to_common": [
+      "No direct dependencies between math and common — they are independent utility layers"
+    ],
+    "assetstore_to_common": [
+      "assetstore.AssetExtraInfo uses common.util.ArrayUtil for tag expansion"
+    ],
+    "procedurallib_to_assetstore": [
+      "procedurallib has its own file/AssetLoader — does NOT depend on assetstore package"
+    ],
+    "codec_dependency": [
+      "All vector types (Vector2d/2i/2l/3d/3f/3i/3l) depend on com.hypixel.hytale.codec for BuilderCodec serialization",
+      "All range types depend on codec for array codec serialization",
+      "AssetStore depends heavily on codec for AssetBuilderCodec",
+      "Transform has two codecs: CODEC (radians) and CODEC_DEGREES (degrees)"
+    ]
+  }
+}

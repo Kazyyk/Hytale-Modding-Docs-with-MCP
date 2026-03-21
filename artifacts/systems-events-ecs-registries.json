@@ -1,0 +1,962 @@
+{
+  "_meta": {
+    "generatedBy": "Phase 3 system mapping agent",
+    "scope": "events, ecs, registries",
+    "totalFilesRead": 118,
+    "filesUnreadable": 2,
+    "unreadableFiles": [
+      "com/hypixel/hytale/component/Store.java (truncated — read first 200 lines only; 27710 tokens)",
+      "com/hypixel/hytale/component/ComponentRegistry.java (truncated — 20170 tokens; read via IComponentRegistry + ComponentRegistryProxy instead)"
+    ]
+  },
+
+  "events": {
+    "description": "Two independent event hierarchies — standard EventBus events (IEvent/IAsyncEvent) and ECS events (EcsEvent). They share no base class and use completely different dispatch mechanisms.",
+
+    "standardEvents": {
+      "description": "Traditional observer-pattern event bus. Events are dispatched through EventBus, registered via IEventRegistry. Supports keyed dispatch, priority ordering, sync/async, global/unhandled listeners.",
+
+      "baseInterfaces": {
+        "IBaseEvent": {
+          "package": "com.hypixel.hytale.event",
+          "typeParams": "<KeyType>",
+          "methods": [],
+          "description": "Root marker interface for all standard events. KeyType parameterizes keyed dispatch — Void for non-keyed events."
+        },
+        "IEvent": {
+          "package": "com.hypixel.hytale.event",
+          "extends": "IBaseEvent<KeyType>",
+          "typeParams": "<KeyType>",
+          "methods": [],
+          "description": "Synchronous event marker. Dispatched synchronously on the calling thread."
+        },
+        "IAsyncEvent": {
+          "package": "com.hypixel.hytale.event",
+          "extends": "IBaseEvent<KeyType>",
+          "typeParams": "<KeyType>",
+          "methods": [],
+          "description": "Asynchronous event marker. Dispatched via CompletableFuture chains."
+        },
+        "ICancellable": {
+          "package": "com.hypixel.hytale.event",
+          "methods": [
+            "boolean isCancelled()",
+            "void setCancelled(boolean)"
+          ],
+          "description": "Standalone cancellation interface for standard events. NOT related to ICancellableEcsEvent."
+        },
+        "IProcessedEvent": {
+          "package": "com.hypixel.hytale.event",
+          "methods": [
+            "void processEvent(@Nonnull String consumerString)"
+          ],
+          "description": "Callback interface invoked after each consumer processes the event. Used for auditing/tracing which listeners handled an event."
+        }
+      },
+
+      "prioritySystem": {
+        "class": "EventPriority",
+        "package": "com.hypixel.hytale.event",
+        "type": "enum",
+        "values": {
+          "FIRST": -21844,
+          "EARLY": -10922,
+          "NORMAL": 0,
+          "LATE": 10922,
+          "LAST": 21844
+        },
+        "description": "Priority values are shorts. Consumers at a given priority execute in registration order. Lower numeric value = earlier execution. Custom short values are also supported."
+      },
+
+      "registrationModel": {
+        "Registration": {
+          "package": "com.hypixel.hytale.registry",
+          "fields": ["BooleanSupplier isEnabled", "Runnable unregister", "boolean registered"],
+          "methods": ["void unregister()", "boolean isRegistered()"],
+          "description": "Base registration handle. Tracks enabled state and provides unregister callback."
+        },
+        "EventRegistration": {
+          "package": "com.hypixel.hytale.event",
+          "extends": "Registration",
+          "typeParams": "<KeyType, EventType extends IBaseEvent<KeyType>>",
+          "fields": ["Class<EventType> eventClass"],
+          "methods": ["Class<EventType> getEventClass()", "static EventRegistration combine(...)"],
+          "description": "Handle returned when registering an event listener. The combine() static method chains multiple registrations so they enable/unregister together."
+        }
+      },
+
+      "dispatchMechanism": {
+        "IEventBus": {
+          "package": "com.hypixel.hytale.event",
+          "extends": "IEventRegistry",
+          "dispatchMethods": [
+            "EventType dispatch(Class<EventType> eventClass) — dispatch non-keyed sync event",
+            "CompletableFuture<EventType> dispatchAsync(Class<EventType> eventClass) — dispatch non-keyed async event",
+            "IEventDispatcher<EventType, EventType> dispatchFor(Class, KeyType) — get keyed sync dispatcher",
+            "IEventDispatcher<EventType, CompletableFuture<EventType>> dispatchForAsync(Class, KeyType) — get keyed async dispatcher"
+          ],
+          "description": "Central event bus interface. dispatch() is a convenience for dispatchFor(class, null).dispatch(null). The dispatchFor/dispatchForAsync pattern returns a reusable dispatcher object."
+        },
+        "IEventDispatcher": {
+          "package": "com.hypixel.hytale.event",
+          "typeParams": "<EventType extends IBaseEvent, ReturnType>",
+          "methods": [
+            "boolean hasListener() — defaults to true",
+            "ReturnType dispatch(@Nullable EventType event)"
+          ],
+          "description": "Functional dispatcher interface. Both SyncEventConsumerMap and AsyncEventConsumerMap implement this, allowing the map itself to be the dispatcher."
+        },
+        "EventBus": {
+          "package": "com.hypixel.hytale.event",
+          "implements": "IEventBus",
+          "fields": ["Map<Class, EventBusRegistry> registryMap", "boolean timeEvents"],
+          "keyBehavior": "Lazily creates SyncEventBusRegistry or AsyncEventBusRegistry per event class on first register/dispatch. Routes IAsyncEvent subclasses to async registry, everything else to sync.",
+          "dispatchFlow": {
+            "sync": "dispatchFor(class, key) -> SyncEventBusRegistry.dispatchFor(key) -> SyncEventConsumerMap.dispatch(event) -> iterate priority-sorted consumers -> call global -> call unhandled if no keyed listeners handled it",
+            "async": "dispatchForAsync(class, key) -> AsyncEventBusRegistry.dispatchFor(key) -> AsyncEventConsumerMap.dispatch(event) -> CompletableFuture chain through priority-sorted functions -> global -> unhandled"
+          }
+        }
+      },
+
+      "busRegistries": {
+        "EventBusRegistry": {
+          "package": "com.hypixel.hytale.event",
+          "typeParams": "<KeyType, EventType, ConsumerMapType>",
+          "description": "Abstract per-event-class registry inside EventBus. Manages keyed consumer maps, a global map, and an unhandled map.",
+          "fields": ["Map<KeyType, ConsumerMapType> map", "ConsumerMapType global", "ConsumerMapType unhandled", "boolean timeEvents", "boolean shutdown"],
+          "innerClasses": {
+            "EventConsumer": "Base consumer wrapper: index (global counter), priority (short), consumerString (toString of lambda), Metric timer",
+            "EventConsumerMap": "Priority-sorted consumer list using Short2ObjectConcurrentHashMap. Maintains sorted short[] priorities array via atomic CAS. Implements IEventDispatcher."
+          }
+        },
+        "SyncEventBusRegistry": {
+          "extends": "EventBusRegistry",
+          "forEventType": "IEvent (synchronous)",
+          "dispatchSemantics": "Iterates priority-sorted consumers, calls Consumer.accept(event). Returns boolean 'handled'. If keyed map handles, skips unhandled listeners. Global always fires.",
+          "NO_OP": "Static no-op dispatcher that returns the event unchanged."
+        },
+        "AsyncEventBusRegistry": {
+          "extends": "EventBusRegistry",
+          "forEventType": "IAsyncEvent (asynchronous)",
+          "dispatchSemantics": "Chains CompletableFuture through Function<CF<E>, CF<E>> at each priority level. Uses thenComposeAsync for initial dispatch. Global and unhandled fire as future chain stages.",
+          "NO_OP": "Static no-op dispatcher returning CompletableFuture.completedFuture(event)."
+        }
+      },
+
+      "listenerCategories": {
+        "keyed": "register(class, key, consumer) — only fires when dispatched with matching key",
+        "global": "registerGlobal(class, consumer) — fires for ALL dispatches of that event class regardless of key",
+        "unhandled": "registerUnhandled(class, consumer) — fires only when NO keyed listener handled the event",
+        "async": "registerAsync variants use Function<CF<E>, CF<E>> instead of Consumer<E>"
+      },
+
+      "pluginScopedRegistry": {
+        "class": "EventRegistry",
+        "package": "com.hypixel.hytale.event",
+        "extends": "Registry<EventRegistration>",
+        "implements": "IEventRegistry",
+        "description": "Plugin-scoped wrapper around IEventRegistry. Delegates all registrations to parent (the actual EventBus), wraps them in plugin lifecycle tracking. All registrations auto-unregister on plugin shutdown."
+      }
+    },
+
+    "ecsEvents": {
+      "description": "Events dispatched through the ECS Store, handled by EntityEventSystem and WorldEventSystem. Invoked via ComponentAccessor.invoke() or CommandBuffer.invoke().",
+
+      "baseTypes": {
+        "EcsEvent": {
+          "package": "com.hypixel.hytale.component.system",
+          "type": "abstract class",
+          "methods": [],
+          "description": "Base class for all ECS events. No methods — just a type marker."
+        },
+        "ICancellableEcsEvent": {
+          "package": "com.hypixel.hytale.component.system",
+          "type": "interface",
+          "methods": ["boolean isCancelled()", "void setCancelled(boolean)"],
+          "description": "Cancellation interface for ECS events. Checked by EventSystem.shouldProcessEvent()."
+        },
+        "CancellableEcsEvent": {
+          "package": "com.hypixel.hytale.component.system",
+          "extends": "EcsEvent",
+          "implements": "ICancellableEcsEvent",
+          "fields": ["boolean cancelled"],
+          "description": "Convenience base class with final isCancelled/setCancelled. Most cancellable ECS events extend this."
+        }
+      },
+
+      "dispatchTypes": {
+        "EntityEventType": {
+          "package": "com.hypixel.hytale.component.event",
+          "extends": "EventSystemType<ECS_TYPE, Event, EntityEventSystem>",
+          "description": "Registered via IComponentRegistry.registerEntityEventType(). Used with invoke(ref, event) — dispatched to matching EntityEventSystems for the entity's archetype chunk."
+        },
+        "WorldEventType": {
+          "package": "com.hypixel.hytale.component.event",
+          "extends": "EventSystemType<ECS_TYPE, Event, WorldEventSystem>",
+          "description": "Registered via IComponentRegistry.registerWorldEventType(). Used with invoke(event) — dispatched to WorldEventSystems across the whole store."
+        }
+      },
+
+      "invocationPaths": {
+        "entityScoped": [
+          "commandBuffer.invoke(ref, event) — dispatches to all EntityEventSystems matching the entity's archetype",
+          "commandBuffer.invoke(entityEventType, ref, event) — dispatches to specific EntityEventType systems only"
+        ],
+        "worldScoped": [
+          "commandBuffer.invoke(event) — dispatches to all WorldEventSystems matching the event type",
+          "commandBuffer.invoke(worldEventType, event) — dispatches to specific WorldEventType systems only"
+        ]
+      },
+
+      "handlerTypes": {
+        "EntityEventSystem": {
+          "package": "com.hypixel.hytale.component.system",
+          "extends": "EventSystem<EventType>",
+          "implements": "QuerySystem<ECS_TYPE>",
+          "abstractMethod": "void handle(int index, ArchetypeChunk, Store, CommandBuffer, EventType)",
+          "description": "Per-entity event handler. Query determines which archetypes this system handles. handleInternal checks shouldProcessEvent (cancellation) before calling handle."
+        },
+        "WorldEventSystem": {
+          "package": "com.hypixel.hytale.component.system",
+          "extends": "EventSystem<EventType>",
+          "implements": "ISystem<ECS_TYPE>",
+          "abstractMethod": "void handle(Store, CommandBuffer, EventType)",
+          "description": "Store-wide event handler. Receives events not bound to a specific entity."
+        }
+      }
+    },
+
+    "concreteEvents": {
+      "serverLifecycle": [
+        {
+          "class": "BootEvent",
+          "implements": "IEvent<Void>",
+          "fields": [],
+          "description": "Fired when the server boots."
+        },
+        {
+          "class": "PrepareUniverseEvent",
+          "implements": "IEvent<Void>",
+          "deprecated": true,
+          "fields": ["WorldConfigProvider worldConfigProvider (get/set)"],
+          "description": "Fired before universe initialization. Allows plugins to modify world config."
+        },
+        {
+          "class": "ShutdownEvent",
+          "implements": "IEvent<Void>",
+          "fields": [],
+          "constants": {
+            "DISCONNECT_PLAYERS": -48,
+            "UNBIND_LISTENERS": -40,
+            "SHUTDOWN_WORLDS": -32
+          },
+          "description": "Fired during server shutdown. Constants define priority tiers for ordered shutdown (register at these priorities to run at specific shutdown phases)."
+        }
+      ],
+
+      "ecsGameplay": [
+        {
+          "class": "BreakBlockEvent",
+          "extends": "CancellableEcsEvent",
+          "fields": ["ItemStack itemInHand (nullable)", "Vector3i targetBlock (get/set)", "BlockType blockType"],
+          "description": "Fired when a block is broken. Cancellable."
+        },
+        {
+          "class": "DamageBlockEvent",
+          "extends": "CancellableEcsEvent",
+          "fields": ["ItemStack itemInHand (nullable)", "Vector3i targetBlock (get/set)", "BlockType blockType", "float currentDamage", "float damage (get/set)"],
+          "description": "Fired each tick while damaging a block. Damage value is mutable."
+        },
+        {
+          "class": "PlaceBlockEvent",
+          "extends": "CancellableEcsEvent",
+          "fields": ["ItemStack itemInHand (nullable)", "Vector3i targetBlock (get/set)", "RotationTuple rotation (get/set)"],
+          "description": "Fired when a block is placed. Cancellable."
+        },
+        {
+          "class": "UseBlockEvent",
+          "extends": "EcsEvent",
+          "abstract": true,
+          "fields": ["InteractionType interactionType", "InteractionContext context", "Vector3i targetBlock", "BlockType blockType"],
+          "innerClasses": {
+            "Pre": "extends UseBlockEvent implements ICancellableEcsEvent — cancellable pre-use event",
+            "Post": "extends UseBlockEvent — non-cancellable post-use event"
+          },
+          "description": "Fired on block interaction. Split into Pre (cancellable) and Post phases."
+        },
+        {
+          "class": "ChangeGameModeEvent",
+          "extends": "CancellableEcsEvent",
+          "fields": ["GameMode gameMode (get/set)"],
+          "description": "Fired when a player's game mode changes. Cancellable, mode is mutable."
+        },
+        {
+          "class": "CraftRecipeEvent",
+          "extends": "CancellableEcsEvent",
+          "abstract": true,
+          "fields": ["CraftingRecipe craftedRecipe", "int quantity"],
+          "innerClasses": {
+            "Pre": "extends CraftRecipeEvent — fired before crafting",
+            "Post": "extends CraftRecipeEvent — fired after crafting"
+          },
+          "description": "Fired when crafting. Split into Pre and Post phases, both cancellable."
+        },
+        {
+          "class": "DropItemEvent",
+          "extends": "CancellableEcsEvent",
+          "innerClasses": {
+            "Drop": "fields: ItemStack itemStack (get/set), float throwSpeed (get/set) — the actual item drop",
+            "PlayerRequest": "fields: int inventorySectionId, short slotId — the player's drop request"
+          },
+          "description": "Fired when an item is dropped. Two sub-types for the request and the actual drop."
+        },
+        {
+          "class": "InteractivelyPickupItemEvent",
+          "extends": "CancellableEcsEvent",
+          "fields": ["ItemStack itemStack (get/set)"],
+          "description": "Fired when a player picks up an item interactively."
+        },
+        {
+          "class": "SwitchActiveSlotEvent",
+          "extends": "CancellableEcsEvent",
+          "fields": ["int previousSlot", "int inventorySectionId", "byte newSlot (get/set)", "boolean serverRequest/clientRequest"],
+          "description": "Fired when the active hotbar slot changes."
+        },
+        {
+          "class": "DiscoverZoneEvent",
+          "extends": "EcsEvent",
+          "abstract": true,
+          "fields": ["WorldMapTracker.ZoneDiscoveryInfo discoveryInfo"],
+          "innerClasses": {
+            "Display": "extends DiscoverZoneEvent implements ICancellableEcsEvent — the display notification, cancellable"
+          },
+          "description": "Fired when a zone is discovered on the world map."
+        }
+      ],
+
+      "entityEvents": [
+        {
+          "class": "EntityEvent",
+          "extends": "IEvent<KeyType>",
+          "abstract": true,
+          "typeParams": "<EntityType extends Entity, KeyType>",
+          "fields": ["EntityType entity"],
+          "description": "Abstract base for entity-scoped standard events. Note: dispatched via EventBus, NOT ECS."
+        },
+        {
+          "class": "EntityRemoveEvent",
+          "extends": "EntityEvent<Entity, String>",
+          "keyType": "String (entity type name)",
+          "description": "Fired when an entity is removed."
+        },
+        {
+          "class": "LivingEntityInventoryChangeEvent",
+          "extends": "EntityEvent<LivingEntity, String>",
+          "fields": ["ItemContainer itemContainer", "Transaction transaction"],
+          "keyType": "String",
+          "description": "Fired when a living entity's inventory changes."
+        },
+        {
+          "class": "LivingEntityUseBlockEvent",
+          "implements": "IEvent<String>",
+          "deprecated": true,
+          "fields": ["Ref<EntityStore> ref", "String blockType"],
+          "description": "Deprecated — use ECS UseBlockEvent instead."
+        }
+      ],
+
+      "permissionEvents": [
+        {
+          "class": "GroupPermissionChangeEvent",
+          "implements": "IEvent<Void>",
+          "abstract": true,
+          "fields": ["String groupName"],
+          "innerClasses": {
+            "Added": "fields: Set<String> addedPermissions (unmodifiable)",
+            "Removed": "fields: Set<String> removedPermissions (unmodifiable)"
+          },
+          "description": "Fired when a permission group's permissions change."
+        },
+        {
+          "class": "PlayerPermissionChangeEvent",
+          "implements": "IEvent<Void>",
+          "abstract": true,
+          "fields": ["UUID playerUuid"],
+          "innerClasses": {
+            "GroupAdded": "fields: String groupName",
+            "GroupRemoved": "fields: String groupName",
+            "PermissionsAdded": "fields: Set<String> addedPermissions (unmodifiable)",
+            "PermissionsRemoved": "fields: Set<String> removedPermissions (unmodifiable)"
+          },
+          "description": "Fired when a player's permissions or group membership changes."
+        },
+        {
+          "class": "PlayerGroupEvent",
+          "extends": "PlayerPermissionChangeEvent",
+          "fields": ["String groupName"],
+          "innerClasses": {
+            "Added": "Player added to group",
+            "Removed": "Player removed from group"
+          },
+          "description": "Fired when a player is added to or removed from a permission group."
+        }
+      ],
+
+      "playerEvents": [
+        {
+          "class": "PlayerEvent",
+          "extends": "IEvent<KeyType>",
+          "abstract": true,
+          "typeParams": "<KeyType>",
+          "fields": ["Ref<EntityStore> playerRef", "Player player"],
+          "description": "Abstract base for player events with ECS entity reference."
+        },
+        {
+          "class": "PlayerRefEvent",
+          "extends": "IEvent<KeyType>",
+          "abstract": true,
+          "typeParams": "<KeyType>",
+          "fields": ["PlayerRef playerRef"],
+          "description": "Abstract base for player events using PlayerRef (connection-level reference)."
+        },
+        {
+          "class": "PlayerSetupConnectEvent",
+          "implements": ["IEvent<Void>", "ICancellable"],
+          "fields": ["PacketHandler packetHandler", "String username", "UUID uuid", "PlayerAuthentication auth", "byte[] referralData", "HostAddress referralSource", "boolean cancelled", "String reason", "ClientReferral clientReferral"],
+          "methods": ["void referToServer(String host, int port, byte[] data)"],
+          "constants": {"DEFAULT_REASON": "You have been disconnected from the server!"},
+          "description": "Fired before player authentication completes. Cancellable — cancelling disconnects the player. Supports server referral (transfer)."
+        },
+        {
+          "class": "PlayerSetupDisconnectEvent",
+          "implements": "IEvent<Void>",
+          "fields": ["String username", "UUID uuid", "PlayerAuthentication auth", "PacketHandler.DisconnectReason disconnectReason"],
+          "description": "Fired when a player disconnects at the setup (pre-world) stage."
+        },
+        {
+          "class": "PlayerConnectEvent",
+          "implements": "IEvent<Void>",
+          "fields": ["Holder<EntityStore> holder", "PlayerRef playerRef", "World world (nullable, get/set)"],
+          "methods": ["Player getPlayer() — deprecated, use holder.getComponent()"],
+          "description": "Fired when a player connects. Setting world determines their spawn world."
+        },
+        {
+          "class": "PlayerDisconnectEvent",
+          "extends": "PlayerRefEvent<Void>",
+          "methods": ["PacketHandler.DisconnectReason getDisconnectReason()"],
+          "description": "Fired when an in-world player disconnects."
+        },
+        {
+          "class": "PlayerReadyEvent",
+          "extends": "PlayerEvent<String>",
+          "fields": ["int readyId"],
+          "keyType": "String",
+          "description": "Fired when a player signals readiness (e.g., finished loading)."
+        },
+        {
+          "class": "PlayerChatEvent",
+          "implements": ["IAsyncEvent<String>", "ICancellable"],
+          "async": true,
+          "fields": ["PlayerRef sender (get/set)", "List<PlayerRef> targets (get/set)", "String content (get/set)", "Formatter formatter (get/set)", "boolean cancelled"],
+          "innerInterfaces": {
+            "Formatter": "Message format(PlayerRef, String) — chat formatting function"
+          },
+          "keyType": "String",
+          "description": "The only async event in the codebase. Fired when a player sends a chat message. All fields are mutable — plugins can modify sender, targets, content, and formatting."
+        },
+        {
+          "class": "PlayerCraftEvent",
+          "extends": "PlayerEvent<String>",
+          "deprecated": true,
+          "fields": ["CraftingRecipe craftedRecipe", "int quantity"],
+          "description": "Deprecated — use ECS CraftRecipeEvent instead."
+        },
+        {
+          "class": "PlayerInteractEvent",
+          "extends": "PlayerEvent<String>",
+          "implements": "ICancellable",
+          "deprecated": true,
+          "fields": ["InteractionType actionType", "long clientUseTime", "ItemStack itemInHand", "Vector3i targetBlock", "Ref<EntityStore> targetRef", "Entity targetEntity", "boolean cancelled"],
+          "description": "Deprecated player interaction event."
+        },
+        {
+          "class": "PlayerMouseButtonEvent",
+          "extends": "PlayerEvent<Void>",
+          "implements": "ICancellable",
+          "fields": ["PlayerRef playerRef", "long clientUseTime", "Item itemInHand", "Vector3i targetBlock", "Entity targetEntity", "Vector2f screenPoint", "MouseButtonEvent mouseButton", "boolean cancelled"],
+          "description": "Fired on mouse button press/release. Cancellable."
+        },
+        {
+          "class": "PlayerMouseMotionEvent",
+          "extends": "PlayerEvent<Void>",
+          "implements": "ICancellable",
+          "fields": ["long clientUseTime", "Item itemInHand", "Vector3i targetBlock", "Entity targetEntity", "Vector2f screenPoint", "MouseMotionEvent mouseMotion", "boolean cancelled"],
+          "description": "Fired on mouse movement. Cancellable."
+        },
+        {
+          "class": "AddPlayerToWorldEvent",
+          "implements": "IEvent<String>",
+          "fields": ["Holder<EntityStore> holder", "World world", "boolean broadcastJoinMessage (get/set, default true)"],
+          "keyType": "String",
+          "description": "Fired when a player is added to a world."
+        },
+        {
+          "class": "DrainPlayerFromWorldEvent",
+          "implements": "IEvent<String>",
+          "fields": ["Holder<EntityStore> holder", "World world (get/set)", "Transform transform (nullable, get/set)"],
+          "keyType": "String",
+          "description": "Fired when a player is drained (removed/transferred) from a world."
+        }
+      ]
+    }
+  },
+
+  "ecs": {
+    "description": "Full Entity Component System framework. Generic over ECS_TYPE (typically EntityStore or ChunkStore). Entities are stored in ArchetypeChunks within a Store, processed by Systems.",
+
+    "coreTypes": {
+      "Component": {
+        "package": "com.hypixel.hytale.component",
+        "type": "interface",
+        "typeParams": "<ECS_TYPE>",
+        "extends": "Cloneable",
+        "methods": ["Component<ECS_TYPE> clone()", "Component<ECS_TYPE> cloneSerializable() — default returns clone()"],
+        "description": "Base interface for all ECS components. Must be cloneable."
+      },
+      "ComponentType": {
+        "package": "com.hypixel.hytale.component",
+        "typeParams": "<ECS_TYPE, T extends Component<ECS_TYPE>>",
+        "implements": ["Comparable<ComponentType>", "Query<ECS_TYPE>"],
+        "fields": ["ComponentRegistry registry", "Class tClass", "int index", "boolean invalid"],
+        "description": "Type handle for a registered component. Index is used for array-based lookup in Archetype and ArchetypeChunk. Also acts as a Query (matches archetypes containing this component)."
+      },
+      "Resource": {
+        "package": "com.hypixel.hytale.component",
+        "type": "interface",
+        "typeParams": "<ECS_TYPE>",
+        "extends": "Cloneable",
+        "description": "Store-wide singleton data (not per-entity). Resources are like components but there's one instance per Store, not per entity."
+      },
+      "ResourceType": {
+        "package": "com.hypixel.hytale.component",
+        "typeParams": "<ECS_TYPE, T extends Resource<ECS_TYPE>>",
+        "implements": "Comparable<ResourceType>",
+        "description": "Type handle for a registered resource. Similar to ComponentType but for resources."
+      }
+    },
+
+    "entityModel": {
+      "Ref": {
+        "package": "com.hypixel.hytale.component",
+        "typeParams": "<ECS_TYPE>",
+        "fields": ["Store<ECS_TYPE> store", "volatile int index", "volatile Throwable invalidatedBy"],
+        "methods": ["void validate()", "void validate(Store)", "boolean isValid()"],
+        "description": "Lightweight entity reference. Index into the Store's entity arrays. Invalidated (index = Integer.MIN_VALUE) when entity is removed. Tracks invalidation source for debugging."
+      },
+      "Holder": {
+        "package": "com.hypixel.hytale.component",
+        "typeParams": "<ECS_TYPE>",
+        "fields": ["ComponentRegistry registry", "StampedLock lock", "Archetype archetype", "Component[] components"],
+        "keyMethods": [
+          "T getComponent(ComponentType) — thread-safe read via StampedLock",
+          "void addComponent(ComponentType, T) — adds component, updates archetype",
+          "void removeComponent(ComponentType) — removes component, updates archetype",
+          "void putComponent(ComponentType, T) — add or replace",
+          "T ensureAndGetComponent(ComponentType) — creates if absent",
+          "void replaceComponent(ComponentType, T) — replace existing",
+          "Holder clone() — deep clone all components",
+          "Holder cloneSerializable(Data) — clone only serializable components"
+        ],
+        "description": "Portable entity container. Holds an Archetype and Component array. Used to transfer entities between Store operations. Thread-safe via StampedLock."
+      },
+      "Archetype": {
+        "package": "com.hypixel.hytale.component",
+        "typeParams": "<ECS_TYPE>",
+        "implements": "Query<ECS_TYPE>",
+        "fields": ["int minIndex", "int count", "ComponentType[] componentTypes"],
+        "keyMethods": [
+          "boolean contains(ComponentType) — O(1) index check",
+          "boolean contains(Archetype) — superset check",
+          "static Archetype add(Archetype, ComponentType) — creates new archetype with added type",
+          "static Archetype remove(Archetype, ComponentType) — creates new archetype with removed type",
+          "static Archetype of(ComponentType...) — creates from array",
+          "ExactArchetypeQuery asExactQuery()"
+        ],
+        "description": "Immutable set of ComponentTypes. Sparse array indexed by ComponentType.index. Archetypes define which components an entity has. Used for system matching."
+      },
+      "ArchetypeChunk": {
+        "package": "com.hypixel.hytale.component",
+        "typeParams": "<ECS_TYPE>",
+        "fields": ["Store store", "Archetype archetype", "int entitiesSize", "Ref[] refs", "Component[][] components"],
+        "keyMethods": [
+          "Ref getReferenceTo(int index)",
+          "T getComponent(int index, ComponentType)",
+          "void setComponent(int index, ComponentType, T)",
+          "int addEntity(Ref, Holder)",
+          "Holder removeEntity(int, Holder)",
+          "Holder copyEntity(int, Holder)",
+          "void transferTo(Holder, ArchetypeChunk, Consumer, IntObjectConsumer)"
+        ],
+        "description": "Column-major storage for entities sharing the same Archetype. Components stored as Component[componentTypeIndex][entityIndex]. This is the core data structure systems iterate over."
+      }
+    },
+
+    "storeAndLifecycle": {
+      "Store": {
+        "package": "com.hypixel.hytale.component",
+        "typeParams": "<ECS_TYPE>",
+        "implements": "ComponentAccessor<ECS_TYPE>",
+        "fields": ["ComponentRegistry registry", "ECS_TYPE externalData", "IResourceStorage resourceStorage", "Deque<CommandBuffer> commandBuffers", "int entitiesSize", "Ref[] refs", "int[] entityToArchetypeChunk", "int[] entityChunkIndex", "BitSet[] systemIndexToArchetypeChunkIndexes", "ArchetypeChunk[] archetypeChunks", "Resource[] resources", "HistoricMetric[] systemMetrics"],
+        "description": "The main ECS world container. Manages entities across ArchetypeChunks, routes system ticks, handles entity add/remove, and dispatches ECS events. Thread-bound (assertThread).",
+        "concreteInstances": {
+          "EntityStore": "Store parameterized for entity data — used for game entities (players, mobs, items)",
+          "ChunkStore": "Store parameterized for chunk data — used for world chunk systems"
+        }
+      },
+      "CommandBuffer": {
+        "package": "com.hypixel.hytale.component",
+        "typeParams": "<ECS_TYPE>",
+        "implements": "ComponentAccessor<ECS_TYPE>",
+        "fields": ["Store store", "Deque<Consumer<Store>> queue", "Ref trackedRef", "boolean trackedRefRemoved", "CommandBuffer parentBuffer", "Thread thread"],
+        "description": "Deferred operation buffer. All mutations during system tick are queued rather than applied immediately. Consumed after system execution. Supports forking for parallel tasks.",
+        "keyMethods": [
+          "void run(Consumer<Store>) — queue arbitrary operation",
+          "Ref addEntity(Holder, AddReason) — queue entity spawn",
+          "void removeEntity(Ref, RemoveReason) — queue entity removal",
+          "void tryRemoveEntity(Ref, RemoveReason) — safe removal (no-op if invalid)",
+          "T addComponent(Ref, ComponentType) — queue component addition",
+          "void removeComponent(Ref, ComponentType) — queue component removal",
+          "void invoke(Ref, EcsEvent) — dispatch entity-scoped ECS event",
+          "void invoke(EcsEvent) — dispatch world-scoped ECS event",
+          "CommandBuffer fork() — create child buffer for parallel work",
+          "void mergeParallel(CommandBuffer) — merge child back into parent",
+          "void consume() — execute all queued operations on Store"
+        ],
+        "trackedRefPattern": "CommandBuffer tracks a Ref and monitors whether it's been removed by another operation in the buffer chain (including parent buffers). Used to safely skip operations on removed entities."
+      },
+      "ComponentAccessor": {
+        "package": "com.hypixel.hytale.component",
+        "type": "interface",
+        "description": "Common interface implemented by both Store (direct access) and CommandBuffer (deferred access). Provides getComponent, addEntity, removeEntity, invoke, etc."
+      },
+      "AddReason": {
+        "type": "enum",
+        "values": ["SPAWN", "LOAD"]
+      },
+      "RemoveReason": {
+        "type": "enum",
+        "values": ["REMOVE", "UNLOAD"]
+      }
+    },
+
+    "systemPipeline": {
+      "ISystem": {
+        "package": "com.hypixel.hytale.component.system",
+        "type": "interface",
+        "typeParams": "<ECS_TYPE>",
+        "methods": [
+          "void onSystemRegistered() — default no-op",
+          "void onSystemUnregistered() — default no-op",
+          "SystemGroup getGroup() — default null",
+          "Set<Dependency> getDependencies() — default empty",
+          "static void calculateOrder(ComponentRegistry, ISystem[], int) — topological sort via DependencyGraph"
+        ],
+        "description": "Base interface for all ECS systems."
+      },
+      "System": {
+        "extends": "ISystem",
+        "abstract": true,
+        "description": "Abstract base with component/resource self-registration helpers. Systems can declare their own ComponentTypes and ResourceTypes in constructors."
+      },
+      "QuerySystem": {
+        "type": "interface",
+        "extends": "ISystem",
+        "methods": ["Query getQuery()", "boolean test(ComponentRegistry, Archetype) — default delegates to query"],
+        "description": "System that filters which ArchetypeChunks it applies to."
+      },
+
+      "systemTypes": {
+        "tickingSystems": {
+          "TickableSystem": "interface — void tick(float dt, int systemIndex, Store)",
+          "TickingSystem": "abstract class extends System implements TickableSystem — base for all per-tick systems",
+          "ArchetypeTickingSystem": "extends TickingSystem implements QuerySystem — ticks per matching ArchetypeChunk. Respects NonTicking component. Store.tick(system, dt, systemIndex) iterates chunks.",
+          "EntityTickingSystem": "extends ArchetypeTickingSystem — ticks per entity within chunks. abstract tick(dt, index, chunk, store, buffer). Supports parallelism via ParallelTask/ParallelRangeTask using fork-join.",
+          "DelayedSystem": "extends TickingSystem — accumulates dt, only calls delayedTick() when interval threshold reached",
+          "DelayedEntitySystem": "extends EntityTickingSystem — same delay pattern but per-entity",
+          "RunWhenPausedSystem": "interface extends TickableSystem — marker for systems that should run even when paused"
+        },
+        "lifecycleSystems": {
+          "HolderSystem": "extends System implements QuerySystem — onEntityAdd(Holder, AddReason, Store) and onEntityRemoved(Holder, RemoveReason, Store). Receives Holder (portable entity data).",
+          "RefSystem": "extends System implements QuerySystem — onEntityAdded(Ref, AddReason, Store, CommandBuffer) and onEntityRemove(Ref, RemoveReason, Store, CommandBuffer). Receives Ref (live reference) and CommandBuffer.",
+          "RefChangeSystem": "extends System implements QuerySystem — onComponentAdded/onComponentSet/onComponentRemoved for a specific ComponentType. Tracks individual component mutations.",
+          "StoreSystem": "extends System — onSystemAddedToStore/onSystemRemovedFromStore. Lifecycle hooks when system binds to a Store.",
+          "ArchetypeChunkSystem": "extends System implements QuerySystem — onSystemAddedToArchetypeChunk/onSystemRemovedFromArchetypeChunk. Lifecycle hooks for chunk-level binding."
+        },
+        "eventSystems": {
+          "EventSystem": "abstract base — holds Class<EventType>, shouldProcessEvent checks ICancellableEcsEvent",
+          "EntityEventSystem": "extends EventSystem implements QuerySystem — per-entity ECS event handler",
+          "WorldEventSystem": "extends EventSystem implements ISystem — store-wide ECS event handler"
+        },
+        "dataSystems": {
+          "ArchetypeDataSystem": "extends System implements QuerySystem — abstract fetch(chunk, store, buffer, Q, List<R>). Query-based data fetching across archetype chunks.",
+          "EntityDataSystem": "extends ArchetypeDataSystem — per-entity fetch with parallel support via ParallelTask/ForkJoin"
+        },
+        "metricSystem": {
+          "MetricSystem": "interface — MetricResults toMetricResults(Store). Systems implementing this expose metrics."
+        }
+      },
+
+      "dependencyOrdering": {
+        "Dependency": {
+          "abstract": true,
+          "fields": ["Order order (BEFORE/AFTER)", "int priority"],
+          "description": "Base class for system ordering constraints."
+        },
+        "types": {
+          "RootDependency": "Relative to root of execution order. first() = CLOSEST priority, last() = FURTHEST. Cannot use BEFORE.",
+          "SystemDependency": "Relative to a specific system class. BEFORE/AFTER with priority.",
+          "SystemTypeDependency": "Relative to all systems of a given SystemType.",
+          "SystemGroupDependency": "Relative to all systems in a given SystemGroup."
+        },
+        "OrderPriority": {
+          "type": "enum",
+          "values": {
+            "CLOSEST": -1431655764,
+            "CLOSE": -715827882,
+            "NORMAL": 0,
+            "FURTHER": 715827882,
+            "FURTHEST": 1431655764
+          }
+        },
+        "DependencyGraph": {
+          "description": "Topological sort with priority-weighted edges. Edges connect beforeSystem -> afterSystem. Root edges have null beforeSystem (always fulfilled). Sort iterates: find fulfilled edges with no unfulfilled dependencies, resolve, fulfill downstream. Detects cycles."
+        }
+      }
+    },
+
+    "querySystem": {
+      "Query": {
+        "type": "interface",
+        "methods": ["boolean test(Archetype)", "boolean requiresComponentType(ComponentType)", "void validateRegistry(ComponentRegistry)", "void validate()"],
+        "staticFactories": ["Query.any()", "Query.not(Query)", "Query.and(Query...)", "Query.or(Query...)"],
+        "description": "Archetype filter predicate. ComponentType itself implements Query (matches archetypes containing it)."
+      },
+      "implementations": {
+        "AnyQuery": "Always returns true (singleton)",
+        "NotQuery": "Negates wrapped query",
+        "AndQuery": "All sub-queries must match",
+        "OrQuery": "Any sub-query must match",
+        "ExactArchetypeQuery": "Matches only the exact same archetype",
+        "ReadWriteArchetypeQuery": "Interface — specifies separate read and write archetypes. test() requires both.",
+        "ReadWriteQuery": "Concrete implementation of ReadWriteArchetypeQuery"
+      }
+    },
+
+    "spatialIndexing": {
+      "SpatialStructure": {
+        "type": "interface",
+        "typeParams": "<T>",
+        "methods": ["void rebuild(SpatialData)", "T closest(Vector3d)", "void collect(Vector3d, double, List<T>)", "void collectCylinder(Vector3d, double, double, List<T>)", "void collectBox(Vector3d, Vector3d, List<T>)", "void ordered(Vector3d, double, List<T>)", "void ordered3DAxis(Vector3d, double, double, double, List<T>)"],
+        "description": "Interface for spatial query structures."
+      },
+      "KDTree": {
+        "implements": "SpatialStructure<T>",
+        "description": "3D k-d tree with Morton code spatial sorting. Rebuilt each tick from SpatialData. Supports radius, cylinder, box, and ordered queries. Uses object pooling for nodes.",
+        "sortingMethod": "Morton code (Z-order curve) for initial point ordering during rebuild."
+      },
+      "SpatialResource": {
+        "implements": "Resource<ECS_TYPE>",
+        "fields": ["SpatialData<Ref<ECS_TYPE>>", "SpatialStructure<T>"],
+        "description": "Store resource wrapping spatial data and structure. Updated by SpatialSystem each tick."
+      },
+      "SpatialSystem": {
+        "extends": "TickingSystem implements QuerySystem",
+        "abstractMethod": "Vector3d getPosition(ArchetypeChunk, int)",
+        "tickBehavior": "Clears spatial data, iterates all matching entities collecting positions, rebuilds spatial structure.",
+        "description": "Builds spatial index from entity positions each tick."
+      },
+      "MortonCode": {
+        "description": "3D Morton code (Z-order curve) encoder. 21 bits per axis, normalizes coordinates to [0, 2^21-1] range."
+      }
+    },
+
+    "parallelism": {
+      "ParallelTask": {
+        "extends": "CountedCompleter<Void>",
+        "description": "Fork-join parallel task container. Manages sub-tasks (ParallelRangeTask). Used by EntityTickingSystem and EntityDataSystem for parallel entity processing."
+      },
+      "ParallelRangeTask": {
+        "extends": "CountedCompleter<Void>",
+        "constants": {
+          "PARALLELISM": "ForkJoinPool.getCommonPoolParallelism()",
+          "TASK_COUNT": "PARALLELISM * 4"
+        },
+        "description": "Splits a range [from, to) across TASK_COUNT sub-tasks. Each sub-task has its own IntConsumer (SystemTaskData). After completion, CommandBuffers are merged back."
+      }
+    },
+
+    "specialComponents": {
+      "NonSerialized": "Singleton component. Entities with this component are excluded from serialization.",
+      "NonTicking": "Singleton component. ArchetypeTickingSystem skips entities with this component (unless isExplicitQuery).",
+      "DisableProcessingAssert": "Deprecated marker interface.",
+      "UnknownComponents": "Container for components from unknown/unregistered types (persisted as BsonDocument). Enables forward compatibility.",
+      "TempUnknownComponent": "Temporary wrapper for a BsonDocument representing an unknown component during deserialization."
+    },
+
+    "registrationAndData": {
+      "ComponentRegistration": "record(Class, String id, BuilderCodec, Supplier, ComponentType) — registration metadata",
+      "ResourceRegistration": "record(Class, String id, BuilderCodec, Supplier, ResourceType) — registration metadata",
+      "IComponentRegistry": {
+        "type": "interface",
+        "methods": [
+          "ComponentType registerComponent(Class, Supplier)",
+          "ComponentType registerComponent(Class, String id, BuilderCodec)",
+          "ResourceType registerResource(Class, Supplier)",
+          "ResourceType registerResource(Class, String id, BuilderCodec)",
+          "SystemType registerSystemType(Class)",
+          "EntityEventType registerEntityEventType(Class)",
+          "WorldEventType registerWorldEventType(Class)",
+          "SystemGroup registerSystemGroup()",
+          "void registerSystem(ISystem)",
+          "ResourceType registerSpatialResource(Supplier<SpatialStructure>)"
+        ]
+      },
+      "ComponentRegistryProxy": {
+        "implements": "IComponentRegistry",
+        "description": "Plugin-scoped proxy. All registrations are tracked and auto-unregistered on plugin shutdown (unless server is shutting down). Wraps the static EntityStore.REGISTRY or ChunkStore.REGISTRY."
+      },
+      "dataChangeTracking": {
+        "DataChange": "marker interface",
+        "ComponentChange": "REGISTERED/UNREGISTERED for a ComponentType",
+        "ResourceChange": "REGISTERED/UNREGISTERED for a ResourceType",
+        "SystemChange": "REGISTERED/UNREGISTERED for an ISystem",
+        "SystemGroupChange": "REGISTERED/UNREGISTERED for a SystemGroup",
+        "SystemTypeChange": "REGISTERED/UNREGISTERED for a SystemType"
+      }
+    }
+  },
+
+  "registries": {
+    "description": "Generic registration framework and plugin-scoped registry wrappers. Plugins interact with game systems through scoped registries that auto-cleanup on plugin disable/shutdown.",
+
+    "baseFramework": {
+      "Registration": {
+        "package": "com.hypixel.hytale.registry",
+        "fields": ["BooleanSupplier isEnabled", "Runnable unregister", "boolean registered"],
+        "methods": ["void unregister()", "boolean isRegistered()"],
+        "description": "Core registration handle. isEnabled checks if the owning context is still active."
+      },
+      "Registry": {
+        "package": "com.hypixel.hytale.registry",
+        "typeParams": "<T extends Registration>",
+        "fields": ["BooleanSupplier precondition", "String preconditionMessage", "RegistrationWrapFunction wrappingFunction", "List<BooleanConsumer> registrations", "boolean enabled"],
+        "methods": [
+          "void checkPrecondition() — throws if precondition fails",
+          "T register(T) — wraps and tracks registration",
+          "void shutdownAndCleanup(boolean) — unregisters all in reverse order",
+          "void enable() / void shutdown()"
+        ],
+        "description": "Base registry with lifecycle management. Registrations are cleaned up in reverse order on shutdown."
+      }
+    },
+
+    "pluginRegistries": {
+      "description": "PluginBase creates all registry instances in its constructor, bound to the plugin's lifecycle (shutdownTasks list).",
+
+      "eventRegistry": {
+        "class": "EventRegistry",
+        "wraps": "IEventRegistry (EventBus)",
+        "description": "Plugin-scoped event listener registration. Delegates to EventBus. All 24 register/registerAsync/registerGlobal/registerUnhandled overloads are proxied."
+      },
+      "commandRegistry": {
+        "class": "CommandRegistry",
+        "package": "com.hypixel.hytale.server.core.command.system",
+        "description": "Plugin-scoped command registration."
+      },
+      "blockStateRegistry": {
+        "class": "BlockStateRegistry",
+        "package": "com.hypixel.hytale.server.core.universe.world.meta",
+        "description": "Plugin-scoped block state registration."
+      },
+      "entityRegistry": {
+        "class": "EntityRegistry",
+        "package": "com.hypixel.hytale.server.core.modules.entity",
+        "description": "Plugin-scoped entity type registration."
+      },
+      "taskRegistry": {
+        "class": "TaskRegistry",
+        "package": "com.hypixel.hytale.server.core.task",
+        "description": "Plugin-scoped scheduled task registration."
+      },
+      "entityStoreRegistry": {
+        "class": "ComponentRegistryProxy<EntityStore>",
+        "wraps": "EntityStore.REGISTRY (static)",
+        "description": "Plugin-scoped ECS component/system/resource registration for the entity store."
+      },
+      "chunkStoreRegistry": {
+        "class": "ComponentRegistryProxy<ChunkStore>",
+        "wraps": "ChunkStore.REGISTRY (static)",
+        "description": "Plugin-scoped ECS component/system/resource registration for the chunk store."
+      },
+      "clientFeatureRegistry": {
+        "class": "ClientFeatureRegistry",
+        "package": "com.hypixel.hytale.server.core.registry",
+        "description": "Plugin-scoped client feature registration."
+      },
+      "assetRegistry": {
+        "class": "AssetRegistry",
+        "package": "com.hypixel.hytale.server.core.plugin.registry",
+        "methods": ["AssetRegistry register(AssetStore) — registers an asset store, auto-unregisters on shutdown"],
+        "description": "Plugin-scoped asset store registration."
+      },
+      "codecRegistries": {
+        "CodecMapRegistry": {
+          "typeParams": "<T, C extends Codec<? extends T>>",
+          "implements": "IRegistry",
+          "description": "Plugin-scoped codec registration into a StringCodecMapCodec. Auto-unregisters codecs on shutdown with AssetRegistry write lock."
+        },
+        "CodecMapRegistry.Assets": {
+          "extends": "CodecMapRegistry",
+          "description": "Specialized for JsonAsset types with AssetCodecMapCodec."
+        },
+        "MapKeyMapRegistry": {
+          "typeParams": "<V>",
+          "implements": "IRegistry",
+          "description": "Plugin-scoped codec registration into a MapKeyMapCodec."
+        }
+      }
+    },
+
+    "lifecycleFlow": {
+      "pluginStates": ["NONE", "SETUP", "START", "ENABLED", "SHUTDOWN", "DISABLED", "FAILED"],
+      "setupFlow": [
+        "1. PluginBase constructor creates all registries with shutdownTasks list and precondition = (state != NONE && state != DISABLED)",
+        "2. preLoad() — loads configs",
+        "3. setup0() → setup() — SETUP state, plugin registers components/systems/events",
+        "4. start0() → start() — START → ENABLED state",
+        "5. shutdown0() → shutdown() → cleanup() — SHUTDOWN → DISABLED/FAILED state"
+      ],
+      "cleanupOrder": [
+        "1. commandRegistry.shutdown()",
+        "2. eventRegistry.shutdown()",
+        "3. clientFeatureRegistry.shutdown()",
+        "4. blockStateRegistry.shutdown()",
+        "5. taskRegistry.shutdown()",
+        "6. entityStoreRegistry.shutdown()",
+        "7. chunkStoreRegistry.shutdown()",
+        "8. codecMapRegistries.forEach shutdown",
+        "9. assetRegistry.shutdown()",
+        "10. shutdownTasks iterated in REVERSE order — calls BooleanConsumer.accept(isShutdown)"
+      ],
+      "unregisterBehavior": "When shutdown=false (plugin disable), registrations are actively unregistered from their targets. When shutdown=true (server shutdown), many skip unregistration since everything is being torn down."
+    }
+  },
+
+  "crossReferences": {
+    "eventBusToEcs": "Standard events (IEvent/IAsyncEvent) and ECS events (EcsEvent) are completely independent systems. They share the ICancellable/ICancellableEcsEvent pattern but the interfaces are distinct.",
+    "pluginToStore": "Plugins access ECS via ComponentRegistryProxy<EntityStore> and ComponentRegistryProxy<ChunkStore>, which wrap the static REGISTRY instances.",
+    "entityStoreVsChunkStore": "EntityStore is for game entities (players, mobs, items). ChunkStore is for chunk-level systems (block data, terrain). Both are Store<T> with different type parameters.",
+    "deprecationPattern": "Several EventBus events are deprecated in favor of ECS equivalents: PlayerInteractEvent → UseBlockEvent, PlayerCraftEvent → CraftRecipeEvent, LivingEntityUseBlockEvent → UseBlockEvent.",
+    "asyncEventRarity": "PlayerChatEvent is the ONLY IAsyncEvent in the codebase. All other standard events are synchronous IEvent."
+  }
+}

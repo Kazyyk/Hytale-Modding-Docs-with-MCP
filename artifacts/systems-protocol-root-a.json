@@ -1,0 +1,430 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T00:00:00Z",
+  "domain": "protocol_root_a",
+  "overview": "First half (A-I) of the com.hypixel.hytale.protocol root package. This package contains 397 total types; 226 fall in the A-I range. These are auto-generated, code-gen-style protocol data types that define the binary wire format for the Hytale client-server protocol. The package uses Netty ByteBuf for serialization, VarInt length-prefixed arrays, null-bit fields, and fixed+variable block layouts. There are four abstract polymorphic base types in scope (ComponentUpdate, Interaction, Selector, ParamValue), plus two packet interfaces (Packet, ToClientPacket/ToServerPacket) and a CachedPacket wrapper. The types cover game data definitions (blocks, items, entities, interactions, effects, animations, camera, crafting, fluids, inventory) and ECS-style component updates sent over the wire.",
+  "confidence": "high",
+  "subsections": {
+    "type_hierarchy": {
+      "overview": "Four abstract polymorphic base types use VarInt type-id discriminated unions for deserialization. Two interfaces define the packet contract. All concrete data types follow a uniform code-generated pattern with static NULLABLE_BIT_FIELD_SIZE, FIXED_BLOCK_SIZE, VARIABLE_FIELD_COUNT, VARIABLE_BLOCK_START, MAX_SIZE constants plus serialize/deserialize/computeSize/clone/equals/hashCode methods.",
+      "abstract_base_types": [
+        {
+          "name": "ComponentUpdate",
+          "kind": "abstract class",
+          "description": "Polymorphic base for ECS component updates sent in EntityUpdate packets. 26 concrete subtypes identified by VarInt type ID (0-25).",
+          "subtypes_in_scope": [
+            {"name": "ActiveAnimationsUpdate", "typeId": 24, "fields": ["String[] activeAnimations"]},
+            {"name": "AudioUpdate", "typeId": 21, "fields": ["int[] soundEventIds"]},
+            {"name": "BlockUpdate", "typeId": 6, "fields": ["int blockId", "float entityScale"]},
+            {"name": "CombatTextUpdate", "typeId": 2, "fields": ["float hitAngleDeg", "String text"]},
+            {"name": "DynamicLightUpdate", "typeId": 13, "fields": ["ColorLight dynamicLight"]},
+            {"name": "EntityEffectsUpdate", "typeId": 11, "fields": ["EntityEffectUpdate[] entityEffectUpdates"]},
+            {"name": "EntityStatsUpdate", "typeId": 8, "fields": ["Map<Integer, EntityStatUpdate[]> entityStatUpdates"]},
+            {"name": "EquipmentUpdate", "typeId": 7, "fields": ["String[] armorIds", "String rightHandItemId", "String leftHandItemId"]},
+            {"name": "HitboxCollisionUpdate", "typeId": 18, "fields": ["int hitboxCollisionConfigIndex"]},
+            {"name": "IntangibleUpdate", "typeId": 15, "fields": []},
+            {"name": "InteractableUpdate", "typeId": 14, "fields": ["String interactionHint"]},
+            {"name": "InteractionsUpdate", "typeId": 12, "fields": ["Map<InteractionType, Integer> interactions", "String interactionHint"]},
+            {"name": "InvulnerableUpdate", "typeId": 16, "fields": []},
+            {"name": "ItemUpdate", "typeId": 5, "fields": ["ItemWithAllMetadata item"]}
+          ],
+          "subtypes_out_of_scope": [
+            "NameplateUpdate(0)", "UIComponentsUpdate(1)", "ModelUpdate(3)", "PlayerSkinUpdate(4)",
+            "TransformUpdate(9)", "MovementStatesUpdate(10)", "RepulsionUpdate(19)", "PredictionUpdate(20)",
+            "MountedUpdate(22)", "NewSpawnUpdate(23)", "PropUpdate(25)", "RespondToHitUpdate(17)"
+          ]
+        },
+        {
+          "name": "Interaction",
+          "kind": "abstract class",
+          "description": "Polymorphic base for item/ability interaction definitions. 45 concrete subtypes (IDs 0-44, gap at 19). Common fields: waitForDataFrom, effects, horizontalSpeedMultiplier, runTime, cancelOnItemChange, settings, rules, tags, camera.",
+          "subtypes_in_scope": [
+            {"name": "ApplyEffectInteraction", "typeId": 27, "extends": "SimpleInteraction", "fields": ["int effectId", "InteractionTarget entityTarget"]},
+            {"name": "ApplyForceInteraction", "typeId": 26, "extends": "SimpleInteraction", "fields": ["float duration", "boolean waitForGround", "VelocityConfig velocityConfig", "AppliedForce[] forces"]},
+            {"name": "BlockConditionInteraction", "typeId": 14, "extends": "SimpleBlockInteraction", "fields": ["BlockMatcher[] matchers"]},
+            {"name": "BreakBlockInteraction", "typeId": 3, "extends": "SimpleBlockInteraction", "fields": ["boolean harvest"]},
+            {"name": "BuilderToolInteraction", "typeId": 7, "extends": "SimpleInteraction"},
+            {"name": "CameraInteraction", "typeId": 41, "extends": "SimpleInteraction", "fields": ["CameraActionType cameraAction", "CameraPerspectiveType cameraPerspective"]},
+            {"name": "CancelChainInteraction", "typeId": 39, "extends": "SimpleInteraction", "fields": ["String chainId"]},
+            {"name": "ChainFlagInteraction", "typeId": 37, "extends": "SimpleInteraction", "fields": ["String chainId", "String flag"]},
+            {"name": "ChainingInteraction", "typeId": 11, "extends": "Interaction", "fields": ["String chainId", "float chainingAllowance", "int[] chainingNext"]},
+            {"name": "ChangeActiveSlotInteraction", "typeId": 24, "extends": "Interaction", "fields": ["int targetSlot"]},
+            {"name": "ChangeBlockInteraction", "typeId": 16, "extends": "SimpleBlockInteraction", "fields": ["int worldSoundEventIndex", "boolean requireNotBroken"]},
+            {"name": "ChangeStateInteraction", "typeId": 17, "extends": "SimpleBlockInteraction"},
+            {"name": "ChangeStatInteraction", "typeId": 30, "extends": "SimpleInteraction", "fields": ["InteractionTarget entityTarget", "ValueType valueType", "ChangeStatBehaviour changeStatBehaviour"]},
+            {"name": "ChargingInteraction", "typeId": 9, "extends": "Interaction", "fields": ["int failed", "boolean allowIndefiniteHold", "ChargingDelay chargingDelay"]},
+            {"name": "ClearEntityEffectInteraction", "typeId": 28, "extends": "SimpleInteraction", "fields": ["int effectId", "InteractionTarget entityTarget"]},
+            {"name": "ConditionInteraction", "typeId": 12, "extends": "SimpleInteraction", "fields": ["GameMode requiredGameMode", "Boolean jumping/swimming/crouching/running/flying"]},
+            {"name": "CooldownConditionInteraction", "typeId": 36, "extends": "SimpleInteraction", "fields": ["String cooldownId"]},
+            {"name": "DamageEntityInteraction", "typeId": 21, "extends": "Interaction", "fields": ["int next", "int failed", "int blocked", "DamageEffects damageEffects", "AngledDamage[] angledDamage"]},
+            {"name": "EffectConditionInteraction", "typeId": 25, "extends": "SimpleInteraction", "fields": ["int[] entityEffects", "Match match", "InteractionTarget entityTarget"]},
+            {"name": "FirstClickInteraction", "typeId": 18, "extends": "Interaction", "fields": ["int click", "int held"]},
+            {"name": "IncrementCooldownInteraction", "typeId": 38, "extends": "SimpleInteraction", "fields": ["String cooldownId", "float cooldownIncrementTime"]}
+          ],
+          "subtypes_out_of_scope": [
+            "SimpleBlockInteraction(0)", "SimpleInteraction(1)", "PlaceBlockInteraction(2)",
+            "PickBlockInteraction(4)", "UseBlockInteraction(5)", "UseEntityInteraction(6)",
+            "ModifyInventoryInteraction(8)", "WieldingInteraction(10)",
+            "StatsConditionInteraction(13)", "ReplaceInteraction(15)",
+            "SelectInteraction(20)", "RepeatInteraction(22)", "ParallelInteraction(23)",
+            "SerialInteraction(29)", "MovementConditionInteraction(31)",
+            "ProjectileInteraction(32)", "RemoveEntityInteraction(33)",
+            "ResetCooldownInteraction(34)", "TriggerCooldownInteraction(35)",
+            "RunRootInteraction(40)", "SpawnDeployableFromRaycastInteraction(42)",
+            "MemoriesConditionInteraction(43)", "ToggleGliderInteraction(44)"
+          ]
+        },
+        {
+          "name": "Selector",
+          "kind": "abstract class",
+          "description": "Polymorphic base for targeting selectors used in interactions. 5 concrete subtypes.",
+          "subtypes_in_scope": [
+            {"name": "AOECircleSelector", "typeId": 0, "fields": ["float range", "Vector3f offset"]},
+            {"name": "AOECylinderSelector", "typeId": 1, "fields": ["float range", "float height", "Vector3f offset"]},
+            {"name": "HorizontalSelector", "typeId": 3, "fields": ["HorizontalSelectorDirection direction", "float extendTop/Bottom", "float yawLength", "float startDistance/endDistance", "boolean testLineOfSight"]}
+          ],
+          "subtypes_out_of_scope": ["RaycastSelector(2)", "StabSelector(4)"]
+        },
+        {
+          "name": "ParamValue",
+          "kind": "abstract class",
+          "description": "Polymorphic base for typed parameter values. 5 concrete subtypes for String, Bool, Double, Int, Long.",
+          "subtypes_in_scope": [
+            {"name": "BoolParamValue", "typeId": 1, "fields": ["boolean value"]},
+            {"name": "DoubleParamValue", "typeId": 2, "fields": ["double value"]},
+            {"name": "IntParamValue", "typeId": 3, "fields": ["int value"]}
+          ],
+          "subtypes_out_of_scope": ["StringParamValue(0)", "LongParamValue(4)"]
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "Packet",
+          "kind": "interface",
+          "description": "Root packet interface. Methods: getId(), getChannel(), serialize(ByteBuf), computeSize().",
+          "methods": ["int getId()", "NetworkChannel getChannel()", "void serialize(ByteBuf)", "int computeSize()"]
+        },
+        {
+          "name": "ToClientPacket",
+          "kind": "interface",
+          "extends": "Packet",
+          "description": "Marker interface for server-to-client packets."
+        },
+        {
+          "name": "ToServerPacket",
+          "kind": "interface",
+          "extends": "Packet",
+          "description": "Marker interface for client-to-server packets."
+        }
+      ],
+      "wrapper_types": [
+        {
+          "name": "CachedPacket<T extends ToClientPacket>",
+          "kind": "final class",
+          "implements": ["ToClientPacket", "AutoCloseable"],
+          "description": "Wraps a ToClientPacket by pre-serializing its bytes into a ByteBuf for efficient re-sending. Uses Netty reference counting."
+        }
+      ]
+    },
+    "message_definitions": {
+      "overview": "The protocol root package does not contain individual packet message classes (those are in com.hypixel.hytale.protocol.packets.*). Instead, it defines the data structures that packet payloads carry. The key composite message type in scope is EntityUpdate, which wraps a networkId, optional removed ComponentUpdateType[], and optional ComponentUpdate[] array — forming the core entity state replication mechanism.",
+      "types": [
+        {
+          "name": "EntityUpdate",
+          "description": "Carries per-entity component state changes. Contains networkId (int), removed (ComponentUpdateType[]), and updates (ComponentUpdate[]). Used in entity state replication packets.",
+          "fields": ["int networkId", "ComponentUpdateType[] removed", "ComponentUpdate[] updates"]
+        },
+        {
+          "name": "InteractionSyncData",
+          "description": "Synchronizes interaction execution state between client and server. Contains progress, operation counter, root interaction ID, block position, block face, hit entities, attacker position/rotation, raycast data, movement direction, apply force state, and more.",
+          "fields": ["float progress", "int operationCounter", "int rootInteraction", "InteractionState state", "BlockPosition blockPosition", "BlockFace blockFace", "SelectedHitEntity[] hitEntities", "Position attackerPos", "Direction attackerRot", "MovementDirection movementDirection", "ApplyForceState applyForceState"]
+        },
+        {
+          "name": "InteractionChainData",
+          "description": "Data structure for tracking interaction chain execution context, including proxy entity ID, hit location, hit detail string, block position, and hit normal.",
+          "fields": ["UUID proxyId", "Vector3f hitLocation", "String hitDetail", "BlockPosition blockPosition", "Vector3f hitNormal"]
+        },
+        {
+          "name": "FormattedMessage",
+          "description": "Rich text message structure with recursive children, color, bold/italic/monospace/underlined formatting, and hyperlink support.",
+          "fields": ["String rawText", "String messageId", "FormattedMessage[] children", "String color", "MaybeBool bold", "MaybeBool italic", "MaybeBool monospace", "MaybeBool underlined", "String link"]
+        }
+      ]
+    },
+    "serialization": {
+      "overview": "All protocol types follow a uniform code-generated binary serialization pattern using Netty ByteBuf. Types have a fixed-size block (containing primitive and fixed-size struct fields) followed by a variable-size block (for strings, arrays, maps, and variable-sized nested structs). Nullable fields use bit-field bytes at the start. Variable fields use 4-byte LE offset slots pointing into the variable block. Polymorphic types use VarInt type-ID prefix for deserialization dispatch.",
+      "patterns": [
+        {
+          "name": "Fixed+Variable Block Layout",
+          "description": "Each type declares NULLABLE_BIT_FIELD_SIZE, FIXED_BLOCK_SIZE, VARIABLE_FIELD_COUNT, VARIABLE_BLOCK_START, MAX_SIZE. The binary layout is: [null-bits] [fixed fields] [variable offset slots (4 bytes each)] [variable data]. Variable offset slots store relative offsets from the variable block start; -1 means null.",
+          "examples": ["AmbienceFX: 1 null byte + 18 fixed bytes + 6x4 offset slots = 42 bytes before variable data"]
+        },
+        {
+          "name": "Null Bit Fields",
+          "description": "First N bytes are null-bit fields. Each bit indicates whether a nullable field is present. Bit ordering is LSB-first within each byte.",
+          "examples": ["AmbienceFXConditions uses 2 null-bit bytes for 10 nullable fields"]
+        },
+        {
+          "name": "VarInt Length-Prefixed Arrays",
+          "description": "Arrays are serialized as VarInt count followed by elements. Fixed-size elements are packed contiguously; variable-size elements use per-element computeBytesConsumed. Max array length is typically 4,096,000.",
+          "examples": ["AbilityEffects.disabled: VarInt count + InteractionType bytes"]
+        },
+        {
+          "name": "VarInt-Prefixed Strings",
+          "description": "Strings use PacketIO.readVarString/writeVarString: VarInt byte-length prefix + UTF-8 bytes. Max string length is typically 4,096,000 bytes.",
+          "examples": ["Asset.hash uses fixed 64-byte encoding, but most strings use VarInt prefix"]
+        },
+        {
+          "name": "Polymorphic Type-ID Dispatch",
+          "description": "Abstract types (ComponentUpdate, Interaction, Selector, ParamValue) use VarInt type-ID at the start of serialized data. Deserialization reads the type-ID and dispatches to the concrete subtype's deserialize method.",
+          "examples": ["ComponentUpdate: typeId 0=Nameplate, 5=Item, 6=Block, etc."]
+        },
+        {
+          "name": "Dictionary/Map Serialization",
+          "description": "Maps are serialized as VarInt count + key-value pairs. Keys are typically enum values (1 byte) and values are either primitives or nested structs.",
+          "examples": ["InteractionConfiguration.useDistance: Map<GameMode, Float>", "InteractionConfiguration.priorities: Map<InteractionType, InteractionPriority>"]
+        },
+        {
+          "name": "Bitfield-Encoded String Arrays",
+          "description": "Some nullable-element string arrays (like activeAnimations) use a bitfield to indicate which elements are non-null, followed by the non-null strings.",
+          "examples": ["ActiveAnimationsUpdate.activeAnimations"]
+        },
+        {
+          "name": "Little-Endian Byte Order",
+          "description": "All multi-byte primitives use little-endian encoding (getIntLE, getFloatLE, etc.)."
+        }
+      ]
+    },
+    "enums": {
+      "overview": "60 enum types in the A-I range. All follow an identical pattern: int-valued variants, static VALUES array, getValue(), fromValue(int) with ProtocolException on invalid value. These enums define game constants for block types, interaction types, animation slots, camera modes, game modes, entity stats, item slots, and more.",
+      "types": [
+        {"name": "AccumulationMode", "values": ["Set(0)", "Sum(1)", "Average(2)"]},
+        {"name": "AmbienceFXAltitude", "values": ["Normal(0)", "Lowest(1)", "Highest(2)", "Random(3)"]},
+        {"name": "AmbienceFXSoundPlay3D", "values": ["Random(0)", "LocationName(1)", "No(2)"]},
+        {"name": "AmbienceTransitionSpeed", "values": ["Default(0)", "Fast(1)", "Instant(2)"]},
+        {"name": "AnimationSlot", "values": ["Movement(0)", "Status(1)", "Action(2)", "Face(3)", "Emote(4)"]},
+        {"name": "ApplyForceState", "values": ["Waiting(0)", "Ground(1)", "Collision(2)", "Timer(3)"]},
+        {"name": "ApplyLookType", "values": ["LocalPlayerLookOrientation(0)", "Rotation(1)"]},
+        {"name": "ApplyMovementType", "values": ["CharacterController(0)", "Position(1)"]},
+        {"name": "AttachedToType", "values": ["LocalPlayer(0)", "EntityId(1)", "None(2)"]},
+        {"name": "BenchType", "values": ["Crafting(0)", "Processing(1)", "DiagramCrafting(2)", "StructuralCrafting(3)"]},
+        {"name": "BlockFace", "values": ["None(0)", "Up(1)", "Down(2)", "North(3)", "South(4)", "East(5)", "West(6)"]},
+        {"name": "BlockMaterial", "values": ["Empty(0)", "Solid(1)"]},
+        {"name": "BlockMountType", "values": ["Seat(0)", "Bed(1)"]},
+        {"name": "BlockNeighbor", "values": ["Up(0)", "Down(1)", "North(2)", "East(3)", "South(4)", "West(5)", "UpNorth(6)..DownNorthWest(25)"], "count": 26},
+        {"name": "BlockParticleEvent", "values": ["Walk(0)", "Run(1)", "Sprint(2)", "SoftLand(3)", "HardLand(4)", "MoveOut(5)", "Hit(6)", "Break(7)", "Build(8)", "Physics(9)"]},
+        {"name": "BlockPlacementRotationMode", "values": ["FacingPlayer(0)", "StairFacingPlayer(1)", "BlockNormal(2)", "Default(3)"]},
+        {"name": "BlockPreviewVisibility", "values": ["AlwaysVisible(0)", "AlwaysHidden(1)", "Default(2)"]},
+        {"name": "BlockSoundEvent", "values": ["Walk(0)", "Land(1)", "MoveIn(2)", "MoveOut(3)", "Hit(4)", "Break(5)", "Build(6)", "Clone(7)", "Harvest(8)"]},
+        {"name": "BlockSupportsRequiredForType", "values": ["Any(0)", "All(1)"]},
+        {"name": "CalculationType", "values": ["Additive(0)", "Multiplicative(1)"]},
+        {"name": "CameraActionType", "values": ["ForcePerspective(0)", "Orbit(1)", "Transition(2)"]},
+        {"name": "CameraNode", "values": ["None(0)", "Head(1)", "LShoulder(2)", "RShoulder(3)", "Belly(4)"]},
+        {"name": "CameraPerspectiveType", "values": ["First(0)", "Third(1)"]},
+        {"name": "CanMoveType", "values": ["AttachedToLocalPlayer(0)", "Always(1)"]},
+        {"name": "ChangeStatBehaviour", "values": ["Add(0)", "Set(1)"]},
+        {"name": "ChangeVelocityType", "values": ["Add(0)", "Set(1)"]},
+        {"name": "ClickType", "values": ["None(0)", "Left(1)", "Right(2)", "Middle(3)"]},
+        {"name": "ClientCameraView", "values": ["FirstPerson(0)", "ThirdPerson(1)", "Custom(2)"]},
+        {"name": "CollisionType", "values": ["Hard(0)", "Soft(1)"]},
+        {"name": "CombatTextEntityUIAnimationEventType", "values": ["Scale(0)", "Position(1)", "Opacity(2)"]},
+        {"name": "ComponentUpdateType", "values": ["Nameplate(0)", "UIComponents(1)", "CombatText(2)", "Model(3)", "PlayerSkin(4)", "Item(5)", "Block(6)", "Equipment(7)", "EntityStats(8)", "Transform(9)", "MovementStates(10)", "EntityEffects(11)", "Interactions(12)", "DynamicLight(13)", "Interactable(14)", "Intangible(15)", "Invulnerable(16)", "RespondToHit(17)", "HitboxCollision(18)", "Repulsion(19)", "Prediction(20)", "Audio(21)", "Mounted(22)", "NewSpawn(23)", "ActiveAnimations(24)", "Prop(25)"]},
+        {"name": "ConnectedBlockRuleSetType", "values": ["Stair(0)", "Roof(1)"]},
+        {"name": "Cosmetic", "values": ["Haircut(0)", "FacialHair(1)", "Undertop(2)", "Overtop(3)", "Pants(4)", "Overpants(5)", "Shoes(6)", "Gloves(7)", "Cape(8)", "HeadAccessory(9)", "FaceAccessory(10)", "EarAccessory(11)", "Ear(12)"]},
+        {"name": "CurveType", "values": ["Linear(0)", "QuartIn(1)", "QuartOut(2)", "QuartInOut(3)"]},
+        {"name": "DebugShape", "values": ["Sphere(0)", "Cylinder(1)", "Cone(2)", "Cube(3)", "Frustum(4)", "Sector(5)", "Disc(6)"]},
+        {"name": "DrawType", "values": ["Empty(0)", "GizmoCube(1)", "Cube(2)", "Model(3)", "CubeWithModel(4)"]},
+        {"name": "EasingType", "values": ["Linear(0)", "QuadIn(1)..BounceInOut(30)"], "count": 31},
+        {"name": "EffectDirection", "values": ["None(0)", "BottomUp(1)", "TopDown(2)", "ToCenter(3)", "FromCenter(4)"]},
+        {"name": "EffectOp", "values": ["Add(0)", "Remove(1)"]},
+        {"name": "EmitShape", "values": ["Sphere(0)", "Cube(1)"]},
+        {"name": "EntityMatcherType", "values": ["Server(0)", "VulnerableMatcher(1)", "Player(2)"]},
+        {"name": "EntityPart", "values": ["Self(0)", "Entity(1)", "PrimaryItem(2)", "SecondaryItem(3)"]},
+        {"name": "EntityStatOp", "values": ["Init(0)", "Remove(1)", "PutModifier(2)", "RemoveModifier(3)", "Add(4)", "Set(5)", "Minimize(6)", "Maximize(7)", "Reset(8)"]},
+        {"name": "EntityStatResetBehavior", "values": ["InitialValue(0)", "MaxValue(1)"]},
+        {"name": "EntityUIType", "values": ["EntityStat(0)", "CombatText(1)"]},
+        {"name": "FailOnType", "values": ["Neither(0)", "Entity(1)", "Block(2)", "Either(3)"]},
+        {"name": "FluidDrawType", "values": ["None(0)", "Liquid(1)"]},
+        {"name": "FluidFog", "values": ["Color(0)", "ColorLight(1)", "EnvironmentTint(2)"]},
+        {"name": "FXRenderMode", "values": ["BlendLinear(0)", "BlendAdd(1)", "Erosion(2)", "Distortion(3)"]},
+        {"name": "GameMode", "values": ["Adventure(0)", "Creative(1)"]},
+        {"name": "HorizontalSelectorDirection", "values": ["ToLeft(0)", "ToRight(1)"]},
+        {"name": "InteractionState", "values": ["Finished(0)", "Skip(1)", "ItemChanged(2)", "Failed(3)", "NotFinished(4)"]},
+        {"name": "InteractionTarget", "values": ["User(0)", "Owner(1)", "Target(2)"]},
+        {"name": "InteractionType", "values": ["Primary(0)", "Secondary(1)", "Ability1(2)", "Ability2(3)", "Ability3(4)", "Use(5)", "Pick(6)", "Pickup(7)", "CollisionEnter(8)", "CollisionLeave(9)", "Collision(10)", "EntityStatEffect(11)", "SwapTo(12)", "SwapFrom(13)", "Death(14)", "Wielding(15)", "ProjectileSpawn(16)", "ProjectileHit(17)", "ProjectileMiss(18)", "ProjectileBounce(19)", "Held(20)", "HeldOffhand(21)", "Equipped(22)", "Dodge(23)", "GameModeSwap(24)"]},
+        {"name": "InventoryActionType", "values": ["TakeAll(0)", "PutAll(1)", "QuickStack(2)", "Sort(3)"]},
+        {"name": "ItemArmorSlot", "values": ["Head(0)", "Chest(1)", "Hands(2)", "Legs(3)"]},
+        {"name": "ItemGridInfoDisplayMode", "values": ["Tooltip(0)", "Adjacent(1)", "None(2)"]},
+        {"name": "ItemReticleClientEvent", "values": ["OnHit(0)", "Wielding(1)", "OnMovementLeft(2)", "OnMovementRight(3)", "OnMovementBack(4)"]},
+        {"name": "ItemSoundEvent", "values": ["Drag(0)", "Drop(1)"]}
+      ]
+    },
+    "data_types": {
+      "overview": "The A-I range contains extensive data structure definitions covering spatial data, colors, ranges, game object definitions (blocks, items, fluids), visual effects, and game mechanics. These are pure data containers (POJOs) with serialization support.",
+      "spatial_types": [
+        {"name": "BlockPosition", "fields": ["int x", "int y", "int z"], "size": 12},
+        {"name": "Direction", "fields": ["float yaw", "float pitch", "float roll"], "size": 12},
+        {"name": "HalfFloatPosition", "fields": ["short x", "short y", "short z"], "size": 6, "description": "Compact half-float 3D position"},
+        {"name": "Hitbox", "fields": ["float minX/Y/Z", "float maxX/Y/Z"], "size": 24}
+      ],
+      "color_types": [
+        {"name": "Color", "fields": ["byte red", "byte green", "byte blue"], "size": 3},
+        {"name": "ColorAlpha", "fields": ["byte alpha", "byte red", "byte green", "byte blue"], "size": 4},
+        {"name": "ColorLight", "fields": ["byte radius", "byte red", "byte green", "byte blue"], "size": 4, "description": "Color with light emission radius"}
+      ],
+      "range_types": [
+        {"name": "FloatRange", "fields": ["float inclusiveMin", "float inclusiveMax"], "size": 8},
+        {"name": "ClampConfig", "fields": ["float min", "float max", "boolean normalize"], "size": 9}
+      ],
+      "block_types": [
+        {"name": "BlockType", "description": "Comprehensive block definition with 30+ fields covering rendering (drawType, material, opacity, shaderEffect, model, textures, shadingMode), physics (movementSettings, hitbox), gameplay (flags, gathering, placementSettings), visual effects (particles, light, tint), and metadata (item, name, tags).", "variable_fields": 24, "fixed_size": 164},
+        {"name": "BlockTextures", "fields": ["String top/bottom/front/back/left/right"], "description": "Per-face texture references for cube blocks"},
+        {"name": "BlockFlags", "fields": ["boolean isUsable", "boolean isStackable"]},
+        {"name": "BlockBreaking", "fields": ["String gatherType", "float health", "int quantity", "int quality", "String itemId", "String dropListId"]},
+        {"name": "BlockGathering", "fields": ["BlockBreaking breaking", "Harvesting harvest", "SoftBlock soft"]},
+        {"name": "BlockMovementSettings", "fields": ["boolean isClimbable", "float climbUpSpeedMultiplier", "float drag", "float friction", "float bounceVelocity", "boolean isBouncy", "float horizontalSpeedMultiplier", "float jumpForceMultiplier", "..."], "size": 42},
+        {"name": "BlockPlacementSettings", "fields": ["BlockPreviewVisibility previewVisibility", "BlockPlacementRotationMode rotationMode", "boolean allowRotationKey", "boolean placeInEmptyBlocks", "int wallPlacementOverrideBlockId", "..."]},
+        {"name": "BlockMount", "fields": ["BlockMountType type", "Vector3f position", "Vector3f orientation", "int blockTypeId"]},
+        {"name": "BlockSet", "fields": ["String name", "int[] blocks"]},
+        {"name": "BlockRotation", "fields": ["Rotation rotationYaw/Pitch/Roll"]},
+        {"name": "ConnectedBlockRuleSet", "fields": ["ConnectedBlockRuleSetType type", "StairConnectedBlockRuleSet stair", "RoofConnectedBlockRuleSet roof"]}
+      ],
+      "item_types": [
+        {"name": "ItemBase", "description": "Comprehensive item definition with 25+ fields covering identity (id, model, texture, animation, icon), categories, tool/weapon/armor/glider/utility specs, visual effects (particles, trails, light), interaction config, durability, and sound.", "variable_fields": 26, "fixed_size": 147},
+        {"name": "ItemLibrary", "fields": ["ItemBase[] items"], "description": "Array container for all item definitions"},
+        {"name": "ItemWeapon", "description": "Weapon-specific item data"},
+        {"name": "ItemArmor", "fields": ["ItemArmorSlot armorSlot", "Cosmetic[] cosmeticsToHide"]},
+        {"name": "ItemTool", "fields": ["ItemToolSpec[] specs"]},
+        {"name": "ItemToolSpec", "fields": ["String gatherType"]},
+        {"name": "ItemGlider", "description": "Glider-specific item data"},
+        {"name": "ItemUtility", "description": "Utility-specific item data"},
+        {"name": "ItemQuantity", "fields": ["String itemId", "(+ quantity fields)"]},
+        {"name": "ItemQuality", "fields": ["String id", "String itemTooltipTexture", "Color textColor", "String localizationKey"]},
+        {"name": "ItemCategory", "fields": ["String id", "String name", "String icon", "ItemGridInfoDisplayMode infoDisplayMode", "ItemCategory[] children"], "description": "Hierarchical item category with recursive children"},
+        {"name": "ItemAnimation", "fields": ["String thirdPerson", "String firstPerson", "String firstPersonOverride"]},
+        {"name": "ItemPlayerAnimations", "fields": ["String id", "WiggleWeights wiggleWeights", "CameraSettings camera", "ItemPullbackConfiguration pullbackConfig"]},
+        {"name": "ItemReticle", "fields": ["String[] parts"]},
+        {"name": "ItemReticleConfig", "fields": ["String id", "String[] base"]},
+        {"name": "ItemSoundSet", "fields": ["String id"]},
+        {"name": "ItemEntityConfig", "fields": ["String particleSystemId", "Color particleColor"]},
+        {"name": "ItemWithAllMetadata", "fields": ["String itemId", "String metadata"]},
+        {"name": "ItemUpdate", "extends": "ComponentUpdate", "fields": ["ItemWithAllMetadata item"]}
+      ],
+      "entity_effect_types": [
+        {"name": "EntityEffect", "fields": ["String id", "String name", "ApplicationEffects applicationEffects", "ModelOverride modelOverride", "float duration", "boolean infinite", "boolean debuff", "OverlapBehavior overlapBehavior", "ValueType valueType"]},
+        {"name": "EntityEffectUpdate", "fields": ["EffectOp type", "int id", "float remainingTime", "boolean infinite", "boolean debuff", "String statusEffectIcon"]},
+        {"name": "EntityStatType", "fields": ["String id", "float value", "float min", "float max", "boolean hideFromTooltip", "EntityStatEffects minValueEffects", "EntityStatEffects maxValueEffects", "EntityStatResetBehavior resetBehavior"]},
+        {"name": "EntityStatUpdate", "fields": ["EntityStatOp op", "boolean predictable", "float value", "String modifierKey", "Modifier modifier"]},
+        {"name": "EntityStatOnHit", "fields": ["int entityStatIndex", "float amount", "float[] multipliersPerEntitiesHit"]},
+        {"name": "EntityStatEffects", "fields": ["boolean triggerAtZero", "int soundEventIndex", "ModelParticle[] particles"]},
+        {"name": "ApplicationEffects", "fields": ["Color entityBottomTint", "Color entityTopTint", "String entityAnimationId", "ModelParticle[] particles", "String screenEffect", "String modelVFXId", "MovementEffects movementEffects", "AbilityEffects abilityEffects", "float horizontalSpeedMultiplier"]},
+        {"name": "AbilityEffects", "fields": ["InteractionType[] disabled"]}
+      ],
+      "interaction_system_types": [
+        {"name": "InteractionConfiguration", "fields": ["boolean displayOutlines", "Map<GameMode, Float> useDistance", "Map<InteractionType, InteractionPriority> priorities"]},
+        {"name": "InteractionEffects", "fields": ["ModelParticle[] particles", "ModelTrail[] trails", "String itemPlayerAnimationsId", "String itemAnimationId", "CameraShakeEffect cameraShake", "MovementEffects movementEffects", "int worldSoundEventIndex", "int localSoundEventIndex"]},
+        {"name": "InteractionRules", "fields": ["InteractionType[] blockedBy", "InteractionType[] blocking", "InteractionType[] interruptedBy", "InteractionType[] interrupting"]},
+        {"name": "InteractionSettings", "fields": ["boolean allowSkipOnClick"]},
+        {"name": "InteractionCooldown", "fields": ["String cooldownId", "float cooldown", "boolean clickBypass", "float[] chargeTimes"]},
+        {"name": "InteractionPriority", "fields": ["Map<PrioritySlot, Integer> values"]},
+        {"name": "ForkedChainId", "fields": ["int entryIndex", "int subIndex", "ForkedChainId forkedId"], "description": "Recursive chain ID for forked interaction chains"},
+        {"name": "ChargingDelay", "fields": ["float minDelay", "float maxDelay", "float maxTotalDelay", "float minHealth", "float maxHealth"]}
+      ],
+      "ambience_fx_types": [
+        {"name": "AmbienceFX", "fields": ["String id", "AmbienceFXConditions conditions", "AmbienceFXSound[] sounds", "AmbienceFXMusic music", "AmbienceFXAmbientBed ambientBed", "AmbienceFXSoundEffect soundEffect", "int priority", "int[] blockedAmbienceFxIndices"]},
+        {"name": "AmbienceFXConditions", "fields": ["boolean never", "int[] environmentIndices", "int[] weatherIndices", "int[] fluidFXIndices", "Range altitude", "Rangeb walls", "Rangeb sunLightLevel/torchLightLevel/globalLightLevel", "Rangef dayTime", "AmbienceFXBlockSoundSet[] surroundingBlockSoundSets"]},
+        {"name": "AmbienceFXMusic", "fields": ["String[] tracks", "float volume"]},
+        {"name": "AmbienceFXAmbientBed", "fields": ["String track", "float volume", "AmbienceTransitionSpeed transitionSpeed"]},
+        {"name": "AmbienceFXSound", "fields": ["int soundEventIndex", "int blockSoundSetIndex", "AmbienceFXSoundPlay3D play3D", "AmbienceFXAltitude altitude", "Rangef frequency", "Range radius"]},
+        {"name": "AmbienceFXSoundEffect", "fields": ["int reverbEffectIndex", "int equalizerEffectIndex", "boolean isInstant"]},
+        {"name": "AmbienceFXBlockSoundSet", "fields": ["int blockSoundSetIndex", "Rangef percent"]}
+      ],
+      "camera_types": [
+        {"name": "CameraSettings", "fields": ["Vector3f positionOffset", "CameraAxis yaw", "CameraAxis pitch"]},
+        {"name": "CameraAxis", "fields": ["Rangef angleRange", "CameraNode[] targetNodes"]},
+        {"name": "CameraShake", "fields": ["CameraShakeConfig firstPerson", "CameraShakeConfig thirdPerson"]},
+        {"name": "CameraShakeConfig", "fields": ["float duration", "float startTime", "boolean continuous", "EasingConfig easeIn", "EasingConfig easeOut", "OffsetNoise offset", "RotationNoise rotation"]},
+        {"name": "InteractionCamera", "fields": ["float time", "Vector3f position", "Direction rotation"]},
+        {"name": "InteractionCameraSettings", "fields": ["InteractionCamera[] firstPerson", "InteractionCamera[] thirdPerson"]}
+      ],
+      "crafting_types": [
+        {"name": "CraftingRecipe", "fields": ["String id", "MaterialQuantity[] inputs", "MaterialQuantity[] outputs", "MaterialQuantity primaryOutput", "BenchRequirement[] benchRequirement", "boolean knowledgeRequired", "float timeSeconds"]},
+        {"name": "Bench", "fields": ["BenchTierLevel[] benchTierLevels"]},
+        {"name": "BenchTierLevel", "fields": ["BenchUpgradeRequirement benchUpgradeRequirement", "double craftingTimeReductionModifier", "int extraInputSlot", "int extraOutputSlot"]},
+        {"name": "BenchRequirement", "fields": ["BenchType type", "String id", "String[] categories", "int requiredTierLevel"]},
+        {"name": "BenchUpgradeRequirement", "fields": ["MaterialQuantity[] material", "double timeSeconds"]}
+      ],
+      "fluid_types": [
+        {"name": "Fluid", "fields": ["String id", "BlockTextures[] cubeTextures", "Opacity opacity", "ShaderType[] shaderEffect", "ColorLight light", "ModelParticle[] particles", "FluidDrawType drawType", "int maxFluidLevel", "int fluidFXIndex"]},
+        {"name": "FluidFX", "fields": ["String id", "ShaderType shader", "FluidFog fogMode", "Color fogColor", "NearFar fogDistance", "Color colorFilter", "FluidParticle particle", "FluidFXMovementSettings movementSettings"]},
+        {"name": "FluidFXMovementSettings", "fields": ["float swimUpSpeed", "float swimDownSpeed", "float sinkSpeed", "float horizontalSpeedMultiplier", "float fieldOfViewMultiplier", "float entryVelocityMultiplier"]},
+        {"name": "FluidParticle", "fields": ["String systemId", "Color color", "float scale"]}
+      ],
+      "audio_types": [
+        {"name": "AudioCategory", "fields": ["String id", "float volume"]},
+        {"name": "BlockSoundSet", "fields": ["String id", "Map<BlockSoundEvent, Integer> soundEventIndices", "FloatRange moveInRepeatRange"]},
+        {"name": "EqualizerEffect", "fields": ["String id", "float lowGain/lowCutOff/lowMidGain/lowMidCenter/lowMidWidth/highMidGain/highMidCenter/highMidWidth/highGain/highCutOff"]},
+        {"name": "EasingConfig", "fields": ["float time", "EasingType type"]}
+      ],
+      "damage_types": [
+        {"name": "DamageCause", "fields": ["String id", "String damageTextColor"]},
+        {"name": "DamageEffects", "fields": ["ModelParticle[] modelParticles", "WorldParticle[] worldParticles", "int soundEventIndex"]},
+        {"name": "AngledDamage", "fields": ["double angle", "double angleDistance", "DamageEffects damageEffects", "int next"]},
+        {"name": "AngledWielding", "fields": ["float angleRad", "float angleDistanceRad", "boolean hasModifiers"]}
+      ],
+      "animation_types": [
+        {"name": "Animation", "fields": ["String name", "float speed", "float blendingDuration", "boolean looping", "float weight", "int[] footstepIntervals", "int soundEventIndex"]},
+        {"name": "AnimationSet", "fields": ["String id", "Animation[] animations", "Rangef nextAnimationDelay"]}
+      ],
+      "ui_types": [
+        {"name": "EntityUIComponent", "fields": ["EntityUIType type", "Vector2f hitboxOffset", "RangeVector2f combatTextRandomPositionOffsetRange", "Color combatTextColor", "CombatTextEntityUIComponentAnimationEvent[] combatTextAnimationEvents"]},
+        {"name": "CombatTextEntityUIComponentAnimationEvent", "fields": ["CombatTextEntityUIAnimationEventType type", "Vector2f positionOffset", "float startAt/endAt/startScale/endScale/startOpacity/endOpacity"]},
+        {"name": "IntersectionHighlight", "fields": ["float highlightThreshold", "Color highlightColor"]}
+      ],
+      "misc_types": [
+        {"name": "Asset", "fields": ["String hash", "String name"], "description": "Asset reference with content hash"},
+        {"name": "AssetIconProperties", "fields": ["float scale", "Vector2f translation", "Vector3f rotation"]},
+        {"name": "Cloud", "fields": ["String texture", "Map<Float, Float> speeds", "Map<Float, ColorAlpha> colors"]},
+        {"name": "DeployableConfig", "fields": ["Model model", "Model modelPreview", "boolean allowPlaceOnWalls"]},
+        {"name": "DetailBox", "fields": ["Vector3f offset", "Hitbox box"]},
+        {"name": "Edge", "fields": ["ColorAlpha color", "float width"]},
+        {"name": "Equipment", "fields": ["String[] armorIds", "String rightHandItemId", "String leftHandItemId"]},
+        {"name": "ExtraResources", "fields": ["ItemQuantity[] resources"]},
+        {"name": "FogOptions", "fields": ["boolean ignoreFogLimits", "float effectiveViewDistanceMultiplier", "float fogFarViewDistance", "float fogHeightCameraOffset"]},
+        {"name": "HostAddress", "fields": ["String host", "short port"]},
+        {"name": "InitialVelocity", "fields": ["Rangef yaw", "Rangef pitch", "Rangef speed"]},
+        {"name": "InstantData", "fields": ["long seconds", "int nanos"], "description": "Timestamp with nanosecond precision"},
+        {"name": "InventorySection", "fields": ["Map<Integer, ItemWithAllMetadata> items", "short capacity"]},
+        {"name": "HitEntity", "fields": ["int next", "EntityMatcher[] matchers"]},
+        {"name": "EntityMatcher", "fields": ["EntityMatcherType type", "boolean invert"]},
+        {"name": "AppliedForce", "fields": ["Vector3f direction", "boolean adjustVertical", "float force"]}
+      ],
+      "protocol_infrastructure": [
+        {"name": "ProtocolSettings", "kind": "final class", "description": "Protocol version constants: PROTOCOL_CRC=-1356075132, PROTOCOL_VERSION=2, PROTOCOL_BUILD_NUMBER=20, PACKET_COUNT=268, STRUCT_COUNT=339, ENUM_COUNT=137, MAX_PACKET_SIZE=1677721600"},
+        {"name": "NetworkChannel", "kind": "enum", "values": ["Default(0)", "Chunks(1)", "WorldMap(2)"]},
+        {"name": "PacketRegistry", "kind": "final class", "description": "Central registry mapping packet IDs to packet types. References all packet classes from com.hypixel.hytale.protocol.packets.* sub-packages. Out of A-I scope for detailed analysis but critical infrastructure."}
+      ]
+    }
+  },
+  "cross_references": {
+    "to_server_core": {
+      "overview": "The protocol root package is a pure data-definition layer with no direct imports from server.core. Instead, it defines the wire-format types that server.core implementations serialize into. Cross-references are implicit: e.g., EntityUpdate.networkId maps to server-side entity IDs; BlockType.blockId maps to server block registry indices; GameMode enum values correspond to server game mode state.",
+      "entity_system": "EntityUpdate + ComponentUpdate hierarchy defines the ECS replication format. ComponentUpdateType enum (26 values) maps 1:1 to server-side ECS component types.",
+      "interaction_system": "Interaction hierarchy (45 subtypes) defines the complete interaction/ability system wire format. InteractionType enum (25 values) maps to server-side interaction triggers.",
+      "block_system": "BlockType is the comprehensive block definition. BlockFace, BlockNeighbor, BlockMaterial, DrawType, Opacity, ShadingMode enums define the block rendering/physics model.",
+      "item_system": "ItemBase + ItemLibrary define the complete item data model. ItemTool, ItemWeapon, ItemArmor, ItemGlider, ItemUtility are specialized sub-configs.",
+      "crafting_system": "CraftingRecipe, Bench, BenchRequirement, MaterialQuantity define the crafting system data model."
+    },
+    "index_based_references": "Many fields use integer indices (e.g., soundEventIndex, blockSoundSetIndex, audioCategoryIndex, fluidFXIndex, entityStatIndex, qualityIndex, reticleIndex) rather than string IDs. These reference positions in server-side registry arrays that are transmitted to clients during connection/world loading.",
+    "tag_pattern_system": "Several types reference tagPatternIndex and tagIndexes fields, indicating a tag-based pattern matching system for blocks, environments, weather, etc."
+  },
+  "files_read": 226,
+  "files_not_read": [],
+  "notes": [
+    "All 226 .java files with class names A-I were successfully read and analyzed.",
+    "Every type follows an identical code-generated structure pattern suggesting automated protocol schema compilation (likely from a Protobuf-like IDL or custom schema language).",
+    "The PROTOCOL_VERSION=2, BUILD_NUMBER=20 with 268 packets, 339 structs, and 137 enums indicates a mature, versioned protocol.",
+    "MAX_PACKET_SIZE of 1,677,721,600 bytes (~1.6GB) and MAX_SIZE of 4,096,000 for arrays suggest the protocol supports very large world data transfers.",
+    "The absence of type ID 19 in the Interaction hierarchy (gap between FirstClickInteraction=18 and SelectInteraction=20) suggests a removed or reserved interaction type."
+  ]
+}

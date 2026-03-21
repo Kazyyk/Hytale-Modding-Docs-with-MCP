@@ -1,0 +1,1077 @@
+{
+  "modules": ["com.hypixel.hytale.server.spawning", "com.hypixel.hytale.server.flock"],
+  "generated_at": "2026-03-20T00:00:00Z",
+  "total_files_read": {
+    "spawning": 82,
+    "flock": 33,
+    "total": 115
+  },
+  "files_not_readable": [],
+
+  "spawning": {
+    "plugin_class": "SpawningPlugin",
+    "extends": "JavaPlugin",
+    "purpose": "Central plugin managing all NPC spawning: world-based environment spawning, beacon-based proximity spawning, and spawn marker placement. Registers all ECS components, systems, asset stores, and commands for the spawning subsystem. Maintains WorldSpawnManager and BeaconSpawnManager as the two top-level spawn orchestrators.",
+    "total_types": 82,
+    "overview": "The spawning system has three main spawn modes: (1) World spawning — environment-driven density-based NPC population across chunks, (2) Beacon spawning — player-proximity triggered spawn points with configurable cooldowns, and (3) Spawn markers — fixed-location respawning NPCs with deactivation/reactivation. All modes share a common SpawningContext for collision/position validation and integrate with the flock system for group spawning.",
+
+    "config": {
+      "class": "SpawningPlugin.NPCSpawningConfig",
+      "codec": "BuilderCodec",
+      "fields": {
+        "SpawnBudgetFactor": {"type": "double", "default": 1.0, "purpose": "Multiplier for the per-tick column budget (base 20480)"},
+        "MaxActiveJobs": {"type": "int", "default": 20, "purpose": "Maximum concurrent spawn jobs allowed"},
+        "DefaultSpawnMarkerModel": {"type": "String", "default": "NPC_Spawn_Marker", "purpose": "Model ID for spawn marker entities in creative mode"},
+        "LocalSpawnControllerJoinDelay": {"type": "double", "default": 15.0, "purpose": "Seconds before local spawn controller begins spawning for a player"}
+      }
+    },
+
+    "asset_stores": [
+      {
+        "key_type": "String",
+        "value_type": "SpawnMarker",
+        "map_type": "DefaultAssetMap",
+        "path": "NPC/Spawn/Markers",
+        "loads_after": ["FlockAsset", "ModelAsset"],
+        "loads_before": ["Interaction"],
+        "purpose": "Spawn marker definitions — fixed-location NPC spawners with weighted NPC pools, respawn timers, exclusion radii, and deactivation distance"
+      },
+      {
+        "key_type": "String",
+        "value_type": "WorldNPCSpawn",
+        "map_type": "IndexedLookupTableAssetMap",
+        "path": "NPC/Spawn/World",
+        "loads_after": ["Environment", "BlockSet", "FlockAsset"],
+        "purpose": "World spawning configurations — environment-bound NPC population rules with day/night, moon phase, and light-level conditions"
+      },
+      {
+        "key_type": "String",
+        "value_type": "BeaconNPCSpawn",
+        "map_type": "IndexedLookupTableAssetMap",
+        "path": "NPC/Spawn/Beacons",
+        "loads_after": ["Environment", "BlockSet", "SpawnSuppression", "FlockAsset", "ModelAsset", "ResponseCurve"],
+        "purpose": "Beacon spawning configurations — player-proximity spawn points with spawn radius, NPC limits, cooldowns, forced spawn states, scaling curves"
+      },
+      {
+        "key_type": "String",
+        "value_type": "SpawnSuppression",
+        "map_type": "IndexedAssetMap",
+        "path": "NPC/Spawn/Suppression",
+        "loads_after": ["NPCGroup"],
+        "purpose": "Spawn suppression zones — configurable radius-based areas that block world spawning for specified NPC groups and optionally suppress spawn markers"
+      }
+    ],
+
+    "entity_registrations": [
+      {
+        "id": "LegacySpawnBeacon",
+        "class": "LegacySpawnBeaconEntity",
+        "extends": "Entity",
+        "purpose": "Legacy beacon entity — persistent spawn point that tracks spawn timers, manages BeaconSpawnController, spawns NPCs around nearby players with configurable cooldowns"
+      },
+      {
+        "id": "SpawnBeacon",
+        "class": "SpawnBeacon",
+        "extends": "Entity",
+        "purpose": "Modern beacon entity — simplified spawn beacon that supports manual triggering and FloodFillPositionSelector for position finding"
+      }
+    ],
+
+    "ecs_components_entity_store": [
+      {
+        "class": "SpawnMarkerEntity",
+        "name": "SpawnMarkerComponent",
+        "serialized": true,
+        "purpose": "Core spawn marker component — tracks marker state, respawn timer, NPC references, stored flock data, suppression state, deactivation timer. Contains SpawningContext for position validation."
+      },
+      {
+        "class": "LocalSpawnController",
+        "serialized": false,
+        "purpose": "Per-player spawn controller timer — tracks countdown before local beacon spawning begins for a player"
+      },
+      {
+        "class": "LocalSpawnBeacon",
+        "name": "LocalSpawnBeacon",
+        "serialized": true,
+        "purpose": "Marker component for entities that act as local spawn beacons"
+      },
+      {
+        "class": "SpawnSuppressionComponent",
+        "name": "SpawnSuppression",
+        "serialized": true,
+        "purpose": "Attached to entities that suppress spawning in a radius (references a SpawnSuppression asset by ID)"
+      },
+      {
+        "class": "InitialBeaconDelay",
+        "serialized": false,
+        "purpose": "Transient delay component on spawn beacons — prevents immediate spawning after load with a configurable random delay range"
+      },
+      {
+        "class": "SpawnMarkerReference",
+        "name": "SpawnMarkerReference",
+        "serialized": true,
+        "purpose": "Back-reference from an NPC to its owning spawn marker (from npc package, registered by spawning plugin)"
+      },
+      {
+        "class": "SpawnBeaconReference",
+        "name": "SpawnBeaconReference",
+        "serialized": true,
+        "purpose": "Back-reference from an NPC to its owning spawn beacon (from npc package, registered by spawning plugin)"
+      },
+      {
+        "class": "FloodFillPositionSelector",
+        "serialized": false,
+        "purpose": "Position cache for beacons — flood-fills from beacon position to find valid spawn positions per NPC role, caches results for reuse across spawn rounds"
+      },
+      {
+        "class": "SpawnMarkerBlockReference",
+        "name": "SpawnMarkerBlockReference",
+        "serialized": true,
+        "purpose": "Reference from a spawn marker entity to a block state spawn marker"
+      }
+    ],
+
+    "ecs_resources_entity_store": [
+      {
+        "class": "WorldSpawnData",
+        "purpose": "Global world-level spawn tracking — tracks actual vs expected NPC counts per environment, active spawn jobs, spiral iterator for chunk selection, unspawnable queue"
+      },
+      {
+        "class": "SpawnSuppressionController",
+        "name": "SpawnSuppressionController",
+        "serialized": true,
+        "purpose": "Central controller for all active spawn suppressors in the world — manages suppression zones and span helpers"
+      },
+      {
+        "class": "LocalSpawnState",
+        "purpose": "Shared state for local spawn controllers — lists of active controllers and pending spawns, force-trigger flag"
+      },
+      {
+        "class": "FloodFillEntryPoolProviderSimple",
+        "purpose": "Object pool for flood fill entries used by FloodFillPositionSelector"
+      },
+      {
+        "class": "SpatialResource (legacyBeaconSpatial)",
+        "purpose": "KDTree spatial index for legacy spawn beacon entities"
+      },
+      {
+        "class": "SpatialResource (spawnMarkerSpatial)",
+        "purpose": "KDTree spatial index for spawn marker entities"
+      },
+      {
+        "class": "SpatialResource (manualSpawnBeaconSpatial)",
+        "purpose": "KDTree spatial index for manually-placed spawn beacons"
+      }
+    ],
+
+    "ecs_components_chunk_store": [
+      {
+        "class": "SpawnJobData",
+        "purpose": "Per-chunk spawn job state — active spawn jobs assigned to this chunk"
+      },
+      {
+        "class": "ChunkSpawnData",
+        "purpose": "Per-chunk spawn statistics — environment segment data, expected NPC counts per environment"
+      },
+      {
+        "class": "ChunkSpawnedNPCData",
+        "name": "ChunkSpawnedNPCData",
+        "serialized": true,
+        "purpose": "Persistent tracking of which NPC roles are spawned in this chunk and their counts"
+      },
+      {
+        "class": "ChunkSuppressionEntry",
+        "purpose": "Per-chunk suppression zone entries"
+      }
+    ],
+
+    "ecs_resources_chunk_store": [
+      {
+        "class": "ChunkSuppressionQueue",
+        "purpose": "Queue of pending chunk suppression updates"
+      }
+    ],
+
+    "ecs_systems": [
+      {
+        "class": "SpawnSuppressionSystems.EnsureNetworkSendable",
+        "store": "EntityStore",
+        "purpose": "Ensures spawn suppression entities are sendable to clients"
+      },
+      {
+        "class": "SpawnSuppressionSystems.Load",
+        "store": "EntityStore",
+        "purpose": "Loads and initializes suppression controller state on entity add"
+      },
+      {
+        "class": "SpawnSuppressionSystems.Suppressor",
+        "store": "EntityStore",
+        "purpose": "Processes suppressor component changes — adds/removes suppression zones to the controller"
+      },
+      {
+        "class": "LegacyBeaconSpatialSystem",
+        "store": "EntityStore",
+        "purpose": "Maintains KDTree spatial index for legacy spawn beacons"
+      },
+      {
+        "class": "SpawnMarkerSpatialSystem",
+        "store": "EntityStore",
+        "purpose": "Maintains KDTree spatial index for spawn markers"
+      },
+      {
+        "class": "BeaconSpatialSystem",
+        "store": "EntityStore",
+        "purpose": "Maintains KDTree spatial index for manual spawn beacons"
+      },
+      {
+        "class": "SpawnMarkerSuppressionSystem",
+        "store": "EntityStore",
+        "purpose": "Checks if spawn markers are suppressed and updates their suppressed state"
+      },
+      {
+        "class": "ChunkSuppressionSystems.ChunkAdded",
+        "store": "ChunkStore",
+        "purpose": "Initializes suppression entries when chunks are added"
+      },
+      {
+        "class": "ChunkSuppressionSystems.Ticking",
+        "store": "ChunkStore",
+        "purpose": "Processes pending chunk suppression queue entries"
+      },
+      {
+        "class": "LocalSpawnSetupSystem",
+        "store": "EntityStore",
+        "purpose": "Adds LocalSpawnController to players when they join"
+      },
+      {
+        "class": "LocalSpawnControllerSystem",
+        "store": "EntityStore",
+        "purpose": "Per-player local beacon controller — finds nearby legacy beacons via KDTree, assigns beacon spawns to players based on proximity and weather"
+      },
+      {
+        "class": "LocalSpawnBeaconSystem",
+        "store": "EntityStore",
+        "purpose": "Processes local spawn beacons — triggers spawning for beacons in the local state"
+      },
+      {
+        "class": "LocalSpawnForceTriggerSystem",
+        "store": "EntityStore",
+        "purpose": "Force-triggers all local spawn controllers when the force flag is set"
+      },
+      {
+        "class": "SpawnBeaconSystems.LegacyEntityAdded",
+        "store": "EntityStore",
+        "purpose": "Initializes legacy spawn beacon — resolves spawn config, creates BeaconSpawnController"
+      },
+      {
+        "class": "SpawnBeaconSystems.EntityAdded",
+        "store": "EntityStore",
+        "purpose": "Initializes modern SpawnBeacon — resolves spawn config wrapper"
+      },
+      {
+        "class": "SpawnBeaconSystems.CheckDespawn",
+        "store": "EntityStore",
+        "purpose": "Checks if legacy beacons should self-despawn based on time-of-day and moon phase conditions"
+      },
+      {
+        "class": "SpawnBeaconSystems.PositionSelectorUpdate",
+        "store": "EntityStore",
+        "purpose": "Updates FloodFillPositionSelector cache periodically for beacons"
+      },
+      {
+        "class": "SpawnBeaconSystems.ControllerTick",
+        "store": "EntityStore",
+        "purpose": "Main beacon spawn controller tick — manages player detection, spawn radius, round management, idle NPC despawning"
+      },
+      {
+        "class": "SpawnBeaconSystems.SpawnJobTick",
+        "store": "EntityStore",
+        "purpose": "Processes active beacon spawn jobs — attempts position finding and NPC spawning"
+      },
+      {
+        "class": "SpawnBeaconSystems.LoadTimeDelay",
+        "store": "EntityStore",
+        "purpose": "Ticks down initial beacon delay and removes component when expired"
+      },
+      {
+        "class": "SpawnMarkerSystems.LegacyEntityMigration",
+        "store": "EntityStore",
+        "purpose": "Migrates legacy spawn marker data format"
+      },
+      {
+        "class": "SpawnMarkerSystems.EnsureNetworkSendable",
+        "store": "EntityStore",
+        "purpose": "Ensures spawn marker entities are network-sendable"
+      },
+      {
+        "class": "SpawnMarkerSystems.CacheMarker",
+        "store": "EntityStore",
+        "purpose": "Caches resolved SpawnMarker asset on the component for fast access"
+      },
+      {
+        "class": "SpawnMarkerSystems.EntityAdded",
+        "store": "EntityStore",
+        "purpose": "Initializes spawn marker — resolves asset, sets up NPC references, creates model"
+      },
+      {
+        "class": "SpawnMarkerSystems.EntityAddedFromExternal",
+        "store": "EntityStore",
+        "purpose": "Handles spawn markers added from external sources (e.g. world gen)"
+      },
+      {
+        "class": "SpawnMarkerSystems.AddedFromWorldGen",
+        "store": "EntityStore",
+        "purpose": "Handles spawn markers created during world generation"
+      },
+      {
+        "class": "SpawnMarkerSystems.Ticking",
+        "store": "EntityStore",
+        "purpose": "Main spawn marker tick — manages respawn timers (real-time and game-time), deactivation distance checks, NPC spawning, stored flock restoration, player exclusion radius"
+      },
+      {
+        "class": "WorldSpawnTrackingSystem",
+        "store": "EntityStore",
+        "purpose": "Tracks NPC add/remove events to update WorldSpawnData counts per environment and role"
+      },
+      {
+        "class": "MoonPhaseChangeEventSystem",
+        "store": "EntityStore",
+        "purpose": "Listens for moon phase changes and triggers spawn weight recalculation"
+      },
+      {
+        "class": "WorldSpawningSystem",
+        "store": "ChunkStore",
+        "purpose": "Main world spawning orchestrator — selects chunks via spiral iterator, calculates environment segment density, creates spawn jobs when population is below expected thresholds"
+      },
+      {
+        "class": "WorldSpawnJobSystems.EntityRemoved",
+        "store": "ChunkStore",
+        "purpose": "Cleans up spawn job data when chunks are removed"
+      },
+      {
+        "class": "WorldSpawnJobSystems.Ticking",
+        "store": "ChunkStore",
+        "purpose": "Processes active world spawn jobs — scans columns for valid positions, tests block types, light levels, breathing conditions, and spawns NPCs with flock support"
+      },
+      {
+        "class": "WorldSpawnJobSystems.TickingState",
+        "store": "ChunkStore",
+        "purpose": "Updates spawn job state — manages budget allocation and termination"
+      },
+      {
+        "class": "ChunkSpawningSystems.ChunkRefAdded",
+        "store": "ChunkStore",
+        "purpose": "Initializes chunk spawn data when chunks are first loaded — calculates environment segments"
+      },
+      {
+        "class": "ChunkSpawningSystems.TickingState",
+        "store": "ChunkStore",
+        "purpose": "Updates chunk spawn statistics periodically"
+      },
+      {
+        "class": "SpawnMarkerBlockStateSystems.AddOrRemove",
+        "store": "ChunkStore",
+        "purpose": "Handles block state spawn markers being added or removed in chunks"
+      },
+      {
+        "class": "SpawnMarkerBlockStateSystems.TickHeartbeat",
+        "store": "ChunkStore",
+        "purpose": "Heartbeat tick for block-state spawn markers"
+      },
+      {
+        "class": "SpawnMarkerBlockStateSystems.SpawnMarkerAddedFromExternal",
+        "store": "EntityStore",
+        "purpose": "Handles spawn marker block references added from external sources"
+      },
+      {
+        "class": "SpawnMarkerBlockStateSystems.SpawnMarkerTickHeartbeat",
+        "store": "EntityStore",
+        "purpose": "Heartbeat tick for entity-side spawn marker block references"
+      },
+      {
+        "class": "SpawningPlugin.LegacySpawnSuppressorEntityMigration",
+        "store": "EntityStore",
+        "purpose": "Migrates old 'SpawnSuppressor' unknown components to the new SpawnSuppressionComponent format"
+      }
+    ],
+
+    "commands": [
+      {
+        "name": "spawn",
+        "class": "SpawnCommand",
+        "purpose": "Root spawn command — collection of sub-commands for spawning management",
+        "subcommands": [
+          {"name": "beacons", "class": "SpawnBeaconsCommand", "purpose": "Create/list/remove spawn beacons"},
+          {"name": "markers", "class": "SpawnMarkersCommand", "purpose": "List/inspect/trigger spawn markers"},
+          {"name": "populate", "class": "SpawnPopulateCommand", "purpose": "Force chunk population spawning"},
+          {"name": "stats", "class": "SpawnStatsCommand", "purpose": "Display world spawn statistics — expected vs actual NPC counts per environment"},
+          {"name": "suppression", "class": "SpawnSuppressionCommand", "purpose": "Create/list/remove spawn suppression zones"}
+        ]
+      }
+    ],
+
+    "interactions": [
+      {
+        "codec_id": "TriggerSpawnMarkers",
+        "class": "TriggerSpawnMarkersInteraction",
+        "purpose": "Interaction that triggers spawn markers within a configurable radius when a player interacts"
+      }
+    ],
+
+    "core_component_types_registered": [
+      {
+        "npc_type": "TriggerSpawnBeacon",
+        "builder": "BuilderActionTriggerSpawnBeacon",
+        "runtime": "ActionTriggerSpawnBeacon",
+        "purpose": "NPC action that triggers a manual SpawnBeacon to spawn NPCs targeting a specific entity"
+      }
+    ],
+
+    "block_states": [
+      {
+        "id": "SpawnMarkerBlock",
+        "class": "SpawnMarkerBlockState",
+        "data_class": "SpawnMarkerBlockState.Data",
+        "purpose": "Block state variant of spawn markers — allows blocks in the world to function as spawn points"
+      }
+    ],
+
+    "subsystems": {
+      "spawn_rules": {
+        "overview": "Spawn rules are defined via JSON-configured assets (WorldNPCSpawn, BeaconNPCSpawn, SpawnMarker). Each config specifies: which NPCs to spawn (RoleSpawnParameters with weighted probabilities), environmental conditions (day/night range, moon phase, light levels per type), spawn/despawn parameters, and block/fluid constraints.",
+        "condition_types": [
+          {
+            "name": "DayTimeRange",
+            "type": "double[2]",
+            "purpose": "Hour range (0-24) for spawn eligibility. Can be scaled to world's DaytimePortion via ScaleDayTimeRange flag."
+          },
+          {
+            "name": "MoonPhaseRange",
+            "type": "int[2]",
+            "purpose": "Moon phase range (0-4, where 0=full moon, 4=new moon). 5 phases in Hytale."
+          },
+          {
+            "name": "LightRanges",
+            "type": "Map<LightType, double[]>",
+            "purpose": "Per-light-type ranges (0-100). Types: Light, SkyLight, Sunlight, RedLight, GreenLight, BlueLight"
+          },
+          {
+            "name": "MoonPhaseWeightModifiers",
+            "type": "double[]",
+            "scope": "WorldNPCSpawn only",
+            "purpose": "Per-moon-phase multipliers (0-2) for spawn weights. Array of 5 values."
+          },
+          {
+            "name": "SpawnBlockSet",
+            "type": "String (BlockSet reference)",
+            "scope": "Per-role",
+            "purpose": "Restricts which blocks the NPC can spawn on"
+          },
+          {
+            "name": "SpawnFluidTag",
+            "type": "String (tag reference)",
+            "scope": "Per-role",
+            "purpose": "Restricts which fluids the NPC can spawn on/in"
+          }
+        ],
+        "despawn_conditions": {
+          "class": "NPCSpawn.DespawnParameters",
+          "fields": ["DayTimeRange", "MoonPhaseRange"],
+          "purpose": "NPCs spawned by a config will be despawned when the world enters the despawn time/phase range. Overpopulation check: if actual > expected * 1.25 + 4 buffer, NPCs are despawned."
+        },
+        "light_types_enum": ["Light", "SkyLight", "Sunlight", "RedLight", "GreenLight", "BlueLight"]
+      },
+
+      "spawn_markers": {
+        "overview": "Fixed-location spawners placed in the world. Each marker references a SpawnMarker asset that defines a weighted pool of NPC configurations. When an NPC dies, the marker respawns after a cooldown (real-time or game-time). Markers deactivate when no players are within DeactivationDistance and store their NPCs as StoredFlock.",
+        "key_classes": [
+          "SpawnMarkerEntity — ECS component holding marker state",
+          "SpawnMarker — JSON asset defining marker configuration",
+          "SpawnMarkerSystems — Add/tick/deactivation logic",
+          "SpawnMarkerBlockState — Block-based variant"
+        ],
+        "marker_config_fields": {
+          "Model": "Visual representation in creative mode",
+          "NPCs": "Weighted list of SpawnConfiguration (NPC role, weight, respawn timers, flock)",
+          "ExclusionRadius": "Prevents spawning when adventure-mode player is within this radius",
+          "MaxDropHeight": "Maximum ground distance below marker for spawn placement",
+          "RealtimeRespawn": "Whether to use real-time or game-time for respawn",
+          "ManualTrigger": "If true, marker must be explicitly triggered (via interaction or NPC action)",
+          "DeactivationDistance": "Marker deactivates (stores NPCs) when no players are within range",
+          "DeactivationTime": "Delay before deactivation triggers"
+        },
+        "spawn_configuration_fields": {
+          "Name": "NPC role name",
+          "Weight": "Relative spawn weight",
+          "RealtimeRespawnTime": "Seconds before respawn (real-time mode)",
+          "SpawnAfterGameTime": "Duration string for respawn (game-time mode)",
+          "Flock": "Optional FlockAsset reference for group spawning"
+        },
+        "lifecycle": [
+          "1. Marker entity loads, caches SpawnMarker asset",
+          "2. On tick: check deactivation distance, manage respawn timers",
+          "3. When ready to spawn: validate position via SpawningContext, check block types, light, breathing",
+          "4. Spawn NPC via NPCPlugin.spawnEntity(), optionally spawn flock via FlockPlugin.trySpawnFlock()",
+          "5. Track NPC via InvalidatablePersistentRef array",
+          "6. On deactivation: store NPCs as StoredFlock, restore on reactivation"
+        ]
+      },
+
+      "spawn_beacons": {
+        "overview": "Dynamic or placed spawn points that create NPCs around nearby players. Two entity types exist: LegacySpawnBeaconEntity (full-featured, manages BeaconSpawnController) and SpawnBeacon (simplified, supports manual triggering). Beacons use FloodFillPositionSelector to find valid spawn positions within a radius.",
+        "key_classes": [
+          "LegacySpawnBeaconEntity — Full beacon entity with spawn controller and timer management",
+          "SpawnBeacon — Simplified beacon with manual trigger support",
+          "BeaconNPCSpawn — JSON config for beacon spawning rules",
+          "BeaconSpawnController — Manages spawn rounds, player tracking, NPC limits",
+          "BeaconSpawnWrapper — Runtime wrapper around BeaconNPCSpawn with weighted role picker",
+          "NPCBeaconSpawnJob — Individual spawn job targeting a specific player"
+        ],
+        "beacon_config_fields": {
+          "Model": "Visual representation",
+          "Environments": "Environments where this beacon can dynamically spawn",
+          "TargetDistanceFromPlayer": "Guideline distance for NPC spawn placement",
+          "MinDistanceFromPlayer": "Hard minimum distance from player",
+          "YRange": "Vertical range offsets for spawn positions",
+          "MaxSpawnedNPCs": "Maximum concurrent NPCs from this beacon",
+          "ConcurrentSpawnsRange": "NPCs to spawn per round",
+          "SpawnAfterGameTimeRange": "Game-time cooldown range between rounds",
+          "SpawnAfterRealTimeRange": "Real-time cooldown range between rounds",
+          "InitialSpawnDelayRange": "Delay before first spawn after beacon creation",
+          "NPCIdleDespawnTime": "Seconds idle before despawning NPC (requires NPCSpawnState)",
+          "BeaconVacantDespawnTime": "Game-time before beacon self-despawns with no players",
+          "BeaconRadius": "Influence radius (NPC tracking, ~25% > SpawnRadius recommended)",
+          "SpawnRadius": "Actual spawn placement radius",
+          "NPCSpawnState": "Force NPC into this state on spawn (e.g. 'Chase')",
+          "NPCSpawnSubState": "Additional substate qualifier",
+          "TargetSlot": "MarkedEntity slot to set the target player in",
+          "SpawnSuppression": "Optional suppression zone attached to this beacon",
+          "OverrideSpawnSuppressors": "Ignore existing suppression zones",
+          "MaxSpawnsScalingCurve": "ResponseCurve scaling max NPCs by player count",
+          "ConcurrentSpawnsScalingCurve": "ResponseCurve scaling concurrent spawns by player count"
+        },
+        "spawn_flow": [
+          "1. Beacon entity loads, SpawnBeaconSystems initializes controller",
+          "2. ControllerTick: detect players in beacon radius via spatial query",
+          "3. Scale max spawns and concurrent spawns by player count via response curves",
+          "4. Check spawn timer (real-time or game-time instant-based)",
+          "5. Create NPCBeaconSpawnJob targeting least-threatened player",
+          "6. SpawnJobTick: use FloodFillPositionSelector.prepareSpawnContext()",
+          "7. Validate position, spawn NPC, set target slot and forced state",
+          "8. If flock configured, use FlockPlugin.trySpawnFlock() for group spawning",
+          "9. Track spawned entity, manage idle despawn timeouts"
+        ]
+      },
+
+      "world_spawning": {
+        "overview": "Environment-driven density-based NPC spawning across loaded chunks. Each environment has a spawn density and associated WorldNPCSpawn configs. The WorldSpawningSystem selects chunks via a spiral iterator, creates SpawnJobs, and the WorldSpawnJobSystems process those jobs by scanning chunk columns for valid spawn positions.",
+        "key_classes": [
+          "WorldSpawnManager — Manages WorldSpawnWrappers per environment, enforces unique NPC-environment combinations",
+          "WorldSpawnWrapper — Runtime wrapper around WorldNPCSpawn",
+          "EnvironmentSpawnParameters — Per-environment spawn density and wrapper list",
+          "WorldSpawnData — Global spawn tracking resource",
+          "WorldEnvironmentSpawnData — Per-environment actual/expected NPC counts",
+          "WorldNPCSpawnStat — Per-NPC-role spawn statistics",
+          "ChunkSpawnData — Per-chunk environment segment data",
+          "SpawnJobData — Per-chunk active spawn jobs"
+        ],
+        "density_system": {
+          "overview": "Each Environment asset has a SpawnDensity value. The expected NPC count for an environment is: density * chunks_with_this_environment. Spawning continues until actual >= expected.",
+          "spiral_iterator": "Chunks are selected via SpiralIterator from the world center outward",
+          "column_budget": "Each tick has a column scanning budget of SpawnBudgetFactor * 20480"
+        }
+      },
+
+      "spawn_suppression": {
+        "overview": "System that prevents NPC spawning in configurable regions. Spawn suppressors are attached to entities and define a radius and set of suppressed NPC groups. The suppression controller maintains all active zones and provides SuppressionSpanHelper for Y-range adjustments during spawn position selection.",
+        "key_classes": [
+          "SpawnSuppression — JSON asset defining suppression radius, NPC groups, and spawn marker suppression flag",
+          "SpawnSuppressionComponent — ECS component on suppressor entities",
+          "SpawnSuppressionController — Resource maintaining all active suppressors",
+          "ChunkSuppressionEntry — Per-chunk suppression zone data",
+          "ChunkSuppressionQueue — Processing queue for chunk suppression updates",
+          "SuppressionSpanHelper — Adjusts spawn Y-ranges to exclude suppressed vertical spans",
+          "SpawnSuppressorEntry — Individual suppression zone entry with position and radius"
+        ]
+      },
+
+      "spawn_context": {
+        "overview": "SpawningContext is the central position validation mechanism shared by all spawn modes. It resolves a spawn position within a chunk column by analyzing spawn spans (contiguous empty blocks), checking ground level, water level, air height, block materials, and model bounding box fit.",
+        "class": "SpawningContext",
+        "key_fields": {
+          "world": "Target world",
+          "worldChunk": "Target chunk",
+          "xBlock/zBlock": "Block position within chunk",
+          "groundLevel": "Y level of the ground block",
+          "groundBlockType": "BlockType at ground level",
+          "waterLevel": "Y level of water surface (-1 if no water)",
+          "airHeight": "Y level of first air block above ground/water",
+          "xSpawn/ySpawn/zSpawn": "Final computed spawn position",
+          "spawnModel": "Model with bounding box for fit checks"
+        },
+        "validation_methods": [
+          "canSpawn(testOverlapBlocks, testOverlapEntities) — master validation",
+          "isOnSolidGround() — checks for solid block beneath spawn position",
+          "isInWater(minDepth) — checks for sufficient water depth",
+          "isInAir(height) — checks for air spawn at given height",
+          "canBreathe(breathesInAir, breathesInWater) — breathing validation",
+          "validatePosition(invalidMaterials) — collision module position check"
+        ],
+        "spawn_rejection_reasons": ["OUTSIDE_LIGHT_RANGE", "INVALID_SPAWN_BLOCK", "INVALID_POSITION", "NO_POSITION", "NOT_BREATHABLE", "OTHER"],
+        "spawn_test_results": ["TEST_OK", "FAIL_NO_POSITION", "FAIL_INVALID_POSITION", "FAIL_INTERSECT_ENTITY", "FAIL_NO_MOTION_CONTROLLERS", "FAIL_NOT_SPAWNABLE", "FAIL_NOT_BREATHABLE"]
+      },
+
+      "position_selection": {
+        "overview": "The FloodFillPositionSelector uses a flood-fill algorithm to discover valid spawn positions within a beacon's spawn radius. It maintains a cached set of positions per NPC role and rebuilds periodically.",
+        "key_classes": [
+          "FloodFillPositionSelector — Main position cache and flood-fill algorithm",
+          "FloodFillEntryPoolProviderSimple — Object pool for flood fill entries",
+          "FloodFillEntryPoolSimple — Pool implementation",
+          "RandomChunkColumnIterator — Iterator that visits chunk columns in random order",
+          "ChunkColumnMask — Bitmask tracking visited columns within a chunk"
+        ],
+        "util_classes": [
+          "LightRangePredicate — Tests block light levels against spawn config ranges for all 6 light types"
+        ]
+      },
+
+      "entity_factories": {
+        "overview": "Entity construction is delegated to NPCPlugin.spawnEntity() which creates NPC entities from role definitions. The spawning system provides position, rotation, model override (from SpawningContext), and post-spawn callbacks. Flock spawning is handled by FlockPlugin.trySpawnFlock() which spawns additional members around the leader.",
+        "spawn_chain": [
+          "1. SpawnWrapper.pickRole() selects a RoleSpawnParameters via weighted random",
+          "2. NPCPlugin.get().tryGetCachedValidRole(roleIndex) returns ISpawnableWithModel",
+          "3. SpawningContext.setSpawnable() resolves model and bounding box",
+          "4. Position validated via SpawningContext",
+          "5. NPCPlugin.get().spawnEntity(store, roleIndex, position, rotation, model, postSpawn) creates the NPC",
+          "6. FlockPlugin.trySpawnFlock() optionally spawns additional flock members",
+          "7. Post-spawn callback sets spawn beacon reference, target slot, forced state"
+        ]
+      }
+    },
+
+    "cross_references": {
+      "npc_system": [
+        "NPCPlugin — used for role resolution, entity spawning, builder validation",
+        "NPCEntity — NPC component accessed for role data, environment, spawn state",
+        "Role — NPC role accessed for flock config, state support, marked entity support",
+        "BuilderInfo — NPC builder metadata used in LoadedNPCEvent",
+        "SpawnMarkerReference — back-reference component (npc package)",
+        "SpawnBeaconReference — back-reference component (npc package)",
+        "SpawnReferenceSystems — NPC-side reference tracking systems",
+        "NewSpawnStartTickingSystem — queues newly spawned NPCs for immediate ticking"
+      ],
+      "flock_system": [
+        "FlockPlugin.trySpawnFlock() — creates flock when spawning with flock config",
+        "FlockAsset — referenced by RoleSpawnParameters and SpawnMarker.SpawnConfiguration",
+        "StoredFlock — used by SpawnMarkerEntity to persist NPC groups during deactivation",
+        "FlockMembershipSystems.join() — adds spawned NPCs to flock groups"
+      ],
+      "block_types": [
+        "BlockType — ground block validation during spawn position checks",
+        "BlockSet — per-role spawn block restrictions",
+        "BlockMaterial — material checks (Empty, Solid) in spawn span analysis",
+        "Fluid — fluid type checks for water spawning",
+        "BlockStateModule — SpawnMarkerBlockState registration"
+      ],
+      "world_gen": [
+        "FromWorldGen component — detected to handle world-gen spawned entities",
+        "WorldGenId component — tracked for spawn markers from world generation",
+        "EnvironmentColumn — used to find environment boundaries in chunks for spawn span calculation"
+      ],
+      "weather": [
+        "WeatherTracker — component type used in LocalSpawnControllerSystem (weather affects beacon spawning)"
+      ],
+      "time": [
+        "WorldTimeResource — game time, day time, moon phase, sunlight factor for spawn conditions"
+      ],
+      "collision": [
+        "CollisionModule — used for validatePosition() bounding box checks",
+        "NPCPhysicsMath — blockHeight calculation for spawn Y positioning"
+      ]
+    }
+  },
+
+  "flock": {
+    "plugin_class": "FlockPlugin",
+    "extends": "JavaPlugin",
+    "purpose": "Group behavior system for NPCs. Manages flock creation, membership (join/leave/leader election), group damage tracking, and provides NPC behavior components for flock-aware AI (steering, messaging, combat response, state management).",
+    "total_types": 33,
+    "overview": "A flock is a runtime entity in the EntityStore composed of a Flock component, EntityGroup component, and UUIDComponent. Individual NPCs/players join via FlockMembership. Each flock has exactly one leader (elected or interim) and tracks group damage data via double-buffered DamageData. Flocks are configured via FlockAsset (JSON) which specifies size ranges, grow limits, and blocked roles. The flock plugin provides 10 NPC core component types for AI integration.",
+
+    "asset_stores": [
+      {
+        "key_type": "String",
+        "value_type": "FlockAsset",
+        "map_type": "IndexedLookupTableAssetMap",
+        "path": "NPC/Flocks",
+        "purpose": "Flock definitions — size parameters, max grow size, blocked roles. Two sub-types: RangeSizeFlockAsset (min-max range) and WeightedSizeFlockAsset (weighted size distribution)"
+      }
+    ],
+
+    "flock_asset_types": [
+      {
+        "class": "FlockAsset",
+        "abstract": true,
+        "fields": {
+          "MaxGrowSize": {"type": "int", "default": 8, "purpose": "Maximum flock size after initial spawning"},
+          "BlockedRoles": {"type": "String[]", "default": "[]", "purpose": "Roles excluded from joining this flock post-spawn"}
+        },
+        "abstract_methods": ["getMinFlockSize()", "pickFlockSize()"]
+      },
+      {
+        "class": "RangeSizeFlockAsset",
+        "extends": "FlockAsset",
+        "codec_id": "Default",
+        "fields": {
+          "Size": {"type": "int[2]", "default": "[1,1]", "purpose": "Random range for initial flock size (min, max inclusive)"}
+        }
+      },
+      {
+        "class": "WeightedSizeFlockAsset",
+        "extends": "FlockAsset",
+        "codec_id": "Weighted",
+        "fields": {
+          "MinSize": {"type": "int", "purpose": "Absolute minimum flock size"},
+          "SizeWeights": {"type": "double[]", "purpose": "Weight array — index 0 = MinSize weight, index 1 = MinSize+1 weight, etc."}
+        }
+      }
+    ],
+
+    "ecs_components_entity_store": [
+      {
+        "class": "Flock",
+        "serialized": false,
+        "purpose": "Core flock component attached to the flock entity itself (not members). Contains PersistentFlockData, double-buffered DamageData for group and leader, removed status, and vis-flock debug counter.",
+        "removed_statuses": ["NOT_REMOVED", "DISSOLVED", "UNLOADED"]
+      },
+      {
+        "class": "FlockMembership",
+        "name": "FlockMembership",
+        "serialized": true,
+        "codec_version": 5,
+        "purpose": "Attached to individual NPC/player entities. Links to flock entity via UUID and Ref. Tracks membership type.",
+        "membership_types": [
+          {"name": "JOINING", "acts_as_leader": false, "purpose": "Transitional state during join process"},
+          {"name": "MEMBER", "acts_as_leader": false, "purpose": "Regular flock member"},
+          {"name": "LEADER", "acts_as_leader": true, "purpose": "Elected flock leader — owns PersistentFlockData"},
+          {"name": "INTERIM_LEADER", "acts_as_leader": true, "purpose": "Temporary leader when actual leader is unloaded"}
+        ]
+      },
+      {
+        "class": "PersistentFlockData",
+        "name": "FlockData",
+        "serialized": true,
+        "purpose": "Persisted flock metadata — max grow size, allowed roles, current size. Stored on the leader NPC entity for chunk serialization and on the Flock entity at runtime."
+      }
+    ],
+
+    "ecs_systems": [
+      {
+        "class": "FlockSystems.EntityRemoved",
+        "store": "EntityStore",
+        "type": "RefSystem",
+        "purpose": "Handles flock entity removal — on REMOVE: dissolves group (removes FlockMembership from all members, marks chunks dirty), on UNLOAD: clears group without dissolving"
+      },
+      {
+        "class": "FlockSystems.Ticking",
+        "store": "EntityStore",
+        "type": "EntityTickingSystem",
+        "purpose": "Swaps double-buffered damage data each tick (current <-> next, resets next)"
+      },
+      {
+        "class": "FlockSystems.FlockDebugSystem",
+        "store": "EntityStore",
+        "type": "EntityTickingSystem",
+        "purpose": "Renders debug visualization — colored rings around members, lines to leader. Only active when VisFlock debug flag is set on any member."
+      },
+      {
+        "class": "FlockSystems.PlayerChangeGameModeEventSystem",
+        "store": "EntityStore",
+        "type": "EntityEventSystem<ChangeGameModeEvent>",
+        "purpose": "Removes FlockMembership when a player changes to non-Adventure game mode"
+      },
+      {
+        "class": "FlockMembershipSystems.EntityRef",
+        "store": "EntityStore",
+        "type": "RefSystem",
+        "purpose": "On entity add: resolves flock UUID to Ref, creates flock entity if needed, adds to EntityGroup, handles leader assignment from persisted data. On entity remove: handles REMOVE (leave + leader re-election) and UNLOAD (interim leader assignment)."
+      },
+      {
+        "class": "FlockMembershipSystems.RefChange",
+        "store": "EntityStore",
+        "type": "RefChangeSystem<FlockMembership>",
+        "purpose": "Handles FlockMembership component add/set/remove — join validation (dead check, game mode check, flock data check, player leader limit), leader election, size tracking, chunk dirty marking"
+      },
+      {
+        "class": "FlockMembershipSystems.FilterPlayerFlockDamageSystem",
+        "store": "EntityStore",
+        "type": "DamageEventSystem",
+        "purpose": "Cancels damage between flock members — if attacker and target are in the same flock, damage is cancelled (friendly fire prevention)"
+      },
+      {
+        "class": "FlockMembershipSystems.OnDamageDealt",
+        "store": "EntityStore",
+        "type": "DamageEventSystem",
+        "purpose": "Records damage dealt by flock members into flock's DamageData (and leader-specific data if attacker is leader)"
+      },
+      {
+        "class": "FlockMembershipSystems.OnDamageReceived",
+        "store": "EntityStore",
+        "type": "DamageEventSystem",
+        "purpose": "Records damage received by flock members into flock's DamageData"
+      },
+      {
+        "class": "FlockMembershipSystems.NPCAddedFromWorldGen",
+        "store": "EntityStore",
+        "type": "HolderSystem",
+        "purpose": "Strips FlockMembership from NPCs that arrive from world generation (prevents stale flock references)"
+      },
+      {
+        "class": "FlockDeathSystems.EntityDeath",
+        "store": "EntityStore",
+        "type": "DeathSystems.OnDeathSystem",
+        "purpose": "On NPC death: removes FlockMembership (unless role.isCorpseStaysInFlock()), notifies attacker's flock of the kill"
+      },
+      {
+        "class": "FlockDeathSystems.PlayerDeath",
+        "store": "EntityStore",
+        "type": "DeathSystems.OnDeathSystem",
+        "purpose": "On player death: removes FlockMembership"
+      },
+      {
+        "class": "PositionCacheSystems.OnFlockJoinSystem",
+        "store": "EntityStore",
+        "purpose": "Updates NPC position cache when joining a flock (registered from npc package)"
+      },
+      {
+        "class": "FlockPlugin.PrefabPasteEventSystem",
+        "store": "EntityStore",
+        "type": "WorldEventSystem<PrefabPasteEvent>",
+        "purpose": "Manages flock UUID remapping during prefab paste operations — ensures pasted entities get new flock UUIDs"
+      }
+    ],
+
+    "commands": [
+      {
+        "name": "flock",
+        "class": "NPCFlockCommand",
+        "purpose": "Flock management commands for players",
+        "subcommands": [
+          {"name": "grab", "purpose": "Add nearby NPCs (in view cone) to the player's flock"},
+          {"name": "join", "purpose": "Player joins the flock of a nearby NPC"},
+          {"name": "leave", "purpose": "Remove nearby NPCs from their flocks"},
+          {"name": "playerleave", "purpose": "Player leaves their current flock"}
+        ],
+        "view_cone_params": {
+          "distance": 8.0,
+          "angle": "30 degrees",
+          "height": 2
+        }
+      }
+    ],
+
+    "npc_core_component_types": [
+      {
+        "npc_type": "Flock",
+        "builder": "BuilderBodyMotionFlock",
+        "runtime": "BodyMotionFlock",
+        "category": "BodyMotion",
+        "state": "Experimental",
+        "purpose": "Flocking steering behavior — computes cohesion, separation, and leader-following forces using GroupSteeringAccumulator. Applies to NPC movement when in a flock."
+      },
+      {
+        "npc_type": "JoinFlock",
+        "builder": "BuilderActionFlockJoin",
+        "runtime": "ActionFlockJoin",
+        "category": "Action",
+        "state": "Stable",
+        "purpose": "NPC action to join or create a flock with target entity. Creates new flock if neither is in one."
+      },
+      {
+        "npc_type": "LeaveFlock",
+        "builder": "BuilderActionFlockLeave",
+        "runtime": "ActionFlockLeave",
+        "category": "Action",
+        "state": "Stable",
+        "purpose": "NPC action to leave current flock. No-op if not in a flock."
+      },
+      {
+        "npc_type": "FlockState",
+        "builder": "BuilderActionFlockState",
+        "runtime": "ActionFlockState",
+        "category": "Action",
+        "state": "Stable",
+        "purpose": "Sets a state name (and optional substate) on all flock members, excluding the leader."
+      },
+      {
+        "npc_type": "FlockTarget",
+        "builder": "BuilderActionFlockSetTarget",
+        "runtime": "ActionFlockSetTarget",
+        "category": "Action",
+        "state": "Stable",
+        "purpose": "Sets or clears a locked target for all flock members via a named target slot."
+      },
+      {
+        "npc_type": "FlockBeacon",
+        "builder": "BuilderActionFlockBeacon",
+        "runtime": "ActionFlockBeacon",
+        "category": "Action",
+        "state": "Experimental",
+        "purpose": "Sends a beacon message to flock members (or leader only) with expiration time. Used for inter-NPC communication within a flock."
+      },
+      {
+        "npc_type": "Flock",
+        "builder": "BuilderEntityFilterFlock",
+        "runtime": "EntityFilterFlock",
+        "category": "EntityFilter",
+        "state": "Stable",
+        "purpose": "Filters entities by flock membership status (Leader/Follower/Member/NotMember/Any), player membership, flock size range, and joinability."
+      },
+      {
+        "npc_type": "FlockCombatDamage",
+        "builder": "BuilderSensorFlockCombatDamage",
+        "runtime": "SensorFlockCombatDamage",
+        "category": "Sensor",
+        "state": "Stable",
+        "purpose": "Sensor that detects when the flock (or leader only) has received combat damage. Provides the most-damaging attacker as target."
+      },
+      {
+        "npc_type": "InflictedDamage",
+        "builder": "BuilderSensorInflictedDamage",
+        "runtime": "SensorInflictedDamage",
+        "category": "Sensor",
+        "state": "Stable",
+        "purpose": "Sensor detecting when the entity/flock/flock-leader has inflicted damage. Provides the most-damaged victim as target. Supports friendly-fire filter."
+      },
+      {
+        "npc_type": "FlockLeader",
+        "builder": "BuilderSensorFlockLeader",
+        "runtime": "SensorFlockLeader",
+        "category": "Sensor",
+        "state": "Stable",
+        "purpose": "Sensor providing the flock leader's position as the target."
+      }
+    ],
+
+    "decision_maker_conditions": [
+      {
+        "codec_id": "FlockSize",
+        "class": "FlockSizeCondition",
+        "extends": "ScaledCurveCondition",
+        "purpose": "Decision-maker condition returning current flock size (1 if not in flock). Used with response curves for size-dependent behavior decisions."
+      }
+    ],
+
+    "flock_membership": {
+      "overview": "Entities join flocks via FlockMembershipSystems.join() which creates a FlockMembership component with JOINING type. The RefChange system processes the join: validates the entity (alive, adventure mode for players, flock data loaded, role allowed), adds to EntityGroup, and elects leader. Leader election prefers: (1) the entity with LEADER type from persistence, (2) players always become leader, (3) first joiner. When a member leaves or dies, the system re-elects from remaining members using canBecomeLeader (players or NPCs with role.isCanLeadFlock()).",
+      "join_conditions": [
+        "Entity must be alive (not dead)",
+        "Players must be in Adventure mode",
+        "Flock PersistentFlockData must be loaded (leader present)",
+        "Entity's role must be in the flock's allowed roles list",
+        "Flock must not exceed maxGrowSize",
+        "Only one player can be in a flock at a time"
+      ],
+      "leader_election": [
+        "Players always become leader (highest priority)",
+        "NPCs with role.isCanLeadFlock() = true are eligible",
+        "When leader unloads, an INTERIM_LEADER is appointed from remaining members",
+        "When leader is removed, a new LEADER is elected from eligible members",
+        "If no eligible leader exists, the flock is dissolved"
+      ],
+      "dissolution_rules": [
+        "Flock is removed when size drops below 2 members",
+        "Flock is removed when no eligible leader can be found",
+        "On removal: all members have FlockMembership stripped, EntityGroup dissolved"
+      ]
+    },
+
+    "flock_behavior": {
+      "overview": "BodyMotionFlock implements classic boids-style flocking: cohesion (move toward group center), separation (avoid nearby members), and leader-following (move toward leader). The GroupSteeringAccumulator iterates over flock members within the influence range, computing sum-of-positions, sum-of-velocities, and sum-of-distances vectors.",
+      "steering_weights": {
+        "cohesion": 1.0,
+        "separation": 1.0,
+        "leader_following": 0.5
+      },
+      "group_damage_tracking": {
+        "overview": "Flock maintains double-buffered DamageData for both the whole group and leader-only. Each tick, buffers are swapped and the next buffer is reset. DamageData tracks: most-damaging attacker, most-damaged victim, kill events.",
+        "data_tracked": [
+          "onInflictedDamage(entityRef, amount) — records outgoing damage",
+          "onSufferedDamage(commandBuffer, damage) — records incoming damage",
+          "onKill(targetRef, position) — records kill events",
+          "getMostDamagingAttacker() — returns entity that dealt most damage",
+          "getMostDamagedVictim() — returns entity that received most damage"
+        ]
+      },
+      "messaging": "ActionFlockBeacon sends named messages with optional target references to all flock members (or leader only) via BeaconSupport.postMessage(). Messages have configurable expiration time."
+    },
+
+    "stored_flock": {
+      "class": "StoredFlock",
+      "purpose": "Serializable container for persisting flock NPC entities when a spawn marker deactivates. Stores NPCs as Holder<EntityStore> arrays. Used by SpawnMarkerEntity to save/restore NPCs when players leave deactivation range.",
+      "operations": [
+        "storeNPCs(refs, store) — removes entities from store, saves as holders",
+        "restoreNPCs(output, store) — re-adds entities to store from saved holders",
+        "clear() — releases stored data"
+      ],
+      "cross_reference": "Used by spawning.spawnmarkers.SpawnMarkerEntity, references SpawningPlugin.get() for logging"
+    },
+
+    "cross_references": {
+      "npc_system": [
+        "NPCPlugin — NPC core component registration, spawnEntity()",
+        "NPCEntity — role access, role name, damage data",
+        "Role — isCanLeadFlock(), isCorpseStaysInFlock(), getFlockAllowedRoles(), getFlockSpawnTypes(), getFlockInfluenceRange(), getDebugSupport(), getStateSupport(), getMarkedEntitySupport()",
+        "BeaconSupport — inter-NPC messaging via postMessage()",
+        "DamageData — damage tracking shared with NPC system",
+        "GroupSteeringAccumulator — steering computation from npc.movement"
+      ],
+      "spawning_system": [
+        "FlockPlugin.trySpawnFlock() called by spawning controllers",
+        "FlockAsset referenced in RoleSpawnParameters and SpawnMarker.SpawnConfiguration",
+        "StoredFlock used by SpawnMarkerEntity for deactivation persistence",
+        "SpawningPlugin.get().getLogger() referenced by StoredFlock for logging"
+      ],
+      "entity_system": [
+        "EntityGroup — membership container (from core.entity.group)",
+        "UUIDComponent — flock identification",
+        "TransformComponent — position access for steering and debug rendering",
+        "BoundingBox — bounding box for debug ring sizing",
+        "HeadRotation — rotation for flock member placement",
+        "Player — game mode checks, player-as-leader handling",
+        "DeathComponent — death detection for leave-on-death",
+        "ChangeGameModeEvent — leave flock on creative mode switch"
+      ],
+      "damage_system": [
+        "DamageModule — filter/inspect damage groups",
+        "DamageEventSystem — damage event processing",
+        "Damage — damage source and amount",
+        "DeathSystems — death event processing"
+      ],
+      "prefab_system": [
+        "PrefabPasteEvent — flock UUID remapping during prefab pasting"
+      ],
+      "debug_system": [
+        "DebugUtils — renders colored discs and lines for flock visualization",
+        "RoleDebugFlags.VisFlock — debug flag enabling flock visualization",
+        "RoleDebugFlags.Flock — debug flag enabling flock trace logging"
+      ]
+    }
+  },
+
+  "cross_system_relationships": {
+    "spawning_to_flock": [
+      "RoleSpawnParameters.Flock — each NPC spawn role can reference a FlockAsset for group spawning",
+      "SpawnMarker.SpawnConfiguration.Flock — marker NPC configs can include flock definitions",
+      "FlockPlugin.trySpawnFlock() — called by spawning to create flock groups of NPCs",
+      "StoredFlock — used by SpawnMarkerEntity to persist flock NPCs during deactivation",
+      "FlockMembershipSystems.join() — called by spawning to add NPCs to flock groups"
+    ],
+    "shared_dependencies": [
+      "NPCPlugin — both systems depend on NPCPlugin for NPC creation, role resolution",
+      "EntityStore / ChunkStore — both use the ECS framework",
+      "TransformComponent — both access entity positions",
+      "UUIDComponent — used for flock identity and spawn marker tracking"
+    ]
+  }
+}

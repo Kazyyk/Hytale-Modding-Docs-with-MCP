@@ -1,0 +1,614 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T00:00:00Z",
+  "domain": "npc_core",
+  "overview": "The NPC core subsystem implements a data-driven behavior tree architecture for all non-player characters in Hytale. It uses the server's ECS framework (EntityStore) with NPCEntity as the primary component. NPCs are governed by Roles (behavior configurations loaded from JSON), which compose Actions, Sensors, BodyMotions, and HeadMotions into Instructions that are evaluated each tick. A Blackboard provides shared world-state views (block types, events, attitudes, resources, interactions). A utility-AI StateEvaluator periodically scores StateOptions using Conditions to select the best behavioral state. State transitions can execute prioritised action lists. The PositionCache system pre-computes spatial queries for nearby players, NPCs, and items each tick. All NPC core components follow a Builder pattern — each runtime type has a corresponding Builder* class that reads JSON configuration and constructs the instance.",
+  "confidence": "high",
+  "subsections": {
+    "core_components": {
+      "overview": "Core components are the behavioral building blocks that compose NPC instructions. They fall into five hierarchies rooted in AnnotatedComponentBase: Actions (things NPCs do), Sensors (things NPCs perceive), BodyMotions (body movement behaviors), HeadMotions (head orientation behaviors), and EntityFilters (criteria for selecting/filtering entities). There are also WeightedActions for probabilistic selection. Each concrete type has a corresponding Builder* class for JSON deserialization. There are 327 total Java files in corecomponents (162 non-builder types, 165 builder types).",
+      "base_types": [
+        {
+          "name": "AnnotatedComponentBase",
+          "purpose": "Abstract base for all NPC behavioral components. Provides parent/index context for the component tree and implements IAnnotatedComponent.",
+          "fields": ["parent: IAnnotatedComponent", "index: int"]
+        },
+        {
+          "name": "ActionBase",
+          "extends": "AnnotatedComponentBase implements Action",
+          "purpose": "Base class for all NPC actions. Implements once-trigger logic (execute at most once until cleared) and activate/deactivate lifecycle.",
+          "fields": ["once: boolean", "triggered: boolean", "active: boolean"],
+          "key_methods": ["canExecute(Ref, Role, InfoProvider, dt, Store)", "execute(Ref, Role, InfoProvider, dt, Store)", "activate(Role, InfoProvider)", "deactivate(Role, InfoProvider)"]
+        },
+        {
+          "name": "ActionWithDelay",
+          "extends": "ActionBase",
+          "purpose": "Action base that adds a configurable random delay before execution. Used by actions like ActionDropItem, ActionPickUpItem.",
+          "fields": ["delayRange: double[]", "delay: double", "isDelaying: boolean"]
+        },
+        {
+          "name": "SensorBase",
+          "extends": "AnnotatedComponentBase implements Sensor",
+          "purpose": "Base class for all NPC sensors. Provides once-trigger logic for single-fire sensors.",
+          "fields": ["once: boolean", "triggered: boolean"],
+          "key_methods": ["matches(Ref, Role, dt, Store)", "getSensorInfo(): InfoProvider"]
+        },
+        {
+          "name": "SensorWithEntityFilters",
+          "extends": "SensorBase implements IAnnotatedComponentCollection",
+          "purpose": "Sensor base that applies an array of IEntityFilter criteria to entity detection. Filters are sorted by cost for early-out optimization.",
+          "fields": ["filters: IEntityFilter[]"]
+        },
+        {
+          "name": "MotionBase",
+          "extends": "AnnotatedComponentBase implements Motion",
+          "purpose": "Abstract base for all motion components."
+        },
+        {
+          "name": "BodyMotionBase",
+          "extends": "MotionBase implements BodyMotion",
+          "purpose": "Base class for body movement behaviors (pathfinding, wandering, fleeing, etc.)."
+        },
+        {
+          "name": "HeadMotionBase",
+          "extends": "MotionBase implements HeadMotion",
+          "purpose": "Base class for head orientation behaviors (watching targets, aiming, observing)."
+        },
+        {
+          "name": "EntityFilterBase",
+          "extends": "AnnotatedComponentBase implements IEntityFilter",
+          "purpose": "Base class for entity filters used in sensor evaluation."
+        },
+        {
+          "name": "IEntityFilter",
+          "purpose": "Interface for entity filter criteria. Defines cost tiers (MINIMAL=0, LOW=100, MID=200, HIGH=300, EXTREME=400) for evaluation ordering. Filters are sorted ascending by cost for early-out.",
+          "key_methods": ["matchesEntity(selfRef, targetRef, Role, Store)", "cost(): int"]
+        },
+        {
+          "name": "ISensorEntityCollector",
+          "purpose": "Interface for collecting matching/non-matching entities during sensor sweeps. Has a DEFAULT no-op implementation that terminates on first match.",
+          "key_methods": ["init(Ref, Role, ComponentAccessor)", "collectMatching(Ref, targetRef, ComponentAccessor)", "collectNonMatching(targetRef, ComponentAccessor)", "terminateOnFirstMatch()"]
+        },
+        {
+          "name": "ISensorEntityPrioritiser",
+          "purpose": "Interface for prioritising which entity a sensor selects as its target. Provides separate NPC and player prioritisers.",
+          "key_methods": ["getNPCPrioritiser()", "getPlayerPrioritiser()", "pickTarget(...)"]
+        },
+        {
+          "name": "WeightedAction",
+          "extends": "AnnotatedComponentBase implements Action",
+          "purpose": "Wrapper that adds a weight value to an Action for probabilistic selection (used by ActionRandom).",
+          "fields": ["action: Action", "weight: double"]
+        },
+        {
+          "name": "BlockTarget",
+          "purpose": "Tracks a targeted block position with chunk revision tracking and resource reservation. Used by world-interaction actions and sensors.",
+          "fields": ["position: Vector3d", "chunkChangeRevision: int", "foundBlockType: int", "reservationHolder: ResourceView"]
+        }
+      ],
+      "categories": {
+        "audiovisual": {
+          "overview": "Actions and sensors for visual/audio effects: model appearance, display names, animations, sounds, particles.",
+          "types": [
+            {"name": "ActionAppearance", "purpose": "Changes the NPC's model appearance.", "fields": ["appearance: String"]},
+            {"name": "ActionDisplayName", "purpose": "Sets the NPC's display name.", "fields": ["displayName: String"]},
+            {"name": "ActionModelAttachment", "purpose": "Attaches/detaches a model to a slot.", "fields": ["slot: String", "attachment: String"]},
+            {"name": "ActionPlayAnimation", "purpose": "Plays an animation on a specified slot.", "fields": ["slot: NPCAnimationSlot", "animationId: String"]},
+            {"name": "ActionPlaySound", "purpose": "Plays a 3D sound at the NPC's position.", "fields": ["soundEventIndex: int"]},
+            {"name": "ActionSpawnParticles", "purpose": "Spawns particle effects at/near the NPC.", "fields": ["particleSystem: String", "range: double", "offset: Vector3d"]},
+            {"name": "SensorAnimation", "purpose": "Checks if a specific animation is currently playing on a slot.", "fields": ["slot: NPCAnimationSlot", "animationId: String"]}
+          ]
+        },
+        "combat": {
+          "overview": "Actions, sensors, and motions for NPC combat behaviors.",
+          "types": [
+            {"name": "ActionApplyEntityEffect", "purpose": "Applies an entity effect to self or target.", "fields": ["entityEffectId: int", "useTarget: boolean"]},
+            {"name": "ActionAttack", "purpose": "Executes a melee or ranged attack with configurable damage, knockback, range. Core combat action.", "fields": ["damage: double[]", "knockbackForce: float", "range: double", "useTarget: boolean", "attackRange: double"]},
+            {"name": "BodyMotionAimCharge", "purpose": "Charges up an aim for a ranged attack."},
+            {"name": "HeadMotionAim", "purpose": "Aims the NPC's head toward a target for combat."},
+            {"name": "SensorDamage", "purpose": "Detects when the NPC has taken damage. Provides the attacker reference and damage position.", "fields": ["positionProvider: EntityPositionProvider"]},
+            {"name": "SensorIsBackingAway", "purpose": "Detects if the NPC is moving away from its target."},
+            {"name": "SensorEntityPrioritiserAttitude", "purpose": "Prioritises entity targets by attitude (hostile > neutral > friendly)."},
+            {"name": "SensorEntityPrioritiserDefault", "purpose": "Default entity prioritiser using distance-based sorting."}
+          ]
+        },
+        "entity": {
+          "overview": "Actions, sensors, motions, and filters related to entity awareness and targeting. Includes 18 entity filter types for fine-grained target selection.",
+          "types": [
+            {"name": "ActionBeacon", "purpose": "Sends a beacon message to nearby NPCs."},
+            {"name": "ActionIgnoreForAvoidance", "purpose": "Marks a target slot to ignore for avoidance steering."},
+            {"name": "ActionNotify", "purpose": "Sends event notifications to the blackboard event view."},
+            {"name": "ActionOverrideAttitude", "purpose": "Overrides the attitude toward a specific entity."},
+            {"name": "ActionReleaseTarget", "purpose": "Releases a marked target from a specific slot."},
+            {"name": "ActionSetMarkedTarget", "purpose": "Sets a marked entity target in a specified slot."},
+            {"name": "ActionSetStat", "purpose": "Modifies an entity stat value."},
+            {"name": "HeadMotionWatch", "purpose": "Orients the NPC's head to watch a target entity."},
+            {"name": "SensorBeacon", "purpose": "Detects beacon messages from other NPCs."},
+            {"name": "SensorCount", "purpose": "Counts entities matching filters within range."},
+            {"name": "SensorEntity", "purpose": "Primary entity detection sensor. Detects NPCs/players matching filters within range."},
+            {"name": "SensorEntityBase", "purpose": "Base for entity sensors with range and filter support."},
+            {"name": "SensorKill", "purpose": "Detects when the NPC has killed an entity."},
+            {"name": "SensorPlayer", "purpose": "Detects players matching filters within range."},
+            {"name": "SensorSelf", "purpose": "Provides the NPC's own position as sensor info."},
+            {"name": "SensorTarget", "purpose": "Checks if a previously marked target is still valid."}
+          ],
+          "entity_filters": [
+            {"name": "EntityFilterAltitude", "purpose": "Filters by Y-coordinate altitude range.", "cost": "LOW"},
+            {"name": "EntityFilterAnd", "purpose": "Logical AND of child filters."},
+            {"name": "EntityFilterAttitude", "purpose": "Filters by attitude (hostile/friendly/neutral).", "cost": "MID"},
+            {"name": "EntityFilterCombat", "purpose": "Filters by combat state.", "cost": "MID"},
+            {"name": "EntityFilterHeightDifference", "purpose": "Filters by relative height difference.", "cost": "LOW"},
+            {"name": "EntityFilterInsideBlock", "purpose": "Filters by whether entity is inside a specific block type.", "cost": "HIGH"},
+            {"name": "EntityFilterInventory", "purpose": "Filters by inventory contents.", "cost": "MID"},
+            {"name": "EntityFilterItemInHand", "purpose": "Filters by item type held in hand.", "cost": "MID"},
+            {"name": "EntityFilterLineOfSight", "purpose": "Filters by line-of-sight visibility.", "cost": "EXTREME"},
+            {"name": "EntityFilterMany", "purpose": "Composite filter with multiple children."},
+            {"name": "EntityFilterMovementState", "purpose": "Filters by movement state.", "cost": "LOW"},
+            {"name": "EntityFilterNot", "purpose": "Logical NOT of a child filter."},
+            {"name": "EntityFilterNPCGroup", "purpose": "Filters by NPC group tag membership.", "cost": "MINIMAL"},
+            {"name": "EntityFilterOr", "purpose": "Logical OR of child filters."},
+            {"name": "EntityFilterSpotsMe", "purpose": "Filters entities that can see the NPC.", "cost": "HIGH"},
+            {"name": "EntityFilterStandingOnBlock", "purpose": "Filters by block type the entity is standing on.", "cost": "HIGH"},
+            {"name": "EntityFilterStat", "purpose": "Filters by entity stat value.", "cost": "MID"},
+            {"name": "EntityFilterViewSector", "purpose": "Filters by whether entity is within a view sector angle.", "cost": "LOW"}
+          ]
+        },
+        "interaction": {
+          "overview": "Actions and sensors for NPC-player interaction.",
+          "types": [
+            {"name": "ActionLockOnInteractionTarget", "purpose": "Locks on to the player who interacted with the NPC."},
+            {"name": "ActionSetInteractable", "purpose": "Toggles whether the NPC can be interacted with."},
+            {"name": "SensorCanInteract", "purpose": "Checks if a player is available to interact with."},
+            {"name": "SensorHasInteracted", "purpose": "Detects if a player has interacted with the NPC."},
+            {"name": "SensorInteractionContext", "purpose": "Provides contextual data about an ongoing interaction."}
+          ]
+        },
+        "items": {
+          "overview": "Actions and sensors for NPC item management.",
+          "types": [
+            {"name": "ActionDropItem", "purpose": "Drops an item from inventory or a drop list."},
+            {"name": "ActionInventory", "purpose": "Manipulates NPC inventory with many operations (equip, swap, clear, etc.)."},
+            {"name": "ActionPickUpItem", "purpose": "Picks up a nearby dropped item entity."},
+            {"name": "SensorDroppedItem", "purpose": "Detects dropped item entities matching criteria within range."}
+          ]
+        },
+        "lifecycle": {
+          "overview": "Actions and sensors for NPC lifecycle management.",
+          "types": [
+            {"name": "ActionDelayDespawn", "purpose": "Modifies the NPC's despawn timer."},
+            {"name": "ActionDespawn", "purpose": "Triggers despawn (forced or graceful)."},
+            {"name": "ActionDie", "purpose": "Kills the NPC by adding a DeathComponent."},
+            {"name": "ActionRemove", "purpose": "Removes the NPC or its target entity."},
+            {"name": "ActionRole", "purpose": "Changes the NPC's role at runtime via the RoleChangeSystem queue."},
+            {"name": "ActionSpawn", "purpose": "Spawns a new NPC at a position."},
+            {"name": "SensorAge", "purpose": "Matches if the NPC's age falls within a range."}
+          ]
+        },
+        "movement": {
+          "overview": "Body motions for pathfinding, wandering, flying, and movement sensors. Largest sub-category.",
+          "types": [
+            {"name": "ActionCrouch", "purpose": "Toggles NPC crouching state."},
+            {"name": "ActionOverrideAltitude", "purpose": "Overrides the NPC's target altitude for flying."},
+            {"name": "ActionRecomputePath", "purpose": "Forces path recomputation."},
+            {"name": "BodyMotionFind", "purpose": "Pathfinds to a sensor-provided target position. Core pursue behavior."},
+            {"name": "BodyMotionFindBase", "purpose": "Base class for pathfinding motions with A* integration."},
+            {"name": "BodyMotionFindWithTarget", "purpose": "Extension of Find that tracks a target entity reference."},
+            {"name": "BodyMotionLand", "purpose": "Lands a flying NPC on the ground."},
+            {"name": "BodyMotionLeave", "purpose": "Moves the NPC away from a position."},
+            {"name": "BodyMotionMaintainDistance", "purpose": "Maintains a specific distance from a target."},
+            {"name": "BodyMotionMatchLook", "purpose": "Rotates body to match head look direction."},
+            {"name": "BodyMotionMoveAway", "purpose": "Flees from a target position."},
+            {"name": "BodyMotionTakeOff", "purpose": "Launches a grounded NPC into the air for flying."},
+            {"name": "BodyMotionTeleport", "purpose": "Teleports the NPC to a sensor-provided position."},
+            {"name": "BodyMotionWander", "purpose": "Random wandering within leash radius."},
+            {"name": "BodyMotionWanderBase", "purpose": "Base for wandering behaviors."},
+            {"name": "BodyMotionWanderInCircle", "purpose": "Wanders in a circular pattern."},
+            {"name": "BodyMotionWanderInRect", "purpose": "Wanders in a rectangular region."},
+            {"name": "SensorInAir", "purpose": "Detects if the NPC is airborne."},
+            {"name": "SensorMotionController", "purpose": "Checks the active motion controller type."},
+            {"name": "SensorNav", "purpose": "Checks navigation state."},
+            {"name": "SensorOnGround", "purpose": "Detects if the NPC is standing on ground."}
+          ]
+        },
+        "statemachine": {
+          "overview": "Actions and sensors for the NPC state machine.",
+          "types": [
+            {"name": "ActionParentState", "purpose": "Transitions to the parent state in a hierarchical state machine."},
+            {"name": "ActionState", "purpose": "Sets the NPC's current state/sub-state."},
+            {"name": "ActionToggleStateEvaluator", "purpose": "Enables/disables the utility-AI state evaluator."},
+            {"name": "SensorIsBusy", "purpose": "Checks if the NPC is in a busy state."},
+            {"name": "SensorState", "purpose": "Checks if the NPC is in a specific state/sub-state."}
+          ]
+        },
+        "timer": {
+          "overview": "Actions, sensors, and motions for time-based behaviors.",
+          "types": [
+            {"name": "ActionSetAlarm", "purpose": "Sets a named persistent alarm timer."},
+            {"name": "ActionTimer", "purpose": "Base for timer control actions."},
+            {"name": "BodyMotionTimer", "purpose": "Body motion that runs for a timed duration."},
+            {"name": "HeadMotionTimer", "purpose": "Head motion that runs for a timed duration."},
+            {"name": "MotionTimer", "purpose": "Generic motion timer base."},
+            {"name": "SensorAlarm", "purpose": "Checks if a named alarm has elapsed."},
+            {"name": "SensorTimer", "purpose": "Checks if a timer has elapsed."}
+          ]
+        },
+        "utility": {
+          "overview": "Meta-actions and sensors for control flow: sequencing, randomization, boolean logic, flags.",
+          "types": [
+            {"name": "ActionNothing", "purpose": "No-op action."},
+            {"name": "ActionRandom", "purpose": "Selects one of several WeightedActions randomly."},
+            {"name": "ActionResetInstructions", "purpose": "Resets all once-triggered instructions."},
+            {"name": "ActionSequence", "purpose": "Executes child actions in sequence."},
+            {"name": "ActionSetFlag", "purpose": "Sets a boolean flag in the value store."},
+            {"name": "ActionTimeout", "purpose": "Wraps an action with a maximum execution time."},
+            {"name": "BodyMotionNothing", "purpose": "No-op body motion."},
+            {"name": "BodyMotionSequence", "purpose": "Sequences multiple body motions."},
+            {"name": "HeadMotionNothing", "purpose": "No-op head motion."},
+            {"name": "HeadMotionSequence", "purpose": "Sequences multiple head motions."},
+            {"name": "MotionSequence", "purpose": "Base for motion sequencing."},
+            {"name": "SensorAdjustPosition", "purpose": "Adjusts a sensor position relative to the NPC."},
+            {"name": "SensorAnd", "purpose": "Logical AND of child sensors."},
+            {"name": "SensorAny", "purpose": "Matches if any entity in range matches."},
+            {"name": "SensorEval", "purpose": "Evaluates a value expression."},
+            {"name": "SensorFlag", "purpose": "Checks a boolean flag in the value store."},
+            {"name": "SensorMany", "purpose": "Matches against multiple entity targets."},
+            {"name": "SensorNot", "purpose": "Logical NOT of a child sensor."},
+            {"name": "SensorOr", "purpose": "Logical OR of child sensors."},
+            {"name": "SensorRandom", "purpose": "Randomly matches with a configurable probability."},
+            {"name": "SensorSwitch", "purpose": "Conditional branching sensor."},
+            {"name": "SensorValueProviderWrapper", "purpose": "Wraps a value provider as sensor info."}
+          ]
+        },
+        "world": {
+          "overview": "Actions, sensors, and motions for world interaction.",
+          "types": [
+            {"name": "ActionMakePath", "purpose": "Requests pathfinding computation."},
+            {"name": "ActionPlaceBlock", "purpose": "Places a block at a target position."},
+            {"name": "ActionResetBlockSensors", "purpose": "Resets block-type sensor search state."},
+            {"name": "ActionResetPath", "purpose": "Clears the current navigation path."},
+            {"name": "ActionResetSearchRays", "purpose": "Resets search ray state."},
+            {"name": "ActionSetBlockToPlace", "purpose": "Sets the block type to be placed."},
+            {"name": "ActionSetLeashPosition", "purpose": "Updates the NPC's leash origin point."},
+            {"name": "ActionStorePosition", "purpose": "Stores a position in the value store."},
+            {"name": "ActionTriggerSpawners", "purpose": "Triggers nearby spawn markers/beacons."},
+            {"name": "BodyMotionPath", "purpose": "Follows a pre-computed path."},
+            {"name": "HeadMotionObserve", "purpose": "Orients the head to scan/observe the environment."},
+            {"name": "SensorBlock", "purpose": "Detects specific block types nearby via the BlockTypeView blackboard."},
+            {"name": "SensorBlockChange", "purpose": "Detects block changes via block event view."},
+            {"name": "SensorBlockType", "purpose": "Checks the block type at a specific position."},
+            {"name": "SensorCanPlace", "purpose": "Checks if a block can be placed at a position."},
+            {"name": "SensorEntityEvent", "purpose": "Detects entity events from the blackboard."},
+            {"name": "SensorEvent", "purpose": "Detects block events from the blackboard."},
+            {"name": "SensorInWater", "purpose": "Detects if the NPC is submerged in water."},
+            {"name": "SensorLeash", "purpose": "Checks distance to leash origin point."},
+            {"name": "SensorLight", "purpose": "Checks ambient light level."},
+            {"name": "SensorPath", "purpose": "Checks path computation status."},
+            {"name": "SensorReadPosition", "purpose": "Reads a stored position from the value store."},
+            {"name": "SensorSearchRay", "purpose": "Performs raycasting for block/entity detection."},
+            {"name": "SensorTime", "purpose": "Checks the in-game time of day."},
+            {"name": "SensorWeather", "purpose": "Checks the current weather state."}
+          ]
+        },
+        "debug": {
+          "overview": "Debug-only actions and motions.",
+          "types": [
+            {"name": "ActionLog", "purpose": "Logs a message to the console."},
+            {"name": "ActionTest", "purpose": "Debug test action."},
+            {"name": "BodyMotionTestProbe", "purpose": "Debug motion for testing probes."}
+          ]
+        }
+      },
+      "patterns": {
+        "builder_pattern": "Every concrete component type has a corresponding Builder* class. Builders extend BuilderBase and implement readConfig(JsonElement) to parse JSON, then build(BuilderSupport) to create runtime instances.",
+        "once_trigger_pattern": "Both ActionBase and SensorBase support a 'once' flag. When set, the component only fires once until clearOnce() is called at the start of each tick cycle.",
+        "entity_filter_cost_ordering": "IEntityFilter implementations declare a cost() value. Filters are sorted ascending by cost before evaluation, enabling early-out: cheap checks (NPCGroup = MINIMAL 0) run before expensive checks (LineOfSight = EXTREME 400).",
+        "info_provider_chain": "Sensors produce InfoProvider objects carrying position data, parameter providers, and extra info. These are passed to actions so they know where/what the sensor detected."
+      }
+    },
+    "systems": {
+      "overview": "25 ECS system classes (some containing multiple inner system classes) that process NPC components each tick. They use dependency annotations to establish execution order. Many extend SteppableTickingSystem which handles frozen NPCs via the StepComponent.",
+      "types": [
+        {
+          "name": "NPCSystems",
+          "purpose": "Container for lifecycle systems: AddedSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddSpawnEntityEffectSystem, OnDeathSystem, OnTeleportSystem, ModelChangeSystem, KillFeed event systems, PrefabPlaceEntityEventSystem, LegacyWorldGenId.",
+          "inner_system_count": 11
+        },
+        {
+          "name": "RoleBuilderSystem",
+          "purpose": "HolderSystem that constructs Role objects from builder configurations when an NPC entity is added. Handles model setup, interaction config, beacon/event support, timers, state evaluators, and value stores."
+        },
+        {
+          "name": "BalancingInitialisationSystem",
+          "purpose": "Sets up entity stats (health) from role configuration."
+        },
+        {
+          "name": "RoleSystems",
+          "purpose": "Container for the main behavior tick pipeline: PreBehaviourSupportTickSystem, BehaviourTickSystem (the core NPC tick), PostBehaviourSupportTickSystem, RoleActivateSystem, RoleDebugSystem.",
+          "inner_system_count": 5
+        },
+        {
+          "name": "StateEvaluatorSystem",
+          "purpose": "Utility-AI state evaluation. Runs BEFORE BehaviourTickSystem and AFTER PreBehaviourSupportTickSystem."
+        },
+        {
+          "name": "AvoidanceSystem",
+          "purpose": "Blends entity avoidance and separation steering forces. Runs AFTER BehaviourTickSystem."
+        },
+        {
+          "name": "SteeringSystem",
+          "purpose": "Applies computed steering vectors to the motion controller. Runs AFTER AvoidanceSystem."
+        },
+        {
+          "name": "ComputeVelocitySystem",
+          "purpose": "Computes velocity from position delta between tick start and current."
+        },
+        {
+          "name": "MovementStatesSystem",
+          "purpose": "Updates movement state flags based on computed velocity. Runs AFTER ComputeVelocitySystem."
+        },
+        {
+          "name": "NPCPreTickSystem",
+          "purpose": "Stores tick start position, handles despawn timers and despawn animations."
+        },
+        {"name": "NPCSpatialSystem", "purpose": "Maintains the NPC spatial index for proximity queries."},
+        {"name": "NPCVelocityInstructionSystem", "purpose": "Processes velocity instructions (Set/Add) from physics."},
+        {
+          "name": "PositionCacheSystems",
+          "purpose": "Updates spatial caches for nearby players, NPCs, items, and spawn markers.",
+          "inner_system_count": 3
+        },
+        {
+          "name": "BlackboardSystems",
+          "purpose": "Manages the shared Blackboard resource. Includes InitSystem, TickingSystem (5s cleanup), BreakBlockEventSystem, DamageBlockEventSystem.",
+          "inner_system_count": 4
+        },
+        {
+          "name": "NPCDamageSystems",
+          "purpose": "Handles damage events: received, dealt, event view posting, filtering, death item drops.",
+          "inner_system_count": 5
+        },
+        {
+          "name": "NPCDeathSystems",
+          "purpose": "Handles death events: EntityViewSystem and NPCKillsEntitySystem.",
+          "inner_system_count": 2
+        },
+        {
+          "name": "NPCInteractionSystems",
+          "purpose": "Manages NPC interactions: adds InteractionManager, ticks held interactions.",
+          "inner_system_count": 2
+        },
+        {
+          "name": "RoleChangeSystem",
+          "purpose": "Processes queued role changes. Removes entity, rebuilds with new role, re-adds."
+        },
+        {
+          "name": "SpawnReferenceSystems",
+          "purpose": "Manages spawn marker/beacon references and despawn on marker loss.",
+          "inner_system_count": 4
+        },
+        {
+          "name": "MessageSupportSystem",
+          "purpose": "Abstract base for ticking message support. 5 concrete subclasses for beacon/block/entity events.",
+          "inner_system_count": 5
+        },
+        {"name": "TimerSystem", "purpose": "Ticks all Tickable timers in the Timers component."},
+        {"name": "SteppableTickingSystem", "purpose": "Abstract base respecting Frozen component for debug stepping."},
+        {"name": "StepCleanupSystem", "purpose": "Removes StepComponent at end of frame (runs last)."},
+        {"name": "NewSpawnStartTickingSystem", "purpose": "Removes NonTicking from newly spawned entities."},
+        {"name": "FailedSpawnSystem", "purpose": "Immediately removes entities with FailedSpawnComponent."}
+      ],
+      "execution_order": [
+        "NPCSpatialSystem (spatial index update)",
+        "PositionCacheSystems.UpdateSystem (populate nearby entity caches)",
+        "RoleSystems.PreBehaviourSupportTickSystem (clear steering, validate targets)",
+        "StateEvaluatorSystem (utility-AI state selection)",
+        "RoleSystems.BehaviourTickSystem (core instruction tree evaluation)",
+        "AvoidanceSystem (entity avoidance/separation steering)",
+        "SteeringSystem (apply steering to motion controller)",
+        "RoleSystems.PostBehaviourSupportTickSystem (cleanup, state updates)",
+        "ComputeVelocitySystem (compute velocity from position delta)",
+        "MovementStatesSystem (update movement state flags)",
+        "StepCleanupSystem (remove step debug component, runs last)"
+      ]
+    },
+    "state_transitions": {
+      "overview": "State transitions define actions that execute when an NPC changes from one behavioral state to another. Transitions are stored as a map from (fromState, toState) edge pairs to prioritised action lists.",
+      "types": [
+        {
+          "name": "StateTransitionController",
+          "purpose": "Runtime controller managing state transition action lists. Map of (fromState<<16 | toState) -> IActionListHolder. initiateStateTransition() starts and runTransitionActions() executes on subsequent ticks.",
+          "fields": ["stateTransitionActions: Int2ObjectOpenHashMap<IActionListHolder>", "runningActions: IActionListHolder"],
+          "inner_types": ["IActionListHolder (interface)", "PrioritisedActionList (record)", "CompositeActionList (priority-ordered multi-action)"]
+        },
+        {"name": "BuilderStateTransitionController", "purpose": "Builder that reads a list of transition entries from JSON."},
+        {"name": "BuilderStateTransition", "purpose": "Builder for a single transition entry with state edges and action list."},
+        {"name": "BuilderStateTransitionEdges", "purpose": "Builder for From/To state arrays and priority."}
+      ],
+      "mechanism": "When setState() is called with a different state, StateTransitionController looks up the (from, to) edge. If found, runningActions is set. On subsequent ticks, runTransitionActions() executes the action list. Normal instruction evaluation is deferred while isRunningTransitionActions() is true."
+    },
+    "decision_making": {
+      "overview": "Utility AI approach. StateEvaluator (ECS component) periodically evaluates StateOptions scored by Conditions using response curves. The highest-scoring option determines behavioral state.",
+      "types": [
+        {
+          "name": "Evaluator<OptionType>",
+          "purpose": "Abstract generic evaluator. Options sorted by weight coefficient descending. evaluate() scores all, applies predictability randomization, returns best.",
+          "fields": ["options: List<OptionHolder>"]
+        },
+        {
+          "name": "StateEvaluator",
+          "extends": "Evaluator<StateOption> implements Component<EntityStore>",
+          "purpose": "ECS component. executeFrequency (default 0.1s), stateChangeCooldown (default 2s), minimumUtility (default 0.1).",
+          "fields": ["rawOptions: StateOption[]", "executeFrequency: double", "stateChangeCooldown: double", "minimumUtility: double", "active: boolean"]
+        },
+        {
+          "name": "StateOption",
+          "extends": "Option",
+          "purpose": "Maps to a (state, subState) pair.",
+          "fields": ["state: String", "subState: String", "stateIndex: int", "subStateIndex: int"]
+        },
+        {
+          "name": "Option",
+          "purpose": "Abstract evaluatable option with conditions and weight coefficient. calculateUtility() multiplies condition scores with compensation factor.",
+          "fields": ["description: String", "conditions: String[]", "weightCoefficient: double"]
+        },
+        {
+          "name": "EvaluationContext",
+          "purpose": "Per-evaluation context: minimumUtility, minimumWeightCoefficient, predictability (0-1), lastUsedNanos."
+        }
+      ],
+      "conditions": {
+        "overview": "13 condition types. Four base types: SimpleCondition (boolean), CurveCondition (normalized -> response curve), ScaledCurveCondition (raw -> scaled curve), and direct Condition subclasses.",
+        "registered_conditions": [
+          {"codec_key": "HasTarget", "type": "SimpleCondition", "purpose": "Checks if NPC has a target in a named slot."},
+          {"codec_key": "IsInState", "type": "SimpleCondition", "purpose": "Checks if NPC is in a specific state."},
+          {"codec_key": "LineOfSight", "type": "SimpleCondition", "purpose": "Checks line of sight to target. High cost."},
+          {"codec_key": "NearbyCount", "type": "ScaledCurveCondition", "purpose": "Counts nearby NPCs of a specific group."},
+          {"codec_key": "Randomiser", "type": "Condition", "purpose": "Returns random value between min/max for utility jitter."},
+          {"codec_key": "OwnStatAbsolute", "type": "ScaledCurveCondition", "purpose": "Absolute value of own stat as curve input."},
+          {"codec_key": "OwnStatPercent", "type": "CurveCondition", "purpose": "Percentage of own stat as curve input."},
+          {"codec_key": "TargetDistance", "type": "ScaledCurveCondition", "purpose": "Distance to target as curve input."},
+          {"codec_key": "TargetMovementState", "type": "SimpleCondition", "purpose": "Checks target's movement state."},
+          {"codec_key": "TargetStatAbsolute", "type": "ScaledCurveCondition", "purpose": "Absolute value of target stat."},
+          {"codec_key": "TargetStatPercent", "type": "CurveCondition", "purpose": "Percentage of target stat."},
+          {"codec_key": "TimeOfDay", "type": "ScaledCurveCondition", "purpose": "Time of day as curve input."},
+          {"codec_key": "TimeSinceLastUsed", "type": "ScaledCurveCondition", "purpose": "Time since option was last chosen."}
+        ]
+      }
+    },
+    "blackboard": {
+      "overview": "The Blackboard is a shared ECS Resource (per-world) providing structured views of world state to NPC sensors. Six view types: BlockTypeView, BlockEventView, EntityEventView, ResourceView, AttitudeView, InteractionView.",
+      "types": [
+        {
+          "name": "Blackboard",
+          "purpose": "Central Resource managing views via ConcurrentHashMap<Class, IBlackboardViewManager>.",
+          "registered_views": ["BlockTypeView", "BlockEventView", "EntityEventView", "ResourceView", "AttitudeView", "InteractionView"]
+        },
+        {"name": "IBlackboardView<View>", "purpose": "View interface: isOutdated, getUpdatedView, initialiseEntity, cleanup, onWorldRemoved."},
+        {"name": "IBlackboardViewManager<View>", "purpose": "Manager interface: get by ref/position/coords/index, cleanup, forEachView."},
+        {"name": "SingletonBlackboardViewManager<View>", "purpose": "Holds a single view instance."},
+        {"name": "BlockRegionView", "purpose": "Abstract base for 128-block region views."},
+        {"name": "BlockRegionViewManager<Type>", "purpose": "Long2ObjectConcurrentHashMap-backed region view manager."},
+        {"name": "PrioritisedProviderView<T, ViewType>", "purpose": "Stacks multiple prioritised providers."},
+        {"name": "BlockTypeView", "purpose": "Indexes block positions by block type set for SensorBlock queries. 378 lines."},
+        {"name": "BlockTypeViewManager", "purpose": "Creates BlockTypeView per region."},
+        {"name": "BlockPositionEntryGenerator", "purpose": "Generates block position entries from chunk sections."},
+        {"name": "BlockEventView", "purpose": "Processes block events (damage, destruction, interaction)."},
+        {"name": "BlockEventType", "purpose": "Enum: DAMAGE, DESTRUCTION, INTERACTION."},
+        {"name": "EntityEventView", "purpose": "Processes entity events with flock awareness."},
+        {"name": "EntityEventType", "purpose": "Enum: DAMAGE, DEATH, INTERACTION."},
+        {"name": "EventView<ViewType, EventType, NotificationType>", "purpose": "Abstract event view base."},
+        {"name": "EventNotification", "purpose": "Data: position, initiator ref, set index."},
+        {"name": "EntityEventNotification", "purpose": "Extends EventNotification with flockReference."},
+        {"name": "EventTypeRegistration", "purpose": "Manages NPC registrations per event type/set."},
+        {"name": "IEventCallback", "purpose": "Functional callback: notify(NPCEntity, EventType, NotificationType)."},
+        {"name": "ResourceView", "purpose": "Manages block position reservations to prevent NPC conflicts."},
+        {"name": "ResourceViewManager", "purpose": "Creates ResourceView per region."},
+        {"name": "AttitudeView", "purpose": "Determines NPC attitudes toward entities."},
+        {"name": "AttitudeMap", "purpose": "Maps NPC group tags to Attitude values."},
+        {"name": "IAttitudeProvider", "purpose": "Interface for attitude queries."},
+        {"name": "ItemAttitudeMap", "purpose": "Maps item types to Attitude overrides."},
+        {"name": "InteractionView", "purpose": "Manages player-NPC interaction reservations."},
+        {"name": "ReservationProvider", "purpose": "Interface for reservation status queries."},
+        {"name": "ReservationStatus", "purpose": "Enum: NOT_RESERVED, RESERVED_OTHER, RESERVED_THIS."},
+        {"name": "InterpretedCombatData", "purpose": "Tracks combat state for combat view."},
+        {"name": "CombatViewSystems", "purpose": "ECS systems for InterpretedCombatData updates."}
+      ]
+    },
+    "sensors": {
+      "overview": "20 types providing the data-passing interface between sensors and actions/motions. InfoProvider is the key interface.",
+      "types": [
+        {"name": "InfoProvider", "purpose": "Interface: position provider, parameter providers, extra info, passthrough info."},
+        {"name": "InfoProviderBase", "purpose": "Base implementation with optional parameter provider and extra info map."},
+        {"name": "IPositionProvider", "purpose": "Interface: hasPosition, providePosition, getX/Y/Z, getTarget ref, clear."},
+        {"name": "PositionProvider", "purpose": "Standard implementation with x/y/z doubles and validity flag."},
+        {"name": "CachedPositionProvider", "purpose": "Tracks whether position came from cache."},
+        {"name": "EntityPositionProvider", "purpose": "Holds reference to target entity."},
+        {"name": "ExtraInfoProvider", "purpose": "Type-safe extra sensor data interface."},
+        {"name": "IPathProvider", "purpose": "Extra info for path data."},
+        {"name": "PathProvider", "purpose": "IPathProvider implementation."},
+        {"name": "WrappedInfoProvider", "purpose": "Wraps multiple child sensors, delegates to first match."},
+        {"name": "ValueWrappedInfoProvider", "purpose": "Overrides parameter provider of a wrapped provider."},
+        {"name": "ParameterProvider", "purpose": "Interface: getParameterProvider(int), clear."},
+        {"name": "SingleParameterProvider", "purpose": "Base for single-indexed parameter."},
+        {"name": "IntParameterProvider", "purpose": "Int parameter. NOT_PROVIDED = MIN_VALUE."},
+        {"name": "SingleIntParameterProvider", "purpose": "Single int value."},
+        {"name": "DoubleParameterProvider", "purpose": "Double parameter. NOT_PROVIDED = -MAX_VALUE."},
+        {"name": "SingleDoubleParameterProvider", "purpose": "Single double value."},
+        {"name": "StringParameterProvider", "purpose": "String parameter."},
+        {"name": "SingleStringParameterProvider", "purpose": "Single string value."},
+        {"name": "MultipleParameterProvider", "purpose": "Composite: maps indices to child providers."}
+      ]
+    },
+    "additional_components": {
+      "overview": "17 ECS components and messaging types for NPC state tracking and inter-NPC communication.",
+      "types": [
+        {"name": "FailedSpawnComponent", "purpose": "Marker for failed role construction."},
+        {"name": "StepComponent", "purpose": "Enables single tick for frozen NPC (debug). Fields: tickLength."},
+        {"name": "Timers", "purpose": "Array of Tickable timers. Fields: timers[]."},
+        {"name": "SpawnReference", "purpose": "Abstract: InvalidatablePersistentRef + 30s timeout."},
+        {"name": "SpawnBeaconReference", "purpose": "Links NPC to spawn beacon."},
+        {"name": "SpawnMarkerReference", "purpose": "Links NPC to spawn marker."},
+        {"name": "SortBufferProviderResource", "purpose": "ECS Resource for entity sorting buffers."},
+        {"name": "MessageSupport", "purpose": "Abstract messaging component."},
+        {"name": "NPCMessage", "purpose": "Message slot: enabled, activated, age, target ref."},
+        {"name": "EventMessage", "purpose": "Extends NPCMessage with position and range."},
+        {"name": "EventSupport<EventType, NotificationType>", "purpose": "Maps event types to message slots."},
+        {"name": "EntityEventSupport", "purpose": "Extends EventSupport with flock awareness."},
+        {"name": "BeaconSupport", "purpose": "Named beacon message slots."},
+        {"name": "NPCBlockEventSupport", "purpose": "Block events from NPC sources."},
+        {"name": "NPCEntityEventSupport", "purpose": "Entity events from NPC sources."},
+        {"name": "PlayerBlockEventSupport", "purpose": "Block events from player sources."},
+        {"name": "PlayerEntityEventSupport", "purpose": "Entity events from player sources."}
+      ]
+    },
+    "validators": {
+      "overview": "2 validation types for NPC role configuration integrity.",
+      "types": [
+        {"name": "NPCLoadTimeValidationHelper", "purpose": "Validates animations, motion controllers, inventory slots, filters, value store conflicts during role building."},
+        {"name": "NPCRoleValidator", "purpose": "Late validator checking if a role name references a valid spawnable role."}
+      ]
+    },
+    "valuestore": {
+      "overview": "Runtime key-value storage for NPC behavioral state.",
+      "types": [
+        {"name": "ValueStore", "purpose": "ECS component: string[], int[], double[] arrays indexed by slot. Builder allocates slots.", "inner_types": ["Builder", "Type enum"]},
+        {"name": "ValueStoreValidator", "purpose": "Validates write conflicts at load time.", "inner_types": ["UseType enum", "ValueUsage"]}
+      ]
+    },
+    "storage": {
+      "overview": "Persistent parameter storage serialized with NPC data.",
+      "types": [
+        {"name": "PersistentParameter<Type>", "purpose": "Abstract: setting marks chunk dirty for save."},
+        {"name": "ParameterStore<Type>", "purpose": "Named HashMap store with auto-create on access."},
+        {"name": "AlarmStore", "purpose": "ParameterStore<Alarm> for persistent alarm timers."}
+      ]
+    },
+    "metadata": {
+      "overview": "1 type for captured NPC display metadata.",
+      "types": [
+        {"name": "CapturedNPCMetadata", "purpose": "Icon paths and name keys for captured NPCs in items.", "fields": ["iconPath", "npcNameKey", "fullItemIcon"]}
+      ]
+    }
+  },
+  "cross_references": {
+    "ecs_integration": {
+      "store_type": "EntityStore",
+      "primary_component": "NPCEntity",
+      "additional_ecs_components": ["StepComponent", "Timers", "SpawnBeaconReference", "SpawnMarkerReference", "FailedSpawnComponent", "StateEvaluator", "ValueStore", "BeaconSupport", "PlayerBlockEventSupport", "NPCBlockEventSupport", "PlayerEntityEventSupport", "NPCEntityEventSupport"],
+      "resources": ["Blackboard", "SortBufferProviderResource", "RoleChangeQueue", "NewSpawnStartTickingQueueResource", "SpatialResource<NPC>"]
+    },
+    "event_system_integration": {
+      "ecs_events_consumed": ["BreakBlockEvent", "DamageBlockEvent", "Damage", "DeathComponent", "KillFeedEvent", "PrefabPlaceEntityEvent"],
+      "blackboard_events": ["BlockEventType (DAMAGE, DESTRUCTION, INTERACTION)", "EntityEventType (DAMAGE, DEATH, INTERACTION)"]
+    },
+    "other_systems": {
+      "physics": "NPCVelocityInstructionSystem, ComputeVelocitySystem, BalancingInitialisationSystem",
+      "spawning": "SpawnReferenceSystems, PositionCacheSystems, ActionSpawn",
+      "flocking": "PositionCacheSystems.OnFlockJoinSystem, EntityEventSupport flock filtering, FlockMembership",
+      "navigation": "BodyMotionFind* types use A* pathfinding",
+      "interaction": "NPCInteractionSystems, InteractionView, ActionSetInteractable/SensorCanInteract",
+      "model_system": "NPCSystems.ModelChangeSystem, RoleBuilderSystem, ActionAppearance/ActionModelAttachment"
+    }
+  },
+  "files_not_read": []
+}

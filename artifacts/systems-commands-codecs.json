@@ -1,0 +1,544 @@
+{
+  "_metadata": {
+    "system": "commands-codecs",
+    "description": "Phase 3 mapping of the Command and Codec systems",
+    "total_files_read": 107,
+    "command_files_total": 232,
+    "codec_files_total": 125,
+    "command_framework_files_read": 63,
+    "command_builtin_files_sampled": 6,
+    "codec_files_read": 38,
+    "unread_files_note": "Built-in command implementations (169 files) were not individually read — they follow the patterns documented below. Remaining codec files (validation/validator/*.java, schema/metadata/ui/*.java, codecs/simple/*.java, codecs/map/*.java, codecs/set/*.java, codecs/array/*.java) are small implementations of the framework interfaces documented below."
+  },
+
+  "commands": {
+    "overview": "Custom command framework (not Brigadier). Commands are tree-structured: AbstractCommand is the root, with subcommands and usage variants. Arguments are strongly typed. Commands are dispatched via CommandManager on the ForkJoinPool.commonPool(). Tokenization supports quoted strings, list arguments ([a, b, c]), and optional --named arguments.",
+
+    "hierarchy": {
+      "AbstractCommand": {
+        "package": "com.hypixel.hytale.server.core.command.system",
+        "description": "Root of the command hierarchy. Holds name, description, aliases, required/optional arguments, subcommands, variant commands, permission model. Has abstract execute(CommandContext) method returning CompletableFuture<Void>.",
+        "key_fields": [
+          "name: String — command name (lowercase)",
+          "aliases: Set<String>",
+          "description: String — i18n key",
+          "requiredArguments: List<RequiredArg<?>>",
+          "optionalArguments: Map<String, AbstractOptionalArg<?,?>>",
+          "subCommands: Map<String, AbstractCommand> — named subcommands",
+          "variantCommands: Int2ObjectMap<AbstractCommand> — keyed by required param count",
+          "owner: CommandOwner (CommandManager or PluginBase)",
+          "permission: String — auto-generated or explicit",
+          "permissionGroups: List<String>",
+          "requiresConfirmation: boolean — adds --confirm flag",
+          "unavailableInSingleplayer: boolean",
+          "allowsExtraArguments: boolean"
+        ],
+        "key_methods": [
+          "addSubCommand(AbstractCommand) — registers a named child",
+          "addUsageVariant(AbstractCommand) — registers a description-only variant (different required arg count)",
+          "withRequiredArg / withOptionalArg / withDefaultArg / withFlagArg / withListRequiredArg — fluent argument registration",
+          "acceptCall(sender, parserContext, parseResult) — dispatches to subcommands or executes",
+          "hasPermission(sender) — checks permission chain up to parent",
+          "completeRegistration() — validates and freezes the command tree",
+          "matches(language, search, termDepth) — fuzzy search for help UI"
+        ]
+      },
+      "base_commands": {
+        "CommandBase": {
+          "extends": "AbstractCommand",
+          "description": "Synchronous command. Wraps execute() to call executeSync(context).",
+          "abstract_method": "executeSync(CommandContext)"
+        },
+        "AbstractAsyncCommand": {
+          "extends": "AbstractCommand",
+          "description": "Async command base. execute() delegates to executeAsync(). Provides runAsync(context, runnable, executor) helper with error handling.",
+          "abstract_method": "executeAsync(CommandContext) -> CompletableFuture<Void>"
+        },
+        "AbstractCommandCollection": {
+          "extends": "AbstractAsyncCommand",
+          "description": "Container for subcommands only. executeAsync() prints usage listing. Used by EntityCommand, PlayerCommand, ChunkCommand, etc."
+        },
+        "AbstractPlayerCommand": {
+          "extends": "AbstractAsyncCommand",
+          "description": "Requires sender to be a Player. Resolves PlayerRef and World before calling execute(context, store, ref, playerRef, world)."
+        },
+        "AbstractAsyncPlayerCommand": {
+          "extends": "AbstractAsyncCommand",
+          "description": "Like AbstractPlayerCommand but returns CompletableFuture from executeAsync(context, store, ref, playerRef, world)."
+        },
+        "AbstractWorldCommand": {
+          "extends": "AbstractAsyncCommand",
+          "description": "Has optional --world arg. Resolves World (from arg, player position, or sole world). Calls execute(context, world, store)."
+        },
+        "AbstractAsyncWorldCommand": {
+          "extends": "AbstractAsyncCommand",
+          "description": "Like AbstractWorldCommand but returns CompletableFuture from executeAsync(context, world)."
+        },
+        "AbstractTargetPlayerCommand": {
+          "extends": "AbstractAsyncCommand",
+          "description": "Has optional --player arg. If targeting another player, checks .other permission suffix. Resolves source and target refs."
+        },
+        "AbstractTargetEntityCommand": {
+          "extends": "AbstractAsyncCommand",
+          "description": "Has --world, --radius, --player, --entity options. Resolves list of target entity refs (by radius, by specific entity, or by looking at cursor target)."
+        }
+      }
+    },
+
+    "argument_system": {
+      "overview": "Type-safe argument framework. Arguments are registered on a command during construction. Each argument has an ArgumentType that handles parsing, suggestions, and validation.",
+      "argument_wrappers": {
+        "Argument<Arg, DataType>": "Abstract base. Holds name, description, ArgumentType, optional SuggestionProvider, optional Validators. get(context) retrieves parsed value.",
+        "RequiredArg<D>": "Positional required argument. Must have >= 1 parameter.",
+        "OptionalArg<D>": "Named optional argument (--name value). Must have >= 1 parameter.",
+        "DefaultArg<D>": "Like OptionalArg but with a default value when not specified.",
+        "FlagArg": "Boolean flag (--name with no value). Uses BooleanFlagArgumentType (0 parameters).",
+        "WrappedArg<D>": "Wraps an Argument for custom accessor patterns (e.g., EntityWrappedArg resolves UUID to entity ref).",
+        "ArgWrapper<W, BasicType>": "Record that pairs an ArgumentType with a WrappedArg constructor for fluent registration."
+      },
+      "argument_types": {
+        "ArgumentType<D>": {
+          "description": "Abstract base for argument parsing. Has name, usage description, examples, numberOfParameters. Implements SuggestionProvider.",
+          "abstract_method": "parse(String[], ParseResult) -> D"
+        },
+        "SingleArgumentType<D>": "Takes exactly 1 string parameter. parse(String, ParseResult).",
+        "MultiArgumentType<D>": "Takes N parameters (defined by withParameter() calls). Composes SingleArgumentTypes. Uses MultiArgumentContext.",
+        "ListArgumentType<D>": "Wraps another ArgumentType to parse comma-separated lists ([a, b, c]).",
+        "ProcessedArgumentType<In, Out>": "Wraps another ArgumentType, applying a transform function after parsing.",
+        "EnumArgumentType<E>": "Parses enum values case-insensitively with fuzzy suggestion.",
+        "AssetArgumentType<D>": "Looks up game assets by string key from AssetRegistry.",
+        "GameModeArgumentType": "Special case for GameMode with shorthand aliases (a=Adventure, c=Creative).",
+        "BooleanFlagArgumentType": "0-parameter type that always returns true. Used by FlagArg.",
+        "WrappedArgumentType<D>": "Wraps a SingleArgumentType with overridden usage text."
+      },
+      "builtin_arg_types_in_ArgTypes": [
+        "BOOLEAN, INTEGER, STRING, FLOAT, DOUBLE, UUID, PLAYER_UUID",
+        "GAME_PROFILE_LOOKUP_ASYNC, GAME_PROFILE_LOOKUP",
+        "RELATIVE_DOUBLE_COORD, RELATIVE_INT_COORD, RELATIVE_INTEGER, RELATIVE_FLOAT",
+        "PLAYER_REF, WORLD",
+        "MODEL_ASSET, WEATHER_ASSET, INTERACTION_ASSET, ROOT_INTERACTION_ASSET, EFFECT_ASSET, ENVIRONMENT_ASSET, ITEM_ASSET, BLOCK_TYPE_ASSET, PARTICLE_SYSTEM, HITBOX_COLLISION_CONFIG, REPULSION_CONFIG, SOUND_EVENT_ASSET, AMBIENCE_FX_ASSET",
+        "SOUND_CATEGORY (enum), GAME_MODE",
+        "ENTITY_ID (ArgWrapper -> EntityWrappedArg)",
+        "INTEGER_COMPARISON_OPERATOR, INTEGER_OPERATION (enums)",
+        "INT_RANGE, RELATIVE_INT_RANGE (MultiArgumentType)",
+        "VECTOR2I, VECTOR3I, RELATIVE_VECTOR3I",
+        "RELATIVE_BLOCK_POSITION, RELATIVE_POSITION, RELATIVE_CHUNK_POSITION",
+        "ROTATION (pitch/yaw/roll)",
+        "BLOCK_TYPE_KEY, BLOCK_ID, COLOR, TICK_RATE",
+        "LAYER_ENTRY_TYPE, WEIGHTED_BLOCK_TYPE",
+        "BLOCK_PATTERN, BLOCK_MASK"
+      ],
+      "relative_types": {
+        "Coord": "Double coordinate with relative (~), height (_), and chunk (c) modifiers. Used for positions.",
+        "IntCoord": "Integer version of Coord.",
+        "RelativeDoublePosition": "3-component (x,y,z) Coord. resolves relative to player position.",
+        "RelativeIntPosition": "3-component IntCoord. resolves relative to player block position.",
+        "RelativeChunkPosition": "2-component (x,z) IntCoord for chunk coordinates.",
+        "RelativeInteger": "Single int with optional ~ relative modifier.",
+        "RelativeFloat": "Single float with optional ~ relative modifier.",
+        "RelativeIntegerRange": "Min/max RelativeInteger pair.",
+        "RelativeVector3i": "3-component RelativeInteger vector.",
+        "RelativeDirection": "Enum: FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN. Resolves to Vector3i based on player head rotation."
+      }
+    },
+
+    "suggestion_system": {
+      "SuggestionProvider": "Functional interface: suggest(sender, textAlreadyEntered, numParametersTyped, SuggestionResult).",
+      "SuggestionResult": "Accumulates suggestion strings. Has fuzzySuggest() for fuzzy matching. Max 5 fuzzy results."
+    },
+
+    "permission_model": {
+      "description": "Hierarchical dot-notation permissions. Auto-generated from command tree path.",
+      "generation_rules": [
+        "System commands: 'hytale.system.command.<name>'",
+        "Plugin commands: '<plugin.basePermission>.command.<name>'",
+        "Subcommands: append '.<subname>' to parent permission",
+        "Permission checked recursively up parent chain"
+      ],
+      "permission_groups": "Commands can be assigned to permission groups (e.g., GameMode.Adventure, GameMode.Creative). Used for bulk permission assignment.",
+      "special_permissions": "AbstractTargetPlayerCommand appends '.other' when targeting another player."
+    },
+
+    "command_registration": {
+      "CommandManager": {
+        "description": "Singleton. Holds Map<String, AbstractCommand> of registered commands and aliases. registerCommands() registers all built-in commands. register(command) calls completeRegistration() and returns a CommandRegistration.",
+        "dispatch_flow": "handleCommand(sender, string) -> tokenize -> find command by name/alias -> parserContext -> command.acceptCall() -> execute()"
+      },
+      "CommandRegistry": {
+        "description": "Plugin-facing registration API. Extends Registry<CommandRegistration>. registerCommand() sets plugin as owner and delegates to CommandManager.register()."
+      },
+      "CommandRegistration": {
+        "description": "Extends Registration. Wraps an AbstractCommand with isEnabled supplier and unregister runnable."
+      }
+    },
+
+    "dispatch": {
+      "flow": [
+        "1. CommandManager.handleCommand(sender, commandString) on ForkJoinPool.commonPool()",
+        "2. Tokenizer.parseArguments() splits input: handles quoted strings, [list,items], escape sequences (\\)",
+        "3. ParserContext.of(tokens) separates: pre-optional positional tokens, list tokens, and --named optional args",
+        "4. AbstractCommand.acceptCall() -> checkForExecutingSubcommands() tries subcommand name match or variant match by arg count",
+        "5. Permission check, singleplayer check, confirmation check",
+        "6. processRequiredArguments() -> processOptionalArguments() -> execute(CommandContext)",
+        "7. ParseResult accumulates failure Messages; on failure, messages are sent to sender"
+      ],
+      "tokenizer_features": [
+        "Quoted strings: 'hello world' or \"hello world\"",
+        "List arguments: [item1, item2, item3] with max 10 items",
+        "Escape sequences: \\' \\\" \\, \\[ \\] \\\\",
+        "Optional args start with -- prefix: --name or --name=value"
+      ]
+    },
+
+    "error_handling": {
+      "CommandException": "Abstract RuntimeException. sendTranslatedMessage(sender).",
+      "GeneralCommandException": "Wraps a Message, colors it red.",
+      "NoPermissionException": "Reports missing permission string.",
+      "SenderTypeException": "Reports required sender type mismatch.",
+      "ParseResult": "Accumulates failure Messages. Can optionally throw GeneralCommandException on failure (throwExceptionWhenFailed mode)."
+    },
+
+    "ui_pages": {
+      "CommandListPage": "Interactive custom UI page for the /help command. Renders searchable command list with subcommand navigation, breadcrumb, variant selection, parameter details, and 'Send to Chat' button.",
+      "UIGalleryPage": "Interactive UI gallery page with categories (Buttons, Inputs, Selection, Containers, Text, Sliders, Progress, Scrollbars, Navigation, Tooltips). Each category has toggleable code blocks."
+    },
+
+    "builtin_commands": {
+      "total_count": 169,
+      "categories": {
+        "debug": {
+          "commands": [
+            "AssetsCommand — list/search loaded assets",
+            "AssetsDuplicatesCommand — find duplicate assets",
+            "AssetTagsCommand — manage asset tags",
+            "HitboxCollisionCommand (collection) -> Add, Remove",
+            "RepulsionCommand (collection) -> Add, Remove",
+            "DebugPlayerPositionCommand",
+            "HitDetectionCommand",
+            "HudManagerTestCommand",
+            "LogCommand — set log levels",
+            "MessageTranslationTestCommand",
+            "PacketStatsCommand",
+            "PacksCommand (collection) -> List",
+            "PIDCheckCommand — check process ID",
+            "PingCommand",
+            "ServerCommand (collection) -> Dump, GC, Stats(Cpu, Gc, Memory)",
+            "ShowBuilderToolsHudCommand",
+            "StopNetworkChunkSendingCommand",
+            "StressTestCommand (collection) -> Start, Stop (Bot, BotConfig)",
+            "TagPatternCommand",
+            "VersionCommand"
+          ]
+        },
+        "player": {
+          "commands": [
+            "PlayerCommand (collection) -> Reset, Stats(Add/Dump/Get/Reset/Set/SetToMax), Effect(Apply/Clear), Respawn, Camera(Demo Activate/Deactivate, Reset, SideScroller, Topdown), ViewRadius(Get/Set), Zone",
+            "DamageCommand — damage target player",
+            "GameModeCommand — set gamemode (self + variant for other player)",
+            "GiveCommand — give items (self + variant for other + subcommand GiveArmor)",
+            "HideCommand — hide player",
+            "InventoryCommand (collection) -> Backpack, Clear, Item, See",
+            "ItemStateCommand",
+            "KillCommand",
+            "ReferCommand",
+            "SudoCommand — execute command as another player",
+            "ToggleBlockPlacementOverrideCommand",
+            "WhereAmICommand",
+            "WhoAmICommand"
+          ]
+        },
+        "server": {
+          "commands": [
+            "AuthCommand (collection) -> Cancel, LoginBrowser, LoginDevice, Login, Logout, Persistence, Select, Status",
+            "KickCommand",
+            "MaxPlayersCommand",
+            "StopCommand — shutdown server (with optional --crash flag)",
+            "WhoCommand — list connected players"
+          ]
+        },
+        "utility": {
+          "commands": [
+            "BackupCommand",
+            "ConvertPrefabsCommand",
+            "EventTitleCommand",
+            "GitCommand (collection) -> UpdateAssets, UpdatePrefabs",
+            "HelpCommand — opens CommandListPage UI (with optional command name variant)",
+            "LightingCommand (collection) -> Calculation, Get, Info, Invalidate, Send, SendToggle",
+            "CommandsCommand — list/dump all registered commands",
+            "NetworkCommand",
+            "NotifyCommand",
+            "SleepCommand (collection) -> Offset, Test",
+            "SoundCommand (collection) -> Play2D, Play3D",
+            "StashCommand",
+            "UIGalleryCommand — opens UIGalleryPage",
+            "ValidateCPBCommand",
+            "WorldMapCommand (collection) -> ClearMarkers, Discover, Reload, Undiscover, ViewRadius(Get/Remove/Set)"
+          ]
+        },
+        "world": {
+          "commands": [
+            "ChunkCommand (collection) -> FixHeightMap, ForceTick, Info, Lighting, Load, Loaded, MarkSave, MaxSendRate, Regenerate, Resend, Tint, Tracker, Unload",
+            "EntityCommand (collection) -> Clean, Clone, Count, Dump, Effect, HideFromAdventurePlayers, Intangible, Invulnerable, Lod, MakeInteractable, Nameplate, Remove, Resend, Tracker, Stats(Add/Dump/Get/Reset/Set/SetToMax), Snapshot(History/Length)",
+            "SpawnBlockCommand",
+            "WorldGenCommand (collection) -> Benchmark, Reload"
+          ]
+        }
+      },
+      "command_patterns": {
+        "self_and_other_variant": "Many player commands (gamemode, give) use addUsageVariant() for a variant that takes an additional player argument. The self-version extends AbstractPlayerCommand; the other-variant extends CommandBase with explicit permission (.other suffix).",
+        "subcommand_collection": "Collections (EntityCommand, PlayerCommand, ChunkCommand) extend AbstractCommandCollection and register subcommands in constructor via addSubCommand().",
+        "stats_pattern": "Both player and entity stats use the same sub-structure: Add, Dump, Get, Reset, Set, SetToMax subcommands."
+      }
+    },
+
+    "other_system_types": {
+      "Tokenizer": "Splits command string into tokens. Handles quotes, brackets for lists, commas as list separators, escape sequences.",
+      "ParserContext": "Separates tokens into pre-optional positional tokens, list tokens, and optional --named args. Tracks subcommand depth.",
+      "MatchResult": "Comparable search result for command fuzzy matching. Ranked by: term priority, match type (NAME=0, ALIAS=1, USAGE_ARG=3, DESCRIPTION=4, USAGE_DESCRIPTION=5), depth, Levenshtein distance.",
+      "AbbreviationMap<V>": "Prefix-based lookup map for optional argument abbreviation. Builds all prefixes; nulls out ambiguous abbreviations.",
+      "CommandValidationResults": "Bridges codec validation framework to command ParseResult."
+    }
+  },
+
+  "codecs": {
+    "overview": "Type-safe serialization/deserialization framework for Hytale's asset data. Codecs define how Java objects are encoded to/decoded from BSON/JSON. The core abstraction is the Codec<T> interface; the primary implementation is BuilderCodec<T> which uses a fluent builder pattern to define field mappings. Supports inheritance, versioning, validation, and JSON schema generation.",
+
+    "core_interfaces": {
+      "Codec<T>": {
+        "package": "com.hypixel.hytale.codec",
+        "description": "Core interface. decode(BsonValue, ExtraInfo) -> T and encode(T, ExtraInfo) -> BsonValue. Also extends RawJsonCodec<T> for direct JSON parsing and SchemaConvertable<T> for schema generation.",
+        "static_instances": [
+          "STRING (StringCodec), BOOLEAN (BooleanCodec), DOUBLE (DoubleCodec), FLOAT (FloatCodec)",
+          "BYTE (ByteCodec), SHORT (ShortCodec), INTEGER (IntegerCodec), LONG (LongCodec)",
+          "BYTE_ARRAY, DOUBLE_ARRAY, FLOAT_ARRAY, INT_ARRAY, LONG_ARRAY, STRING_ARRAY",
+          "PATH (FunctionCodec: String -> Path)",
+          "INSTANT (FunctionCodec: String -> Instant)",
+          "DURATION (FunctionCodec: String -> Duration)",
+          "DURATION_SECONDS (FunctionCodec: Double -> Duration)",
+          "LOG_LEVEL (FunctionCodec: String -> Level)",
+          "UUID_BINARY (UUIDBinaryCodec), UUID_STRING (FunctionCodec: String -> UUID)",
+          "BSON_DOCUMENT (deprecated)"
+        ]
+      },
+      "RawJsonCodec<T>": "Interface for direct JSON stream parsing: decodeJson(RawJsonReader, ExtraInfo) -> T.",
+      "RawJsonInheritCodec<T>": "Extends RawJsonCodec with inheritance-aware JSON parsing: decodeAndInheritJson(reader, parent, extraInfo).",
+      "DirectDecodeCodec<T>": "Extends Codec with in-place decode: decode(BsonValue, T existing, ExtraInfo). Used by BuilderCodec to decode into existing objects.",
+      "InheritCodec<T>": "Extends Codec with inheritance: decodeAndInherit(BsonDocument, T parent, ExtraInfo). BuilderCodec implements this for parent-child asset inheritance.",
+      "PrimitiveCodec": "Marker interface for primitive codecs (boolean, int, etc.). Triggers null-check enforcement.",
+      "WrappedCodec<T>": "Interface for codecs that wrap another: getChildCodec().",
+      "SchemaConvertable<T>": "Interface: toSchema(SchemaContext) -> Schema."
+    },
+
+    "builder_codec": {
+      "BuilderCodec<T>": {
+        "package": "com.hypixel.hytale.codec.builder",
+        "description": "The primary codec implementation. Defines object serialization via named fields, each mapped by a KeyedCodec. Supports parent codec inheritance, versioning, afterDecode hooks, and validation.",
+        "implements": ["Codec<T>", "DirectDecodeCodec<T>", "RawJsonCodec<T>", "InheritCodec<T>", "ValidatableCodec<T>"],
+        "key_fields": [
+          "tClass: Class<T>",
+          "supplier: Supplier<T> — creates new instances (null for abstract codecs)",
+          "parentCodec: BuilderCodec<? super T> — for inheritance chains",
+          "entries: Map<String, List<BuilderField<T,?>>> — field definitions keyed by JSON key name",
+          "stringTreeMap: StringTreeMap — optimized key lookup for JSON parsing",
+          "validator: BiConsumer<T, ValidationResults>",
+          "afterDecode: BiConsumer<T, ExtraInfo>",
+          "codecVersion / minCodecVersion / versioned — versioning support"
+        ],
+        "builder_api": [
+          "BuilderCodec.builder(Class<T>, Supplier<T>) — starts a builder",
+          "BuilderCodec.builder(Class<T>, Supplier<T>, BuilderCodec<? super T> parent) — with parent",
+          "BuilderCodec.abstractBuilder(Class<T>) — for abstract types (no supplier)",
+          ".append(KeyedCodec<F>, setter, getter).addValidator(...).add() — fluent field definition",
+          ".appendInherited(...) — field with custom inheritance behavior",
+          ".addField(KeyedCodec<F>, setter, getter) — deprecated shorthand",
+          ".afterDecode(Consumer<T>) — post-decode hook",
+          ".validator(BiConsumer<T, ValidationResults>) — whole-object validator",
+          ".versioned() — enables Version field in JSON",
+          ".documentation(String) — attaches doc string",
+          ".metadata(Metadata) — attaches schema metadata",
+          ".build() — finalizes"
+        ],
+        "decode_flow": [
+          "1. Create instance via supplier",
+          "2. If versioned, read 'Version' field and create VersionedExtraInfo",
+          "3. For each JSON key, look up BuilderField via StringTreeMap (O(key-length) lookup)",
+          "4. Each field: decode via its KeyedCodec, run validators, call setter",
+          "5. afterDecode hook fires",
+          "6. Null validators checked (nonNull fields)",
+          "7. Whole-object validator runs"
+        ],
+        "inheritance_flow": [
+          "1. Create instance via supplier",
+          "2. inherit(t, parent, extraInfo) — copies all field values from parent",
+          "3. Decode JSON fields, overriding inherited values",
+          "4. For nested BuilderCodec fields, recursively inherit with field-level parent values",
+          "5. afterDecodeAndValidate runs"
+        ],
+        "schema_generation": "toSchema() produces ObjectSchema with all fields. Versioned codecs include Version property. Comments ($Title, $Comment, etc.) are included. Each field schema includes type, nullability, validation constraints, documentation, and metadata."
+      },
+      "BuilderField<Type, FieldType>": {
+        "description": "Represents a single field in a BuilderCodec. Holds KeyedCodec, setter/getter lambdas, optional inherit function, validators, metadata, version range.",
+        "key_features": [
+          "Version range (minVersion/maxVersion) — fields active only for specific codec versions",
+          "Validators: List<Validator<? super FieldType>> — run on decode",
+          "NonNullValidator detection — triggers post-decode null check",
+          "isPrimitive flag — primitives auto-reject null",
+          "Schema modification via updateSchema()"
+        ]
+      },
+      "StringTreeMap<V>": {
+        "description": "Trie-like data structure for O(key-length) key matching against a RawJsonReader stream. Avoids string allocation during JSON parsing."
+      }
+    },
+
+    "keyed_codec": {
+      "KeyedCodec<T>": {
+        "description": "Associates a string key with a Codec<T>. Enforces PascalCase key naming (first char uppercase). Provides get/getOrNull/getNow/put operations on BsonDocument.",
+        "key_constraint": "Keys must start with uppercase letter. Used as JSON/BSON field names.",
+        "required_flag": "Optional 'required' flag; when false, null BsonValues return null."
+      }
+    },
+
+    "codec_types": {
+      "simple_codecs": {
+        "StringCodec": "Codec<String> — decodes BsonString",
+        "BooleanCodec": "Codec<Boolean> — decodes BsonBoolean",
+        "IntegerCodec": "Codec<Integer> — decodes BsonInt32/BsonInt64/BsonDouble",
+        "LongCodec": "Codec<Long>",
+        "FloatCodec": "Codec<Float>",
+        "DoubleCodec": "Codec<Double>",
+        "ByteCodec": "Codec<Byte>",
+        "ShortCodec": "Codec<Short>",
+        "note": "All implement PrimitiveCodec marker interface."
+      },
+      "array_codecs": {
+        "ArrayCodec<T>": "Generic array codec wrapping an element Codec<T> and array constructor",
+        "IntArrayCodec": "Optimized for int[] (BsonArray of BsonInt32)",
+        "LongArrayCodec": "Optimized for long[]",
+        "FloatArrayCodec": "Optimized for float[]",
+        "DoubleArrayCodec": "Optimized for double[]"
+      },
+      "collection_codecs": {
+        "SetCodec<T>": "Codec for Set<T> backed by ObjectOpenHashSet",
+        "MapCodec<K,V>": "Codec for Map<K,V> using string keys",
+        "EnumMapCodec<K,V>": "Codec for EnumMap",
+        "ObjectMapCodec<K,V>": "Generic object map codec",
+        "Int2ObjectMapCodec<V>": "Fastutil Int2ObjectMap codec",
+        "Short2ObjectMapCodec<V>": "Fastutil Short2ObjectMap codec",
+        "Float2ObjectMapCodec<V>": "Fastutil Float2ObjectMap codec",
+        "Object2IntMapCodec<K>": "Fastutil Object2IntMap codec",
+        "Object2FloatMapCodec<K>": "Fastutil Object2FloatMap codec",
+        "Object2DoubleMapCodec<K>": "Fastutil Object2DoubleMap codec",
+        "MergedEnumMapCodec<K,V>": "EnumMap that merges with parent during inheritance"
+      },
+      "function_codecs": {
+        "FunctionCodec<T,R>": "Wraps a Codec<T> with decode/encode Function transforms. E.g., String -> Path, String -> UUID.",
+        "BsonFunctionCodec<T>": "Like FunctionCodec but operates on BsonValue level with BiFunction."
+      },
+      "special_codecs": {
+        "EnumCodec<E>": "Codec for enums by name string",
+        "InetSocketAddressCodec": "Codec for InetSocketAddress from string",
+        "UUIDBinaryCodec": "Codec for UUID stored as binary BSON",
+        "BsonDocumentCodec": "Passes BsonDocument through unchanged (deprecated)",
+        "StringIntegerCodec": "Codec for integer stored as string in JSON",
+        "DocumentContainingCodec<T>": "BuilderCodec wrapper that captures extra (unknown) fields into a BsonDocument property"
+      }
+    },
+
+    "codec_map_lookup": {
+      "overview": "CodecMap system for polymorphic deserialization — selecting the correct codec based on a type discriminator key.",
+      "types": {
+        "ACodecMapCodec<T>": "Abstract base. Has codec map (string key -> Codec<T>).",
+        "CodecMapCodec<T>": "Uses a KeyedCodec to read the type key, then dispatches to the matching codec.",
+        "BuilderCodecMapCodec<T>": "CodecMap specifically for BuilderCodec instances.",
+        "StringCodecMapCodec<T>": "Codec map keyed by plain strings.",
+        "ObjectCodecMapCodec<T>": "Codec map keyed by arbitrary objects.",
+        "MapKeyMapCodec<T>": "Uses the first map key as the codec discriminator.",
+        "AMapProvidedMapCodec<T>": "Abstract base for codecs where the type codec comes from an AssetMap.",
+        "MapProvidedMapCodec<T>": "Concrete implementation resolving codec from an AssetMap lookup.",
+        "Priority": "Enum for codec registration priority ordering."
+      }
+    },
+
+    "serialization": {
+      "bson_path": "Codec.decode(BsonValue, ExtraInfo) -> T. BuilderCodec iterates BsonDocument entries, matches keys to BuilderFields, decodes each.",
+      "json_path": "Codec.decodeJson(RawJsonReader, ExtraInfo) -> T. BuilderCodec uses StringTreeMap for O(1) key lookup per character. Direct stream parsing avoids intermediate BsonDocument.",
+      "encode_path": "Codec.encode(T, ExtraInfo) -> BsonValue. BuilderCodec creates BsonDocument, iterates fields, encodes non-null values.",
+      "RawJsonReader": "Streaming JSON parser. Supports mark/reset, peek, string consumption, null/int/float/boolean reading, value skipping. Used for efficient direct JSON decode."
+    },
+
+    "inheritance_system": {
+      "description": "BuilderCodec supports parent-child asset inheritance. A child JSON file specifies a 'Parent' key. During decode, the parent object is first inherited (all fields copied), then the child's JSON overrides specific fields.",
+      "InheritCodec_interface": "decodeAndInherit(BsonDocument, T parent, ExtraInfo) and decodeAndInheritJson(reader, T parent, ExtraInfo). BuilderCodec implements both.",
+      "field_level_inheritance": "For nested BuilderCodec fields, inheritance is recursive — the field's parent value is passed down.",
+      "RawJsonInheritCodec<T>": "decodeAndInheritJson for JSON stream path.",
+      "custom_inherit": "Fields can define custom inherit functions via appendInherited() for special merge logic (e.g., MergedEnumMapCodec)."
+    },
+
+    "validation_system": {
+      "Validator<T>": "Functional interface: accept(T, ValidationResults). Can also modify Schema.",
+      "ValidatableCodec<T>": "Interface: validate(T, ExtraInfo) and validateDefaults(ExtraInfo, Set<Codec<?>>).",
+      "ValidationResults": "Accumulates validation errors. Has _processValidationResults() to flush.",
+      "ThrowingValidationResults": "Throws on validation failure (used in default ExtraInfo).",
+      "ValidatorCache": "Caches validator instances.",
+      "Validators": "Factory methods: nonNull(), greaterThan(), range(), etc.",
+      "concrete_validators": [
+        "NonNullValidator — field must not be null",
+        "RangeValidator — numeric range check",
+        "RangeRefValidator — range with reference values",
+        "EqualValidator / NotEqualValidator",
+        "NonEmptyStringValidator / NonEmptyArrayValidator / NonEmptyDoubleArrayValidator / NonEmptyFloatArrayValidator / NonEmptyMapValidator",
+        "ArraySizeValidator / ArraySizeRangeValidator / IntArraySizeValidator / DoubleArraySizeValidator",
+        "ArrayValidator / IntArrayValidator / DoubleArrayValidator / FloatArrayValidator",
+        "ListValidator / MapValidator / MapKeyValidator / MapValueValidator",
+        "SequentialDoubleArrayValidator",
+        "UniqueInArrayValidator",
+        "RequiredMapKeysValidator",
+        "OrValidator — combines validators with OR logic",
+        "DeprecatedValidator — marks fields as deprecated"
+      ]
+    },
+
+    "schema_generation": {
+      "SchemaContext": "Context for schema generation, providing refDefinition() for $ref-style definitions.",
+      "NamedSchema": "Schema with a name for $ref generation.",
+      "Schema": "Base schema class. Has type, description, title, HytaleType metadata.",
+      "concrete_schemas": [
+        "ObjectSchema — JSON object with properties, additionalProperties",
+        "ArraySchema — JSON array with items",
+        "BooleanSchema — JSON boolean",
+        "IntegerSchema — JSON integer with min/max",
+        "NumberSchema — JSON number with min/max",
+        "StringSchema — JSON string with pattern, enum values",
+        "NullSchema — JSON null (singleton)"
+      ],
+      "metadata_annotations": {
+        "HytaleType": "Core metadata: inheritsProperty, mergesProperties, deprecated, etc.",
+        "AllowEmptyObject": "Marks an object schema as accepting {}",
+        "NoDefaultValue": "Indicates no meaningful default",
+        "VirtualPath": "Path reference for editor navigation",
+        "UI annotations": "UIButton, UICreateButtons, UIDefaultCollapsedState, UIDisplayMode, UIEditor, UIEditorFeatures, UIEditorPreview, UIEditorSectionStart, UIPropertyTitle, UIRebuildCaches, UISidebarButtons, UITypeIcon — all for Hytale's content editor UI"
+      },
+      "Documentation_annotation": {
+        "Documentation": "Utility for generating documentation strings from codec structures."
+      }
+    },
+
+    "codec_store": {
+      "CodecStore": "Named codec registry with parent chain. Static singleton + per-context stores. Stores codecs by CodecKey<T>. Supports lazy suppliers.",
+      "CodecKey<T>": "Typed key with string ID for CodecStore lookup.",
+      "StoredCodec<T>": "Implements Codec<T> by delegating to a codec looked up from ExtraInfo.getCodecStore() at decode time. Enables late-bound codec resolution."
+    },
+
+    "versioning": {
+      "description": "BuilderCodec supports versioned schemas. When versioned=true, a 'Version' int field is read first. Each BuilderField has a version range [minVersion, maxVersion]. During decode, only fields matching the document version are active.",
+      "VersionedExtraInfo": "Decorator on ExtraInfo that carries the decoded version number.",
+      "legacy_version": "Deprecated path where version comes from ExtraInfo.getLegacyVersion() instead of the document."
+    },
+
+    "exception_handling": {
+      "CodecException": "Main exception for codec decode/encode failures. Carries context: ExtraInfo key path, source BsonValue/reader, cause.",
+      "CodecValidationException": "Exception for validation failures."
+    }
+  }
+}

@@ -1,0 +1,746 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T00:00:00Z",
+  "domain": "worldgen_server",
+  "overview": "The Hytale world generation server subsystem comprises ~374 types across ~212 source files under com.hypixel.hytale.server.worldgen. It implements a complete procedural world generation pipeline: zone-based macro layout driven by image masks and climate noise, per-zone biome selection via Voronoi point generators and weighted maps, per-column terrain generation using height threshold interpolation against noise, cave generation via recursive node trees with pluggable shapes, prefab placement with priority-based conflict resolution, and a climate system that maps temperature/intensity noise to biome types through a precomputed Voronoi lookup table. The system is heavily multi-threaded, using a custom ThreadPoolExecutor with thread-local resource pooling (ChunkGeneratorResource) to avoid allocation pressure. All configuration is loaded from JSON files via a comprehensive loader subsystem.",
+  "confidence": "high",
+  "subsections": {
+    "pipeline": {
+      "description": "Chunk generation is orchestrated by ChunkGenerator, which implements IBenchmarkableWorldGen. Generation is submitted as async tasks to a custom ChunkThreadPoolExecutor. Each chunk is processed by ChunkGeneratorExecution.execute(), which runs four populators in sequence: BlockPopulator (terrain fill + layers + covers), CavePopulator (cave carving + cave prefabs), PrefabPopulator (biome prefabs + unique prefabs), and WaterPopulator (fluid submersion).",
+      "stages": [
+        {
+          "name": "HeightThresholdInterpolator.populate",
+          "order": 0,
+          "description": "Pre-populates a per-chunk table of CoreDataCacheEntry objects for all blocks in the chunk plus a 5-block radius, computing zone/biome results, interpolated biome counts, and height noise for each column."
+        },
+        {
+          "name": "TintMapping",
+          "order": 1,
+          "description": "Generates per-column tint colors by sampling biome tint containers over a 4-block interpolation radius."
+        },
+        {
+          "name": "EnvironmentMapping",
+          "order": 2,
+          "description": "Generates per-column environment IDs from biome EnvironmentContainers."
+        },
+        {
+          "name": "BlockPopulator.populate",
+          "order": 3,
+          "description": "For each column: iterates Y from highest threshold-dependent height downward, comparing interpolated height thresholds against height noise to place filling blocks. Then applies static layers (fixed Y ranges) and dynamic layers (relative to surface). Finally places cover blocks (grass, flowers, etc.) on top of terrain surfaces."
+        },
+        {
+          "name": "CavePopulator.populate",
+          "order": 4,
+          "description": "For each zone's cave types, collects entry points using the cave type's IPointGenerator, checks biome masks and height thresholds, then retrieves cached Cave objects. Carves cave geometry via CaveNodeShape.populateChunk() with CaveBlockPriorityModifier active, then pastes cave prefabs."
+        },
+        {
+          "name": "PrefabPopulator.populate",
+          "order": 5,
+          "description": "Collects biomes from the chunk and surrounding region, collects prefab candidates from each biome's PrefabContainer using grid generators, resolves conflicts via priority-based exclusion (higher priority prefabs remove lower priority overlapping ones), then pastes surviving prefabs and unique prefabs."
+        },
+        {
+          "name": "WaterPopulator.populate",
+          "order": 6,
+          "description": "For each column, checks biome WaterContainer entries and fills fluid blocks between min/max water heights where blocks are not solid."
+        }
+      ],
+      "interfaces": [
+        "IBenchmarkableWorldGen",
+        "ValidatableWorldGen",
+        "MetricProvider",
+        "IWorldMapProvider",
+        "IWorldGenProvider"
+      ],
+      "key_types": [
+        "ChunkGenerator",
+        "ChunkGeneratorExecution",
+        "ChunkGeneratorResource",
+        "HytaleWorldGenProvider",
+        "BlockPriorityChunk",
+        "BlockPriorityModifier",
+        "HeightThresholdInterpolator"
+      ]
+    },
+    "biomes": {
+      "description": "Biomes are the primary terrain definition unit. Each zone contains a BiomePatternGenerator that selects biomes using Voronoi-based point generators. There are two biome types: TileBiome (weighted, tile-based selection) and CustomBiome (noise-threshold overlay on top of a parent tile biome). Each biome defines containers for layers, covers, prefabs, tints, environments, water, and fade transitions.",
+      "types": [
+        {
+          "name": "Biome",
+          "kind": "abstract class",
+          "description": "Base class for all biomes. Holds id, name, interpolation settings, heightmap interpreter, heightmap noise, map color, and all container references (CoverContainer, LayerContainer, PrefabContainer, TintContainer, EnvironmentContainer, WaterContainer, FadeContainer)."
+        },
+        {
+          "name": "TileBiome",
+          "kind": "class extends Biome",
+          "description": "Standard biome selected by weighted map from the zone's BiomePatternGenerator. Has weight and sizeModifier fields."
+        },
+        {
+          "name": "CustomBiome",
+          "kind": "class extends Biome",
+          "description": "Overlay biome that replaces a parent TileBiome when noise threshold conditions are met. Contains a CustomBiomeGenerator."
+        },
+        {
+          "name": "CustomBiomeGenerator",
+          "kind": "class",
+          "description": "Determines if a CustomBiome should generate at a given coordinate using NoiseProperty, IDoubleThreshold, and a biomeMask (IIntCondition) against the parent biome ID. Has priority ordering."
+        },
+        {
+          "name": "BiomePatternGenerator",
+          "kind": "class",
+          "description": "Per-zone biome selector. Uses IPointGenerator for Voronoi tessellation, an IWeightedMap<TileBiome> for base biome selection, and an array of CustomBiomes for overlay. generateBiomeAt() selects base biome then checks custom biome overrides."
+        },
+        {
+          "name": "BiomeInterpolation",
+          "kind": "class",
+          "description": "Controls biome blending radius. Default radius is 5 blocks. Can specify per-biome radius overrides via biomeRadii2 map. Default squared radius is 25."
+        }
+      ],
+      "selection_mechanism": "BiomePatternGenerator uses an IPointGenerator (Voronoi point grid) to find the nearest cell center, hashes the coordinate to get a random value, then looks up the TileBiome via IWeightedMap. CustomBiomes are checked in priority order against the parent biome's ID mask and a noise threshold."
+    },
+    "terrain": {
+      "description": "Terrain is generated per-column using height threshold interpolation. For each Y level, the system computes an interpolated threshold from all nearby biomes (weighted by count within the interpolation radius) and compares it against the column's interpolated height noise. Blocks are placed where threshold > heightNoise.",
+      "types": [
+        {
+          "name": "HeightThresholdInterpolator",
+          "kind": "class",
+          "description": "Pre-computes a table of CoreDataCacheEntry for 42x42 blocks (32 chunk + 5 radius each side). Populates zone/biome results and interpolated biome counts. Provides getHeightThreshold(seed, x, z, y) which calls ChunkGenerator.generateInterpolatedThreshold."
+        },
+        {
+          "name": "InterpolatedBiomeCountList",
+          "kind": "class",
+          "description": "Accumulates biome counts and averaged height noise within the interpolation radius. Used to blend terrain between adjacent biomes."
+        },
+        {
+          "name": "CoreDataCacheEntry",
+          "kind": "class",
+          "description": "Per-column cache entry containing ZoneBiomeResult, interpolated biome count list, height, and height noise. Lazily computed fields (height, biomeCountList, heightNoise)."
+        }
+      ],
+      "noise_functions": [
+        "IHeightThresholdInterpreter - per-biome height threshold curve, provides getThreshold(seed, x, z, y, context) and getContext(seed, x, z)",
+        "NoiseProperty - heightmap noise per biome, evaluated at (seed, x, z) to produce the height noise value",
+        "FadeContainer - terrain fade at zone borders, blends heightmap noise toward fadeHeightmap based on border distance"
+      ],
+      "height_generation": "ChunkGenerator.generateHeight() iterates from the highest non-zero threshold Y downward. At each Y, it computes the interpolated threshold across all contributing biomes and compares against the interpolated height noise. The first Y where threshold > heightNoise (or threshold == 1.0) becomes the surface height. Below the lowest threshold-dependent Y, all blocks are filled as terrain."
+    },
+    "zones": {
+      "description": "Zones are the top-level geographic divisions. Each zone is defined as a record with id, name, discoveryConfig, caveGenerator, biomePatternGenerator, and uniquePrefabContainer. Zone selection uses a mask image (PixelProvider) read through FuzzyZoom/ExactZoom, with colors mapped to zones via ZoneColorMapping. Zone borders are tracked via distance-to-different-pixel calculations.",
+      "types": [
+        {
+          "name": "Zone",
+          "kind": "record",
+          "description": "Record(id, name, discoveryConfig, caveGenerator, biomePatternGenerator, uniquePrefabContainer). Core geographic unit. Inner records: Unique, UniqueCandidate, UniqueEntry."
+        },
+        {
+          "name": "ZonePatternProvider",
+          "kind": "class",
+          "description": "Immutable template for zone generation. Holds zones array, uniqueZones (UniqueCandidate[]), MaskProvider, ZoneColorMapping, and IPointGenerator. createGenerator(seed) produces a ZonePatternGenerator with resolved unique zone positions."
+        },
+        {
+          "name": "ZonePatternGenerator",
+          "kind": "class",
+          "description": "Per-seed zone generator. generate(seed, x, z) reads the mask at randomized coordinates, looks up zone by color, and if multiple zones share a color, uses point generator for sub-selection. Returns ZoneGeneratorResult with zone and borderDistance."
+        },
+        {
+          "name": "ZonePatternGeneratorCache",
+          "kind": "class",
+          "description": "ConcurrentHashMap-based cache of ZonePatternGenerator per seed."
+        },
+        {
+          "name": "ZoneGeneratorResult",
+          "kind": "class",
+          "description": "Holds the selected Zone and the borderDistance (distance to nearest zone boundary)."
+        },
+        {
+          "name": "ZoneColorMapping",
+          "kind": "class",
+          "description": "Maps RGB color values from the zone mask image to Zone arrays. Int2ObjectMap<Zone[]>."
+        },
+        {
+          "name": "ZoneDiscoveryConfig",
+          "kind": "record",
+          "description": "Record(display, zone, soundEventId, icon, major, duration, fadeInDuration, fadeOutDuration). UI configuration for zone discovery notifications."
+        }
+      ]
+    },
+    "climate": {
+      "description": "The climate system provides an alternative to image-based zone masks. It uses noise functions (continent, temperature, intensity) to sample a ClimateGraph - a precomputed 512x512 Voronoi lookup table that maps temperature/intensity pairs to ClimateTypes. Continent noise drives land/ocean/shore/island classification via flag bits. UniqueClimateGenerator places named zones at specific climate-searched locations.",
+      "types": [
+        {
+          "name": "ClimateMaskProvider",
+          "kind": "class extends MaskProvider",
+          "description": "Alternative to FuzzyZoom-based MaskProvider. Uses ClimateNoise to generate climate-based zone masks. get(seed, x, y) evaluates noise, looks up ClimateGraph, and returns color with continent flags."
+        },
+        {
+          "name": "ClimateNoise",
+          "kind": "class",
+          "description": "Holds Grid (cell distance function + point evaluator), continent/temperature/intensity NoiseProperty, and Thresholds. generate() evaluates all three noise channels and looks up the ClimateGraph."
+        },
+        {
+          "name": "ClimateGraph",
+          "kind": "class",
+          "description": "512x512 precomputed Voronoi table mapping (temperature, intensity) to ClimateType IDs. Supports hierarchical ClimateTypes (parents and children). Also computes a fade distance map via DistanceTransform for zone border blending."
+        },
+        {
+          "name": "ClimateType",
+          "kind": "class",
+          "description": "Named climate classification with color (land/shore/ocean/shallowOcean), island variant colors, Voronoi control points (ClimatePoint[]), and hierarchical children. Continent flags: IS_OCEAN, IS_SHORE, IS_ISLAND, IS_MAINLAND."
+        },
+        {
+          "name": "ClimatePoint",
+          "kind": "class",
+          "description": "Voronoi seed point with temperature, intensity, and modifier (affects cell size)."
+        },
+        {
+          "name": "ClimateColor",
+          "kind": "class",
+          "description": "Color set for a climate type: land, shore, ocean, shallowOcean RGB values."
+        },
+        {
+          "name": "ClimateSearch",
+          "kind": "class",
+          "description": "Spiral search algorithm for finding positions matching specific climate criteria. Used by UniqueClimateGenerator to place unique zones. Searches in 100-block steps up to 10000-block radius."
+        },
+        {
+          "name": "UniqueClimateGenerator",
+          "kind": "class",
+          "description": "Places unique zones at climate-searched positions. Each Entry has a zone name, parent, color, radius, origin offset, search distance range, and ClimateSearch.Rule. Unique records store resolved positions as CompletableFuture<Vector2i>."
+        },
+        {
+          "name": "DirectGrid",
+          "kind": "class implements CellDistanceFunction",
+          "description": "Passthrough grid that returns input coordinates as-is. Used when no Voronoi jitter is desired."
+        }
+      ],
+      "climate_util_types": [
+        {
+          "name": "DistanceTransform",
+          "description": "BFS-based distance transform on IntMap. Computes normalized distance from each pixel to the nearest boundary of its region. Used by ClimateGraph for fade maps."
+        },
+        {
+          "name": "IntMap",
+          "description": "2D integer array with width/height. Used as ClimateGraph lookup table."
+        },
+        {
+          "name": "DoubleMap",
+          "description": "2D double array with width/height. Used for ClimateGraph fade distance storage."
+        }
+      ]
+    },
+    "caves": {
+      "description": "Cave generation uses a recursive node tree model. Each CaveType defines entry parameters (yaw, pitch, depth, point generator, biome mask, block mask, fluid level). Generation starts by placing an entry CaveNodeType with a generated shape, then recursively spawning child nodes based on CaveNodeChildEntry configurations. Each node carves geometry via its CaveNodeShape and can place cave prefabs and cover blocks.",
+      "types": [
+        {
+          "name": "CaveGenerator",
+          "kind": "class",
+          "description": "Entry point for cave generation. generate() creates a Cave, places the entry node, and recursively continues via continueNode(). Manages biome mask checking, child generation with repeat/chance/depth-limiting, and cave prefab placement."
+        },
+        {
+          "name": "Cave",
+          "kind": "class",
+          "description": "Container for all CaveNodes in a cave instance. Maps chunk indices to CaveNode arrays (sorted by priority). Tracks world bounds. compile() freezes the raw node lists into arrays."
+        },
+        {
+          "name": "CaveType",
+          "kind": "class",
+          "description": "Top-level cave configuration: entry node type, yaw/pitch/depth ranges, height factors, point generator, biome/block masks, map/height conditions, fixed entry height, fluid level, environment, surfaceLimited, submerge, maximumSize."
+        },
+        {
+          "name": "CaveNodeType",
+          "kind": "class",
+          "description": "Node type definition: name, prefab container, fillings (weighted block entries), shape generator, height condition, children count bounds, cover entries, priority, environment. Children set post-construction. Inner classes: CaveNodeChildEntry, CaveNodeCoverEntry, CaveNodeCoverType enum (FLOOR/CEILING)."
+        },
+        {
+          "name": "CaveNodeType.CaveNodeChildEntry",
+          "kind": "inner class",
+          "description": "Child spawning config: weighted types, anchor point, offset, rotation, children limit, repeat range, pitch/yaw modifiers, chance, yaw mode."
+        },
+        {
+          "name": "CaveNode",
+          "kind": "class implements CaveElement",
+          "description": "A generated cave node instance with type, shape, bounds, yaw, pitch, seed offset, and attached CavePrefabs."
+        },
+        {
+          "name": "CaveElement",
+          "kind": "interface",
+          "description": "Common interface for cave geometry elements. Provides getBounds()."
+        },
+        {
+          "name": "CavePrefab",
+          "kind": "class implements CaveElement",
+          "description": "A prefab placed within a cave node. Has prefab supplier, rotation, biome/block masks, and world position."
+        },
+        {
+          "name": "CavePrefabContainer",
+          "kind": "class",
+          "description": "Holds CavePrefabEntry[] for a cave node type. Each entry has weighted prefab suppliers and a CavePrefabConfig."
+        },
+        {
+          "name": "CavePrefabPlacement",
+          "kind": "enum",
+          "description": "CEILING, FLOOR, DEFAULT - determines Y position of cave prefabs within a node."
+        },
+        {
+          "name": "CaveYawMode",
+          "kind": "enum",
+          "description": "NODE (inherit parent yaw), SUM (add prefab rotation), PREFAB (use prefab rotation only)."
+        },
+        {
+          "name": "CaveBiomeMaskFlags",
+          "kind": "class",
+          "description": "Bitfield flags: GENERATE(1), POPULATE(2), CONTINUE(4). Controls whether cave nodes can generate, have geometry carved, or continue branching in a biome."
+        },
+        {
+          "name": "CaveBlockPriorityModifier",
+          "kind": "class implements BlockPriorityModifier",
+          "description": "Priority modifier for cave carving. Allows cave blocks to override prefab-cave blocks and cave-cover to override cave blocks."
+        }
+      ],
+      "node_shapes": [
+        {
+          "name": "CaveNodeShape",
+          "kind": "interface",
+          "description": "Core shape interface: getStart/End/Anchor, getBounds, shouldReplace(seed,x,z,y), getFloor/CeilingPosition, populateChunk. Default hasGeometry() returns true."
+        },
+        {
+          "name": "CaveNodeShapeEnum",
+          "kind": "enum",
+          "description": "PIPE, CYLINDER, PREFAB, EMPTY_LINE, ELLIPSOID, DISTORTED. Each has a CaveNodeShapeGenerator functional interface."
+        },
+        {
+          "name": "AbstractCaveNodeShape",
+          "kind": "abstract class",
+          "description": "Base implementation of populateChunk() - iterates XZ columns within chunk/shape intersection, checks shouldReplace per Y, applies fillings and covers, handles surface-limited caves."
+        },
+        {
+          "name": "CylinderCaveNodeShape",
+          "kind": "class extends AbstractCaveNodeShape",
+          "description": "Cylindrical tube along a direction vector. Linearly interpolates radius1->middleRadius->radius2 along the tube. Uses point-on-line projection for shouldReplace."
+        },
+        {
+          "name": "PipeCaveNodeShape",
+          "kind": "class extends AbstractCaveNodeShape",
+          "description": "Similar to Cylinder but caps extend beyond 0..1 projection range (rounded ends vs truncated). Uses same radius interpolation."
+        },
+        {
+          "name": "EllipsoidCaveNodeShape",
+          "kind": "class extends AbstractCaveNodeShape",
+          "description": "3D ellipsoid defined by center (o) and radii (rx, ry, rz). shouldReplace uses normalized distance < threshold."
+        },
+        {
+          "name": "EmptyLineCaveNodeShape",
+          "kind": "class extends AbstractCaveNodeShape",
+          "description": "Invisible connector - provides start/end points for child node placement but hasGeometry()=false. No blocks are carved."
+        },
+        {
+          "name": "PrefabCaveNodeShape",
+          "kind": "class implements CaveNodeShape",
+          "description": "Places a prefab as the cave node shape. populateChunk() pastes the prefab via PrefabPasteUtil. shouldReplace always returns false."
+        },
+        {
+          "name": "TetrahedronCaveNodeShape",
+          "kind": "class extends AbstractCaveNodeShape (deprecated)",
+          "description": "Deprecated tetrahedron shape using half-plane tests."
+        },
+        {
+          "name": "DistortedCaveNodeShape",
+          "kind": "class implements CaveNodeShape",
+          "description": "Wraps a DistortedShape with ShapeDistortion noise. Has its own populateChunk() implementation that uses projection-based floor/ceiling computation."
+        }
+      ],
+      "distorted_shapes": [
+        {
+          "name": "DistortedShape",
+          "kind": "interface extends IWorldBounds",
+          "description": "Advanced shape interface with Factory for creation."
+        },
+        {
+          "name": "AbstractDistortedShape",
+          "kind": "abstract class",
+          "description": "Base bounds computation. clampPitch() utility."
+        },
+        {
+          "name": "AbstractDistortedExtrusion",
+          "kind": "abstract class",
+          "description": "Extrusion-based shapes with interpolation and height component computation."
+        },
+        {
+          "name": "AbstractDistortedBody",
+          "kind": "abstract class",
+          "description": "Body shapes with CoordinateRotator for pitch/yaw rotation."
+        },
+        {
+          "name": "DistortedCylinderShape",
+          "kind": "class extends AbstractDistortedExtrusion",
+          "description": "Cylinder with start/mid/end width and height, interpolated along projection. Height compensation for steep pitch."
+        },
+        {
+          "name": "DistortedPipeShape",
+          "kind": "class extends DistortedCylinderShape",
+          "description": "Like DistortedCylinder but isValidProjection always true (capped ends with fade)."
+        },
+        {
+          "name": "DistortedEllipsoidShape",
+          "kind": "class extends AbstractDistortedBody",
+          "description": "Rotated ellipsoid with per-axis radius and interpolated quadratic falloff."
+        },
+        {
+          "name": "ShapeDistortion",
+          "kind": "class",
+          "description": "Three NoiseProperty values: widthNoise, floorNoise, ceilingNoise. Modulate cave dimensions."
+        },
+        {
+          "name": "DistortedShapes",
+          "kind": "final class",
+          "description": "Registry of DistortedShape.Factory: CYLINDER, ELLIPSE, PIPE. Extensible via register()."
+        },
+        {
+          "name": "CaveNodeShapeUtils",
+          "kind": "class",
+          "description": "Utility methods for anchor computation (box, line, sphere, pipe), end radius inheritance, filling block selection, cover height calculation, cover parent validation, and cover invalidation."
+        }
+      ]
+    },
+    "structures": {
+      "description": "Structure placement uses PrefabContainers (per-biome) and UniquePrefabContainers (per-zone). Prefabs are placed by PrefabPopulator which collects candidates from grid generators, resolves conflicts by priority, and pastes via PrefabPasteUtil. Unique prefabs have special placement logic with climate-based or zone-center positioning.",
+      "types": [
+        {
+          "name": "PrefabContainer",
+          "kind": "class",
+          "description": "Array of PrefabContainerEntry, each with IWeightedMap<WorldGenPrefabSupplier>, PrefabPatternGenerator, and environment ID."
+        },
+        {
+          "name": "PrefabPatternGenerator",
+          "kind": "class",
+          "description": "Per-prefab-entry placement config: grid generator, height condition, height threshold interpreter, placement mask, map condition, parent condition, rotations, displacement, category, exclusion radius, flags."
+        },
+        {
+          "name": "PrefabCategory",
+          "kind": "record",
+          "description": "Record(name, priority). Loaded from PrefabCategories.json. NONE(MIN_VALUE), UNIQUE(MAX_VALUE)."
+        },
+        {
+          "name": "PrefabPasteUtil",
+          "kind": "class",
+          "description": "Core prefab pasting logic with rotation, height-fitting, block mask evaluation, child prefab recursion (max depth 10), and entity spawning."
+        },
+        {
+          "name": "PrefabLoadingCache",
+          "kind": "class",
+          "description": "ConcurrentHashMap cache of PrefabBuffer instances loaded from disk."
+        },
+        {
+          "name": "PrefabStoreRoot",
+          "kind": "enum",
+          "description": "ASSETS or WORLD_GEN. Determines prefab file resolution path."
+        },
+        {
+          "name": "UniquePrefabContainer",
+          "kind": "class",
+          "description": "Per-zone unique prefab generation with UniquePrefabGenerator[] and UniquePrefabEntry[] output."
+        },
+        {
+          "name": "UniquePrefabGenerator",
+          "kind": "class",
+          "description": "Generates placement for unique prefabs using spiral search, biome/height/parent checks, and exclusion radii."
+        },
+        {
+          "name": "UniquePrefabConfiguration",
+          "kind": "class",
+          "description": "Detailed placement config for unique prefabs with all conditions and placement parameters."
+        },
+        {
+          "name": "WorldGenPrefabSupplier",
+          "kind": "class",
+          "description": "Lazy prefab loader wrapping path and PrefabLoader with cached IPrefabBuffer and IChunkBounds."
+        },
+        {
+          "name": "WorldGenPrefabLoader",
+          "kind": "class",
+          "description": "Resolves prefab paths to WorldGenPrefabSupplier arrays across PrefabStoreRoot locations."
+        }
+      ]
+    },
+    "chunk_lifecycle": {
+      "description": "Chunk generation is fully asynchronous. ChunkGenerator.generate() submits to a ThreadPoolExecutor. Each worker thread has thread-local ChunkGeneratorResource. Caching is pervasive across all subsystems.",
+      "types": [
+        {
+          "name": "ChunkGenerator",
+          "kind": "class",
+          "description": "Central worldgen coordinator. POOL_SIZE = max(2, ceil(availableProcessors * 0.75)). Caches: generatorCache(50000, 20s), caveGeneratorCache(5000, 30s), uniquePrefabCache(50, 300s)."
+        },
+        {
+          "name": "ChunkGeneratorResource",
+          "kind": "class",
+          "description": "Thread-local pooled resources: 2 Randoms, BlockPriorityChunk, coverArray, cache keys, ResultBuffers, PrefabPasteBuffer, ZoneBiomeResult, ClimateNoise.Buffer, PrefabPopulator, PrefabPathCollector."
+        },
+        {
+          "name": "ChunkGeneratorExecution",
+          "kind": "class",
+          "description": "Per-chunk execution context with priority-based setBlock/setFluid logic."
+        },
+        {
+          "name": "BlockPriorityChunk",
+          "kind": "class",
+          "description": "320*32*32 byte array. Priority levels: NONE(0) through PREFAB(9). FLAG_SUBMERGE(32)."
+        },
+        {
+          "name": "ChunkThreadPoolExecutor",
+          "kind": "class extends ThreadPoolExecutor",
+          "description": "Custom executor with shutdown hook."
+        },
+        {
+          "name": "ChunkWorkerThreadFactory",
+          "kind": "class implements ThreadFactory",
+          "description": "Creates worker threads that initialize ChunkGeneratorResource."
+        },
+        {
+          "name": "ChunkWorldgenBenchmark",
+          "kind": "class implements IWorldGenBenchmark",
+          "description": "Thread-safe prefab/cave node generation counters."
+        },
+        {
+          "name": "ValidationUtil",
+          "kind": "class",
+          "description": "Validates all prefabs in zones, biomes, and cave nodes can be loaded without errors."
+        },
+        {
+          "name": "ZoneBiomeResult",
+          "kind": "class",
+          "description": "Mutable holder for zone result, biome, height threshold context, and heightmap noise."
+        },
+        {
+          "name": "MaskProvider",
+          "kind": "class",
+          "description": "Zone mask accessor wrapping FuzzyZoom. Provides coordinate randomization, pixel lookup, distance-to-boundary, and unique zone generation."
+        }
+      ],
+      "caching_types": [
+        "ChunkGeneratorCache - ConcurrentSizedTimeoutCache for CoreDataCacheEntry",
+        "CaveGeneratorCache extends ExtendedCoordinateCache - Cave by (CaveType, seed, x, z)",
+        "UniquePrefabCache - SizedTimeoutCache for UniquePrefabEntry[] by seed",
+        "ZonePatternGeneratorCache - ConcurrentHashMap for ZonePatternGenerator by seed",
+        "CoordinateCache - abstract coordinate-keyed cache",
+        "ExtendedCoordinateCache - coordinate cache with extra key dimension",
+        "SizedTimeoutCache - LRU + time expiration",
+        "ConcurrentSizedTimeoutCache - StampedLock segmented concurrent variant",
+        "TimeoutCache - ConcurrentHashMap + time expiration",
+        "ObjectPool - bounded ArrayBlockingQueue object recycler",
+        "Cache interface - common shutdown/cleanup/get"
+      ]
+    },
+    "configuration": {
+      "description": "All worldgen configuration is loaded from JSON via a comprehensive loader subsystem. Entry point is ChunkGeneratorJsonLoader reading World.json.",
+      "types": [
+        {
+          "name": "WorldGenConfig",
+          "kind": "record",
+          "description": "Record(path, name, version). Immutable config path reference."
+        },
+        {
+          "name": "SeedStringResource",
+          "kind": "class implements SeedResource",
+          "description": "Loading context with FileMaskCache, BlockPlacementMaskRegistry, WorldGenConfig, WorldGenPrefabLoader, and unique ID generator."
+        },
+        {
+          "name": "WorldGenConstants",
+          "kind": "interface",
+          "description": "ENVIRONMENT_NOT_SET = Integer.MIN_VALUE."
+        },
+        {
+          "name": "BiomeDataSystem",
+          "kind": "class extends DelayedEntitySystem<EntityStore>",
+          "description": "ECS system ticking at 1 Hz to update player zone/biome info."
+        }
+      ],
+      "loader_types": [
+        "ChunkGeneratorJsonLoader",
+        "ZonesJsonLoader",
+        "ZoneJsonLoader",
+        "ZoneBiomesJsonLoader",
+        "ZoneCustomBiomesJsonLoader",
+        "BiomeJsonLoader",
+        "TileBiomeJsonLoader",
+        "CustomBiomeJsonLoader",
+        "BiomePatternGeneratorJsonLoader",
+        "BiomeInterpolationJsonLoader",
+        "BiomeMaskJsonLoader",
+        "CustomBiomeGeneratorJsonLoader",
+        "CaveGeneratorJsonLoader",
+        "CaveTypesJsonLoader",
+        "CaveTypeJsonLoader",
+        "CaveNodeTypeJsonLoader",
+        "CaveNodeTypeStorage",
+        "CaveNodeChildEntryJsonLoader",
+        "CaveNodeCoverEntryJsonLoader",
+        "CaveNodeShapeGeneratorJsonLoader",
+        "CylinderCaveNodeShapeGeneratorJsonLoader",
+        "PipeCaveNodeShapeGeneratorJsonLoader",
+        "EllipsoidCaveNodeShapeGeneratorJsonLoader",
+        "EmptyLineCaveNodeShapeGeneratorJsonLoader",
+        "DistortedCaveNodeShapeGeneratorJsonLoader",
+        "PrefabCaveNodeShapeGeneratorJsonLoader",
+        "ShapeDistortionJsonLoader",
+        "CavePrefabContainerJsonLoader",
+        "CavePrefabEntryJsonLoader",
+        "CavePrefabConfigJsonLoader",
+        "CaveBiomeMaskJsonLoader",
+        "FluidLevelJsonLoader",
+        "ClimateMaskJsonLoader",
+        "ClimateNoiseJsonLoader",
+        "ClimateGraphJsonLoader",
+        "ClimateGridJsonLoader",
+        "ClimateTypeJsonLoader",
+        "ClimatePointJsonLoader",
+        "ClimateColorJsonLoader",
+        "ClimateRuleJsonLoader",
+        "ContinentThresholdsJsonLoader",
+        "UniqueClimateGeneratorJsonLoader",
+        "UniqueClimateJsonLoader",
+        "CoverContainerJsonLoader",
+        "LayerContainerJsonLoader",
+        "PrefabContainerJsonLoader",
+        "TintContainerJsonLoader",
+        "EnvironmentContainerJsonLoader",
+        "WaterContainerJsonLoader",
+        "FadeContainerJsonLoader",
+        "UniquePrefabContainerJsonLoader",
+        "UniquePrefabConfigurationJsonLoader",
+        "PrefabPatternGeneratorJsonLoader",
+        "WeightedPrefabMapJsonLoader",
+        "BlockPlacementMaskJsonLoader",
+        "BlockPlacementMaskRegistry",
+        "MaskProviderJsonLoader",
+        "ZoneColorMappingJsonLoader",
+        "ZonePatternProviderJsonLoader",
+        "ZoneRequirementJsonLoader",
+        "UniqueZoneEntryJsonLoader",
+        "NoiseBlockArrayJsonLoader",
+        "ResolvedBlockArrayJsonLoader",
+        "ResolvedVariantsBlockArrayLoader",
+        "Vector2dJsonLoader",
+        "Vector3dJsonLoader",
+        "ColorUtil",
+        "FileMaskCache",
+        "AssetFileSystem",
+        "WorldGenPrefabLoader",
+        "WorldGenPrefabSupplier",
+        "FileContext",
+        "BiomeFileContext",
+        "ZoneFileContext",
+        "FileContextLoader",
+        "FileLoadingContext"
+      ],
+      "json_schemas": [
+        "World.json - top-level world gen config",
+        "Zones.json - zone list with mask image",
+        "Zone config files - biomes, caves, unique prefabs, discovery",
+        "Biome config files - all container definitions",
+        "Cave config files - types, nodes, shapes",
+        "Climate config files - noise, graph, types",
+        "PrefabCategories.json - priority levels"
+      ]
+    },
+    "containers": {
+      "description": "Per-biome generation data containers.",
+      "types": [
+        "LayerContainer - terrain fill, static layers (fixed Y), dynamic layers (surface-relative)",
+        "CoverContainer - surface cover blocks with density/height/map conditions",
+        "PrefabContainer - biome prefab entries with pattern generators",
+        "TintContainer - per-column tint color with noise-driven overrides",
+        "EnvironmentContainer - per-column environment ID selection",
+        "WaterContainer - water body definitions with min/max Y",
+        "FadeContainer - zone border fade for mask and terrain blending",
+        "UniquePrefabContainer - zone-level unique prefab generation"
+      ]
+    },
+    "zoom": {
+      "description": "Zone mask image processing with zoom, offset, fuzzy randomization, and unique zone stamping.",
+      "types": [
+        "PixelProvider - BufferedImage pixel array wrapper",
+        "ExactZoom - zoom/offset coordinate transform with unique zone placement",
+        "FuzzyZoom - adds coordinate randomization on top of ExactZoom",
+        "PixelDistanceProvider - efficient 8x8 segmented distance-to-boundary computation"
+      ]
+    },
+    "map": {
+      "types": [
+        "GeneratorChunkWorldMap - world map data from generator (points of interest, biome colors)"
+      ]
+    },
+    "util": {
+      "types": [
+        "BlockFluidEntry (record) - block/rotation/fluid tuple",
+        "BlockArray (interface) - block ID array",
+        "NoiseBlockArray - block entries with noise repetition",
+        "ResolvedBlockArray - deduplicated block entries with global caches",
+        "ArrayUtli - Fisher-Yates shuffle",
+        "LogUtil - WorldGenerator logger",
+        "ConstantNoiseProperty - DEFAULT_ZERO and DEFAULT_ONE",
+        "IWorldBounds / IChunkBounds / WorldBounds / ChunkBounds - AABB hierarchy",
+        "BlockMaskCondition - block placement eligibility",
+        "Int2FlagsCondition / CompositeInt2Flags / ConstantInt2Flags / FlagOperator - flag conditions",
+        "ICoordinateDoubleSupplier / ConstantCoordinateDoubleSupplier / RandomCoordinateDoubleSupplier",
+        "HashSetIntCondition / HashSetBlockFluidCondition / FilteredBlockFluidCondition / IntConditionBuilder / RandomCoordinateCondition",
+        "Cache interface / CleanupFutureAction / CleanupRunnable"
+      ]
+    }
+  },
+  "cross_references": {
+    "ecs_integration": {
+      "description": "BiomeDataSystem extends DelayedEntitySystem<EntityStore>, ticks at 1 Hz. Queries entities with (Player, TransformComponent) archetype. Updates WorldMapTracker with current zone/biome data.",
+      "types": [
+        "BiomeDataSystem -> DelayedEntitySystem<EntityStore>",
+        "Player component type",
+        "TransformComponent component type",
+        "WorldMapTracker.ZoneDiscoveryInfo"
+      ]
+    },
+    "asset_store_usage": {
+      "references": [
+        "BlockType.getAssetMap() - cave population, water population, block priority override",
+        "Fluid.getAssetMap() - fluid placement for max fluid level",
+        "PrefabStore.get().getAssetPrefabsPath() - prefab resolution",
+        "AssetPack - asset-packed prefab loading"
+      ]
+    },
+    "block_types": {
+      "references": [
+        "BlockType - support checking, solid testing",
+        "BlockFace / RequiredBlockFaceSupport - cave cover invalidation",
+        "BlockPhysics - support value management",
+        "FluidTicker.isSolid() - water population",
+        "FluidSection - fluid storage"
+      ]
+    },
+    "events_and_networking": {
+      "references": [
+        "WorldMapTracker.updateCurrentZoneAndBiome() - zone/biome notifications",
+        "BiomeData, MapMarker, UpdateWorldMapSettings - protocol packets",
+        "GeneratedChunk outputs - chunk store integration"
+      ]
+    },
+    "external_libraries": [
+      "it.unimi.dsi.fastutil - optimized collections throughout",
+      "com.google.gson - JSON parsing in all loaders",
+      "java.awt.image.BufferedImage - zone mask images",
+      "java.util.concurrent - threading infrastructure"
+    ],
+    "proceduralLib_integration": {
+      "references": [
+        "NoiseProperty / SingleNoiseProperty - noise evaluation",
+        "IPointGenerator - Voronoi grids for biomes, caves, prefabs",
+        "IHeightThresholdInterpreter - per-biome height curves",
+        "IDoubleRange / IFloatRange - random range suppliers",
+        "ICoordinateCondition / ICoordinateRndCondition - spatial conditions",
+        "IIntCondition / IBlockFluidCondition / IDoubleThreshold - value conditions",
+        "CellDistanceFunction / PointEvaluator - climate grid computation",
+        "GeneralNoise.InterpolationFunction - shape interpolation",
+        "CoordinateRandomizer / ICoordinateRandomizer - fuzzy zone sampling",
+        "ResultBuffer - reusable computation buffers",
+        "SeedString / SeedResource - loading context"
+      ]
+    }
+  },
+  "files_not_read": []
+}

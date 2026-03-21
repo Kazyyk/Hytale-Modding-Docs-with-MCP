@@ -1,0 +1,399 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T00:00:00Z",
+  "domain": "npc_behavior",
+  "overview": "The NPC behavior subsystem encompasses 763 types across 70+ packages under com.hypixel.hytale.server.npc. It implements a data-driven behavior system where NPC types are defined via JSON role assets loaded through a BuilderManager. Each NPC is an entity with a Role that contains Instructions (behavior tree nodes), Sensors (condition evaluators), Actions (effect executors), and Motions (movement/head controllers). The system uses a blackboard architecture for shared perception data, an A* pathfinding implementation for navigation, expression evaluation for dynamic config values, and an ECS-based tick pipeline with 25+ registered systems.",
+  "confidence": "high",
+  "subsections": {
+    "root_package": {
+      "overview": "The root npc package contains the plugin entry point and the AllNPCsLoadedEvent. NPCPlugin is the central registration hub — it registers all ECS component types, resource types, systems, asset stores, commands, event handlers, and the builder factory system that maps JSON type names to Java builder classes.",
+      "types": [
+        {
+          "name": "NPCPlugin",
+          "kind": "class",
+          "extends": "JavaPlugin",
+          "purpose": "Central plugin entry point. Registers all NPC ECS systems (~25 systems), component types (~12 types), resource types (~6 types), asset stores (AttitudeGroup, ItemAttitudeGroup, BalanceAsset, Condition), commands (NPCCommand), interactions (UseNPC, ContextualUseNPC, SpawnNPC), and the builder factory system with ~100 named builder registrations for Actions, Sensors, BodyMotions, HeadMotions, Instructions, EntityFilters, EntityPrioritisers, and MotionControllers.",
+          "key_fields": ["builderManager", "blackboardResourceType", "combatDataPoolResourceType", "roleChangeQueueResourceType", "aStarNodePoolProviderSimpleResourceType", "npcSpatialResource", "attitudeMap", "itemAttitudeMap"],
+          "factory_categories": ["Role", "BodyMotion", "HeadMotion", "Action", "Sensor", "Instruction", "Path", "ActionList"],
+          "registered_systems": ["BlackboardSystems.InitSystem", "BlackboardSystems.TickingSystem", "BlackboardSystems.DamageBlockEventSystem", "BlackboardSystems.BreakBlockEventSystem", "CombatViewSystems.Ensure", "CombatViewSystems.EntityRemoved", "CombatViewSystems.Ticking", "NPCSystems.ModelChangeSystem", "RoleBuilderSystem", "BalancingInitialisationSystem", "RoleSystems.RoleActivateSystem", "PositionCacheSystems.RoleActivateSystem", "NPCInteractionSystems.AddSimulationManagerSystem", "NPCInteractionSystems.TickHeldInteractionsSystem", "FailedSpawnSystem", "NPCSystems.AddedSystem", "NPCSystems.AddedFromExternalSystem", "NPCSystems.AddedFromWorldGenSystem", "NPCSystems.AddSpawnEntityEffectSystem", "RoleSystems.BehaviourTickSystem", "RoleSystems.PreBehaviourSupportTickSystem", "StateEvaluatorSystem", "PositionCacheSystems.UpdateSystem", "NPCPreTickSystem", "AvoidanceSystem", "SteeringSystem", "RoleSystems.PostBehaviourSupportTickSystem", "RoleSystems.RoleDebugSystem", "TimerSystem", "ComputeVelocitySystem", "MovementStatesSystem", "MessageSupportSystem.BeaconSystem", "MessageSupportSystem.NPCBlockEventSystem", "MessageSupportSystem.PlayerBlockEventSystem", "MessageSupportSystem.NPCEntityEventSystem", "MessageSupportSystem.PlayerEntityEventSystem", "StepCleanupSystem", "NewSpawnStartTickingSystem", "RoleChangeSystem", "NPCSpatialSystem", "NPCDeathSystems.NPCKillsEntitySystem", "NPCDeathSystems.EntityViewSystem", "NPCDamageSystems.FilterDamageSystem", "NPCDamageSystems.DamageReceivedSystem", "NPCDamageSystems.DamageDealtSystem", "NPCDamageSystems.DamageReceivedEventViewSystem", "NPCDamageSystems.DropDeathItems", "NPCSystems.OnTeleportSystem", "NPCSystems.OnDeathSystem", "NPCSystems.LegacyWorldGenId", "NPCSystems.KillFeedKillerEventSystem", "NPCSystems.KillFeedDecedentEventSystem", "NPCSystems.PrefabPlaceEntityEventSystem", "NPCVelocityInstructionSystem", "NPCEntityRegenerateStatsSystem"],
+          "asset_paths": {
+            "attitude_roles": "NPC/Attitude/Roles",
+            "attitude_items": "NPC/Attitude/Items",
+            "balancing": "NPC/Balancing",
+            "conditions": "NPC/DecisionMaking/Conditions",
+            "roles": "Server/NPC/Roles"
+          }
+        },
+        {
+          "name": "AllNPCsLoadedEvent",
+          "kind": "class",
+          "implements": "IEvent<Void>",
+          "purpose": "Event fired when all NPC role assets have been loaded. Carries maps of all NPCs and loaded NPCs (Int2ObjectMap<BuilderInfo>)."
+        }
+      ]
+    },
+    "entities": {
+      "overview": "The entities sub-package contains NPCEntity (the core NPC component on every NPC) and PathManager (manages path-following state). NPCEntity extends LivingEntity and implements INonPlayerCharacter.",
+      "types": [
+        {
+          "name": "NPCEntity",
+          "kind": "class",
+          "extends": "LivingEntity",
+          "implements": ["INonPlayerCharacter"],
+          "purpose": "Core component attached to every NPC entity. Holds the Role reference, spawn information (role name/index, spawn role, environment, spawn configuration, spawn instant), leash position/heading/pitch, hover state, damage data, blackboard views (BlockTypeView, BlockEventView, EntityEventView), alarm store, path manager, despawn state, reserved-by set, and model scale. Has serialization via BuilderCodec.",
+          "key_fields": ["role", "roleName", "roleIndex", "spawnRoleName", "spawnRoleIndex", "environmentIndex", "spawnConfigurationIndex", "leashPoint", "leashHeading", "leashPitch", "hoverPhase", "hoverHeight", "initialModelScale", "pathManager", "damageData", "alarmStore", "isDespawning", "reservedBy"],
+          "key_methods": ["playAnimation", "canBreathe", "getCanCauseDamage", "onFlockSetState", "onFlockSetTarget", "setAppearance", "getCurrentHorizontalSpeedMultiplier", "notifyBlockChange", "notifyEntityEvent", "getBlockTypeBlackboardView"]
+        },
+        {
+          "name": "PathManager",
+          "kind": "class",
+          "purpose": "Manages the NPC's current path. Can hold either a prefab path (UUID-referenced) or a transient path. Serializes currentPathHint UUID.",
+          "key_methods": ["setPrefabPath", "setTransientPath", "isFollowingPath", "getPath"]
+        }
+      ]
+    },
+    "asset_config": {
+      "overview": "The asset/builder sub-package (~165 types) implements a JSON-driven builder/factory system for NPC configuration. NPC roles are defined in JSON files under Server/NPC/Roles/*.json. The BuilderManager loads these files and uses a factory pattern to instantiate builders of specific types (Role, Action, Sensor, BodyMotion, HeadMotion, Instruction, etc.). The builder sub-packages include: expression evaluators for dynamic JSON values, holder types for validated field storage, provider evaluators for feature/parameter resolution, validators for asset validation at load time, and utility classes.",
+      "key_types": [
+        {"name": "BuilderManager", "purpose": "Manages loading/unloading of NPC role JSON assets from asset packs. Maintains categories (Role, Action, Sensor, etc.) and the factory registry."},
+        {"name": "Builder", "purpose": "Base interface/class for all NPC builders. A builder reads JSON and produces a runtime object (Role, Action, Sensor, etc.)."},
+        {"name": "BuilderInfo", "purpose": "Metadata about a loaded NPC builder (name, index, validation state, etc.)."},
+        {"name": "BuilderFactory", "purpose": "Factory for creating builders from JSON type discriminators."},
+        {"name": "BuilderSupport", "purpose": "Support context passed to builders during construction, providing access to the builder manager and expression compiler."},
+        {"name": "BuilderDescriptor", "purpose": "Describes a builder type's schema for documentation/validation generation."},
+        {"name": "SpawnableWithModelBuilder", "purpose": "Builder that also supports spawning with a model (used by role builders)."},
+        {"name": "InstructionContextHelper", "purpose": "Helps builders resolve instruction references and build instruction trees."},
+        {"name": "StateMappingHelper", "purpose": "Maps state names to indices for the state machine system."},
+        {"name": "BuilderCombatConfig", "purpose": "Builder for NPC combat configuration (attack interactions, damage, etc.)."}
+      ],
+      "holder_types": ["ArrayHolder", "AssetArrayHolder", "AssetHolder", "BooleanArrayHolder", "BooleanHolder", "DoubleHolder", "DoubleHolderBase", "EnumArrayHolder", "EnumHolder", "EnumSetHolder", "FloatHolder", "IntHolder", "NumberArrayHolder", "StringArrayHolder", "StringHolder", "StringHolderBase", "TemporalArrayHolder", "ValueHolder", "DeferEvaluateAssetHolder"],
+      "validator_types": ["AnyBooleanValidator", "AnyPresentValidator", "ArrayNotEmptyValidator", "ArraysOneSetValidator", "ArrayValidator", "AssetValidator", "AtMostOneBooleanValidator", "AttributeRelationValidator", "BooleanArrayValidator", "BooleanImplicationValidator", "CombatInteractionValidator", "ComponentOnlyValidator", "DoubleArrayValidator", "DoubleOrValidator", "DoubleRangeValidator", "DoubleSequenceValidator", "DoubleSingleValidator", "DoubleValidator", "EnumArrayNoDuplicatesValidator", "EnumArrayValidator", "ExistsIfParameterSetValidator", "InstructionContextValidator", "IntArrayValidator", "IntOrValidator", "IntRangeValidator", "IntSequenceValidator", "IntSingleValidator", "IntValidator", "NoDuplicatesValidator", "OneOrNonePresentValidator", "OnePresentValidator", "RequiredFeatureValidator", "RequiresFeatureIfEnumValidator", "RequiresFeatureIfValidator", "RequiresOneOfFeaturesValidator", "StateStringValidator", "StringArrayNoEmptyStringsValidator", "StringArrayNotEmptyValidator", "StringArrayValidator", "StringNotEmptyValidator", "StringNullOrNotEmptyValidator", "StringsAtMostOneValidator", "StringsNotEmptyValidator", "StringsOneSetValidator", "StringValidator", "TemporalArrayValidator", "TemporalSequenceValidator", "ValidateAssetIfEnumIsValidator", "ValidateIfEnumIsValidator", "ValueStoreValidator"],
+      "asset_validators": ["AttitudeGroupExistsValidator", "BeaconSpawnExistsValidator", "BlockSetExistsValidator", "EntityEffectExistsValidator", "EntityStatExistsValidator", "EnvironmentExistsValidator", "FlockAssetExistsValidator", "ItemAttitudeGroupExistsValidator", "ItemDropListExistsValidator", "ItemExistsValidator", "ManualSpawnMarkerExistsValidator", "ModelExistsValidator", "ParticleSystemExistsValidator", "RoleExistsValidator", "RootInteractionValidator", "SoundEventExistsValidator", "TagSetExistsValidator", "WeatherExistsValidator"],
+      "expression_types": ["BuilderExpression", "BuilderExpressionDynamic", "BuilderExpressionDynamicBoolean", "BuilderExpressionDynamicBooleanArray", "BuilderExpressionDynamicNumber", "BuilderExpressionDynamicNumberArray", "BuilderExpressionDynamicString", "BuilderExpressionDynamicStringArray", "BuilderExpressionStaticBoolean", "BuilderExpressionStaticBooleanArray", "BuilderExpressionStaticEmptyArray", "BuilderExpressionStaticNumber", "BuilderExpressionStaticNumberArray", "BuilderExpressionStaticString", "BuilderExpressionStaticStringArray"],
+      "provider_evaluators": ["FeatureEvaluatorHelper", "FeatureProviderEvaluator", "ProviderEvaluator", "ProviderEvaluatorTypeRegistry", "ReferenceProviderEvaluator", "UnconditionalFeatureProviderEvaluator", "UnconditionalParameterProviderEvaluator"],
+      "json_schemas": {
+        "role_schema_path": "NPCRole.json",
+        "role_file_patterns": ["NPC/Roles/*.json", "NPC/Roles/**/*.json"],
+        "role_asset_path": "NPC/Roles"
+      }
+    },
+    "movement": {
+      "overview": "The movement sub-package handles NPC locomotion with three motion controller types (Walk, Fly, Dive), steering behaviors (Pursue, Evade, Wander, Rotate, AvoidCollision), and group flocking support. MotionController is the interface; MotionControllerBase provides shared collision/physics logic; specific controllers handle ground walking, flying, and diving/swimming.",
+      "controllers": [
+        {"name": "MotionController", "kind": "interface", "extends": "DebugSupport.DebugFlagsChangeListener", "purpose": "Interface for all motion controllers. Defines probeMove(), waypointDistance(), isValidPosition(), getComponentSelector(), is2D(), getWorldNormal(), requirePreciseMovement(), enableHeadingBlending(), etc."},
+        {"name": "MotionControllerBase", "kind": "abstract class", "implements": ["MotionController"], "purpose": "Base implementation with collision detection, movement physics, bounding box management, heading interpolation, speed computation, and step-up/step-down logic."},
+        {"name": "MotionControllerWalk", "kind": "class", "extends": "MotionControllerBase", "type_string": "Walk", "purpose": "Ground-based walking controller. Handles gravity, jumping, climbing, step-up over blocks, fluid interaction, ground snapping, and 2D pathfinding (y-axis projected out of search)."},
+        {"name": "MotionControllerFly", "kind": "class", "extends": "MotionControllerBase", "type_string": "Fly", "purpose": "Flying controller for airborne NPCs. Handles 3D movement, hover height, altitude constraints, take-off/landing transitions."},
+        {"name": "MotionControllerDive", "kind": "class", "extends": "MotionControllerBase", "type_string": "Dive", "purpose": "Swimming/diving controller for aquatic NPCs. Handles fluid-based movement with material checks (COLLISION_MATERIALS_ACTIVE = 5)."},
+        {"name": "BuilderMotionControllerMap", "kind": "class", "purpose": "Builder for a map of named motion controllers, allowing NPCs to switch between Walk/Fly/Dive modes."},
+        {"name": "ProbeMoveData", "kind": "class", "purpose": "Data structure for probing movement validity. Contains probe position, direction, target position, and segment tracking for path smoothing."}
+      ],
+      "steering": {
+        "overview": "Steering forces implement Craig Reynolds-style behaviors. Each force computes a desired Steering output (translation + rotation). Forces are composed by the SteeringSystem.",
+        "types": [
+          {"name": "SteeringForce", "kind": "interface", "purpose": "Base interface: compute(Steering) -> bool."},
+          {"name": "SteeringForceWithTarget", "kind": "abstract class", "purpose": "Base for target-tracking forces (selfPosition + targetPosition)."},
+          {"name": "SteeringForceWithGroup", "kind": "abstract class", "purpose": "Base for group-aware forces (spatial queries over nearby entities)."},
+          {"name": "SteeringForcePursue", "kind": "class", "purpose": "Seek/pursue a target with slowdown and stop distances. Uses inverse-distance falloff."},
+          {"name": "SteeringForceEvade", "kind": "class", "purpose": "Flee from a target with slowdown/stop distances and direction hints."},
+          {"name": "SteeringForceWander", "kind": "class", "purpose": "Random wandering with jitter and turn intervals."},
+          {"name": "SteeringForceRotate", "kind": "class", "purpose": "Rotate to face a desired heading with angular tolerance."},
+          {"name": "SteeringForceAvoidCollision", "kind": "class", "extends": "SteeringForceWithGroup", "purpose": "Avoid collisions with nearby entities using time-to-collision prediction. Configurable falloff and strength."}
+        ]
+      },
+      "enums": [
+        {"name": "MovementState", "values": ["JUMPING", "FLYING", "CROUCHING", "RUNNING", "SPRINTING", "FALLING", "CLIMBING", "WALKING", "IDLE", "ANY"]},
+        {"name": "NavState", "values": ["INIT", "PROGRESSING", "BLOCKED", "DEFER", "AT_GOAL", "ABORTED"]},
+        {"name": "MotionKind", "values": ["ASCENDING", "DESCENDING", "DROPPING", "STANDING", "MOVING", "FLYING", "SWIMMING", "SWIMMING_TURNING"]},
+        {"name": "FlockMembershipType", "values": ["Leader", "Follower", "Member", "NotMember", "Any"]},
+        {"name": "FlockPlayerMembership", "values": ["Member", "NotMember", "Any"]}
+      ],
+      "other_types": [
+        {"name": "Steering", "purpose": "Mutable steering vector with translation (Vector3d), yaw/pitch/roll, maxDistance, relativeTurnSpeed. Has clear/assign/scale operations."},
+        {"name": "GroupSteeringAccumulator", "purpose": "Accumulates separation/cohesion/alignment vectors from nearby entities. Used by flocking and avoidance systems."}
+      ]
+    },
+    "roles": {
+      "overview": "Roles define NPC behavior profiles. Role is the runtime object that holds the instruction tree, motion controllers, support objects, and state machine. Roles are built from JSON via BuilderRole/BuilderRoleAbstract/BuilderRoleVariant. Support classes handle entity tracking, combat, debug, state management, and world interaction.",
+      "role_types": [
+        {"name": "Role", "kind": "class", "purpose": "The primary runtime NPC behavior profile. Contains the instruction tree (behavior tree), motion controllers (map of Walk/Fly/Dive), support objects (EntitySupport, CombatSupport, DebugSupport, StateSupport, WorldSupport, MarkedEntitySupport, PositionCache, RoleStats), state machine (StateTransitionController), avoidance/separation steering, flags, and entity stat setup."},
+        {"name": "BuilderRole", "kind": "class", "purpose": "JSON builder for Role objects. Reads all role configuration fields from JSON."},
+        {"name": "BuilderRoleAbstract", "kind": "class", "extends": "BuilderRole", "purpose": "Abstract role that cannot be spawned directly (isSpawnable() returns false). Used as base templates."},
+        {"name": "BuilderRoleVariant", "kind": "class", "purpose": "Role variant that inherits from and modifies a base role template."},
+        {"name": "RoleDebugDisplay", "kind": "class", "purpose": "Renders debug overlays for NPCs (state, time, flock, animation, targets, light, HP, stamina, speed, pathfinder, etc.)."},
+        {"name": "RoleDebugFlags", "kind": "enum", "purpose": "36 debug flags including TraceFail, TraceSuccess, TraceSensorFailures, Flock, MotionControllerSteer/Move, Collisions, DisplayState/HP/Stamina/Speed, Pathfinder, VisAvoidance/Separation/Aiming/MarkedTargets/SensorRanges/LeashPosition/Flock, BeaconMessages, etc."},
+        {"name": "RoleUtils", "kind": "class", "purpose": "Static utilities for setting hotbar items, off-hand items, item-in-hand, and armor on NPC inventories."},
+        {"name": "SpawnEffect", "kind": "interface", "purpose": "Interface for spawn particle effects (getSpawnParticles, getSpawnParticleOffset, getSpawnViewDistance)."}
+      ],
+      "support_types": [
+        {"name": "CombatSupport", "purpose": "Manages NPC combat -- attack tags (Melee/Ranged/Block), interaction chains, entity groups, damage dealing permission."},
+        {"name": "DebugSupport", "purpose": "Manages debug flags, display strings, trace state for instruction matching."},
+        {"name": "EntitySupport", "purpose": "Manages display names, entity stat setup, instruction execution control."},
+        {"name": "EntityList", "extends": "BucketList<Ref<EntityStore>>", "purpose": "Bucketed entity list with 6 priority buckets for entity tracking (players, NPCs at various ranges)."},
+        {"name": "MarkedEntitySupport", "purpose": "Manages named target slots (e.g. 'LockedTarget') for entity targeting. Supports multiple named target slots mapped to indices."},
+        {"name": "StateSupport", "purpose": "Manages the NPC state machine -- current state, state transitions, interactable state, event view integration."},
+        {"name": "WorldSupport", "purpose": "Manages world-aware NPC features -- attitude system (via blackboard AttitudeView), NPC groups, block type awareness, weather awareness, item attitudes."},
+        {"name": "PositionCache", "purpose": "Caches NPC spatial data -- position, bounding box, line-of-sight checks, block iteration, dropped item detection, block placement probing."},
+        {"name": "RoleStats", "purpose": "Tracks NPC detection ranges per range type (player vs NPC) for sensor optimization."}
+      ]
+    },
+    "expression_system": {
+      "overview": "A complete expression evaluator with lexer, parser (Shunting-Yard algorithm), AST, and stack-based virtual machine. Used throughout the NPC system for dynamic JSON configuration values (e.g. 'speed * 1.5 + random()'). Supports NUMBER, STRING, BOOLEAN, and array types.",
+      "value_types": ["VOID", "NUMBER", "STRING", "BOOLEAN", "EMPTY_ARRAY", "NUMBER_ARRAY", "STRING_ARRAY", "BOOLEAN_ARRAY"],
+      "compiler_pipeline": [
+        {"stage": "Lexer", "class": "Lexer", "purpose": "Tokenizes expression strings into Token enums. Handles identifiers, strings, numbers, and operators."},
+        {"stage": "Parser", "class": "Parser", "purpose": "Shunting-Yard parser that produces parsed tokens in postfix order. Handles operator precedence, brackets, function calls, and tuple construction."},
+        {"stage": "AST", "class": "CompileContext", "purpose": "Builds an AST from parsed tokens, performs type checking, constant folding, and generates a list of ExecutionContext.Instruction lambdas."},
+        {"stage": "VM", "class": "ExecutionContext", "purpose": "Stack-based virtual machine that executes Instruction lambdas. Operand stack with NUMBER/STRING/BOOLEAN/ARRAY operands."}
+      ],
+      "operations": {
+        "unary": ["UNARY_PLUS", "UNARY_MINUS", "LOGICAL_NOT", "BITWISE_NOT"],
+        "binary_arithmetic": ["EXPONENTIATION", "REMAINDER", "DIVIDE", "MULTIPLY", "MINUS", "PLUS"],
+        "binary_comparison": ["GREATER_EQUAL", "GREATER", "LESS_EQUAL", "LESS", "NOT_EQUAL", "EQUAL"],
+        "binary_boolean": ["NOT_EQUAL_BOOL", "EQUAL_BOOL"],
+        "binary_bitwise": ["BITWISE_AND", "BITWISE_XOR", "BITWISE_OR"],
+        "binary_logical": ["LOGICAL_AND", "LOGICAL_OR"],
+        "string": ["EQUAL_STRING", "NOT_EQUAL_STRING", "STRING_CONCATENATION"]
+      },
+      "builtins": {
+        "constants": ["true", "false", "PI"],
+        "functions_invariant": ["max(n,n)->n", "min(n,n)->n", "isEmpty(s)->b", "isEmptyStringArray(s[])->b", "isEmptyNumberArray(n[])->b"],
+        "functions_variant": ["random()->n", "randomInRange(n,n)->n"]
+      },
+      "tokens": ["INVALID", "END", "STRING", "NUMBER", "IDENTIFIER", "OPEN_BRACKET", "CLOSE_BRACKET", "OPEN_SQUARE_BRACKET", "CLOSE_SQUARE_BRACKET", "COMMA", "FUNCTION_CALL", "UNARY_MINUS", "UNARY_PLUS", "LOGICAL_NOT", "BITWISE_NOT", "EXPONENTIATION", "REMAINDER", "DIVIDE", "MULTIPLY", "MINUS", "PLUS", "GREATER_EQUAL", "GREATER", "LESS_EQUAL", "LESS", "NOT_EQUAL", "EQUAL", "BITWISE_AND", "BITWISE_XOR", "BITWISE_OR", "LOGICAL_AND", "LOGICAL_OR", "STRING_CONCATENATION", "TERNARY_IF", "TERNARY_ELSE"],
+      "ast_nodes": ["AST", "ASTOperand", "ASTOperandBoolean", "ASTOperandBooleanArray", "ASTOperandEmptyArray", "ASTOperandIdentifier", "ASTOperandNumber", "ASTOperandNumberArray", "ASTOperandString", "ASTOperandStringArray", "ASTOperator", "ASTOperatorBinary", "ASTOperatorFunctionCall", "ASTOperatorTuple", "ASTOperatorUnary"],
+      "scope_system": {
+        "overview": "Scopes provide variable/function bindings for expression evaluation. StdScope is a HashMap-based scope with parent chaining. StdLib is the root scope with constants and built-in functions.",
+        "types": ["Scope (interface)", "StdScope", "StdLib"]
+      }
+    },
+    "commands": {
+      "overview": "23 NPC-related command classes under the /npc command tree. Commands are registered by NPCPlugin.setup() via NPCCommand (the root command collection).",
+      "types": [
+        {"name": "NPCCommand", "purpose": "Root command collection (/npc). Registers all sub-commands."},
+        {"name": "NPCAllCommand", "purpose": "Operate on all NPCs in range (e.g. despawn all)."},
+        {"name": "NPCAppearanceCommand", "purpose": "Change NPC model/appearance at runtime."},
+        {"name": "NPCAttackCommand", "purpose": "Force NPC to execute an attack interaction."},
+        {"name": "NPCBenchmarkCommand", "purpose": "Toggle NPC tick/sensor performance benchmarking."},
+        {"name": "NPCBlackboardCommand", "purpose": "Inspect blackboard state (block types, events, attitudes)."},
+        {"name": "NPCCleanCommand", "purpose": "Remove all NPCs from a world."},
+        {"name": "NPCCommandUtils", "purpose": "Shared utility for resolving target NPC from command context."},
+        {"name": "NPCDebugCommand", "purpose": "Set debug flags on NPCs (display state, trace sensors, etc.)."},
+        {"name": "NPCDumpCommand", "purpose": "Dump NPC state to JSON for debugging."},
+        {"name": "NPCFreezeCommand", "purpose": "Freeze NPC ticking (pause behavior)."},
+        {"name": "NPCGiveCommand", "purpose": "Give item to NPC inventory."},
+        {"name": "NPCMessageCommand", "purpose": "Send beacon/event messages to NPCs."},
+        {"name": "NPCMultiSelectCommandBase", "purpose": "Base for commands that operate on multiple selected NPCs."},
+        {"name": "NPCPathCommand", "purpose": "Create/assign transient paths to NPCs."},
+        {"name": "NPCRoleCommand", "purpose": "Change NPC role at runtime."},
+        {"name": "NPCRunTestsCommand", "purpose": "Run NPC behavior test suite (coverage, validation)."},
+        {"name": "NPCSensorStatsCommand", "purpose": "Display sensor execution statistics."},
+        {"name": "NPCSpawnCommand", "purpose": "Spawn NPCs of a given role type at a location."},
+        {"name": "NPCStepCommand", "purpose": "Step NPC behavior one tick at a time (debug)."},
+        {"name": "NPCTestCommand", "purpose": "Run specific NPC tests (pathfinding, collision, etc.)."},
+        {"name": "NPCThawCommand", "purpose": "Unfreeze previously frozen NPCs."},
+        {"name": "NPCWorldCommandBase", "purpose": "Base for world-scoped NPC commands."}
+      ]
+    },
+    "navigation": {
+      "overview": "A* pathfinding implementation with half-block resolution (0.5 unit grid), support for 2D and 3D search, diagonal movement, path optimization, and path smoothing. Uses a node pool for allocation efficiency.",
+      "algorithm": "A* with sorted open list (sorted by totalCost descending, popped from end), Long2ObjectMap for visited blocks, half-block position indexing (11 bits per axis, 1024 offset), configurable max path length (200), open node limit (80), total node limit (400). Supports 2D mode (4 or 8 directions) and 3D mode (6 or 26 directions). Path building does direction-change optimization (only keeping corner nodes).",
+      "types": [
+        {"name": "AStarBase", "purpose": "Core A* implementation. initComputePath() sets up start nodes, computePath() processes nodes iteratively. Handles position-to-index encoding, search direction setup, path building."},
+        {"name": "AStarWithTarget", "extends": "AStarBase", "purpose": "Extends AStarBase with a target position. Also supports findClosestPath() for partial paths."},
+        {"name": "AStarNode", "implements": "IWaypoint", "purpose": "A* graph node with position, travelCost, estimateToGoal, totalCost, predecessor chain, successor array (one per search direction), and step costs."},
+        {"name": "AStarEvaluator", "kind": "interface", "purpose": "Strategy interface: isGoalReached() and estimateToGoal() (heuristic function)."},
+        {"name": "AStarNodePool", "kind": "interface", "purpose": "Object pool for AStarNode instances (allocate/deallocate)."},
+        {"name": "AStarNodePoolSimple", "implements": "AStarNodePool", "purpose": "Simple list-based node pool."},
+        {"name": "AStarNodePoolProvider", "kind": "interface", "purpose": "Provides pools keyed by child node count."},
+        {"name": "AStarNodePoolProviderSimple", "implements": ["AStarNodePoolProvider", "Resource<EntityStore>"], "purpose": "ECS resource that provides node pools per entity store."},
+        {"name": "PathFollower", "purpose": "Follows a path of IWaypoint nodes. Handles waypoint advancement, path smoothing (binary search for line-of-sight shortcuts), heading blending at corners, and frozen waypoints."},
+        {"name": "IWaypoint", "kind": "interface", "purpose": "Interface for path waypoints: getLength(), getPosition(), advance(skip), next()."},
+        {"name": "AStarDebugBase", "purpose": "Debug visualization of A* state -- ASCII map rendering with open/closed/path nodes."},
+        {"name": "AStarDebugWithTarget", "extends": "AStarDebugBase", "purpose": "Debug helper that also shows target position."}
+      ],
+      "progress_states": ["UNSTARTED", "ABORTED", "COMPUTING", "ACCOMPLISHED", "TERMINATED", "TERMINATED_OPEN_NODE_LIMIT_EXCEEDED", "TERMINATED_TOTAL_NODE_LIMIT_EXCEEDED"]
+    },
+    "instructions": {
+      "overview": "The instruction system implements a behavior tree. Instructions are the tree nodes, each containing a Sensor (condition), optional child instructions, a BodyMotion, a HeadMotion, and an ActionList. The system evaluates sensors to select which instruction to execute, then runs the corresponding motions and actions.",
+      "types": [
+        {"name": "Instruction", "purpose": "Behavior tree node. Contains sensor, child instruction array, bodyMotion, headMotion, actionList. Evaluated recursively -- sensor must match for the instruction to activate. Has name, tag, index, weight fields."},
+        {"name": "InstructionRandomized", "extends": "Instruction", "purpose": "Randomly selects among child instructions using a WeightedMap. Supports resetOnStateChange and executeFor time ranges."},
+        {"name": "Sensor", "kind": "interface", "purpose": "Condition evaluator. matches() returns true if the sensor condition is met. Has getSensorInfo() for passing data to actions, processDelay() for cooldowns, clearOnce()/setOnce()/isTriggered() for one-shot sensors."},
+        {"name": "NullSensor", "implements": "Sensor", "purpose": "Always-true sensor (default when no sensor specified)."},
+        {"name": "Action", "kind": "interface", "extends": ["RoleStateChange", "IAnnotatedComponent", "IComponentExecutionControl"], "purpose": "Side-effect executor. canExecute()/execute() methods run effects when an instruction activates. Has activate()/deactivate() lifecycle."},
+        {"name": "ActionList", "purpose": "Sequence of Actions with blocking and atomic modes. Executes actions in order; blocking mode waits for each to complete."},
+        {"name": "Motion", "kind": "interface", "purpose": "Movement computer. preComputeSteering() + computeSteering() produce a Steering vector. Has activate()/deactivate() lifecycle."},
+        {"name": "BodyMotion", "kind": "interface", "extends": "Motion", "purpose": "Body movement (translation). Has getSteeringMotion() for delegation."},
+        {"name": "HeadMotion", "kind": "interface", "extends": "Motion", "purpose": "Head movement (look direction)."},
+        {"name": "RoleStateChange", "kind": "interface", "purpose": "Lifecycle callbacks: registerWithSupport, motionControllerChanged, loaded, spawned, unloaded, removed, teleported."}
+      ],
+      "builder_types": ["BuilderInstruction", "BuilderInstructionRandomized", "BuilderInstructionReference", "BuilderActionList"]
+    },
+    "interactions": {
+      "overview": "NPC interaction handlers for player-NPC interactions.",
+      "types": [
+        {"name": "UseNPCInteraction", "extends": "SimpleInstantInteraction", "purpose": "Default NPC interaction. When a player interacts with an NPC, notifies the NPC's blackboard InteractionView. Has a default root interaction '*UseNPC'."},
+        {"name": "ContextualUseNPCInteraction", "extends": "SimpleInstantInteraction", "purpose": "Contextual NPC interaction that passes a context string to the NPC."},
+        {"name": "SpawnNPCInteraction", "extends": "SimpleBlockInteraction", "purpose": "Block interaction that spawns an NPC. Uses weighted random selection from configured NPC types."},
+        {"name": "NPCInteractionSimulationHandler", "implements": "IInteractionSimulationHandler", "purpose": "Simulates interaction state for NPC-initiated interactions (e.g. NPC attacking). Manages charge time."}
+      ]
+    },
+    "config": {
+      "overview": "NPC configuration assets for attitudes and balancing.",
+      "types": [
+        {"name": "AttitudeGroup", "purpose": "JSON asset defining NPC attitude groups. Maps Attitude enum (IGNORE, HOSTILE, NEUTRAL, FRIENDLY, REVERED) to NPC group names. Loaded from NPC/Attitude/Roles."},
+        {"name": "ItemAttitudeGroup", "purpose": "JSON asset defining item attitude groups. Maps Sentiment enum (Ignore/Dislike/Neutral/Like/Love -> Attitude) to item tags. Loaded from NPC/Attitude/Items."},
+        {"name": "BalanceAsset", "purpose": "JSON asset for NPC combat balancing. Can specify an EntityEffect to apply at spawn. Loaded from NPC/Balancing. Supports inheritance."}
+      ]
+    },
+    "blackboard": {
+      "overview": "Shared perception data system. The Blackboard is an ECS resource that provides views for different perception domains (block types, block events, entity events, combat, attitudes, interactions, resources). NPCs subscribe to views relevant to their role.",
+      "types": [
+        {"name": "Blackboard", "purpose": "ECS resource providing typed views. Views are registered and accessed by class."},
+        {"name": "BlockTypeView", "purpose": "Tracks blocks of interest within NPC perception range."},
+        {"name": "BlockEventView", "purpose": "Tracks block change events (damage, break) filtered by BlockEventType and block set IDs."},
+        {"name": "EntityEventView", "purpose": "Tracks entity events filtered by EntityEventType."},
+        {"name": "AttitudeView", "purpose": "Provides attitude lookups for NPCs toward other entities."},
+        {"name": "AttitudeMap", "purpose": "Maps NPC group pairs to attitudes."},
+        {"name": "ItemAttitudeMap", "purpose": "Maps item tags to attitudes."},
+        {"name": "InteractionView", "purpose": "Tracks player-NPC interaction events."},
+        {"name": "CombatViewSystems", "purpose": "ECS systems for combat data pooling and tracking."},
+        {"name": "ReservationStatus", "purpose": "Player reservation state for NPC interactions."},
+        {"name": "EventNotification", "purpose": "Base event notification with initiator reference."},
+        {"name": "EntityEventNotification", "extends": "EventNotification", "purpose": "Entity-specific event notification."}
+      ],
+      "view_domains": ["attitude", "blocktype", "combat", "event/block", "event/entity", "interaction", "resource"],
+      "block_event_types_enum": "BlockEventType",
+      "entity_event_types_enum": "EntityEventType"
+    },
+    "corecomponents": {
+      "overview": "~200 types implementing all concrete Sensor, Action, BodyMotion, HeadMotion, EntityFilter, and EntityPrioritiser implementations. Organized by domain: audiovisual, combat, debug, entity, interaction, items, lifecycle, movement, statemachine, timer, utility, world.",
+      "registered_body_motions": ["Nothing", "Wander", "WanderInCircle", "WanderInRect", "Timer", "Sequence", "Flee", "Seek", "Leave", "Path", "TakeOff", "TestProbe", "Teleport", "Land", "MatchLook", "MaintainDistance", "AimCharge"],
+      "registered_head_motions": ["Aim", "Watch", "Observe", "Sequence", "Timer", "Nothing"],
+      "registered_actions": ["Appearance", "Timeout", "Spawn", "Nothing", "Attack", "State", "ReleaseTarget", "SetMarkedTarget", "Inventory", "DisplayName", "Sequence", "Random", "Beacon", "SetLeashPosition", "PlaySound", "Despawn", "PlayAnimation", "DelayDespawn", "SpawnParticles", "Crouch", "TimerStart", "TimerContinue", "TimerPause", "TimerModify", "TimerStop", "TimerRestart", "Test", "Log", "Role", "SetFlag", "DropItem", "PickUpItem", "ResetInstructions", "ParentState", "Notify", "TriggerSpawners", "ResetBlockSensors", "MakePath", "OverrideAttitude", "SetInteractable", "LockOnInteractionTarget", "StorePosition", "SetBlockToPlace", "PlaceBlock", "RecomputePath", "IgnoreForAvoidance", "ModelAttachment", "SetAlarm", "ToggleStateEvaluator", "OverrideAltitude", "ResetSearchRays", "Die", "Remove", "ApplyEntityEffect", "ResetPath", "SetStat"],
+      "registered_sensors": ["Any", "And", "Or", "Not", "Player", "Mob", "State", "InAir", "OnGround", "Eval", "Damage", "IsBackingAway", "Kill", "Beacon", "MotionController", "Leash", "Time", "Count", "Target", "Timer", "Switch", "Light", "Age", "Flag", "DroppedItem", "Path", "Weather", "Block", "BlockChange", "EntityEvent", "Random", "CanInteract", "HasInteracted", "ReadPosition", "Animation", "CanPlaceBlock", "Nav", "InWater", "IsBusy", "InteractionContext", "Alarm", "AdjustPosition", "SearchRay", "BlockType", "Self", "ValueProviderWrapper"],
+      "registered_entity_filters": ["Attitude", "LineOfSight", "HeightDifference", "ViewSector", "Combat", "ItemInHand", "NPCGroup", "MovementState", "SpotsMe", "StandingOnBlock", "Stat", "Inventory", "Not", "And", "Or", "Altitude", "InsideBlock"],
+      "registered_entity_prioritisers": ["Attitude"]
+    },
+    "decisionmaker": {
+      "overview": "Decision-making system with conditions and state evaluators. Conditions are data-driven (loaded from NPC/DecisionMaking/Conditions JSON) and used by the StateEvaluatorSystem to drive NPC state transitions.",
+      "types": [
+        {"name": "Condition", "purpose": "Base condition asset. Loaded from JSON with inheritance support."},
+        {"name": "SimpleCondition", "purpose": "Basic boolean condition."},
+        {"name": "HasTargetCondition", "purpose": "Checks if NPC has a locked target."},
+        {"name": "IsInStateCondition", "purpose": "Checks if NPC is in a specific state."},
+        {"name": "LineOfSightCondition", "purpose": "Checks line of sight to target."},
+        {"name": "NearbyCountCondition", "purpose": "Checks count of nearby entities."},
+        {"name": "RandomiserCondition", "purpose": "Random chance condition."},
+        {"name": "SelfStatAbsoluteCondition", "purpose": "Checks NPC's own stat against absolute value."},
+        {"name": "SelfStatPercentageCondition", "purpose": "Checks NPC's own stat against percentage."},
+        {"name": "TargetDistanceCondition", "purpose": "Checks distance to target."},
+        {"name": "TargetMovementStateCondition", "purpose": "Checks target's movement state."},
+        {"name": "TargetStatAbsoluteCondition", "purpose": "Checks target's stat against absolute value."},
+        {"name": "TargetStatPercentageCondition", "purpose": "Checks target's stat against percentage."},
+        {"name": "TimeOfDayCondition", "purpose": "Checks world time of day."},
+        {"name": "TimeSinceLastUsedCondition", "purpose": "Checks time since condition was last used."},
+        {"name": "CurveCondition", "purpose": "Condition evaluated via a response curve."},
+        {"name": "ScaledCurveCondition", "purpose": "Scaled response curve condition."},
+        {"name": "StateEvaluator", "purpose": "ECS component that evaluates conditions to drive state transitions."},
+        {"name": "EvaluationContext", "purpose": "Context for condition evaluation."},
+        {"name": "Evaluator", "purpose": "Evaluates conditions in context."}
+      ]
+    },
+    "state_transition": {
+      "overview": "State machine system for NPC behavior state transitions.",
+      "types": [
+        {"name": "StateTransitionController", "purpose": "Controls state transitions based on evaluated conditions. Manages current state, transition edges, and state history."},
+        {"name": "BuilderStateTransition", "purpose": "Builder for state transition definitions from JSON."},
+        {"name": "BuilderStateTransitionController", "purpose": "Builder for the state transition controller."},
+        {"name": "BuilderStateTransitionEdges", "purpose": "Builder for transition edges between states."}
+      ]
+    },
+    "systems": {
+      "overview": "25+ ECS systems that form the NPC tick pipeline, registered in dependency order by NPCPlugin.setup().",
+      "types": [
+        {"name": "BlackboardSystems", "purpose": "Init/Tick/DamageBlockEvent/BreakBlockEvent systems for the blackboard resource."},
+        {"name": "CombatViewSystems", "purpose": "Ensure/EntityRemoved/Ticking systems for combat data components."},
+        {"name": "NPCSystems", "purpose": "ModelChange/Added/AddedFromExternal/AddedFromWorldGen/AddSpawnEntityEffect/OnTeleport/OnDeath/LegacyWorldGenId/KillFeed/PrefabPlaceEntity systems."},
+        {"name": "RoleBuilderSystem", "purpose": "Builds roles from builders when entities are added."},
+        {"name": "BalancingInitialisationSystem", "purpose": "Applies balance assets (entity effects) at spawn."},
+        {"name": "RoleSystems", "purpose": "RoleActivate/BehaviourTick/PreBehaviourSupportTick/PostBehaviourSupportTick/RoleDebug systems."},
+        {"name": "PositionCacheSystems", "purpose": "RoleActivate/Update systems for position caching."},
+        {"name": "NPCInteractionSystems", "purpose": "AddSimulationManager/TickHeldInteractions for NPC-initiated interactions."},
+        {"name": "FailedSpawnSystem", "purpose": "Handles NPCs that failed to spawn."},
+        {"name": "StateEvaluatorSystem", "purpose": "Evaluates conditions and drives state transitions."},
+        {"name": "NPCPreTickSystem", "purpose": "Pre-tick setup (caches position, invalidates speed multiplier)."},
+        {"name": "AvoidanceSystem", "purpose": "Computes avoidance steering from nearby NPCs."},
+        {"name": "SteeringSystem", "purpose": "Applies blended steering from all forces to NPC movement."},
+        {"name": "ComputeVelocitySystem", "purpose": "Converts steering output to velocity."},
+        {"name": "MovementStatesSystem", "purpose": "Updates movement state flags (walking, running, flying, etc.)."},
+        {"name": "MessageSupportSystem", "purpose": "Beacon/NPCBlockEvent/PlayerBlockEvent/NPCEntityEvent/PlayerEntityEvent message delivery."},
+        {"name": "TimerSystem", "purpose": "Ticks named timers."},
+        {"name": "StepCleanupSystem", "purpose": "Cleans up step components after debug stepping."},
+        {"name": "NewSpawnStartTickingSystem", "purpose": "Starts ticking newly spawned NPCs."},
+        {"name": "RoleChangeSystem", "purpose": "Processes queued role changes (re-builds role, transfers components)."},
+        {"name": "NPCSpatialSystem", "purpose": "Updates KDTree spatial index for NPC positions."},
+        {"name": "NPCDeathSystems", "purpose": "NPCKillsEntity/EntityView systems for death handling."},
+        {"name": "NPCDamageSystems", "purpose": "FilterDamage/DamageReceived/DamageDealt/DamageReceivedEventView/DropDeathItems systems."},
+        {"name": "NPCVelocityInstructionSystem", "purpose": "Applies velocity instructions from motion controllers."},
+        {"name": "SpawnReferenceSystems", "purpose": "Manages spawn marker and beacon references."}
+      ]
+    }
+  },
+  "cross_references": {
+    "events": [
+      {"event": "AllNPCsLoadedEvent", "fired_by": "NPCPlugin (after all role assets loaded)", "listened_by": "NPCPlugin.onNPCsLoaded"},
+      {"event": "LoadedAssetsEvent<ModelAsset>", "listened_by": "NPCPlugin.onModelsChanged"},
+      {"event": "LoadedAssetsEvent<NPCGroup>", "listened_by": "NPCPlugin.onNPCGroupsLoaded"},
+      {"event": "LoadedAssetsEvent<AttitudeGroup>", "listened_by": "NPCPlugin.onAttitudeGroupsLoaded"},
+      {"event": "LoadedAssetsEvent<ItemAttitudeGroup>", "listened_by": "NPCPlugin.onItemAttitudeGroupsLoaded"},
+      {"event": "LoadedAssetsEvent<BalanceAsset>", "listened_by": "NPCPlugin.onBalanceAssetsChanged"},
+      {"event": "WorldPathChangedEvent", "listened_by": "NPCPlugin.onPathChange"},
+      {"event": "LoadAssetEvent (priority -8)", "listened_by": "NPCPlugin (loads NPC builders)"},
+      {"event": "AssetPackRegisterEvent", "listened_by": "NPCPlugin (loads builders from new asset pack)"},
+      {"event": "AssetPackUnregisterEvent", "listened_by": "NPCPlugin (unloads builders)"},
+      {"event": "GenerateSchemaEvent", "listened_by": "NPCPlugin.onSchemaGenerate (generates NPCRole.json schema)"}
+    ],
+    "ecs_components": [
+      {"component": "NPCEntity", "store": "EntityStore", "registered_by": "NPCPlugin.setup()"},
+      {"component": "CombatViewSystems.CombatData", "store": "EntityStore"},
+      {"component": "NPCRunTestsCommand.NPCTestData", "store": "EntityStore"},
+      {"component": "BeaconSupport", "store": "EntityStore"},
+      {"component": "NPCBlockEventSupport", "store": "EntityStore"},
+      {"component": "PlayerBlockEventSupport", "store": "EntityStore"},
+      {"component": "NPCEntityEventSupport", "store": "EntityStore"},
+      {"component": "PlayerEntityEventSupport", "store": "EntityStore"},
+      {"component": "StepComponent", "store": "EntityStore"},
+      {"component": "FailedSpawnComponent", "store": "EntityStore"},
+      {"component": "Timers", "store": "EntityStore"},
+      {"component": "StateEvaluator", "store": "EntityStore"},
+      {"component": "ValueStore", "store": "EntityStore"}
+    ],
+    "ecs_resources": [
+      {"resource": "Blackboard", "store": "EntityStore"},
+      {"resource": "CombatViewSystems.CombatDataPool", "store": "EntityStore"},
+      {"resource": "RoleChangeSystem.RoleChangeQueue", "store": "EntityStore"},
+      {"resource": "NewSpawnStartTickingSystem.QueueResource", "store": "EntityStore"},
+      {"resource": "SortBufferProviderResource", "store": "EntityStore"},
+      {"resource": "AStarNodePoolProviderSimple", "store": "EntityStore"},
+      {"resource": "SpatialResource<Ref<EntityStore>>", "store": "EntityStore", "structure": "KDTree"}
+    ],
+    "command_registrations": [
+      {"command": "/npc", "class": "NPCCommand", "subcommands": ["all", "appearance", "attack", "benchmark", "blackboard", "clean", "debug", "dump", "freeze", "give", "message", "path", "role", "runtests", "sensorstats", "spawn", "step", "test", "thaw"]}
+    ],
+    "interaction_registrations": [
+      {"type": "ContextualUseNPC", "class": "ContextualUseNPCInteraction"},
+      {"type": "UseNPC", "class": "UseNPCInteraction"},
+      {"type": "SpawnNPC", "class": "SpawnNPCInteraction"}
+    ],
+    "entity_registrations": [
+      {"entity_type": "NPC", "class": "NPCEntity", "codec": "NPCEntity.CODEC"}
+    ],
+    "dependencies": {
+      "external_plugins": ["FlockPlugin (flock spawning/management)", "TagSetPlugin (NPCGroup tags)", "AssetModule (asset pack loading)", "EntityModule (entity registry)", "MigrationModule (data migrations)"],
+      "core_modules": ["CollisionModule", "EntityStatsModule", "InteractionModule", "PhysicsModule", "ItemModule", "DebugUtils"]
+    }
+  },
+  "files_not_read": []
+}

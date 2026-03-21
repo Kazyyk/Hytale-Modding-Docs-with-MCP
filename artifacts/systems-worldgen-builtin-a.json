@@ -1,0 +1,731 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T12:00:00Z",
+  "domain": "worldgen_builtin_a",
+  "overview": "The builtin hytalegenerator subsystem (~557 types across 5+ sub-packages under com.hypixel.hytale.builtin.hytalegenerator) is the concrete implementation of Hytale's world generation. It registers itself as a JavaPlugin named 'HytaleGenerator' that provides an IWorldGenProvider to the server worldgen system. Unlike the server.worldgen package (which defined the old zone/biome/container pipeline), this builtin package implements a new density-function-based generation system. World configuration is entirely JSON-driven through a comprehensive asset system (~243 asset types) that serialize to runtime generation objects. The core generation pipeline is the NStagedChunkGenerator which processes chunks through a configurable sequence of NStage instances: BiomeStage -> BiomeDistanceStage -> TerrainStage -> PropStage(s) -> TintStage -> EnvironmentStage. Terrain is shaped by a composable density function graph (~77 node types) that evaluates signed density values at 3D positions to determine solid vs air blocks. The system is heavily parallelized with per-worker thread data isolation via WorkerIndexer.",
+  "confidence": "high",
+  "subsections": {
+    "plugin_entry": {
+      "overview": "The HytaleGenerator class extends JavaPlugin and is the entry point for the builtin world generator. During setup(), it registers a HandleProvider (implementing IWorldGenProvider) with the codec key 'HytaleGenerator' on IWorldGenProvider.CODEC. It also registers a ViewportCommand and listens for RemoveWorldEvent to clean up generators. The HandleProvider creates Handle instances (implementing IWorldGen) that bridge server worldgen requests to the builtin ChunkGenerator pipeline.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.plugin.HytaleGenerator",
+          "role": "JavaPlugin entry point. Manages AssetManager, executor pools, generator caching. createStagedChunkGenerator() builds the full NStagedChunkGenerator pipeline from assets. submitChunkRequest() dispatches generation to a single-threaded mainExecutor with semaphore protection. Falls back to FallbackGenerator on errors. Concurrency is configurable via SettingsAsset (default: all available processors).",
+          "key_methods": [
+            "setup() - registers HandleProvider as IWorldGenProvider, registers ViewportCommand, listens for RemoveWorldEvent",
+            "start() - loads executors from SettingsAsset, registers asset reload listener",
+            "createStagedChunkGenerator() - builds the full NStagedChunkGenerator from WorldStructureAsset and SettingsAsset",
+            "submitChunkRequest() - async chunk generation with semaphore and fallback error handling",
+            "getSpawnPositions() - delegates to WorldStructureAsset's spawn position provider"
+          ],
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.plugin.HandleProvider",
+          "role": "IWorldGenProvider implementation registered under codec key 'HytaleGenerator'. Configurable JSON fields: 'WorldStructure' (string, required, default 'Default') and 'SeedOverride' (string, optional). Creates Handle instances as IWorldGen.",
+          "json_schema": {
+            "WorldStructure": "string (required) - name of the WorldStructureAsset to use",
+            "SeedOverride": "string (optional) - if set, overrides the world seed with hash of this string"
+          },
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.plugin.Handle",
+          "role": "IWorldGen implementation. Bridges server worldgen interface to HytaleGenerator.submitChunkRequest(). Wraps generation arguments into ChunkRequest. getSpawnPoints() delegates to HytaleGenerator.getSpawnPositions() with max 1,000,000 positions. Default fallback spawn at (0, 140, 0).",
+          "confidence": "high"
+        }
+      ],
+      "registration_flow": "HytaleGenerator.setup() -> IWorldGenProvider.CODEC.register('HytaleGenerator', HandleProvider.class, codec) -> server creates HandleProvider from world JSON config -> HandleProvider.getGenerator() returns Handle -> Handle.generate() calls HytaleGenerator.submitChunkRequest()",
+      "events_used": ["RemoveWorldEvent - cleanup generator cache when world is removed"],
+      "commands_registered": ["ViewportCommand - allows refreshing chunks in a specified viewport bounds"],
+      "confidence": "high"
+    },
+    "assets": {
+      "overview": "The asset system (~243 types under assets/) provides a comprehensive JSON-to-runtime-object pipeline. Every aspect of world generation is configurable through JSON assets loaded via Hytale's AssetStore/AssetRegistry system using typed BuilderCodec instances. Assets follow a pattern: each abstract FooAsset defines a CODEC (polymorphic BuilderCodec), a build() method that produces a runtime object, and a cleanUp() method for resource release. The AssetManager coordinates loading all asset types and provides reload support. Assets are organized into 20+ sub-categories covering every generation concept.",
+      "asset_types": [
+        {
+          "category": "worldstructures",
+          "types": ["WorldStructureAsset (abstract)", "BasicWorldStructureAsset", "BiomeRangeAsset", "BaseHeightContentFieldAsset", "ContentFieldAsset"],
+          "role": "Top-level world configuration. WorldStructureAsset produces WorldStructure containing a BiCarta<Integer> biome map, biome registry, transition distances, and spawn positions. BasicWorldStructureAsset is the standard implementation using BiomeRangeAsset entries for biome mapping."
+        },
+        {
+          "category": "biomes",
+          "types": ["BiomeAsset"],
+          "role": "Per-biome configuration. JSON fields: Terrain (TerrainAsset), FloatingFunctionNodes (DensityAsset[]), Name, MaterialProvider, Props (PropRuntimeAsset[]), EnvironmentProvider, TintProvider. build() produces a SimpleBiome with all configured providers and prop fields."
+        },
+        {
+          "category": "terrains",
+          "types": ["TerrainAsset (abstract)", "DensityTerrainAsset"],
+          "role": "Terrain shape definition. DensityTerrainAsset wraps a single DensityAsset that produces the terrain Density function for a biome."
+        },
+        {
+          "category": "density",
+          "types_count": 78,
+          "types": [
+            "DensityAsset (abstract base)", "AbsDensityAsset", "AmplitudeConstantAsset", "AmplitudeDensityAsset",
+            "AnchorDensityAsset", "AngleDensityAsset", "AxisDensityAsset", "BaseHeightDensityAsset",
+            "Cache2dDensityAsset_Deprecated", "CacheDensityAsset", "CeilingDensityAsset",
+            "CellNoise2DDensityAsset", "CellNoise3DDensityAsset", "CellWallDistanceDensityAsset",
+            "ClampDensityAsset", "ConstantDensityAsset", "CubeDensityAsset", "CuboidDensityAsset",
+            "CurveMapperDensityAsset", "CylinderDensityAsset", "DistanceDensityAsset",
+            "DistanceToBiomeEdgeDensityAsset", "EllipsoidDensityAsset", "ExportedDensityAsset",
+            "FastGradientWarpDensityAsset", "FloorDensityAsset", "GradientDensityAsset",
+            "GradientWarpDensityAsset", "ImportedDensityAsset", "InverterDensityAsset",
+            "MaxDensityAsset", "MinDensityAsset", "MixDensityAsset", "MultiMixDensityAsset",
+            "MultiplierDensityAsset", "NormalizerDensityAsset", "OffsetConstantAsset",
+            "OffsetDensityAsset", "PipelineDensityAsset", "PlaneDensityAsset",
+            "PositionsPinchDensityAsset", "PositionsTwistDensityAsset", "PowDensityAsset",
+            "RotatorDensityAsset", "ScaleDensityAsset", "SelectorDensityAsset", "ShellDensityAsset",
+            "SimplexNoise2dDensityAsset", "SimplexNoise3DDensityAsset", "SliderDensityAsset",
+            "SmoothCeilingDensityAsset", "SmoothClampDensityAsset", "SmoothFloorDensityAsset",
+            "SmoothMaxDensityAsset", "SmoothMinDensityAsset", "SqrtDensityAsset", "SumDensityAsset",
+            "SwitchDensityAsset", "SwitchStateDensityAsset", "TerrainDensityAsset",
+            "VectorWarpDensityAsset", "XOverrideDensityAsset", "XValueDensityAsset",
+            "YOverrideDensityAsset", "YSampledDensityAsset", "YValueDensityAsset",
+            "ZOverrideDensityAsset", "ZValueDensityAsset",
+            "Positions3DDensityAsset", "PositionsCellNoiseDensityAsset"
+          ],
+          "role": "JSON serialization layer for the entire density function graph. Each asset type corresponds to a runtime Density node. DensityAsset.CODEC is polymorphic, allowing JSON to specify any density type."
+        },
+        {
+          "category": "density/positions",
+          "types": ["Positions3DDensityAsset", "PositionsCellNoiseDensityAsset"],
+          "sub_types": {
+            "distancefunctions": ["DistanceFunctionAsset (abstract)", "EuclideanDistanceFunctionAsset", "ManhattanDistanceFunctionAsset"],
+            "returntypes": ["ReturnTypeAsset (abstract)", "CellValueReturnTypeAsset", "CurveReturnTypeAsset", "DensityReturnTypeAsset", "Distance2AddReturnTypeAsset", "Distance2DivReturnTypeAsset", "Distance2MulReturnTypeAsset", "Distance2ReturnTypeAsset", "Distance2SubReturnTypeAsset", "DistanceReturnTypeAsset", "ImportedReturnTypeAsset"]
+          },
+          "role": "Position-based density evaluation with configurable distance functions and return type processing."
+        },
+        {
+          "category": "curves",
+          "types": [
+            "CurveAsset (abstract)", "CeilingCurveAsset", "ClampCurveAsset", "ConstantCurveAsset",
+            "DistanceExponentialCurveAsset", "DistanceSCurveAsset", "FloorCurveAsset",
+            "ImportedCurveAsset", "InverterCurveAsset", "MaxCurveAsset", "MinCurveAsset",
+            "MultiplierCurveAsset", "NotCurveAsset", "SmoothCeilingCurveAsset",
+            "SmoothClampCurveAsset", "SmoothFloorCurveAsset", "SmoothMaxCurveAsset",
+            "SmoothMinCurveAsset", "SumCurveAsset", "ManualCurveAsset", "PointInOutAsset",
+            "NodeFunctionYOutAsset (legacy)", "PointYOutAsset (legacy)"
+          ],
+          "role": "Double2DoubleFunction assets for remapping density/noise values. Used extensively in density nodes, material providers, and pattern evaluations."
+        },
+        {
+          "category": "materialproviders",
+          "types": [
+            "MaterialProviderAsset (abstract)", "ConstantMaterialProviderAsset",
+            "DownwardDepthMaterialProviderAsset", "DownwardSpaceMaterialProviderAsset",
+            "FieldFunctionMaterialProviderAsset", "ImportedMaterialProviderAsset",
+            "QueueMaterialProviderAsset", "SimpleHorizontalMaterialProviderAsset",
+            "SolidityMaterialProviderAsset", "SpaceAndDepthMaterialProviderAsset",
+            "StripedMaterialProviderAsset", "TerrainDensityMaterialProviderAsset",
+            "UpwardDepthMaterialProviderAsset", "UpwardSpaceMaterialProviderAsset",
+            "WeightedMaterialProviderAsset"
+          ],
+          "sub_types": {
+            "spaceanddepth/conditionassets": ["ConditionAsset (abstract)", "AlwaysTrueConditionAsset", "AndConditionAsset", "EqualsConditionAsset", "GreaterThanConditionAsset", "NotConditionAsset", "OrConditionAsset", "SmallerThanConditionAsset"],
+            "spaceanddepth/layerassets": ["LayerAsset (abstract)", "ConstantThicknessLayerAsset", "NoiseThicknessAsset", "RangeThicknessAsset", "WeightedThicknessLayerAsset"]
+          },
+          "role": "Block material selection per voxel. Each provider maps (x,y,z) to a Material (solid block + fluid). SpaceAndDepthMaterialProvider is the most complex, with condition-driven layer stacking."
+        },
+        {
+          "category": "patterns",
+          "types": [
+            "PatternAsset (abstract)", "AndPatternAsset", "BlockSetPatternAsset", "CeilingPatternAsset",
+            "ConstantPatternAsset", "CuboidPatternAsset", "DensityPatternAsset", "FloorPatternAsset",
+            "GapPatternAsset", "ImportedPatternAsset", "MaterialPatternAsset", "NotPatternAsset",
+            "OffsetPatternAsset", "OrPatternAsset", "SurfacePatternAsset", "WallPatternAsset"
+          ],
+          "role": "Boolean spatial patterns used to conditionally apply materials, props, or other generation features at specific voxel positions."
+        },
+        {
+          "category": "positionproviders",
+          "types": [
+            "PositionProviderAsset (abstract)", "AnchorPositionProviderAsset",
+            "BaseHeightPositionProviderAsset", "BoundPositionProviderAsset",
+            "CachedPositionProviderAsset", "FieldFunctionOccurrencePositionProviderAsset",
+            "FieldFunctionPositionProviderAsset", "FrameworkPositionProviderAsset",
+            "ImportedPositionProviderAsset", "ListPositionProviderAsset",
+            "Mesh2DPositionProviderAsset", "Mesh3DPositionProviderAsset",
+            "OffsetPositionProviderAsset", "SimpleHorizontalPositionProviderAsset",
+            "SpherePositionProviderAsset", "UnionPositionProviderAsset"
+          ],
+          "role": "Generate sets of 3D positions for prop placement, spawn points, and density sampling."
+        },
+        {
+          "category": "props",
+          "types": [
+            "PropAsset (abstract)", "BoxPropAsset", "ClusterPropAsset", "ColumnPropAsset",
+            "DensityPropAsset", "ImportedPropAsset", "NoPropAsset", "OffsetPropAsset",
+            "PondFillerPropAsset", "PrefabPropAsset", "QueuePropAsset", "UnionPropAsset",
+            "WeightedPropAsset"
+          ],
+          "sub_types": {
+            "directionality": ["DirectionalityAsset (abstract)", "ImportedDirectionalityAsset", "PatternDirectionalityAsset", "RandomDirectionalityAsset", "StaticDirectionalityAsset"],
+            "prefab": ["PrefabPropAsset", "PrefabLoader", "PrefabFileVisitor", "PrefabMoldingConfiguration"]
+          },
+          "role": "Prop (structure/decoration) placement. Props define what to place (blocks, prefabs, entities), how to orient them (Directionality), and how to scan for valid positions (Scanner)."
+        },
+        {
+          "category": "propassignments",
+          "types": [
+            "AssignmentsAsset (abstract)", "ConstantAssignmentsAsset", "FieldFunctionAssignmentsAsset",
+            "ImportedAssignmentsAsset", "SandwichAssignmentsAsset", "WeightedAssignmentsAsset"
+          ],
+          "role": "Map positions to prop types. Weighted selection, field-function-driven assignment, and sandwich (layered) assignment strategies."
+        },
+        {
+          "category": "other",
+          "types": {
+            "blockmask": ["BlockMaskAsset", "BlockMaskEntryAsset"],
+            "blockset": ["MaterialSetAsset"],
+            "bounds": ["DecimalBounds3dAsset", "IntegerBounds3dAsset"],
+            "delimiters": ["RangeDoubleAsset", "RangeIntAsset"],
+            "environmentproviders": ["EnvironmentProviderAsset (abstract)", "ConstantEnvironmentProviderAsset", "DensityDelimitedEnvironmentProviderAsset"],
+            "framework": ["FrameworkAsset (abstract)", "DecimalConstantsFrameworkAsset", "PositionsFrameworkAsset"],
+            "interpolationasset": ["BiomeFrontierAsset"],
+            "material": ["MaterialAsset", "OrthogonalRotationAsset"],
+            "noisegenerators": ["NoiseAsset (abstract)", "CellNoiseAsset", "SimplexNoiseAsset"],
+            "pointgenerators": ["PointGeneratorAsset (abstract)", "MeshPointGeneratorAsset", "NoPointGeneratorAsset"],
+            "propstageiterations": ["PropRuntimeAsset"],
+            "scanners": ["ScannerAsset (abstract)", "AreaScannerAsset", "ColumnLinearScannerAsset", "ColumnRandomScannerAsset", "ImportedScannerAsset", "OriginScannerAsset"],
+            "tintproviders": ["TintProviderAsset (abstract)", "ConstantTintProviderAsset", "DensityDelimitedTintProviderAsset"],
+            "vectorproviders": ["VectorProviderAsset (abstract)", "CacheVectorProviderAsset", "ConstantVectorProviderAsset", "DensityGradientVectorProviderAsset", "ExportedVectorProviderAsset", "ImportedVectorProviderAsset"],
+            "settings": ["SettingsAsset"]
+          },
+          "role": "Supporting asset types for block masks, bounds definitions, noise generation, scanning strategies, and utility types."
+        }
+      ],
+      "settings_asset_schema": {
+        "StatsCheckpoints": "Integer[] - chunk counts at which to log performance stats",
+        "CustomConcurrency": "int (>= -1, default -1) - number of worker threads (-1 = auto = available processors)",
+        "BufferCapacityFactor": "double (>= 0.0, default 0.3) - multiplier for buffer pool sizing",
+        "TargetViewDistance": "double (>= 0.0, default 512.0) - expected view distance in voxels for buffer sizing",
+        "TargetPlayerCount": "double (>= 0.0, default 3.0) - expected player count for buffer sizing"
+      },
+      "asset_loading_pattern": "AssetManager registers all asset types via AssetRegistry during construction. Each asset type has a static CODEC (BuilderCodec) that handles JSON deserialization. Assets implement Cleanable for resource release after building runtime objects. AssetManager provides reload support via registerReloadListener().",
+      "confidence": "high"
+    },
+    "new_system": {
+      "overview": "The 'newsystem' package (~29 types) implements a staged chunk generation pipeline that replaces the old server.worldgen ChunkGenerator. The architecture centers on NStagedChunkGenerator which processes chunks through a sequence of NStage instances operating on a shared NBufferBundle (a grid-based buffer pool). Each stage reads typed input buffers and writes typed output buffers. Buffers are 8x8x8 voxel tiles organized in a 3D grid. The system supports buffer caching across chunk generations, parallelized stage execution across worker threads, and automatic dependency-based output bounds calculation.",
+      "architecture": "NStagedChunkGenerator implements ChunkGenerator interface. For each chunk: (1) creates buffer accesses for all stages, (2) iterates stages sequentially, (3) within each stage, splits buffer tile positions across workers for parallel execution, (4) after all stages, transfers results from buffers to GeneratedChunk (materials, tints, environments, entities, block states) in parallel. Buffer tiles are 8x8x8 voxels. World height is 320 blocks = 40 buffer tiles vertically. Chunks are 32x32 = 4x4 buffer tiles horizontally.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.NStagedChunkGenerator",
+          "role": "Core generator. Implements ChunkGenerator. Manages stage pipeline, buffer bundle, worker executor, timing instrumentation. Builder pattern for construction. generate() runs all stages then transfers results to GeneratedChunk. Constants: WORLD_MIN_Y_BUFFER_GRID=0, WORLD_MAX_Y_BUFFER_GRID=40, WORLD_HEIGHT_BUFFER_GRID=40. Output buffer types: Material, Tint, Environment, Entity.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.NViewport",
+          "role": "Debug/development tool that refreshes chunk generation for a viewport region. Used by ViewportCommand. Computes affected chunk indices from voxel bounds and asynchronously regenerates each chunk.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.GridUtils",
+          "role": "Coordinate conversion utilities between voxel grid (world coordinates) and buffer grid (8x8x8 tile indices). Key conversions: voxelGrid <-> bufferGrid using bit shifts (>>3 / <<3). Also creates bounds for chunks, columns, and buffer tiles.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.TerrainDensityProvider",
+          "role": "Interface for providing terrain density values at positions. Used by density nodes (TerrainDensity, etc.) to sample the previously-computed terrain density at a given (x,y,z). Connects the terrain stage output to later prop/material stages.",
+          "confidence": "high"
+        }
+      ],
+      "stages": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NStage",
+          "role": "Interface for generation stages. Defines: run(Context), getName(), getOutputTypes() -> List<NBufferType>, getInputTypesAndBounds_bufferGrid() -> Map<NBufferType, Bounds3i>. Context holds buffer access map and worker ID.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NBiomeStage",
+          "role": "First stage. Reads WorldStructure's BiCarta<Integer> biome map to resolve biome IDs at each buffer tile position. Output: NCountedPixelBuffer containing biome ID with interpolation weights. Uses per-worker WorldStructure data.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NBiomeDistanceStage",
+          "role": "Second stage. Computes distance-to-biome-edge for each buffer position by scanning neighboring biome buffers. Used for biome transition interpolation and distance-based density modulation. Configurable max distance (clamped to 512). Output: BiomeDistanceEntries with per-biome distance data.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTerrainStage",
+          "role": "Third stage. Evaluates biome terrain density functions across 3D buffer tiles to produce Material output. Uses biome interpolation (weighted average of nearby biome densities across the transition radius). Positive density = solid block, negative/zero = air. Maps through biome's MaterialProvider to select block types. Creates TerrainDensityProvider for downstream stages.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NPropStage",
+          "role": "Fourth+ stage (one per runtime index). Places props (trees, structures, decorations) by evaluating biome PropField entries. For each biome's PositionProvider, generates candidate positions within bounds, then applies Assignments to determine what to place. Reads material buffer to check existing terrain, writes updated material + entity buffers. Multiple prop stages execute in sequence ordered by runtime index.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTintStage",
+          "role": "Penultimate stage. Evaluates biome TintProvider at each column position to produce per-column tint color values. Output: NSimplePixelBuffer<Integer> with RGB tint values.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NEnvironmentStage",
+          "role": "Final stage. Evaluates biome EnvironmentProvider at each voxel to produce per-voxel environment IDs. Output: NVoxelBuffer<Integer> with environment indices.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTestTerrainStage",
+          "role": "Test/debug terrain stage implementation. Likely used for development testing of terrain generation in isolation.",
+          "confidence": "medium"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTestPropStage",
+          "role": "Test/debug prop stage implementation. Likely used for development testing of prop placement in isolation.",
+          "confidence": "medium"
+        }
+      ],
+      "buffer_system": {
+        "overview": "NBufferBundle manages a pool of typed NBuffer instances organized in a 3D grid. Each buffer type has its own Grid with configurable capacity for recycling. Buffer Access provides thread-safe views into the grid for reading/writing. Buffers are tracked with stage index for cache invalidation.",
+        "buffer_types": [
+          {
+            "type": "NVoxelBuffer",
+            "description": "3D buffer storing values at each voxel within an 8x8x8 tile. SIZE = (8, 8, 8). Used for materials, environments.",
+            "size": "8x8x8 voxels"
+          },
+          {
+            "type": "NPixelBuffer",
+            "description": "2D buffer storing values per horizontal position within a tile. Abstract base for counted and simple variants.",
+            "size": "8x8 columns"
+          },
+          {
+            "type": "NCountedPixelBuffer",
+            "description": "NPixelBuffer that tracks multiple values with weights per pixel. Used for biome interpolation (multiple biomes per column with distance weights)."
+          },
+          {
+            "type": "NSimplePixelBuffer",
+            "description": "NPixelBuffer storing a single value per pixel. Used for tint colors, biome distances."
+          },
+          {
+            "type": "NEntityBuffer",
+            "description": "Buffer for entity spawn data. Stores EntityPlacementData entries (position, rotation, entity holder) for later transfer to GeneratedEntityChunk."
+          }
+        ],
+        "buffer_type_metadata": [
+          {
+            "type": "NBufferType",
+            "description": "Named buffer type with unique index, buffer class, and factory. Identifies buffers in the pipeline."
+          },
+          {
+            "type": "NParametrizedBufferType",
+            "description": "Extended NBufferType that also tracks the content class (e.g., Material.class, Integer.class) for type-safe access."
+          }
+        ]
+      },
+      "views": [
+        {
+          "type": "NVoxelBufferView",
+          "role": "VoxelSpace<T> adapter over buffer access. Translates world voxel coordinates to buffer grid coordinates for reading/writing 3D content."
+        },
+        {
+          "type": "NPixelBufferView",
+          "role": "VoxelSpace<T> adapter for 2D pixel buffers. Maps (x,z) positions to buffer tiles."
+        },
+        {
+          "type": "NEntityBufferView",
+          "role": "Read-only view over entity buffers. Provides forEach iteration over EntityPlacementData entries."
+        }
+      ],
+      "performance": [
+        {
+          "type": "TimeInstrument",
+          "role": "Hierarchical timing profiler. Probes nest (createProbe) to track stage and sub-stage durations. Reports at configurable checkpoint chunk counts."
+        },
+        {
+          "type": "MemInstrument",
+          "role": "Interface for memory reporting. NBufferBundle implements this to report buffer pool memory usage."
+        }
+      ],
+      "confidence": "high"
+    },
+    "density": {
+      "overview": "The density system (~77 types under density/) implements a composable node graph for evaluating 3D scalar fields. The abstract Density class defines process(Context) -> double. Context carries: position (Vector3d), densityAnchor (for relative positioning), positionsAnchor, switchState (for conditional branching), distanceFromCellWall, terrainDensityProvider (for sampling existing terrain), and distanceToBiomeEdge. Density nodes form a tree/DAG where each node can reference child nodes via setInputs(). The system supports 60+ node types organized into categories: math operations, noise generation, geometric shapes, position-based sampling, coordinate transforms, caching, and terrain interaction.",
+      "function_types": {
+        "math_operations": [
+          {"name": "AbsDensity", "formula": "abs(input)", "inputs": 1},
+          {"name": "AmplitudeConstantDensity", "formula": "input * amplitude", "inputs": 1},
+          {"name": "AmplitudeDensity", "formula": "input * amplitudeFunc(y)", "inputs": 1, "note": "Y-dependent amplitude with skip optimization when amplitude < 1e-9"},
+          {"name": "CeilingDensity", "formula": "min(input, limit)", "inputs": 1},
+          {"name": "FloorDensity", "formula": "max(input, limit)", "inputs": 1},
+          {"name": "ClampDensity", "formula": "clamp(wallA, input, wallB)", "inputs": 1},
+          {"name": "SmoothCeilingDensity", "formula": "smoothMax(range, input, limit) with smooth transition", "inputs": 1},
+          {"name": "SmoothFloorDensity", "formula": "smoothMin(range, input, limit) with smooth transition", "inputs": 1},
+          {"name": "SmoothClampDensity", "formula": "smooth floor + smooth ceiling combined", "inputs": 1},
+          {"name": "InverterDensity", "formula": "-input", "inputs": 1},
+          {"name": "MaxDensity", "formula": "max(inputA, inputB)", "inputs": 2},
+          {"name": "MinDensity", "formula": "min(inputA, inputB)", "inputs": 2},
+          {"name": "SmoothMaxDensity", "formula": "smoothMax(range, inputA, inputB)", "inputs": 2},
+          {"name": "SmoothMinDensity", "formula": "smoothMin(range, inputA, inputB)", "inputs": 2},
+          {"name": "SumDensity", "formula": "inputA + inputB", "inputs": 2},
+          {"name": "MultiplierDensity", "formula": "inputA * inputB", "inputs": 2},
+          {"name": "MixDensity", "formula": "lerp(inputA, inputB, blendInput)", "inputs": 3},
+          {"name": "MultiMixDensity", "formula": "multi-input mix with per-entry blend factors", "inputs": "N"},
+          {"name": "OffsetConstantDensity", "formula": "input + constant", "inputs": 1},
+          {"name": "OffsetDensity", "formula": "input + offsetFunc(y)", "inputs": 1},
+          {"name": "PowDensity", "formula": "pow(input, exponent)", "inputs": 1},
+          {"name": "SqrtDensity", "formula": "sqrt(abs(input)) * sign(input)", "inputs": 1},
+          {"name": "NormalizerDensity", "formula": "normalize(input, fromMin, fromMax, toMin, toMax)", "inputs": 1},
+          {"name": "CurveMapperDensity", "formula": "curveFunction(input)", "inputs": 1},
+          {"name": "ShellDensity", "formula": "1 - abs(input * 2) for shell-like density at zero crossings", "inputs": 1},
+          {"name": "SliderDensity", "formula": "lowerLimit + input * (upperLimit - lowerLimit)", "inputs": 1},
+          {"name": "SelectorDensity", "formula": "select input A or B based on selector value", "inputs": 3}
+        ],
+        "constants_and_coordinates": [
+          {"name": "ConstantValueDensity", "formula": "constant value"},
+          {"name": "XValueDensity", "formula": "position.x"},
+          {"name": "YValueDensity", "formula": "position.y"},
+          {"name": "ZValueDensity", "formula": "position.z"},
+          {"name": "BaseHeightDensity", "formula": "baseHeight or (y - baseHeight)", "note": "optionally returns distance from base height"},
+          {"name": "CellWallDistanceDensity", "formula": "context.distanceFromCellWall"},
+          {"name": "DistanceToBiomeEdgeDensity", "formula": "context.distanceToBiomeEdge"},
+          {"name": "TerrainDensity", "formula": "context.terrainDensityProvider.getDensity(position)", "note": "samples pre-computed terrain density from earlier stage"}
+        ],
+        "noise_generators": [
+          {"name": "Noise2dDensity", "formula": "simplex2D(position.x, position.z) with frequency/amplitude/seed", "inputs": 0},
+          {"name": "Noise3dDensity", "formula": "simplex3D(position.x, position.y, position.z) with frequency/amplitude/seed", "inputs": 0}
+        ],
+        "geometric_shapes": [
+          {"name": "DistanceDensity", "formula": "falloffFunction(distance(position, origin))", "note": "spherical distance from origin"},
+          {"name": "CubeDensity", "formula": "falloffFunction(max(|x|, |y|, |z|))", "note": "cube-shaped distance"},
+          {"name": "CylinderDensity", "formula": "axialCurve(y) * radialCurve(distance(x,z))", "note": "cylindrical shape"},
+          {"name": "PlaneDensity", "formula": "distance from plane defined by normal vector"},
+          {"name": "GradientDensity", "formula": "linear gradient along Y axis with configurable range"}
+        ],
+        "coordinate_transforms": [
+          {"name": "AnchorDensity", "formula": "evaluate input at (position - densityAnchor)", "note": "relative positioning"},
+          {"name": "ScaleDensity", "formula": "evaluate input at (position * scale)", "inputs": 1},
+          {"name": "RotatorDensity", "formula": "evaluate input at rotated position (yaw/pitch)", "inputs": 1},
+          {"name": "XOverrideDensity", "formula": "override context.position.x with child density value", "inputs": 2},
+          {"name": "YOverrideDensity", "formula": "override context.position.y with child density value", "inputs": 2},
+          {"name": "ZOverrideDensity", "formula": "override context.position.z with child density value", "inputs": 2},
+          {"name": "GradientWarpDensity", "formula": "warp position using noise gradient before evaluating input"},
+          {"name": "FastGradientWarpDensity", "formula": "warp position using FastNoiseLite domain warp before evaluating input"},
+          {"name": "VectorWarpDensity", "formula": "warp position using VectorProvider before evaluating input"}
+        ],
+        "position_based": [
+          {"name": "PositionsDensity", "formula": "evaluate nearest-point field from PositionProvider", "note": "Core Voronoi/cell noise. Finds closest and second-closest points within maxDistance, applies DistanceFunction (Euclidean/Manhattan), returns via ReturnType (distance, distance2, cell value, density lookup, etc.)"},
+          {"name": "PositionsHorizontalPinchDensity", "formula": "horizontally pinch input toward nearest position points"},
+          {"name": "PositionsPinchDensity", "formula": "3D pinch input toward nearest position points"},
+          {"name": "PositionsTwistDensity", "formula": "twist input around nearest position points"}
+        ],
+        "caching_and_branching": [
+          {"name": "CacheDensity", "formula": "cache last position+result, skip recalculation on same position", "inputs": 1},
+          {"name": "MultiCacheDensity", "formula": "cache with configurable cache size and resolution-based position quantization", "inputs": 1},
+          {"name": "SwitchDensity", "formula": "set context.switchState from choice density, then evaluate input", "inputs": 2},
+          {"name": "SwitchStateDensity", "formula": "return value based on current context.switchState matching configured state"},
+          {"name": "YSampledDensity", "formula": "sample input at specific Y values and interpolate between samples for optimization", "inputs": 1},
+          {"name": "FunctionDensity", "formula": "apply arbitrary Double2DoubleFunction to input", "inputs": 1}
+        ],
+        "specialized": [
+          {"name": "AxisDensity", "formula": "distance from 3D axis line through origin, with falloff curve", "note": "supports anchor-relative mode"},
+          {"name": "AngleDensity", "formula": "angle between VectorProvider output and reference vector, in degrees"}
+        ]
+      },
+      "composition": "Density nodes compose via parent-child references. Each node's process() calls child.process() recursively. The setInputs() method allows post-construction wiring. Assets build the graph by constructing nodes bottom-up, with ImportedDensityAsset and ExportedDensityAsset enabling cross-reference between separately defined density sub-graphs. The PipelineDensityAsset allows sequential density evaluation where each step's output feeds the next. Context is mutable and shared/copied as needed for coordinate transforms.",
+      "distance_functions": [
+        {"name": "EuclideanDistanceFunction", "formula": "x^2 + y^2 + z^2 (squared Euclidean)"},
+        {"name": "ManhattanDistanceFunction", "formula": "|x| + |y| + |z|"}
+      ],
+      "return_types": [
+        {"name": "DistanceReturnType", "formula": "distance0 / maxDistance * 2 - 1"},
+        {"name": "Distance2ReturnType", "formula": "distance1 / maxDistance * 2 - 1"},
+        {"name": "Distance2AddReturnType", "formula": "(distance0 + distance1) / maxDistance - 1"},
+        {"name": "Distance2SubReturnType", "formula": "(distance1 - distance0) / maxDistance * 2 - 1"},
+        {"name": "Distance2MulReturnType", "formula": "distance0/max * distance1/max * 2 - 1"},
+        {"name": "Distance2DivReturnType", "formula": "distance0/distance1 * 2 - 1"},
+        {"name": "CurveReturnType", "formula": "curve(distance0)"},
+        {"name": "CellValueReturnType", "formula": "evaluate sampleField at closest point position"},
+        {"name": "DensityReturnType", "formula": "evaluate choiceDensity at closest point, select from delimited density map by value range, optionally compute distance-from-cell-wall"}
+      ],
+      "confidence": "high"
+    },
+    "framework": {
+      "overview": "The framework package (~29 types) provides foundational mathematical utilities, functional interfaces, spatial mapping abstractions (Cartas), and shader (value transformation) primitives used throughout the generation system.",
+      "interfaces": [
+        {
+          "type": "BiCarta<R>",
+          "role": "Abstract 2D spatial map. apply(x, z, workerId) -> R. Also provides allPossibleValues(). Used for biome maps in WorldStructure.",
+          "confidence": "high"
+        },
+        {
+          "type": "TriCarta<R>",
+          "role": "Abstract 3D spatial map. apply(x, y, z, workerId) -> R (nullable). Used for 3D spatial lookups like image-based biome assignment.",
+          "confidence": "high"
+        },
+        {
+          "type": "BiDouble2DoubleFunction",
+          "role": "Functional interface (double, double) -> double. Used in various math operations.",
+          "confidence": "high"
+        },
+        {
+          "type": "TriDoubleFunction<R>",
+          "role": "Functional interface (double, double, double) -> R. Used for 3D coordinate functions.",
+          "confidence": "high"
+        },
+        {
+          "type": "QuadDoubleFunction<R>",
+          "role": "Functional interface for 4-double input -> R.",
+          "confidence": "high"
+        },
+        {
+          "type": "QuintoDoubleFunction<R>",
+          "role": "Functional interface for 5-double input -> R.",
+          "confidence": "high"
+        },
+        {
+          "type": "TriFunction<A,B,C,R>",
+          "role": "Generic 3-argument functional interface.",
+          "confidence": "high"
+        },
+        {
+          "type": "Shader<T>",
+          "role": "Interface for value transformation: shade(T current, long seed) -> T. Three overloads with 1, 2, or 3 seed components. Used in biome/material shading.",
+          "confidence": "high"
+        }
+      ],
+      "abstractions": [
+        {
+          "type": "ImageCarta<R>",
+          "role": "TriCarta implementation that maps 3D coordinates to an image (BufferedImage) via noise functions, then looks up RGB -> value mapping. Used for image-based biome/zone assignment.",
+          "confidence": "high"
+        },
+        {
+          "type": "LayeredCarta<R>",
+          "role": "TriCarta that stacks multiple TriCarta layers. Later layers override earlier ones (null = transparent). Used for overlay biome systems.",
+          "confidence": "high"
+        },
+        {
+          "type": "SingleElementCarta<R>",
+          "role": "BiCarta returning a constant value everywhere. Used as default when no spatial variation is needed.",
+          "confidence": "high"
+        },
+        {
+          "type": "SimpleShader<T>",
+          "role": "Shader that always returns a constant value, ignoring input and seed.",
+          "confidence": "high"
+        },
+        {
+          "type": "WeighedShader<T>",
+          "role": "Shader with weighted random selection among child shaders. Uses seed for deterministic selection via WeightedMap.",
+          "confidence": "high"
+        },
+        {
+          "type": "MaskShader<T>",
+          "role": "Conditional shader: applies child shader only when predicate matches current value, otherwise passes through unchanged.",
+          "confidence": "high"
+        },
+        {
+          "type": "RelationalShader<T>",
+          "role": "Map-based shader: looks up current value in a relation map to select which child shader to apply. Falls back to onMissingKey shader.",
+          "confidence": "high"
+        }
+      ],
+      "math_utilities": [
+        {
+          "type": "Calculator",
+          "role": "Static math utilities: min/max (variadic), limit/clamp, distance (2D/3D), smoothMin/smoothMax (polynomial smooth union), wrap, floor/ceil to grid, toNearestInt.",
+          "key_functions": ["smoothMin(range, a, b)", "smoothMax(range, a, b)", "clamp(wallA, value, wallB)", "floor(value, gridSize)", "ceil(value, gridSize)"]
+        },
+        {
+          "type": "Interpolation",
+          "role": "Linear interpolation: linear(value0, value1, weight) with clamped weight [0,1]."
+        },
+        {
+          "type": "InterpolatedCurve",
+          "role": "Double2DoubleFunction that blends between two child functions with cosine-smoothed transition in a specified position range."
+        },
+        {
+          "type": "SeedGenerator",
+          "role": "Deterministic position-to-seed hashing using co-prime multiplication. Generates 7 large co-primes from a base seed, then computes seedAt(x,y,z,...) = sum(coord_i * coprime_i) % coprime_6. Supports 2D to 6D coordinate inputs, both integer and double (quantized by resolution)."
+        },
+        {
+          "type": "CoPrimeGenerator",
+          "role": "Generates arrays of large co-prime numbers by multiplying random subsets of sequential primes until exceeding a floor value (10,000,000). Used by SeedGenerator for deterministic hashing."
+        },
+        {
+          "type": "Combiner",
+          "role": "Multi-layer density combiner for vertical stacking. Each Layer has floor/ceiling limits, padding (smooth fade at edges), and intersection policy (MAX_POLICY or MIN_POLICY with smooth min/max). Used for combining terrain density layers."
+        },
+        {
+          "type": "NodeFunction",
+          "role": "Piecewise linear function defined by sorted (input, output) points. Implements Double2DoubleFunction. Linear interpolation between points, constant extrapolation outside range."
+        },
+        {
+          "type": "Normalizer",
+          "role": "Range remapping: normalize(fromMin, fromMax, toMin, toMax, input). normalizeNoise() maps [-1,1] to [0,1]."
+        },
+        {
+          "type": "Probability",
+          "role": "Seed-deterministic probability: of(chance, seed) returns true with given probability using seeded Random."
+        },
+        {
+          "type": "RegionGrid",
+          "role": "Grid region calculator: given chunk coordinates and region size, computes region min/max bounds. Used for spatial partitioning."
+        },
+        {
+          "type": "Splitter",
+          "role": "Splits a value range into N equal segments for discretization."
+        },
+        {
+          "type": "Stepinizer",
+          "role": "Converts continuous values to stepped/quantized values."
+        },
+        {
+          "type": "MultipliedIteration",
+          "role": "Computes the multiplier needed to reach an end value from a start value in N geometric iterations."
+        },
+        {
+          "type": "BitConverter",
+          "role": "Bit array <-> integer/long/byte conversion utilities."
+        }
+      ],
+      "confidence": "high"
+    },
+    "root_package": {
+      "overview": "The root hytalegenerator package (~176 types across 20+ sub-packages) contains the runtime generation objects that the asset system builds. These are the concrete implementations that execute during chunk generation. Major categories include: biome system, material system, material providers, patterns, position providers, prop system, data structures, noise fields, scanners, and utility types.",
+      "biome_system": {
+        "types": [
+          {"type": "Biome", "role": "Interface extending MaterialSource, PropsSource, EnvironmentSource, TintSource. Defines getBiomeName() and getTerrainDensity()."},
+          {"type": "BiomeType", "role": "Identical interface to Biome (same signature). Appears to be a parallel hierarchy."},
+          {"type": "SimpleBiome", "role": "Primary Biome implementation. Holds terrain Density, MaterialProvider<Material>, PropField list, EnvironmentProvider, TintProvider."},
+          {"type": "SimpleBiomeType", "role": "Identical to SimpleBiome but implements BiomeType. Parallel hierarchy."},
+          {"type": "MaterialSource", "role": "Interface: getMaterialProvider() -> MaterialProvider<Material>"},
+          {"type": "PropsSource", "role": "Interface: getPropFields() -> List<PropField>, getAllPropDistributions() -> List<Assignments>"},
+          {"type": "EnvironmentSource", "role": "Interface: getEnvironmentProvider() -> EnvironmentProvider"},
+          {"type": "TintSource", "role": "Interface: getTintProvider() -> TintProvider"}
+        ],
+        "confidence": "high"
+      },
+      "material_system": {
+        "types": [
+          {"type": "Material", "role": "Immutable record of SolidMaterial + FluidMaterial. Represents a complete voxel material state."},
+          {"type": "SolidMaterial", "role": "Holds blockId, support, rotation, filler, and optional Holder<ChunkStore>. Cached by MaterialCache."},
+          {"type": "FluidMaterial", "role": "Holds fluidId and fluidLevel. Cached by MaterialCache."},
+          {"type": "MaterialCache", "role": "Thread-safe (ConcurrentHashMap) flyweight cache for Material, SolidMaterial, FluidMaterial. Deduplicates by content hash. Pre-caches common materials: EMPTY_AIR, ROCK_STONE, SOIL_GRASS, SOIL_DIRT, SOIL_MUD, SOIL_NEEDLES, SOIL_GRAVEL, ROCK_QUARTZITE, ROCK_MARBLE, ROCK_SHALE, FLUID_WATER, BEDROCK(Rock_Volcanic)."},
+          {"type": "MaterialSet", "role": "Set of material IDs for block mask matching."}
+        ],
+        "confidence": "high"
+      },
+      "material_providers": {
+        "overview": "MaterialProvider<T> hierarchy maps 3D positions to materials. 15+ implementations covering constant, depth-based, noise-driven, striped, weighted random, solidity-checking, terrain-density-based, and queue (sequential) strategies.",
+        "types": ["MaterialProvider (abstract)", "ConstantMaterialProvider", "DownwardDepthMaterialProvider", "DownwardSpaceMaterialProvider", "FieldFunctionMaterialProvider", "GrassTopMaterialProvider", "HorizontalMaterialProvider", "QueueMaterialProvider", "SolidityMaterialProvider", "SpaceAndDepthMaterialProvider", "StripedMaterialProvider", "TerrainDensityMaterialProvider", "UpwardDepthMaterialProvider", "UpwardSpaceMaterialProvider", "WeightedMaterialProvider"],
+        "space_and_depth_conditions": ["AlwaysTrueCondition", "AndCondition", "EqualsCondition", "GreaterThanCondition", "NotCondition", "OrCondition", "SmallerThanCondition"],
+        "space_and_depth_layers": ["ConstantThicknessLayer", "NoiseThickness", "RangedThicknessLayer", "WeightedThicknessLayer"],
+        "confidence": "high"
+      },
+      "patterns": {
+        "overview": "Pattern is an abstract boolean spatial evaluator: isInside(Context) -> boolean. 12 implementations provide boolean logic (And, Or, Not), geometric tests (Cuboid, Surface, Ceiling, Wall, Gap), material matching (Material, MaterialSet), offset delegation, and density-field-driven patterns (FieldFunctionPattern).",
+        "types": ["Pattern (abstract)", "AndPattern", "CeilingPattern", "CuboidPattern", "FieldFunctionPattern", "GapPattern", "MaterialPattern", "MaterialSetPattern", "NotPattern", "OffsetPattern", "OrPattern", "SurfacePattern", "WallPattern"],
+        "confidence": "high"
+      },
+      "position_providers": {
+        "overview": "PositionProvider generates 3D positions within bounds. positionsIn(Context) iterates all valid positions, calling a consumer. 14+ implementations covering mesh-based grids (2D/3D), field-function-driven, anchored, bounded, cached, offset, union, sphere, and list-based strategies.",
+        "types": ["PositionProvider (abstract)", "AnchorPositionProvider", "BaseHeightPositionProvider", "BoundPositionProvider", "CachedPositionProvider", "FieldFunctionOccurrencePositionProvider", "FieldFunctionPositionProvider", "ListPositionProvider", "Mesh2DPositionProvider", "Mesh3DPositionProvider", "OffsetPositionProvider", "SimpleHorizontalPositionProvider", "SpherePositionProvider", "UnionPositionProvider"],
+        "confidence": "high"
+      },
+      "prop_system": {
+        "overview": "The prop system places blocks, prefabs, and entities at generated positions. PropField ties a PositionProvider (where to place) with Assignments (what to place) and a runtime index (execution order). Props define scanning strategies and block/prefab placement logic.",
+        "types": {
+          "prop_field": ["PropField - runtime, Assignments, PositionProvider"],
+          "props": ["Prop (abstract)", "BoxProp", "ClusterProp", "ColumnProp", "DensityProp", "OffsetProp", "PondFillerProp", "PrefabProp", "QueueProp", "UnionProp", "WeightedProp"],
+          "assignments": ["Assignments (abstract)", "ConstantAssignments", "FieldFunctionAssignments", "SandwichAssignments", "WeightedAssignments"],
+          "scan_results": ["ScanResult (abstract)", "PositionScanResult", "PositionListScanResult", "FillerPropScanResult", "RotatedPositionsScanResult"],
+          "directionality": ["Directionality (abstract)", "OrthogonalDirection (enum)", "PatternDirectionality", "RandomDirectionality", "StaticDirectionality", "RotatedPosition"],
+          "prefab": ["PrefabProp", "PrefabMoldingConfiguration", "MoldingDirection", "PropPrefabUtil"],
+          "entity": ["EntityPlacementData"]
+        },
+        "confidence": "high"
+      },
+      "scanners": {
+        "overview": "Scanner defines how props search for valid placement positions. 5 implementations: AreaScanner (3D volume), ColumnLinearScanner (vertical column top-down), ColumnRandomScanner (random Y in column), OriginScanner (single point).",
+        "types": ["Scanner (abstract)", "AreaScanner", "ColumnLinearScanner", "ColumnRandomScanner", "OriginScanner"],
+        "confidence": "high"
+      },
+      "data_structures": {
+        "overview": "Custom data structures optimized for generation: BiCoordinateCache (2D coordinate-keyed caches with hashed and wrapped variants), VoxelSpace (3D array-backed volumes with boolean, null, and windowed variants), WeightedMap (random selection by weight), TieredList, ReusableList, Compressor, CollectionFactory.",
+        "types": {
+          "coordinate_caches": ["BiCoordinateCache (interface)", "HashedBiCoordinateCache", "WrappedBiCoordinateCache", "WrappedBiCoordinateDoubleCache"],
+          "voxel_spaces": ["VoxelSpace (abstract)", "ArrayVoxelSpace", "BooleanVoxelSpace", "NullSpace", "WindowVoxelSpace", "VoxelConsumer", "VoxelCoordinate", "VoxelSpaceUtil"],
+          "collections": ["WeightedMap", "TieredList", "ReusableList", "CollectionFactory", "Compressor"]
+        },
+        "confidence": "high"
+      },
+      "noise_fields": {
+        "overview": "Low-level noise implementations: FastNoiseLite (comprehensive noise library with gradient/cellular/simplex/perlin), SimplexNoiseField, CellNoiseField, and base NoiseField/PointField abstractions.",
+        "types": ["FastNoiseLite", "NoiseField (abstract)", "SimplexNoiseField", "CellNoiseField", "Simplex", "PointField (abstract)", "JitterPointField", "PointProvider"],
+        "confidence": "high"
+      },
+      "utility_types": {
+        "types": [
+          {"type": "WorldStructure", "role": "Runtime world configuration. Holds BiCarta<Integer> biomeMap, Registry<Biome>, biomeTransitionDistance, maxBiomeEdgeDistance, spawn PositionProvider."},
+          {"type": "Registry<T>", "role": "Bidirectional ID<->Object registry with auto-incrementing IDs."},
+          {"type": "SeedBox", "role": "Seed wrapper for deterministic generation."},
+          {"type": "WorkerIndexer", "role": "Worker thread indexing system. Creates WorkerIndexer.Id instances for per-worker data isolation. Data<T> provides per-worker storage slots."},
+          {"type": "ReferenceBundle", "role": "Container for cross-referencing exported/imported density values between asset sub-graphs. BaseHeightReference for sharing base height across components."},
+          {"type": "BlockMask", "role": "Block ID matching predicate."},
+          {"type": "Indexer", "role": "3D coordinate to 1D array index converter."},
+          {"type": "SimpleNoiseCarta", "role": "Noise-based BiCarta implementation."},
+          {"type": "ArrayUtil", "role": "Array splitting, binary search, and utility methods."},
+          {"type": "VectorUtil", "role": "Vector math: bit shift operations, distance-to-line, angle calculations."},
+          {"type": "FutureUtils", "role": "CompletableFuture.allOf wrapper that preserves exception information."},
+          {"type": "LoggerUtil", "role": "Centralized logging with exception formatting."},
+          {"type": "Bounds3i/Bounds3d/SpaceSize", "role": "3D bounding box types for integer and decimal coordinates."},
+          {"type": "DelimiterDouble/DelimiterInt/RangeDouble/RangeInt", "role": "Range and delimiter types for value mapping."},
+          {"type": "DoubleRange/DoubleRangeMap", "role": "Range-to-value mapping for continuous domains."},
+          {"type": "ContextDependency", "role": "Staged conveyor context dependency tracking."},
+          {"type": "BackwardIntIterator/ForwardIntIterator/IntIterators", "role": "Integer iteration utilities for scanning directions."},
+          {"type": "EnvironmentProvider (abstract)", "role": "Maps positions to environment IDs. Implementations: ConstantEnvironmentProvider, DensityDelimitedEnvironmentProvider."},
+          {"type": "TintProvider (abstract)", "role": "Maps positions to tint colors. Implementations: ConstantTintProvider, DensityDelimitedTintProvider, NoTintProvider."},
+          {"type": "VectorProvider (abstract)", "role": "Maps positions to 3D vectors. Implementations: ConstantVectorProvider, DensityGradientVectorProvider, CacheVectorProvider."}
+        ]
+      },
+      "confidence": "high"
+    }
+  },
+  "cross_references": {
+    "server_worldgen_interfaces": {
+      "IWorldGenProvider": "HandleProvider implements IWorldGenProvider, registered via IWorldGenProvider.CODEC.register('HytaleGenerator', ...) in HytaleGenerator.setup()",
+      "IWorldGen": "Handle implements IWorldGen. Bridges server.worldgen.IWorldGen.generate() to the builtin ChunkGenerator pipeline.",
+      "GeneratedChunk": "NStagedChunkGenerator produces GeneratedChunk with GeneratedBlockChunk, GeneratedBlockStateChunk, GeneratedEntityChunk, and section Holders.",
+      "GeneratedBlockChunk": "Receives block IDs, rotations, fillers, tint colors, environment data from buffer transfer.",
+      "GeneratedBlockStateChunk": "Receives Holder<ChunkStore> references for ECS section state from SolidMaterial.holder.",
+      "GeneratedEntityChunk": "Receives entity spawn data (offset, rotation, entity holder) from NEntityBuffer."
+    },
+    "ecs_components": {
+      "ChunkStore": "Used via Holder<ChunkStore> in SolidMaterial for block state management and section references.",
+      "FluidSection": "NStagedChunkGenerator.transferMaterials() writes fluid data (fluidId, fluidLevel) to FluidSection per chunk section.",
+      "BlockPhysics": "NStagedChunkGenerator.setSupport() uses BlockPhysics.setSupportValue/reset/clear for block physics state.",
+      "EnvironmentChunk": "NStagedChunkGenerator.transferEnvironments() writes environment IDs via EnvironmentChunk.BulkWriter."
+    },
+    "events": {
+      "RemoveWorldEvent": "HytaleGenerator listens globally and removes cached generators when worlds are removed.",
+      "LoadedAssetsEvent": "AssetManager uses this to trigger asset loading and reload callbacks."
+    },
+    "commands": {
+      "ViewportCommand": "Registered by HytaleGenerator. Uses NViewport to refresh chunk generation in a specified region."
+    },
+    "asset_store": {
+      "AssetRegistry": "All asset types register via AssetRegistry. AssetManager coordinates loading.",
+      "AssetStore": "BiomeAsset, SettingsAsset, WorldStructureAsset, and all other assets use AssetStore for lookup by ID.",
+      "BlockType": "MaterialCache resolves block names (e.g., 'Rock_Stone') to block IDs via BlockType.fromString().",
+      "Fluid": "MaterialCache resolves fluid names to fluid IDs and levels via Fluid.getAssetMap()."
+    },
+    "relationship_to_server_worldgen": "The builtin hytalegenerator is a complete replacement/reimplementation of the old server.worldgen pipeline. While the server.worldgen package defined zone/biome/container/populator architecture with HeightThresholdInterpolator-based terrain, the builtin uses a density-function-based terrain system with staged buffer processing. The old pipeline used explicit block/cave/prefab/water populators; the new system unifies terrain and prop placement through the staged NStage architecture. The server.worldgen types (Zone, BiomePatternGenerator, etc.) appear to be the legacy system, while this builtin is the active 'new system' (hence the 'newsystem' package name)."
+  },
+  "files_not_read": [
+    {
+      "category": "assets sub-package individual files",
+      "count": "~180 of 243 asset files were not individually read line-by-line",
+      "reason": "Asset files follow a highly uniform pattern (BuilderCodec with JSON field definitions, build() method producing runtime objects, cleanUp()). Representative files were read in full (AssetManager, SettingsAsset, BiomeAsset, WorldStructureAsset, TerrainAsset, DensityTerrainAsset). The complete file listing was captured and all 243 files are catalogued by category. The remaining unread files are codec/serialization wrappers for already-documented runtime types.",
+      "files_read_in_full": ["AssetManager.java (first 200 lines - imports showing all registered types)", "SettingsAsset.java", "BiomeAsset.java", "WorldStructureAsset.java", "TerrainAsset.java", "DensityTerrainAsset.java", "Cleanable.java", "ValidatorUtil.java"]
+    },
+    {
+      "category": "root package utility files",
+      "count": "~50 of 176 root files were not individually read",
+      "reason": "Pattern/MaterialProvider/PositionProvider implementations follow uniform abstract-then-implement patterns. Representative types in each category were read. Remaining files are documented by type listing. All file names were captured via find.",
+      "files_read_in_full": ["All biome/*.java (9 files)", "All chunkgenerator/*.java (3 files)", "worldstructure/WorldStructure.java", "PropField.java", "Registry.java", "All material/*.java (4 files)", "commands/ViewportCommand.java (via import analysis)"]
+    }
+  ]
+}
