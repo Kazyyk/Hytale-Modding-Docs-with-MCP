@@ -24,17 +24,14 @@
   --sl-sidebar-width: 17rem;
 }
 
-/* Hide the right-side TOC — content width matters more for API docs */
-starlight-toc {
-  display: none;
+/* Hide TOC on screens where it squishes content */
+@media (max-width: 1440px) {
+  starlight-toc {
+    display: none;
+  }
 }
 
-/* Reclaim the TOC space for content */
-.main-pane {
-  --sl-content-pad-x: 1.5rem;
-}
-
-/* Tables: full width, no horizontal scroll needed */
+/* Tables: full width with natural column sizing */
 .sl-markdown-content table {
   width: 100%;
   table-layout: auto;
