@@ -37,41 +37,41 @@ types receive full documentation regardless of classification.
 
 ### Plugin Development
 - `com.hypixel.hytale.plugin` — Plugin base classes and initialization
-- [`com.hypixel.hytale.server.core.plugin`](packages/com.hypixel.hytale.server.core.plugin/index.md) — Plugin manager, lifecycle, class loading
+- [`com.hypixel.hytale.server.core.plugin`](packages/com-hypixel-hytale-server-core-plugin/index.md) — Plugin manager, lifecycle, class loading
 
 ### Events
-- [`com.hypixel.hytale.event`](packages/com.hypixel.hytale.event/index.md) — Event base interfaces
-- [`com.hypixel.hytale.server.core.event.events.player`](packages/com.hypixel.hytale.server.core.event.events.player/index.md) — Player events
-- [`com.hypixel.hytale.server.core.event.events.ecs`](packages/com.hypixel.hytale.server.core.event.events.ecs/index.md) — ECS events
+- [`com.hypixel.hytale.event`](packages/com-hypixel-hytale-event/index.md) — Event base interfaces
+- [`com.hypixel.hytale.server.core.event.events.player`](packages/com-hypixel-hytale-server-core-event-events-player/index.md) — Player events
+- [`com.hypixel.hytale.server.core.event.events.ecs`](packages/com-hypixel-hytale-server-core-event-events-ecs/index.md) — ECS events
 
 ### ECS Framework
-- [`com.hypixel.hytale.component`](packages/com.hypixel.hytale.component/index.md) — Core ECS: Store, ComponentRegistry, Ref, Archetype
+- [`com.hypixel.hytale.component`](packages/com-hypixel-hytale-component/index.md) — Core ECS: Store, ComponentRegistry, Ref, Archetype
 
 ### Commands
-- [`com.hypixel.hytale.server.core.command.system`](packages/com.hypixel.hytale.server.core.command.system/index.md) — Command framework
+- [`com.hypixel.hytale.server.core.command.system`](packages/com-hypixel-hytale-server-core-command-system/index.md) — Command framework
 
 ### Entity System
-- [`com.hypixel.hytale.server.core.entity`](packages/com.hypixel.hytale.server.core.entity/index.md) — Entity, LivingEntity, interactions
-- [`com.hypixel.hytale.server.core.modules.entity.damage`](packages/com.hypixel.hytale.server.core.modules.entity.damage/index.md) — Damage and combat
+- [`com.hypixel.hytale.server.core.entity`](packages/com-hypixel-hytale-server-core-entity/index.md) — Entity, LivingEntity, interactions
+- [`com.hypixel.hytale.server.core.modules.entity.damage`](packages/com-hypixel-hytale-server-core-modules-entity-damage/index.md) — Damage and combat
 
 ### World
-- [`com.hypixel.hytale.server.core.universe.world`](packages/com.hypixel.hytale.server.core.universe.world/index.md) — World, chunks, block operations
-- [`com.hypixel.hytale.server.worldgen`](packages/com.hypixel.hytale.server.worldgen/index.md) — World generation pipeline
+- [`com.hypixel.hytale.server.core.universe.world`](packages/com-hypixel-hytale-server-core-universe-world/index.md) — World, chunks, block operations
+- [`com.hypixel.hytale.server.worldgen`](packages/com-hypixel-hytale-server-worldgen/index.md) — World generation pipeline
 
 ### NPC System
-- [`com.hypixel.hytale.server.npc.systems`](packages/com.hypixel.hytale.server.npc.systems/index.md) — NPC ECS systems
-- [`com.hypixel.hytale.server.npc.role`](packages/com.hypixel.hytale.server.npc.role/index.md) — NPC roles and behavior profiles
+- [`com.hypixel.hytale.server.npc.systems`](packages/com-hypixel-hytale-server-npc-systems/index.md) — NPC ECS systems
+- [`com.hypixel.hytale.server.npc.role`](packages/com-hypixel-hytale-server-npc-role/index.md) — NPC roles and behavior profiles
 
 ### Assets & Codecs
 - `com.hypixel.hytale.assetstore` — Asset loading and management
-- [`com.hypixel.hytale.codec`](packages/com.hypixel.hytale.codec/index.md) — JSON serialization framework
+- [`com.hypixel.hytale.codec`](packages/com-hypixel-hytale-codec/index.md) — JSON serialization framework
 
 ### Protocol
-- [`com.hypixel.hytale.protocol`](packages/com.hypixel.hytale.protocol/index.md) — Network protocol types
+- [`com.hypixel.hytale.protocol`](packages/com-hypixel-hytale-protocol/index.md) — Network protocol types
 
 ### Inventory & Items
-- [`com.hypixel.hytale.server.core.inventory`](packages/com.hypixel.hytale.server.core.inventory/index.md) — Inventory system
-- [`com.hypixel.hytale.server.core.asset.type.item.config`](packages/com.hypixel.hytale.server.core.asset.type.item.config/index.md) — Item definitions
+- [`com.hypixel.hytale.server.core.inventory`](packages/com-hypixel-hytale-server-core-inventory/index.md) — Inventory system
+- [`com.hypixel.hytale.server.core.asset.type.item.config`](packages/com-hypixel-hytale-server-core-asset-type-item-config/index.md) — Item definitions
 
 ### JSON Schemas
 - [Block Type Schema](schemas/block.md)

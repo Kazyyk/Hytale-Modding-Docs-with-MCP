@@ -102,6 +102,15 @@ function rewriteLinks(content, fileDir, fileSet, isIndex = false) {
         return `\`${text}\``;
       }
 
+      // Convert dotted package dir names to hyphens (matching rewritePackagePath)
+      path = path.split("/").map(segment => {
+        // Only convert segments that look like Java package names (contain dots)
+        if (segment !== ".." && segment !== "." && segment.includes(".")) {
+          return segment.replace(/\./g, "-");
+        }
+        return segment;
+      }).join("/");
+
       // Strip .md extension
       path = path.replace(/\.md$/, "");
 
@@ -171,6 +180,8 @@ if (!existsSync(SOURCE_DIR)) {
 
 const files = walkFiles(SOURCE_DIR);
 const fileSet = new Set(files);
+// Also build a rewritten file set for dangling link detection against the dest paths
+const rewrittenFileSet = new Set(files.map(f => rewritePackagePath(f)));
 console.log(`Syncing ${files.length} markdown files from output/docs/ → site/src/content/docs/`);
 
 let synced = 0;
@@ -179,9 +190,28 @@ let danglingTotal = 0;
 const danglingTargets = new Set();
 const danglingDetails = new Map();
 
+/**
+ * Converts dotted Java package directory names to hyphenated equivalents.
+ * Starlight strips dots from slugs, so we use hyphens to preserve readability.
+ * Only affects directory segments under packages/ — file names are untouched.
+ *
+ *   packages/com.hypixel.hytale.plugin/JavaPlugin.md
+ *   → packages/com-hypixel-hytale-plugin/JavaPlugin.md
+ */
+function rewritePackagePath(relPath) {
+  if (!relPath.startsWith("packages/")) return relPath;
+  const parts = relPath.split("/");
+  // parts[0] = "packages", parts[1] = dotted package name, rest = file path
+  if (parts.length >= 2) {
+    parts[1] = parts[1].replace(/\./g, "-");
+  }
+  return parts.join("/");
+}
+
 for (const relPath of files) {
   const src = join(SOURCE_DIR, relPath);
-  const dest = join(TARGET_DIR, relPath);
+  const destRelPath = rewritePackagePath(relPath);
+  const dest = join(TARGET_DIR, destRelPath);
 
   mkdirSync(dirname(dest), { recursive: true });
 
