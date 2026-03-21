@@ -9,17 +9,6 @@ export default defineConfig({
       title: "Hydex",
       description:
         "Comprehensive documentation for the Hytale dedicated server — every type, every method, every system.",
-      social: [
-        {
-          icon: "github",
-          label: "GitHub",
-          href: "https://github.com/Kazyyk/hydex",
-        },
-      ],
-      editLink: {
-        baseUrl:
-          "https://github.com/Kazyyk/hydex/edit/main/output/docs/",
-      },
       customCss: ["./src/styles/custom.css"],
       sidebar: [
         // Landing page
