@@ -18,4 +18,22 @@
   font-size: 0.875rem;
 }
 
-/* Badge-style for kind/api_surface in page headers if we add components later */
+/* Widen content area — API docs need more room for tables */
+:root {
+  --sl-content-width: 75rem;
+  --sl-sidebar-width: 18rem;
+}
+
+/* Make tables horizontally scrollable instead of squishing columns */
+.sl-markdown-content table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* But allow description columns to wrap */
+.sl-markdown-content table td:last-child,
+.sl-markdown-content table th:last-child {
+  white-space: normal;
+  min-width: 15rem;
+}
