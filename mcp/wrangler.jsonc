@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "hytale-api-index-mcp",
+  "name": "hydex-mcp",
   "main": "src/index.ts",
   "compatibility_date": "2025-06-09",
   "compatibility_flags": ["nodejs_compat"],
@@ -15,7 +15,7 @@
     "bindings": [
       {
         "name": "MCP_OBJECT",
-        "class_name": "HytaleAPIIndex"
+        "class_name": "HydexMCP"
       }
     ]
   },
@@ -42,6 +42,10 @@
           "to": "HytaleAPIIndex"
         }
       ]
+    },
+    {
+      "tag": "v4",
+      "new_sqlite_classes": ["HydexMCP"]
     }
   ],
 

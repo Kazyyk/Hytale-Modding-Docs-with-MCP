@@ -152,7 +152,7 @@ function patchLandingPage(content) {
   if (!content.includes("template:")) {
     content = content.replace(
       /^(---\n(?:.*\n)*?title:\s*.*\n)/m,
-      "$1template: splash\nhero:\n  tagline: Derived entirely from the Hytale JAR bytecode — no external sources\n  actions:\n    - text: API Reference\n      link: /api/\n      icon: right-arrow\n    - text: View on GitHub\n      link: https://github.com/Kazyyk/Hytale-API-Index\n      icon: external\n      variant: minimal\n"
+      "$1template: splash\nhero:\n  tagline: Comprehensive Hytale server documentation — every type, every method, every system\n  actions:\n    - text: Browse Packages\n      link: /packages/com.hypixel.hytale.plugin/\n      icon: right-arrow\n    - text: View on GitHub\n      link: https://github.com/Kazyyk/hydex\n      icon: external\n      variant: minimal\n"
     );
   }
   return content;

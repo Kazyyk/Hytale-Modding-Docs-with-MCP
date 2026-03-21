@@ -19,7 +19,7 @@ on:
   workflow_dispatch: # Allow manual trigger
 
 env:
-  R2_BUCKET: hytale-modding-corpus
+  R2_BUCKET: hydex-corpus-stable
 
 jobs:
   sync:

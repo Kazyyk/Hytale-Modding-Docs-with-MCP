@@ -30,7 +30,7 @@ function formatSearchResults(
     .join("\n\n");
 }
 
-export class HytaleAPIIndex extends McpAgent<Env> {
+export class HydexMCP extends McpAgent<Env> {
   server = new McpServer({
     name: "hytale-api-index",
     version: "1.0.0",
@@ -104,8 +104,11 @@ export class HytaleAPIIndex extends McpAgent<Env> {
   }
 }
 
+// Legacy DO class stub — required by Cloudflare until delete-class migration is applied
+export { DurableObject as HytaleAPIIndex } from "cloudflare:workers";
+
 // Primary handler on /mcp (Streamable HTTP)
-const handler = HytaleAPIIndex.serve("/mcp", { binding: "MCP_OBJECT" });
+const handler = HydexMCP.serve("/mcp", { binding: "MCP_OBJECT" });
 
 // Expose /mcp as primary, rewrite /sse for backwards compatibility
 export default {
