@@ -1,0 +1,37 @@
+---
+title: "AnchorPositionProvider"
+kind: "class"
+package: "com.hypixel.hytale.builtin.hytalegenerator.positionproviders"
+fqcn: "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.AnchorPositionProvider"
+api_surface: false
+extends: "PositionProvider"
+implements: []
+generator_version: "2.0.0"
+generated_at: "2026-03-21T12:00:00Z"
+tags:
+  - "builtin"
+  - "hytalegenerator"
+  - "positionproviders"
+---
+
+**Package:** `com.hypixel.hytale.builtin.hytalegenerator.positionproviders`
+
+```java
+public class AnchorPositionProvider extends PositionProvider
+```
+
+Provider supplying AnchorPosition values based on context.
+
+## Fields
+
+| Modifier | Type | Name |
+|---|---|---|
+| `@Nonnull private final` | `PositionProvider` | `positionProvider` |
+| `private final` | `boolean` | `isReversed` |
+
+## Methods
+
+| Modifier | Return Type | Signature |
+|---|---|---|
+| `public` | | `AnchorPositionProvider(@Nonnull PositionProvider positionProvider, boolean isReversed)` |
+| `@Override public` | `void` | `positionsIn(@Nonnull PositionProvider.Context context)` |

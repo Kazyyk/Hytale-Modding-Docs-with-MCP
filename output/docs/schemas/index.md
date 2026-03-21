@@ -96,5 +96,5 @@ Plus array codecs: `IntArrayCodec`, `LongArrayCodec`, `FloatArrayCodec`, `Double
 
 ## Related
 
-- **[Registries](../api/registries/index.md)** — Registry system including codec registration
-- **[PluginBase](../api/classes/PluginBase.md)** — Plugin configuration via `withConfig()`
+- **[Registries](../packages/com.hypixel.hytale.server.core.plugin.registry/index.md)** — Registry system including codec registration
+- **[PluginBase](../packages/com.hypixel.hytale.server.core.plugin/PluginBase.md)** — Plugin configuration via `withConfig()`

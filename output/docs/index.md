@@ -1,58 +1,92 @@
 ---
-title: "Hytale API Documentation"
+title: "Hydex — Hytale Server Documentation"
 kind: "overview"
-api_surface: "public"
-generator_version: "1.0.0"
-generated_at: "2026-02-18T17:30:00Z"
+api_surface: true
+generator_version: "2.0.0"
+generated_at: "2026-03-21T16:49:00Z"
 tags:
   - "landing-page"
   - "overview"
 ---
 
-## Overview
+Comprehensive documentation for the Hytale dedicated server, mechanically
+generated from the decompiled server JAR. Every type in the server is
+documented with full method signatures, field listings, and cross-references.
 
-Hytale's server-side modding API allows plugins to extend the game through a Java plugin system. Plugins are Java classes that extend `PluginBase`, with a lifecycle driven by three methods:
+## Coverage
 
-1. **`setup()`** — Register commands, events, components, and configuration before the server starts.
-2. **`start()`** — Perform initialization that requires a running server.
-3. **`shutdown()`** — Clean up resources when the plugin is disabled or the server stops.
+| Metric | Count |
+|--------|-------|
+| Total documented types | 5,572 |
+| Java packages | 911 |
+| API surface types | 677 |
+| Internal types | 4,895 |
+| Internal links | 9,318 |
 
-All registrations made through `PluginBase` are automatically scoped to the plugin's lifecycle — when the plugin shuts down, its commands, event listeners, ECS components, and other registrations are automatically cleaned up.
+## Organization
 
-## Plugin Systems
+Documentation is organized by Java package under `packages/`. Each package
+directory contains an `index.md` listing all types in that package, plus
+individual type documentation pages.
 
-### [Events](api/events/index.md)
+The `api_surface` frontmatter field indicates whether a type is part of the
+plugin-facing API (`true`) or an internal implementation type (`false`). All
+types receive full documentation regardless of classification.
 
-A dual event system with two parallel hierarchies:
+## Key Entry Points
 
-- **Standard Events** — Synchronous and asynchronous events dispatched through `EventBus` using `Consumer`-based listeners. Used for server lifecycle, player connections, chat, and permissions.
-- **ECS Events** — Events dispatched through the Entity Component System pipeline using `store.invoke()`. Used for gameplay actions like block breaking, item drops, and crafting.
+### Plugin Development
+- `com.hypixel.hytale.plugin` — Plugin base classes and initialization
+- [`com.hypixel.hytale.server.core.plugin`](packages/com.hypixel.hytale.server.core.plugin/index.md) — Plugin manager, lifecycle, class loading
 
-### [Commands](api/commands/index.md)
+### Events
+- [`com.hypixel.hytale.event`](packages/com.hypixel.hytale.event/index.md) — Event base interfaces
+- [`com.hypixel.hytale.server.core.event.events.player`](packages/com.hypixel.hytale.server.core.event.events.player/index.md) — Player events
+- [`com.hypixel.hytale.server.core.event.events.ecs`](packages/com.hypixel.hytale.server.core.event.events.ecs/index.md) — ECS events
 
-A builder-pattern command system with typed arguments, automatic permission generation, tab completion, and subcommand support. Commands are defined by extending `CommandBase` and declaring arguments as fields.
+### ECS Framework
+- [`com.hypixel.hytale.component`](packages/com.hypixel.hytale.component/index.md) — Core ECS: Store, ComponentRegistry, Ref, Archetype
 
-### [ECS (Entity Component System)](api/components/index.md)
+### Commands
+- [`com.hypixel.hytale.server.core.command.system`](packages/com.hypixel.hytale.server.core.command.system/index.md) — Command framework
 
-An archetype-based ECS with typed stores, component queries, ticking systems, event systems, and command buffers. Two concrete store types: `EntityStore` for game entities and `ChunkStore` for chunk-level data.
+### Entity System
+- [`com.hypixel.hytale.server.core.entity`](packages/com.hypixel.hytale.server.core.entity/index.md) — Entity, LivingEntity, interactions
+- [`com.hypixel.hytale.server.core.modules.entity.damage`](packages/com.hypixel.hytale.server.core.modules.entity.damage/index.md) — Damage and combat
 
-### [Registries](api/registries/index.md)
+### World
+- [`com.hypixel.hytale.server.core.universe.world`](packages/com.hypixel.hytale.server.core.universe.world/index.md) — World, chunks, block operations
+- [`com.hypixel.hytale.server.worldgen`](packages/com.hypixel.hytale.server.worldgen/index.md) — World generation pipeline
 
-A three-layer registry architecture: generic `Registry` base for lifecycle management, plugin-specific registries for each subsystem, and global backends for actual data storage. All registries share the same pattern of precondition-gated registration with automatic cleanup on plugin shutdown.
+### NPC System
+- [`com.hypixel.hytale.server.npc.systems`](packages/com.hypixel.hytale.server.npc.systems/index.md) — NPC ECS systems
+- [`com.hypixel.hytale.server.npc.role`](packages/com.hypixel.hytale.server.npc.role/index.md) — NPC roles and behavior profiles
 
-### [JSON Schemas](schemas/index.md)
+### Assets & Codecs
+- `com.hypixel.hytale.assetstore` — Asset loading and management
+- [`com.hypixel.hytale.codec`](packages/com.hypixel.hytale.codec/index.md) — JSON serialization framework
 
-Data-driven content definition through JSON asset files. Block types, items, crafting recipes, and other game content are defined in JSON using a declarative `BuilderCodec` pattern. Plugins can register custom asset types and extend existing ones.
+### Protocol
+- [`com.hypixel.hytale.protocol`](packages/com.hypixel.hytale.protocol/index.md) — Network protocol types
 
-## API Surface
+### Inventory & Items
+- [`com.hypixel.hytale.server.core.inventory`](packages/com.hypixel.hytale.server.core.inventory/index.md) — Inventory system
+- [`com.hypixel.hytale.server.core.asset.type.item.config`](packages/com.hypixel.hytale.server.core.asset.type.item.config/index.md) — Item definitions
 
-This documentation covers **828 plugin-facing API types** out of 7,016 total types in the server JAR. The remaining 6,188 types are internal implementation details not intended for plugin use.
+### JSON Schemas
+- [Block Type Schema](schemas/block.md)
+- [Item Schema](schemas/item.md)
+- [Crafting Recipe Schema](schemas/crafting-recipe.md)
+- [NPC Spawn Schema](schemas/npc-spawn.md)
 
-- [API Reference](api/index.md) — Plugin-facing classes, events, commands, components, and registries.
-- [Internal Types](internals/index.md) — Internal types are not documented individually. They are not part of the stable plugin API and may change without notice.
+## Source
+
+All documentation is derived from the Hytale server JAR. No external sources
+are used. If a description says "Purpose unknown," it means the purpose could
+not be determined from the decompiled source alone.
 
 ## Build Information
 
-- **JAR Hash:** `sha256:b89a867ba775816f0c6046a333b1c671f7154e5ff2b3819ef7ad6409cfaae784`
-- **Generator Version:** 1.0.0
-- **Generated:** 2026-02-18
+- **JAR Hash:** `sha256:4dc38055618aa4447fbdcbdbce458f7eefb1850728e8fc4da7a645f02ff8f46e`
+- **Generator Version:** 2.0.0
+- **Generated:** 2026-03-21

@@ -1,8 +1,12 @@
 {
-  "jar_hash": "sha256:b728b1b83750fadfbacc7ae98bb7ae424d5947114bc13308337e8fd5dab364a8",
-  "generator_version": "1.0.0",
-  "generated_at": "2026-02-09T23:10:00Z",
-  "hytale_version": "unknown",
-  "api_surface_count": 811,
-  "internal_count": 6062
+  "version": "2.0.0",
+  "jar_hash": "sha256:4dc38055618aa4447fbdcbdbce458f7eefb1850728e8fc4da7a645f02ff8f46e",
+  "generated_at": "2026-03-21T16:49:12Z",
+  "generator_version": "2.0.0",
+  "total_types": 5572,
+  "total_packages": 911,
+  "api_surface_types": 677,
+  "internal_types": 4895,
+  "total_links": 9318,
+  "link_violations": 0
 }

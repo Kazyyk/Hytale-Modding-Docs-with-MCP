@@ -1,0 +1,41 @@
+---
+title: "ActionPickUpItem"
+kind: "class"
+package: "com.hypixel.hytale.server.npc.corecomponents.items"
+fqcn: "com.hypixel.hytale.server.npc.corecomponents.items.ActionPickUpItem"
+api_surface: false
+extends: "ActionWithDelay"
+implements:
+  []
+generator_version: "2.0.0"
+generated_at: "2026-03-21T06:16:36Z"
+tags:
+  - "server"
+  - "npc"
+---
+**Package:** `com.hypixel.hytale.server.npc.corecomponents.items`
+
+```java
+public class ActionPickUpItem extends ActionWithDelay
+```
+
+## Fields
+
+| Modifier | Type | Name |
+|---|---|---|
+| `protected final` | `double` | `range` |
+| `protected final` | `ActionPickUpItem.StorageTarget` | `storageTarget` |
+| `protected final` | `boolean` | `hoover` |
+| `protected final` | `List<String>` | `hooverItems` |
+| `private final` | `String` | `description` |
+
+## Methods
+
+| Modifier | Return Type | Signature |
+|---|---|---|
+| `public` | `` | `ActionPickUpItem(@Nonnull BuilderActionPickUpItem builder, @Nonnull BuilderSupport support)` |
+| `public` | `void` | `registerWithSupport(@Nonnull Role role)` |
+| `public` | `boolean` | `canExecute( @Nonnull Ref<EntityStore> ref, @Nonnull Role role, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store )` |
+| `public` | `boolean` | `execute(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store)` |
+| `protected` | `boolean` | `filterItem(@Nonnull Ref<EntityStore> ref, Role role, @Nonnull ComponentAccessor<EntityStore> componentAccessor)` |
+| `public` | `String` | `get()` |
