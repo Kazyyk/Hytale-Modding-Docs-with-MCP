@@ -18,22 +18,30 @@
   font-size: 0.875rem;
 }
 
-/* Widen content area — API docs need more room for tables */
+/* Maximize content width for API reference tables */
 :root {
-  --sl-content-width: 75rem;
-  --sl-sidebar-width: 18rem;
+  --sl-content-width: 90rem;
+  --sl-sidebar-width: 17rem;
 }
 
-/* Make tables horizontally scrollable instead of squishing columns */
+/* Hide the right-side TOC — content width matters more for API docs */
+starlight-toc {
+  display: none;
+}
+
+/* Reclaim the TOC space for content */
+.main-pane {
+  --sl-content-pad-x: 1.5rem;
+}
+
+/* Tables: full width, no horizontal scroll needed */
 .sl-markdown-content table {
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
+  width: 100%;
+  table-layout: auto;
 }
 
-/* But allow description columns to wrap */
+/* Ensure description columns wrap naturally */
 .sl-markdown-content table td:last-child,
 .sl-markdown-content table th:last-child {
   white-space: normal;
-  min-width: 15rem;
 }
