@@ -95,7 +95,9 @@ function rewriteLinks(content, fileDir, fileSet, isIndex = false) {
       const resolved = join(fileDir, path).replace(/\\/g, "/");
       // Normalize away any leading "./" and resolve ".." segments
       const normalized = resolve("/", resolved).slice(1); // Use resolve trick to normalize
-      if (!fileSet.has(normalized)) {
+      // Also check with hyphens converted back to dots (index.md has pre-hyphenated paths)
+      const normalizedDotted = normalized.replace(/packages\/([^/]+)/, (_, pkg) => "packages/" + pkg.replace(/-/g, "."));
+      if (!fileSet.has(normalized) && !fileSet.has(normalizedDotted)) {
         danglingCount++;
         danglingFound.push({ target: normalized, text });
         // Convert to inline code text instead of a broken link
