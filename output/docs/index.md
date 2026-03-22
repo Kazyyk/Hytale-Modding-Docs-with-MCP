@@ -1,5 +1,5 @@
 ---
-title: "Hydex — Hytale Server Documentation"
+title: "Hydex — Hytale Source Documentation"
 kind: "overview"
 api_surface: true
 generator_version: "2.0.0"
@@ -9,8 +9,8 @@ tags:
   - "overview"
 ---
 
-Comprehensive documentation for the Hytale dedicated server, mechanically
-generated from the decompiled server JAR. Every type in the server is
+Comprehensive documentation for the Hytale source, mechanically
+generated from the decompiled Hytale JAR. Every type is
 documented with full method signatures, field listings, and cross-references.
 
 ## Coverage
@@ -39,7 +39,6 @@ packages are searchable — use the search bar (⌘K) to find any type by name.
 ## Key Entry Points
 
 ### Plugin Development
-- [`PluginBase`](packages/com-hypixel-hytale-server-core-plugin/PluginBase.md) — The base class for all Hytale server plugins
 - [`com.hypixel.hytale.server.core.plugin`](packages/com-hypixel-hytale-server-core-plugin/index.md) — Plugin manager, lifecycle, class loading
 
 ### Events
@@ -84,7 +83,7 @@ packages are searchable — use the search bar (⌘K) to find any type by name.
 
 ## Source
 
-All documentation is derived from the Hytale server JAR. No external sources
+All documentation is derived from the Hytale JAR. No external sources
 are used. If a description says "Purpose unknown," it means the purpose could
 not be determined from the decompiled source alone.
 

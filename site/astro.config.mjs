@@ -8,7 +8,7 @@ export default defineConfig({
     starlight({
       title: "Hydex",
       description:
-        "Comprehensive documentation for the Hytale dedicated server — every type, every method, every system.",
+        "Comprehensive documentation for the Hytale source — every type, every method, every system.",
       customCss: ["./src/styles/custom.css"],
       sidebar: [
         { slug: "" },
@@ -18,9 +18,29 @@ export default defineConfig({
           items: [
             { label: "Plugin Core", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-plugin" }, collapsed: true },
             { label: "Events", autogenerate: { directory: "packages/com-hypixel-hytale-event" }, collapsed: true },
-            { label: "Player Events", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-event" }, collapsed: true },
+            {
+              label: "Server Events",
+              collapsed: true,
+              items: [
+                { label: "Player Events", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-event-events-player" }, collapsed: true },
+                { label: "ECS Events", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-event-events-ecs" }, collapsed: true },
+                { label: "Entity Events", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-event-events-entity" }, collapsed: true },
+                { label: "Permission Events", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-event-events-permissions" }, collapsed: true },
+                { label: "Event Base", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-event-events" }, collapsed: true },
+              ],
+            },
             { label: "ECS Framework", autogenerate: { directory: "packages/com-hypixel-hytale-component" }, collapsed: true },
-            { label: "Commands", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-command" }, collapsed: true },
+            {
+              label: "Commands",
+              collapsed: true,
+              items: [
+                { label: "Command System", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-command-system" }, collapsed: true },
+                { label: "Player Commands", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-command-commands-player" }, collapsed: true },
+                { label: "World Commands", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-command-commands-world" }, collapsed: true },
+                { label: "Debug Commands", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-command-commands-debug" }, collapsed: true },
+                { label: "Utility Commands", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-command-commands-utility" }, collapsed: true },
+              ],
+            },
             { label: "Entity", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-entity" }, collapsed: true },
             { label: "Inventory", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-inventory" }, collapsed: true },
             { label: "Interactions", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-modules-interaction" }, collapsed: true },
@@ -33,7 +53,23 @@ export default defineConfig({
             { label: "Damage & Combat", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-modules-entity-damage" }, collapsed: true },
             { label: "Entity Systems", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-modules-entity" }, collapsed: true },
             { label: "World", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-universe" }, collapsed: true },
-            { label: "NPC", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc" }, collapsed: true },
+            {
+              label: "NPC",
+              collapsed: true,
+              items: [
+                { label: "NPC Systems", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-systems" }, collapsed: true },
+                { label: "NPC Roles", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-role" }, collapsed: true },
+                { label: "NPC Commands", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-commands" }, collapsed: true },
+                { label: "NPC Movement", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-movement" }, collapsed: true },
+                { label: "NPC Navigation", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-navigation" }, collapsed: true },
+                { label: "NPC Instructions", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-instructions" }, collapsed: true },
+                { label: "NPC Asset Builder", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-asset-builder" }, collapsed: true },
+                { label: "NPC Core Components", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-corecomponents" }, collapsed: true },
+                { label: "NPC Decision Maker", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-decisionmaker" }, collapsed: true },
+                { label: "NPC Blackboard", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-blackboard" }, collapsed: true },
+                { label: "NPC Expressions", autogenerate: { directory: "packages/com-hypixel-hytale-server-npc-util-expression" }, collapsed: true },
+              ],
+            },
             { label: "Spawning", autogenerate: { directory: "packages/com-hypixel-hytale-server-spawning" }, collapsed: true },
             { label: "Flock", autogenerate: { directory: "packages/com-hypixel-hytale-server-flock" }, collapsed: true },
           ],
@@ -51,7 +87,20 @@ export default defineConfig({
           label: "Builtin Modules",
           collapsed: true,
           items: [
-            { label: "Adventure", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-adventure" }, collapsed: true },
+            {
+              label: "Adventure",
+              collapsed: true,
+              items: [
+                { label: "Camera", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-adventure-camera" }, collapsed: true },
+                { label: "Farming", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-adventure-farming" }, collapsed: true },
+                { label: "Objectives", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-adventure-objectives" }, collapsed: true },
+                { label: "Memories", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-adventure-memories" }, collapsed: true },
+                { label: "Reputation", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-adventure-reputation" }, collapsed: true },
+                { label: "Shop", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-adventure-shop" }, collapsed: true },
+                { label: "Teleporter", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-adventure-teleporter" }, collapsed: true },
+                { label: "Stash", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-adventure-stash" }, collapsed: true },
+              ],
+            },
             { label: "Builder Tools", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-buildertools" }, collapsed: true },
             { label: "Crafting", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-crafting" }, collapsed: true },
             { label: "Mounts", autogenerate: { directory: "packages/com-hypixel-hytale-builtin-mounts" }, collapsed: true },
@@ -86,7 +135,15 @@ export default defineConfig({
           collapsed: true,
           items: [
             { label: "Codec", autogenerate: { directory: "packages/com-hypixel-hytale-codec" }, collapsed: true },
-            { label: "Asset Store", autogenerate: { directory: "packages/com-hypixel-hytale-assetstore" }, collapsed: true },
+            {
+              label: "Asset Store",
+              collapsed: true,
+              items: [
+                { label: "Asset Codecs", autogenerate: { directory: "packages/com-hypixel-hytale-assetstore-codec" }, collapsed: true },
+                { label: "Asset Events", autogenerate: { directory: "packages/com-hypixel-hytale-assetstore-event" }, collapsed: true },
+                { label: "Asset Maps", autogenerate: { directory: "packages/com-hypixel-hytale-assetstore-map" }, collapsed: true },
+              ],
+            },
             { label: "Server Core Assets", autogenerate: { directory: "packages/com-hypixel-hytale-server-core-asset" }, collapsed: true },
           ],
         },
@@ -95,10 +152,30 @@ export default defineConfig({
           collapsed: true,
           items: [
             { label: "Math", autogenerate: { directory: "packages/com-hypixel-hytale-math" }, collapsed: true },
-            { label: "Common", autogenerate: { directory: "packages/com-hypixel-hytale-common" }, collapsed: true },
+            {
+              label: "Common",
+              collapsed: true,
+              items: [
+                { label: "Benchmark", autogenerate: { directory: "packages/com-hypixel-hytale-common-benchmark" }, collapsed: true },
+                { label: "Collections", autogenerate: { directory: "packages/com-hypixel-hytale-common-collection" }, collapsed: true },
+                { label: "Maps", autogenerate: { directory: "packages/com-hypixel-hytale-common-map" }, collapsed: true },
+                { label: "Semver", autogenerate: { directory: "packages/com-hypixel-hytale-common-semver" }, collapsed: true },
+                { label: "Plugin Utils", autogenerate: { directory: "packages/com-hypixel-hytale-common-plugin" }, collapsed: true },
+                { label: "Utilities", autogenerate: { directory: "packages/com-hypixel-hytale-common-util" }, collapsed: true },
+              ],
+            },
             { label: "Logging", autogenerate: { directory: "packages/com-hypixel-hytale-logger" }, collapsed: true },
             { label: "Metrics", autogenerate: { directory: "packages/com-hypixel-hytale-metrics" }, collapsed: true },
-            { label: "Functions", autogenerate: { directory: "packages/com-hypixel-hytale-function" }, collapsed: true },
+            {
+              label: "Functions",
+              collapsed: true,
+              items: [
+                { label: "Consumers", autogenerate: { directory: "packages/com-hypixel-hytale-function-consumer" }, collapsed: true },
+                { label: "Functions", autogenerate: { directory: "packages/com-hypixel-hytale-function-function" }, collapsed: true },
+                { label: "Predicates", autogenerate: { directory: "packages/com-hypixel-hytale-function-predicate" }, collapsed: true },
+                { label: "Suppliers", autogenerate: { directory: "packages/com-hypixel-hytale-function-supplier" }, collapsed: true },
+              ],
+            },
           ],
         },
         {

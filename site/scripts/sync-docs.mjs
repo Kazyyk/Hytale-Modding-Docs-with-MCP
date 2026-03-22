@@ -164,7 +164,7 @@ function patchLandingPage(content) {
   if (!content.includes("template:")) {
     content = content.replace(
       /^(---\n(?:.*\n)*?title:\s*.*\n)/m,
-      "$1template: splash\nhero:\n  tagline: Comprehensive Hytale server documentation — every type, every method, every system\n  actions:\n    - text: Browse Packages\n      link: /packages/com-hypixel-hytale-server-core-plugin/\n      icon: right-arrow\n"
+      "$1template: splash\nhero:\n  tagline: Comprehensive Hytale source documentation — every type, every method, every system\n  actions:\n    - text: Browse Packages\n      link: /packages/com-hypixel-hytale-server-core-plugin/\n      icon: right-arrow\n"
     );
   }
   return content;
