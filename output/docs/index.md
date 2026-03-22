@@ -89,7 +89,7 @@ not be determined from the decompiled source alone.
 
 ## Acknowledgements
 
-Built with [Vineflower](https://github.com/Vineflower/vineflower), [JavaParser](https://javaparser.org/), [Astro Starlight](https://starlight.astro.build/), [Cloudflare Workers](https://workers.cloudflare.com/), [Claude Code](https://claude.ai/claude-code), and [PAI](https://github.com/danielmiessler/Personal_AI_Infrastructure).
+Built with [Vineflower](https://github.com/Vineflower/vineflower), [JavaParser](https://javaparser.org/), [Astro Starlight](https://starlight.astro.build/), [Cloudflare Workers](https://workers.cloudflare.com/), [Claude Code](https://claude.com/product/claude-code), and [PAI](https://github.com/danielmiessler/Personal_AI_Infrastructure).
 
 ## Build Information
 
