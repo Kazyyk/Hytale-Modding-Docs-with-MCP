@@ -2,35 +2,44 @@
 #
 # Hytale API Surface Classifier — Phase 2 CLI
 #
-# Usage: ./tools/classify.sh [artifacts/class-index.json]
+# Usage: ./tools/classify.sh [branch]
 #
 # Reads class-index.json and classifies types into API surface vs internal.
 # Produces:
-#   artifacts/surface.json         - API surface types with categories
-#   artifacts/internal-index.json  - Internal types with tags
-#   artifacts/surface-review.json  - Borderline cases for human review
+#   artifacts/[branch/]surface.json         - API surface types with categories
+#   artifacts/[branch/]internal-index.json  - Internal types with tags
+#   artifacts/[branch/]surface-review.json  - Borderline cases for human review
+#
+# If branch is provided (stable, pre-release), reads/writes from
+# artifacts/{branch}/. Otherwise uses artifacts/ directly.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-INDEX_PATH="${1:-$PROJECT_ROOT/artifacts/class-index.json}"
+BRANCH="${1:-}"
 
-# Resolve to absolute path
-if [[ ! "$INDEX_PATH" = /* ]]; then
-    INDEX_PATH="$(pwd)/$INDEX_PATH"
+if [ -n "$BRANCH" ]; then
+    INDEX_PATH="$PROJECT_ROOT/artifacts/$BRANCH/class-index.json"
+else
+    INDEX_PATH="$PROJECT_ROOT/artifacts/class-index.json"
 fi
 
 if [ ! -f "$INDEX_PATH" ]; then
     echo "ERROR: File not found: $INDEX_PATH"
-    echo "Usage: $0 [path-to-class-index.json]"
+    echo "Usage: $0 [branch]"
+    echo "  Example: $0 stable"
+    echo "  Example: $0 pre-release"
     exit 1
 fi
 
 echo "Hytale API Surface Classifier — Phase 2"
 echo "========================================"
 echo "Index: $INDEX_PATH"
+if [ -n "$BRANCH" ]; then
+    echo "Branch: $BRANCH"
+fi
 echo ""
 
 # Build if needed
