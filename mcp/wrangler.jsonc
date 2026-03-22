@@ -1,5 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  "account_id": "592597b00976adc8425630b281ecbf86",
   "name": "hydex-mcp",
   "main": "src/index.ts",
   "compatibility_date": "2025-06-09",
