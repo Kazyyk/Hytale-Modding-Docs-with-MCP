@@ -170,9 +170,19 @@ function patchLandingPage(content) {
   return content;
 }
 
-// Clean target directory
-if (existsSync(TARGET_DIR)) {
-  rmSync(TARGET_DIR, { recursive: true });
+// Clean synced content from target directory, but preserve manually-placed
+// files (like mcp.md) that live in site/src/content/docs/ directly.
+// Only remove the packages/ and schemas/ subdirectories that the sync creates.
+for (const subdir of ["packages", "schemas"]) {
+  const fullPath = join(TARGET_DIR, subdir);
+  if (existsSync(fullPath)) {
+    rmSync(fullPath, { recursive: true });
+  }
+}
+// Also remove the synced index.md (will be re-created from output/docs/index.md)
+const syncedIndex = join(TARGET_DIR, "index.md");
+if (existsSync(syncedIndex)) {
+  rmSync(syncedIndex);
 }
 
 if (!existsSync(SOURCE_DIR)) {
