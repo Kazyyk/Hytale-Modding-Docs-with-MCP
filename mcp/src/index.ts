@@ -3,7 +3,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
 // AI Search instance name — must match the name in Cloudflare dashboard
-const AI_SEARCH_INSTANCE = "hytale-modding-corpus";
+const AI_SEARCH_INSTANCE = "hydex-search-stable";
 
 /**
  * Format search results into a readable text block for MCP tool responses.
@@ -40,10 +40,10 @@ export class HydexMCP extends McpAgent<Env> {
     // Primary tool: semantic search over the Hytale API documentation corpus
     this.server.tool(
       "search_docs",
-      "Search the Hytale API documentation corpus. Returns relevant " +
-        "chunks from decompiled API docs covering events, commands, JSON " +
-        "schemas, key classes, and system internals. Use this to answer " +
-        "questions about the Hytale modding API.",
+      "Search the Hytale source documentation. Returns relevant chunks " +
+        "from 5,500+ documented types covering the full server — plugin API, " +
+        "events, ECS, commands, NPC system, world generation, protocol, " +
+        "builtin modules, codecs, and more.",
       {
         query: z
           .string()
@@ -56,7 +56,7 @@ export class HydexMCP extends McpAgent<Env> {
           .number()
           .min(1)
           .max(20)
-          .default(5)
+          .default(10)
           .describe("Maximum number of document chunks to return (1-20)"),
       },
       async ({ query, max_results }) => {
@@ -68,7 +68,7 @@ export class HydexMCP extends McpAgent<Env> {
             rewrite_query: true,
             max_num_results: max_results,
             ranking_options: {
-              score_threshold: 0.3,
+              score_threshold: 0.2,
             },
             reranking: {
               enabled: true,
