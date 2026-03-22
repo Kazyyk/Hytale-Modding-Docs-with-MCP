@@ -87,6 +87,10 @@ All documentation is derived from the Hytale JAR. No external sources
 are used. If a description says "Purpose unknown," it means the purpose could
 not be determined from the decompiled source alone.
 
+## Acknowledgements
+
+Built with [Vineflower](https://github.com/Vineflower/vineflower), [JavaParser](https://javaparser.org/), [Astro Starlight](https://starlight.astro.build/), [Cloudflare Workers](https://workers.cloudflare.com/), [Claude Code](https://claude.ai/claude-code), and [PAI](https://github.com/danielmiessler/Personal_AI_Infrastructure).
+
 ## Build Information
 
 - **JAR Hash:** `sha256:4dc38055618aa4447fbdcbdbce458f7eefb1850728e8fc4da7a645f02ff8f46e`
