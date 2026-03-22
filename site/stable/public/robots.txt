@@ -1,0 +1,20 @@
+# Hydex — robots.txt
+# AI crawler blocking is handled by Cloudflare AI Crawl Control.
+# This file explicitly welcomes search engines for SEO indexing.
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://hydex.dev/sitemap-index.xml
