@@ -42,3 +42,14 @@
 .sl-markdown-content table th:last-child {
   white-space: normal;
 }
+
+/* Reduce whitespace between hero section and page content */
+.page .hero + .sl-markdown-content,
+.hero ~ * {
+  margin-top: 0;
+}
+
+.hero {
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
