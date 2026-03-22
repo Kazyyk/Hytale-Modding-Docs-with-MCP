@@ -9,6 +9,13 @@ export default defineConfig({
       title: "Hydex",
       description:
         "Comprehensive documentation for the Hytale source — every type, every method, every system.",
+      social: [
+        {
+          icon: "email",
+          label: "Contact",
+          href: "mailto:contact@hydex.dev",
+        },
+      ],
       customCss: ["./src/styles/custom.css"],
       sidebar: [
         { slug: "" },
