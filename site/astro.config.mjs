@@ -16,6 +16,9 @@ export default defineConfig({
           href: "mailto:contact@hydex.dev",
         },
       ],
+      components: {
+        Footer: "./src/components/Footer.astro",
+      },
       customCss: ["./src/styles/custom.css"],
       sidebar: [
         { slug: "" },
