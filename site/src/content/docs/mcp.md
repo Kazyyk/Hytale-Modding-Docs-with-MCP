@@ -31,7 +31,6 @@ Add to your MCP settings:
 {
   "mcpServers": {
     "hydex": {
-      "type": "url",
       "url": "https://mcp.hydex.dev/mcp"
     }
   }
