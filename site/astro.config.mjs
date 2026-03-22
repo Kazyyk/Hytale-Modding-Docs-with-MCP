@@ -189,6 +189,7 @@ export default defineConfig({
           label: "JSON Schemas",
           autogenerate: { directory: "schemas" },
         },
+        { slug: "mcp", label: "MCP Integration" },
       ],
       head: [
         {
