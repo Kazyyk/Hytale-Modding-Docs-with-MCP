@@ -1,0 +1,444 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T00:00:00Z",
+  "domain": "protocol_root_b",
+  "overview": "Second half (L-Z) of the com.hypixel.hytale.protocol root package. Contains 171 types spanning protocol infrastructure (Packet interface, PacketRegistry, ProtocolSettings), polymorphic base types (Interaction, Selector, ParamValue, ComponentUpdate), a large interaction subsystem (26 concrete interaction types), entity component updates (16 ComponentUpdate subtypes), data transfer objects for models/particles/sounds/weather/movement, and 55 enums encoding game constants. All serializable types use a uniform ByteBuf-based binary protocol with nullable bit fields, fixed blocks, variable-length sections, and VarInt length prefixes.",
+  "confidence": "high",
+  "subsections": {
+    "type_hierarchy": {
+      "overview": "Three major abstract polymorphic hierarchies exist in this range, plus the core Packet interface. Interaction is the base for all interaction types (dispatched via VarInt type ID). Selector is the base for target-selection shapes. ParamValue is the base for typed parameter values. ComponentUpdate is the base for entity component state updates.",
+      "base_types": [
+        {
+          "name": "Packet",
+          "kind": "interface",
+          "description": "Core packet interface. Defines getId(), getChannel(), serialize(ByteBuf), computeSize(). All network messages implement this.",
+          "file": "Packet.java"
+        },
+        {
+          "name": "ToClientPacket",
+          "kind": "interface",
+          "extends": "Packet",
+          "description": "Marker interface for server-to-client packets.",
+          "file": "ToClientPacket.java"
+        },
+        {
+          "name": "ToServerPacket",
+          "kind": "interface",
+          "extends": "Packet",
+          "description": "Marker interface for client-to-server packets.",
+          "file": "ToServerPacket.java"
+        },
+        {
+          "name": "Interaction",
+          "kind": "abstract_class",
+          "description": "Base for all interaction types. Common fields: waitForDataFrom, effects, horizontalSpeedMultiplier, runTime, cancelOnItemChange, settings (Map<GameMode, InteractionSettings>), rules, tags, camera. Uses VarInt type ID for polymorphic deserialization.",
+          "file": "Interaction.java (A-I range, referenced here)"
+        },
+        {
+          "name": "SimpleInteraction",
+          "kind": "abstract_class",
+          "extends": "Interaction",
+          "description": "Adds next/failed chain pointers to Interaction base. Most concrete interactions extend this.",
+          "fields": ["next: int", "failed: int"],
+          "file": "SimpleInteraction.java"
+        },
+        {
+          "name": "SimpleBlockInteraction",
+          "kind": "class",
+          "extends": "SimpleInteraction",
+          "description": "Adds useLatestTarget boolean for block-targeting interactions.",
+          "fields": ["useLatestTarget: boolean"],
+          "file": "SimpleBlockInteraction.java"
+        },
+        {
+          "name": "Selector",
+          "kind": "abstract_class",
+          "description": "Base for target selection shapes. Subtypes: AOECircleSelector(0), AOECylinderSelector(1), RaycastSelector(2), HorizontalSelector(3), StabSelector(4). Uses VarInt type ID polymorphism.",
+          "file": "Selector.java"
+        },
+        {
+          "name": "ParamValue",
+          "kind": "abstract_class",
+          "description": "Base for typed parameter values. Subtypes: StringParamValue(0), BoolParamValue(1), DoubleParamValue(2), IntParamValue(3), LongParamValue(4). Uses VarInt type ID polymorphism.",
+          "file": "ParamValue.java"
+        },
+        {
+          "name": "ComponentUpdate",
+          "kind": "abstract_class",
+          "description": "Base for entity component state updates sent from server to client. 25+ subtypes dispatched by VarInt type ID. Includes model, transform, equipment, stats, effects, nameplate, skin, movement states, etc.",
+          "file": "ComponentUpdate.java (A-I range, referenced here)"
+        }
+      ],
+      "interfaces": [
+        "Packet",
+        "ToClientPacket",
+        "ToServerPacket"
+      ]
+    },
+    "message_definitions": {
+      "overview": "The PacketRegistry statically registers 268 packets across 14 sub-packages (asseteditor, assets, auth, buildertools, camera, connection, entities, interaction, interface_, inventory, machinima, player, serveraccess, setup, window, world, worldmap). Packets are registered with direction (ToServer/ToClient/Both), NetworkChannel, numeric ID, validation function, and deserializer. CachedPacket<T> wraps ToClientPacket for pre-serialized reuse.",
+      "types": [
+        {
+          "name": "PacketRegistry",
+          "kind": "class",
+          "description": "Static registry of all 268 packet types. Maps packet ID to PacketInfo (id, name, channel, type, fixedBlockSize, maxSize, compressed, validate, deserialize). Provides lookup by ID or class. Inner record PacketInfo and enum PacketDirection (ToServer, ToClient, Both).",
+          "file": "PacketRegistry.java"
+        },
+        {
+          "name": "CachedPacket",
+          "kind": "class",
+          "generic": "T extends ToClientPacket",
+          "implements": ["ToClientPacket", "AutoCloseable"],
+          "description": "Wraps a pre-serialized ToClientPacket in a ByteBuf for efficient rebroadcast to multiple clients.",
+          "file": "CachedPacket.java"
+        },
+        {
+          "name": "ProtocolSettings",
+          "kind": "final_class",
+          "description": "Protocol version constants. PROTOCOL_CRC=-1356075132, PROTOCOL_VERSION=2, PROTOCOL_BUILD_NUMBER=20, PACKET_COUNT=268, STRUCT_COUNT=339, ENUM_COUNT=137, MAX_PACKET_SIZE=1677721600.",
+          "file": "ProtocolSettings.java"
+        }
+      ]
+    },
+    "serialization": {
+      "overview": "All struct types follow a uniform binary serialization pattern over Netty ByteBuf. Each type declares NULLABLE_BIT_FIELD_SIZE, FIXED_BLOCK_SIZE, VARIABLE_FIELD_COUNT, VARIABLE_BLOCK_START, and MAX_SIZE constants. Serialization layout: [nullable bit flags] [fixed-size fields at known offsets] [offset table for variable fields] [variable-length data block]. Strings use VarInt-prefixed UTF-8 via PacketIO. Arrays use VarInt count prefix. Dictionaries use VarInt count then key-value pairs. Polymorphic types use VarInt type ID prefix. Validation checks buffer bounds, string lengths (max 4096000), array lengths (max 4096000).",
+      "patterns": [
+        {
+          "name": "Nullable bit fields",
+          "description": "First N bytes encode which nullable fields are present, using bit flags (nullBits & 1, nullBits & 2, etc.)."
+        },
+        {
+          "name": "Fixed block",
+          "description": "Non-nullable primitive fields and nullable fixed-size structs are written at known offsets within the fixed block."
+        },
+        {
+          "name": "Variable offset table",
+          "description": "After the fixed block, 4-byte LE int offsets point into the variable data block. -1 indicates null. Offsets are relative to the variable block start."
+        },
+        {
+          "name": "Variable data block",
+          "description": "Variable-length data (strings, arrays, nested variable structs, dictionaries) written sequentially."
+        },
+        {
+          "name": "VarInt polymorphism",
+          "description": "Abstract types (Interaction, Selector, ParamValue, ComponentUpdate) prefix data with a VarInt type ID to select the concrete subtype."
+        },
+        {
+          "name": "Little-endian",
+          "description": "All multi-byte integers and floats use little-endian byte order (getIntLE, getFloatLE, getDoubleLE, getLongLE)."
+        }
+      ]
+    },
+    "enums": {
+      "overview": "55 enums in the L-Z range encode game constants. All follow the same pattern: int-valued constants, static VALUES array, getValue(), fromValue(int) with ProtocolException on invalid value. NetworkChannel is the only exception (uses IllegalArgumentException).",
+      "types": [
+        {"name": "LoopOption", "values": ["PlayOnce(0)", "Loop(1)", "LoopMirror(2)"]},
+        {"name": "Match", "values": ["All(0)", "None(1)"]},
+        {"name": "MaybeBool", "values": ["Null(0)", "False(1)", "True(2)"]},
+        {"name": "ModifierTarget", "values": ["Min(0)", "Max(1)"]},
+        {"name": "MountController", "values": ["Minecart(0)", "BlockMount(1)"]},
+        {"name": "MouseButtonState", "values": ["Pressed(0)", "Released(1)"]},
+        {"name": "MouseButtonType", "values": ["Left(0)", "Middle(1)", "Right(2)", "X1(3)", "X2(4)"]},
+        {"name": "MouseInputTargetType", "values": ["Any(0)", "Block(1)", "Entity(2)", "None(3)"]},
+        {"name": "MouseInputType", "values": ["LookAtTarget(0)", "LookAtTargetBlock(1)", "LookAtTargetEntity(2)", "LookAtPlane(3)"]},
+        {"name": "MovementDirection", "values": ["None(0)", "Forward(1)", "Back(2)", "Left(3)", "Right(4)", "ForwardLeft(5)", "ForwardRight(6)", "BackLeft(7)", "BackRight(8)"]},
+        {"name": "MovementForceRotationType", "values": ["AttachedToHead(0)", "CameraRotation(1)", "Custom(2)"]},
+        {"name": "MovementType", "values": ["None(0)", "Idle(1)", "Crouching(2)", "Walking(3)", "Running(4)", "Sprinting(5)", "Climbing(6)", "Swimming(7)", "Flying(8)", "Sliding(9)", "Rolling(10)", "Mounting(11)", "SprintMounting(12)"]},
+        {"name": "NetworkChannel", "values": ["Default(0)", "Chunks(1)", "WorldMap(2)"], "note": "Also has COUNT field. Uses IllegalArgumentException instead of ProtocolException."},
+        {"name": "NoiseType", "values": ["Sin(0)", "Cos(1)", "Perlin_Linear(2)", "Perlin_Hermite(3)", "Perlin_Quintic(4)", "Random(5)"]},
+        {"name": "Opacity", "values": ["Solid(0)", "Semitransparent(1)", "Cutout(2)", "Transparent(3)"]},
+        {"name": "OverlapBehavior", "values": ["Extend(0)", "Overwrite(1)", "Ignore(2)"]},
+        {"name": "ParticleCollisionAction", "values": ["Expire(0)", "LastFrame(1)", "Linger(2)"]},
+        {"name": "ParticleCollisionBlockType", "values": ["None(0)", "Air(1)", "Solid(2)", "All(3)"]},
+        {"name": "ParticleRotationInfluence", "values": ["None(0)", "Billboard(1)", "BillboardY(2)", "BillboardVelocity(3)", "Velocity(4)"]},
+        {"name": "ParticleScaleRatioConstraint", "values": ["OneToOne(0)", "Preserved(1)", "None(2)"]},
+        {"name": "ParticleUVOption", "values": ["None(0)", "RandomFlipU(1)", "RandomFlipV(2)", "RandomFlipUV(3)", "FlipU(4)", "FlipV(5)", "FlipUV(6)"]},
+        {"name": "Phobia", "values": ["None(0)", "Arachnophobia(1)", "Ophidiophobia(2)"]},
+        {"name": "PhysicsType", "values": ["Standard(0)"]},
+        {"name": "PickupLocation", "values": ["Hotbar(0)", "Storage(1)", "Backpack(2)"]},
+        {"name": "PositionDistanceOffsetType", "values": ["DistanceOffset(0)", "DistanceOffsetRaycast(1)", "None(2)"]},
+        {"name": "PositionType", "values": ["AttachedToPlusOffset(0)", "Custom(1)"]},
+        {"name": "PrioritySlot", "values": ["Default(0)", "MainHand(1)", "OffHand(2)"]},
+        {"name": "RandomRotation", "values": ["None(0)", "YawPitchRollStep1(1)", "YawStep1(2)", "YawStep1XZ(3)", "YawStep90(4)"]},
+        {"name": "RaycastMode", "values": ["FollowMotion(0)", "FollowLook(1)"]},
+        {"name": "Rotation", "values": ["None(0)", "Ninety(1)", "OneEighty(2)", "TwoSeventy(3)"]},
+        {"name": "RotationMode", "values": ["None(0)", "Velocity(1)", "VelocityDamped(2)", "VelocityRoll(3)"]},
+        {"name": "RotationType", "values": ["AttachedToPlusOffset(0)", "Custom(1)"]},
+        {"name": "ShaderType", "values": ["None(0)", "Wind(1)", "WindAttached(2)", "WindRandom(3)", "WindFractal(4)", "Ice(5)", "Water(6)", "Lava(7)", "Slime(8)", "Ripple(9)"]},
+        {"name": "ShadingMode", "values": ["Standard(0)", "Flat(1)", "Fullbright(2)", "Reflective(3)"]},
+        {"name": "SmartMoveType", "values": ["EquipOrMergeStack(0)", "PutInHotbarOrWindow(1)", "PutInHotbarOrBackpack(2)"]},
+        {"name": "SoftParticle", "values": ["Enable(0)", "Disable(1)", "Require(2)"]},
+        {"name": "SortType", "values": ["Name(0)", "Type(1)", "Rarity(2)"]},
+        {"name": "SoundCategory", "values": ["Music(0)", "Ambient(1)", "SFX(2)", "UI(3)"]},
+        {"name": "SupportMatch", "values": ["Ignored(0)", "Required(1)", "Disallowed(2)"]},
+        {"name": "SwitchTo", "values": ["Disappear(0)", "PostColor(1)", "Distortion(2)", "Transparency(3)"]},
+        {"name": "TagPatternType", "values": ["Equals(0)", "And(1)", "Or(2)", "Not(3)"]},
+        {"name": "UpdateType", "values": ["Init(0)", "AddOrUpdate(1)", "Remove(2)"]},
+        {"name": "UVMotionCurveType", "values": ["Constant(0)", "IncreaseLinear(1)", "IncreaseQuartIn(2)", "IncreaseQuartInOut(3)", "IncreaseQuartOut(4)", "DecreaseLinear(5)", "DecreaseQuartIn(6)", "DecreaseQuartInOut(7)", "DecreaseQuartOut(8)"]},
+        {"name": "ValueType", "values": ["Percent(0)", "Absolute(1)"]},
+        {"name": "VariantRotation", "values": ["None(0)", "Wall(1)", "UpDown(2)", "Pipe(3)", "DoublePipe(4)", "NESW(5)", "UpDownNESW(6)", "All(7)"]},
+        {"name": "VelocityThresholdStyle", "values": ["Linear(0)", "Exp(1)"]},
+        {"name": "WaitForDataFrom", "values": ["Client(0)", "Server(1)", "None(2)"]}
+      ]
+    },
+    "data_types": {
+      "overview": "110+ data structure classes in this range serve as protocol DTOs. They fall into several functional groups: spatial/math primitives, model/rendering, particle/VFX, sound/audio, movement/physics, interaction system, entity components, items/inventory, objectives/UI, world/environment, and miscellaneous.",
+      "types": [
+        {
+          "group": "Spatial/Math Primitives",
+          "types": [
+            {"name": "Position", "fields": ["x: double", "y: double", "z: double"], "fixed_size": 24},
+            {"name": "Vector2f", "fields": ["x: float", "y: float"], "fixed_size": 8},
+            {"name": "Vector2i", "fields": ["x: int", "y: int"], "fixed_size": 8},
+            {"name": "Vector3d", "fields": ["x: double", "y: double", "z: double"], "fixed_size": 24},
+            {"name": "Vector3f", "fields": ["x: float", "y: float", "z: float"], "fixed_size": 12},
+            {"name": "Vector3i", "fields": ["x: int", "y: int", "z: int"], "fixed_size": 12},
+            {"name": "HalfFloatPosition", "note": "In A-I range, referenced by protocol"},
+            {"name": "Size", "fields": ["width: int", "height: int"], "fixed_size": 8},
+            {"name": "Range", "fields": ["min: int", "max: int"], "fixed_size": 8},
+            {"name": "Rangeb", "fields": ["min: byte", "max: byte"], "fixed_size": 2},
+            {"name": "Rangef", "fields": ["min: float", "max: float"], "fixed_size": 8},
+            {"name": "RangeVector2f", "fields": ["x: Rangef?", "y: Rangef?"], "fixed_size": 17},
+            {"name": "RangeVector3f", "fields": ["x: Rangef?", "y: Rangef?", "z: Rangef?"], "fixed_size": 25},
+            {"name": "NearFar", "fields": ["near: float", "far: float"], "fixed_size": 8},
+            {"name": "Transform", "fields": ["position: Position?", "orientation: Direction?"], "fixed_size": 37},
+            {"name": "ModelTransform", "fields": ["position: Position?", "bodyOrientation: Direction?", "lookOrientation: Direction?"], "fixed_size": 49}
+          ]
+        },
+        {
+          "group": "Model/Rendering",
+          "types": [
+            {"name": "Model", "fields": ["assetId", "path", "texture", "gradientSet", "gradientId", "camera: CameraSettings?", "scale", "eyeHeight", "crouchOffset", "sittingOffset", "sleepingOffset", "animationSets: Map<String,AnimationSet>?", "attachments: ModelAttachment[]?", "hitbox: Hitbox?", "particles: ModelParticle[]?", "trails: ModelTrail[]?", "light: ColorLight?", "detailBoxes: Map<String,DetailBox[]>?", "phobia: Phobia", "phobiaModel: Model?"]},
+            {"name": "ModelAttachment", "fields": ["model: String?", "texture: String?", "gradientSet: String?", "gradientId: String?"]},
+            {"name": "ModelDisplay", "fields": ["node: String?", "attachTo: String?", "translation: Vector3f?", "rotation: Vector3f?", "scale: Vector3f?"]},
+            {"name": "ModelOverride", "fields": ["model: String?", "texture: String?", "animationSets: Map<String,AnimationSet>?"]},
+            {"name": "ModelParticle", "fields": ["systemId: String?", "scale: float", "color: Color?", "targetEntityPart: EntityPart", "targetNodeName: String?", "positionOffset: Vector3f?", "rotationOffset: Direction?", "detachedFromModel: boolean"]},
+            {"name": "ModelTexture", "fields": ["texture: String?", "weight: float"]},
+            {"name": "ModelTrail", "fields": ["trailId: String?", "targetEntityPart: EntityPart", "targetNodeName: String?", "positionOffset: Vector3f?", "rotationOffset: Direction?", "fixedRotation: boolean"]},
+            {"name": "ModelVFX", "fields": ["id: String?", "switchTo: SwitchTo", "effectDirection: EffectDirection", "animationDuration: float", "animationRange: Vector2f?", "loopOption: LoopOption", "curveType: CurveType", "highlightColor: Color?", "highlightThickness: float", "useBloomOnHighlight: boolean", "useProgessiveHighlight: boolean", "noiseScale: Vector2f?", "noiseScrollSpeed: Vector2f?", "postColor: Color?", "postColorOpacity: float"]},
+            {"name": "Tint", "fields": ["top: int", "bottom: int", "front: int", "back: int", "left: int", "right: int"], "fixed_size": 24},
+            {"name": "Nameplate", "fields": ["text: String?"]},
+            {"name": "PlayerSkin", "fields": ["bodyCharacteristic", "underwear", "face", "eyes", "ears", "mouth", "facialHair", "haircut", "eyebrows", "pants", "overpants", "..."], "note": "20 variable string fields for character customization"}
+          ]
+        },
+        {
+          "group": "Particle/VFX System",
+          "types": [
+            {"name": "Particle", "fields": ["texturePath", "frameSize: Size?", "uvOption: ParticleUVOption", "scaleRatioConstraint", "softParticles", "softParticlesFadeFactor", "useSpriteBlending", "initialAnimationFrame?", "collisionAnimationFrame?", "animationFrames: Map<Integer,ParticleAnimationFrame>?"]},
+            {"name": "ParticleAnimationFrame", "fields": ["frameIndex: Range?", "scale: RangeVector2f?", "rotation: RangeVector3f?", "color: Color?", "opacity: float"], "fixed_size": 58},
+            {"name": "ParticleAttractor", "fields": ["position: Vector3f?", "radialAxis: Vector3f?", "trailPositionMultiplier", "radius", "radialAcceleration", "radialTangentAcceleration", "linearAcceleration: Vector3f?", "radialImpulse", "radialTangentImpulse", "linearImpulse: Vector3f?", "dampingMultiplier: Vector3f?"], "fixed_size": 85},
+            {"name": "ParticleCollision", "fields": ["blockType: ParticleCollisionBlockType", "action: ParticleCollisionAction", "particleRotationInfluence"], "fixed_size": 3},
+            {"name": "ParticleSpawner", "fields": ["id", "particle: Particle?", "shape: EmitShape", "emitOffset?", "cameraOffset", "useEmitDirection", "lifeSpan", "spawnRate?", "spawnBurst", "waveDelay?", "totalParticles?", "maxConcurrentParticles", "initialVelocity?", "velocityStretchMultiplier", "particleRotationInfluence", "particleRotateWithSpawner", "isLowRes", "trailSpawnerPositionMultiplier", "trailSpawnerRotationMultiplier", "particleCollision?", "renderMode", "lightInfluence", "linearFiltering", "particleLifeSpan?", "uvMotion?", "attractors?", "intersectionHighlight?"]},
+            {"name": "ParticleSpawnerGroup", "fields": ["spawnerId", "positionOffset?", "rotationOffset?", "fixedRotation", "startDelay", "spawnRate?", "waveDelay?", "totalSpawners", "maxConcurrent", "initialVelocity?", "emitOffset?", "lifeSpan?", "attractors?"]},
+            {"name": "ParticleSystem", "fields": ["id: String?", "spawners: ParticleSpawnerGroup[]?", "lifeSpan: float", "cullDistance: float", "boundingRadius: float", "isImportant: boolean"]},
+            {"name": "Trail", "fields": ["id", "texture", "lifeSpan", "roll", "start: Edge?", "end: Edge?", "lightInfluence", "renderMode", "intersectionHighlight?", "smooth", "frameSize: Vector2i?", "frameRange: Range?", "frameLifeSpan"]},
+            {"name": "UVMotion", "fields": ["texture?", "addRandomUVOffset", "speedX", "speedY", "scale", "strength", "strengthCurveType: UVMotionCurveType"]}
+          ]
+        },
+        {
+          "group": "Sound/Audio",
+          "types": [
+            {"name": "SoundEvent", "fields": ["id", "volume", "pitch", "musicDuckingVolume", "ambientDuckingVolume", "maxInstance", "preventSoundInterruption", "startAttenuationDistance", "maxDistance", "layers: SoundEventLayer[]?", "audioCategory"]},
+            {"name": "SoundEventLayer", "fields": ["volume", "startDelay", "looping", "probability", "probabilityRerollDelay", "roundRobinHistorySize", "randomSettings?", "files: String[]?"]},
+            {"name": "SoundEventLayerRandomSettings", "fields": ["minVolume", "maxVolume", "minPitch", "maxPitch", "maxStartOffset"], "fixed_size": 20},
+            {"name": "SoundSet", "fields": ["id: String?", "sounds: Map<String,Integer>?", "category: SoundCategory"]},
+            {"name": "ReverbEffect", "fields": ["id", "dryGain", "modalDensity", "diffusion", "gain", "highFrequencyGain", "decayTime", "highFrequencyDecayRatio", "reflectionGain", "reflectionDelay", "lateReverbGain", "lateReverbDelay", "roomRolloffFactor", "airAbsorptionHighFrequencyGain", "limitDecayHighFrequency"]}
+          ]
+        },
+        {
+          "group": "Movement/Physics",
+          "types": [
+            {"name": "MovementSettings", "fields": ["mass", "dragCoefficient", "invertedGravity", "velocityResistance", "jumpForce", "swimJumpForce", "jumpBufferDuration", "jumpBufferMaxYVelocity", "acceleration", "airDragMin/Max", "airFrictionMin/Max", "airSpeedMultiplier", "baseSpeed", "climbSpeed", "horizontalFlySpeed", "verticalFlySpeed", "maxSpeedMultiplier", "canFly", "collisionExpulsionForce", "forwardWalkSpeedMultiplier", "..."], "fixed_size": 251, "note": "60+ float fields for comprehensive movement tuning"},
+            {"name": "MovementStates", "fields": ["idle", "horizontalIdle", "jumping", "flying", "walking", "running", "sprinting", "crouching", "forcedCrouching", "falling", "climbing", "inFluid", "swimming", "swimJumping", "onGround", "mantling", "sliding", "mounting", "rolling", "sitting", "gliding", "sleeping"], "fixed_size": 22},
+            {"name": "MovementEffects", "fields": ["disableForward", "disableBackward", "disableLeft", "disableRight", "disableSprint", "disableJump", "disableCrouch"], "fixed_size": 7},
+            {"name": "SavedMovementStates", "fields": ["flying: boolean"], "fixed_size": 1},
+            {"name": "PhysicsConfig", "fields": ["type: PhysicsType", "density", "gravity", "bounciness", "bounceCount", "bounceLimit", "sticksVertically", "computeYaw", "computePitch", "rotationMode", "moveOutOfSolidSpeed", "terminalVelocityAir", "densityAir", "terminalVelocityWater", "densityWater", "hitWaterImpulseLoss", "rotationForce", "speedRotationFactor", "swimmingDampingFactor", "allowRolling", "rollingFrictionFactor", "rollingSpeed"], "fixed_size": 122},
+            {"name": "VelocityConfig", "fields": ["groundResistance", "groundResistanceMax", "airResistance", "airResistanceMax", "threshold", "style: VelocityThresholdStyle"], "fixed_size": 21},
+            {"name": "RepulsionConfig", "fields": ["radius", "minForce", "maxForce"], "fixed_size": 12}
+          ]
+        },
+        {
+          "group": "Interaction System (extends Interaction/SimpleInteraction)",
+          "types": [
+            {"name": "MemoriesConditionInteraction", "extends": "Interaction", "fields": ["memoriesNext: Map<Integer,Integer>?", "failed: int"]},
+            {"name": "MovementConditionInteraction", "extends": "SimpleInteraction", "fields": ["forward", "back", "left", "right", "forwardLeft", "forwardRight", "backLeft", "backRight"]},
+            {"name": "ModifyInventoryInteraction", "extends": "SimpleInteraction", "fields": ["requiredGameMode?", "itemToRemove?", "adjustHeldItemQuantity", "itemToAdd?", "brokenItem?", "adjustHeldItemDurability"]},
+            {"name": "ParallelInteraction", "extends": "Interaction", "fields": ["next: int[]?"]},
+            {"name": "PickBlockInteraction", "extends": "SimpleBlockInteraction"},
+            {"name": "PlaceBlockInteraction", "extends": "SimpleInteraction", "fields": ["blockId", "removeItemInHand", "allowDragPlacement"]},
+            {"name": "ProjectileInteraction", "extends": "SimpleInteraction", "fields": ["configId: String?"]},
+            {"name": "RemoveEntityInteraction", "extends": "SimpleInteraction", "fields": ["entityTarget: InteractionTarget"]},
+            {"name": "RepeatInteraction", "extends": "SimpleInteraction", "fields": ["forkInteractions", "repeat"]},
+            {"name": "ReplaceInteraction", "extends": "Interaction", "fields": ["defaultValue", "variable: String?"]},
+            {"name": "ResetCooldownInteraction", "extends": "SimpleInteraction", "fields": ["cooldown: InteractionCooldown?"]},
+            {"name": "RunRootInteraction", "extends": "SimpleInteraction", "fields": ["rootInteraction: int"]},
+            {"name": "SelectInteraction", "extends": "SimpleInteraction", "fields": ["selector: Selector?", "ignoreOwner", "hitEntity", "hitEntityRules?", "failOn: FailOnType"]},
+            {"name": "SerialInteraction", "extends": "Interaction", "fields": ["serialInteractions: int[]?"]},
+            {"name": "SpawnDeployableFromRaycastInteraction", "extends": "SimpleInteraction", "fields": ["deployableConfig?", "maxDistance", "costs: Map<Integer,Float>?"]},
+            {"name": "StatsConditionInteraction", "extends": "SimpleInteraction", "fields": ["costs: Map<Integer,Float>?", "lessThan", "lenient", "valueType: ValueType"]},
+            {"name": "ToggleGliderInteraction", "extends": "SimpleInteraction"},
+            {"name": "TriggerCooldownInteraction", "extends": "SimpleInteraction", "fields": ["cooldown: InteractionCooldown?"]},
+            {"name": "UseBlockInteraction", "extends": "SimpleBlockInteraction"},
+            {"name": "UseEntityInteraction", "extends": "SimpleInteraction"},
+            {"name": "WieldingInteraction", "extends": "ChargingInteraction", "fields": ["blockedEffects?", "hasModifiers", "angledWielding?"]},
+            {"name": "RootInteraction", "description": "Top-level interaction entry point (not in Interaction hierarchy)", "fields": ["id: String?", "interactions: int[]?", "cooldown?", "settings: Map<GameMode,RootInteractionSettings>?", "rules?", "tags?", "clickQueuingTimeout", "requireNewClick"]},
+            {"name": "RootInteractionSettings", "fields": ["allowSkipChainOnClick", "cooldown?"]}
+          ]
+        },
+        {
+          "group": "Entity Component Updates (extends ComponentUpdate)",
+          "types": [
+            {"name": "ModelUpdate", "type_id": 3, "fields": ["model: Model?", "entityScale: float"]},
+            {"name": "PlayerSkinUpdate", "type_id": 4, "fields": ["skin: PlayerSkin?"]},
+            {"name": "TransformUpdate", "type_id": 9, "fields": ["transform: ModelTransform"]},
+            {"name": "MovementStatesUpdate", "type_id": 10, "fields": ["movementStates: MovementStates"]},
+            {"name": "RespondToHitUpdate", "type_id": 17, "description": "Empty marker component — zero-size"},
+            {"name": "RepulsionUpdate", "type_id": 19, "fields": ["repulsionConfigIndex: int"]},
+            {"name": "PredictionUpdate", "type_id": 20, "fields": ["predictionId: UUID"]},
+            {"name": "MountedUpdate", "type_id": 22, "fields": ["mountedToEntity: int", "attachmentOffset: Vector3f?", "controller: MountController", "block: BlockMount?"]},
+            {"name": "NameplateUpdate", "type_id": 0, "fields": ["text: String"]},
+            {"name": "UIComponentsUpdate", "type_id": 1, "fields": ["components: int[]"]},
+            {"name": "NewSpawnUpdate", "description": "Empty marker component — zero-size"},
+            {"name": "PropUpdate", "description": "Empty marker component — zero-size"}
+          ]
+        },
+        {
+          "group": "Selector Subtypes (extends Selector)",
+          "types": [
+            {"name": "RaycastSelector", "type_id": 2, "fields": ["offset: Vector3f?", "distance: int", "blockTagIndex: int", "ignoreFluids: boolean", "ignoreEmptyCollisionMaterial: boolean"], "fixed_size": 23},
+            {"name": "StabSelector", "type_id": 4, "fields": ["extendTop", "extendBottom", "extendLeft", "extendRight", "yawOffset", "pitchOffset", "rollOffset", "startDistance", "endDistance", "testLineOfSight"], "fixed_size": 37}
+          ]
+        },
+        {
+          "group": "ParamValue Subtypes",
+          "types": [
+            {"name": "LongParamValue", "type_id": 4, "fields": ["value: long"], "fixed_size": 8},
+            {"name": "StringParamValue", "type_id": 0, "fields": ["value: String?"]}
+          ]
+        },
+        {
+          "group": "Objectives/UI",
+          "types": [
+            {"name": "Objective", "fields": ["objectiveUuid: UUID", "objectiveTitleKey: FormattedMessage?", "objectiveDescriptionKey: FormattedMessage?", "objectiveLineId: String?", "tasks: ObjectiveTask[]?"]},
+            {"name": "ObjectiveTask", "fields": ["taskDescriptionKey: FormattedMessage?", "currentCompletion: int", "completionNeeded: int"]}
+          ]
+        },
+        {
+          "group": "World/Environment",
+          "types": [
+            {"name": "Weather", "fields": ["id", "tagIndexes", "stars", "moons", "clouds", "sunlightDampingMultiplier", "sunlightColors", "skyTopColors", "skyBottomColors", "..."], "note": "24 variable fields — very complex weather definition"},
+            {"name": "WeatherParticle", "fields": ["systemId?", "color?", "scale", "isOvergroundOnly", "positionOffsetMultiplier"]},
+            {"name": "WorldEnvironment", "fields": ["id?", "waterTint: Color?", "fluidParticles: Map<Integer,FluidParticle>?", "tagIndexes: int[]?"]},
+            {"name": "WorldInteraction", "fields": ["entityId: int", "blockPosition?", "blockRotation?"]},
+            {"name": "WorldParticle", "fields": ["systemId?", "scale", "color?", "positionOffset?", "rotationOffset?"]},
+            {"name": "NoiseConfig", "fields": ["seed", "type: NoiseType", "frequency", "amplitude", "clamp: ClampConfig?"], "fixed_size": 23},
+            {"name": "OffsetNoise", "fields": ["x: NoiseConfig[]?", "y: NoiseConfig[]?", "z: NoiseConfig[]?"]},
+            {"name": "RotationNoise", "fields": ["pitch: NoiseConfig[]?", "yaw: NoiseConfig[]?", "roll: NoiseConfig[]?"]}
+          ]
+        },
+        {
+          "group": "Projectile/Combat",
+          "types": [
+            {"name": "ProjectileConfig", "fields": ["physicsConfig?", "model?", "launchForce: double", "spawnOffset?", "rotationOffset?", "interactions: Map<InteractionType,Integer>?", "launchLocalSoundEventIndex", "projectileSoundEventIndex"]},
+            {"name": "TargetedDamage", "fields": ["index: int", "damageEffects?", "next: int"]},
+            {"name": "SelectedHitEntity", "fields": ["networkId: int", "hitLocation: Vector3f?", "position: Position?", "bodyRotation: Direction?"]}
+          ]
+        },
+        {
+          "group": "Block/Connected Block Rules",
+          "types": [
+            {"name": "RoofConnectedBlockRuleSet", "fields": ["regular: StairConnectedBlockRuleSet?", "hollow: StairConnectedBlockRuleSet?", "topperBlockId", "width", "materialName?"]},
+            {"name": "StairConnectedBlockRuleSet", "fields": ["straightBlockId", "cornerLeftBlockId", "cornerRightBlockId", "invertedCornerLeftBlockId", "invertedCornerRightBlockId", "materialName?"]},
+            {"name": "RequiredBlockFaceSupport", "fields": ["faceType?", "selfFaceType?", "blockSetId?", "blockTypeId", "tagIndex", "fluidId", "support: SupportMatch", "matchSelf: SupportMatch", "allowSupportPropagation", "rotate", "filler: Vector3i[]?"]},
+            {"name": "SoftBlock", "fields": ["itemId?", "dropListId?", "isWeaponBreakable"]},
+            {"name": "TagPattern", "fields": ["type: TagPatternType", "tagIndex", "operands: TagPattern[]?", "not: TagPattern?"], "note": "Recursive tree structure for tag matching"},
+            {"name": "MaterialQuantity", "fields": ["itemId?", "itemTag", "resourceTypeId?", "quantity"]},
+            {"name": "ResourceType", "fields": ["id?", "icon?"]}
+          ]
+        },
+        {
+          "group": "Camera/View",
+          "types": [
+            {"name": "ServerCameraSettings", "fields": ["positionLerpSpeed", "rotationLerpSpeed", "distance", "speedModifier", "allowPitchControls", "displayCursor", "displayReticle", "mouseInputTargetType", "sendMouseMotion", "skipCharacterPhysics", "isFirstPerson", "movementForceRotationType", "movementForceRotation?", "attachedToType", "attachedToEntityId", "eyeOffset", "positionDistanceOffsetType", "positionOffset?", "rotationOffset?"], "fixed_size": 154},
+            {"name": "ViewBobbing", "fields": ["firstPerson: CameraShakeConfig?"]},
+            {"name": "WiggleWeights", "fields": ["x", "xDeceleration", "y", "yDeceleration", "z", "zDeceleration", "roll", "rollDeceleration", "pitch", "pitchDeceleration"], "fixed_size": 40}
+          ]
+        },
+        {
+          "group": "Input Events",
+          "types": [
+            {"name": "MouseButtonEvent", "fields": ["mouseButtonType: MouseButtonType", "state: MouseButtonState", "clicks: byte"], "fixed_size": 3},
+            {"name": "MouseMotionEvent", "fields": ["mouseButtonType: MouseButtonType[]?", "relativeMotion: Vector2i?"]},
+            {"name": "TeleportAck", "fields": ["teleportId: byte"], "fixed_size": 1}
+          ]
+        },
+        {
+          "group": "Rail System",
+          "types": [
+            {"name": "RailConfig", "fields": ["points: RailPoint[]?"]},
+            {"name": "RailPoint", "fields": ["point: Vector3f?", "normal: Vector3f?"], "fixed_size": 25}
+          ]
+        },
+        {
+          "group": "Modifier System",
+          "types": [
+            {"name": "Modifier", "fields": ["target: ModifierTarget", "calculationType: CalculationType", "amount: float"], "fixed_size": 6}
+          ]
+        }
+      ]
+    }
+  },
+  "cross_references": {
+    "overview": "These protocol types heavily reference types from both the A-I half and from sub-packages. Key cross-references are documented below.",
+    "to_protocol_ai_range": [
+      "Interaction (base class for 26+ concrete interaction types in J-Z range)",
+      "ComponentUpdate (base class for 12+ component update types in J-Z range)",
+      "GameMode (used as map key in interaction settings throughout)",
+      "InteractionEffects, InteractionRules, InteractionSettings, InteractionCameraSettings (composition fields in all Interaction subtypes)",
+      "InteractionType (used as map key in ProjectileConfig.interactions)",
+      "InteractionTarget (used in RemoveEntityInteraction)",
+      "InteractionCooldown (used in RootInteraction, RootInteractionSettings, ResetCooldownInteraction, TriggerCooldownInteraction)",
+      "Color, ColorLight, ColorAlpha (used throughout model/VFX/weather types)",
+      "Direction (used as orientation type in model/transform types)",
+      "Hitbox (embedded in Model)",
+      "CameraSettings (embedded in Model)",
+      "AnimationSet (used in Model.animationSets and ModelOverride.animationSets)",
+      "EntityPart (used in ModelParticle and ModelTrail)",
+      "CurveType, EffectDirection, EmitShape, FXRenderMode (used in VFX types)",
+      "BlockPosition, BlockRotation (used in WorldInteraction)",
+      "BlockMount (used in MountedUpdate)",
+      "Edge (used in Trail)",
+      "IntersectionHighlight (used in ParticleSpawner and Trail)",
+      "InitialVelocity (used in ParticleSpawner and ParticleSpawnerGroup)",
+      "DeployableConfig (used in SpawnDeployableFromRaycastInteraction)",
+      "DamageEffects (used in TargetedDamage, WieldingInteraction)",
+      "AngledWielding (used in WieldingInteraction)",
+      "ChargingInteraction (base class for WieldingInteraction)",
+      "FormattedMessage (used in Objective and ObjectiveTask)",
+      "FailOnType (used in SelectInteraction)",
+      "HitEntity (used in SelectInteraction)",
+      "ItemWithAllMetadata (used in ModifyInventoryInteraction)",
+      "ClampConfig (used in NoiseConfig)",
+      "AttachedToType (used in ServerCameraSettings)",
+      "CalculationType (used in Modifier)",
+      "FluidParticle (used in WorldEnvironment)",
+      "Cloud (used in Weather)",
+      "CameraShakeConfig (used in ViewBobbing)",
+      "DetailBox (used in Model.detailBoxes)"
+    ],
+    "to_protocol_io_package": [
+      "PacketIO — string read/write, UUID read, byte array read",
+      "VarInt — variable-length integer encoding for lengths, type IDs, offsets",
+      "ValidationResult — struct validation return type (OK or error string)",
+      "ProtocolException — thrown on deserialization errors (negativeLength, stringTooLong, arrayTooLong, dictionaryTooLarge, duplicateKey, unknownPolymorphicType, invalidEnumValue, bufferTooSmall)"
+    ],
+    "to_packets_subpackages": [
+      "PacketRegistry imports 268 packet classes from 14 sub-packages: asseteditor (46 packets), assets (41 packets), auth (8 packets), buildertools (24 packets), camera (4 packets), connection (4 packets), entities (6 packets), interaction (5 packets), interface_ (23 packets), inventory (10 packets), machinima (3 packets), player (18 packets), serveraccess (3 packets), setup (12 packets), window (5 packets), world (22 packets), worldmap (7 packets)"
+    ],
+    "to_netty": [
+      "io.netty.buffer.ByteBuf — all serialization operates on Netty ByteBuf",
+      "io.netty.buffer.Unpooled — used in CachedPacket"
+    ]
+  },
+  "files_not_read": []
+}

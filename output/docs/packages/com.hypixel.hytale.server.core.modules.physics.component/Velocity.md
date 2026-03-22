@@ -1,0 +1,72 @@
+---
+title: "Velocity"
+kind: "class"
+package: "com.hypixel.hytale.server.core.modules.physics.component"
+fqcn: "com.hypixel.hytale.server.core.modules.physics.component.Velocity"
+api_surface: true
+extends: ~
+implements:
+  - "Component<EntityStore>"
+generator_version: "2.0.0"
+generated_at: "2026-03-21T00:00:00Z"
+tags:
+  - "physics"
+  - "ecs"
+---
+
+**Package:** `com.hypixel.hytale.server.core.modules.physics.component`
+
+```java
+public class Velocity implements Component<EntityStore>
+```
+
+ECS component representing an entity's velocity state. Maintains both a server-authoritative velocity vector and a separate client velocity vector. Supports queuing velocity instructions for deferred application during the physics tick. Serialized via `BuilderCodec` with key `"Velocity"`.
+
+## Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `CODEC` | `BuilderCodec<Velocity>` | Serialization codec for the velocity component. |
+| `instructions` | `List<Velocity.Instruction>` | Queued velocity change instructions. |
+| `velocity` | `Vector3d` | The server-authoritative velocity vector. |
+| `clientVelocity` | `Vector3d` | The client-side velocity vector. |
+
+## Constructors
+
+| Constructor | Description |
+|---|---|
+| `Velocity()` | Creates a zero-velocity component. |
+| `Velocity(@Nonnull Velocity other)` | Copy constructor. |
+| `Velocity(@Nonnull Vector3d initialVelocity)` | Creates with the given initial velocity. |
+
+## Methods
+
+| Method | Return Type | Description |
+|---|---|---|
+| `getComponentType()` | `ComponentType<EntityStore, Velocity>` | Static. Returns the registered component type. |
+| `setZero()` | `void` | Resets velocity to (0, 0, 0). |
+| `addForce(@Nonnull Vector3d force)` | `void` | Adds a force vector to the current velocity. |
+| `addForce(double x, double y, double z)` | `void` | Adds a force by components. |
+| `set(@Nonnull Vector3d newVelocity)` | `void` | Sets velocity from a vector. |
+| `set(double x, double y, double z)` | `void` | Sets velocity by components. |
+| `setClient(@Nonnull Vector3d newVelocity)` | `void` | Sets the client velocity from a vector. |
+| `setClient(double x, double y, double z)` | `void` | Sets the client velocity by components. |
+| `setX(double x)` | `void` | Sets the X component. |
+| `setY(double y)` | `void` | Sets the Y component. |
+| `setZ(double z)` | `void` | Sets the Z component. |
+| `getX()` | `double` | Returns the X component. |
+| `getY()` | `double` | Returns the Y component. |
+| `getZ()` | `double` | Returns the Z component. |
+| `getSpeed()` | `double` | Returns the magnitude (length) of the velocity vector. |
+| `addInstruction(@Nonnull Vector3d velocity, @Nullable VelocityConfig config, @Nonnull ChangeVelocityType type)` | `void` | Queues a velocity change instruction for deferred processing. |
+| `getInstructions()` | `List<Velocity.Instruction>` | Returns the list of queued instructions. |
+| `getVelocity()` | `Vector3d` | Returns the server velocity vector. |
+| `getClientVelocity()` | `Vector3d` | Returns the client velocity vector. |
+| `assignVelocityTo(@Nonnull Vector3d vector)` | `Vector3d` | Copies this velocity into the given vector and returns it. |
+| `clone()` | `Component<EntityStore>` | Returns a copy of this component. |
+
+## Inner Classes
+
+| Class | Description |
+|---|---|
+| `Instruction` | Holds a velocity vector, optional `VelocityConfig`, and `ChangeVelocityType` for deferred application. |

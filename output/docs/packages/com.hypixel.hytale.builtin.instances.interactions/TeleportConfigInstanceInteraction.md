@@ -1,0 +1,92 @@
+---
+title: "TeleportConfigInstanceInteraction"
+kind: "class"
+package: "com.hypixel.hytale.builtin.instances.interactions"
+fqcn: "com.hypixel.hytale.builtin.instances.interactions.TeleportConfigInstanceInteraction"
+api_surface: false
+extends: "SimpleBlockInteraction"
+implements: []
+generator_version: "2.0.0"
+generated_at: "2026-03-21T12:00:00Z"
+tags:
+  - "builtin"
+  - "instances"
+  - "interactions"
+  - "class"
+---
+
+**Package:** `com.hypixel.hytale.builtin.instances.interactions`
+
+```java
+public class TeleportConfigInstanceInteraction extends SimpleBlockInteraction
+```
+
+## Fields
+
+| Modifier | Type | Name |
+|---|---|---|
+| `private static final` | `HytaleLogger` | `LOGGER` |
+| `private static final` | `Message` | `MESSAGE_GENERAL_INTERACTION_CONFIGURE_INSTANCE_NO_INSTANCE_NAME` |
+| `public static final` | `BuilderCodec<TeleportConfigInstanceInteraction>` | `CODEC` |
+| `private static final` | `int` | `SET_BLOCK_SETTINGS` |
+| `` | `Ref<EntityStore>` | `ref` |
+| `` | `Player` | `playerComponent` |
+| `` | `Archetype<EntityStore>` | `archetype` |
+| `` | `InstancesPlugin` | `module` |
+| `` | `Universe` | `universe` |
+| `` | `ChunkStore` | `chunkStore` |
+| `` | `Ref<ChunkStore>` | `chunkRef` |
+| `` | `BlockComponentChunk` | `blockComponentChunk` |
+| `` | `Ref<ChunkStore>` | `blockRef` |
+| `` | `ConfigurableInstanceBlock` | `configurableInstanceBlock` |
+| `` | `CompletableFuture<World>` | `targetWorldFuture` |
+| `` | `Transform` | `returnPoint` |
+| `` | `World` | `targetWorld` |
+| `` | `UUID` | `worldUuid` |
+| `` | `Transform` | `personalReturnPoint` |
+| `` | `double` | `removeBlockAfter` |
+| `` | `long` | `chunkIndex` |
+| `` | `WorldChunk` | `worldChunk` |
+| `` | `int` | `block` |
+| `` | `WorldChunk` | `worldChunkx` |
+| `` | `BlockPosition` | `targetBlock` |
+| `` | `World` | `world` |
+| `` | `Store<ChunkStore>` | `chunkComponentStore` |
+| `` | `BlockChunk` | `blockChunkComponent` |
+| `` | `WorldChunk` | `worldChunkComponent` |
+| `` | `BlockType` | `blockType` |
+| `` | `IndexedLookupTableAssetMap<String, BlockBoundingBoxes>` | `hitboxAssetMap` |
+| `` | `BlockSection` | `section` |
+| `` | `int` | `rotationIndex` |
+| `` | `RotationTuple` | `rotation` |
+| `` | `BlockBoundingBoxes` | `hitboxAsset` |
+| `` | `Box` | `hitbox` |
+| `` | `Vector3d` | `position` |
+| `` | `Vector3f` | `rotationOutput` |
+
+## Methods
+
+| Modifier | Return Type | Signature |
+|---|---|---|
+| `public` | `WaitForDataFrom` | `getWaitForDataFrom()` |
+| `protected` | `void` | `interactWithBlock(@Nonnull World world,
+        @Nonnull CommandBuffer<EntityStore> commandBuffer,
+        @Nonnull InteractionType type,
+        @Nonnull InteractionContext context,
+        @Nullable ItemStack itemInHand,
+        @Nonnull Vector3i targetBlock,
+        @Nonnull CooldownHandler cooldownHandler)` |
+| `` | `new` | `CompletableFuture()` |
+| `protected` | `void` | `simulateInteractWithBlock(@Nonnull InteractionType type, @Nonnull InteractionContext context, @Nullable ItemStack itemInHand, @Nonnull World world, @Nonnull Vector3i targetBlock)` |
+| `private static` | `Transform` | `getPersonalReturnPoint(@Nonnull ConfigurableInstanceBlock state,
+        @Nonnull InteractionContext context,
+        @Nullable Transform returnPoint,
+        @Nonnull ComponentAccessor<EntityStore> componentAccessor)` |
+| `private static` | `Transform` | `makeReturnPoint(@Nonnull ConfigurableInstanceBlock state, @Nonnull InteractionContext context, @Nonnull ComponentAccessor<EntityStore> componentAccessor)` |
+| `` | `throw new` | `IllegalArgumentException("Can't use OriginSource.BLOCK without a target block")` |
+| `` | `throw new` | `IllegalArgumentException("Block chunk component not found")` |
+| `` | `throw new` | `IllegalArgumentException("World chunk component not found")` |
+| `` | `throw new` | `IllegalArgumentException("Block type not found")` |
+| `` | `throw new` | `IllegalArgumentException("Hitbox asset not found for block type: " + blockType.getId()` |
+| `` | `return new` | `Transform(position, rotationOutput)` |
+| `` | `throw new` | `IllegalArgumentException("Chunk not loaded")` |

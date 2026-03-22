@@ -1,0 +1,897 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T14:00:00Z",
+  "domain": "worldgen_builtin_b",
+  "overview": "Part B of the builtin hytalegenerator subsystem maps the concrete generation implementation types that Part A's high-level architecture depends on. This covers ~169 Java files across 27 sub-packages: fields (noise/points), props (placement/prefabs/entities), patterns (boolean spatial evaluation), material providers (block selection), data structures (voxel spaces, caches, weighted maps), position providers (spatial point generation), prop distributions (assignment strategies), scanners (placement validation), biome definitions, biome maps, bounds, cartas, chunk generators, commands, conveyor dependencies, delimiters, environment providers, iterators, material definitions, plugin entry, range maps, reference bundles, seed handling, thread indexing, tint providers, vector providers, and world structure. These types form the runtime object graph that the asset system (Part A) constructs from JSON configuration.",
+  "confidence": "high",
+  "total_files_read": 169,
+  "files_not_readable": [],
+  "subsections": {
+    "fields": {
+      "overview": "The fields package (~8 types across fields/, fields/noise/, fields/points/) provides low-level noise generation and point field abstractions used throughout the generator. It includes FastNoiseLite (a comprehensive 3895-line noise library), simplex noise with octave-based fractal summation, cellular noise with domain warping, and jittered point fields for Voronoi-like position generation.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite",
+          "role": "Comprehensive noise library (3895 lines). Supports NoiseType (OpenSimplex2, Cellular, Perlin, ValueCubic, Value), FractalType (None, FBm, Ridged, PingPong), CellularDistanceFunction (Euclidean, EuclideanSq, Manhattan, Hybrid), CellularReturnType (CellValue, Distance, Distance2, Distance2Add, Distance2Sub, Distance2Mul, Distance2Div), DomainWarpType (OpenSimplex2, OpenSimplex2Reduced, BasicGrid). Also provides pointFor() method for generating jittered cell points used by JitterPointField. Contains Vector2/Vector3 inner classes for domain warp output.",
+          "key_methods": [
+            "getNoise(x, y) / getNoise(x, y, z) - main noise evaluation",
+            "DomainWarp(Vector2/Vector3) - domain warp position transformation",
+            "pointFor(seed, jitter, x, ...) - jittered cell point generation",
+            "fastRound(double) - fast rounding utility"
+          ],
+          "enums": ["NoiseType", "FractalType", "CellularDistanceFunction", "CellularReturnType", "DomainWarpType", "RotationType3D"],
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.NoiseField",
+          "role": "Abstract base for noise evaluation. Defines valueAt() overloads for 1D through 4D sampling. Has configurable scale per axis (scaleX/Y/Z/W). All noise fields divide input coordinates by their scale before evaluation.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.SimplexNoiseField",
+          "role": "Octave-based simplex noise field. Constructor takes seed, octaveAmplitudeMultiplier (default 0.5 = standard persistence), octaveFrequencyMultiplier (default 2.0 = standard lacunarity), numberOfOctaves (default 4). Each octave has a random offset (0-256) for decorrelation. Output is normalized by 1/maxAmplitude. Builder pattern available for construction.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.CellNoiseField",
+          "role": "Cellular/Voronoi noise using FastNoiseLite. Two constructors: one with domain warp (warpAmount, warpScale, domainWarpType), one without. Always uses Euclidean distance function, FBm fractal type. Jitter is doubled internally. Supports 1D-4D evaluation; 4D falls through to 3D.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.Simplex",
+          "role": "Package-private pure simplex noise implementation. Provides static noise(x,y), noise(x,y,z), noise(x,y,z,w) methods. Uses standard gradient tables (grad3 with 12 gradients, grad4 with 32 gradients) and permutation table (256 entries). Output ranges: 2D scaled by 70, 3D by 32, 4D by 27.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.fields.points.PointProvider",
+          "role": "Interface for generating point sets in 1D-3D with both integer and double precision. Defines points3i/2i/1i and points3d/2d/1d with both list-returning and consumer-accepting overloads. Used by position providers to generate candidate placement points.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.fields.points.PointField",
+          "role": "Abstract base implementing PointProvider. Provides scale settings (scaleX/Y/Z/W). List-returning methods delegate to consumer-accepting abstract methods.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.fields.points.JitterPointField",
+          "role": "Generates jittered grid points using FastNoiseLite.pointFor(). For each grid cell in the query range, produces one jittered point. Points outside the query bounds are filtered via VectorUtil.isInside(). Scale controls cell size (larger scale = more spread). Supports 1D, 2D, and 3D point generation. Used by Mesh2DPositionProvider and Mesh3DPositionProvider for prop placement positions.",
+          "confidence": "high"
+        }
+      ],
+      "confidence": "high"
+    },
+    "props": {
+      "overview": "The props package (~26 types across props/, props/directionality/, props/entity/, props/filler/, props/prefab/) implements the prop placement system. Each Prop defines a two-phase protocol: scan() evaluates terrain to find valid placements (returning a ScanResult), then place() writes blocks/entities into the voxel space. Props compose via delegation (Queue, Union, Weighted, Offset) and can place simple shapes (Box, Column), density-driven volumes (DensityProp), clustered decorations (ClusterProp), fluid-filled ponds (PondFillerProp), or loaded prefab structures (PrefabProp). Directionality controls rotation based on terrain patterns or random seed.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.Prop",
+          "role": "Abstract base class. scan(position, materialSpace, workerId) -> ScanResult. place(Context) writes to voxel space. getContextDependency() returns read/write range for buffer bounds calculation. getReadBounds_voxelGrid() and getWriteBounds_voxelGrid() return bounding boxes in voxel coordinates. Context holds ScanResult, VoxelSpace<Material>, EntityContainer, workerId, distanceFromBiomeEdge. static noProp() returns a no-op instance.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.ScanResult",
+          "role": "Interface with isNegative() method. Negative scan results indicate no valid placement found. NONE static instance always returns negative. Implementations: PositionScanResult (single position), PositionListScanResult (list of positions), RotatedPositionsScanResult (positions with rotations), FillerPropScanResult (fluid fill positions).",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.BoxProp",
+          "role": "Places a solid cuboid of a single material around each valid scan position. Range defines half-extents (x,z symmetric, y from origin upward). Uses Scanner + Pattern for placement validation. Checks write space bounds before placement.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.ColumnProp",
+          "role": "Places a vertical column of blocks at each valid position. Supports 4 rotation variants (0/90/180/270 degrees) via Directionality. Each block can have pre-computed rotated versions (using MaterialCache.getSolidMaterialRotatedY). Uses BlockMask for canPlace/canReplace checks.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.DensityProp",
+          "role": "Places density-driven 3D shapes. Evaluates a Density function across the bounding range, then for each solid voxel, computes depth-into-floor/ceiling and space metrics to select materials via a MaterialProvider. Uses a BlockMask for placement rules. Most complex block-placing prop type.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.ClusterProp",
+          "role": "Scatters weighted-random child props in a horizontal radius around each scan position. Uses a weightCurve (distance -> density) to control falloff. For each (x,z) in the circular range, picks a random prop from the WeightedMap and places it in a WindowVoxelSpace column. Only allows child props with zero horizontal read/write dependency.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.QueueProp",
+          "role": "Tries child props in sequence; uses the first one whose scan is not negative. Short-circuits on first match. Used for fallback/priority prop selection.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.UnionProp",
+          "role": "Scans and places all child props at the same position. Unlike QueueProp, does not short-circuit. Each child's scan result is stored and all children are placed.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.WeightedProp",
+          "role": "Randomly selects one child prop from a WeightedMap using position-seeded Random. Only scans and places the selected prop. Seed is deterministic per position via SeedGenerator.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.OffsetProp",
+          "role": "Delegates to a child prop with a voxel offset applied to the scan position. Adjusts read/write bounds by the offset.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.PositionScanResult",
+          "role": "ScanResult holding a single Vector3i position. isNegative() when position is null.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.PositionListScanResult",
+          "role": "ScanResult holding a List<Vector3i>. isNegative() when list is null or empty.",
+          "confidence": "high"
+        }
+      ],
+      "directionality": {
+        "overview": "Controls prop rotation based on terrain context. Directionality evaluates patterns to determine which PrefabRotation (0/90/180/270) to apply.",
+        "types": [
+          {
+            "type": "Directionality",
+            "role": "Abstract base. getRotationAt(Pattern.Context) -> PrefabRotation, getGeneralPattern() -> Pattern, getReadRangeWith(Scanner). static noDirectionality() returns null rotation always."
+          },
+          {
+            "type": "PatternDirectionality",
+            "role": "Tests 4 directional patterns (N/S/E/W). Collects all matching directions and randomly picks one using position-seeded Random. Starting direction maps cardinal patterns to rotation values."
+          },
+          {
+            "type": "RandomDirectionality",
+            "role": "Always returns a random rotation (0/90/180/270) using position-seeded random. Pattern must match for any rotation to apply."
+          },
+          {
+            "type": "StaticDirectionality",
+            "role": "Always returns the same fixed rotation. No directional evaluation."
+          },
+          {
+            "type": "RotatedPosition",
+            "role": "Record of (x, y, z, PrefabRotation). getRelativeTo() composes two rotated positions."
+          },
+          {
+            "type": "RotatedPositionsScanResult",
+            "role": "ScanResult holding List<RotatedPosition> for ColumnProp/PrefabProp."
+          },
+          {
+            "type": "OrthogonalDirection",
+            "role": "Enum: N, S, E, W, U, D. Used for directionality configuration."
+          }
+        ],
+        "confidence": "high"
+      },
+      "entity": {
+        "overview": "Entity placement data for worldgen-spawned entities.",
+        "types": [
+          {
+            "type": "EntityPlacementData",
+            "role": "Holds offset (Vector3i), rotation (PrefabRotation), entityHolder (Holder<EntityStore>), objectId. Written to NEntityBuffer during prop placement, then transferred to GeneratedEntityChunk. Implements MemInstrument (48 bytes per instance)."
+          }
+        ],
+        "confidence": "high"
+      },
+      "filler": {
+        "overview": "Fluid pond filling prop. Implements flood-fill algorithm to find enclosed non-solid volumes and fill them with fluid material.",
+        "types": [
+          {
+            "type": "PondFillerProp",
+            "role": "Flood-fill pond generator. Scans a bounding box layer-by-layer from bottom. Uses bit-mask flags (TRAVERSED=1, LEAKS=16, SOLID=256, STACKED=4096) to track voxel state. Bottom layer: non-solid blocks touching edges leak. Upper layers: if the block below leaks or the block is at boundary, it leaks. Uses BFS queue (ArrayDeque) to propagate leak state horizontally. Non-leaking, non-solid voxels are filled with material from a MaterialProvider."
+          },
+          {
+            "type": "FillerPropScanResult",
+            "role": "ScanResult holding list of Vector3i positions to fill with fluid."
+          }
+        ],
+        "confidence": "high"
+      },
+      "prefab": {
+        "overview": "Prefab structure placement. Loads PrefabBuffer files and stamps them into the voxel space with rotation and molding support.",
+        "types": [
+          {
+            "type": "PrefabProp",
+            "role": "Places loaded prefab structures (PrefabBuffer). Uses WeightedMap<List<PrefabBuffer>> for random prefab variant selection. Supports rotation via Directionality, block mask filtering, child prefab composition (recursive PrefabProp children at relative RotatedPositions), and molding (scanner/pattern-based terrain adaptation). Loads entities from prefabs into EntityContainer when loadEntities=true."
+          },
+          {
+            "type": "PrefabMoldingConfiguration",
+            "role": "Configuration for prefab terrain molding: moldingScanner, moldingPattern, moldingDirection (enum: NONE, UP, DOWN, N/S/E/W), moldChildren flag."
+          },
+          {
+            "type": "MoldingDirection",
+            "role": "Enum: NONE, UP, DOWN, NORTH, SOUTH, EAST, WEST. Controls which direction a prefab extends/molds to match terrain."
+          },
+          {
+            "type": "PropPrefabUtil",
+            "role": "Static utilities for extracting min/max bounds, size, and anchor from PrefabBuffer.PrefabBufferAccessor with rotation support."
+          }
+        ],
+        "confidence": "high"
+      },
+      "confidence": "high"
+    },
+    "patterns": {
+      "overview": "The patterns package (~13 types) implements boolean spatial evaluation. Pattern.matches(Context) -> boolean determines whether a voxel position satisfies a condition. Used by Scanners to validate prop placement, by Directionality to determine rotation, and by material providers for conditional block selection. Each Pattern also declares its readSpace() — the bounding box of neighboring voxels it needs to inspect.",
+      "types": [
+        {
+          "type": "Pattern",
+          "role": "Abstract base. matches(Context) -> boolean. readSpace() -> SpaceSize declaring required neighbor access. Context holds position (Vector3i) and materialSpace (VoxelSpace<Material>). Static factories: noPattern() (always false), yesPattern() (always true)."
+        },
+        {
+          "type": "AndPattern",
+          "role": "All child patterns must match. Short-circuits on first failure. Read space is merge of all children."
+        },
+        {
+          "type": "OrPattern",
+          "role": "At least one child pattern must match. Short-circuits on first success."
+        },
+        {
+          "type": "NotPattern",
+          "role": "Inverts a child pattern."
+        },
+        {
+          "type": "SurfacePattern",
+          "role": "Detects surfaces (floor/ceiling/wall). Tests originPositions against originPattern (must all match, typically air) and surfacePositions against wallPattern (must all match, typically solid). Configurable radius, gap, and Facing (U/D/E/W/S/N) for multi-directional surface detection. Positions are generated in a circle and rotated to the specified facing."
+        },
+        {
+          "type": "CeilingPattern",
+          "role": "Matches when the position is air and position+1 (above) matches the ceiling pattern. Used for detecting surfaces from below."
+        },
+        {
+          "type": "WallPattern",
+          "role": "Matches when adjacent horizontal voxel (N/S/E/W direction) matches wallPattern and origin matches originPattern. Supports matchAll (all tested directions must match) or matchAny (first match wins). WallDirection enum: N, S, E, W."
+        },
+        {
+          "type": "GapPattern",
+          "role": "Complex gap detection for cave-like openings. Tests along multiple angles from origin. Checks that a gap exists (air voxels along angle) flanked by anchor (solid) voxels with specified widths. Also checks vertical depth above/below. Uses PositionedPattern records for efficient spatial testing."
+        },
+        {
+          "type": "CuboidPattern",
+          "role": "Tests that all voxels within a 3D cuboid (min to max offset from position) match a sub-pattern."
+        },
+        {
+          "type": "MaterialPattern",
+          "role": "Matches when the voxel's blockId and fluidId equal the configured material's IDs."
+        },
+        {
+          "type": "MaterialSetPattern",
+          "role": "Matches when the voxel's material ID hash is in a MaterialSet."
+        },
+        {
+          "type": "FieldFunctionPattern",
+          "role": "Evaluates a Density function at the position and returns true if the value falls within any configured delimiter range (min inclusive, max exclusive)."
+        },
+        {
+          "type": "OffsetPattern",
+          "role": "Evaluates a child pattern at position + offset."
+        }
+      ],
+      "confidence": "high"
+    },
+    "materialproviders": {
+      "overview": "The material providers package (~29 types across materialproviders/, materialproviders/functions/, materialproviders/spaceanddepth/, materialproviders/spaceanddepth/conditions/, materialproviders/spaceanddepth/layers/) maps 3D positions to voxel materials. MaterialProvider.getVoxelTypeAt(Context) returns null to skip (delegation to next provider in a queue) or a value to place. Context carries position, terrain density, depth-into-floor, depth-into-ceiling, space-above-floor, space-below-ceiling, terrain density provider, and distance-to-biome-edge.",
+      "types": [
+        {
+          "type": "MaterialProvider<V>",
+          "role": "Abstract generic base. getVoxelTypeAt(Context) -> V or null. Context contains positional data and terrain analysis metrics for material selection decisions. static noMaterialProvider() returns ConstantMaterialProvider(null)."
+        },
+        {
+          "type": "ConstantMaterialProvider<V>",
+          "role": "Always returns the same configured material (or null)."
+        },
+        {
+          "type": "QueueMaterialProvider<V>",
+          "role": "Tries child providers in sequence. Returns the first non-null result. Used for priority-based material fallback chains."
+        },
+        {
+          "type": "WeightedMaterialProvider<V>",
+          "role": "Position-seeded random selection from a WeightedMap of child providers. noneProbability controls chance of returning null. Deterministic per position via SeedGenerator."
+        },
+        {
+          "type": "AllStoneMaterialProvider",
+          "role": "Simple test provider: returns ROCK_STONE for solid (depthIntoFloor > 0) and EMPTY_AIR for air."
+        },
+        {
+          "type": "GrassTopMaterialProvider",
+          "role": "Classic grass/dirt/stone layering. Depth 1: grass, depth 2-3: dirt, depth > 3: stone, depth 0: empty."
+        },
+        {
+          "type": "SolidityMaterialProvider<V>",
+          "role": "Routes to solidMaterialProvider when depthIntoFloor > 0, emptyMaterialProvider when not solid."
+        },
+        {
+          "type": "DownwardDepthMaterialProvider<V>",
+          "role": "Returns child provider's value only when depthIntoFloor equals exact configured depth. Otherwise null."
+        },
+        {
+          "type": "UpwardDepthMaterialProvider<V>",
+          "role": "Returns child provider's value only when depthIntoCeiling equals exact configured depth."
+        },
+        {
+          "type": "DownwardSpaceMaterialProvider<V>",
+          "role": "Returns child provider's value only when spaceBelowCeiling equals exact configured space."
+        },
+        {
+          "type": "UpwardSpaceMaterialProvider<V>",
+          "role": "Returns child provider's value only when spaceAboveFloor equals exact configured space."
+        },
+        {
+          "type": "HorizontalMaterialProvider<V>",
+          "role": "Returns child provider's value only when position.y is within [bottomY, topY)."
+        },
+        {
+          "type": "StripedMaterialProvider<V>",
+          "role": "Returns child provider's value when position.y falls within any configured Stripe (topY/bottomY range)."
+        },
+        {
+          "type": "TerrainDensityMaterialProvider<V>",
+          "role": "Selects material based on terrain density value (from context.density). Uses FieldDelimiter array with [bottom, top) ranges."
+        },
+        {
+          "type": "FieldFunctionMaterialProvider<V>",
+          "role": "Evaluates a Density function at position, then selects material provider based on density value falling within delimiter ranges. More flexible than TerrainDensityMaterialProvider since it uses an arbitrary density function rather than the pre-computed terrain density."
+        },
+        {
+          "type": "SpaceAndDepthMaterialProvider<V>",
+          "role": "Most complex material provider. Stacks Layer instances based on either DEPTH_INTO_FLOOR or DEPTH_INTO_CEILING context. Each Layer has a thickness (possibly noise-driven or weighted random) and a MaterialProvider. Condition qualifies the provider (position-dependent). Layers are accumulated in sequence; when cumulative thickness exceeds the position's depth, that layer's material is used. Supports maxDistance cutoff."
+        }
+      ],
+      "spaceanddepth_conditions": [
+        {
+          "type": "SpaceAndDepthMaterialProvider.Condition",
+          "role": "Interface: qualifies(x, y, z, depthIntoFloor, depthIntoCeiling, spaceAboveFloor, spaceBelowCeiling) -> boolean."
+        },
+        {
+          "type": "AlwaysTrueCondition",
+          "role": "Singleton, always returns true."
+        },
+        {
+          "type": "ConditionParameter",
+          "role": "Enum: SPACE_ABOVE_FLOOR, SPACE_BELOW_CEILING. Used by other condition implementations."
+        }
+      ],
+      "spaceanddepth_layers": [
+        {
+          "type": "SpaceAndDepthMaterialProvider.Layer<V>",
+          "role": "Abstract: getThicknessAt(...) -> int, getMaterialProvider() -> MaterialProvider<V>."
+        },
+        {
+          "type": "ConstantThicknessLayer<V>",
+          "role": "Always returns same thickness value."
+        },
+        {
+          "type": "NoiseThickness",
+          "role": "Thickness varies by noise function at position."
+        },
+        {
+          "type": "RangedThicknessLayer",
+          "role": "Thickness derived from a range of depth/space values."
+        },
+        {
+          "type": "WeightedThicknessLayer",
+          "role": "Randomly selects thickness from weighted options."
+        }
+      ],
+      "functions": [
+        {
+          "type": "DoubleFunctionXZ",
+          "role": "Functional interface (double x, double z) -> double. Used for horizontal-plane functions."
+        }
+      ],
+      "confidence": "high"
+    },
+    "datastructures": {
+      "overview": "The data structures package (~16 types across datastructures/, datastructures/bicoordinatecache/, datastructures/compression/, datastructures/voxelspace/) provides specialized data structures optimized for world generation. VoxelSpace is the core 3D array abstraction used by all generation stages. WeightedMap provides weighted random selection. TieredList supports priority-ordered element storage. BiCoordinateCache provides position-keyed caching.",
+      "types": [
+        {
+          "type": "VoxelSpace<T>",
+          "role": "Interface for 3D voxel data access. Methods: set(value, x, y, z), getContent(x, y, z), replace(..., Predicate), pasteFrom(other), setOrigin(), isInsideSpace(), forEach(VoxelConsumer), getBounds(). Defines min/max/size for X/Y/Z axes."
+        },
+        {
+          "type": "ArrayVoxelSpace<T>",
+          "role": "Standard implementation backed by a flat Object array. setOrigin() offsets coordinate access for world-space positioning."
+        },
+        {
+          "type": "BooleanVoxelSpace",
+          "role": "Optimized boolean voxel space."
+        },
+        {
+          "type": "WindowVoxelSpace<T>",
+          "role": "View adapter that restricts access to a sub-region of a parent VoxelSpace. setWindow(minX, minY, minZ, maxX, maxY, maxZ) updates the visible region. Used by ClusterProp to restrict placement to single columns."
+        },
+        {
+          "type": "NullSpace<T>",
+          "role": "No-op VoxelSpace that always returns null and rejects writes. Singleton via instance()."
+        },
+        {
+          "type": "VoxelConsumer<T>",
+          "role": "Functional interface for iterating over voxel data: accept(T content, int x, int y, int z)."
+        },
+        {
+          "type": "VoxelCoordinate",
+          "role": "Coordinate record for voxel space access."
+        },
+        {
+          "type": "VoxelSpaceUtil",
+          "role": "Static utilities for VoxelSpace operations."
+        },
+        {
+          "type": "WeightedMap<T>",
+          "role": "Weighted random selection data structure. add(element, weight) adds entries. pick(Random) selects proportionally. Supports forEach, allElements, makeImmutable. Used throughout for weighted prop selection, material selection, and shader selection."
+        },
+        {
+          "type": "TieredList<E>",
+          "role": "Priority queue organized by integer tiers. Elements are stored in per-tier ArrayLists. getTiers() returns sorted tier list. forEach/removeEach iterate in tier order. Used for organizing generation stages by priority."
+        },
+        {
+          "type": "CollectionFactory",
+          "role": "Static utility: hashSetOf(T...) creates a HashSet from varargs with null checking."
+        },
+        {
+          "type": "BiCoordinateCache<T>",
+          "role": "Interface for 2D coordinate-keyed caches."
+        },
+        {
+          "type": "HashedBiCoordinateCache<T>",
+          "role": "HashMap-based implementation of BiCoordinateCache."
+        },
+        {
+          "type": "WrappedBiCoordinateCache<T>",
+          "role": "Array-backed fixed-size 2D coordinate cache using coordinate wrapping for fast access."
+        },
+        {
+          "type": "WrappedBiCoordinateDoubleCache",
+          "role": "Specialized double-value variant of WrappedBiCoordinateCache."
+        },
+        {
+          "type": "Compressor",
+          "role": "Run-length compression for Object arrays. compressOnReference() encodes runs of 7+ identical references as Run objects. decompress() restores the original array. Used for compressing voxel data. MIN_RUN threshold = 7."
+        }
+      ],
+      "confidence": "high"
+    },
+    "positionproviders": {
+      "overview": "The position providers package (~15 types) generates 3D positions within bounding volumes for prop placement. PositionProvider.positionsIn(Context) iterates valid positions and calls context.consumer for each. Context defines minInclusive/maxExclusive bounds and an optional anchor point. Providers compose via delegation, filtering, caching, and union.",
+      "types": [
+        {
+          "type": "PositionProvider",
+          "role": "Abstract base. positionsIn(Context) generates positions within bounds. Context: minInclusive, maxExclusive (Vector3d), consumer (Consumer<Vector3d>), anchor (nullable Vector3d). static noPositionProvider() does nothing."
+        },
+        {
+          "type": "Mesh2DPositionProvider",
+          "role": "Generates 2D positions on a horizontal plane at fixed Y using a PointProvider (typically JitterPointField). Converts 2D points to 3D by setting Y to configured value. Skips if Y is outside the query bounds."
+        },
+        {
+          "type": "Mesh3DPositionProvider",
+          "role": "Generates 3D positions using a PointProvider. Directly delegates points3d() with query bounds."
+        },
+        {
+          "type": "AnchorPositionProvider",
+          "role": "Offsets query bounds by the context anchor, delegates to child provider, then reverses the offset on output positions. isReversed flag controls offset direction."
+        },
+        {
+          "type": "BaseHeightPositionProvider",
+          "role": "Adds baseHeight to all Y coordinates of positions generated by child provider."
+        },
+        {
+          "type": "BoundPositionProvider",
+          "role": "Overrides context bounds with fixed Bounds3d, ignoring the incoming bounds."
+        },
+        {
+          "type": "FieldFunctionOccurrencePositionProvider",
+          "role": "Probabilistically filters positions from a child provider. Evaluates a Density function at each position; the result (0-1) is the keep probability. Uses position-seeded random for determinism. FP_RESOLUTION = 100.0 for seed quantization."
+        },
+        {
+          "type": "FieldFunctionPositionProvider",
+          "role": "Filters positions from child provider by density function value. Keeps positions where the density value falls within any configured delimiter range [min, max)."
+        },
+        {
+          "type": "SimpleHorizontalPositionProvider",
+          "role": "Filters positions from child provider by Y range (RangeDouble)."
+        },
+        {
+          "type": "SpherePositionProvider",
+          "role": "Filters positions from child provider by distance from origin (position.length() <= range)."
+        },
+        {
+          "type": "OffsetPositionProvider",
+          "role": "Shifts query bounds by -offset, delegates to child, then adds offset to output positions."
+        },
+        {
+          "type": "ListPositionProvider",
+          "role": "Returns a fixed list of pre-defined positions. from3i() and from3d() factory methods. Note: has a bug — bounds check result is not used for filtering."
+        },
+        {
+          "type": "UnionPositionProvider",
+          "role": "Concatenates positions from multiple child providers."
+        },
+        {
+          "type": "CachedPositionProvider",
+          "role": "Caches generated positions in spatial sections (configurable sectionSize). Uses hash-keyed cache (CacheThreadMemory) with LRU eviction. Section positions are generated once and reused. Reduces redundant computation for overlapping queries."
+        },
+        {
+          "type": "CacheThreadMemory",
+          "role": "Cache storage for CachedPositionProvider. HashMap<Long, Vector3d[]> sections with LinkedList<Long> expirationList for LRU eviction."
+        }
+      ],
+      "confidence": "high"
+    },
+    "propdistributions": {
+      "overview": "The prop distributions (assignments) package (~5 types) maps generated positions to specific Prop instances. Assignments.propAt(position, workerId, distanceToBiomeEdge) -> Prop determines what to place at each position. This is the decision layer between 'where to place' (PositionProvider) and 'what to place' (Prop).",
+      "types": [
+        {
+          "type": "Assignments",
+          "role": "Abstract base. propAt(Vector3d position, WorkerIndexer.Id, double distanceToBiomeEdge) -> Prop. getRuntime() -> int (execution order index for stage sequencing). getAllPossibleProps() for dependency analysis. static noPropDistribution(runtime) returns Prop.noProp() always."
+        },
+        {
+          "type": "ConstantAssignments",
+          "role": "Always returns the same Prop at every position."
+        },
+        {
+          "type": "FieldFunctionAssignments",
+          "role": "Evaluates a Density function at position, then selects child Assignments based on the value falling within FieldDelimiter ranges [bottom, top). Each delimiter maps to its own Assignments instance for recursive composition."
+        },
+        {
+          "type": "SandwichAssignments",
+          "role": "Selects child Assignments based on position.y falling within VerticalDelimiter ranges [minY, maxY). Used for vertical stratification of prop types."
+        },
+        {
+          "type": "WeightedAssignments",
+          "role": "Position-seeded weighted random selection from a WeightedMap<Assignments>. noneProbability controls chance of no placement. Coordinates are quantized (*10000) before seeding for sub-voxel resolution."
+        }
+      ],
+      "confidence": "high"
+    },
+    "scanners": {
+      "overview": "The scanners package (~5 types) provides scanning strategies for finding valid prop placement positions within the voxel space. Scanner.scan(Context) returns a list of valid Vector3i positions. Context carries position, Pattern, VoxelSpace<Material>, and workerId.",
+      "types": [
+        {
+          "type": "Scanner",
+          "role": "Abstract base. scan(Context) -> List<Vector3i>. scanSpace() -> SpaceSize (bounding range of voxels accessed). readSpaceWith(Pattern) combines pattern's read space with scanner's scan space. static noScanner() returns empty list."
+        },
+        {
+          "type": "ColumnLinearScanner",
+          "role": "Scans a vertical column top-down or bottom-up within [minY, maxY). Supports relative-to-position or absolute (baseHeight-relative) Y ranges. Returns up to resultsCap positions where pattern matches."
+        },
+        {
+          "type": "ColumnRandomScanner",
+          "role": "Random vertical scanning with two strategies: DART_THROW (random Y samples with collision avoidance) and PICK_VALID (collect all valid, randomly subset). Uses position-seeded FastRandom for determinism."
+        },
+        {
+          "type": "AreaScanner",
+          "role": "Scans a 2D horizontal area (CIRCLE or SQUARE shape) of given range. For each horizontal offset ordered by distance from origin, delegates to a child scanner for vertical scanning. Returns up to resultCap total positions across all columns."
+        },
+        {
+          "type": "OriginScanner",
+          "role": "Singleton scanner. Tests only the origin position against the pattern. Returns a single-element list if pattern matches, otherwise empty. Minimal scan space."
+        }
+      ],
+      "confidence": "high"
+    },
+    "biome": {
+      "overview": "The biome package (~8 types) defines the Biome interface hierarchy and implementations. Biome combines MaterialSource, PropsSource, EnvironmentSource, and TintSource into a complete per-biome configuration with a terrain density function.",
+      "types": [
+        {
+          "type": "Biome",
+          "role": "Interface extending MaterialSource, PropsSource, EnvironmentSource, TintSource. Defines getBiomeName() and getTerrainDensity() -> Density."
+        },
+        {
+          "type": "BiomeType",
+          "role": "Parallel interface identical to Biome (same methods). Appears to be a legacy/alternative hierarchy."
+        },
+        {
+          "type": "SimpleBiome",
+          "role": "Primary Biome implementation. Holds: biomeName, terrainDensity, materialProvider, propFields (mutable list, populated via addPropFieldTo), environmentProvider, tintProvider. getAllPropDistributions() extracts Assignments from each PropField."
+        },
+        {
+          "type": "SimpleBiomeType",
+          "role": "BiomeType implementation parallel to SimpleBiome. Identical structure without @Nonnull on some methods."
+        },
+        {
+          "type": "MaterialSource",
+          "role": "Interface: getMaterialProvider() -> MaterialProvider<Material>."
+        },
+        {
+          "type": "PropsSource",
+          "role": "Interface: getPropFields() -> List<PropField>, getAllPropDistributions() -> List<Assignments>."
+        },
+        {
+          "type": "EnvironmentSource",
+          "role": "Interface: getEnvironmentProvider() -> EnvironmentProvider."
+        },
+        {
+          "type": "TintSource",
+          "role": "Interface: getTintProvider() -> TintProvider."
+        }
+      ],
+      "confidence": "high"
+    },
+    "biomemap": {
+      "overview": "The biomemap package (~2 types) provides BiCarta-based biome mapping with configurable per-biome-pair transition radii.",
+      "types": [
+        {
+          "type": "BiomeMap<V>",
+          "role": "Abstract class extending BiCarta<BiomeType>. Base type for biome spatial mapping."
+        },
+        {
+          "type": "SimpleBiomeMap<V>",
+          "role": "BiomeMap implementation wrapping a BiCarta<BiomeType>. Adds per-biome-pair transition radius configuration via pairHashToRadius map with defaultTransitionRadius (default 1). apply() delegates to underlying carta."
+        }
+      ],
+      "confidence": "high"
+    },
+    "bounds": {
+      "overview": "The bounds package (~3 types) provides 3D axis-aligned bounding box types for both integer and decimal coordinates.",
+      "types": [
+        {
+          "type": "Bounds3d",
+          "role": "Decimal (Vector3d) AABB. Methods: contains(point/bounds), intersects, isZeroVolume, getSize, assign, offset, intersect, encompass (union), stack (combine bounds of nested placement), flipOnOriginPoint/Voxel. Auto-corrects min/max on construction. MemInstrument: 40 bytes."
+        },
+        {
+          "type": "Bounds3i",
+          "role": "Integer (Vector3i) AABB. Same API as Bounds3d for integer coordinates. toBounds3d() for conversion. MemInstrument: 28 bytes."
+        },
+        {
+          "type": "SpaceSize",
+          "role": "@Deprecated. Wrapper around minInclusive/maxExclusive Vector3i. Provides getRange() (max absolute extent), toBounds3i(), moveBy(delta). Static merge() (union) and stack() (nested placement bounds). Being replaced by Bounds3i."
+        }
+      ],
+      "confidence": "high"
+    },
+    "cartas": {
+      "overview": "The cartas package (~1 type) provides noise-driven spatial mapping.",
+      "types": [
+        {
+          "type": "SimpleNoiseCarta<T>",
+          "role": "BiCarta<T> implementation using a Density function for spatial evaluation. Evaluates density at (x, 0, z), maps the result through a DoubleRangeMap<T> to select a value. Falls back to defaultValue when no range matches. Used for noise-driven biome assignment."
+        }
+      ],
+      "confidence": "high"
+    },
+    "chunkgenerator": {
+      "overview": "The chunkgenerator package (~3 types) defines the ChunkGenerator interface and supporting types.",
+      "types": [
+        {
+          "type": "ChunkGenerator",
+          "role": "Interface: generate(ChunkRequest.Arguments) -> GeneratedChunk, getSpawnPositions() -> PositionProvider. Implemented by NStagedChunkGenerator (Part A)."
+        },
+        {
+          "type": "ChunkRequest",
+          "role": "Record containing GeneratorProfile and Arguments. Arguments: seed, index (long), x, z, stillNeeded (LongPredicate, nullable). GeneratorProfile: worldStructureName, seed, worldCounter. Profile is used as cache key for generator instances."
+        },
+        {
+          "type": "FallbackGenerator",
+          "role": "Singleton ChunkGenerator that produces empty chunks. Used as error fallback when normal generation fails. Returns empty GeneratedBlockChunk, GeneratedBlockStateChunk, GeneratedEntityChunk."
+        }
+      ],
+      "confidence": "high"
+    },
+    "commands": {
+      "overview": "The commands package (~1 type) provides debug/development commands for the generator.",
+      "types": [
+        {
+          "type": "ViewportCommand",
+          "role": "AbstractPlayerCommand implementation. Creates an NViewport for a specified region (either by radius from player position or by block selection). Supports delete flag to remove active viewport. Registers as an AssetManager reload listener to auto-refresh on asset changes. Radius argument is multiplied by 32 (<<5) to convert chunk radius to voxel radius."
+        }
+      ],
+      "confidence": "high"
+    },
+    "conveyor": {
+      "overview": "The conveyor package (~1 type) provides dependency tracking for the staged generation pipeline.",
+      "types": [
+        {
+          "type": "ContextDependency",
+          "role": "Tracks read and write ranges for buffer pipeline stages. readRange and writeRange (Vector3i) define how far each stage reads from and writes to neighboring tiles. Derived fields: trashRange (read+write extent), externalDependencyRange, positioningRange. Y components are zeroed (vertical dependencies handled differently). stackOver() composes two dependencies for chained stages. Key static methods: getRequiredPadOf() sums external dependencies across stages, stackMaps/cloneMap for per-buffer-type dependency maps, mostOf() finds maximum dependency envelope. from(readBounds, writeBounds) constructs from Bounds3i. EMPTY static instance for zero dependency."
+        }
+      ],
+      "confidence": "high"
+    },
+    "delimiters": {
+      "overview": "The delimiters package (~4 types) provides range-value mapping types used for density-based selection throughout the generator.",
+      "types": [
+        {
+          "type": "DelimiterDouble<V>",
+          "role": "Pair of RangeDouble and nullable value V. Used in density-delimited environment/tint providers."
+        },
+        {
+          "type": "DelimiterInt<V>",
+          "role": "Pair of RangeInt and nullable value V."
+        },
+        {
+          "type": "RangeDouble",
+          "role": "Double range with minInclusive and maxExclusive. contains(value) checks [min, max)."
+        },
+        {
+          "type": "RangeInt",
+          "role": "Integer range with minInclusive and maxExclusive. contains(value) checks [min, max)."
+        }
+      ],
+      "confidence": "high"
+    },
+    "environmentproviders": {
+      "overview": "The environment providers package (~3 types) maps positions to integer environment IDs for weather/lighting zones.",
+      "types": [
+        {
+          "type": "EnvironmentProvider",
+          "role": "Abstract base. getValue(Context) -> int. Context holds Vector3i position. static noEnvironmentProvider() returns ConstantEnvironmentProvider(0)."
+        },
+        {
+          "type": "ConstantEnvironmentProvider",
+          "role": "Always returns the same integer value."
+        },
+        {
+          "type": "DensityDelimitedEnvironmentProvider",
+          "role": "Evaluates a Density function at position, then selects child EnvironmentProvider based on density value falling within delimiter ranges. Returns 0 if no range matches."
+        }
+      ],
+      "confidence": "high"
+    },
+    "tintproviders": {
+      "overview": "The tint providers package (~4 types) maps positions to ARGB tint color values applied to terrain blocks.",
+      "types": [
+        {
+          "type": "TintProvider",
+          "role": "Abstract base. getValue(Context) -> Result. Context holds position (Vector3i) and workerId. Result contains tint (int ARGB) and hasValue boolean. DEFAULT_TINT is RGB(91, -98, 40) = a green tone. static noTintProvider() returns constant DEFAULT_TINT. Result.WITHOUT_VALUE static instance for no-tint."
+        },
+        {
+          "type": "ConstantTintProvider",
+          "role": "Always returns the same tint value."
+        },
+        {
+          "type": "DensityDelimitedTintProvider",
+          "role": "Evaluates a Density function, selects child TintProvider based on density value in delimiter ranges. Returns WITHOUT_VALUE if no range matches."
+        },
+        {
+          "type": "NoTintProvider",
+          "role": "Always returns Result.WITHOUT_VALUE."
+        }
+      ],
+      "confidence": "high"
+    },
+    "vectorproviders": {
+      "overview": "The vector providers package (~4 types) maps positions to 3D vectors, used for density warping and directional effects.",
+      "types": [
+        {
+          "type": "VectorProvider",
+          "role": "Abstract base. process(Context, Vector3d vector_out) writes result to vector_out. Context holds position (Vector3d) and terrainDensityProvider. Can be constructed from Density.Context."
+        },
+        {
+          "type": "ConstantVectorProvider",
+          "role": "Always writes the same constant Vector3d."
+        },
+        {
+          "type": "DensityGradientVectorProvider",
+          "role": "Computes the gradient of a Density function at a position by sampling at position and position+sampleDistance on each axis. Output vector is (deltaX, deltaY, deltaZ) representing the density gradient direction."
+        },
+        {
+          "type": "CacheVectorProvider",
+          "role": "Caches last position+result pair. If position matches, returns cached vector without re-computing. Note: has a bug — early return in cache hit doesn't prevent re-computation since the cache miss path always runs."
+        }
+      ],
+      "confidence": "high"
+    },
+    "iterators": {
+      "overview": "The iterators package (~3 types) provides directional integer iteration utilities.",
+      "types": [
+        {
+          "type": "ForwardIntIterator",
+          "role": "IntIterator that counts upward from min to maxExclusive-1. Cloneable."
+        },
+        {
+          "type": "BackwardIntIterator",
+          "role": "IntIterator that counts downward from maxExclusive-1 to min. Cloneable."
+        },
+        {
+          "type": "IntIterators",
+          "role": "Factory: range(start, end) returns ForwardIntIterator if start <= end, BackwardIntIterator otherwise."
+        }
+      ],
+      "confidence": "high"
+    },
+    "material": {
+      "overview": "The material package (~4 types) defines the voxel material system — what blocks/fluids exist at each position.",
+      "types": [
+        {
+          "type": "Material",
+          "role": "Immutable pair of SolidMaterial + FluidMaterial. Lazy-computed hashCode and materialIdsHash. equals() checks both solid and fluid components."
+        },
+        {
+          "type": "SolidMaterial",
+          "role": "Block material state: blockId, support, rotation, filler (all int), optional Holder<ChunkStore> for ECS section state. Package-private constructor (via MaterialCache)."
+        },
+        {
+          "type": "FluidMaterial",
+          "role": "Fluid material state: fluidId (int), fluidLevel (byte). Package-private constructor (via MaterialCache)."
+        },
+        {
+          "type": "MaterialCache",
+          "role": "Thread-safe (ConcurrentHashMap) flyweight cache for Material/SolidMaterial/FluidMaterial. Deduplicates by content hash. Pre-creates common materials: EMPTY_AIR, ROCK_STONE, SOIL_GRASS, SOIL_DIRT, SOIL_MUD, SOIL_NEEDLES, SOIL_GRAVEL, ROCK_QUARTZITE, ROCK_MARBLE, ROCK_SHALE, FLUID_WATER, BEDROCK(Rock_Volcanic), UNKNOWN_FLUID, EMPTY_FLUID, EMPTY. getSolidMaterialRotatedY() creates rotation variants. Integrates with BlockType and Fluid asset maps for string-to-ID resolution."
+        }
+      ],
+      "confidence": "high"
+    },
+    "rangemaps": {
+      "overview": "The range maps package (~2 types) provides double-precision range-to-value mapping.",
+      "types": [
+        {
+          "type": "DoubleRange",
+          "role": "Double range with configurable inclusive/exclusive min and max. includes(v) checks membership. Static factories: inclusive(min, max), exclusive(min, max)."
+        },
+        {
+          "type": "DoubleRangeMap<T>",
+          "role": "Ordered list of DoubleRange -> T mappings. get(k) returns first matching value (linear scan). Used by SimpleNoiseCarta for density-to-biome mapping."
+        }
+      ],
+      "confidence": "high"
+    },
+    "referencebundle": {
+      "overview": "The reference bundle package (~3 types) provides a typed string-keyed container for sharing data between asset sub-graphs.",
+      "types": [
+        {
+          "type": "Reference",
+          "role": "Empty base class for typed references."
+        },
+        {
+          "type": "BaseHeightReference",
+          "role": "Reference subclass holding a BiDouble2DoubleFunction for base height lookup at (x, z) coordinates."
+        },
+        {
+          "type": "ReferenceBundle",
+          "role": "String-keyed heterogeneous map with type safety. put(name, reference, type) stores with type tag. get(name, type) retrieves with assertion check. Used for cross-referencing exported density values and base heights between asset sub-graphs."
+        }
+      ],
+      "confidence": "high"
+    },
+    "seed": {
+      "overview": "The seed package (~1 type) provides hierarchical seed management.",
+      "types": [
+        {
+          "type": "SeedBox",
+          "role": "Hierarchical seed container. Wraps a String key. child(childKey) creates a new SeedBox with concatenated key. createSupplier() returns a Supplier<Integer> backed by Random seeded with key.hashCode(). Used by material providers and other deterministic random selection points."
+        }
+      ],
+      "confidence": "high"
+    },
+    "threadindexer": {
+      "overview": "The thread indexer package (~1 type) provides per-worker-thread data isolation.",
+      "types": [
+        {
+          "type": "WorkerIndexer",
+          "role": "Creates a fixed set of WorkerIndexer.Id instances (one per worker thread). Data<T> inner class provides per-worker storage slots with lazy initialization. Session inner class provides sequential Id allocation for assigning work to workers. Id has static UNKNOWN (-1) and MAIN (0) constants. Used throughout for thread-safe per-worker context (noise generators, density contexts, etc.)."
+        }
+      ],
+      "confidence": "high"
+    },
+    "worldstructure": {
+      "overview": "The world structure package (~1 type) is the top-level runtime world configuration.",
+      "types": [
+        {
+          "type": "WorldStructure",
+          "role": "Immutable runtime world config. Contains: biomeMap (BiCarta<Integer> mapping positions to biome IDs), biomeRegistry (Registry<Biome> for ID -> Biome lookup), biomeTransitionDistance (int, controls interpolation radius), maxBiomeEdgeDistance (int, max distance for edge detection), spawnPositions (PositionProvider for player spawn). Built by WorldStructureAsset from JSON configuration."
+        }
+      ],
+      "confidence": "high"
+    }
+  },
+  "cross_references": {
+    "density_system_integration": {
+      "overview": "Many types in Part B consume density functions from Part A's density system. FieldFunctionPattern, FieldFunctionMaterialProvider, FieldFunctionPositionProvider, FieldFunctionOccurrencePositionProvider, FieldFunctionAssignments, DensityDelimitedEnvironmentProvider, DensityDelimitedTintProvider, DensityGradientVectorProvider, SimpleNoiseCarta, and DensityProp all evaluate Density.process() for spatial decision-making.",
+      "density_context_flow": "Density.Context flows from MaterialProvider.Context (which includes terrainDensityProvider) and from Pattern.Context (position + materialSpace). The terrainDensityProvider links back to the NTerrainStage output from Part A's pipeline.",
+      "confidence": "high"
+    },
+    "asset_system_integration": {
+      "overview": "Every runtime type in Part B has a corresponding *Asset class in Part A's asset system that deserializes from JSON and builds the runtime object. For example: PatternAsset builds Pattern, PropAsset builds Prop, MaterialProviderAsset builds MaterialProvider, ScannerAsset builds Scanner, PositionProviderAsset builds PositionProvider, AssignmentsAsset builds Assignments, etc.",
+      "confidence": "high"
+    },
+    "pipeline_integration": {
+      "overview": "Part B types are consumed by Part A's NStagedChunkGenerator pipeline stages. NTerrainStage uses Biome.getTerrainDensity() and Biome.getMaterialProvider(). NPropStage uses Biome.getPropFields() which contains PropField (linking PositionProvider and Assignments). NTintStage uses Biome.getTintProvider(). NEnvironmentStage uses Biome.getEnvironmentProvider(). NBufferBundle views (NVoxelBufferView) wrap VoxelSpace<Material> for stage I/O.",
+      "prop_placement_flow": "NPropStage -> PositionProvider.positionsIn() -> Assignments.propAt() -> Prop.scan() -> Prop.place() -> VoxelSpace.set() / EntityContainer.add()",
+      "terrain_generation_flow": "NTerrainStage -> Density.process() for each voxel -> MaterialProvider.getVoxelTypeAt() for solid voxels -> VoxelSpace.set(Material)",
+      "confidence": "high"
+    },
+    "server_worldgen_bridge": {
+      "overview": "ChunkGenerator.generate() produces GeneratedChunk consumed by the server worldgen system. FallbackGenerator provides empty chunks on error. WorldStructure's biomeMap (BiCarta<Integer>) is sampled by NBiomeStage for biome resolution. ChunkRequest.GeneratorProfile serves as the cache key for generator instances.",
+      "confidence": "high"
+    },
+    "ecs_integration": {
+      "overview": "SolidMaterial.holder (Holder<ChunkStore>) connects generated blocks to ECS chunk stores. EntityPlacementData.entityHolder (Holder<EntityStore>) spawns entities. MaterialCache integrates with BlockType and Fluid asset maps for block/fluid ID resolution. ViewportCommand accesses TransformComponent, Player, BlockSelection via ECS Store/Ref.",
+      "confidence": "high"
+    }
+  }
+}

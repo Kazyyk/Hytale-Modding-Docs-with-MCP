@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-02-18T21:03:00.255138Z",
+  "generated_at": "2026-03-20T19:50:06.679231Z",
   "borderline_cases": [
     {
       "fqcn": "com.hypixel.hytale.protocol.packets.setup.ClientFeature",
@@ -129,6 +129,24 @@
       "confidence": "high"
     },
     {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomUICommand",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginManager -> com.hypixel.hytale.server.core.plugin.PluginListPageManager -> com.hypixel.hytale.server.core.plugin.pages.PluginListPage -> com.hypixel.hytale.server.core.ui.builder.UICommandBuilder but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginManager -> com.hypixel.hytale.server.core.plugin.PluginListPageManager -> com.hypixel.hytale.server.core.plugin.pages.PluginListPage -> com.hypixel.hytale.server.core.ui.builder.UIEventBuilder but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBinding",
+      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginManager -> com.hypixel.hytale.server.core.plugin.PluginListPageManager -> com.hypixel.hytale.server.core.plugin.pages.PluginListPage -> com.hypixel.hytale.server.core.ui.builder.UIEventBuilder but lives in excluded package",
+      "recommendation": "exclude",
+      "confidence": "high"
+    },
+    {
       "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.patterns.Pattern",
       "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.builder.BuilderCodec -> com.hypixel.hytale.codec.schema.config.ObjectSchema -> com.hypixel.hytale.codec.schema.config.StringSchema but lives in excluded package",
       "recommendation": "exclude",
@@ -155,24 +173,6 @@
     {
       "fqcn": "com.hypixel.hytale.procedurallib.supplier.IDoubleCoordinateSupplier",
       "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginBase -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec -> com.hypixel.hytale.codec.lookup.MapKeyMapCodec.TypeMap -> com.hypixel.hytale.server.worldgen.container.WaterContainer.Entry but lives in excluded package",
-      "recommendation": "exclude",
-      "confidence": "high"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomUICommand",
-      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginManager -> com.hypixel.hytale.server.core.plugin.PluginListPageManager -> com.hypixel.hytale.server.core.plugin.pages.PluginListPage -> com.hypixel.hytale.server.core.ui.builder.UICommandBuilder but lives in excluded package",
-      "recommendation": "exclude",
-      "confidence": "high"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType",
-      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginManager -> com.hypixel.hytale.server.core.plugin.PluginListPageManager -> com.hypixel.hytale.server.core.plugin.pages.PluginListPage -> com.hypixel.hytale.server.core.ui.builder.UIEventBuilder but lives in excluded package",
-      "recommendation": "exclude",
-      "confidence": "high"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBinding",
-      "reason": "Reachable from API via com.hypixel.hytale.server.core.plugin.PluginManager -> com.hypixel.hytale.server.core.plugin.PluginListPageManager -> com.hypixel.hytale.server.core.plugin.pages.PluginListPage -> com.hypixel.hytale.server.core.ui.builder.UIEventBuilder but lives in excluded package",
       "recommendation": "exclude",
       "confidence": "high"
     },

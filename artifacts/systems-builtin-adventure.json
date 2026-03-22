@@ -1,0 +1,756 @@
+{
+  "module": "com.hypixel.hytale.builtin.adventure",
+  "generated_at": "2026-03-20T00:00:00Z",
+  "total_files_read": 224,
+  "overview": "The adventure module implements Hytale's adventure/survival gameplay mechanics. It is composed of 15 independent JavaPlugin sub-modules, each registering their own components, systems, commands, interactions, and asset stores. There is no single top-level AdventurePlugin; each sub-package has its own plugin entry point that extends JavaPlugin.",
+  "sub_modules": {
+    "camera": {
+      "plugin_class": "CameraPlugin",
+      "purpose": "Camera shake effects and view bobbing for first/third person cameras. Integrates with the damage system to produce screen shake on hit.",
+      "types_count": 13,
+      "entry_point": "CameraPlugin extends JavaPlugin",
+      "ecs_components": [],
+      "ecs_systems": [
+        {
+          "class": "CameraEffectSystem",
+          "store": "EntityStore",
+          "type": "DamageEventSystem",
+          "purpose": "Listens for damage events on entities with PlayerRef + EntityStatMap, calculates intensity from damage/health ratio, sends camera shake packet to the player",
+          "queries": ["PlayerRef", "EntityStatMap"]
+        }
+      ],
+      "commands": [
+        {
+          "name": "camshake",
+          "class": "CameraEffectCommand",
+          "subcommands": ["damage", "debug"],
+          "purpose": "Debug commands: 'damage' applies a damage-based camera shake, 'debug' sends a raw camera effect packet with custom intensity"
+        }
+      ],
+      "interactions": [
+        {
+          "codec_id": "CameraShake",
+          "class": "CameraShakeInteraction",
+          "extends": "SimpleInstantInteraction",
+          "purpose": "Triggers a camera shake effect on the interacting player when used"
+        }
+      ],
+      "codecs_registered": [
+        {"parent_codec": "CameraEffect.CODEC", "id": "CameraShake", "class": "CameraShakeEffect"},
+        {"parent_codec": "Interaction.CODEC", "id": "CameraShake", "class": "CameraShakeInteraction"}
+      ],
+      "asset_stores": [
+        {
+          "key_type": "String",
+          "value_type": "CameraShake",
+          "path": "Camera/CameraShake",
+          "purpose": "Camera shake profiles with first-person and third-person config (noise, easing, duration)"
+        },
+        {
+          "key_type": "MovementType",
+          "value_type": "ViewBobbing",
+          "path": "Camera/ViewBobbing",
+          "purpose": "View bobbing profiles per movement type (walking, running, etc.)"
+        }
+      ],
+      "asset_config_types": [
+        "CameraShake", "CameraShakeConfig", "CameraShakeEffect", "ShakeIntensity",
+        "EasingConfig", "NoiseConfig", "NoiseConfig.ClampConfig",
+        "CameraShakeConfig.OffsetNoise", "CameraShakeConfig.RotationNoise",
+        "ViewBobbing"
+      ],
+      "cross_references": [
+        "DamageModule (CameraEffectSystem extends DamageEventSystem, uses DamageModule.getInspectDamageGroup)",
+        "EntityStatMap (reads health stat for intensity calculation)",
+        "CameraEffectsConfig (gameplay config maps damage causes to camera effects)"
+      ]
+    },
+    "farming": {
+      "plugin_class": "FarmingPlugin",
+      "purpose": "Complete farming system: tilled soil, crop growth stages, growth modifiers (fertilizer, water, light), prefab-based tree/plant growth, spread mechanics, animal coops with capture/release, and watering cans.",
+      "types_count": 24,
+      "entry_point": "FarmingPlugin extends JavaPlugin (singleton via FarmingPlugin.get())",
+      "ecs_components": [
+        {"name": "TilledSoil", "class": "TilledSoilBlock", "store": "ChunkStore", "purpose": "Tracks tilled soil state: planted flag, decay time, fertilized flag, watered-until time, external water flag"},
+        {"name": "FarmingBlock", "class": "FarmingBlock", "store": "ChunkStore", "purpose": "Tracks crop growth: current stage set, growth progress, last tick time, generation counter, spread rate, executions count"},
+        {"name": "Farming", "class": "FarmingBlockState", "store": "ChunkStore", "purpose": "DEPRECATED - legacy farming state, migrated to FarmingBlock by MigrateFarming system"},
+        {"name": "Coop", "class": "CoopBlock", "store": "ChunkStore", "purpose": "Animal coop block: manages residents, produce generation, scheduled ticking, wild NPC capture"},
+        {"name": "CoopResident", "class": "CoopResidentComponent", "store": "EntityStore", "purpose": "Marks an entity as a coop resident with a reference back to the coop block position"}
+      ],
+      "ecs_systems": [
+        {"class": "FarmingSystems.OnSoilAdded", "store": "ChunkStore", "type": "RefSystem", "purpose": "When tilled soil is added, initializes decay time and schedules tick"},
+        {"class": "FarmingSystems.OnFarmBlockAdded", "store": "ChunkStore", "type": "RefSystem", "purpose": "When farming block is added, initializes stage set and growth progress, runs initial tick"},
+        {"class": "FarmingSystems.Ticking", "store": "ChunkStore", "type": "EntityTickingSystem", "purpose": "Main farming tick loop: iterates ticking blocks, dispatches to farming/soil/coop tick handlers"},
+        {"class": "FarmingSystems.MigrateFarming", "store": "ChunkStore", "type": "BlockModule.MigrationSystem", "purpose": "DEPRECATED - migrates old FarmingBlockState to new FarmingBlock component"},
+        {"class": "FarmingSystems.OnCoopAdded", "store": "ChunkStore", "type": "RefSystem", "purpose": "When coop block is added, schedules first tick; on remove, handles resident despawn"},
+        {"class": "FarmingSystems.CoopResidentEntitySystem", "store": "EntityStore", "type": "RefSystem", "purpose": "On coop resident entity removal, notifies the parent coop block to handle despawn"},
+        {"class": "FarmingSystems.CoopResidentTicking", "store": "EntityStore", "type": "EntityTickingSystem", "purpose": "Removes entities marked for despawn by the coop system"}
+      ],
+      "events_listened": [
+        {"event": "ChunkPreLoadProcessEvent", "priority": "LAST", "purpose": "Prevents spread rate on newly generated chunks (sets spreadRate to 0)"}
+      ],
+      "interactions": [
+        {"codec_id": "HarvestCrop", "class": "HarvestCropInteraction", "purpose": "Harvests resources from a farmable block, gives drops, optionally resets to harvest stage set"},
+        {"codec_id": "FertilizeSoil", "class": "FertilizeSoilInteraction", "purpose": "Marks tilled soil as fertilized, which increases growth rate via FertilizerGrowthModifierAsset"},
+        {"codec_id": "ChangeFarmingStage", "class": "ChangeFarmingStageInteraction", "purpose": "Directly changes a block's farming stage (increase, decrease, or absolute). Used by tools/interactions."},
+        {"codec_id": "UseWateringCan", "class": "UseWateringCanInteraction", "purpose": "Waters soil block, sets wateredUntil time to increase crop growth"},
+        {"codec_id": "UseCoop", "class": "UseCoopInteraction", "purpose": "Collects produce from a coop block into the player's inventory"},
+        {"codec_id": "UseCaptureCrate", "class": "UseCaptureCrateInteraction", "purpose": "Captures NPC entities into items (stores CapturedNPCMetadata) or releases them into the world/coop"}
+      ],
+      "codecs_registered": [
+        {"parent_codec": "GrowthModifierAsset.CODEC", "id": "Fertilizer", "class": "FertilizerGrowthModifierAsset"},
+        {"parent_codec": "GrowthModifierAsset.CODEC", "id": "LightLevel", "class": "LightLevelGrowthModifierAsset"},
+        {"parent_codec": "GrowthModifierAsset.CODEC", "id": "Water", "class": "WaterGrowthModifierAsset"},
+        {"parent_codec": "FarmingStageData.CODEC", "id": "BlockType", "class": "BlockTypeFarmingStageData"},
+        {"parent_codec": "FarmingStageData.CODEC", "id": "BlockState", "class": "BlockStateFarmingStageData"},
+        {"parent_codec": "FarmingStageData.CODEC", "id": "Prefab", "class": "PrefabFarmingStageData"},
+        {"parent_codec": "FarmingStageData.CODEC", "id": "Spread", "class": "SpreadFarmingStageData"},
+        {"parent_codec": "SpreadGrowthBehaviour.CODEC", "id": "Directional", "class": "DirectionalGrowthBehaviour"}
+      ],
+      "asset_stores": [
+        {"value_type": "GrowthModifierAsset", "path": "Farming/Modifiers", "purpose": "Growth modifiers (fertilizer, water, light level)"},
+        {"value_type": "FarmingCoopAsset", "path": "Farming/Coops", "purpose": "Coop configurations: max residents, produce drops, capture settings, accepted NPC groups"}
+      ],
+      "cross_references": [
+        "BlockType (reads farming config from block types)",
+        "BlockModule (uses BlockStateInfo, block entity system)",
+        "NPCPlugin (spawns NPC entities from coop, uses NPC groups)",
+        "Weather system (WaterGrowthModifierAsset checks weather for rain)",
+        "WorldTimeResource (all tick scheduling uses game time)",
+        "TagSetPlugin/NPCGroup (coop capture validates NPC groups)"
+      ]
+    },
+    "memories": {
+      "plugin_class": "MemoriesPlugin",
+      "purpose": "A collectible NPC memories/discovery system. Players discover NPCs in the world to unlock memories, which are tracked globally and per-player. Has a leveling system based on total memories collected.",
+      "types_count": 20,
+      "entry_point": "MemoriesPlugin extends JavaPlugin (singleton via MemoriesPlugin.get())",
+      "ecs_components": [
+        {"name": "PlayerMemories", "class": "PlayerMemories", "store": "EntityStore", "purpose": "Per-player component tracking collected memories and memory capacity"}
+      ],
+      "ecs_systems": [
+        {"class": "NPCMemory.GatherMemoriesSystem", "store": "EntityStore", "type": "EntityTickingSystem", "purpose": "Ticking system that checks if players are near NPCs within collection radius, triggers memory collection particles and records memories"},
+        {"class": "MemoriesPlugin.PlayerAddedSystem", "store": "EntityStore", "type": "RefSystem", "purpose": "On player spawn, sends UpdateMemoriesFeatureStatus packet indicating whether the player has the memories feature unlocked"},
+        {"class": "TempleRespawnPlayersSystem", "store": "EntityStore", "type": "DelayedEntitySystem", "purpose": "Teleports players back to spawn when they fall below a minimum Y level in forgotten temples"}
+      ],
+      "commands": [
+        {"name": "memories", "class": "MemoriesCommand", "subcommands": ["clear", "capacity", "level", "unlockAll", "setCount"], "purpose": "Admin commands for the memories system"}
+      ],
+      "interactions": [
+        {"codec_id": "SetMemoriesCapacity", "class": "SetMemoriesCapacityInteraction", "purpose": "Unlocks memories feature for a player by setting initial capacity"},
+        {"codec_id": "MemoriesCondition", "class": "MemoriesConditionInteraction", "purpose": "Conditional interaction that branches based on current memories level"}
+      ],
+      "events_listened": [
+        {"event": "AllNPCsLoadedEvent", "purpose": "Rebuilds the all-memories map from providers when NPC assets reload"}
+      ],
+      "codecs_registered": [
+        {"parent_codec": "Memory.CODEC", "id": "NPC", "class": "NPCMemory"},
+        {"parent_codec": "GameplayConfig.PLUGIN_CODEC", "id": "Memories", "class": "MemoriesGameplayConfig"},
+        {"parent_codec": "GameplayConfig.PLUGIN_CODEC", "id": "ForgottenTemple", "class": "ForgottenTempleConfig"}
+      ],
+      "ui_pages": [
+        {"id": "Memories", "class": "MemoriesPage", "purpose": "Custom UI page showing memories collection interface"},
+        {"id": "MemoriesUnlocked", "class": "MemoriesUnlockedPage", "purpose": "Custom UI page shown when memories feature is unlocked"}
+      ],
+      "windows": [
+        {"type": "WindowType.Memories", "class": "MemoriesWindow", "purpose": "Client-requestable window showing all memories data as JSON"}
+      ],
+      "persistence": "Saves/loads recorded memories to/from UNIVERSE_PATH/memories.json using BSON with a read-write lock",
+      "cross_references": [
+        "NPCPlugin (NPCMemoryProvider reads NPC roles to generate memories)",
+        "InstanceDiscoveryConfig / InstanceWorldConfig (NPCMemory checks instance discovery for memory creation)",
+        "PlayerSystems.PlayerSpawnedSystem (PlayerAddedSystem depends on it)",
+        "SoundEvent (forgotten temple respawn sound)"
+      ]
+    },
+    "objectives": {
+      "plugin_class": "ObjectivePlugin",
+      "purpose": "The core quest/objective system. Manages objective lifecycle (start, track, complete, cancel), task types (craft, gather, kill, reach location, use block/entity, treasure map), completion rewards, objective lines (chains of objectives), location markers, and history tracking.",
+      "types_count": 65,
+      "entry_point": "ObjectivePlugin extends JavaPlugin (singleton via ObjectivePlugin.get())",
+      "ecs_components": [
+        {"name": "ObjectiveHistory", "class": "ObjectiveHistoryComponent", "store": "EntityStore", "purpose": "Per-player component tracking completed objectives and objective lines"},
+        {"name": "ReachLocationMarker", "class": "ReachLocationMarker", "store": "EntityStore", "purpose": "Marker entity that players must reach to complete a ReachLocation task"},
+        {"name": "ObjectiveLocation", "class": "ObjectiveLocationMarker", "store": "EntityStore", "purpose": "Visual marker entity placed at objective-related locations in the world"}
+      ],
+      "ecs_systems": [
+        {"class": "ReachLocationMarkerSystems.EntityAdded", "store": "EntityStore", "purpose": "Initializes reach location markers on spawn"},
+        {"class": "ReachLocationMarkerSystems.EnsureNetworkSendable", "store": "EntityStore", "purpose": "Ensures reach location markers have network IDs"},
+        {"class": "ReachLocationMarkerSystems.Ticking", "store": "EntityStore", "purpose": "Checks if any player is within reach location marker radius to complete task"},
+        {"class": "ObjectiveLocationMarkerSystems.EnsureNetworkSendableSystem", "store": "EntityStore", "purpose": "Ensures objective location markers have network IDs"},
+        {"class": "ObjectiveLocationMarkerSystems.InitSystem", "store": "EntityStore", "purpose": "Initializes objective location marker models and transforms"},
+        {"class": "ObjectiveLocationMarkerSystems.TickingSystem", "store": "EntityStore", "purpose": "Manages objective location marker visibility, trigger conditions (time, weather, location)"},
+        {"class": "ObjectivePlayerSetupSystem", "store": "EntityStore", "purpose": "Sets up ObjectiveHistoryComponent for players, starts configured objective lines from ObjectiveGameplayConfig"},
+        {"class": "ObjectiveItemEntityRemovalSystem", "store": "EntityStore", "purpose": "Removes item entities that have objective UUID metadata when the objective is no longer active"},
+        {"class": "EntityModule.TangibleMigrationSystem", "store": "EntityStore", "purpose": "Migration for ObjectiveLocationMarker and ReachLocationMarker tangibility"},
+        {"class": "EntityModule.HiddenFromPlayerMigrationSystem", "store": "EntityStore", "purpose": "Migration for ObjectiveLocationMarker and ReachLocationMarker visibility"}
+      ],
+      "commands": [
+        {"name": "objective", "class": "ObjectiveCommand", "subcommands": ["start", "complete", "history", "panel", "locationMarker", "reachLocationMarker"], "purpose": "Admin commands for the objective system"}
+      ],
+      "events_listened": [
+        {"event": "LoadedAssetsEvent(ObjectiveLineAsset)", "purpose": "Cancels active objectives whose line was removed on asset reload"},
+        {"event": "LoadedAssetsEvent(ObjectiveAsset)", "purpose": "Reloads objective assets for active objectives"},
+        {"event": "LoadedAssetsEvent(ObjectiveLocationMarkerAsset)", "purpose": "Updates location marker models and areas on asset reload"},
+        {"event": "LoadedAssetsEvent(ModelAsset)", "purpose": "Refreshes the default objective location marker model"},
+        {"event": "PlayerDisconnectEvent", "purpose": "Unloads/saves objectives for disconnecting players"},
+        {"event": "LivingEntityInventoryChangeEvent", "purpose": "Removes players from objectives when they drop objective items (if removeOnItemDrop flag set)"},
+        {"event": "AddWorldEvent", "purpose": "Registers ObjectiveMarkerProvider for each new world's map manager"}
+      ],
+      "events_fired": [
+        {"event": "TreasureChestOpeningEvent", "class": "TreasureChestState", "purpose": "Fired when a treasure chest is opened during an objective"}
+      ],
+      "interactions": [
+        {"codec_id": "StartObjective", "class": "StartObjectiveInteraction", "purpose": "Starts an objective from an item interaction, stores objective UUID in item metadata"},
+        {"codec_id": "CanBreakRespawnPoint", "class": "CanBreakRespawnPointInteraction", "purpose": "Prevents breaking respawn points during active objectives"}
+      ],
+      "block_states": [
+        {"id": "TreasureChest", "class": "TreasureChestState", "purpose": "Block state for treasure chests that contain objective rewards"}
+      ],
+      "task_types": [
+        {"id": "Craft", "asset": "CraftObjectiveTaskAsset", "impl": "CraftObjectiveTask", "purpose": "Track items crafted"},
+        {"id": "Gather", "asset": "GatherObjectiveTaskAsset", "impl": "GatherObjectiveTask", "purpose": "Track items/blocks gathered"},
+        {"id": "UseBlock", "asset": "UseBlockObjectiveTaskAsset", "impl": "UseBlockObjectiveTask", "purpose": "Track specific block usage"},
+        {"id": "UseEntity", "asset": "UseEntityObjectiveTaskAsset", "impl": "UseEntityObjectiveTask", "purpose": "Track entity interactions (e.g., NPC dialog tasks)"},
+        {"id": "TreasureMap", "asset": "TreasureMapObjectiveTaskAsset", "impl": "TreasureMapObjectiveTask", "purpose": "Find and open a treasure chest at a location"},
+        {"id": "ReachLocation", "asset": "ReachLocationTaskAsset", "impl": "ReachLocationTask", "purpose": "Reach a specific location marker"}
+      ],
+      "completion_types": [
+        {"id": "GiveItems", "asset": "GiveItemsCompletionAsset", "impl": "GiveItemsCompletion", "purpose": "Gives items to player on objective completion"},
+        {"id": "ClearObjectiveItems", "asset": "ClearObjectiveItemsCompletionAsset", "impl": "ClearObjectiveItemsCompletion", "purpose": "Removes objective items from player inventory on completion"}
+      ],
+      "asset_stores": [
+        {"value_type": "ObjectiveAsset", "path": "Objective/Objectives", "purpose": "Objective definitions with task sets and completions"},
+        {"value_type": "ObjectiveLineAsset", "path": "Objective/ObjectiveLines", "purpose": "Chains of objectives (quest lines)"},
+        {"value_type": "ObjectiveLocationMarkerAsset", "path": "Objective/ObjectiveLocationMarkers", "purpose": "Location marker configurations with trigger conditions"},
+        {"value_type": "ReachLocationMarkerAsset", "path": "Objective/ReachLocationMarkers", "purpose": "Reach-location task marker configurations"}
+      ],
+      "persistence": "ObjectiveDataStore backed by DiskDataStoreProvider('objectives'), auto-saves every 5 minutes via ScheduledExecutor",
+      "cross_references": [
+        "Player / PlayerConfigData (tracks activeObjectiveUUIDs per player)",
+        "ItemModule (GiveItemsCompletion, item drops)",
+        "BlockType (UseBlockObjectiveTask, TreasureChestState)",
+        "WeatherTracker (WeatherTriggerCondition for location markers)",
+        "EntityModule (player spatial resource for reach location checks)",
+        "BlockStateModule (TreasureChestState registration)",
+        "GameplayConfig (ObjectiveGameplayConfig auto-starts objective lines)"
+      ]
+    },
+    "npcobjectives": {
+      "plugin_class": "NPCObjectivesPlugin",
+      "purpose": "Extends the objective system with NPC-related task types: kill NPCs, kill spawn beacons/markers, bounties. Integrates objectives with the NPC behavior tree system.",
+      "types_count": 20,
+      "entry_point": "NPCObjectivesPlugin extends JavaPlugin (singleton via NPCObjectivesPlugin.get())",
+      "ecs_systems": [
+        {"class": "SpawnBeaconCheckRemovalSystem", "store": "EntityStore", "type": "HolderSystem", "purpose": "On spawn beacon entity removal, checks if it was part of an active objective"},
+        {"class": "KillTrackerSystem", "store": "EntityStore", "purpose": "On NPC death, checks if the kill satisfies any active kill-based objective tasks"}
+      ],
+      "ecs_resources": [
+        {"name": "KillTrackerResource", "store": "EntityStore", "purpose": "Stores pending KillTaskTransactions for processing by KillTrackerSystem"}
+      ],
+      "task_types_registered": [
+        {"id": "KillSpawnBeacon", "asset": "KillSpawnBeaconObjectiveTaskAsset", "impl": "KillSpawnBeaconObjectiveTask"},
+        {"id": "KillSpawnMarker", "asset": "KillSpawnMarkerObjectiveTaskAsset", "impl": "KillSpawnMarkerObjectiveTask"},
+        {"id": "Bounty", "asset": "BountyObjectiveTaskAsset", "impl": "BountyObjectiveTask"},
+        {"id": "KillNPC", "asset": "KillObjectiveTaskAsset", "impl": "KillNPCObjectiveTask"}
+      ],
+      "npc_core_components_registered": [
+        {"id": "CompleteTask", "builder": "BuilderActionCompleteTask", "action": "ActionCompleteTask", "purpose": "NPC behavior tree action to complete an objective task"},
+        {"id": "StartObjective", "builder": "BuilderActionStartObjective", "action": "ActionStartObjective", "purpose": "NPC behavior tree action to start an objective for a player"},
+        {"id": "HasTask", "builder": "BuilderSensorHasTask", "sensor": "SensorHasTask", "purpose": "NPC behavior tree sensor checking if a player has a specific task active"}
+      ],
+      "cross_references": [
+        "ObjectivePlugin (registers task types, accesses ObjectiveDataStore)",
+        "NPCPlugin (registers NPC behavior tree components)",
+        "SpawnMarker / BeaconNPCSpawn (objective asset loading depends on spawn assets)",
+        "NPCGroup (kill tasks filter by NPC group tags)",
+        "NPCEntity (KillTrackerSystem processes NPC deaths)"
+      ]
+    },
+    "reputation": {
+      "plugin_class": "ReputationPlugin",
+      "purpose": "Faction/NPC reputation system. Tracks numeric reputation values per player or per world, with configurable ranks that map to attitudes. Supports both PerPlayer and PerWorld storage modes.",
+      "types_count": 12,
+      "entry_point": "ReputationPlugin extends JavaPlugin (singleton via ReputationPlugin.get())",
+      "ecs_components": [
+        {"name": "ReputationGroupComponent", "class": "ReputationGroupComponent", "store": "EntityStore", "purpose": "Marks an NPC entity as belonging to a reputation group (string ID)"}
+      ],
+      "ecs_resources": [
+        {"name": "ReputationData", "class": "ReputationDataResource", "store": "EntityStore", "purpose": "Per-world reputation data storage (used in PerWorld storage mode)"}
+      ],
+      "commands": [
+        {"name": "reputation", "class": "ReputationCommand", "subcommands": ["add", "set", "value", "rank"], "purpose": "Admin commands to view and modify reputation values"}
+      ],
+      "asset_stores": [
+        {"value_type": "ReputationRank", "path": "NPC/Reputation/Ranks", "purpose": "Defines reputation ranks with min/max value ranges and associated attitudes"},
+        {"value_type": "ReputationGroup", "path": "NPC/Reputation/Groups", "purpose": "Defines reputation groups with initial values"}
+      ],
+      "codecs_registered": [
+        {"parent_codec": "ChoiceRequirement.CODEC", "id": "Reputation", "class": "ReputationRequirement"},
+        {"parent_codec": "GameplayConfig.PLUGIN_CODEC", "id": "Reputation", "class": "ReputationGameplayConfig"}
+      ],
+      "cross_references": [
+        "Attitude (reputation ranks map to attitudes that affect NPC behavior)",
+        "PlayerConfigData (stores per-player reputation data in PerPlayer mode)",
+        "GameplayConfig (ReputationGameplayConfig selects PerPlayer vs PerWorld storage)",
+        "ChoiceRequirement (ReputationRequirement gates NPC dialog choices)"
+      ]
+    },
+    "npcreputation": {
+      "plugin_class": "NPCReputationPlugin",
+      "purpose": "Bridges the reputation system with NPC entities. Assigns ReputationGroupComponent to NPCs based on their NPC group, and feeds reputation-based attitudes into the NPC blackboard.",
+      "types_count": 3,
+      "entry_point": "NPCReputationPlugin extends JavaPlugin",
+      "ecs_systems": [
+        {"class": "ReputationAttitudeSystem", "store": "EntityStore", "type": "StoreSystem", "purpose": "Provides reputation-based attitude data to the NPC blackboard AttitudeView"},
+        {"class": "NPCReputationHolderSystem", "store": "EntityStore", "type": "HolderSystem", "purpose": "On NPC entity add, assigns ReputationGroupComponent based on the NPC's group tag matching a ReputationGroup"}
+      ],
+      "cross_references": [
+        "ReputationPlugin (reads reputation values and ranks)",
+        "NPCPlugin / NPCEntity (reads NPC role indexes)",
+        "Blackboard / AttitudeView (feeds attitude data to NPC AI)",
+        "TagSetPlugin / NPCGroup (maps NPC groups to reputation groups)"
+      ]
+    },
+    "shop": {
+      "plugin_class": "ShopPlugin",
+      "purpose": "NPC shop system with both standard shops (choice-based UI with items) and barter shops (item-for-item trading with weighted random stock and refresh intervals).",
+      "types_count": 16,
+      "entry_point": "ShopPlugin extends JavaPlugin (singleton via ShopPlugin.get())",
+      "asset_stores": [
+        {"value_type": "ShopAsset", "path": "Shops", "purpose": "Standard shop definitions with choice elements"},
+        {"value_type": "BarterShopAsset", "path": "BarterShops", "purpose": "Barter shop definitions with trade slots and refresh intervals"}
+      ],
+      "codecs_registered": [
+        {"parent_codec": "ChoiceElement.CODEC", "id": "ShopElement", "class": "ShopElement"},
+        {"parent_codec": "ChoiceInteraction.CODEC", "id": "GiveItem", "class": "GiveItemInteraction"},
+        {"parent_codec": "OpenCustomUIInteraction.PAGE_CODEC", "id": "Shop", "class": "ShopPageSupplier"}
+      ],
+      "barter_system": {
+        "classes": ["BarterShopAsset", "BarterShopState", "BarterPage", "BarterTrade", "BarterItemStack", "TradeSlot", "FixedTradeSlot", "PoolTradeSlot", "WeightedTrade", "RefreshInterval"],
+        "purpose": "Barter shops have trade slots that can be fixed or pool-based (random weighted selection), with configurable refresh intervals. State is persisted to disk."
+      },
+      "persistence": "BarterShopState saves/loads from plugin data directory",
+      "cross_references": [
+        "Item (shops reference items by ID)",
+        "ChoiceElement / ChoiceInteraction (standard shop UI framework)",
+        "OpenCustomUIInteraction (shop pages)"
+      ]
+    },
+    "npcshop": {
+      "plugin_class": "NPCShopPlugin",
+      "purpose": "Bridges the shop system with NPC behavior trees. Registers NPC actions for opening shops and barter shops.",
+      "types_count": 7,
+      "entry_point": "NPCShopPlugin extends JavaPlugin",
+      "npc_core_components_registered": [
+        {"id": "OpenShop", "builder": "BuilderActionOpenShop", "action": "ActionOpenShop", "purpose": "NPC action to open a standard shop page for a player"},
+        {"id": "OpenBarterShop", "builder": "BuilderActionOpenBarterShop", "action": "ActionOpenBarterShop", "purpose": "NPC action to open a barter shop page for a player"}
+      ],
+      "cross_references": [
+        "NPCPlugin (registers NPC behavior tree components)",
+        "ShopPlugin (opens ShopPage and BarterPage)"
+      ]
+    },
+    "objectivereputation": {
+      "plugin_class": "ObjectiveReputationPlugin",
+      "purpose": "Integrates the objective and reputation systems. Adds a 'Reputation' completion type that grants reputation on objective completion.",
+      "types_count": 4,
+      "entry_point": "ObjectiveReputationPlugin extends JavaPlugin (singleton via ObjectiveReputationPlugin.get())",
+      "completion_types_registered": [
+        {"id": "Reputation", "asset": "ReputationCompletionAsset", "impl": "ReputationCompletion", "purpose": "Grants reputation to a reputation group on objective completion"}
+      ],
+      "history_data_registered": [
+        {"id": "Reputation", "class": "ReputationObjectiveRewardHistoryData", "purpose": "Records reputation rewards in objective history"}
+      ],
+      "cross_references": [
+        "ObjectivePlugin (registers completion type)",
+        "ReputationPlugin (calls changeReputation on completion)",
+        "ReputationGroup (completion asset references a reputation group)"
+      ]
+    },
+    "objectiveshop": {
+      "plugin_class": "ObjectiveShopPlugin",
+      "purpose": "Integrates the objective and shop systems. Adds a shop choice interaction to start objectives and a requirement to check if a player can start an objective.",
+      "types_count": 3,
+      "entry_point": "ObjectiveShopPlugin extends JavaPlugin (singleton via ObjectiveShopPlugin.get())",
+      "codecs_registered": [
+        {"parent_codec": "ChoiceInteraction.CODEC", "id": "StartObjective", "class": "StartObjectiveInteraction"},
+        {"parent_codec": "ChoiceRequirement.CODEC", "id": "CanStartObjective", "class": "CanStartObjectiveRequirement"}
+      ],
+      "cross_references": [
+        "ObjectivePlugin (starts objectives, checks player eligibility)",
+        "ShopAsset (injects loading dependency)"
+      ]
+    },
+    "shopreputation": {
+      "plugin_class": "ShopReputationPlugin",
+      "purpose": "Glue plugin ensuring shop assets load after reputation assets. Establishes asset loading order dependency.",
+      "types_count": 1,
+      "entry_point": "ShopReputationPlugin extends JavaPlugin",
+      "cross_references": [
+        "ShopAsset (injects loadsAfter dependencies)",
+        "ReputationGroup / ReputationRank (loading order)"
+      ]
+    },
+    "stash": {
+      "plugin_class": "StashPlugin",
+      "purpose": "Loot container (stash) system. When a block with an ItemContainerState is placed in non-Creative mode, automatically fills it with random items from its configured drop list.",
+      "types_count": 2,
+      "entry_point": "StashPlugin extends JavaPlugin",
+      "ecs_systems": [
+        {"class": "StashPlugin.StashSystem", "store": "ChunkStore", "type": "RefSystem", "purpose": "On ItemContainerState entity add (non-Creative), calls stash() to fill the container with random drops from its droplist"}
+      ],
+      "codecs_registered": [
+        {"parent_codec": "GameplayConfig.PLUGIN_CODEC", "id": "Stash", "class": "StashGameplayConfig"}
+      ],
+      "cross_references": [
+        "ItemModule (getRandomItemDrops from droplists)",
+        "BlockStateModule (depends on LegacyBlockStateRefSystem)",
+        "GameplayConfig (StashGameplayConfig controls clearContainerDropList behavior)"
+      ]
+    },
+    "teleporter": {
+      "plugin_class": "TeleporterPlugin",
+      "purpose": "Teleporter block system. Teleporter blocks create warps that players can use to fast-travel. Includes warp naming, settings UI, and automatic warp creation/removal.",
+      "types_count": 10,
+      "entry_point": "TeleporterPlugin extends JavaPlugin (singleton via TeleporterPlugin.get())",
+      "ecs_components": [
+        {"name": "Teleporter", "class": "Teleporter", "store": "ChunkStore", "purpose": "Block component for teleporter blocks: stores warp name, activation state, owned warp reference"},
+        {"name": "UsedTeleporter", "class": "UsedTeleporter", "store": "EntityStore", "purpose": "Temporary component on player entities marking them as having just used a teleporter (prevents re-trigger)"}
+      ],
+      "ecs_systems": [
+        {"class": "TeleporterPlugin.TeleporterOwnedWarpRefChangeSystem", "store": "ChunkStore", "type": "RefChangeSystem", "purpose": "On teleporter component change/removal, cleans up the associated warp from TeleportPlugin"},
+        {"class": "TeleporterPlugin.TeleporterOwnedWarpRefSystem", "store": "ChunkStore", "type": "RefSystem", "purpose": "On teleporter entity removal, removes the owned warp"},
+        {"class": "TurnOffTeleportersSystem", "store": "ChunkStore", "purpose": "Disables teleporters whose destination warp no longer exists"},
+        {"class": "CreateWarpWhenTeleporterPlacedSystem", "store": "ChunkStore", "purpose": "Automatically creates a warp with a generated name when a teleporter block is placed by a player"},
+        {"class": "ClearUsedTeleporterSystem", "store": "EntityStore", "purpose": "Removes UsedTeleporter component from players after they've moved away from the teleporter"}
+      ],
+      "interactions": [
+        {"codec_id": "Teleporter", "class": "TeleporterInteraction", "purpose": "Handles player interaction with teleporter blocks - initiates teleportation to the warp destination"}
+      ],
+      "ui_pages": [
+        {"id": "Teleporter", "class": "TeleporterSettingsPage", "purpose": "Settings UI for configuring teleporter warp name and destination"}
+      ],
+      "cross_references": [
+        "TeleportPlugin (manages warps, saves warp data)",
+        "BlockModule (reads block placement info)",
+        "Teleport / PendingTeleport / TeleportRecord (teleportation system components)",
+        "CannedWarpNames (generates random warp names like 'Moonbeam Station')"
+      ]
+    },
+    "worldlocationcondition": {
+      "plugin_class": "WorldLocationConditionPlugin",
+      "purpose": "Registers a custom WorldLocationCondition type used by farming spread to validate block placement positions based on neighbor block tags.",
+      "types_count": 2,
+      "entry_point": "WorldLocationConditionPlugin extends JavaPlugin",
+      "codecs_registered": [
+        {"parent_codec": "WorldLocationCondition.CODEC", "id": "NeighbourBlockTags", "class": "NeighbourBlockTagsLocationCondition"}
+      ],
+      "cross_references": [
+        "SpreadGrowthBehaviour (uses WorldLocationCondition for spread validation)",
+        "BlockType tags (checks neighbor blocks for specific tags)"
+      ]
+    }
+  },
+  "type_inventory": {
+    "camera": [
+      {"type": "CameraPlugin", "kind": "plugin", "purpose": "Plugin entry point for camera shake and view bobbing"},
+      {"type": "CameraShakeEffect", "kind": "asset_type", "purpose": "Camera effect that applies a CameraShake profile with configurable intensity"},
+      {"type": "ShakeIntensity", "kind": "config", "purpose": "Controls how damage/context values map to shake intensity, with accumulation mode and modifier curve"},
+      {"type": "CameraShake", "kind": "asset_type", "purpose": "Camera shake profile with first-person and third-person CameraShakeConfig"},
+      {"type": "CameraShakePacketGenerator", "kind": "packet_generator", "purpose": "Generates UpdateCameraShake network packets for asset sync"},
+      {"type": "CameraShakeConfig", "kind": "config", "purpose": "Defines a camera shake: duration, easing, offset noise (X/Y/Z), rotation noise (pitch/yaw/roll)"},
+      {"type": "CameraShakeConfig.OffsetNoise", "kind": "config", "purpose": "Translational offset noise for X, Y, Z axes"},
+      {"type": "CameraShakeConfig.RotationNoise", "kind": "config", "purpose": "Rotational noise for pitch, yaw, roll"},
+      {"type": "EasingConfig", "kind": "config", "purpose": "Easing curve for fade-in/fade-out (time + easing type)"},
+      {"type": "NoiseConfig", "kind": "config", "purpose": "Noise source configuration: seed, type (Sin etc.), frequency, amplitude, clamp"},
+      {"type": "NoiseConfig.ClampConfig", "kind": "config", "purpose": "Clamps noise output to min/max with optional normalization"},
+      {"type": "ViewBobbing", "kind": "asset_type", "purpose": "View bobbing profile per movement type with first-person CameraShakeConfig"},
+      {"type": "ViewBobbingPacketGenerator", "kind": "packet_generator", "purpose": "Generates UpdateViewBobbing network packets"},
+      {"type": "CameraEffectCommand", "kind": "command", "purpose": "Admin command collection with 'damage' and 'debug' subcommands"},
+      {"type": "CameraEffectCommand.DamageCommand", "kind": "command", "purpose": "Applies damage with optional camera effect override"},
+      {"type": "CameraEffectCommand.DebugCommand", "kind": "command", "purpose": "Sends raw camera shake packet with specified intensity"},
+      {"type": "CameraShakeInteraction", "kind": "interaction", "purpose": "Triggers camera shake on item/block use"},
+      {"type": "CameraEffectSystem", "kind": "ecs_system", "purpose": "Damage event handler that sends camera shake packets to damaged players"}
+    ],
+    "farming": [
+      {"type": "FarmingPlugin", "kind": "plugin", "purpose": "Plugin entry point for the farming system"},
+      {"type": "FarmingSystems", "kind": "ecs_systems_container", "purpose": "Container class for all farming ECS systems"},
+      {"type": "FarmingSystems.OnSoilAdded", "kind": "ecs_system", "purpose": "Initializes soil decay when tilled soil is placed"},
+      {"type": "FarmingSystems.OnFarmBlockAdded", "kind": "ecs_system", "purpose": "Initializes crop farming stage when farm block component is added"},
+      {"type": "FarmingSystems.Ticking", "kind": "ecs_system", "purpose": "Main per-section tick dispatcher for farming/soil/coop blocks"},
+      {"type": "FarmingSystems.MigrateFarming", "kind": "ecs_system", "purpose": "DEPRECATED migration from FarmingBlockState to FarmingBlock"},
+      {"type": "FarmingSystems.OnCoopAdded", "kind": "ecs_system", "purpose": "Coop block lifecycle management"},
+      {"type": "FarmingSystems.CoopResidentEntitySystem", "kind": "ecs_system", "purpose": "Notifies coop when resident entity is removed"},
+      {"type": "FarmingSystems.CoopResidentTicking", "kind": "ecs_system", "purpose": "Removes entities marked for despawn by coop"},
+      {"type": "FarmingUtil", "kind": "utility", "purpose": "Core farming tick logic, harvest logic, drop generation, NPC capture metadata creation"},
+      {"type": "CoopResidentComponent", "kind": "ecs_component", "purpose": "Entity-side component linking an NPC to its coop location"},
+      {"type": "FarmingCoopAsset", "kind": "asset_type", "purpose": "Coop configuration: max residents, produce drops, spawn offsets, capture settings, NPC groups"},
+      {"type": "FertilizerGrowthModifierAsset", "kind": "growth_modifier", "purpose": "Growth multiplier when soil below is fertilized"},
+      {"type": "LightLevelGrowthModifierAsset", "kind": "growth_modifier", "purpose": "Growth multiplier based on artificial light and sunlight levels"},
+      {"type": "WaterGrowthModifierAsset", "kind": "growth_modifier", "purpose": "Growth multiplier from adjacent water fluids or rain weather"},
+      {"type": "BlockStateFarmingStageData", "kind": "farming_stage", "purpose": "Farming stage that changes block to a specific state variant"},
+      {"type": "BlockTypeFarmingStageData", "kind": "farming_stage", "purpose": "Farming stage that replaces block with a different block type"},
+      {"type": "PrefabFarmingStageData", "kind": "farming_stage", "purpose": "Farming stage that places a prefab structure (trees, bushes) with obstruction checking"},
+      {"type": "SpreadFarmingStageData", "kind": "farming_stage", "purpose": "Farming stage that spreads blocks outward using growth behaviours with decay"},
+      {"type": "SpreadGrowthBehaviour", "kind": "abstract", "purpose": "Abstract base for spread growth behaviours with location conditions"},
+      {"type": "DirectionalGrowthBehaviour", "kind": "spread_behaviour", "purpose": "Spread growth in horizontal/vertical directions with weighted block types"},
+      {"type": "ChangeFarmingStageInteraction", "kind": "interaction", "purpose": "Directly changes farming stage via interaction"},
+      {"type": "FertilizeSoilInteraction", "kind": "interaction", "purpose": "Fertilizes tilled soil"},
+      {"type": "HarvestCropInteraction", "kind": "interaction", "purpose": "Harvests crop drops"},
+      {"type": "UseCaptureCrateInteraction", "kind": "interaction", "purpose": "Captures/releases NPCs via crate items"},
+      {"type": "UseCoopInteraction", "kind": "interaction", "purpose": "Collects produce from coop"},
+      {"type": "UseWateringCanInteraction", "kind": "interaction", "purpose": "Waters soil to boost crop growth"},
+      {"type": "CoopBlock", "kind": "ecs_component", "purpose": "Coop block state: residents, produce, scheduling"},
+      {"type": "FarmingBlock", "kind": "ecs_component", "purpose": "Crop growth state tracking"},
+      {"type": "FarmingBlockState", "kind": "ecs_component", "purpose": "DEPRECATED legacy farming state"},
+      {"type": "TilledSoilBlock", "kind": "ecs_component", "purpose": "Tilled soil state: planted, fertilized, watered, decay"}
+    ],
+    "memories": [
+      {"type": "MemoriesPlugin", "kind": "plugin", "purpose": "Plugin entry point for the memories collection system"},
+      {"type": "MemoriesPlugin.MemoriesPluginConfig", "kind": "config", "purpose": "Plugin config with CollectionRadius map per memory provider"},
+      {"type": "MemoriesPlugin.PlayerAddedSystem", "kind": "ecs_system", "purpose": "Sends memories feature status to newly spawned players"},
+      {"type": "MemoriesPlugin.RecordedMemories", "kind": "data", "purpose": "Persistent recorded memories set with thread-safe locking"},
+      {"type": "MemoriesGameplayConfig", "kind": "gameplay_config", "purpose": "Configures memories per level thresholds, record particles, and reward items"},
+      {"type": "MemoriesCommand", "kind": "command", "purpose": "Admin command collection for memories system"},
+      {"type": "MemoriesCapacityCommand", "kind": "command", "purpose": "Sets player's memories capacity"},
+      {"type": "MemoriesClearCommand", "kind": "command", "purpose": "Clears all recorded memories"},
+      {"type": "MemoriesLevelCommand", "kind": "command", "purpose": "Shows current memories level"},
+      {"type": "MemoriesSetCountCommand", "kind": "command", "purpose": "Sets recorded memories count"},
+      {"type": "MemoriesUnlockCommand", "kind": "command", "purpose": "Records all available memories"},
+      {"type": "PlayerMemories", "kind": "ecs_component", "purpose": "Per-player memory collection with capacity limit"},
+      {"type": "MemoriesConditionInteraction", "kind": "interaction", "purpose": "Conditional interaction branching based on memories level"},
+      {"type": "SetMemoriesCapacityInteraction", "kind": "interaction", "purpose": "Unlocks memories feature for a player"},
+      {"type": "Memory", "kind": "abstract", "purpose": "Abstract base for collectible memories"},
+      {"type": "MemoryProvider", "kind": "abstract", "purpose": "Abstract base for memory providers (generates memories from game data)"},
+      {"type": "NPCMemory", "kind": "memory_type", "purpose": "NPC-based memory with icon, title, and tooltip from NPC role data"},
+      {"type": "NPCMemory.GatherMemoriesSystem", "kind": "ecs_system", "purpose": "Proximity-based memory collection ticking system"},
+      {"type": "NPCMemoryProvider", "kind": "memory_provider", "purpose": "Generates NPCMemory instances from all loaded NPC roles"},
+      {"type": "MemoriesPage", "kind": "ui_page", "purpose": "Interactive UI page for memories collection interface"},
+      {"type": "MemoriesPageSupplier", "kind": "page_supplier", "purpose": "Creates MemoriesPage from interaction context"},
+      {"type": "MemoriesUnlockedPage", "kind": "ui_page", "purpose": "UI page shown when memories feature is unlocked"},
+      {"type": "MemoriesUnlockedPageSuplier", "kind": "page_supplier", "purpose": "Creates MemoriesUnlockedPage from interaction context"},
+      {"type": "ForgottenTempleConfig", "kind": "gameplay_config", "purpose": "Configuration for forgotten temple: minimum Y for respawn, respawn sound"},
+      {"type": "TempleRespawnPlayersSystem", "kind": "ecs_system", "purpose": "Respawns players who fall below minY in forgotten temples"},
+      {"type": "MemoriesWindow", "kind": "window", "purpose": "Client-requestable window providing memories data as JSON"}
+    ],
+    "objectives": [
+      {"type": "ObjectivePlugin", "kind": "plugin", "purpose": "Core objective/quest system plugin"},
+      {"type": "ObjectivePlugin.ObjectivePluginConfig", "kind": "config", "purpose": "Plugin config with DataStoreProvider (defaults to disk)"},
+      {"type": "Objective", "kind": "data", "purpose": "Runtime objective instance: asset, UUID, player UUIDs, tasks, completions, history"},
+      {"type": "ObjectiveDataStore", "kind": "data_store", "purpose": "In-memory + on-disk objective storage with player-task indexing"},
+      {"type": "DialogPage", "kind": "ui_page", "purpose": "NPC dialog page for UseEntity objective tasks"},
+      {"type": "ObjectiveAdminPanelPage", "kind": "ui_page", "purpose": "Admin panel showing all active objectives"},
+      {"type": "TreasureChestState", "kind": "block_state", "purpose": "Block state for treasure chests in objectives"},
+      {"type": "ObjectiveCommand", "kind": "command", "purpose": "Admin command collection for objectives"},
+      {"type": "ObjectiveCompleteCommand", "kind": "command", "purpose": "Forces completion of an active objective"},
+      {"type": "ObjectiveHistoryCommand", "kind": "command", "purpose": "Dumps objective history for a player"},
+      {"type": "ObjectiveLocationMarkerCommand", "kind": "command", "purpose": "Spawns/manages objective location markers"},
+      {"type": "ObjectivePanelCommand", "kind": "command", "purpose": "Opens the admin objective panel"},
+      {"type": "ObjectiveReachLocationMarkerCommand", "kind": "command", "purpose": "Spawns reach location markers"},
+      {"type": "ObjectiveStartCommand", "kind": "command", "purpose": "Starts an objective for a player"},
+      {"type": "ClearObjectiveItemsCompletion", "kind": "completion", "purpose": "Removes objective items on completion"},
+      {"type": "GiveItemsCompletion", "kind": "completion", "purpose": "Gives items on completion"},
+      {"type": "ObjectiveCompletion", "kind": "abstract", "purpose": "Base class for objective completion actions"},
+      {"type": "ObjectiveHistoryComponent", "kind": "ecs_component", "purpose": "Per-player objective completion history"},
+      {"type": "ObjectiveAsset", "kind": "asset_type", "purpose": "Objective definition: tasks, completions, setup, title"},
+      {"type": "ObjectiveLineAsset", "kind": "asset_type", "purpose": "Objective line (chain) definition"},
+      {"type": "ObjectiveLocationMarkerAsset", "kind": "asset_type", "purpose": "Location marker asset with trigger conditions and areas"},
+      {"type": "ObjectiveCompletionAsset", "kind": "abstract", "purpose": "Base asset for completion reward definitions"},
+      {"type": "ClearObjectiveItemsCompletionAsset", "kind": "asset_type", "purpose": "Config for clearing objective items"},
+      {"type": "GiveItemsCompletionAsset", "kind": "asset_type", "purpose": "Config for giving items as reward"},
+      {"type": "ObjectiveGameplayConfig", "kind": "gameplay_config", "purpose": "Auto-start objective lines and other objective settings"},
+      {"type": "ObjectiveLocationAreaBox", "kind": "config", "purpose": "Box-shaped area for objective location markers"},
+      {"type": "ObjectiveLocationAreaRadius", "kind": "config", "purpose": "Radius-based area for objective location markers"},
+      {"type": "ObjectiveLocationMarkerArea", "kind": "abstract", "purpose": "Base for marker area shapes"},
+      {"type": "ObjectiveTypeSetup", "kind": "abstract", "purpose": "Setup action run when an objective starts"},
+      {"type": "SetupObjective", "kind": "setup", "purpose": "Starts a nested objective on objective start"},
+      {"type": "SetupObjectiveLine", "kind": "setup", "purpose": "Starts a nested objective line on objective start"},
+      {"type": "BlockTagOrItemIdField", "kind": "config", "purpose": "Field that can be either a block tag or item ID for task matching"},
+      {"type": "CountObjectiveTaskAsset", "kind": "abstract", "purpose": "Base asset for count-based tasks (kill, gather)"},
+      {"type": "CraftObjectiveTaskAsset", "kind": "asset_type", "purpose": "Craft task config: items to craft and count"},
+      {"type": "GatherObjectiveTaskAsset", "kind": "asset_type", "purpose": "Gather task config: items/blocks to collect"},
+      {"type": "ObjectiveTaskAsset", "kind": "abstract", "purpose": "Base asset for all objective task types"},
+      {"type": "ReachLocationTaskAsset", "kind": "asset_type", "purpose": "Reach location task: links to a ReachLocationMarkerAsset"},
+      {"type": "TaskSet", "kind": "config", "purpose": "Set of tasks within an objective that must be completed together"},
+      {"type": "TreasureMapObjectiveTaskAsset", "kind": "asset_type", "purpose": "Treasure map task: find a chest at a location"},
+      {"type": "UseBlockObjectiveTaskAsset", "kind": "asset_type", "purpose": "Use block task: interact with specific blocks"},
+      {"type": "UseEntityObjectiveTaskAsset", "kind": "asset_type", "purpose": "Use entity task: interact with specific NPC entities"},
+      {"type": "SoloInventoryCondition", "kind": "task_condition", "purpose": "Checks player inventory for specific items before task can progress"},
+      {"type": "TaskConditionAsset", "kind": "abstract", "purpose": "Base for task pre-conditions"},
+      {"type": "HourRangeTriggerCondition", "kind": "trigger_condition", "purpose": "Location marker active only during specific in-game hours"},
+      {"type": "ObjectiveLocationTriggerCondition", "kind": "abstract", "purpose": "Base for location marker trigger conditions"},
+      {"type": "WeatherTriggerCondition", "kind": "trigger_condition", "purpose": "Location marker active only during specific weather"},
+      {"type": "CheckTagWorldHeightRadiusProvider", "kind": "location_provider", "purpose": "Finds world locations by checking block tags within height/radius"},
+      {"type": "LocationRadiusProvider", "kind": "location_provider", "purpose": "Provides a location with a radius around a point"},
+      {"type": "LookBlocksBelowProvider", "kind": "location_provider", "purpose": "Looks for blocks below a position matching tags"},
+      {"type": "WorldLocationProvider", "kind": "abstract", "purpose": "Base for world location providers used by tasks"},
+      {"type": "TreasureChestOpeningEvent", "kind": "event", "purpose": "Event fired when a treasure chest is opened during an objective"},
+      {"type": "CommonObjectiveHistoryData", "kind": "data", "purpose": "Common base for objective/line history entries"},
+      {"type": "ItemObjectiveRewardHistoryData", "kind": "data", "purpose": "Records item rewards in history"},
+      {"type": "ObjectiveHistoryData", "kind": "data", "purpose": "History record for a completed objective"},
+      {"type": "ObjectiveLineHistoryData", "kind": "data", "purpose": "History record for a completed objective line"},
+      {"type": "ObjectiveRewardHistoryData", "kind": "abstract", "purpose": "Base for reward history data"},
+      {"type": "CanBreakRespawnPointInteraction", "kind": "interaction", "purpose": "Prevents breaking respawn points during active objectives"},
+      {"type": "StartObjectiveInteraction", "kind": "interaction", "purpose": "Starts an objective from item use, stores UUID in item metadata"},
+      {"type": "ObjectiveMarkerProvider", "kind": "map_marker", "purpose": "Provides world map markers for active objectives"},
+      {"type": "ObjectiveTaskMarker", "kind": "data", "purpose": "Marker data for objective tasks on the world map"},
+      {"type": "ObjectiveLocationMarker", "kind": "ecs_component", "purpose": "ECS component for objective location marker entities"},
+      {"type": "ObjectiveLocationMarkerSystems", "kind": "ecs_systems_container", "purpose": "Contains EnsureNetworkSendable, Init, and Ticking systems for location markers"},
+      {"type": "ReachLocationMarker", "kind": "ecs_component", "purpose": "ECS component for reach-location task marker entities"},
+      {"type": "ReachLocationMarkerAsset", "kind": "asset_type", "purpose": "Configuration for reach location markers"},
+      {"type": "ReachLocationMarkerSystems", "kind": "ecs_systems_container", "purpose": "Contains EntityAdded, EnsureNetworkSendable, and Ticking systems for reach markers"},
+      {"type": "ObjectiveItemEntityRemovalSystem", "kind": "ecs_system", "purpose": "Removes orphaned objective item entities"},
+      {"type": "ObjectivePlayerSetupSystem", "kind": "ecs_system", "purpose": "Sets up objectives for newly spawned players"},
+      {"type": "CountObjectiveTask", "kind": "task", "purpose": "Base task tracking a count towards a target"},
+      {"type": "CraftObjectiveTask", "kind": "task", "purpose": "Tracks crafted items by listening for crafting events"},
+      {"type": "GatherObjectiveTask", "kind": "task", "purpose": "Tracks gathered items/blocks"},
+      {"type": "ObjectiveTask", "kind": "abstract", "purpose": "Base class for all runtime objective tasks"},
+      {"type": "ObjectiveTaskRef", "kind": "reference", "purpose": "Reference to an objective task by UUID"},
+      {"type": "ReachLocationTask", "kind": "task", "purpose": "Completed when player reaches a location marker"},
+      {"type": "TreasureMapObjectiveTask", "kind": "task", "purpose": "Completed when player finds and opens treasure chest"},
+      {"type": "UseBlockObjectiveTask", "kind": "task", "purpose": "Completed when player uses specific blocks"},
+      {"type": "UseEntityObjectiveTask", "kind": "task", "purpose": "Completed when player interacts with specific NPCs"},
+      {"type": "RegistrationTransactionRecord", "kind": "transaction", "purpose": "Registers/unregisters event listeners for task tracking"},
+      {"type": "SpawnEntityTransactionRecord", "kind": "transaction", "purpose": "Spawns/despawns entities as part of objective lifecycle"},
+      {"type": "SpawnTreasureChestTransactionRecord", "kind": "transaction", "purpose": "Spawns/removes treasure chests for treasure map tasks"},
+      {"type": "TransactionRecord", "kind": "abstract", "purpose": "Base for objective lifecycle transaction records"},
+      {"type": "TransactionStatus", "kind": "enum", "purpose": "SUCCESS or FAIL status for transactions"},
+      {"type": "TransactionUtil", "kind": "utility", "purpose": "Utility for processing transaction record lists"},
+      {"type": "UseEntityTransactionRecord", "kind": "transaction", "purpose": "Registers/unregisters entity task mappings in ObjectiveDataStore"},
+      {"type": "WorldTransactionRecord", "kind": "transaction", "purpose": "Manages world-scoped transaction operations"}
+    ],
+    "npcobjectives": [
+      {"type": "NPCObjectivesPlugin", "kind": "plugin", "purpose": "NPC-related objective task types and NPC behavior tree integration"},
+      {"type": "BountyObjectiveTaskAsset", "kind": "asset_type", "purpose": "Bounty task config with NPC target and location provider"},
+      {"type": "KillObjectiveTaskAsset", "kind": "asset_type", "purpose": "Kill NPC task config with count and NPC group filter"},
+      {"type": "KillSpawnBeaconObjectiveTaskAsset", "kind": "asset_type", "purpose": "Kill spawn beacon task config with spawn beacon IDs"},
+      {"type": "KillSpawnMarkerObjectiveTaskAsset", "kind": "asset_type", "purpose": "Kill spawn marker task config with spawn marker IDs"},
+      {"type": "ActionCompleteTask", "kind": "npc_action", "purpose": "NPC behavior tree action to complete an objective task for a player"},
+      {"type": "ActionStartObjective", "kind": "npc_action", "purpose": "NPC behavior tree action to start an objective for a player"},
+      {"type": "SensorHasTask", "kind": "npc_sensor", "purpose": "NPC behavior tree sensor checking if a player has a task"},
+      {"type": "BuilderActionCompleteTask", "kind": "npc_builder", "purpose": "Builder for ActionCompleteTask"},
+      {"type": "BuilderActionStartObjective", "kind": "npc_builder", "purpose": "Builder for ActionStartObjective"},
+      {"type": "BuilderSensorHasTask", "kind": "npc_builder", "purpose": "Builder for SensorHasTask"},
+      {"type": "ObjectiveExistsValidator", "kind": "validator", "purpose": "Validates that a referenced objective asset exists"},
+      {"type": "KillTrackerResource", "kind": "ecs_resource", "purpose": "Stores pending kill task transactions"},
+      {"type": "KillTrackerSystem", "kind": "ecs_system", "purpose": "Processes NPC deaths against active kill tasks"},
+      {"type": "SpawnBeaconCheckRemovalSystem", "kind": "ecs_system", "purpose": "Checks spawn beacon removal against active objectives"},
+      {"type": "BountyObjectiveTask", "kind": "task", "purpose": "Bounty task: kill specific NPCs in a location"},
+      {"type": "KillNPCObjectiveTask", "kind": "task", "purpose": "Kill NPC task: kill NPCs matching group filter"},
+      {"type": "KillObjectiveTask", "kind": "task", "purpose": "Base kill task with NPC group matching logic"},
+      {"type": "KillSpawnBeaconObjectiveTask", "kind": "task", "purpose": "Kill all NPCs from a spawn beacon"},
+      {"type": "KillSpawnMarkerObjectiveTask", "kind": "task", "purpose": "Kill all NPCs from a spawn marker"},
+      {"type": "KillTask", "kind": "interface", "purpose": "Interface for tasks that check killed entities"},
+      {"type": "KillTaskTransaction", "kind": "transaction", "purpose": "Transaction record for kill task tracking"}
+    ],
+    "reputation": [
+      {"type": "ReputationPlugin", "kind": "plugin", "purpose": "Core reputation system plugin"},
+      {"type": "ReputationGroup", "kind": "asset_type", "purpose": "Reputation group definition with initial value"},
+      {"type": "ReputationRank", "kind": "asset_type", "purpose": "Reputation rank with min/max value range and associated attitude"},
+      {"type": "ReputationRequirement", "kind": "choice_requirement", "purpose": "Choice requirement checking player reputation level"},
+      {"type": "ReputationCommand", "kind": "command", "purpose": "Admin command collection for reputation"},
+      {"type": "ReputationAddCommand", "kind": "command", "purpose": "Adds reputation value to a group"},
+      {"type": "ReputationSetCommand", "kind": "command", "purpose": "Sets reputation value for a group"},
+      {"type": "ReputationValueCommand", "kind": "command", "purpose": "Shows current reputation value"},
+      {"type": "ReputationRankCommand", "kind": "command", "purpose": "Shows current reputation rank"},
+      {"type": "ReputationGameplayConfig", "kind": "gameplay_config", "purpose": "Configures PerPlayer vs PerWorld storage mode"},
+      {"type": "ReputationGroupComponent", "kind": "ecs_component", "purpose": "Marks an entity as belonging to a reputation group"},
+      {"type": "ReputationDataResource", "kind": "ecs_resource", "purpose": "Per-world reputation data storage"}
+    ],
+    "npcreputation": [
+      {"type": "NPCReputationPlugin", "kind": "plugin", "purpose": "Bridges reputation with NPC entities"},
+      {"type": "NPCReputationHolderSystem", "kind": "ecs_system", "purpose": "Assigns reputation groups to NPCs based on their group tags"},
+      {"type": "ReputationAttitudeSystem", "kind": "ecs_system", "purpose": "Provides reputation-based attitudes to NPC blackboard"}
+    ],
+    "shop": [
+      {"type": "ShopPlugin", "kind": "plugin", "purpose": "Shop system plugin"},
+      {"type": "ShopAsset", "kind": "asset_type", "purpose": "Standard shop definition"},
+      {"type": "ShopElement", "kind": "choice_element", "purpose": "Shop choice element displaying an item for sale"},
+      {"type": "ShopPage", "kind": "ui_page", "purpose": "Choice-based shop page"},
+      {"type": "ShopPageSupplier", "kind": "page_supplier", "purpose": "Creates ShopPage instances"},
+      {"type": "GiveItemInteraction", "kind": "choice_interaction", "purpose": "Gives an item to the player as a shop purchase"},
+      {"type": "BarterShopAsset", "kind": "asset_type", "purpose": "Barter shop definition with trade slots"},
+      {"type": "BarterShopState", "kind": "data", "purpose": "Persistent barter shop state (current stock, refresh timers)"},
+      {"type": "BarterPage", "kind": "ui_page", "purpose": "Barter shop trade UI page"},
+      {"type": "BarterTrade", "kind": "config", "purpose": "A single barter trade: input items -> output items"},
+      {"type": "BarterItemStack", "kind": "config", "purpose": "Item stack reference in a barter trade"},
+      {"type": "TradeSlot", "kind": "abstract", "purpose": "Base for trade slot types"},
+      {"type": "FixedTradeSlot", "kind": "config", "purpose": "Fixed trade slot with a specific trade"},
+      {"type": "PoolTradeSlot", "kind": "config", "purpose": "Pool trade slot with weighted random trade selection"},
+      {"type": "WeightedTrade", "kind": "config", "purpose": "Trade with a weight for pool selection"},
+      {"type": "RefreshInterval", "kind": "config", "purpose": "Configures when barter shop stock refreshes"}
+    ],
+    "npcshop": [
+      {"type": "NPCShopPlugin", "kind": "plugin", "purpose": "Bridges shop system with NPC behavior trees"},
+      {"type": "ActionOpenShop", "kind": "npc_action", "purpose": "NPC action to open a standard shop for a player"},
+      {"type": "ActionOpenBarterShop", "kind": "npc_action", "purpose": "NPC action to open a barter shop for a player"},
+      {"type": "BuilderActionOpenShop", "kind": "npc_builder", "purpose": "Builder for ActionOpenShop"},
+      {"type": "BuilderActionOpenBarterShop", "kind": "npc_builder", "purpose": "Builder for ActionOpenBarterShop"},
+      {"type": "ShopExistsValidator", "kind": "validator", "purpose": "Validates that a referenced shop asset exists"},
+      {"type": "BarterShopExistsValidator", "kind": "validator", "purpose": "Validates that a referenced barter shop asset exists"}
+    ],
+    "objectivereputation": [
+      {"type": "ObjectiveReputationPlugin", "kind": "plugin", "purpose": "Integrates objectives with reputation rewards"},
+      {"type": "ReputationCompletionAsset", "kind": "asset_type", "purpose": "Objective completion that grants reputation"},
+      {"type": "ReputationCompletion", "kind": "completion", "purpose": "Runtime reputation completion handler"},
+      {"type": "ReputationObjectiveRewardHistoryData", "kind": "data", "purpose": "Records reputation rewards in objective history"}
+    ],
+    "objectiveshop": [
+      {"type": "ObjectiveShopPlugin", "kind": "plugin", "purpose": "Integrates objectives with shops"},
+      {"type": "StartObjectiveInteraction", "kind": "choice_interaction", "purpose": "Shop choice interaction that starts an objective"},
+      {"type": "CanStartObjectiveRequirement", "kind": "choice_requirement", "purpose": "Shop choice requirement checking objective eligibility"}
+    ],
+    "shopreputation": [
+      {"type": "ShopReputationPlugin", "kind": "plugin", "purpose": "Asset loading order dependency between shops and reputation"}
+    ],
+    "stash": [
+      {"type": "StashPlugin", "kind": "plugin", "purpose": "Loot container auto-fill plugin"},
+      {"type": "StashPlugin.StashSystem", "kind": "ecs_system", "purpose": "Fills item containers with random drops on placement"},
+      {"type": "StashGameplayConfig", "kind": "gameplay_config", "purpose": "Controls whether container drop lists are cleared after filling"}
+    ],
+    "teleporter": [
+      {"type": "TeleporterPlugin", "kind": "plugin", "purpose": "Teleporter block system plugin"},
+      {"type": "TeleporterPlugin.TeleporterOwnedWarpRefChangeSystem", "kind": "ecs_system", "purpose": "Cleans up warps on teleporter component changes"},
+      {"type": "TeleporterPlugin.TeleporterOwnedWarpRefSystem", "kind": "ecs_system", "purpose": "Cleans up warps on teleporter entity removal"},
+      {"type": "Teleporter", "kind": "ecs_component", "purpose": "Teleporter block component: warp name, activation, owned warp"},
+      {"type": "TeleporterInteraction", "kind": "interaction", "purpose": "Handles player interaction with teleporter blocks"},
+      {"type": "UsedTeleporter", "kind": "ecs_component", "purpose": "Temporary marker on players preventing re-trigger"},
+      {"type": "TeleporterSettingsPage", "kind": "ui_page", "purpose": "Settings UI for teleporter configuration"},
+      {"type": "TeleporterSettingsPageSupplier", "kind": "page_supplier", "purpose": "Creates TeleporterSettingsPage instances"},
+      {"type": "ClearUsedTeleporterSystem", "kind": "ecs_system", "purpose": "Removes UsedTeleporter after player moves away"},
+      {"type": "CreateWarpWhenTeleporterPlacedSystem", "kind": "ecs_system", "purpose": "Auto-creates warp with generated name on teleporter placement"},
+      {"type": "TurnOffTeleportersSystem", "kind": "ecs_system", "purpose": "Disables teleporters whose destination warp is gone"},
+      {"type": "CannedWarpNames", "kind": "utility", "purpose": "Generates random teleporter warp names"}
+    ],
+    "worldlocationcondition": [
+      {"type": "WorldLocationConditionPlugin", "kind": "plugin", "purpose": "Registers NeighbourBlockTags location condition"},
+      {"type": "NeighbourBlockTagsLocationCondition", "kind": "location_condition", "purpose": "Validates that neighbor blocks at a position match required tags"}
+    ]
+  },
+  "summary": {
+    "total_plugins": 15,
+    "total_types": 224,
+    "total_ecs_components_chunkstore": 5,
+    "total_ecs_components_entitystore": 7,
+    "total_ecs_systems": 33,
+    "total_ecs_resources": 3,
+    "total_commands": 4,
+    "total_interactions": 13,
+    "total_asset_stores": 10,
+    "total_events_listened": 9,
+    "total_events_fired": 1,
+    "total_npc_behavior_components": 5,
+    "total_ui_pages": 7,
+    "key_design_patterns": [
+      "Each sub-package is an independent JavaPlugin with its own setup() lifecycle",
+      "Singleton pattern (static instance + get()) used by most plugins",
+      "ECS architecture with ChunkStore (block-level) and EntityStore (entity-level) separation",
+      "Codec-based serialization for all asset types and components",
+      "Bridge plugins (npcreputation, npcshop, objectivereputation, objectiveshop, shopreputation) connect core systems",
+      "Asset loading order managed via loadsAfter/loadsBefore/injectLoadsAfter",
+      "Scheduled block ticking via BlockSection.scheduleTick for farming and coops",
+      "Transaction records for reversible objective lifecycle operations"
+    ]
+  }
+}

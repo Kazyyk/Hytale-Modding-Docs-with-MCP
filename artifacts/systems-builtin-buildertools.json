@@ -1,0 +1,583 @@
+{
+  "module": "com.hypixel.hytale.builtin.buildertools",
+  "description": "Built-in builder tools module providing WorldEdit-like block editing, prefab editing, scripted brushes, OBJ/image import, and clipboard/undo-redo infrastructure for creative-mode world building.",
+  "totalFiles": 194,
+  "filesRead": 194,
+  "filesUnreadable": [],
+
+  "entryPoint": {
+    "class": "BuilderToolsPlugin",
+    "extends": "JavaPlugin",
+    "implements": ["SelectionProvider", "MetricProvider"],
+    "singletonAccess": "BuilderToolsPlugin.get()",
+    "setupMethod": "setup()",
+    "registrations": {
+      "packetHandler": "BuilderToolsPacketHandler (via ServerManager.registerSubPacketHandlers)",
+      "events": ["PlayerConnectEvent", "PlayerDisconnectEvent", "AddWorldEvent"],
+      "systems": [
+        "BuilderToolsSystems.EnsureBuilderTools (EntityStore HolderSystem - ensures builder tools in player inventory on join)",
+        "BuilderToolsUserDataSystem (EntityStore HolderSystem - ensures BuilderToolsUserData component on players)",
+        "PrefabPasteEventSystem",
+        "PrefabDirtySystems.BlockBreakDirtySystem",
+        "PrefabDirtySystems.BlockPlaceDirtySystem"
+      ],
+      "components": [
+        "BuilderToolsUserData (EntityStore, id='BuilderTools', tracks selectionHistory boolean)",
+        "PrefabAnchor (EntityStore, id='PrefabAnchor')"
+      ],
+      "resources": [
+        "PrefabEditSession (EntityStore resource, id='PrefabEditSession')"
+      ],
+      "assetStores": [
+        "PrefabEditorCreationSettings (path='PrefabEditorCreationSettings')",
+        "ScriptedBrushAsset (path='ScriptedBrushes')"
+      ],
+      "interactions": [
+        "PrefabSelectionInteraction",
+        "PrefabSetAnchorInteraction",
+        "PickupItemInteraction"
+      ],
+      "selectionProvider": "SelectionManager.setSelectionProvider(this)",
+      "toolArgTypes": ["Bool", "String", "Int", "Float", "Block", "Mask", "BrushShape", "BrushOrigin", "Option"]
+    },
+    "config": {
+      "configId": "BuilderToolsModule",
+      "fields": ["historyCount (int)", "toolExpireTime (int, seconds)"]
+    }
+  },
+
+  "commands": {
+    "description": "38 commands registered in commands/ subpackage. All extend AbstractPlayerCommand and are Creative-mode gated.",
+    "selectionCommands": [
+      {"name": "Pos1Command", "aliases": [], "desc": "Set selection position 1"},
+      {"name": "Pos2Command", "aliases": [], "desc": "Set selection position 2"},
+      {"name": "SelectChunkCommand", "aliases": [], "desc": "Select entire chunk"},
+      {"name": "SelectChunkSectionCommand", "aliases": [], "desc": "Select chunk section"},
+      {"name": "ExpandCommand", "aliases": [], "desc": "Expand selection by distance in axis/look direction"},
+      {"name": "ContractSelectionCommand", "aliases": [], "desc": "Contract selection"},
+      {"name": "ShiftCommand", "aliases": [], "desc": "Shift selection position"},
+      {"name": "UpdateSelectionCommand", "aliases": [], "desc": "Update selection bounds"},
+      {"name": "DeselectCommand", "aliases": [], "desc": "Clear selection"},
+      {"name": "SelectionHistoryCommand", "aliases": [], "desc": "Toggle selection history recording in undo/redo"}
+    ],
+    "editCommands": [
+      {"name": "SetCommand", "aliases": ["set"], "desc": "Set all blocks in selection to a pattern", "permission": "hytale.editor.selection.modify"},
+      {"name": "FillCommand", "aliases": ["fill"], "desc": "Fill selection with a pattern"},
+      {"name": "ReplaceCommand", "aliases": [], "desc": "Replace blocks, supports regex and substring swap"},
+      {"name": "ClearBlocksCommand", "aliases": ["clear"], "desc": "Clear all blocks in selection or by coordinates"},
+      {"name": "ClearEntitiesCommand", "aliases": [], "desc": "Remove entities within selection", "permission": "hytale.editor.selection.clipboard"},
+      {"name": "WallsCommand", "aliases": [], "desc": "Create walls around selection"},
+      {"name": "HollowCommand", "aliases": [], "desc": "Hollow out selection"},
+      {"name": "LayerCommand", "aliases": [], "desc": "Apply layers to selection"},
+      {"name": "SubmergeCommand", "aliases": [], "desc": "Submerge selection in fluid"},
+      {"name": "RepairFillersCommand", "aliases": [], "desc": "Repair filler blocks in selection"},
+      {"name": "TintCommand", "aliases": [], "desc": "Set tint color on blocks in selection"},
+      {"name": "EnvironmentCommand", "aliases": [], "desc": "Set environment for selection area"},
+      {"name": "EditLineCommand", "aliases": [], "desc": "Draw a line between two points"},
+      {"name": "ExtendFaceCommand", "aliases": [], "desc": "Extrude a block face"},
+      {"name": "GlobalMaskCommand", "aliases": [], "desc": "Set/clear global mask for all operations"}
+    ],
+    "clipboardCommands": [
+      {"name": "CopyCommand", "aliases": [], "desc": "Copy selection to clipboard. Flags: --noEntities, --onlyEntities, --empty, --keepanchors, --playerAnchor", "permission": "hytale.editor.selection.clipboard"},
+      {"name": "CutCommand", "aliases": [], "desc": "Cut selection to clipboard (copy + clear original)", "permission": "hytale.editor.selection.clipboard"},
+      {"name": "PasteCommand", "aliases": [], "desc": "Paste clipboard at player position or coordinates. Flag: --technical", "permission": "hytale.editor.selection.clipboard"},
+      {"name": "RotateCommand", "aliases": [], "desc": "Rotate clipboard by angle around axis, supports arbitrary yaw/pitch/roll"},
+      {"name": "FlipCommand", "aliases": [], "desc": "Flip/mirror clipboard along axis based on look direction"},
+      {"name": "MoveCommand", "aliases": [], "desc": "Move selection contents"},
+      {"name": "StackCommand", "aliases": [], "desc": "Stack selection in a direction. Flags: --empty, --spacing"}
+    ],
+    "historyCommands": [
+      {"name": "UndoCommand", "aliases": ["u"], "desc": "Undo edits (1 or N steps)", "permission": "hytale.editor.history"},
+      {"name": "RedoCommand", "aliases": ["r"], "desc": "Redo edits (1 or N steps)", "permission": "hytale.editor.history"},
+      {"name": "ClearEditHistory", "aliases": ["clearHistory", "clearToolHistory"], "desc": "Clear all undo/redo history"},
+      {"name": "SetToolHistorySizeCommand", "aliases": [], "desc": "Change max history size"}
+    ],
+    "prefabCommands": [
+      {"name": "PrefabCommand", "aliases": [], "desc": "Load/save prefabs from clipboard"},
+      {"name": "HotbarSwitchCommand", "aliases": [], "desc": "Switch hotbar rows"}
+    ],
+    "importCommands": [
+      {"name": "ObjImportCommand", "aliases": [], "desc": "Import .obj 3D model as voxels"},
+      {"name": "ImageImportCommand", "aliases": [], "desc": "Import image as blocks using color matching"}
+    ],
+    "prefabEditorCommands": [
+      {"name": "PrefabEditCommand", "aliases": [], "desc": "Root command for prefab editing session management, delegates to subcommands"},
+      {"name": "PrefabEditCreateNewCommand", "desc": "Create new prefab editing session"},
+      {"name": "PrefabEditLoadCommand", "desc": "Load existing prefab(s) into editing session"},
+      {"name": "PrefabEditSaveCommand", "desc": "Save current prefab edits"},
+      {"name": "PrefabEditSaveAsCommand", "desc": "Save prefab under a new path"},
+      {"name": "PrefabEditSaveUICommand", "desc": "Open save settings UI"},
+      {"name": "PrefabEditExitCommand", "desc": "Exit prefab editing session and return to source world"},
+      {"name": "PrefabEditInfoCommand", "desc": "Show info about current prefab edit session"},
+      {"name": "PrefabEditKillEntitiesCommand", "desc": "Kill entities in prefab edit session"},
+      {"name": "PrefabEditModifiedCommand", "desc": "Check/show modified state"},
+      {"name": "PrefabEditSelectCommand", "desc": "Select a loaded prefab in session"},
+      {"name": "PrefabEditTeleportCommand", "desc": "Teleport to a loaded prefab"},
+      {"name": "PrefabEditUpdateBoxCommand", "desc": "Update prefab bounding box"}
+    ],
+    "scriptedBrushCommands": [
+      {"name": "BrushConfigCommand", "desc": "Root command for scripted brush configuration"},
+      {"name": "BrushConfigClearCommand", "desc": "Clear brush config operations"},
+      {"name": "BrushConfigDebugStepCommand", "desc": "Step through brush config in debug mode"},
+      {"name": "BrushConfigExitCommand", "desc": "Exit brush config execution"},
+      {"name": "BrushConfigListCommand", "desc": "List available brush operations"},
+      {"name": "BrushConfigLoadCommand", "desc": "Load a scripted brush asset by name"}
+    ]
+  },
+
+  "toolOperations": {
+    "description": "Real-time brush tool operations executed via BuilderToolOnUseInteraction packet. Each tool is registered in ToolOperation.OPERATIONS map.",
+    "baseClass": "ToolOperation (abstract, implements TriIntObjPredicate<Void>)",
+    "factoryInterface": "OperationFactory",
+    "registeredTools": {
+      "Paint": {"class": "PaintOperation", "desc": "Place blocks using brush shape. Tracks painted positions to avoid re-painting on hold."},
+      "Sculpt": {"class": "SculptOperation", "desc": "Add/remove blocks at surface edges. Alt-key smooths. Primary removes exposed blocks, secondary fills adjacent-to-block air."},
+      "Flood": {"class": "FloodOperation", "desc": "Flood fill within shape bounds from click position."},
+      "Noise": {"class": "NoiseOperation", "desc": "Apply noise-based block placement."},
+      "Scatter": {"class": "ScatterOperation", "desc": "Randomly scatter blocks within shape."},
+      "Smooth": {"class": "SmoothOperation", "desc": "Smooth terrain using weighted 3x3x3 kernel (SMOOTHING_KERNEL). Replaces minority blocks with majority neighbors."},
+      "Tint": {"class": "TintOperation", "desc": "Apply tint color to ground columns."},
+      "Layers": {"class": "LayersOperation", "desc": "Apply layered block patterns."},
+      "LaserPointer": {"class": "LaserPointerOperation", "desc": "Laser pointer tool for precise targeting."},
+      "Smoother": {"class": "SmootherOperation", "desc": "Additional smoother tool variant."}
+    },
+    "brushShapes": [
+      "Cube", "Sphere", "Cylinder", "Cone", "InvertedCone",
+      "Pyramid", "InvertedPyramid", "Dome", "InvertedDome",
+      "Diamond", "Torus"
+    ],
+    "brushOrigins": ["Center", "Bottom", "Top"],
+    "brushFeatures": [
+      "Brush width, height, thickness (hollow shells)",
+      "Capped mode",
+      "Rotation transform (auto from look direction or explicit axis/angle)",
+      "Mirror transform (auto from look direction or explicit axis)",
+      "Block mask (target, above, below, adjacent, neighbor filters; invertible)",
+      "Global mask (set via GlobalMaskCommand)",
+      "Density (0-100%)",
+      "Spacing for hold-down interpolation",
+      "Hold-down interpolation (calculates intermediate positions between frames)"
+    ],
+    "transforms": {
+      "Transform": "Interface with apply(Vector3i). NONE identity. Composable via then().",
+      "Rotate": "Rotation around axes",
+      "Mirror": "Mirror/flip along axes",
+      "Translate": "Translation offset",
+      "Composite": "Chain multiple transforms"
+    }
+  },
+
+  "selectionSystem": {
+    "description": "Region selection and editing managed through BuilderToolsPlugin.BuilderState, one per player UUID.",
+    "builderState": {
+      "class": "BuilderToolsPlugin.BuilderState",
+      "perPlayer": true,
+      "storedIn": "ConcurrentHashMap<UUID, BuilderState>",
+      "fields": [
+        "selection (BlockSelection - the block clipboard/selection)",
+        "globalMask (BlockMask)",
+        "undo (ObjectArrayFIFOQueue<ActionEntry>)",
+        "redo (ObjectArrayFIFOQueue<ActionEntry>)",
+        "tasks (ObjectArrayFIFOQueue<QueuedTask> - queued async operations)",
+        "taskFuture (CompletableFuture<Void>)",
+        "random (Random, seed=26061984)",
+        "activePrefabPath (UUID)",
+        "prefabListRoot, prefabListPath, prefabListSearchQuery",
+        "timestamp (for expiry/cleanup)"
+      ],
+      "taskQueue": "Operations queued via addToQueue(), executed sequentially on world thread via CompletableFuture.runAsync(this::runTask, world)",
+      "operations": [
+        "edit (brush tool use)", "editLine", "extendFace",
+        "select/pos1/pos2", "update selection", "expand", "contract", "shift",
+        "set", "fill", "replace", "clear",
+        "copyOrCut", "paste", "rotate", "rotateArbitrary", "flip", "move", "stack",
+        "walls", "hollow", "layer", "submerge",
+        "tint", "environment",
+        "undo", "redo", "clearHistory",
+        "flood", "placeBrushConfig",
+        "transformThenPasteClipboard"
+      ]
+    },
+    "undoRedoSystem": {
+      "actionTypes": [
+        "EDIT", "EDIT_SELECTION", "EDIT_LINE", "CUT_COPY", "CUT_REMOVE",
+        "COPY", "PASTE", "CLEAR", "ROTATE", "FLIP", "MOVE", "STACK",
+        "SET", "REPLACE", "EXTRUDE", "UPDATE_SELECTION", "WALLS", "HOLLOW", "LAYER"
+      ],
+      "snapshots": {
+        "SelectionSnapshot": "Interface - restore() returns inverse snapshot",
+        "BlockSelectionSnapshot": "Stores before/after block state via BlockSelection",
+        "ClipboardBoundsSnapshot": "Stores clipboard selection bounds",
+        "ClipboardContentsSnapshot": "Stores clipboard block contents",
+        "ClipboardSnapshot": "Interface extending SelectionSnapshot for clipboard-aware restore",
+        "EntitySnapshot": "Interface for entity-level snapshots",
+        "EntityAddSnapshot": "Snapshot that adds an entity on restore",
+        "EntityRemoveSnapshot": "Snapshot that removes an entity on restore",
+        "EntityTransformSnapshot": "Snapshot of entity transform for restore"
+      },
+      "historyManagement": "FIFO queues with configurable max size (historyCount). StampedLock protects concurrent access."
+    },
+    "editOperation": {
+      "class": "EditOperation",
+      "desc": "Tracks before/after BlockSelection for a brush operation. Uses OverridableChunkAccessor for world block access with mask filtering.",
+      "fields": ["blockMask", "accessor (OverridableChunkAccessor)", "before (BlockSelection)", "after (BlockSelection)", "min/max bounds"]
+    }
+  },
+
+  "clipboardSystem": {
+    "description": "Copy/paste uses BlockSelection objects. CopyCutSettings bitflags control what is included.",
+    "copyCutSettings": {
+      "NONE": 0, "CUT": 2, "EMPTY": 4, "BLOCKS": 8,
+      "ENTITIES": 16, "TINT_MAP": 32, "KEEP_ANCHORS": 64, "FLUIDS": 128
+    },
+    "clipboardFeatures": [
+      "Copy/cut selection with optional entity inclusion",
+      "Paste at arbitrary coordinates or player position",
+      "Clipboard rotation (axis + angle, or arbitrary yaw/pitch/roll)",
+      "Clipboard flip/mirror along axis",
+      "Transform-then-paste (rotation + translation applied to clipboard data)",
+      "Clipboard includes blocks, fluids, entities, and anchors",
+      "KeepEmptyBlocks toggle for selection tool paste mode"
+    ],
+    "transformationMode": {
+      "class": "PrototypePlayerBuilderToolSettings",
+      "desc": "Per-player settings for selection transform mode. Stores clipboard block changes, fluid changes, entity changes, and offset origin for transform paste.",
+      "fields": [
+        "isInSelectionTransformationMode",
+        "blockChangesForPlaySelectionToolPasteMode",
+        "fluidChangesForPlaySelectionToolPasteMode",
+        "entityChangesForPlaySelectionToolPasteMode",
+        "blockChangeOffsetOrigin",
+        "lastTransformEntityRefs",
+        "brushConfig",
+        "brushConfigCommandExecutor",
+        "ignoredPaintOperations (LinkedList<LongOpenHashSet>)",
+        "lastBrushPosition"
+      ]
+    }
+  },
+
+  "scriptedBrushSystem": {
+    "description": "Data-driven brush system allowing JSON-defined brush operation sequences. Loaded from ScriptedBrushAsset or via command-based configuration.",
+    "components": {
+      "BrushConfig": "Runtime state for a scripted brush execution: origin, shape, dimensions, pattern, density, masks (brush, operation, history), thickness, capped",
+      "BrushConfigCommandExecutor": "Executes sequential brush operations. Manages operation index, debug stepping, persistent variables, saved snapshots, and stored indexes for jump operations.",
+      "BrushConfigEditStore": "Edit store for scripted brushes. Tracks before/previous/current BlockSelection layers. Flushes between operation iterations.",
+      "BrushConfigChunkAccessor": "Custom chunk accessor that overlays edit history on world data for scripted brush block reads.",
+      "ScriptedBrushAsset": "JSON asset defining a list of BrushOperations. Loaded from 'ScriptedBrushes' asset path."
+    },
+    "operationTypes": {
+      "system": {
+        "BrushOperation": "Abstract base. Has OPERATION_CODEC (CodecMapCodec) and BRUSH_OPERATION_REGISTRY.",
+        "GlobalBrushOperation": "Applied once before sequential execution begins.",
+        "SequenceBrushOperation": "Executed in sequence. Can modify brush config and optionally operate on blocks."
+      },
+      "globalOperations": [
+        {"id": "debug", "class": "DebugBrushOperation", "desc": "Enable debug/step-through mode"},
+        {"id": "disableonhold", "class": "DisableHoldInteractionOperation", "desc": "Disable hold-down interaction"},
+        {"id": "ignorebrushsettings", "class": "IgnoreExistingBrushDataOperation", "desc": "Ignore existing brush data from tool args"}
+      ],
+      "sequentialOperations": {
+        "blockModifying": [
+          {"id": "set", "class": "SetOperation", "desc": "Set blocks in shape"},
+          {"id": "delete", "class": "DeleteOperation", "desc": "Delete/clear blocks in shape"},
+          {"id": "replace", "class": "ReplaceOperation", "desc": "Replace matching blocks"},
+          {"id": "smooth", "class": "SmoothOperation", "desc": "Smooth terrain"},
+          {"id": "erode", "class": "ErodeOperation", "desc": "Erode terrain"},
+          {"id": "melt", "class": "MeltOperation", "desc": "Melt terrain (remove exposed blocks)"},
+          {"id": "lift", "class": "LiftOperation", "desc": "Lift/raise terrain"},
+          {"id": "layer", "class": "LayerOperation", "desc": "Apply layers"},
+          {"id": "heightmaplayer", "class": "HeightmapLayerOperation", "desc": "Apply heightmap-based layers"},
+          {"id": "pasteprefab", "class": "PastePrefabOperation", "desc": "Paste a prefab at brush origin"}
+        ],
+        "configModifying": [
+          {"id": "dimensions", "class": "DimensionsOperation", "desc": "Set brush width/height"},
+          {"id": "randomdimensions", "class": "RandomizeDimensionsOperation", "desc": "Randomize brush dimensions"},
+          {"id": "shape", "class": "ShapeOperation", "desc": "Change brush shape"},
+          {"id": "pattern", "class": "BlockPatternOperation", "desc": "Set block pattern"},
+          {"id": "material", "class": "MaterialOperation", "desc": "Set material from key"},
+          {"id": "density", "class": "SetDensity", "desc": "Set brush density"},
+          {"id": "loadmaterial", "class": "LoadMaterialFromToolArgOperation", "desc": "Load material from tool arg"},
+          {"id": "loadint", "class": "LoadIntFromToolArgOperation", "desc": "Load int from tool arg"}
+        ],
+        "maskOperations": [
+          {"id": "mask", "class": "MaskOperation", "desc": "Set operation mask"},
+          {"id": "appendmask", "class": "AppendMaskOperation", "desc": "Append to operation mask"},
+          {"id": "appendmaskfromtoolarg", "class": "AppendMaskFromToolArgOperation", "desc": "Append mask from tool arg"},
+          {"id": "clearoperationmask", "class": "ClearOperationMaskOperation", "desc": "Clear operation mask"},
+          {"id": "usebrushmask", "class": "UseBrushMaskOperation", "desc": "Toggle brush mask"},
+          {"id": "useoperationmask", "class": "UseOperationMaskOperation", "desc": "Toggle operation mask"},
+          {"id": "historymask", "class": "HistoryMaskOperation", "desc": "Set history mask mode (None/Only/Not)"}
+        ],
+        "offsetOperations": [
+          {"id": "offset", "class": "OffsetOperation", "desc": "Set origin offset"},
+          {"id": "randomoffset", "class": "RandomOffsetOperation", "desc": "Randomize origin offset"}
+        ],
+        "flowControl": [
+          {"id": "jump", "class": "JumpToIndexOperation", "desc": "Jump to saved index"},
+          {"id": "jumprandom", "class": "JumpToRandomIndex", "desc": "Jump to random index"},
+          {"id": "jumpifequal", "class": "JumpIfStringMatchOperation", "desc": "Conditional jump on string match"},
+          {"id": "jumpifclicktype", "class": "JumpIfClickType", "desc": "Conditional jump on primary/secondary click"},
+          {"id": "jumpifcompare", "class": "JumpIfCompareOperation", "desc": "Conditional jump on integer comparison"},
+          {"id": "jumpifblocktype", "class": "JumpIfBlockTypeOperation", "desc": "Conditional jump on block type at position"},
+          {"id": "jumpiftoolarg", "class": "JumpIfToolArgOperation", "desc": "Conditional jump on tool arg value"},
+          {"id": "exit", "class": "ExitOperation", "desc": "Exit brush execution"}
+        ],
+        "loops": [
+          {"id": "loop", "class": "LoopOperation", "desc": "Loop N times with offset"},
+          {"id": "loadloop", "class": "LoadLoopFromToolArgOperation", "desc": "Load loop count from tool arg"},
+          {"id": "looprandom", "class": "LoopRandomOperation", "desc": "Loop random number of times"},
+          {"id": "loopcircle", "class": "CircleOffsetAndLoopOperation", "desc": "Loop with circular offset pattern"},
+          {"id": "loopcirclefromarg", "class": "CircleOffsetFromArgOperation", "desc": "Circular loop from tool arg"}
+        ],
+        "saveAndLoad": [
+          {"id": "savebrushconfig", "class": "SaveBrushConfigOperation", "desc": "Save brush config snapshot by name"},
+          {"id": "loadbrushconfig", "class": "LoadBrushConfigOperation", "desc": "Load saved brush config snapshot"},
+          {"id": "saveindex", "class": "SaveIndexOperation", "desc": "Save current operation index by name"},
+          {"id": "loadoperationsfromasset", "class": "LoadOperationsFromAssetOperation", "desc": "Load operations from another ScriptedBrushAsset"},
+          {"id": "persistentdata", "class": "PersistentDataOperation", "desc": "Get/set persistent variables across brush executions"}
+        ],
+        "utility": [
+          {"id": "runcommand", "class": "RunCommandOperation", "desc": "Execute a server command"},
+          {"id": "echo", "class": "EchoOperation", "desc": "Print message to player"},
+          {"id": "echoonce", "class": "EchoOnceOperation", "desc": "Print message once per execution"},
+          {"id": "breakpoint", "class": "BreakpointOperation", "desc": "Enter debug stepping mode"}
+        ]
+      }
+    },
+    "ui": {
+      "ScriptedBrushPage": "UI page for scripted brush configuration"
+    }
+  },
+
+  "prefabEditorSystem": {
+    "description": "Full prefab editing workflow: creates isolated worlds for editing prefab files, with load, edit, save, and exit lifecycle.",
+    "manager": {
+      "class": "PrefabEditSessionManager",
+      "desc": "Manages active prefab edit sessions. Creates temporary worlds per editor, handles loading/pasting prefabs, teleportation, and cleanup.",
+      "features": [
+        "Creates isolated world per editor (prefabEditor-{username})",
+        "Loads one or multiple prefabs into editing world with configurable layout (stacking axis, alignment, row splitting, spacing)",
+        "Supports Flat or Void world gen for editing environment",
+        "Handles prefab save/save-as with PrefabSaver",
+        "Exit session returns player to source world and deletes editing world",
+        "Tracks which prefabs are being edited to prevent concurrent edits",
+        "Loading cancellation support with cleanup",
+        "Progress tracking via PrefabLoadingState callbacks"
+      ]
+    },
+    "session": {
+      "class": "PrefabEditSession",
+      "implements": "Resource<EntityStore>",
+      "desc": "Serializable session state. Stored as EntityStore resource, persisted/restored via codec on world save/load.",
+      "fields": ["worldName", "worldArrivedFrom (UUID)", "transformArrivedFrom", "worldCreator (UUID)", "loadedPrefabMetadata (Map<UUID, PrefabEditingMetadata>)", "selectedPrefab", "spawnPoint"]
+    },
+    "metadata": {
+      "class": "PrefabEditingMetadata",
+      "desc": "Per-loaded-prefab metadata: path, bounding box (min/max), anchor position, paste position, dirty flag"
+    },
+    "enums": {
+      "PrefabAlignment": "ZERO, CENTER alignment modes",
+      "PrefabRootDirectory": "Root directory for prefab paths",
+      "PrefabRowSplitMode": "NONE, BY_SPECIFIED_FOLDER, BY_ALL_SUBFOLDERS",
+      "PrefabStackingAxis": "X, Z axis for laying out multiple prefabs",
+      "WorldGenType": "FLAT, VOID for editing world terrain"
+    },
+    "saving": {
+      "PrefabSaver": "Handles saving prefab data from editing world back to file",
+      "PrefabSaverSettings": "Settings for prefab save operation"
+    },
+    "ui": {
+      "PrefabEditorExitConfirmPage": "Confirmation dialog before exiting unsaved session",
+      "PrefabEditorLoadSettingsPage": "UI for configuring prefab load settings",
+      "PrefabEditorSaveSettingsPage": "UI for configuring prefab save settings",
+      "PrefabTeleportPage": "UI for teleporting between loaded prefabs"
+    },
+    "interactions": {
+      "PrefabSelectionInteraction": "Block interaction for selecting prefabs in editing world",
+      "PrefabSetAnchorInteraction": "Block interaction for setting prefab anchor point"
+    },
+    "dirtySystems": {
+      "PrefabDirtySystems.BlockBreakDirtySystem": "Marks prefab as dirty when blocks are broken",
+      "PrefabDirtySystems.BlockPlaceDirtySystem": "Marks prefab as dirty when blocks are placed"
+    }
+  },
+
+  "prefabListSystem": {
+    "description": "UI for browsing and managing prefab files.",
+    "classes": [
+      {"name": "AssetPrefabFileProvider", "desc": "Provides prefab file listing from asset directories"},
+      {"name": "PrefabPage", "desc": "UI page for browsing prefab list"},
+      {"name": "PrefabSavePage", "desc": "UI page for saving prefabs from clipboard"}
+    ]
+  },
+
+  "imageImportSystem": {
+    "description": "Import images as block art using color matching.",
+    "classes": [
+      {"name": "ImageImportCommand", "desc": "Command to import an image file as blocks"},
+      {"name": "ImageImportPage", "desc": "UI page for image import settings"}
+    ],
+    "colorMatching": {
+      "class": "BlockColorIndex",
+      "desc": "Maps blocks to colors using CIE Lab color space. Builds index from all solid cube blocks with particle colors. Provides findClosestBlock(r,g,b), findDarkerVariant, findBlockForLerpedColor."
+    }
+  },
+
+  "objImportSystem": {
+    "description": "Import .obj 3D models as voxelized blocks.",
+    "classes": [
+      {"name": "ObjImportCommand", "desc": "Command to import .obj file"},
+      {"name": "ObjImportPage", "desc": "UI page for OBJ import settings"},
+      {"name": "ObjParser", "desc": "Parses Wavefront .obj file format (vertices, faces, UVs, normals)"},
+      {"name": "MtlParser", "desc": "Parses .mtl material files (diffuse colors, textures)"},
+      {"name": "MeshVoxelizer", "desc": "Converts triangle mesh to voxel grid"},
+      {"name": "TextureSampler", "desc": "Samples texture colors for voxelization color mapping"}
+    ]
+  },
+
+  "protocolIntegration": {
+    "description": "BuilderToolsPacketHandler registers 20+ packet handlers for client-server communication.",
+    "packetHandler": {
+      "class": "BuilderToolsPacketHandler",
+      "implements": "SubPacketHandler",
+      "permission": "hytale.editor.builderTools (base), with sub-permissions for specific features"
+    },
+    "packetTypes": {
+      "toolArgs": {"id": 400, "class": "BuilderToolArgUpdate", "desc": "Update tool argument value", "permission": "hytale.editor.brush.config"},
+      "entityAction": {"id": 401, "class": "BuilderToolEntityAction", "desc": "Freeze/Clone/Remove entity"},
+      "setEntityTransform": {"id": 402, "class": "BuilderToolSetEntityTransform", "desc": "Set entity position/rotation"},
+      "extrudeAction": {"id": 403, "class": "BuilderToolExtrudeAction", "desc": "Extrude block face", "permission": "hytale.editor.selection.modify"},
+      "stackArea": {"id": 404, "class": "BuilderToolStackArea", "desc": "Stack selection area", "permission": "hytale.editor.selection.clipboard"},
+      "selectionTransform": {"id": 405, "class": "BuilderToolSelectionTransform", "desc": "Transform (rotate/translate) selection with paste", "permission": "hytale.editor.selection.clipboard"},
+      "rotateClipboard": {"id": 406, "class": "BuilderToolRotateClipboard", "desc": "Rotate clipboard", "permission": "hytale.editor.selection.clipboard"},
+      "pasteClipboard": {"id": 407, "class": "BuilderToolPasteClipboard", "desc": "Paste clipboard at coords", "permission": "hytale.editor.selection.clipboard"},
+      "setTransformMode": {"id": 408, "class": "BuilderToolSetTransformationModeState", "desc": "Enter/exit selection transformation mode"},
+      "selectionUpdate": {"id": 409, "class": "BuilderToolSelectionUpdate", "desc": "Update selection bounds", "permission": "hytale.editor.selection.use"},
+      "askForClipboard": {"id": 410, "class": "BuilderToolSelectionToolAskForClipboard", "desc": "Request clipboard data for client-side preview", "permission": "hytale.editor.selection.clipboard"},
+      "generalAction": {"id": 412, "class": "BuilderToolGeneralAction", "desc": "Undo/Redo/Copy/Pos1/Pos2/ActivateToolMode/DeactivateToolMode"},
+      "onUseInteraction": {"id": 413, "class": "BuilderToolOnUseInteraction", "desc": "Brush tool click/use", "permission": "hytale.editor.brush.use"},
+      "lineAction": {"id": 414, "class": "BuilderToolLineAction", "desc": "Draw line between two points", "permission": "hytale.editor.brush.use"},
+      "prefabUnselect": {"id": 417, "class": "PrefabUnselectPrefab", "desc": "Unselect prefab in editing session"},
+      "setEntityScale": {"id": 420, "class": "BuilderToolSetEntityScale", "desc": "Set prop entity scale"},
+      "setEntityPickup": {"id": 421, "class": "BuilderToolSetEntityPickupEnabled", "desc": "Toggle entity pickup interaction"},
+      "setEntityLight": {"id": 422, "class": "BuilderToolSetEntityLight", "desc": "Set/remove dynamic light on entity"},
+      "setNPCDebug": {"id": 423, "class": "BuilderToolSetNPCDebug", "desc": "Toggle NPC debug display"},
+      "setEntityCollision": {"id": 425, "class": "BuilderToolSetEntityCollision", "desc": "Set/remove hitbox collision on entity"},
+      "loadHotbar": {"id": 106, "class": "LoadHotbar", "desc": "Load saved hotbar row"},
+      "saveHotbar": {"id": 107, "class": "SaveHotbar", "desc": "Save current hotbar row"}
+    },
+    "serverToClient": [
+      "BuilderToolSelectionToolReplyWithClipboard (sends block + fluid clipboard data to client)",
+      "EditorBlocksChange (sends block changes for selection visualization)"
+    ],
+    "permissions": [
+      "hytale.editor.builderTools (base)",
+      "hytale.editor.brush.config",
+      "hytale.editor.brush.use",
+      "hytale.editor.selection.use",
+      "hytale.editor.selection.modify",
+      "hytale.editor.selection.clipboard",
+      "hytale.editor.history"
+    ]
+  },
+
+  "ecsIntegration": {
+    "systems": [
+      {
+        "class": "BuilderToolsSystems.EnsureBuilderTools",
+        "store": "EntityStore",
+        "query": "Player component type",
+        "desc": "On player entity add, populates tools inventory from BuilderToolItemReferenceAsset registry."
+      },
+      {
+        "class": "BuilderToolsUserDataSystem",
+        "store": "EntityStore",
+        "query": "Player AND NOT BuilderToolsUserData",
+        "desc": "Ensures BuilderToolsUserData component on players that don't have it."
+      },
+      {
+        "class": "PrefabPasteEventSystem",
+        "store": "EntityStore",
+        "desc": "WorldEventSystem handling PrefabPasteEvent. Manages pastedPrefabPathUUIDMap cleanup."
+      },
+      {
+        "class": "PrefabDirtySystems.BlockBreakDirtySystem",
+        "desc": "Marks prefab as dirty on block break in editing world."
+      },
+      {
+        "class": "PrefabDirtySystems.BlockPlaceDirtySystem",
+        "desc": "Marks prefab as dirty on block place in editing world."
+      }
+    ],
+    "components": [
+      {"name": "BuilderToolsUserData", "store": "EntityStore", "id": "BuilderTools", "desc": "Per-player setting: selectionHistory boolean controlling undo recording of selection changes."},
+      {"name": "PrefabAnchor", "store": "EntityStore", "id": "PrefabAnchor", "desc": "Marks entities as prefab anchor points."}
+    ],
+    "resources": [
+      {"name": "PrefabEditSession", "store": "EntityStore", "id": "PrefabEditSession", "desc": "World-level resource storing active prefab editing session state. Serialized via codec."}
+    ]
+  },
+
+  "crossReferences": {
+    "blockTypes": {
+      "BlockType": "Used extensively for block ID lookup, draw type checking (Cube/CubeWithModel), particle color for color index",
+      "BlockPattern": "Pattern for multi-block placement (weighted random). Used by set, fill, replace, line, brush operations.",
+      "BlockMask": "Filtering predicate for operations. Combines target, above, below, adjacent, neighbor filters.",
+      "BlockState/BlockStateModule": "Block state creation when copying blocks with state data"
+    },
+    "worldAccess": {
+      "World": "Primary world reference for chunk access, entity store, notification handler, world map",
+      "ChunkStore/EntityStore": "ECS stores for chunk and entity data",
+      "LocalCachedChunkAccessor": "Cached chunk accessor for efficient multi-chunk brush operations",
+      "OverridableChunkAccessor": "Accessor that can overlay modifications (used by EditOperation)",
+      "WorldChunk/BlockSection/FluidSection": "Low-level chunk data access for block/fluid reads and tint writes"
+    },
+    "entityComponents": [
+      "Player", "TransformComponent", "HeadRotation", "UUIDComponent",
+      "PropComponent", "EntityScaleComponent", "DynamicLight", "PersistentDynamicLight",
+      "HitboxCollision", "HitboxCollisionConfig", "NPCMarkerComponent",
+      "Interactable", "Interactions", "PreventPickup",
+      "PrefabCopyableComponent", "MovementStatesComponent"
+    ],
+    "prefabSystem": {
+      "PrefabStore": "Prefab loading/saving",
+      "PrefabBuffer/PrefabBufferUtil": "Prefab data buffering for load",
+      "PrefabUtil": "Utility for pasting prefab buffers into world",
+      "PrefabPasteEvent": "Event fired on prefab paste start/end",
+      "PrefabSpawnerState": "Integration with prefab spawner UI"
+    },
+    "assetTypes": [
+      "BuilderTool (builder tool definition with args and brush config)",
+      "BuilderToolData (item builder tool data)",
+      "BuilderToolItemReferenceAsset (maps builder tool items)",
+      "BrushData / BrushData.Values (brush shape, size, material, mask settings)",
+      "BlockBoundingBoxes (hitbox definitions)",
+      "Environment / WeatherForecast (for prefab editor world setup)",
+      "Fluid (fluid type lookup)"
+    ],
+    "commandSystem": {
+      "CommandManager": "Used for executing commands from brush operations (RunCommandOperation, NPC commands)",
+      "CommandRegistry": "All 38+ commands registered via commandRegistry.registerCommand()",
+      "AbstractPlayerCommand": "Base class for player-targeted commands with GameMode and permission gating"
+    },
+    "mathUtilities": [
+      "BlockCubeUtil, BlockSphereUtil, BlockCylinderUtil, BlockConeUtil, BlockPyramidUtil, BlockDomeUtil, BlockInvertedDomeUtil, BlockDiamondUtil, BlockTorusUtil (shape iteration)",
+      "LineIterator (Bresenham line drawing for editLine)",
+      "VectorBoxUtil (AABB containment tests for entity-in-selection)",
+      "BlockUtil (pack/unpack block coordinates to/from longs)",
+      "ChunkUtil (chunk coordinate math)"
+    ]
+  },
+
+  "utils": {
+    "Material": "Value type representing block (id+rotation), fluid (id+level), or empty. Factory methods: block(), fluid(), fromKey(), fromPattern().",
+    "FluidPatternHelper": "Resolves fluid names to FluidInfo (fluidId, fluidLevel) for pattern parsing.",
+    "PasteToolUtil": "Utilities for paste tool operations.",
+    "RecursivePrefabLoader": "Recursively loads prefabs including child prefabs."
+  },
+
+  "interactions": {
+    "PickupItemInteraction": "Block interaction type allowing items to be picked up. Registered with id '*PickupItem'. Has DEFAULT_ROOT root interaction."
+  }
+}

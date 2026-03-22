@@ -1,0 +1,820 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T00:00:00Z",
+  "domain": "worldgen_server",
+  "overview": "The Hytale world generation server subsystem is a multi-layered procedural generation pipeline under com.hypixel.hytale.server.worldgen (~160 types across 14 sub-packages). World generation is driven by JSON configuration files (World.json, Zones.json, Zone.json, biome configs) loaded through a chain of JsonLoader classes. The system uses a hierarchical Zone -> Biome -> Container architecture where zones define regions of the map, biomes define terrain characteristics within zones, and containers define specific block/cover/prefab/water/tint/environment placement rules within biomes. Chunk generation is parallelized via a dedicated ThreadPoolExecutor using 75% of available cores. The pipeline proceeds: zone resolution -> biome selection -> height threshold interpolation -> block population -> cave carving -> prefab placement -> water filling.",
+  "confidence": "high",
+  "subsections": {
+    "pipeline": {
+      "overview": "World generation follows a strict pipeline orchestrated by ChunkGenerator and ChunkGeneratorExecution. The entry point is HytaleWorldGenProvider.getGenerator() which loads World.json, creates a ChunkGeneratorJsonLoader, and produces a ChunkGenerator. Each chunk is generated asynchronously via CompletableFuture on a dedicated thread pool. The ChunkGeneratorExecution.execute() method runs the four sequential population stages.",
+      "stages": [
+        {
+          "order": 0,
+          "name": "Preparation (HeightThresholdInterpolator)",
+          "description": "Before the main stages, the HeightThresholdInterpolator is populated. It queries a 42x42 grid (32 + 2*5 radius) of CoreDataCacheEntry around the chunk, each containing a ZoneBiomeResult. It then computes InterpolatedBiomeCountList for each column (using the biome's interpolation radius, default 5 blocks) and derives interpolated height noise values. This pre-computation allows efficient threshold lookups during block generation.",
+          "types": [
+            "com.hypixel.hytale.server.worldgen.chunk.HeightThresholdInterpolator",
+            "com.hypixel.hytale.server.worldgen.cache.CoreDataCacheEntry",
+            "com.hypixel.hytale.server.worldgen.cache.InterpolatedBiomeCountList"
+          ],
+          "confidence": "high"
+        },
+        {
+          "order": 1,
+          "name": "Tint and Environment Mapping",
+          "description": "Before block generation, generateTintMapping() computes a per-column tint color by sampling biome tint containers in a radius-4 circle and averaging RGB components. generateEnvironmentMapping() sets a per-column environment ID from the biome's EnvironmentContainer.",
+          "types": [
+            "com.hypixel.hytale.server.worldgen.container.TintContainer",
+            "com.hypixel.hytale.server.worldgen.container.EnvironmentContainer"
+          ],
+          "confidence": "high"
+        },
+        {
+          "order": 2,
+          "name": "Block Population (BlockPopulator)",
+          "description": "Iterates all 32x32 columns in the chunk. For each column: (1) Scans from the highest non-zero threshold height downward, comparing the interpolated height threshold against heightmap noise to determine solid vs air blocks, filling solid positions with the biome's LayerContainer filling block. (2) Tracks surface block Y positions. (3) Applies static layers (fixed Y range) and dynamic layers (relative to surface). (4) Places cover blocks (grass, snow, etc.) on surface positions using CoverContainer entries with density, map condition, and height condition checks.",
+          "types": [
+            "com.hypixel.hytale.server.worldgen.chunk.populator.BlockPopulator",
+            "com.hypixel.hytale.server.worldgen.container.LayerContainer",
+            "com.hypixel.hytale.server.worldgen.container.CoverContainer"
+          ],
+          "timed_metric": "reportBlocksGeneration",
+          "confidence": "high"
+        },
+        {
+          "order": 3,
+          "name": "Cave Population (CavePopulator)",
+          "description": "For each zone that has a CaveGenerator, iterates all CaveTypes and uses their IPointGenerator to find cave entry points in the chunk vicinity. For each entry point in the correct zone with matching entry/height thresholds, retrieves or generates a Cave from the CaveGeneratorCache. The Cave contains CaveNodes organized by chunk index. Each node's shape is applied to carve blocks, then cave prefabs are placed. Cave generation uses a CaveBlockPriorityModifier to allow cave shapes to override terrain blocks.",
+          "types": [
+            "com.hypixel.hytale.server.worldgen.chunk.populator.CavePopulator",
+            "com.hypixel.hytale.server.worldgen.cave.CaveGenerator",
+            "com.hypixel.hytale.server.worldgen.cave.Cave",
+            "com.hypixel.hytale.server.worldgen.cave.CaveType",
+            "com.hypixel.hytale.server.worldgen.cave.element.CaveNode"
+          ],
+          "timed_metric": "reportCaveGeneration",
+          "confidence": "high"
+        },
+        {
+          "order": 4,
+          "name": "Prefab Population (PrefabPopulator)",
+          "description": "Places prefabricated structures. Collects relevant biomes (from the chunk and surrounding area up to the max prefab extent), then collects candidate prefab positions from each biome's PrefabContainer using the PrefabPatternGenerator's grid. Validates candidates against biome matching, noise density, height conditions, parent block conditions, and unique prefab exclusion radii. Resolves priority conflicts between overlapping candidates (lower priority number wins). Finally generates both regular and unique prefabs via PrefabPasteUtil.",
+          "types": [
+            "com.hypixel.hytale.server.worldgen.chunk.populator.PrefabPopulator",
+            "com.hypixel.hytale.server.worldgen.container.PrefabContainer",
+            "com.hypixel.hytale.server.worldgen.prefab.PrefabPatternGenerator",
+            "com.hypixel.hytale.server.worldgen.prefab.PrefabPasteUtil",
+            "com.hypixel.hytale.server.worldgen.prefab.PrefabCategory",
+            "com.hypixel.hytale.server.worldgen.container.UniquePrefabContainer"
+          ],
+          "timed_metric": "reportPrefabGeneration",
+          "confidence": "high"
+        },
+        {
+          "order": 5,
+          "name": "Water Population (WaterPopulator)",
+          "description": "Final stage. Iterates all 32x32 columns and for each, checks the biome's WaterContainer entries. For each water entry with a valid mask, fills blocks between min and max water height with the configured block/fluid. Only fills positions where the block priority is below 4, or the submerge flag is set. Checks FluidTicker.isSolid() to skip filling solid blocks with fluid.",
+          "types": [
+            "com.hypixel.hytale.server.worldgen.chunk.populator.WaterPopulator",
+            "com.hypixel.hytale.server.worldgen.container.WaterContainer"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "interfaces": [
+        {
+          "type": "com.hypixel.hytale.server.core.universe.world.worldgen.IWorldGen",
+          "role": "Core world generation interface. ChunkGenerator implements IBenchmarkableWorldGen (extends IWorldGen). Defines generate(seed, index, x, z, stillNeeded) -> CompletableFuture<GeneratedChunk>.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.core.universe.world.worldgen.provider.IWorldGenProvider",
+          "role": "Factory interface for creating IWorldGen instances. HytaleWorldGenProvider implements this, loading JSON configuration and producing a ChunkGenerator.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.core.universe.world.worldgen.IBenchmarkableWorldGen",
+          "role": "Extends IWorldGen with benchmarking capabilities. ChunkGenerator implements this.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.core.universe.world.worldgen.ValidatableWorldGen",
+          "role": "Validation interface. ChunkGenerator.validate() delegates to ValidationUtil to check the zone pattern provider on the executor.",
+          "confidence": "high"
+        }
+      ],
+      "threading_model": {
+        "description": "ChunkGenerator creates a ChunkThreadPoolExecutor with pool size = max(2, ceil(availableProcessors * 0.75)). Each chunk generation runs as a CompletableFuture.supplyAsync on this pool. A ThreadLocal<ChunkGeneratorResource> provides per-thread reusable buffers (Random instances, priority chunks, result buffers, climate buffers, prefab paste buffers) to avoid allocation during generation. Core thread timeout is 60 seconds with allowCoreThreadTimeOut(true).",
+        "pool_size_formula": "Math.max(2, MathUtil.fastCeil(Runtime.getRuntime().availableProcessors() * 0.75F))",
+        "confidence": "high"
+      }
+    },
+    "biomes": {
+      "overview": "Biomes define terrain shape, block composition, surface covers, vegetation, water levels, tint colors, and environment settings for a region within a zone. There are two biome types: TileBiome (regular, weight-based selection using Voronoi point generation) and CustomBiome (overlay biomes that conditionally replace tile biomes based on noise thresholds and parent biome masks). Each zone has a BiomePatternGenerator that selects which biome applies at any given coordinate.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.server.worldgen.biome.Biome",
+          "role": "Abstract base class. Holds all biome properties: id, name, BiomeInterpolation, IHeightThresholdInterpreter (terrain shape), heightmapNoise (NoiseProperty), and containers for covers, layers, prefabs, tints, environments, water, and fade. MapColor for world map rendering.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.biome.TileBiome",
+          "role": "Standard biome with weight (for weighted random selection in the tile pattern) and sizeModifier (affects Voronoi cell size).",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.biome.CustomBiome",
+          "role": "Overlay biome with a CustomBiomeGenerator that checks noise thresholds, parent biome masks, and zone border fade to conditionally replace a TileBiome.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.biome.BiomePatternGenerator",
+          "role": "Per-zone biome selector. Uses an IPointGenerator (Voronoi) to select a TileBiome from a weighted map, then checks CustomBiome overlays. generateBiomeAt() returns the final Biome for a coordinate.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.biome.BiomeInterpolation",
+          "role": "Controls biome boundary smoothing. Default radius=5 blocks. Can specify per-biome radii squared for non-uniform interpolation.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.biome.CustomBiomeGenerator",
+          "role": "Determines if a CustomBiome should override the parent TileBiome at a location. Uses NoiseProperty + IDoubleThreshold for noise-based placement, IIntCondition biomeMask for parent biome filtering, and priority for ordering among custom biomes. Accounts for zone border fade to smoothly transition custom biome edges.",
+          "confidence": "high"
+        }
+      ],
+      "selection_mechanism": "Zone.biomePatternGenerator().generateBiomeAt(zoneResult, seed, x, z): (1) Uses IPointGenerator (Voronoi cells) to compute the nearest point hash, (2) Maps the hash to a TileBiome via IWeightedMap (weight-based), (3) Iterates CustomBiomes checking isValidParentBiome and shouldGenerateAt (noise threshold + zone border fade), (4) Returns the first matching CustomBiome or falls back to the TileBiome.",
+      "biome_containers": [
+        {
+          "name": "LayerContainer",
+          "role": "Defines block filling (base block type) and layer stacking. Has StaticLayers (fixed Y range, e.g., bedrock, deep stone) and DynamicLayers (relative to surface, e.g., topsoil, grass blocks). Each layer has noise-conditional variants and environment IDs.",
+          "confidence": "high"
+        },
+        {
+          "name": "CoverContainer",
+          "role": "Defines surface cover blocks placed on top of terrain (grass, flowers, snow). Each entry has coverDensity, mapCondition, heightCondition, parentCondition (checks block below), onWater flag, and a weighted map of block entries with Y offsets.",
+          "confidence": "high"
+        },
+        {
+          "name": "PrefabContainer",
+          "role": "Defines prefabricated structures to scatter in the biome. Each entry has a PrefabPatternGenerator (grid spacing, conditions, rotation) and a weighted map of WorldGenPrefabSupplier instances.",
+          "confidence": "high"
+        },
+        {
+          "name": "TintContainer",
+          "role": "Defines per-column tint colors for vegetation rendering. Uses noise-based weighted color mapping with conditional entries.",
+          "confidence": "high"
+        },
+        {
+          "name": "EnvironmentContainer",
+          "role": "Defines per-column environment IDs (likely for ambient audio/particle effects). Uses noise-based weighted ID mapping.",
+          "confidence": "high"
+        },
+        {
+          "name": "WaterContainer",
+          "role": "Defines water/fluid bodies. Each entry specifies block ID, fluid ID, min/max height (IDoubleCoordinateSupplier for noise-varying levels), and a mask condition.",
+          "confidence": "high"
+        },
+        {
+          "name": "FadeContainer",
+          "role": "Controls zone border transitions. Has maskFade (affects custom biome noise threshold) and terrainFade (blends heightmap noise toward a target fadeHeightmap value near zone borders). Uses ZoneGeneratorResult.borderDistance for smooth interpolation.",
+          "confidence": "high"
+        }
+      ],
+      "confidence": "high"
+    },
+    "terrain": {
+      "overview": "Terrain height is determined by a threshold-based system rather than a simple heightmap. For each column (x,z), a heightmapNoise value is computed from the biome's NoiseProperty. For each Y level, an IHeightThresholdInterpreter returns a threshold value. A block is solid if threshold > heightmapNoise (or threshold == 1.0 for guaranteed solid). This allows complex terrain shapes like overhangs and floating islands. Biome interpolation smooths terrain across biome boundaries by weighted-averaging the threshold values from all biomes within the interpolation radius.",
+      "height_generation": "ChunkGenerator.generateHeight(seed, x, z): Gets CoreDataCacheEntry (contains InterpolatedBiomeCountList and interpolated heightNoise), then scans from generateHighestThresholdDependent down to Y=0. At each Y, computes generateInterpolatedThreshold (weighted average across biomes in interpolation radius). Returns the first Y where threshold > heightNoise. The heightmapNoise itself is also interpolated across biome boundaries in generateInterpolatedHeightNoise().",
+      "threshold_system": {
+        "description": "IHeightThresholdInterpreter is the core abstraction from proceduralLib. Each biome provides one via its TerrainHeightThreshold JSON config. The interpreter takes (seed, x, z, y, context) and returns a float threshold. The 'context' is pre-computed per-column via getContext(seed, x, z). The interpreter also reports getLowestNonOne() and getHighestNonZero() for optimization -- these define the Y range that needs scanning, avoiding unnecessary computation outside the biome's height range.",
+        "max_world_height": 320,
+        "confidence": "high"
+      },
+      "noise_functions": [
+        {
+          "name": "NoiseProperty (heightmapNoise)",
+          "description": "Each biome has a heightmapNoise NoiseProperty. This is loaded from JSON via NoisePropertyJsonLoader (from proceduralLib). Returns a double value for (seed, x, z). The actual noise implementation is in the proceduralLib library -- types not in the worldgen package.",
+          "confidence": "high"
+        },
+        {
+          "name": "ClimateNoise.continent",
+          "description": "NoiseProperty used by the climate system to determine land vs ocean. Values mapped through configurable thresholds: land threshold (default 0.5), island threshold (default 0.8), beach size (0.05), shallow ocean size (0.15).",
+          "confidence": "high"
+        },
+        {
+          "name": "ClimateNoise.temperature",
+          "description": "NoiseProperty used by the climate system to determine temperature axis of the climate graph.",
+          "confidence": "high"
+        },
+        {
+          "name": "ClimateNoise.intensity",
+          "description": "NoiseProperty used by the climate system to determine intensity axis of the climate graph.",
+          "confidence": "high"
+        },
+        {
+          "name": "FadeContainer terrain blending",
+          "description": "Near zone borders, the heightmapNoise is blended toward a fixed fadeHeightmap value using: noise * (1 - factor) + fadeHeightmap * factor, where factor is derived from ZoneGeneratorResult.borderDistance.",
+          "confidence": "high"
+        }
+      ],
+      "block_priority_system": {
+        "description": "BlockPriorityChunk tracks a per-voxel priority byte. Blocks can only be overwritten by equal or higher priority writes. Priorities used: 1=terrain filling, 2=layers, 3=covers, 4=water threshold, 7=cave prefabs (non-submerged), 9=surface prefabs (non-submerged), 39=cave prefabs (submerged), 41=surface prefabs (submerged). The CaveBlockPriorityModifier adjusts priorities during cave carving to allow cave shapes to override terrain. Flags in the upper bits of the priority byte control submerge behavior.",
+        "confidence": "high"
+      },
+      "confidence": "high"
+    },
+    "zones": {
+      "overview": "Zones are the highest-level geographic division. The world is partitioned into zones using a color-mapped mask image (Mask.png or a climate-based ClimateMaskProvider). Each zone defines its own biome set, cave generator, and unique prefab placements. Zones are defined in Zones.json and individual Zone.json files within subdirectories.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.server.worldgen.zone.Zone",
+          "role": "Record type holding: id, name, ZoneDiscoveryConfig, CaveGenerator (nullable), BiomePatternGenerator, UniquePrefabContainer. Each zone is self-contained with its own biome system and cave system.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.zone.ZonePatternProvider",
+          "role": "Immutable zone configuration. Holds the IPointGenerator, Zone array, unique zone candidates, MaskProvider, and ZoneColorMapping. createGenerator(seed) produces a seed-specific ZonePatternGenerator with resolved unique zone positions.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.zone.ZonePatternGenerator",
+          "role": "Seed-specific zone resolver. generate(seed, x, z) -> ZoneGeneratorResult: (1) Transforms coordinates through MaskProvider (applying randomizer distortion), (2) Samples the mask to get an RGB color, (3) Looks up Zone[] via ZoneColorMapping, (4) If multiple zones share a color, uses IPointGenerator (Voronoi) to select one deterministically, (5) Records borderDistance for fade calculations.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.zone.ZoneColorMapping",
+          "role": "Int2ObjectMap mapping RGB mask colors to Zone arrays. When multiple zones share a color, Voronoi point hashing selects one.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.zone.ZoneGeneratorResult",
+          "role": "Result of zone lookup: the resolved Zone and the borderDistance (distance to the nearest zone boundary in mask-space, used for fade calculations).",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.zone.ZoneDiscoveryConfig",
+          "role": "UI/gameplay configuration for zone discovery notifications: display flag, zone name, sound event ID, icon, major/minor flag, duration, fade in/out durations.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.zone.Zone.Unique",
+          "role": "Record pairing a Zone with a CompletableFuture<Vector2i> position, representing a unique zone instance with a specific world location (resolved asynchronously via climate search).",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.zone.Zone.UniqueEntry",
+          "role": "Configuration for a unique zone: the zone, its mask color, parent colors, radius, and padding. Used during mask generation to carve out circular regions for unique zones.",
+          "confidence": "high"
+        }
+      ],
+      "zone_resolution_flow": "ZonePatternGenerator.generate(seed, x, z): maskProvider transforms coordinates (with randomizer distortion), samples the mask image to get an RGB color, looks up Zone[] via ZoneColorMapping. Single-zone colors return directly; multi-zone colors use IPointGenerator.nearest2D hashing to select deterministically. Border distance is computed for fade.",
+      "mask_system": {
+        "description": "Two mask providers exist: (1) MaskProvider wraps a FuzzyZoom which reads a Mask.png image and applies coordinate randomization + zoom. The ExactZoom handles pixel lookup and zoom math. (2) ClimateMaskProvider generates zone colors procedurally from climate noise (continent + temperature + intensity) mapped through a ClimateGraph, with continent flags (land/ocean/shore/island) encoded in the upper bits of the color. UniqueClimateGenerator can override specific circular regions for unique zones.",
+        "types": [
+          "com.hypixel.hytale.server.worldgen.chunk.MaskProvider",
+          "com.hypixel.hytale.server.worldgen.climate.ClimateMaskProvider",
+          "com.hypixel.hytale.server.worldgen.zoom.FuzzyZoom",
+          "com.hypixel.hytale.server.worldgen.zoom.ExactZoom",
+          "com.hypixel.hytale.server.worldgen.zoom.PixelProvider"
+        ],
+        "confidence": "high"
+      },
+      "confidence": "high"
+    },
+    "climate": {
+      "overview": "The climate system provides an alternative to image-based zone masks. It procedurally generates zone mappings using three noise axes: continent (land/ocean), temperature, and intensity. A ClimateGraph maps (temperature, intensity) pairs to ClimateTypes using a nearest-point selection algorithm. ClimateTypes form a hierarchy (parents with children) and each has associated colors for land, shore, ocean, shallow ocean, and island variants. The climate system also handles unique zone placement by searching for suitable locations based on configurable rules.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.server.worldgen.climate.ClimateNoise",
+          "role": "Core climate noise generator. Contains Grid (cell grid + evaluator for coordinate warping), continent noise, temperature noise, intensity noise, and Thresholds (land/island/beach/shallowOcean boundaries). generate() produces a combined ID with climate type index and continent flags (IS_OCEAN, IS_SHORE, IS_ISLAND).",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.climate.ClimateGraph",
+          "role": "2D lookup table (default 512x512 resolution) mapping (temperature, intensity) to ClimateType IDs. Built by Voronoi-like nearest-point assignment from ClimatePoints. Supports hierarchical types (parents -> children). Computes a fade map using DistanceTransform for smooth transitions between climate zones. FadeMode can be PARENTS or CHILDREN.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.climate.ClimateType",
+          "role": "Named climate category with ClimateColor (land/shore/ocean/shallowOcean color variants for zone mapping), ClimatePoints (positions in temperature-intensity space with optional modifier), and child ClimateTypes for hierarchical subdivision. Constants define flag bit positions: IS_ISLAND (bit 29), IS_SHORE (bit 30), IS_OCEAN (bit 31).",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.climate.ClimatePoint",
+          "role": "Position in temperature-intensity space with a modifier that scales the distance metric for nearest-point assignment. Modifier > 1 makes the type's influence area larger.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.climate.ClimateSearch",
+          "role": "Spiral search algorithm for finding suitable unique zone locations. Searches outward from an origin in 100-block steps, evaluating positions against configurable rules for continent, temperature, intensity, and fade values. Each rule has a range (value, radius) and weight for scoring. Target score threshold is 0.75, max radius 10000.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.climate.UniqueClimateGenerator",
+          "role": "Manages unique climate-based zones. Each Entry specifies a zone name, parent dependency, color, radius, origin offset, min/max search distance, and a search Rule. apply() uses ClimateSearch to find positions asynchronously, with parent chaining (child zones search relative to parent position). Generates Unique records with circular contains() checks.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.climate.ClimateMaskProvider",
+          "role": "MaskProvider subclass that generates zone colors from climate noise instead of an image. get() first checks UniqueClimateGenerator for override, then generates from ClimateNoise + ClimateGraph. Returns colors from ClimateType.color() which maps flags (ocean, shore, island, etc.) to the appropriate color variant.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.climate.ClimateColor",
+          "role": "Holds four RGB colors for a climate type: land, shore, ocean, shallowOcean. Default constants: ISLAND=0x554E33, SHORE=0xDDB799, OCEAN=0x008489, SHALLOW_OCEAN=0x338B4C.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.climate.DirectGrid",
+          "role": "Identity CellDistanceFunction that passes coordinates through unchanged. Used as a no-op grid when no cell warping is desired.",
+          "confidence": "high"
+        }
+      ],
+      "continent_thresholds": {
+        "land_default": 0.5,
+        "island_default": 0.8,
+        "beach_size_default": 0.05,
+        "shallow_ocean_size_default": 0.15,
+        "description": "The continent noise value determines land/ocean classification: <= land+shallowOceanSize is land, >= island-shallowOceanSize*0.5 is island, between land and island is ocean. Shore zones are within beachSize of the land/island boundary."
+      },
+      "confidence": "high"
+    },
+    "caves": {
+      "overview": "The cave system uses a recursive node-tree architecture. Each zone optionally has a CaveGenerator containing an array of CaveTypes. Each CaveType defines a root CaveNodeType with child entries that form a tree of CaveNodes. Caves are generated per-entry-point (determined by an IPointGenerator) and cached by (CaveType, seed, x, z). Each CaveNode has a geometric shape (pipe, cylinder, ellipsoid, distorted, prefab, empty line) that defines the carving volume. Nodes can have prefab placements (decorations, loot) and cover entries (floor/ceiling blocks).",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.server.worldgen.cave.CaveGenerator",
+          "role": "Orchestrates cave tree generation. generate() creates a Cave, computes start height (optionally noise-based), calls startCave() which checks biome mask at origin, creates the root CaveNode, then recursively calls continueNode() to expand the tree. Handles biome mask checks (GENERATE/POPULATE/CONTINUE flags) at each node's end point.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.cave.Cave",
+          "role": "Container for generated cave data. Stores CaveNodes organized by chunk index in a Long2ObjectMap for efficient per-chunk lookup. compile() sorts nodes by priority within each chunk. Tracks overall WorldBounds for the cave system.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.cave.CaveType",
+          "role": "Configuration for a cave variant. Defines: entryNodeType (root of the node tree), yaw/pitch/depth ranges, heightFactors (IHeightThresholdInterpreter for height-based radius scaling), pointGenerator (determines entry point spacing), biomeMask (Int2FlagsCondition), blockMask, mapCondition, heightCondition, fixedEntryHeight (optional noise-based), FluidLevel (for flooded caves), environment ID, surfaceLimited flag, submerge flag, maximumSize.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.cave.CaveNodeType",
+          "role": "Configuration for a node in the cave tree. Defines: name, shape generator (CaveNodeShapeEnum.CaveNodeShapeGenerator), fillings (weighted block choices for carving), heightCondition, childrenCountBounds, covers (floor/ceiling decorations), priority, environment. Children are CaveNodeChildEntry arrays set after construction.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.cave.CaveNodeType.CaveNodeChildEntry",
+          "role": "Defines how to spawn child nodes: weighted CaveNodeType selection, anchor point (Vector3d), offset, rotation, children limit, repeat range, pitch/yaw modifiers (OrientationModifier), generation chance, and CaveYawMode (NODE/SUM/PREFAB).",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.cave.element.CaveNode",
+          "role": "Runtime cave node instance with a CaveNodeShape, yaw, pitch, seed offset, bounding box, and list of CavePrefab placements.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.cave.element.CavePrefab",
+          "role": "Prefab placement within a cave node. Stores position, rotation, WorldGenPrefabSupplier, biome mask, and block mask.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.cave.CaveBiomeMaskFlags",
+          "role": "Flag constants for cave biome masking. GENERATE (1) = allow node creation, POPULATE (2) = allow block carving, CONTINUE (4) = allow recursive child expansion. Combined via Int2FlagsCondition evaluated against biome ID.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.cave.CaveYawMode",
+          "role": "Enum controlling how child node yaw is derived: NODE (inherit parent yaw), SUM (add parent rotation), PREFAB (use parent rotation directly).",
+          "confidence": "high"
+        }
+      ],
+      "shape_types": [
+        {
+          "name": "PIPE",
+          "class": "com.hypixel.hytale.server.worldgen.cave.shape.PipeCaveNodeShape",
+          "description": "Elongated tunnel shape."
+        },
+        {
+          "name": "CYLINDER",
+          "class": "com.hypixel.hytale.server.worldgen.cave.shape.CylinderCaveNodeShape",
+          "description": "Cylindrical cavern shape."
+        },
+        {
+          "name": "ELLIPSOID",
+          "class": "com.hypixel.hytale.server.worldgen.cave.shape.EllipsoidCaveNodeShape",
+          "description": "Ellipsoidal chamber shape."
+        },
+        {
+          "name": "DISTORTED",
+          "class": "com.hypixel.hytale.server.worldgen.cave.shape.DistortedCaveNodeShape",
+          "description": "Uses distorted shapes (DistortedCylinderShape, DistortedEllipsoidShape, DistortedPipeShape) with ShapeDistortion for organic-looking caves."
+        },
+        {
+          "name": "PREFAB",
+          "class": "com.hypixel.hytale.server.worldgen.cave.shape.PrefabCaveNodeShape",
+          "description": "Uses a prefabricated structure as the cave node shape with a PrefabRotation."
+        },
+        {
+          "name": "EMPTY_LINE",
+          "class": "com.hypixel.hytale.server.worldgen.cave.shape.EmptyLineCaveNodeShape",
+          "description": "Invisible connector between nodes (no geometry, hasGeometry() returns false)."
+        }
+      ],
+      "fluid_system": {
+        "description": "CaveType.FluidLevel defines a fluid block entry and a height level for flooded caves. When submerge=true, cave prefabs use higher block priority (39 vs 7) to override water.",
+        "confidence": "high"
+      },
+      "cover_system": {
+        "description": "CaveNodeType.CaveNodeCoverEntry defines floor/ceiling decoration blocks. Each entry has weighted block choices, height/map/density conditions, parent block condition, and a CaveNodeCoverType (FLOOR with parentOffset=-1, CEILING with parentOffset=+1).",
+        "confidence": "high"
+      },
+      "confidence": "high"
+    },
+    "structures": {
+      "overview": "Structure placement in worldgen operates through two mechanisms: regular PrefabContainer entries (scattered structures like trees, rocks, buildings) and UniquePrefabContainer entries (one-of-a-kind structures like dungeons, spawn points). Both use the PrefabPasteUtil to apply prefabs to the chunk during generation.",
+      "regular_prefabs": {
+        "description": "Each biome's PrefabContainer holds PrefabContainerEntry instances. Each entry pairs a weighted map of WorldGenPrefabSupplier (prefab file references) with a PrefabPatternGenerator that controls placement rules.",
+        "placement_rules": {
+          "grid_generator": "IPointGenerator defines the spacing grid for potential placement positions",
+          "map_condition": "ICoordinateCondition noise-based density filter",
+          "height_condition": "ICoordinateRndCondition for Y-level filtering",
+          "parent_condition": "IBlockFluidCondition checks the ground block type",
+          "category_priority": "PrefabCategory.priority() for conflict resolution (lower wins)",
+          "exclusion_radius": "Distance from unique prefabs where regular prefabs are suppressed",
+          "fit_heightmap": "Boolean flag for whether to adapt to terrain height",
+          "on_water": "Boolean flag for water-surface placement",
+          "deep_search": "Boolean flag for scanning height between specific threshold bounds",
+          "submerge": "Boolean flag for underwater placement (higher block priority)"
+        },
+        "confidence": "high"
+      },
+      "unique_prefabs": {
+        "description": "UniquePrefabContainer generates one-of-a-kind structures per zone. Each UniquePrefabGenerator searches for a valid placement position (up to maxAttempts) considering existing unique prefabs to avoid overlap. Unique prefabs can be spawn locations (isSpawnLocation flag) and map markers (isShowOnMap flag). They have exclusion radius squared to prevent regular prefabs from spawning nearby.",
+        "types": [
+          "com.hypixel.hytale.server.worldgen.container.UniquePrefabContainer",
+          "com.hypixel.hytale.server.worldgen.container.UniquePrefabContainer.UniquePrefabEntry",
+          "com.hypixel.hytale.server.worldgen.prefab.unique.UniquePrefabGenerator",
+          "com.hypixel.hytale.server.worldgen.prefab.unique.UniquePrefabConfiguration"
+        ],
+        "confidence": "high"
+      },
+      "prefab_loading": {
+        "description": "WorldGenPrefabSupplier references prefab files. PrefabLoadingCache caches loaded prefab data. PrefabStoreRoot enum (ASSETS, WORLD_GEN) determines whether prefabs load from the asset store or the worldgen data folder's Prefabs/ directory. ChunkGeneratorResource maintains a TimeoutCache<WorldGenPrefabSupplier, IPrefabBuffer> with 30-second TTL for recently used prefab buffers.",
+        "types": [
+          "com.hypixel.hytale.server.worldgen.loader.WorldGenPrefabSupplier",
+          "com.hypixel.hytale.server.worldgen.loader.WorldGenPrefabLoader",
+          "com.hypixel.hytale.server.worldgen.prefab.PrefabLoadingCache",
+          "com.hypixel.hytale.server.worldgen.prefab.PrefabStoreRoot"
+        ],
+        "confidence": "high"
+      },
+      "conflict_resolution": {
+        "description": "PrefabPopulator detects bounding-box conflicts between candidate prefabs. Higher-priority prefabs (lower PrefabCategory.priority number) suppress lower-priority ones in the conflicts BitSet. PrefabCategory.NONE has MIN_VALUE priority, UNIQUE has MAX_VALUE. Custom categories are loaded from PrefabCategories.json with integer priorities.",
+        "confidence": "high"
+      },
+      "spawn_points": {
+        "description": "ChunkGenerator.getSpawnPoints(seed) collects all UniquePrefabEntries where isSpawnLocation()==true, computes world positions from entry position + spawn offset (rotated by entry rotation), and returns a shuffled array of Transform spawn points. Falls back to (16.5, -1.0, 16.5) if none found.",
+        "confidence": "high"
+      },
+      "confidence": "high"
+    },
+    "chunk_lifecycle": {
+      "overview": "A chunk's lifecycle from request to completion follows: (1) ChunkGenerator.generate() is called with seed, index, x, z, and an optional stillNeeded predicate, (2) A CompletableFuture is submitted to the thread pool, (3) If stillNeeded returns false, returns null early, (4) A GeneratedChunk is created with GeneratedBlockChunk, GeneratedBlockStateChunk, GeneratedEntityChunk, and section Holders, (5) ChunkGeneratorExecution is constructed (which triggers HeightThresholdInterpolator population), (6) execute(seed) runs the five sequential stages (tint, environment, blocks, caves, prefabs, water), (7) Timing is reported and the GeneratedChunk is returned.",
+      "generated_chunk_components": [
+        {
+          "name": "GeneratedBlockChunk",
+          "role": "Stores block IDs, rotations, fillers, tint colors, and environment IDs for the 32x32x320 chunk volume."
+        },
+        {
+          "name": "GeneratedBlockStateChunk",
+          "role": "Stores Holder<ChunkStore> references per block for ECS section state."
+        },
+        {
+          "name": "GeneratedEntityChunk",
+          "role": "Stores entity spawn data for the chunk."
+        },
+        {
+          "name": "BlockPriorityChunk",
+          "role": "Per-voxel priority byte tracking, used to resolve write conflicts between generation stages."
+        }
+      ],
+      "chunk_size": {
+        "horizontal": 32,
+        "vertical": 320,
+        "description": "Chunks are 32x32 blocks horizontally, 320 blocks vertically (Y range 0-319). Chunk coordinates map to block coordinates via ChunkUtil.minBlock/maxBlock."
+      },
+      "caching": {
+        "description": "Multiple cache layers avoid redundant computation: (1) ChunkGeneratorCache caches ZoneBiomeResult, InterpolatedBiomeCountList, height, and height noise with capacity 50000 entries and 20-second TTL. (2) CaveGeneratorCache caches Cave instances with capacity 5000 and 30-second TTL. (3) UniquePrefabCache caches unique prefab arrays with capacity 50 and 300-second TTL. (4) ZonePatternGeneratorCache caches seed-specific ZonePatternGenerator instances. (5) ChunkGeneratorResource.prefabs is a per-thread TimeoutCache for loaded prefab buffers (30-second TTL).",
+        "types": [
+          "com.hypixel.hytale.server.worldgen.cache.ChunkGeneratorCache",
+          "com.hypixel.hytale.server.worldgen.cache.CaveGeneratorCache",
+          "com.hypixel.hytale.server.worldgen.cache.UniquePrefabCache",
+          "com.hypixel.hytale.server.worldgen.cache.CoreDataCacheEntry",
+          "com.hypixel.hytale.server.worldgen.zone.ZonePatternGeneratorCache"
+        ],
+        "confidence": "high"
+      },
+      "world_map_generation": {
+        "description": "GeneratorChunkWorldMap implements IWorldMap for the world map system. getWorldMapSettings() iterates all zones and biomes to build a BiomeData map (zoneId, zoneName, biomeName, mapColor). generatePointsOfInterest() creates MapMarker entries for unique prefabs that have isShowOnMap()==true (excluding spawn locations). Default map scale is 128, range 32-175.",
+        "confidence": "high"
+      },
+      "confidence": "high"
+    },
+    "configuration": {
+      "overview": "World generation is entirely data-driven through JSON configuration files. The loading system uses a chain of JsonLoader subclasses that parse JSON into the runtime type hierarchy. Configuration is versioned via Semver and can be overridden via the HytaleWorldGenProvider.CODEC.",
+      "json_schemas": [
+        {
+          "file": "World.json",
+          "description": "Root configuration file. Fields: Width, Height (world size), OffsetX, OffsetY (world offset), Masks (string, array, or weighted object of mask file names), Randomizer (coordinate randomizer config), PrefabStore (enum: ASSETS or WORLD_GEN), OverrideDataFolder (path to alternate data folder).",
+          "loader": "ChunkGeneratorJsonLoader",
+          "confidence": "high"
+        },
+        {
+          "file": "Zones.json",
+          "description": "Zone pattern configuration. Loaded by ZonePatternProviderJsonLoader. Defines the point generator, zone color mappings, and unique zone entries.",
+          "loader": "ZonePatternProviderJsonLoader",
+          "confidence": "high"
+        },
+        {
+          "file": "{zone}/Zone.json",
+          "description": "Per-zone configuration. Fields: Discovery (display, ZoneName, SoundEventId, Icon, Major, Duration, FadeInDuration, FadeOutDuration), BiomeGenerator (biome pattern config with tile biomes and custom biomes), UniquePrefabs (unique prefab generator array). Cave configuration in {zone}/Cave/ subdirectory.",
+          "loader": "ZoneJsonLoader",
+          "confidence": "high"
+        },
+        {
+          "file": "Biome JSON (per biome within zone)",
+          "description": "Per-biome configuration loaded by TileBiomeJsonLoader/CustomBiomeJsonLoader. Fields: TerrainHeightThreshold, Covers, Layers, Prefabs, Tints, Environments, Water, Fade, HeightmapNoise, Interpolation, MapColor. CustomBiomes additionally have CustomBiomeGenerator config.",
+          "loader": "BiomeJsonLoader (abstract), TileBiomeJsonLoader, CustomBiomeJsonLoader",
+          "confidence": "high"
+        },
+        {
+          "file": "Cave configuration JSON",
+          "description": "Cave system config loaded by CaveGeneratorJsonLoader/CaveTypeJsonLoader. Defines cave types with entry nodes, shape generators, biome masks, block masks, depth, yaw/pitch ranges, height conditions, fluid levels. CaveNodeTypes define shape, fillings, covers, children.",
+          "loader": "CaveGeneratorJsonLoader, CaveTypeJsonLoader, CaveNodeTypeJsonLoader",
+          "confidence": "high"
+        },
+        {
+          "file": "Mask.json (climate mask)",
+          "description": "Climate-based mask configuration loaded by ClimateMaskJsonLoader. Defines ClimateNoise (grid, continent, temperature, intensity noises, thresholds), ClimateGraph (resolution, parents with points and children, fade mode/radius/distance), and UniqueClimateGenerator entries.",
+          "loader": "ClimateMaskJsonLoader",
+          "confidence": "high"
+        },
+        {
+          "file": "Mask.png (image mask)",
+          "description": "Image-based zone mask. RGB pixel colors are mapped to zones via ZoneColorMapping. Loaded by MaskProviderJsonLoader which creates a FuzzyZoom from the image with coordinate randomization.",
+          "loader": "MaskProviderJsonLoader",
+          "confidence": "high"
+        },
+        {
+          "file": "PrefabCategories.json",
+          "description": "Defines named prefab priority categories with integer values. Lower priority number wins in conflict resolution.",
+          "loader": "PrefabCategory.parse()",
+          "confidence": "high"
+        }
+      ],
+      "config_types": [
+        {
+          "type": "com.hypixel.hytale.server.worldgen.WorldGenConfig",
+          "role": "Record holding path, name, and version for the worldgen configuration. Passed through the loader chain."
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.HytaleWorldGenProvider",
+          "role": "IWorldGenProvider implementation with BuilderCodec for JSON deserialization. Fields: name (default 'Default'), version (Semver), path (optional override)."
+        },
+        {
+          "type": "com.hypixel.hytale.server.worldgen.SeedStringResource",
+          "role": "SeedResource implementation that carries FileMaskCache<IIntCondition> for biome masks, BlockPlacementMaskRegistry for block masks, WorldGenPrefabLoader, WorldGenConfig, and unique ID generation. Provides thread-local result buffers via ChunkGenerator.getResource()."
+        }
+      ],
+      "loader_types": [
+        "com.hypixel.hytale.server.worldgen.loader.ChunkGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.ZonesJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.MaskProviderJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.zone.ZoneJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.zone.ZonePatternProviderJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.zone.ZoneBiomesJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.zone.ZoneCustomBiomesJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.biome.BiomeJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.biome.TileBiomeJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.biome.CustomBiomeJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.biome.CustomBiomeGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.biome.BiomePatternGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.biome.BiomeInterpolationJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.biome.BiomeMaskJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CaveGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CaveTypeJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CaveTypesJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CaveNodeTypeJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CaveNodeChildEntryJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CaveNodeCoverEntryJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CavePrefabConfigJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CavePrefabContainerJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CavePrefabEntryJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.CaveTypeJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.FluidLevelJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.shape.CaveNodeShapeGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.shape.CylinderCaveNodeShapeGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.shape.DistortedCaveNodeShapeGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.shape.EllipsoidCaveNodeShapeGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.shape.EmptyLineCaveNodeShapeGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.shape.PipeCaveNodeShapeGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.shape.PrefabCaveNodeShapeGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.cave.shape.ShapeDistortionJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.ClimateColorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.ClimateGraphJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.ClimateGridJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.ClimateMaskJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.ClimateNoiseJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.ClimatePointJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.ClimateRuleJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.ClimateTypeJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.ContinentThresholdsJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.UniqueClimateGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.climate.UniqueClimateJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.container.CoverContainerJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.container.EnvironmentContainerJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.container.FadeContainerJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.container.LayerContainerJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.container.PrefabContainerJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.container.TintContainerJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.container.UniquePrefabContainerJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.container.WaterContainerJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.prefab.BlockPlacementMaskJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.prefab.PrefabPatternGeneratorJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.prefab.WeightedPrefabMapJsonLoader",
+        "com.hypixel.hytale.server.worldgen.loader.prefab.unique.UniquePrefabConfigurationJsonLoader"
+      ],
+      "file_context_system": {
+        "description": "FileContextLoader / FileLoadingContext system scans the data directory to discover zone and biome directories, building a registry of FileContext entries (ZoneFileContext, BiomeFileContext) that carry path, name, ID, and parent references. This allows the loader chain to iterate zones/biomes without hard-coding directory names.",
+        "types": [
+          "com.hypixel.hytale.server.worldgen.loader.context.FileContextLoader",
+          "com.hypixel.hytale.server.worldgen.loader.context.FileLoadingContext",
+          "com.hypixel.hytale.server.worldgen.loader.context.FileContext",
+          "com.hypixel.hytale.server.worldgen.loader.context.ZoneFileContext",
+          "com.hypixel.hytale.server.worldgen.loader.context.BiomeFileContext"
+        ],
+        "confidence": "high"
+      },
+      "asset_file_system": {
+        "description": "AssetFileSystem implements AutoCloseable and manages the overlay file system for loading worldgen data. Uses AssetPack layering where later packs override earlier ones. Opened during ChunkGeneratorJsonLoader.load() via FileIO.openFileIOSystem().",
+        "type": "com.hypixel.hytale.server.worldgen.loader.AssetFileSystem",
+        "confidence": "high"
+      },
+      "confidence": "high"
+    }
+  },
+  "cross_references": {
+    "asset_types_used": [
+      {
+        "type": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType",
+        "usage": "ChunkGeneratorExecution.setBlock() looks up BlockType from AssetMap to check hasSupport() for block physics. WaterPopulator uses it for FluidTicker.isSolid() check.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.asset.type.fluid.Fluid",
+        "usage": "ChunkGeneratorExecution.setFluid() looks up Fluid from AssetMap to get getMaxFluidLevel().",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.assetstore.AssetPack",
+        "usage": "AssetFileSystem uses AssetPack layering for worldgen data loading. ChunkGeneratorJsonLoader.logAssetPacks() logs loaded packs.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.prefab.PrefabStore",
+        "usage": "PrefabStoreRoot.ASSETS resolves to PrefabStore.get().getAssetPrefabsPath(). PrefabLoadingCache uses it for prefab access.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.prefab.PrefabRotation",
+        "usage": "Used throughout for rotating prefabs and cave nodes. Enum with VALUES array, rotation methods, getYaw().",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.prefab.selection.buffer.impl.IPrefabBuffer",
+        "usage": "Prefab voxel data accessor. Provides getMinX/Y/Z, getMaxX/Y/Z, and block data for paste operations.",
+        "confidence": "high"
+      }
+    ],
+    "block_types_referenced": [
+      {
+        "usage": "BlockType IDs are used as integer references throughout worldgen. BlockFluidEntry record stores (blockId, fluidId, rotation). LayerContainer.filling holds the base terrain block ID. CoverContainer entries reference specific block types. Block type 0 is treated as air/empty.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.blocktype.component.BlockPhysics",
+        "usage": "ChunkGeneratorExecution.setBlock() calls BlockPhysics.setSupportValue(), BlockPhysics.reset(), or BlockPhysics.clear() on chunk sections depending on whether the block type hasSupport().",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.asset.type.fluid.FluidTicker",
+        "usage": "WaterPopulator.submergeBlock() uses FluidTicker.isSolid(blockType) to skip setting fluid on solid blocks.",
+        "confidence": "high"
+      }
+    ],
+    "ecs_integration": [
+      {
+        "type": "com.hypixel.hytale.server.worldgen.BiomeDataSystem",
+        "role": "DelayedEntitySystem<EntityStore> that ticks periodically (1.0s). For each Player entity with a TransformComponent, queries the ChunkGenerator to get the current zone and biome at the player's position, then calls WorldMapTracker.updateCurrentZoneAndBiome() to push zone discovery notifications.",
+        "query": "Archetype.of(Player.getComponentType(), TransformComponent.getComponentType())",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.universe.world.storage.ChunkStore",
+        "role": "ECS store for chunk sections. ChunkGeneratorExecution references Holder<ChunkStore>[] sections for block state and physics data. FluidSection is a component on ChunkStore.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.universe.world.storage.EntityStore",
+        "role": "ECS store for entities. BiomeDataSystem operates on EntityStore. GeneratedEntityChunk provides entity spawn data to the ECS.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.component.Holder",
+        "role": "ECS Holder type used for section-level component access. ChunkGeneratorExecution.getSection(y) returns Holder<ChunkStore> and accesses components like FluidSection and BlockPhysics.",
+        "confidence": "high"
+      }
+    ],
+    "events_used": [
+      {
+        "event": "com.hypixel.hytale.server.core.universe.world.WorldMapTracker.ZoneDiscoveryInfo",
+        "context": "Not a formal event but a data record passed to updateCurrentZoneAndBiome() in BiomeDataSystem, which triggers zone discovery UI notifications for players entering new zones.",
+        "confidence": "medium"
+      }
+    ],
+    "universe_integration": [
+      {
+        "type": "com.hypixel.hytale.server.core.universe.Universe",
+        "usage": "Universe.getWorldGenPath() provides the default world generation data folder. PrepareUniverseEvent is dispatched during universe initialization.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.universe.world.World",
+        "usage": "BiomeDataSystem accesses World via commandBuffer.getExternalData().getWorld(). World.getChunkStore().getGenerator() retrieves the IWorldGen (ChunkGenerator).",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.core.universe.world.worldmap.provider.IWorldMapProvider",
+        "usage": "ChunkGenerator implements IWorldMapProvider, returning a GeneratorChunkWorldMap from getGenerator(World).",
+        "confidence": "high"
+      }
+    ],
+    "proceduralLib_dependencies": [
+      {
+        "type": "com.hypixel.hytale.procedurallib.property.NoiseProperty",
+        "usage": "Used throughout for all noise-based generation: heightmapNoise, climate noise axes, custom biome noise, cave density, etc.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.procedurallib.logic.point.IPointGenerator",
+        "usage": "Used for Voronoi-based spatial patterns: zone subdivision, biome tile selection, cave entry point placement, prefab grid placement.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.procedurallib.condition.IHeightThresholdInterpreter",
+        "usage": "Core terrain shape interface. Returns threshold values per Y level that determine solid vs air when compared against heightmapNoise.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.procedurallib.logic.cell.CellDistanceFunction",
+        "usage": "Used by ClimateNoise.Grid for Voronoi cell-based coordinate warping.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.procedurallib.json.SeedString",
+        "usage": "Hierarchical seed naming system. Each loader appends to the seed string for deterministic naming of noise/random instances.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.procedurallib.random.ICoordinateRandomizer",
+        "usage": "Used by FuzzyZoom and ClimateMaskProvider for coordinate distortion that breaks grid alignment in the zone mask.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.common.map.IWeightedMap",
+        "usage": "Used for weighted random selection of biomes, blocks, prefabs, cave node types, etc.",
+        "confidence": "high"
+      }
+    ],
+    "codec_integration": [
+      {
+        "type": "com.hypixel.hytale.server.worldgen.HytaleWorldGenProvider.WorldGenBuilderCodec",
+        "description": "BuilderCodec for deserializing HytaleWorldGenProvider from JSON. Registers 'Name' (STRING), 'Version' (Semver.CODEC), and 'Path' (STRING) fields. setVersions() is called externally to set known generator versions.",
+        "confidence": "high"
+      }
+    ],
+    "metrics_integration": [
+      {
+        "type": "com.hypixel.hytale.server.core.universe.world.worldgen.WorldGenTimingsCollector",
+        "description": "ChunkGenerator holds a WorldGenTimingsCollector that tracks timing for: chunk generation (reportChunk), zone/biome resolution (reportZoneBiomeResult), preparation (reportPrepare), block generation (reportBlocksGeneration), cave generation (reportCaveGeneration), prefab generation (reportPrefabGeneration). Implements MetricProvider via METRICS_REGISTRY.",
+        "confidence": "high"
+      },
+      {
+        "type": "com.hypixel.hytale.server.worldgen.benchmark.ChunkWorldgenBenchmark",
+        "description": "Optional benchmarking system that registers cave nodes and prefab placements by name when enabled. Can be toggled on/off.",
+        "confidence": "high"
+      }
+    ]
+  }
+}

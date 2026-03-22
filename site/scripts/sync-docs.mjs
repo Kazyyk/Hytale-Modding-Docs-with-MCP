@@ -95,15 +95,27 @@ function rewriteLinks(content, fileDir, fileSet, isIndex = false) {
       const resolved = join(fileDir, path).replace(/\\/g, "/");
       // Normalize away any leading "./" and resolve ".." segments
       const normalized = resolve("/", resolved).slice(1); // Use resolve trick to normalize
-      if (!fileSet.has(normalized)) {
+      // Also check with hyphens converted back to dots (index.md has pre-hyphenated paths)
+      const normalizedDotted = normalized.replace(/packages\/([^/]+)/, (_, pkg) => "packages/" + pkg.replace(/-/g, "."));
+      if (!fileSet.has(normalized) && !fileSet.has(normalizedDotted)) {
         danglingCount++;
         danglingFound.push({ target: normalized, text });
         // Convert to inline code text instead of a broken link
         return `\`${text}\``;
       }
 
-      // Strip .md extension
+      // Strip .md extension FIRST (before dot-to-hyphen conversion)
       path = path.replace(/\.md$/, "");
+
+      // Convert dotted package dir names to hyphens (matching rewritePackagePath)
+      // Only convert directory segments, not the final filename segment
+      const pathParts = path.split("/");
+      for (let i = 0; i < pathParts.length - 1; i++) {
+        if (pathParts[i] !== ".." && pathParts[i] !== "." && pathParts[i].includes(".")) {
+          pathParts[i] = pathParts[i].replace(/\./g, "-");
+        }
+      }
+      path = pathParts.join("/");
 
       // Strip trailing /index (Starlight serves index.md as the directory root)
       path = path.replace(/\/index$/, "/");
@@ -152,7 +164,7 @@ function patchLandingPage(content) {
   if (!content.includes("template:")) {
     content = content.replace(
       /^(---\n(?:.*\n)*?title:\s*.*\n)/m,
-      "$1template: splash\nhero:\n  tagline: Derived entirely from the Hytale JAR bytecode — no external sources\n  actions:\n    - text: API Reference\n      link: /api/\n      icon: right-arrow\n    - text: View on GitHub\n      link: https://github.com/Kazyyk/Hydex\n      icon: external\n      variant: minimal\n"
+      "$1template: splash\nhero:\n  tagline: Comprehensive Hytale source documentation — every type, every method, every system\n  actions:\n    - text: Browse Packages\n      link: /packages/com-hypixel-hytale-server-core-plugin/\n      icon: right-arrow\n"
     );
   }
   return content;
@@ -171,6 +183,8 @@ if (!existsSync(SOURCE_DIR)) {
 
 const files = walkFiles(SOURCE_DIR);
 const fileSet = new Set(files);
+// Also build a rewritten file set for dangling link detection against the dest paths
+const rewrittenFileSet = new Set(files.map(f => rewritePackagePath(f)));
 console.log(`Syncing ${files.length} markdown files from output/docs/ → site/src/content/docs/`);
 
 let synced = 0;
@@ -179,9 +193,28 @@ let danglingTotal = 0;
 const danglingTargets = new Set();
 const danglingDetails = new Map();
 
+/**
+ * Converts dotted Java package directory names to hyphenated equivalents.
+ * Starlight strips dots from slugs, so we use hyphens to preserve readability.
+ * Only affects directory segments under packages/ — file names are untouched.
+ *
+ *   packages/com.hypixel.hytale.plugin/JavaPlugin.md
+ *   → packages/com-hypixel-hytale-plugin/JavaPlugin.md
+ */
+function rewritePackagePath(relPath) {
+  if (!relPath.startsWith("packages/")) return relPath;
+  const parts = relPath.split("/");
+  // parts[0] = "packages", parts[1] = dotted package name, rest = file path
+  if (parts.length >= 2) {
+    parts[1] = parts[1].replace(/\./g, "-");
+  }
+  return parts.join("/");
+}
+
 for (const relPath of files) {
   const src = join(SOURCE_DIR, relPath);
-  const dest = join(TARGET_DIR, relPath);
+  const destRelPath = rewritePackagePath(relPath);
+  const dest = join(TARGET_DIR, destRelPath);
 
   mkdirSync(dirname(dest), { recursive: true });
 

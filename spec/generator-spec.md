@@ -119,11 +119,19 @@ pattern matching, etc.).
 
 ---
 
-### Phase 2 — Classify API Surface
+### Phase 2 — Classify API Surface (Metadata)
 
-**Goal:** Separate the plugin-facing API from internal implementation. Produce a
-curated list of types that plugin developers interact with, and a separate index
-of internal types for advanced reference.
+**Goal:** Tag each type as API surface or internal. This classification is
+**metadata for navigation and search ranking** — it does not gate documentation
+generation. All types receive documentation pages regardless of classification.
+
+The API surface classification serves three purposes:
+1. **Site navigation.** API surface types are promoted in the sidebar, landing
+   pages, and search results. Internal types are accessible but not featured.
+2. **MCP search ranking.** The `search_docs` tool weights API surface results
+   higher for unscoped queries.
+3. **Generation priority.** On incremental runs, API surface types are processed
+   first. If interrupted, the highest-value docs are already updated.
 
 **Strategy — seed and expand:**
 
@@ -165,8 +173,31 @@ reclassified.
 
 ### Phase 3 — Map Systems & Cross-Reference
 
-**Goal:** Identify the major game systems (events, ECS, commands, registries,
-JSON schemas) and build a cross-reference graph.
+**Goal:** Identify the major game systems and build a cross-reference graph.
+This structured context enriches documentation generation — types documented
+with Phase 3 context get "Fired By", "Accessed By Systems", and dispatch site
+information that cannot be inferred from a single source file alone.
+
+**Scope:** All major subsystems in the server JAR. Each subsystem is mapped
+independently and produces a section in `artifacts/systems.json`. The current
+domains are:
+
+| Domain | Package Root | Types | Status |
+|--------|-------------|-------|--------|
+| Events | `*.event.*`, dispatch sites | ~71 | Complete |
+| ECS | `*.component.*`, stores | ~160 | Complete |
+| Commands | `*.command.*` | ~85 | Complete |
+| Registries | `*.registry.*`, plugin registries | ~30 | Complete |
+| Codecs | `*.codec.*`, BuilderCodec | ~160 | Complete |
+| NPC System | `*.server.npc.*` | ~930 | Pending |
+| World Generation | `*.server.worldgen.*`, `*.builtin.hytalegenerator.*` | ~1,063 | Pending |
+| Protocol/Networking | `*.protocol.*` | ~772 | Pending |
+| Spawning | `*.server.spawning.*` | ~136 | Pending |
+| Flock System | `*.server.flock.*` | ~53 | Pending |
+| Builtin Modules | `*.builtin.*` (adventure, crafting, portals, etc.) | ~600+ | Pending |
+| Math/Procedural | `*.math.*`, `*.procedurallib.*` | ~310 | Pending |
+| Asset Store | `*.assetstore.*` | ~48 | Pending |
+| Common Utilities | `*.common.*` | ~60 | Pending |
 
 **This phase is where the LLM does heavy lifting.** The decompiled source
 contains the patterns, but recognizing them as "this is the event system" or
@@ -245,16 +276,20 @@ subject to review.
 
 ### Phase 4 — Generate Documentation
 
-**Goal:** Produce the final markdown files from the structured artifacts.
+**Goal:** Produce a documentation page for **every type** in
+`artifacts/class-index.json`. All types — API surface and internal — receive
+full-depth pages with the same template and quality standards.
 
 **Inputs:** All artifacts from Phases 1–3.
 
 **Outputs:** `output/docs/` — The markdown tree that becomes both the static
-site content and the RAG corpus.
+site content and the RAG corpus. Pages are organized by Java package under
+`output/docs/packages/` (see Section 3.1).
 
-**LLM involvement:** Moderate. The LLM generates prose descriptions and usage
-notes. The structural content (signatures, type hierarchies, field lists) is
-templated from the structured artifacts.
+**LLM involvement:** Heavy. With ~7,000 types to document, generation is
+parallelized across sub-agents partitioned by package. Each agent receives
+the decompiled source for its assigned package, the full class index for
+resolving external references, and relevant slices of `systems.json`.
 
 #### Link Resolution Rules
 
@@ -262,38 +297,30 @@ Every markdown link in generated documentation must follow these rules. These
 apply to all links in body text, Related Types sections, and tables.
 
 **Rule 1: Every `.md` link must resolve.**
-If a generated file contains `[Foo](Foo.md)` or `[Foo](../classes/Foo.md)`,
-the target file must exist in the output set. No exceptions.
+If a generated file contains `[Foo](Foo.md)` or
+`[Foo](../com.hypixel.hytale.plugin/Foo.md)`, the target file must exist in
+the output set. No exceptions.
 
 - If the type has a generated page: link to it with the correct relative path.
-- If the type is API surface but has no page yet: do not link to it. Use
-  inline code (`` `Foo` ``) as a placeholder. Phase 4.1 will generate the
-  missing page and convert the placeholder back to a link.
-- If the type is internal (not API surface): always use inline code, never a
-  link.
+- If the type does not yet have a page (batch generation in progress): use
+  inline code (`` `Foo` ``) as a placeholder. Phase 4.1 will convert
+  placeholders to links once all pages exist.
 
 **Rule 2: Relative paths must be correct for the file's location.**
-Links are relative to the file that contains them. A file at
-`api/commands/index.md` linking to a class page must use `../classes/Foo.md`,
-not `Foo.md` (which would resolve to `api/commands/Foo.md`).
+Links are relative to the file that contains them. All type pages live under
+`packages/{dotted.package.name}/`, so linking between packages requires one
+`../` hop:
 
 Common patterns:
-- Same directory: `[Bar](Bar.md)`
-- Sibling directory: `[Bar](../classes/Bar.md)`
-- Child directory: `[Bar](events/Bar.md)`
-- Parent index: `[Overview](../events/index.md)`
+- Same package: `[Bar](Bar.md)`
+- Different package: `[Bar](../com.hypixel.hytale.server.core/Bar.md)`
+- Package index: `[Overview](../com.hypixel.hytale.plugin/index.md)`
+- Schema: `[Block Schema](../../schemas/block.md)`
 
-**Rule 3: Internal types are never linked.**
-Types not in `artifacts/surface.json` (or explicitly marked as internal) must
-be referenced as inline code, not links. This includes:
-- Implementation classes (`EventBus`, `CommandManager`, `SyncEventBusRegistry`)
-- Non-public interfaces (`IEventRegistry`, `IBaseEvent`, `IAsyncEvent`)
-- Infrastructure types (`PluginState`, `PluginManifest`, `PacketHandler`)
-
-Exception: If an internal type is the *only* way to accomplish a task that
-plugin developers need (e.g., a factory class with no public alternative),
-it may be linked and should be flagged for surface reclassification in
-`artifacts/surface-review.json`.
+**Rule 3: Standard library types use inline code.**
+Types in `java.*`, `javax.*`, `org.slf4j.*`, and other standard library
+packages are never linked — they have their own external documentation.
+Always use inline code: `` `String` ``, `` `CompletableFuture<Void>` ``.
 
 **Rule 4: Bidirectional references must both resolve.**
 If page A links to page B in its Related Types section, page B should link
@@ -301,18 +328,10 @@ back to page A. Both links must resolve. When generating a new page, check
 whether existing pages already reference it and ensure the link paths are
 consistent in both directions.
 
-**Rule 5: Batch selection must be systematic, not curated.**
-Phase 4 must not rely on hand-picked "key types" lists. The file generation
-set must be derived from:
-1. All types in `artifacts/surface.json` that are referenced by method
-   signatures, return types, parameter types, or superclass/interface
-   declarations of other generated pages.
-2. All overview/index pages for each directory.
-3. All event types identified in `artifacts/systems.json`.
-
-Any type that appears in a generated page's method signatures, Related Types
-section, or prose cross-references must either have its own page or be
-rendered as inline code.
+**Rule 5: Every type in class-index.json gets a page.**
+Phase 4 generates documentation for all types in the class index (excluding
+standard library types). The generation set is the full class index, not a
+curated subset. Package index pages are generated for each package directory.
 
 ---
 
@@ -340,30 +359,24 @@ to a file that exists in the output set, and generate any missing pages.
    path within the output tree.
 
 2. **Classify.** For each link target that does not have a corresponding file:
-   - Look up the type name in `artifacts/surface.json`.
-   - If it is an API surface type (public): flag as **must-generate**.
-   - If it is an internal type: flag as **must-strip** (convert the link to
-     inline code text in the source doc).
-   - If it cannot be found in either index: flag as **unknown** for human
+   - Look up the type name in `artifacts/class-index.json`.
+   - If it is a known type: flag as **must-generate** — its page should exist
+     but was missed during Phase 4 (likely a batch boundary issue).
+   - If it cannot be found in the class index: flag as **unknown** for human
      review.
 
 3. **Generate.** For each must-generate type, produce a documentation page
    following the same templates and quality rules as Phase 4. Write it to the
-   appropriate location in `output/docs/`.
+   appropriate location in `output/docs/packages/`.
 
 4. **Fix wrong-path links.** For each link that targets the correct filename
-   but in the wrong directory (e.g., `api/commands/AbstractCommand.md` when
-   the file exists at `api/classes/AbstractCommand.md`), correct the relative
-   path in the source `.md` file.
+   but in the wrong directory, correct the relative path in the source `.md`
+   file.
 
-5. **Strip internal links.** For each must-strip type, replace the markdown
-   link with inline code text in the source doc (e.g.,
-   `[EventBus](EventBus.md)` → `` `EventBus` ``).
-
-6. **Write audit report.** Produce `artifacts/link-audit.json` recording every
+5. **Write audit report.** Produce `artifacts/link-audit.json` recording every
    link target, its resolution, and the action taken.
 
-7. **Assert zero remaining.** After all corrections, re-scan the output tree.
+6. **Assert zero remaining.** After all corrections, re-scan the output tree.
    If any `.md` link still targets a nonexistent file, fail with an error
    listing the remaining violations. Do not proceed to deployment.
 
@@ -379,57 +392,63 @@ already exist and will only generate pages for targets that are still missing.
 
 ### 3.1 Directory Structure
 
+Documentation is organized by Java package. Every type lives in a flat
+directory named after its package. This mirrors how Java developers think
+about code and keeps relative linking simple (one `../` hop between packages).
+
+The `api_surface` frontmatter field (true/false) drives site navigation
+prominence and search ranking — it does not affect file placement. API surface
+types and internal types coexist in the same package directories.
+
 ```
 output/docs/
 ├── index.md                          # Landing page / overview
 ├── meta.json                         # Build metadata (JAR hash, version, timestamp)
 │
-├── api/                              # Plugin-facing API reference
-│   ├── index.md                      # API overview, package listing
-│   │
-│   ├── classes/                      # One file per class/interface/enum
-│   │   ├── JavaPlugin.md
-│   │   ├── JavaPluginInit.md
-│   │   ├── AbstractCommand.md
-│   │   ├── CommandContext.md
+├── packages/                         # All types, organized by Java package
+│   ├── com.hypixel.hytale.plugin/
+│   │   ├── index.md                  # Package overview
+│   │   ├── JavaPlugin.md             # api_surface: true
+│   │   ├── JavaPluginInit.md         # api_surface: true
+│   │   ├── PluginManager.md          # api_surface: false
 │   │   └── ...
 │   │
-│   ├── events/                       # One file per event
-│   │   ├── index.md                  # Event system overview, listener registration
-│   │   ├── PlayerJoinEvent.md        # (example name)
-│   │   ├── BlockBreakEvent.md        # (example name)
+│   ├── com.hypixel.hytale.server.core/
+│   │   ├── index.md
+│   │   ├── Message.md                # api_surface: true
 │   │   └── ...
 │   │
-│   ├── components/                   # One file per ECS component
-│   │   ├── index.md                  # ECS overview, component composition patterns
-│   │   ├── PositionComponent.md      # (example name)
-│   │   ├── HealthComponent.md        # (example name)
+│   ├── com.hypixel.hytale.server.core.event/
+│   │   ├── index.md
+│   │   ├── PlayerConnectEvent.md     # api_surface: true
 │   │   └── ...
 │   │
-│   ├── systems/                      # One file per ECS system
-│   │   ├── index.md                  # Systems overview, execution order
+│   ├── com.hypixel.hytale.server.core.command.system/
+│   │   ├── index.md
+│   │   ├── AbstractCommand.md        # api_surface: true
+│   │   ├── CommandContext.md          # api_surface: true
 │   │   └── ...
 │   │
-│   ├── commands/                     # Built-in commands reference
-│   │   ├── index.md                  # Command system overview, registration
-│   │   └── ...
-│   │
-│   └── registries/                   # Registry types and registration patterns
-│       ├── index.md
-│       └── ...
+│   └── .../                          # One directory per Java package
 │
-├── schemas/                          # JSON data asset schemas
-│   ├── index.md                      # Asset system overview
-│   ├── block.md                      # Block JSON schema
-│   ├── item.md                       # Item JSON schema
-│   ├── npc.md                        # NPC JSON schema
-│   └── ...
-│
-└── internals/                        # Internal types (advanced reference)
-    ├── index.md                      # Disclaimer: not part of stable API
-    └── classes/
-        └── ...
+└── schemas/                          # JSON data asset schemas
+    ├── index.md                      # Asset system overview
+    ├── block.md                      # Block JSON schema
+    ├── item.md                       # Item JSON schema
+    ├── npc.md                        # NPC JSON schema
+    └── ...
 ```
+
+**Inner classes** use the format `OuterClass.InnerClass.md` within the outer
+class's package directory.
+
+**Package index pages** (`index.md` in each package directory) list all types
+in the package with a one-line description and their API surface status.
+
+**Migration note:** Existing documentation in the `api/` and `internals/`
+directory structure must be migrated to the `packages/` tree. This is a
+one-time operation during the transition to full coverage. The migration
+moves files, updates relative links, and removes the old directory structure.
 
 ### 3.2 Frontmatter Schema
 
@@ -446,26 +465,20 @@ creates a duplicate heading on every page.
 # Required for all files
 title: "JavaPlugin"                    # Display title
 kind: "class"                          # class | interface | enum | record |
-                                       # event | component | system | command |
-                                       # registry | schema | overview
+                                       # abstract class | event | component |
+                                       # system | command | registry | schema |
+                                       # overview
 package: "com.hypixel.hytale.plugin"   # Java package (omit for schemas)
 fqcn: "com.hypixel.hytale.plugin.JavaPlugin"  # Fully qualified class name
-api_surface: "public"                  # public | internal
-since: "0.5.0"                         # Hytale version first observed (if trackable)
+api_surface: true                      # true = plugin-facing API, false = internal
 generator_version: "1.0.0"            # Generator version that produced this file
 generated_at: "2026-02-09T00:00:00Z"  # Timestamp of generation
 
 # Optional — type-specific
-superclass: "java.lang.Object"
-interfaces: ["com.hypixel.hytale.plugin.Plugin"]
+extends: ~                            # Superclass FQCN (~ for java.lang.Object)
+implements:                           # Implemented interfaces
+  - "com.hypixel.hytale.plugin.Plugin"
 cancellable: true                     # For events
-related:                              # Cross-references
-  - kind: "event"
-    fqcn: "com.hypixel.hytale.event.PlayerJoinEvent"
-    relationship: "fires"
-  - kind: "component"
-    fqcn: "com.hypixel.hytale.ecs.PositionComponent"
-    relationship: "reads"
 tags:                                 # Free-form tags for RAG filtering
   - "lifecycle"
   - "plugin-entry-point"
@@ -479,9 +492,10 @@ tags:                                 # Free-form tags for RAG filtering
 (frontmatter as above)
 ---
 
-> Package: `com.hypixel.hytale.plugin`
+**Package:** `com.hypixel.hytale.plugin`
+
 > Extends: [`Object`]()
-> Implements: [`Plugin`](./Plugin.md)
+> Implements: [`Plugin`](Plugin.md)
 
 (1-3 sentence LLM-generated description of what this class is for and when a
 plugin developer would use it.)
@@ -498,7 +512,7 @@ plugin developer would use it.)
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `init` | [`JavaPluginInit`](./JavaPluginInit.md) | (LLM-generated description) |
+| `init` | [`JavaPluginInit`](JavaPluginInit.md) | (LLM-generated description) |
 
 ## Methods
 
@@ -546,7 +560,7 @@ public Logger getLogger()
 
 - **Events:** (list of events this class can listen to or that reference it)
 - **Components:** (list of components this class commonly interacts with)
-- **See also:** [`JavaPluginInit`](./JavaPluginInit.md), [`Plugin`](./Plugin.md)
+- **See also:** [`JavaPluginInit`](JavaPluginInit.md), [`Plugin`](Plugin.md)
 ```
 
 ### 3.4 Event Documentation Template
@@ -556,8 +570,9 @@ public Logger getLogger()
 (frontmatter with kind: "event", cancellable: true/false)
 ---
 
-> Package: `com.hypixel.hytale.event.player`
-> Extends: [`PlayerEvent`](./PlayerEvent.md)
+**Package:** `com.hypixel.hytale.server.core.event.player`
+
+> Extends: [`PlayerEvent`](PlayerEvent.md)
 > Cancellable: Yes / No
 
 (LLM-generated description of when this event fires and what it represents.)
@@ -566,7 +581,7 @@ public Logger getLogger()
 
 | Accessor | Return Type | Description |
 |----------|-------------|-------------|
-| `getPlayer()` | [`Player`](../classes/Player.md) | The player joining. |
+| `getPlayer()` | [`Player`](../com.hypixel.hytale.server.core.entity/Player.md) | The player joining. |
 | `getJoinMessage()` | `String` | The message broadcast to other players. |
 | `setJoinMessage(String)` | `void` | Override the join message. |
 
@@ -589,9 +604,9 @@ public void onPlayerJoin(PlayerJoinEvent event) {
 
 ## Related Events
 
-- [`PlayerDisconnectEvent`](./PlayerDisconnectEvent.md) — Fired when this
+- [`PlayerDisconnectEvent`](PlayerDisconnectEvent.md) — Fired when this
   player leaves.
-- [`PlayerSpawnEvent`](./PlayerSpawnEvent.md) — Fired after the player entity
+- [`PlayerSpawnEvent`](PlayerSpawnEvent.md) — Fired after the player entity
   is spawned in the world.
 ```
 
@@ -602,8 +617,9 @@ public void onPlayerJoin(PlayerJoinEvent event) {
 (frontmatter with kind: "component")
 ---
 
-> Package: `com.hypixel.hytale.ecs.component`
-> Implements: [`Component`](../classes/Component.md)
+**Package:** `com.hypixel.hytale.server.core.ecs.component`
+
+> Implements: [`Component`](../com.hypixel.hytale.server.core.ecs/Component.md)
 
 (LLM-generated description.)
 
@@ -617,9 +633,9 @@ public void onPlayerJoin(PlayerJoinEvent event) {
 
 ## Accessed By Systems
 
-- [`MovementSystem`](../systems/MovementSystem.md) — Reads and writes position
+- [`MovementSystem`](../com.hypixel.hytale.server.core.ecs.system/MovementSystem.md) — Reads and writes position
   based on velocity.
-- [`CollisionSystem`](../systems/CollisionSystem.md) — Reads position for
+- [`CollisionSystem`](../com.hypixel.hytale.server.core.ecs.system/CollisionSystem.md) — Reads position for
   collision detection.
 
 ## Common Entity Archetypes
@@ -639,7 +655,7 @@ public void onPlayerJoin(PlayerJoinEvent event) {
 ---
 
 > Asset path: `Common/Blocks/<block_name>.json`
-> Deserialized by: [`BlockDefinitionLoader`](../internals/classes/BlockDefinitionLoader.md)
+> Deserialized by: [`BlockDefinitionLoader`](../packages/com.hypixel.hytale.server.core.asset/BlockDefinitionLoader.md)
 
 (LLM-generated overview of what this schema defines.)
 
@@ -680,8 +696,8 @@ public void onPlayerJoin(PlayerJoinEvent event) {
 
 ## Related
 
-- **Java class:** [`BlockDefinition`](../api/classes/BlockDefinition.md)
-- **Registry:** [`BlockRegistry`](../api/registries/BlockRegistry.md)
+- **Java class:** [`BlockDefinition`](../packages/com.hypixel.hytale.server.core.asset.type.blocktype/BlockDefinition.md)
+- **Registry:** [`BlockRegistry`](../packages/com.hypixel.hytale.server.core.asset/BlockRegistry.md)
 ```
 
 ---
@@ -768,12 +784,126 @@ EXTRACT:
 - Validation constraints
 ```
 
+### 4.5 Identifying the NPC System
+
+```
+LOOK FOR:
+- Behavior tree nodes: classes with names like *Node, *Task, *Selector,
+  *Sequence, *Decorator, or implementing a BehaviorTree interface.
+- State machines: enums or classes representing NPC states, with transition
+  logic between them.
+- Movement controllers: classes managing pathfinding, steering, flocking,
+  or motion state.
+- Combat AI: classes evaluating attack targets, damage calculations,
+  aggro management, threat tables.
+- Expression/scripting: classes evaluating NPC dialogue, conditions, or
+  custom logic (look for Scope, Expression, ValueType patterns).
+
+DOCUMENT:
+- The behavior tree structure: what nodes exist, how they compose.
+- Movement controller hierarchy and state transitions.
+- Combat decision pipeline: how NPCs select targets and actions.
+- How plugins can create custom NPC behaviors.
+```
+
+### 4.6 Identifying the World Generation Pipeline
+
+```
+LOOK FOR:
+- Generator stages: classes representing steps in world generation
+  (terrain, biome placement, structure generation, decoration).
+- Zone/biome definitions: types representing biome properties, climate
+  parameters, zone boundaries.
+- Noise functions: procedural generation utilities (Perlin, Simplex,
+  fractal noise wrappers).
+- Structure placement: classes for placing prefabs, buildings, or
+  other structures during generation.
+- The hytalegenerator builtin: this is Hytale's default world generator
+  implementation — trace how it uses the core worldgen interfaces.
+
+DOCUMENT:
+- The generation pipeline stages in execution order.
+- How biomes/zones are selected and placed.
+- How structures are generated and placed.
+- Extension points for custom world generators.
+```
+
+### 4.7 Identifying the Protocol/Networking System
+
+```
+LOOK FOR:
+- Packet types: classes representing network messages between client
+  and server. Look for serialization methods (write/read ByteBuf).
+- Packet handlers: classes that process received packets. Look for
+  handle(), process(), or onReceive() patterns.
+- Protocol versioning: enums or constants defining protocol versions.
+- Connection lifecycle: classes managing player connections, handshake,
+  authentication flow.
+
+DOCUMENT:
+- Packet type hierarchy (client-to-server vs server-to-client).
+- Handler registration and dispatch mechanism.
+- Connection lifecycle stages.
+- Serialization patterns used.
+```
+
+### 4.8 Identifying the Spawning System
+
+```
+LOOK FOR:
+- Spawn rules: classes defining when and where entities spawn.
+- Spawn markers: block state types that mark spawn locations.
+- Spawn controllers: classes managing spawn scheduling, density,
+  and distribution.
+- Entity factories: classes that construct entities from spawn data.
+
+DOCUMENT:
+- How spawn rules are evaluated.
+- The relationship between spawn markers and entity creation.
+- How plugins can define custom spawn behavior.
+```
+
+### 4.9 Identifying Builtin Game Modules
+
+```
+LOOK FOR:
+- Module entry points: classes that register with the plugin/addon
+  system or hook into ECS/events.
+- Each builtin module (adventure, crafting, portals, mounts, beds,
+  weather, etc.) is a self-contained system. For each:
+  - What events does it fire or listen to?
+  - What ECS components does it use or create?
+  - What commands does it register?
+  - What JSON schemas does it define?
+
+DOCUMENT:
+- Per-module: purpose, event/ECS integration points, extension points.
+- How builtin modules serve as examples for plugin developers.
+- Cross-module dependencies (e.g., crafting depends on inventory).
+```
+
+### 4.10 Identifying Math and Procedural Libraries
+
+```
+LOOK FOR:
+- Vector types: 2D, 3D, integer and float variants.
+- Shape types: AABB, spheres, rays, planes.
+- Noise generators: Perlin, Simplex, value noise, domain warping.
+- Interpolation and easing functions.
+- Random distribution utilities.
+
+DOCUMENT:
+- Type hierarchy for each math domain.
+- Common usage patterns (which systems use which math types).
+- Thread safety and mutability characteristics.
+```
+
 ---
 
-## 5. Agent Instructions (AGENTS.md)
+## 5. Agent Instructions
 
-This file goes in the root of the generator project and instructs the LLM agent
-on how to operate the pipeline.
+This section defines what goes in the project's `CLAUDE.md` to instruct the
+LLM agent on how to operate the pipeline.
 
 ```markdown
 # Hydex — Agent Instructions
@@ -784,6 +914,10 @@ This project generates documentation from the Hytale server JAR. The output
 is structured markdown that feeds a static documentation site and a RAG
 corpus. All documentation is mechanically derived from the game files — never
 from external sources.
+
+The pipeline documents ALL types in the server JAR (~7,000 types). The
+`api_surface` classification (from Phase 2) is metadata for navigation and
+search ranking — it does not gate documentation generation.
 
 ## Pipeline
 
@@ -799,7 +933,7 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 3. This phase is deterministic. Do not use LLM judgment. If the decompiler
    or parser fails on a file, log the error and continue.
 
-### Phase 2: Classify API Surface
+### Phase 2: Classify API Surface (Metadata)
 
 1. Load `artifacts/class-index.json`.
 2. Start from the seed types listed in the spec (Section 2, Phase 2).
@@ -808,9 +942,11 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 5. Flag borderline cases in `artifacts/surface-review.json` for human
    review. Do not silently reclassify.
 
+This classification is metadata — it does not gate generation.
+
 ### Phase 3: Map Systems & Cross-Reference
 
-1. Load the decompiled source and the API surface classification.
+1. Load the decompiled source and the classifications.
 2. Apply the exploration heuristics from Section 4 of the spec.
 3. For each system (events, ECS, commands, registries, JSON schemas):
    - Identify all relevant types.
@@ -824,17 +960,35 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 ### Phase 4: Generate Docs
 
 1. Load all artifacts.
-2. For each type in the API surface, generate a markdown file following
-   the templates in Section 3 of the spec.
-3. For structural content (signatures, fields, hierarchies): template
+2. For every type in `artifacts/class-index.json`, generate a markdown
+   file following the templates in Section 3 of the spec.
+3. Write output to `output/docs/packages/{package}/` where `{package}`
+   is the dotted Java package name.
+4. For structural content (signatures, fields, hierarchies): template
    directly from the structured artifacts. Do not rephrase or reformat
    method signatures.
-4. For prose content (descriptions, usage notes, "fired by" context):
+5. For prose content (descriptions, usage notes, "fired by" context):
    generate concise, accurate descriptions based on the decompiled source.
    State what the code does, not what you think it might do. If you
    cannot determine purpose from the code, say so explicitly.
-5. Generate index files for each directory.
-6. Write output to `output/docs/`.
+6. Generate index pages for each package directory.
+7. Set `api_surface: true` in frontmatter for types in `surface.json`,
+   `api_surface: false` for all others.
+
+### Link rules (apply during Phase 4 AND Phase 4.1)
+
+- Every `.md` link must resolve to a file in `output/docs/`. If the
+  target file doesn't exist yet (batch generation in progress), use
+  inline code (`` `TypeName` ``) instead of a link.
+- Relative paths must be correct for the file's directory. Files in the
+  same package link as `[Foo](Foo.md)`. Files in different packages link
+  as `[Foo](../com.hypixel.hytale.other.package/Foo.md)`.
+- Standard library types (java.*, javax.*, org.slf4j.*) are never
+  linked — use inline code.
+- When generating a new page, check whether existing pages already
+  reference it and ensure bidirectional links are consistent.
+- Do not curate "key types" lists by hand. The generation set is ALL
+  types in class-index.json.
 
 ## Quality Rules
 
@@ -845,18 +999,10 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
 - Cross-references must be bidirectional: if A references B, B must
   reference A.
 - Every generated file must have complete frontmatter per the spec.
+- Do not include a `# Title` H1 in the markdown body. The frontmatter
+  `title` field is rendered as the page heading by Starlight.
 - When you don't know something, say "Purpose unknown — inferred from
   usage context" rather than guessing.
-- Every .md link must resolve to a file in the output set. If a target
-  file does not exist, use inline code (`TypeName`) instead of a link.
-  Phase 4.1 will gap-fill missing API surface pages.
-- Links must use correct relative paths for the file's directory location.
-  A file in api/commands/ linking to api/classes/Foo.md must use
-  ../classes/Foo.md, not Foo.md.
-- Internal types (not in surface.json) are never linked — always use
-  inline code.
-- After Phase 4 generation, run Phase 4.1 to validate all links resolve.
-  The pipeline must not deploy with any dangling .md links.
 
 ## File Locations
 
@@ -964,9 +1110,9 @@ is consumed by the sync step before Astro builds.
 **Dangling link report format:**
 ```
 === DANGLING LINKS: N missing targets ===
-  MISSING: api/classes/EventRegistration.md (4 links)
-    ← api/classes/EventRegistry.md  [EventRegistration]
-    ← api/classes/PluginBase.md     [EventRegistration]
+  MISSING: packages/com.hypixel.hytale.server.core.event/EventRegistration.md (4 links)
+    ← packages/com.hypixel.hytale.server.core.event/EventRegistry.md  [EventRegistration]
+    ← packages/com.hypixel.hytale.server.core.plugin/PluginBase.md    [EventRegistration]
     ...
 === END DANGLING LINKS ===
 ERROR: --strict mode: 13 dangling links found across 8 missing targets. Build aborted.
@@ -985,28 +1131,24 @@ ERROR: --strict mode: 13 dangling links found across 8 missing targets. Build ab
   "total_files_scanned": 65,
   "dangling_targets": [
     {
-      "target": "api/classes/EventRegistration.md",
-      "surface_classification": "public",
+      "target": "packages/com.hypixel.hytale.server.core.event/EventRegistration.md",
       "action": "generated",
       "referenced_by": [
-        { "source": "api/classes/EventRegistry.md", "text": "EventRegistration", "count": 2 },
-        { "source": "api/classes/PluginBase.md", "text": "EventRegistration", "count": 1 },
-        { "source": "api/events/index.md", "text": "EventRegistration", "count": 1 }
+        { "source": "packages/com.hypixel.hytale.server.core.event/EventRegistry.md", "text": "EventRegistration", "count": 2 },
+        { "source": "packages/com.hypixel.hytale.server.core.plugin/PluginBase.md", "text": "EventRegistration", "count": 1 }
       ]
     },
     {
-      "target": "api/commands/AbstractCommand.md",
-      "surface_classification": "n/a",
+      "target": "packages/com.hypixel.hytale.server.core.command.system/AbstractCommand.md",
       "action": "path_corrected",
-      "corrected_to": "../classes/AbstractCommand.md",
+      "corrected_to": "../com.hypixel.hytale.server.core.command.system/AbstractCommand.md",
       "referenced_by": [
-        { "source": "api/commands/index.md", "text": "AbstractCommand", "count": 2 }
+        { "source": "packages/com.hypixel.hytale.server.core.command/index.md", "text": "AbstractCommand", "count": 2 }
       ]
     }
   ],
   "wrong_path_links": 6,
   "missing_pages_generated": 4,
-  "internal_links_stripped": 0,
   "remaining_violations": 0
 }
 ```

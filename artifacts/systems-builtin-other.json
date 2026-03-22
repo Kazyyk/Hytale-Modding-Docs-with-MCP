@@ -1,0 +1,843 @@
+{
+  "_metadata": {
+    "description": "Phase 3 system mapping for all builtin modules except adventure, buildertools, and hytalegenerator",
+    "total_files_read": 344,
+    "modules_mapped": 29,
+    "files_unable_to_read": []
+  },
+  "modules": {
+    "portals": {
+      "entry_point": "PortalsPlugin extends JavaPlugin",
+      "file_count": 52,
+      "description": "Portal/fragment world system with void event mechanics. Players use portal devices to open procedural fragment worlds, with cursed items, timed fragments, and void invasion events.",
+      "registrations": {
+        "components": {
+          "PortalDevice": { "store": "ChunkStore", "codec": "Portal", "description": "Block component for portal device blocks, stores config and destination world UUID" },
+          "VoidEvent": { "store": "EntityStore", "description": "Tracks active void event state on an entity" },
+          "VoidSpawner": { "store": "EntityStore", "description": "Manages void spawner portals during void events" }
+        },
+        "resources": {
+          "PortalWorld": { "store": "EntityStore", "description": "World-level resource tracking portal fragment data (remaining time, existence)" }
+        },
+        "interactions": {
+          "Portal": "EnterPortalInteraction - enters a portal world",
+          "PortalReturn": "ReturnPortalInteraction - returns from a portal world"
+        },
+        "commands": [ "leave", "cursethis", "voidevent start", "fragment timer" ],
+        "custom_ui_pages": [ "PortalDevice" ],
+        "codec_registrations": {
+          "RemovalCondition": { "Portal": "PortalRemovalCondition" },
+          "GameplayConfig": { "Portal": "PortalGameplayConfig" }
+        }
+      },
+      "systems": {
+        "chunk_store": [
+          "PortalInvalidDestinationSystem - turns off portals when destination world is removed",
+          "CloseWorldWhenBreakingDeviceSystems.ComponentRemoved - closes fragment world when portal device component removed",
+          "CloseWorldWhenBreakingDeviceSystems.EntityRemoved - closes fragment world when portal device entity removed"
+        ],
+        "entity_store": [
+          "PortalTrackerSystems.TrackerSystem - tracks portal state",
+          "PortalTrackerSystems.UiTickingSystem - ticks portal UI updates",
+          "DiedInPortalSystem - handles player death in portal worlds",
+          "CurseItemDropsSystem - curses item drops in portal worlds",
+          "DeleteCursedItemsOnSpawnSystem - deletes cursed items on respawn",
+          "VoidEventRefSystem - manages void event entity references",
+          "VoidInvasionPortalsSpawnSystem - spawns invasion portals during void events",
+          "VoidSpawnerSystems.Instantiate - instantiates void spawners",
+          "StartVoidEventInFragmentSystem - triggers void events in fragments",
+          "VoidEventStagesSystem - manages void event stage progression"
+        ]
+      },
+      "events_listened": [ "RemoveWorldEvent", "AddWorldEvent" ],
+      "cross_references": {
+        "instances": "Uses InstancesPlugin for world removal and exit, PortalRemovalCondition registered with RemovalCondition.CODEC",
+        "world_map": "PortalMarkerProvider adds portal markers to world map"
+      },
+      "key_constants": {
+        "MAX_CONCURRENT_FRAGMENTS": 4
+      },
+      "spatial_utilities": {
+        "description": "Custom spatial query framework for portal spawn finding",
+        "types": [ "SpatialQuery", "SpatialQueryDebug", "PositionPredicate", "SearchBelow", "SearchCircular", "SearchCone", "FitsAPortal", "NotNearAnyInHashGrid", "NotNearPoint", "NotNearPointXZ", "FilterQuery", "FlatMapQuery", "OctTree", "SpatialHashGrid" ]
+      },
+      "config_types": {
+        "PortalDeviceConfig": "Configuration for portal devices (JSON-driven via BuilderCodec)",
+        "VoidEventConfig": "Configuration for void events",
+        "VoidEventStage": "Defines stages of a void event",
+        "InvasionPortalConfig": "Configuration for invasion portals during void events",
+        "PortalGameplayConfig": "Plugin config registered on GameplayConfig"
+      }
+    },
+
+    "path": {
+      "entry_point": "PathPlugin extends JavaPlugin",
+      "file_count": 29,
+      "description": "Path/patrol system for NPCs. Manages prefab paths (placed via world generation or builder tools) and world paths. Entities like PatrolPathMarkerEntity define waypoints.",
+      "registrations": {
+        "components": {
+          "WorldPathBuilder": { "store": "EntityStore", "description": "Component for building world paths" }
+        },
+        "resources": {
+          "WorldPathData": { "store": "EntityStore", "description": "World-level resource storing all prefab path collections" },
+          "SpatialResource<Ref, EntityStore>": { "store": "EntityStore", "description": "KDTree-based spatial index for prefab paths" }
+        },
+        "entities": {
+          "PatrolPathMarker": "PatrolPathMarkerEntity - waypoint marker entity for patrol paths, serialized with path ID, name, index, observation angle"
+        },
+        "commands": [ "prefabpath (add/edit/list/merge/new/nodes/update/updateObservationAngle/updatePause)", "worldpath (builder/list/remove/save)" ]
+      },
+      "systems": {
+        "entity_store": [
+          "PrefabPathSystems.AddOrRemove - handles adding/removing path markers",
+          "PrefabPathSystems.AddedFromWorldGen - handles world-gen placed paths",
+          "PathSpatialSystem - maintains spatial index of path markers",
+          "PrefabPathSystems.NameplateHolderSystem - manages nameplates on path markers",
+          "PrefabPathSystems.NameplateRefChangeSystem - updates nameplate refs",
+          "PrefabPathSystems.WorldGenChangeSystem - handles world gen ID changes",
+          "PrefabPathSystems.PrefabPlaceEntityEventSystem - handles prefab paste entity events",
+          "PrefabPasteEventSystem - processes prefab paste events for path compaction"
+        ]
+      },
+      "events_listened": [ "LoadedAssetsEvent<ModelAsset>", "PrefabPasteEvent" ],
+      "cross_references": {
+        "buildertools": "Conditionally registers PrefabPathCommand only if BuilderToolsPlugin is enabled. Depends on BuilderToolsPlugin.PrefabPasteEventSystem ordering.",
+        "npc": "PatrolPathMarkerEntity implements IPrefabPathWaypoint used by NPC patrol AI"
+      },
+      "path_types": {
+        "IPrefabPath": "Interface for prefab-placed paths with waypoint management",
+        "PatrolPath": "Concrete patrol path with concurrent waypoint tracking",
+        "TransientPath": "Temporary paths built from relative waypoint definitions",
+        "TransientPathDefinition": "Definition for building transient paths from relative waypoints"
+      }
+    },
+
+    "npccombatactionevaluator": {
+      "entry_point": "NPCCombatActionEvaluatorPlugin extends JavaPlugin",
+      "file_count": 27,
+      "description": "NPC combat AI evaluation system. Provides a utility-based combat action evaluator that selects optimal combat actions (abilities, basic attacks, state changes) based on target memory, damage memory, and positioning.",
+      "registrations": {
+        "components": {
+          "TargetMemory": { "store": "EntityStore", "description": "Tracks known hostile/friendly targets with decay over time" },
+          "CombatActionEvaluator": { "store": "EntityStore", "description": "Evaluates and selects combat actions for NPCs" },
+          "CombatConstructionData": { "store": "EntityStore", "description": "Temporary construction data for combat evaluator initialization" },
+          "DamageMemory": { "store": "EntityStore", "description": "Tracks recent and total sustained damage for combat decisions" }
+        },
+        "assets": {
+          "CombatActionOption": { "path": "NPC/DecisionMaking/CombatActions", "description": "JSON-configured combat action options with weighted selection" }
+        },
+        "npc_core_components": [
+          "CombatActionEvaluator -> BuilderSensorCombatActionEvaluator",
+          "CombatTargets -> BuilderCombatTargetCollector",
+          "HasHostileTargetMemory -> BuilderSensorHasHostileTargetMemory",
+          "CombatAbility -> BuilderActionCombatAbility",
+          "AddToHostileTargetMemory -> BuilderActionAddToTargetMemory"
+        ],
+        "conditions": [
+          "RecentSustainedDamage - checks recent damage threshold",
+          "TotalSustainedDamage - checks total damage threshold",
+          "KnownTargetCount - checks number of known hostile targets"
+        ],
+        "balance_asset": "CombatActionEvaluator registered on BalanceAsset.CODEC"
+      },
+      "systems": {
+        "entity_store": [
+          "TargetMemorySystems.Ticking - decays target memory entries over time",
+          "CombatActionEvaluatorSystems.EvaluatorTick - evaluates and selects combat actions each tick",
+          "DamageMemorySystems.CollectDamage - collects damage events into damage memory",
+          "CombatActionEvaluatorSystems.OnAdded - initializes combat evaluator when CombatConstructionData added"
+        ]
+      },
+      "cross_references": {
+        "npc": "Registers core component types on NPCPlugin. Uses NPCPlugin sensors/actions framework.",
+        "interaction": "ActionCombatAbility fires interactions via InteractionModule"
+      },
+      "combat_actions": {
+        "AbilityCombatAction": "Triggers a specific NPC ability interaction",
+        "BasicAttackTargetCombatAction": "Basic melee/ranged attack against target",
+        "StateCombatAction": "Changes NPC decision-making state",
+        "CombatActionOption": "JSON-configured weighted combat action with conditions"
+      },
+      "key_constants": {
+        "CAE_MARKED_TARGET_SLOT": "CAETargetSlot",
+        "CAE_MIN_RANGE_PARAMETER": "CAEMinRange",
+        "CAE_MAX_RANGE_PARAMETER": "CAEMaxRange",
+        "CAE_POSITIONING_ANGLE_PARAMETER": "CAEPositioningAngle"
+      }
+    },
+
+    "mounts": {
+      "entry_point": "MountPlugin extends JavaPlugin",
+      "file_count": 18,
+      "description": "Mounting system for entities and blocks. Supports NPC mounts (rideable creatures), block seating (chairs/beds), and minecarts on rails. Handles mount/dismount lifecycle, input forwarding, and movement overrides.",
+      "registrations": {
+        "components": {
+          "BlockMountComponent": { "store": "ChunkStore", "description": "Tracks entities seated on a block with mount points" },
+          "NPCMountComponent": { "store": "EntityStore", "codec": "Mount", "description": "NPC mount config storing original role index and anchor position" },
+          "MountedComponent": { "store": "EntityStore", "description": "Attached to entities that are currently mounted on something (entity or block)" },
+          "MountedByComponent": { "store": "EntityStore", "description": "Tracks which entities are passengers of this entity" },
+          "MinecartComponent": { "store": "EntityStore", "codec": "Minecart", "description": "Minecart entity data including hit count and source item" }
+        },
+        "interactions": {
+          "SpawnMinecart": "SpawnMinecartInteraction - spawns minecart entity on rails",
+          "Mount": "MountInteraction - mounts player on entity with configurable offset/controller",
+          "Seating": "SeatingInteraction - seats player on block mount point"
+        },
+        "npc_core_components": [ "Mount -> BuilderActionMount" ],
+        "commands": [ "mount dismount", "mount check" ],
+        "packet_handler": "MountGamePacketHandler - handles DismountNPC packet (id 294)"
+      },
+      "systems": {
+        "entity_store": [
+          "NPCMountSystems.OnAdd - initializes NPC mount when component added",
+          "NPCMountSystems.DismountOnPlayerDeath - dismounts on player death",
+          "NPCMountSystems.DismountOnMountDeath - dismounts when mount dies",
+          "NPCMountSystems.OnPlayerRemove - handles player removal while mounted",
+          "MountSystems.TrackerUpdate - updates entity tracker for mounted entities",
+          "MountSystems.TrackerRemove - removes tracker for mounted entities",
+          "MountSystems.RemoveMountedBy - cleans up MountedByComponent",
+          "MountSystems.RemoveMounted - cleans up MountedComponent",
+          "MountSystems.RemoveMountedHolder - removes mounted holder",
+          "MountSystems.TeleportMountedEntity - teleports mounted entity with mount",
+          "MountSystems.MountedEntityDeath - handles death of mounted entity",
+          "MountSystems.PlayerMount - player mount input handling",
+          "MountSystems.HandleMountInput - forwards player input to mount",
+          "MountSystems.TrackedMounted - tracks mounted relationship",
+          "MountSystems.EnsureMinecartComponents - ensures minecart has required components",
+          "MountSystems.OnMinecartHit - handles minecart being hit (break after 3 hits)"
+        ],
+        "chunk_store": [
+          "MountSystems.RemoveBlockSeat - removes block seat when block destroyed"
+        ]
+      },
+      "cross_references": {
+        "npc": "Registers Mount core component type. Uses NPCEntity and RoleChangeSystem for mount/dismount role transitions.",
+        "beds": "MountedComponent is used by beds for sleeping (bed seating)"
+      },
+      "api": {
+        "BlockMountAPI": "Static utility for mounting entities on blocks with mount point selection"
+      }
+    },
+
+    "instances": {
+      "entry_point": "InstancesPlugin extends JavaPlugin",
+      "file_count": 29,
+      "description": "Instance/dungeon system. Creates temporary world instances from asset templates, manages player teleportation in/out, world lifecycle with configurable removal conditions, and instance discovery events.",
+      "registrations": {
+        "components": {
+          "InstanceBlock": { "store": "ChunkStore", "codec": "Instance", "description": "Block that links to an instance world by UUID" },
+          "ConfigurableInstanceBlock": { "store": "ChunkStore", "codec": "InstanceConfig", "description": "Block with configurable instance parameters" },
+          "InstanceEntityConfig": { "store": "EntityStore", "codec": "Instance", "description": "Per-entity instance config storing return point" }
+        },
+        "resources": {
+          "InstanceDataResource": { "store": "ChunkStore", "codec": "InstanceData", "description": "Tracks whether instance has had players (for removal)" }
+        },
+        "interactions": {
+          "TeleportInstance": "TeleportInstanceInteraction",
+          "TeleportConfigInstance": "TeleportConfigInstanceInteraction",
+          "ExitInstance": "ExitInstanceInteraction"
+        },
+        "removal_conditions": {
+          "WorldEmpty": "WorldEmptyCondition - removes when no players present",
+          "IdleTimeout": "IdleTimeoutCondition - removes after idle time",
+          "Timeout": "TimeoutCondition - removes after absolute timeout"
+        },
+        "respawn_controller": { "ExitInstance": "ExitInstance - respawn controller that exits instance on death" },
+        "world_config": { "Instance": "InstanceWorldConfig - world-level instance configuration" },
+        "custom_ui_pages": [ "ConfigInstanceBlock" ],
+        "commands": [ "instance (edit copy/list/load/new, exit, migrate, spawn)" ]
+      },
+      "systems": {
+        "chunk_store": [
+          "InstanceBlock.OnRemove - handles instance block removal",
+          "ConfigurableInstanceBlock.OnRemove - handles configurable instance block removal",
+          "RemovalSystem - evaluates removal conditions and removes instances"
+        ]
+      },
+      "events_listened": [ "AddPlayerToWorldEvent", "DrainPlayerFromWorldEvent", "PlayerConnectEvent", "PlayerReadyEvent", "LoadAssetEvent", "GenerateSchemaEvent" ],
+      "events_fired": [ "DiscoverInstanceEvent.Display" ],
+      "cross_references": {
+        "portals": "Portals use instances for fragment worlds via spawnInstance()",
+        "creativehub": "Creative hub spawns instances via InstancesPlugin.spawnInstance()",
+        "blockphysics": "Uses WorldValidationUtil for instance asset validation"
+      },
+      "config_types": {
+        "InstanceWorldConfig": "World plugin config with return point, removal conditions, discovery config",
+        "InstanceDiscoveryConfig": "Discovery notification config (title, subtitle, sound, duration)",
+        "WorldReturnPoint": "Stores return world UUID, position, and reconnection prevention flag",
+        "ExitInstance": "RespawnController that teleports player out of instance on death"
+      },
+      "key_constants": {
+        "INSTANCE_PREFIX": "instance-",
+        "CONFIG_FILENAME": "instance.bson"
+      }
+    },
+
+    "asseteditor": {
+      "entry_point": "AssetEditorPlugin extends JavaPlugin",
+      "file_count": 30,
+      "description": "In-game asset editor for live editing game assets (block types, models, textures, sounds, UI, NPC roles, etc.). Supports JSON editing, undo/redo, multi-client editing, asset pack management, and schema-driven validation.",
+      "registrations": {
+        "asset_type_handlers": [
+          "AssetStoreTypeHandler - handles all registered asset stores",
+          "CommonAssetTypeHandler - handles Texture (.png), Model (.blockymodel), Animation (.blockyanim), Sound (.ogg), UI (.ui), Language (.lang)",
+          "JsonTypeHandler - base handler for JSON-based assets"
+        ],
+        "packet_handlers": [
+          "AssetEditorGamePacketHandler - game client packet handler",
+          "AssetEditorPacketHandler - editor client packet handler (InitialPacketHandler.EDITOR_PACKET_HANDLER_SUPPLIER)"
+        ]
+      },
+      "events_listened": [ "RegisterAssetStoreEvent", "RemoveAssetStoreEvent", "AssetPackRegisterEvent", "AssetPackUnregisterEvent", "AssetStoreMonitorEvent", "AssetMonitorEvent", "CommonAssetMonitorEvent", "MessagesUpdated" ],
+      "events_fired": [
+        "AssetEditorActivateButtonEvent",
+        "AssetEditorAssetCreatedEvent",
+        "AssetEditorClientDisconnectEvent",
+        "AssetEditorFetchAutoCompleteDataEvent",
+        "AssetEditorRequestDataSetEvent",
+        "AssetEditorSelectAssetEvent",
+        "AssetEditorUpdateWeatherPreviewLockEvent"
+      ],
+      "cross_references": {
+        "npceditor": "NPCEditorPlugin registers NPCRoleAssetTypeHandler and listens for asset selection events",
+        "weather": "AssetEditorUpdateWeatherPreviewLockEvent for weather preview locking"
+      },
+      "key_types": {
+        "EditorClient": "Represents a connected editor client with permissions",
+        "AssetPath": "Record of packId + path identifying an asset",
+        "AssetTree": "Builds file tree for editor UI",
+        "AssetTypeRegistry": "Registry of all asset type handlers",
+        "UndoRedoManager": "Per-asset undo/redo stack management",
+        "DataSource": "Interface for reading asset pack data",
+        "StandardDataSource": "Default DataSource implementation backed by filesystem",
+        "ModifiedAsset": "Tracks modified/new/deleted asset state with timestamps"
+      }
+    },
+
+    "beds": {
+      "entry_point": "BedsPlugin extends JavaPlugin",
+      "file_count": 20,
+      "description": "Bed and sleep system. Players interact with beds to set respawn points and sleep. Sleep advances world time through a somnolence state machine (Awake -> NoddingOff -> Slumber -> MorningWakeUp).",
+      "registrations": {
+        "components": {
+          "PlayerSomnolence": { "store": "EntityStore", "description": "Per-player sleep state (FullyAwake, NoddingOff, Slumber, MorningWakeUp)" },
+          "SleepTracker": { "store": "EntityStore", "description": "Tracks last sent sleep packet to avoid redundant updates" }
+        },
+        "resources": {
+          "WorldSomnolence": { "store": "EntityStore", "description": "World-level sleep state (Awake or WorldSlumber with time progression)" }
+        },
+        "interactions": {
+          "Bed": "BedInteraction - handles bed interaction for sleeping and respawn point setting"
+        }
+      },
+      "systems": {
+        "entity_store": [
+          "RegisterTrackerSystem - adds SleepTracker to players",
+          "WakeUpOnDismountSystem - wakes player when dismounting from bed",
+          "EnterBedSystem - transitions player to NoddingOff when mounting bed",
+          "UpdateSleepPacketSystem - sends sleep state packets to players",
+          "StartSlumberSystem - transitions world to Slumber when enough players are sleeping",
+          "UpdateWorldSlumberSystem - advances world time during slumber",
+          "SleepNotificationSystem - sends sleep status notifications"
+        ]
+      },
+      "cross_references": {
+        "mounts": "Uses MountedComponent for bed mounting/dismounting. BedInteraction uses BlockMountAPI for seating."
+      },
+      "sleep_state_machine": {
+        "PlayerSleep": "Sealed interface: FullyAwake | NoddingOff | Slumber | MorningWakeUp",
+        "WorldSleep": "Sealed interface: Awake | WorldSlumber",
+        "WorldSlumber": "Tracks slumber start/target instants and real-time progress"
+      },
+      "respawn_pages": [
+        "RespawnPointPage - base page for respawn point UI",
+        "SetNameRespawnPointPage - set name for respawn point",
+        "OverrideNearbyRespawnPointPage - override existing nearby respawn",
+        "SelectOverrideRespawnPointPage - select which respawn to override"
+      ]
+    },
+
+    "crafting": {
+      "entry_point": "CraftingPlugin extends JavaPlugin",
+      "file_count": 17,
+      "description": "Crafting system supporting multiple bench types (Simple, Diagram, Structural, Processing, Field/Pocket). Manages recipe registries per bench, player known recipes, bench upgrade tiers, and crafting windows.",
+      "registrations": {
+        "components": {
+          "CraftingManager": { "store": "EntityStore", "description": "Per-player crafting state manager tracking open bench windows" }
+        },
+        "interactions": {
+          "OpenBenchPage": "OpenBenchPageInteraction - opens crafting bench UI",
+          "OpenProcessingBench": "OpenProcessingBenchInteraction - opens processing bench",
+          "LearnRecipe": "LearnRecipeInteraction - teaches player a recipe"
+        },
+        "block_states": {
+          "ProcessingBenchState": "Block state for processing benches (active recipe, progress)",
+          "BenchState": "Block state for crafting benches (bench type, upgrade level, stored items)"
+        },
+        "window_types": {
+          "PocketCrafting": "FieldCraftingWindow - client-requestable pocket crafting"
+        },
+        "bench_root_interactions": {
+          "Crafting": "SIMPLE_CRAFTING_ROOT",
+          "DiagramCrafting": "DIAGRAM_CRAFTING_ROOT",
+          "StructuralCrafting": "STRUCTURAL_CRAFTING_ROOT"
+        },
+        "commands": [ "recipe (learn/forget/learnall/forgetall)" ]
+      },
+      "systems": {
+        "entity_store": [
+          "PlayerCraftingSystems.CraftingTickingSystem - ticks crafting managers",
+          "PlayerCraftingSystems.CraftingHolderSystem - manages crafting component lifecycle",
+          "PlayerCraftingSystems.CraftingRefSystem - handles crafting ref changes",
+          "PlayerAddedSystem - sends known recipes when player joins"
+        ]
+      },
+      "events_listened": [ "LoadedAssetsEvent<CraftingRecipe>", "RemovedAssetsEvent<CraftingRecipe>", "LoadedAssetsEvent<Item>", "RemovedAssetsEvent<Item>" ],
+      "cross_references": {
+        "adventure.memories": "CraftingManager and CraftingWindow reference MemoriesPlugin for memory-based crafting integration"
+      },
+      "window_types": {
+        "SimpleCraftingWindow": "Basic grid crafting with material containers",
+        "DiagramCraftingWindow": "Category-based crafting with craft/cancel actions",
+        "StructuralCraftingWindow": "Block-selection structural crafting",
+        "ProcessingBenchWindow": "Time-based processing with fuel/input",
+        "FieldCraftingWindow": "Pocket/field crafting without bench"
+      },
+      "recipe_registry": {
+        "BenchRecipeRegistry": "Per-bench registry mapping categories to recipe sets and tracking valid crafting materials"
+      }
+    },
+
+    "teleport": {
+      "entry_point": "TeleportPlugin extends JavaPlugin",
+      "file_count": 26,
+      "description": "Teleportation and warp system. Provides /tp, /spawn, and /warp commands with teleport history (back/forward), coordinate teleporting, cross-world teleporting, and persistent warp points saved to warps.json.",
+      "registrations": {
+        "components": {
+          "TeleportHistory": { "store": "EntityStore", "description": "Deque-based teleport history for back/forward navigation (max 100 entries)" },
+          "WarpComponent": { "store": "EntityStore", "description": "Marks an entity as a warp point visualization" }
+        },
+        "commands": [
+          "tp (to player, to coordinates, other to player, player to coordinates, top, home, back, forward, history, all, world)",
+          "spawn", "spawn set", "spawn setdefault",
+          "warp (go, list, set, remove, reload)"
+        ]
+      },
+      "systems": {
+        "none_registered": "Teleport uses event-based systems rather than ECS systems"
+      },
+      "events_listened": [ "LoadedAssetsEvent<ModelAsset>", "ChunkPreLoadProcessEvent", "AddWorldEvent", "AllWorldsLoadedEvent" ],
+      "cross_references": {
+        "world_map": "WarpMarkerProvider adds warp markers to world map when DisplayWarps is enabled"
+      },
+      "warp_system": {
+        "Warp": "Persistent warp point with ID, world, transform, creator, creation date",
+        "storage": "Saved to warps.json (BSON format) in universe directory",
+        "visualization": "Warp entities spawned at chunk pre-load with Warp model, nameplate, intangible, hidden from adventure players"
+      },
+      "ui": {
+        "WarpListPage": "Interactive UI page for browsing and teleporting to warps"
+      }
+    },
+
+    "deployables": {
+      "entry_point": "DeployablesPlugin extends JavaPlugin",
+      "file_count": 15,
+      "description": "Deployable items system (traps, turrets, AOE effects). Players place deployable entities that interact with the world through proximity triggers, projectile shooting, and area damage.",
+      "registrations": {
+        "components": {
+          "DeployableComponent": { "store": "EntityStore", "description": "Core deployable state with config, flags, lifetime, and tick behavior" },
+          "DeployableOwnerComponent": { "store": "EntityStore", "description": "Tracks deployed items per owner with damage/kill counting" },
+          "DeployableProjectileShooterComponent": { "store": "EntityStore", "description": "Manages turret projectile tracking and target selection" },
+          "DeployableProjectileComponent": { "store": "EntityStore", "description": "Tracks projectile previous position for hit detection" }
+        },
+        "assets": {
+          "DeployableSpawner": { "path": "DeployableSpawners", "loads_after": "ModelAsset, EntityEffect, SoundEvent", "loads_before": "Interaction" }
+        },
+        "interactions": {
+          "SpawnDeployableAtHitLocation": "SpawnDeployableAtHitLocationInteraction",
+          "SpawnDeployableFromRaycast": "SpawnDeployableFromRaycastInteraction"
+        },
+        "deployable_types": {
+          "Trap": "DeployableTrapConfig - proximity-triggered trap with damage",
+          "TrapSpawner": "DeployableTrapSpawnerConfig - trap that spawns additional entities",
+          "Aoe": "DeployableAoeConfig - area-of-effect damage zone",
+          "Turret": "DeployableTurretConfig - auto-targeting turret that shoots projectiles"
+        }
+      },
+      "systems": {
+        "entity_store": [
+          "DeployablesSystem.DeployableTicker - ticks deployable behavior (trap detection, turret targeting, AOE pulses)",
+          "DeployablesSystem.DeployableRegisterer - registers deployables with owner component on spawn",
+          "DeployablesSystem.DeployableOwnerTicker - ticks owner tracking (limit enforcement)"
+        ]
+      },
+      "utilities": {
+        "DeployablesUtils": "Static helpers for spawning deployable entities with model, bounding box, hitbox, despawn timer"
+      }
+    },
+
+    "ambience": {
+      "entry_point": "AmbiencePlugin extends JavaPlugin",
+      "file_count": 10,
+      "description": "Ambient sound and music system. Manages ambient emitter entities that play localized sounds, and world-level forced music overrides.",
+      "registrations": {
+        "components": {
+          "AmbienceTracker": { "store": "EntityStore", "description": "Per-player tracker for forced music state" },
+          "AmbientEmitterComponent": { "store": "EntityStore", "codec": "AmbientEmitter", "description": "Persistent ambient sound emitter with sound event ID" }
+        },
+        "resources": {
+          "AmbienceResource": { "store": "EntityStore", "description": "World-level forced music ambience override" }
+        },
+        "commands": [ "ambience setmusic <ambienceFxId>", "ambience clear", "ambience emitter add <soundEventId>" ]
+      },
+      "systems": {
+        "entity_store": [
+          "AmbientEmitterSystems.EntityAdded - ensures emitter entities have required components",
+          "AmbientEmitterSystems.EntityRefAdded - spawns audio entity for emitter",
+          "AmbientEmitterSystems.Ticking - ticks emitter state",
+          "ForcedMusicSystems.Tick - sends forced music updates to players",
+          "ForcedMusicSystems.PlayerAdded - initializes music tracker for new players"
+        ]
+      },
+      "config": {
+        "AmbiencePluginConfig": "Server config with AmbientEmitterModel key (default: NPC_Spawn_Marker)"
+      }
+    },
+
+    "fluid": {
+      "entry_point": "FluidPlugin extends JavaPlugin",
+      "file_count": 4,
+      "description": "Fluid simulation system. Handles fluid spreading, block interaction, and chunk preprocessing for fluids. Registers fluid ticker types and manages fluid sections.",
+      "registrations": {
+        "fluid_tickers": {
+          "Default": "DefaultFluidTicker - standard fluid spreading behavior",
+          "Fire": "FireFluidTicker - fire-specific fluid behavior",
+          "Finite": "FiniteFluidTicker - finite volume fluid"
+        },
+        "commands": [ "fluid" ]
+      },
+      "systems": {
+        "chunk_store": [
+          "FluidSystems.EnsureFluidSection - ensures fluid sections exist",
+          "FluidSystems.MigrateFromColumn - migrates fluid data from column format",
+          "FluidSystems.SetupSection - initializes fluid sections",
+          "FluidSystems.LoadPacketGenerator - generates fluid load packets",
+          "FluidSystems.ReplicateChanges - replicates fluid changes to clients",
+          "FluidSystems.Ticking - ticks fluid simulation per section"
+        ]
+      },
+      "events_listened": [ "ChunkPreLoadProcessEvent (FIRST priority)" ],
+      "preprocessing": "On newly generated chunks, iterates all fluid sections, validates fluid IDs, checks solid blocks, and pre-simulates fluid spreading up to 100 ticks"
+    },
+
+    "weather": {
+      "entry_point": "WeatherPlugin extends JavaPlugin",
+      "file_count": 8,
+      "description": "Weather system managing per-world weather states with player position-based environment tracking and forced weather overrides.",
+      "registrations": {
+        "components": {
+          "WeatherTracker": { "store": "EntityStore", "description": "Per-player weather state tracking with UpdateWeather packet management" }
+        },
+        "resources": {
+          "WeatherResource": { "store": "EntityStore", "description": "World-level weather state with forced weather override and environment-based weather map" }
+        },
+        "commands": [ "weather set <weather>", "weather get", "weather reset" ]
+      },
+      "systems": {
+        "entity_store": [
+          "WeatherSystem.WorldAddedSystem - initializes weather for new worlds",
+          "WeatherSystem.PlayerAddedSystem - initializes weather tracker for new players",
+          "WeatherSystem.TickingSystem - updates weather state and sends packets",
+          "WeatherSystem.InvalidateWeatherAfterTeleport - refreshes weather after teleport"
+        ]
+      }
+    },
+
+    "parkour": {
+      "entry_point": "ParkourPlugin extends JavaPlugin",
+      "file_count": 7,
+      "description": "Parkour checkpoint system. Manages indexed checkpoints that players must reach in order, with timing and reset support.",
+      "registrations": {
+        "components": {
+          "ParkourCheckpoint": { "store": "EntityStore", "codec": "ParkourCheckpoint", "description": "Checkpoint entity with index" }
+        },
+        "commands": [ "checkpoint add <index>", "checkpoint remove <index>", "checkpoint reset" ]
+      },
+      "systems": {
+        "entity_store": [
+          "ParkourCheckpointSystems.EnsureNetworkSendable - ensures checkpoint entities are network visible",
+          "ParkourCheckpointSystems.Init - registers checkpoints in plugin's UUID map",
+          "ParkourCheckpointSystems.Ticking - checks player proximity to checkpoints using spatial resource"
+        ]
+      },
+      "state": {
+        "currentCheckpointByPlayerMap": "Object2IntMap<UUID> tracking each player's current checkpoint",
+        "startTimeByPlayerMap": "Object2LongMap<UUID> tracking player start times",
+        "checkpointUUIDMap": "Int2ObjectMap<UUID> mapping checkpoint index to entity UUID"
+      }
+    },
+
+    "blockspawner": {
+      "entry_point": "BlockSpawnerPlugin extends JavaPlugin",
+      "file_count": 7,
+      "description": "Block-based entity spawning. Replaces placeholder blocks with actual blocks from weighted spawn tables when chunks load, with rotation inheritance/randomization.",
+      "registrations": {
+        "components": {
+          "BlockSpawner": { "store": "ChunkStore", "codec": "BlockSpawner", "description": "Block component storing spawner table ID" }
+        },
+        "assets": {
+          "BlockSpawnerTable": { "path": "Item/Block/Spawners", "loads_after": "Item, BlockType", "description": "Weighted table of block entries with rotation modes" }
+        },
+        "commands": [ "blockspawner set", "blockspawner get" ]
+      },
+      "systems": {
+        "chunk_store": [
+          "BlockSpawnerSystem - on block added, rolls weighted table and replaces spawner block with result",
+          "MigrateBlockSpawner - migration system for old 'blockspawner' unknown component format"
+        ]
+      },
+      "events_listened": [ "PrefabBufferValidator.ValidateBlockEvent" ],
+      "spawner_entry": {
+        "BlockSpawnerEntry": "Entry with block name, rotation mode (NONE/RANDOM/INHERIT), weight, optional block components"
+      }
+    },
+
+    "model": {
+      "entry_point": "ModelPlugin extends JavaPlugin",
+      "file_count": 3,
+      "description": "Model management plugin. Provides /model command for changing entity models and hot-reloads model assets when they change.",
+      "registrations": {
+        "commands": [ "model" ]
+      },
+      "events_listened": [ "LoadedAssetsEvent<ModelAsset>" ],
+      "hot_reload": "On model asset change, iterates all entities with ModelComponent across all worlds and updates their models",
+      "ui": {
+        "ChangeModelPage": "Interactive UI for searching and selecting models with entity preview spawning"
+      }
+    },
+
+    "commandmacro": {
+      "entry_point": "MacroCommandPlugin extends JavaPlugin",
+      "file_count": 7,
+      "description": "Command macro system. Loads macro command definitions from JSON assets and dynamically registers them as server commands with parameter substitution.",
+      "registrations": {
+        "assets": {
+          "MacroCommandBuilder": { "path": "MacroCommands", "description": "JSON-defined command macros with parameters and replacements" }
+        },
+        "commands": [ "wait <ticks>", "echo <message>" ]
+      },
+      "events_listened": [ "LoadedAssetsEvent<MacroCommandBuilder>" ],
+      "macro_types": {
+        "MacroCommandBuilder": "Defines macro name, sub-commands, parameters, and replacements",
+        "MacroCommandBase": "Runtime command that executes macro sub-commands with parameter substitution",
+        "MacroCommandParameter": "Defines a parameter with name, type, and description",
+        "MacroCommandReplacement": "Defines string replacements applied to command text",
+        "EchoCommand": "Built-in echo command",
+        "WaitCommand": "Built-in wait command (delays in ticks)"
+      }
+    },
+
+    "blockphysics": {
+      "entry_point": "BlockPhysicsPlugin extends JavaPlugin",
+      "file_count": 5,
+      "description": "Block physics system handling gravity-affected blocks and prefab validation. Validates prefab assets on server startup.",
+      "registrations": {
+        "none_notable": "No components or interactions registered"
+      },
+      "systems": {
+        "chunk_store": [
+          "BlockPhysicsSystems.Ticking - processes block physics ticks"
+        ]
+      },
+      "events_listened": [ "LoadAssetEvent (for prefab validation)" ],
+      "validation": {
+        "PrefabBufferValidator": "Validates all prefabs checking block states and block types. Fires ValidateBlockEvent.",
+        "WorldValidationUtil": "Block validator utility used by instances for world validation",
+        "BlockPhysicsUtil": "Block physics calculation utilities"
+      }
+    },
+
+    "creativehub": {
+      "entry_point": "CreativeHubPlugin extends JavaPlugin",
+      "file_count": 7,
+      "description": "Creative hub system. Provides a hub world that players spawn into, with portal-based navigation to sub-worlds and a 'Return to Hub' button UI.",
+      "registrations": {
+        "components": {
+          "CreativeHubEntityConfig": { "store": "EntityStore", "codec": "CreativeHub", "description": "Per-entity config storing parent hub world UUID" }
+        },
+        "interactions": {
+          "HubPortal": "HubPortalInteraction - teleports player to/from hub instances"
+        },
+        "world_config": { "CreativeHub": "CreativeHubWorldConfig - world config with startup instance name" },
+        "commands": [ "hub" ]
+      },
+      "systems": {
+        "entity_store": [
+          "ReturnToHubButtonSystem - manages return-to-hub button visibility"
+        ]
+      },
+      "events_listened": [ "PlayerConnectEvent", "RemoveWorldEvent", "AddPlayerToWorldEvent" ],
+      "cross_references": {
+        "instances": "Uses InstancesPlugin.spawnInstance() for hub instances, InstanceWorldConfig, InstanceEntityConfig, WorldReturnPoint"
+      },
+      "features": {
+        "hub_instances": "Maintains map of parent world UUID -> active hub instance world",
+        "permanent_worlds": "spawnPermanentWorldFromTemplate() creates non-deletable worlds from instance templates",
+        "return_button": "ReturnToHubButtonUI sends custom UI packet for hub return button"
+      }
+    },
+
+    "blocktick": {
+      "entry_point": "BlockTickPlugin extends JavaPlugin implements IBlockTickProvider",
+      "file_count": 5,
+      "description": "Block tick system for deterministic block updates (growth, state changes). Discovers ticking blocks in newly generated chunks and processes them via tick procedures.",
+      "registrations": {
+        "tick_procedures": {
+          "BasicChance": "BasicChanceBlockGrowthProcedure - chance-based block growth",
+          "SplitChance": "SplitChanceBlockGrowthProcedure - split chance growth with multiple outcomes"
+        }
+      },
+      "systems": {
+        "chunk_store": [
+          "ChunkBlockTickSystem.PreTick - pre-tick processing",
+          "ChunkBlockTickSystem.Ticking - main block tick processing",
+          "MergeWaitingBlocksSystem - merges deferred ticking blocks"
+        ]
+      },
+      "events_listened": [ "ChunkPreLoadProcessEvent (EARLY priority)" ],
+      "integration": "Sets BlockTickManager.blockTickProvider to self, providing tick procedures from BlockType assets"
+    },
+
+    "randomtick": {
+      "entry_point": "RandomTickPlugin extends JavaPlugin",
+      "file_count": 5,
+      "description": "Random tick system for non-deterministic block updates (spreading, decay). Processes random blocks per chunk per tick.",
+      "registrations": {
+        "resources": {
+          "RandomTick": { "store": "ChunkStore", "description": "Per-chunk random tick state" }
+        },
+        "random_tick_procedures": {
+          "ChangeIntoBlock": "ChangeIntoBlockProcedure - transforms block into another type",
+          "SpreadTo": "SpreadToProcedure - spreads block type to adjacent positions"
+        }
+      },
+      "systems": {
+        "chunk_store": [
+          "RandomTickSystem - selects random blocks in loaded chunks and applies their random tick procedures"
+        ]
+      }
+    },
+
+    "tagset": {
+      "entry_point": "TagSetPlugin extends JavaPlugin",
+      "file_count": 4,
+      "description": "Tag set system for categorizing NPCs into groups with efficient bitwise lookup. Used for attitude/faction systems.",
+      "registrations": {
+        "assets": {
+          "NPCGroup": { "path": "NPC/Groups", "loads_before": "Interaction", "description": "NPC group tag definitions" }
+        }
+      },
+      "key_types": {
+        "TagSet": "Base interface for tag sets",
+        "TagSetLookupTable": "Builds flattened Int2ObjectMap<IntSet> for O(1) tag-in-set checks",
+        "TagSetPlugin.TagSetLookup": "Runtime lookup with tagInSet(int tagSet, int tagIndex) method",
+        "NPCGroup": "Concrete tag set implementation for NPC groups"
+      }
+    },
+
+    "crouchslide": {
+      "entry_point": "CrouchSlidePlugin extends JavaPlugin",
+      "file_count": 1,
+      "description": "Crouch slide movement feature. Registers ClientFeature.CrouchSlide and 'Allows=Movement' client tag.",
+      "registrations": {
+        "client_features": [ "CrouchSlide" ],
+        "client_tags": [ "Allows=Movement" ]
+      }
+    },
+
+    "mantling": {
+      "entry_point": "MantlingPlugin extends JavaPlugin",
+      "file_count": 1,
+      "description": "Mantling movement feature. Registers ClientFeature.Mantling and 'Allows=Movement' client tag.",
+      "registrations": {
+        "client_features": [ "Mantling" ],
+        "client_tags": [ "Allows=Movement" ]
+      }
+    },
+
+    "safetyroll": {
+      "entry_point": "SafetyRollPlugin extends JavaPlugin",
+      "file_count": 1,
+      "description": "Safety roll movement feature. Registers ClientFeature.SafetyRoll and 'Allows=Movement' client tag.",
+      "registrations": {
+        "client_features": [ "SafetyRoll" ],
+        "client_tags": [ "Allows=Movement" ]
+      }
+    },
+
+    "sprintforce": {
+      "entry_point": "SprintForcePlugin extends JavaPlugin",
+      "file_count": 1,
+      "description": "Sprint force movement feature. Registers ClientFeature.SprintForce.",
+      "registrations": {
+        "client_features": [ "SprintForce" ]
+      }
+    },
+
+    "landiscovery": {
+      "entry_point": "LANDiscoveryPlugin extends JavaPlugin",
+      "file_count": 3,
+      "description": "LAN discovery system. Runs a UDP multicast listener on port 5510 that responds to HYTALE_DISCOVER_REQUEST packets with server info.",
+      "registrations": {
+        "commands": [ "landiscovery [enabled]" ]
+      },
+      "events_listened": [ "SingleplayerRequestAccessEvent" ],
+      "networking": {
+        "port": 5510,
+        "request_header": "HYTALE_DISCOVER_REQUEST",
+        "reply_header": "HYTALE_DISCOVER_REPLY",
+        "reply_contents": "IP address, port, server name, player count, max players"
+      }
+    },
+
+    "npceditor": {
+      "entry_point": "NPCEditorPlugin extends JavaPlugin",
+      "file_count": 2,
+      "description": "NPC role editor integration for the asset editor. Registers NPCRole asset type handler and provides model preview when selecting NPC roles.",
+      "registrations": {
+        "asset_type_handlers": [ "NPCRoleAssetTypeHandler (type: NPCRole, path: NPC roles, extension: .json)" ]
+      },
+      "events_listened": [ "AssetEditorSelectAssetEvent" ],
+      "cross_references": {
+        "asseteditor": "Registers on AssetEditorPlugin.getAssetTypeRegistry()",
+        "npc": "Uses NPCPlugin for role building, validation, and model preview"
+      }
+    },
+
+    "worldgen": {
+      "entry_point": "WorldGenPlugin extends JavaPlugin",
+      "file_count": 1,
+      "description": "World generation plugin. Registers BiomeDataSystem and HytaleWorldGenProvider, loads versioned world generation asset packs from $Versions directory.",
+      "registrations": {
+        "world_gen_provider": "Hytale -> HytaleWorldGenProvider",
+        "systems": [ "BiomeDataSystem (EntityStore)" ]
+      },
+      "versioning": {
+        "description": "Loads versioned worldgen packs from Server/WorldGen/$Versions/, validates version numbers, registers as asset packs",
+        "min_version": "HytaleWorldGenProvider.MIN_VERSION"
+      }
+    }
+  },
+
+  "cross_module_summary": {
+    "portal_instance_chain": "portals -> instances -> creativehub: Portals spawn fragment instances, creative hub spawns hub instances, both use InstancesPlugin.spawnInstance()",
+    "mount_bed_integration": "mounts <-> beds: Beds use MountedComponent for sleeping, EnterBedSystem and WakeUpOnDismountSystem react to mount state changes",
+    "npc_combat_chain": "npccombatactionevaluator -> npc: Combat evaluator registers core NPC components (sensors, actions, collectors) via NPCPlugin",
+    "path_npc_integration": "path -> npc: PatrolPathMarkerEntity provides waypoints for NPC patrol AI via IPrefabPathWaypoint interface",
+    "asset_editor_ecosystem": "asseteditor <-> npceditor <-> weather: Asset editor provides editing infrastructure, NPC editor adds role editing, weather integrates preview locking",
+    "block_tick_systems": "blocktick + randomtick + fluid + blockspawner + blockphysics: Five separate block processing systems that all operate on ChunkStore with different scheduling strategies",
+    "movement_features": "crouchslide + mantling + safetyroll + sprintforce: Four movement feature plugins that register ClientFeature flags",
+    "crafting_adventure": "crafting -> adventure.memories: Crafting windows and managers reference MemoriesPlugin for memory-based crafting"
+  }
+}

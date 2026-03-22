@@ -132,4 +132,4 @@ Block type definitions control how a block is rendered, how it interacts with ph
 
 - **[Item Schema](item.md)** -- Parent asset type (BlockType is nested within Item)
 - **[JSON Asset Schemas Overview](index.md)** -- BuilderCodec pattern documentation
-- **[ECS Overview](../api/components/index.md)** -- BlockEntity uses ECS components
+- **ECS Overview** -- BlockEntity uses ECS components (see `com.hypixel.hytale.component`)

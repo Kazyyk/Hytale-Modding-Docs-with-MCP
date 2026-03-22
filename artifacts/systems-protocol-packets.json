@@ -1,0 +1,611 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-20T00:00:00Z",
+  "domain": "protocol_packets_and_io",
+  "overview": "Complete mapping of the com.hypixel.hytale.protocol.packets (362 files, 270 actual packet types) and com.hypixel.hytale.protocol.io (9 files) packages. The protocol uses a code-generated binary wire format over QUIC (via Netty), with Zstd compression for large payloads, VarInt length-prefixed arrays, nullable bit fields, and fixed+variable block layouts. Packets are organized into 17 sub-packages by functional domain. Each packet implements Packet plus ToClientPacket and/or ToServerPacket marker interfaces. The PacketRegistry statically registers all 268 unique packet IDs (some packets implement Both directions on a single ID) across 3 NetworkChannels (Default, Chunks, WorldMap).",
+  "confidence": "high",
+  "files_read": 371,
+  "subsections": {
+    "io_infrastructure": {
+      "overview": "The protocol.io package provides the binary serialization layer. PacketIO handles framing, compression, and primitive read/write. VarInt implements variable-length integer encoding. PacketDecoder/PacketEncoder are Netty channel handlers. ProtocolUtil manages QUIC connection lifecycle. PacketStatsRecorder tracks bandwidth statistics per packet type.",
+      "types": [
+        {
+          "name": "PacketIO",
+          "file": "protocol/io/PacketIO.java",
+          "kind": "final_class",
+          "description": "Central serialization utility. Handles framed packet read/write with Zstd compression, half-float (16-bit) encoding, UUID read/write, fixed and variable-length string encoding (UTF-8 and ASCII), and byte/short/float array I/O. All reads use absolute ByteBuf offsets (getByte, getIntLE); writes use sequential (writeByte, writeIntLE).",
+          "key_methods": [
+            "writeFramedPacket(Packet, Class, ByteBuf, PacketStatsRecorder) — serializes a packet with 4-byte LE length prefix + 4-byte LE packet ID + optional Zstd compression",
+            "readFramedPacket(ByteBuf, int, PacketStatsRecorder) — reads packet ID, looks up PacketInfo, delegates to readFramedPacketWithInfo",
+            "readFramedPacketWithInfo(ByteBuf, int, PacketInfo, PacketStatsRecorder) — handles decompression if compressed, then calls info.deserialize()",
+            "readHalfLE / writeHalfLE — 16-bit IEEE 754 half-precision float",
+            "readVarString / writeVarString — VarInt-length-prefixed UTF-8 strings with max-length enforcement",
+            "readFixedString / writeFixedString — null-padded fixed-length strings",
+            "readUUID / writeUUID — 16-byte UUID (mostSig + leastSig longs)"
+          ],
+          "constants": {
+            "FRAME_HEADER_SIZE": 4,
+            "COMPRESSION_LEVEL": "System property hytale.protocol.compressionLevel, defaults to Zstd.defaultCompressionLevel()"
+          },
+          "wire_format": {
+            "frame": "[4 bytes LE payload length] [4 bytes LE packet ID] [payload bytes, optionally Zstd-compressed]",
+            "max_packet_size": 1677721600
+          }
+        },
+        {
+          "name": "VarInt",
+          "file": "protocol/io/VarInt.java",
+          "kind": "final_class",
+          "description": "Variable-length integer encoding (1-5 bytes, 7 bits per byte, MSB continuation bit). Used for array lengths, string lengths, and polymorphic type IDs throughout the protocol. Does not support negative values.",
+          "key_methods": [
+            "write(ByteBuf, int) — encode and write",
+            "read(ByteBuf) — decode sequentially (advances reader index)",
+            "peek(ByteBuf, int) — decode at absolute offset without advancing",
+            "length(ByteBuf, int) — return byte count of VarInt at offset",
+            "size(int) — compute encoded byte count without writing"
+          ]
+        },
+        {
+          "name": "ProtocolException",
+          "file": "protocol/io/ProtocolException.java",
+          "kind": "class",
+          "extends": "RuntimeException",
+          "description": "Protocol-level error with typed factory methods for common violations: arrayTooLong, stringTooLong, dictionaryTooLarge, bufferTooSmall, invalidVarInt, negativeLength, invalidOffset, unknownPolymorphicType, duplicateKey, invalidEnumValue, valueOutOfRange, and more."
+        },
+        {
+          "name": "ValidationResult",
+          "file": "protocol/io/ValidationResult.java",
+          "kind": "record",
+          "fields": ["boolean isValid", "String error"],
+          "description": "Result type for structural validation of incoming packets. ValidationResult.OK is the singleton success. Each packet class has a static validateStructure(ByteBuf, int) that returns this."
+        },
+        {
+          "name": "PacketStatsRecorder",
+          "file": "protocol/io/PacketStatsRecorder.java",
+          "kind": "interface",
+          "description": "Per-connection bandwidth statistics tracker. Records send/receive counts, uncompressed/compressed sizes, min/max/avg, and 30-second rolling stats per packet ID. Stored as a Netty channel attribute. Default implementation is NoopPacketStatsRecorder.",
+          "inner_types": ["PacketStatsEntry (interface)", "RecentStats (record)"]
+        },
+        {
+          "name": "NoopPacketStatsRecorder",
+          "file": "protocol/io/NoopPacketStatsRecorder.java",
+          "kind": "final_class",
+          "description": "No-op implementation of PacketStatsRecorder. All methods return zero/empty. Used when stats recording is disabled."
+        },
+        {
+          "name": "PacketDecoder",
+          "file": "protocol/io/netty/PacketDecoder.java",
+          "kind": "class",
+          "extends": "ByteToMessageDecoder",
+          "description": "Netty inbound handler that decodes framed packets from the byte stream. Reads 4-byte LE payload length + 4-byte LE packet ID, validates against PacketRegistry (ToServer direction), checks NetworkChannel match, decompresses if needed, and outputs deserialized Packet objects. Implements a custom packet timeout (configurable via PACKET_TIMEOUT_KEY channel attribute) that fires ReadTimeoutException when no packets arrive within the deadline. Closes connection on any protocol violation.",
+          "constants": {
+            "LENGTH_PREFIX_SIZE": 4,
+            "PACKET_ID_SIZE": 4,
+            "MIN_FRAME_SIZE": 8,
+            "CHECK_INTERVAL_MS": 1000
+          }
+        },
+        {
+          "name": "PacketEncoder",
+          "file": "protocol/io/netty/PacketEncoder.java",
+          "kind": "class",
+          "extends": "MessageToByteEncoder<Packet>",
+          "annotations": ["@Sharable"],
+          "description": "Netty outbound handler that encodes Packet objects into framed bytes. Handles CachedPacket unwrapping, NetworkChannel validation, and delegates to PacketIO.writeFramedPacket(). Marked @Sharable so a single instance can be shared across channels."
+        },
+        {
+          "name": "ProtocolUtil",
+          "file": "protocol/io/netty/ProtocolUtil.java",
+          "kind": "final_class",
+          "description": "QUIC connection lifecycle utilities. Provides closeConnection() (transport error) and closeApplicationConnection() (application error with reason string). Defines application-level error codes and Netty channel attribute keys for stream channel ID and packet timeout.",
+          "constants": {
+            "APPLICATION_NO_ERROR": 0,
+            "APPLICATION_RATE_LIMITED": 1,
+            "APPLICATION_AUTH_FAILED": 2,
+            "APPLICATION_INVALID_VERSION": 3,
+            "APPLICATION_TIMEOUT": 4,
+            "APPLICATION_CLIENT_OUTDATED": 5,
+            "APPLICATION_SERVER_OUTDATED": 6
+          },
+          "attribute_keys": [
+            "STREAM_CHANNEL_KEY (NetworkChannel) — identifies which logical channel this QUIC stream belongs to",
+            "PACKET_TIMEOUT_KEY (Duration) — configurable timeout for idle connections"
+          ]
+        }
+      ]
+    },
+    "network_channels": {
+      "overview": "Three logical channels multiplex over the QUIC connection. Each packet is registered to exactly one channel. The decoder validates that incoming packets match the stream's assigned channel.",
+      "channels": [
+        {"name": "Default", "value": 0, "description": "Used by the vast majority of packets — auth, setup, player, entities, inventory, interface, camera, interaction, machinima, serveraccess, assets, asseteditor, buildertools, window"},
+        {"name": "Chunks", "value": 1, "description": "Dedicated channel for world chunk data: SetChunk, SetChunkHeightmap, SetChunkTintmap, SetChunkEnvironments, SetFluids, UnloadChunk, ServerSetBlock, ServerSetBlocks, ServerSetFluid, ServerSetFluids, UpdateBlockDamage (11 packet types)"},
+        {"name": "WorldMap", "value": 2, "description": "Dedicated channel for world map: ClearWorldMap, UpdateWorldMap (2 packet types)"}
+      ]
+    },
+    "packet_registration": {
+      "overview": "PacketRegistry is a static registry mapping integer IDs to PacketInfo records. Registration happens in a static initializer block. Each registration specifies direction (ToServer/ToClient/Both), NetworkChannel, numeric ID, name, Java class, fixedBlockSize, maxSize, compressed flag, validate function, and deserialize function. The registry maintains three maps: BY_ID (all), TO_SERVER_BY_ID, TO_CLIENT_BY_ID, plus BY_TYPE for class-to-ID lookup.",
+      "total_registered_ids": 268,
+      "direction_enum": ["ToServer", "ToClient", "Both"],
+      "packet_info_record_fields": ["id", "name", "channel", "type (Class)", "fixedBlockSize", "maxSize", "compressed", "validate (BiFunction<ByteBuf,Integer,ValidationResult>)", "deserialize (BiFunction<ByteBuf,Integer,Packet>)"]
+    },
+    "packet_structure_pattern": {
+      "overview": "All packet classes are code-generated and follow a uniform structure. They have static constants (PACKET_ID, IS_COMPRESSED, NULLABLE_BIT_FIELD_SIZE, FIXED_BLOCK_SIZE, VARIABLE_FIELD_COUNT, VARIABLE_BLOCK_START, MAX_SIZE), public fields for payload data, and standard methods (deserialize, serialize, computeSize, computeBytesConsumed, validateStructure, clone, equals, hashCode). The binary layout is: [nullable bit field bytes] [fixed-size fields in LE byte order] [variable field offset table as LE int32s] [variable-length data (strings, arrays, nested structs)]."
+    },
+    "packet_categories": {
+      "connection": {
+        "package": "packets.connection",
+        "description": "Low-level connection lifecycle packets: initial handshake, disconnect, and keep-alive ping/pong.",
+        "file_count": 7,
+        "packet_count": 4,
+        "enum_count": 3,
+        "packets": [
+          {"name": "Connect", "id": 0, "direction": "ToServer", "channel": "Default", "compressed": false, "fields": ["int protocolCrc", "int protocolBuildNumber", "ClientType clientType", "UUID uuid", "byte[] referralData", "HostAddress referralSource"], "purpose": "Initial connection request from client. Sends protocol version info, client type (Game/AssetEditor), UUID, and optional referral data for server transfers."},
+          {"name": "Disconnect", "id": 1, "direction": "Both", "channel": "Default", "compressed": false, "fields": ["String reason", "DisconnectType type"], "purpose": "Graceful disconnect notification in either direction. DisconnectType distinguishes Disconnect/Kick/Ban/ServerShutdown/ConnectionLost."},
+          {"name": "Ping", "id": 2, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["int id", "InstantData time", "int lastPingValueRaw", "int lastPingValueDirect", "int lastPingValueTick"], "purpose": "Server-initiated ping with timing data. Includes last measured latency values."},
+          {"name": "Pong", "id": 3, "direction": "ToServer", "channel": "Default", "compressed": false, "fields": ["int id", "InstantData time", "PongType type", "short packetQueueSize"], "purpose": "Client response to Ping. PongType differentiates Raw/Direct/Tick measurement methods."}
+        ],
+        "enums": ["ClientType (Game, AssetEditor, ...)", "DisconnectType (Disconnect, Kick, Ban, ServerShutdown, ConnectionLost, ...)", "PongType (Raw, Direct, Tick, ...)"]
+      },
+      "auth": {
+        "package": "packets.auth",
+        "description": "Authentication and authorization flow: token exchange, password challenge-response, server status query, and client referral for server transfers.",
+        "file_count": 9,
+        "packet_count": 8,
+        "packets": [
+          {"name": "Status", "id": 10, "direction": "Packet (unspecified)", "channel": "Default", "compressed": false, "fields": ["String name", "String motd", "int playerCount", "int maxPlayers"], "purpose": "Server status response — implements Packet directly (not ToClient/ToServer), used for server list/query."},
+          {"name": "AuthGrant", "id": 11, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["String authorizationGrant", "String serverIdentityToken"], "purpose": "Server sends authorization grant and identity token to client after successful authentication."},
+          {"name": "AuthToken", "id": 12, "direction": "ToServer", "channel": "Default", "compressed": false, "fields": ["String accessToken", "String serverAuthorizationGrant"], "purpose": "Client sends access token and optional server authorization grant to authenticate."},
+          {"name": "ServerAuthToken", "id": 13, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["String serverAccessToken", "byte[] passwordChallenge"], "purpose": "Server sends its access token and optional password challenge bytes."},
+          {"name": "ConnectAccept", "id": 14, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["byte[] passwordChallenge"], "purpose": "Server accepts connection, optionally sending a password challenge (max 64 bytes)."},
+          {"name": "PasswordResponse", "id": 15, "direction": "ToServer", "channel": "Default", "compressed": false, "fields": ["byte[] hash"], "purpose": "Client sends password hash response (max 64 bytes) to challenge."},
+          {"name": "PasswordAccepted", "id": 16, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": [], "purpose": "Empty packet confirming password was accepted."},
+          {"name": "PasswordRejected", "id": 17, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["byte[] newChallenge", "int attemptsRemaining"], "purpose": "Password rejected. Sends new challenge and remaining attempt count."},
+          {"name": "ClientReferral", "id": 18, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["HostAddress hostTo", "byte[] data"], "purpose": "Server redirects client to another server (server transfer). Includes target host address and transfer data."}
+        ]
+      },
+      "setup": {
+        "package": "packets.setup",
+        "description": "World setup and loading sequence: world settings, asset transfer, feature flags, update rate, time dilation, view radius, and loading progress.",
+        "file_count": 16,
+        "packet_count": 14,
+        "enum_count": 1,
+        "packets": [
+          {"name": "WorldSettings", "id": 20, "direction": "ToClient", "compressed": true, "fields": ["int worldHeight", "Asset[] requiredAssets"], "purpose": "Initial world configuration sent during join. Lists required assets the client must download."},
+          {"name": "WorldLoadProgress", "id": 21, "direction": "ToClient", "compressed": false, "fields": ["FormattedMessage status", "int percentComplete", "int percentCompleteSubitem"], "purpose": "Loading progress updates shown to client during world load."},
+          {"name": "WorldLoadFinished", "id": 22, "direction": "ToClient", "compressed": false, "fields": [], "purpose": "Signals world loading is complete."},
+          {"name": "RequestAssets", "id": 23, "direction": "ToServer", "compressed": true, "fields": ["Asset[] assets"], "purpose": "Client requests specific assets it needs to download."},
+          {"name": "AssetInitialize", "id": 24, "direction": "ToClient", "compressed": false, "fields": ["Asset asset", "int size"], "purpose": "Server begins asset transfer — announces asset identity and total size."},
+          {"name": "AssetPart", "id": 25, "direction": "ToClient", "compressed": true, "fields": ["byte[] part"], "purpose": "Chunk of asset data during streaming transfer. Compressed for efficiency."},
+          {"name": "AssetFinalize", "id": 26, "direction": "ToClient", "compressed": false, "fields": [], "purpose": "Signals completion of current asset transfer."},
+          {"name": "RemoveAssets", "id": 27, "direction": "ToClient", "compressed": false, "fields": ["Asset[] asset"], "purpose": "Server tells client to remove previously downloaded assets."},
+          {"name": "RequestCommonAssetsRebuild", "id": 28, "direction": "ToClient", "compressed": false, "fields": [], "purpose": "Server requests client rebuild common asset caches."},
+          {"name": "SetUpdateRate", "id": 29, "direction": "ToClient", "compressed": false, "fields": ["int updatesPerSecond"], "purpose": "Server sets the game tick/update rate."},
+          {"name": "SetTimeDilation", "id": 30, "direction": "ToClient", "compressed": false, "fields": ["float timeDilation"], "purpose": "Server sets time dilation factor (slow-motion or speed-up)."},
+          {"name": "UpdateFeatures", "id": 31, "direction": "ToClient", "compressed": false, "fields": ["Map<ClientFeature, Boolean> features"], "purpose": "Server enables/disables client features via feature flags."},
+          {"name": "ViewRadius", "id": 32, "direction": "Both", "compressed": false, "fields": ["int value"], "purpose": "View/render distance negotiation between client and server."},
+          {"name": "PlayerOptions", "id": 33, "direction": "ToServer", "compressed": false, "fields": ["PlayerSkin skin"], "purpose": "Client sends player cosmetic options (skin)."},
+          {"name": "ServerTags", "id": 34, "direction": "ToClient", "compressed": false, "fields": ["Map<String, Integer> tags"], "purpose": "Server sends named tag-to-integer mapping for tagged data."}
+        ],
+        "enums": ["ClientFeature"]
+      },
+      "player": {
+        "package": "packets.player",
+        "description": "Player state and input: movement, teleportation, game mode, block placement, mouse interaction, hotbar, damage, debug rendering, and preferences.",
+        "file_count": 20,
+        "packet_count": 20,
+        "packets": [
+          {"name": "SetClientId", "id": 100, "direction": "ToClient", "compressed": false, "fields": ["int clientId"], "purpose": "Server assigns the client its network entity ID."},
+          {"name": "SetGameMode", "id": 101, "direction": "ToClient", "compressed": false, "fields": ["GameMode gameMode"], "purpose": "Server sets player's game mode (Adventure, Creative, etc.)."},
+          {"name": "SetMovementStates", "id": 102, "direction": "ToClient", "compressed": false, "fields": ["SavedMovementStates movementStates"], "purpose": "Server overrides player movement state flags."},
+          {"name": "SetBlockPlacementOverride", "id": 103, "direction": "ToClient", "compressed": false, "fields": ["boolean enabled"], "purpose": "Enables/disables block placement override mode."},
+          {"name": "JoinWorld", "id": 104, "direction": "ToClient", "compressed": false, "fields": ["boolean clearWorld", "boolean fadeInOut", "UUID worldUuid"], "purpose": "Server instructs client to join/switch worlds. Can optionally clear world state and use fade transition."},
+          {"name": "ClientReady", "id": 105, "direction": "ToServer", "compressed": false, "fields": ["boolean readyForChunks", "boolean readyForGameplay"], "purpose": "Client signals readiness — first for chunk loading, then for gameplay."},
+          {"name": "LoadHotbar", "id": 106, "direction": "ToServer", "compressed": false, "fields": ["byte inventoryRow"], "purpose": "Client requests loading a specific inventory row into the hotbar."},
+          {"name": "SaveHotbar", "id": 107, "direction": "ToServer", "compressed": false, "fields": ["byte inventoryRow"], "purpose": "Client requests saving current hotbar to an inventory row."},
+          {"name": "ClientMovement", "id": 108, "direction": "ToServer", "compressed": false, "fields": ["MovementStates movementStates", "HalfFloatPosition relativePosition", "Position absolutePosition", "Direction bodyOrientation", "Direction lookOrientation", "TeleportAck teleportAck", "Position wishMovement", "Vector3d velocity", "int mountedTo", "MovementStates riderMovementStates"], "purpose": "Per-tick client movement update. Contains position, orientation, velocity, movement state flags, and mount information."},
+          {"name": "ClientTeleport", "id": 109, "direction": "ToClient", "compressed": false, "fields": ["byte teleportId", "ModelTransform modelTransform", "boolean resetVelocity"], "purpose": "Server-initiated teleportation. Client must acknowledge via TeleportAck in next ClientMovement."},
+          {"name": "UpdateMovementSettings", "id": 110, "direction": "ToClient", "compressed": false, "fields": ["MovementSettings movementSettings"], "purpose": "Server updates client's movement physics parameters."},
+          {"name": "MouseInteraction", "id": 111, "direction": "ToServer", "compressed": false, "fields": ["long clientTimestamp", "int activeSlot", "Vector2f screenPoint", "MouseButtonEvent mouseButton", "MouseMotionEvent mouseMotion", "WorldInteraction worldInteraction"], "purpose": "Client sends mouse click/motion with world raytrace results for interaction processing."},
+          {"name": "DamageInfo", "id": 112, "direction": "ToClient", "compressed": false, "fields": ["Vector3d damageSourcePosition", "float damageAmount", "DamageCause damageCause"], "purpose": "Server notifies client about incoming damage with source position, amount, and cause."},
+          {"name": "ReticleEvent", "id": 113, "direction": "ToClient", "compressed": false, "fields": ["int eventIndex"], "purpose": "Server triggers a reticle animation event."},
+          {"name": "DisplayDebug", "id": 114, "direction": "ToClient", "compressed": false, "fields": ["DebugShape shape", "float[] matrix", "Vector3f color", "float time", "boolean fade", "float[] frustumProjection", "float opacity"], "purpose": "Server sends debug visualization shapes for rendering (sphere, box, etc.)."},
+          {"name": "ClearDebugShapes", "id": 115, "direction": "ToClient", "compressed": false, "fields": [], "purpose": "Clears all debug shapes from the client display."},
+          {"name": "SyncPlayerPreferences", "id": 116, "direction": "ToServer", "compressed": false, "fields": ["boolean showEntityMarkers", "PickupLocation armorItemsPreferredPickupLocation", "PickupLocation weaponAndToolItemsPreferredPickupLocation", "PickupLocation usableItemsItemsPreferredPickupLocation", "PickupLocation solidBlockItemsPreferredPickupLocation", "PickupLocation miscItemsPreferredPickupLocation", "boolean allowNPCDetection", "boolean respondToHit", "boolean hideHelmet", "boolean hideCuirass"], "purpose": "Client syncs gameplay preferences — item pickup destinations, NPC detection, cosmetic visibility."},
+          {"name": "ClientPlaceBlock", "id": 117, "direction": "ToServer", "compressed": false, "fields": ["BlockPosition position", "BlockRotation rotation", "int placedBlockId"], "purpose": "Client requests placing a block at a specific position with rotation."},
+          {"name": "UpdateMemoriesFeatureStatus", "id": 118, "direction": "ToClient", "compressed": false, "fields": ["boolean isFeatureUnlocked"], "purpose": "Server notifies client whether the memories feature is unlocked."},
+          {"name": "RemoveMapMarker", "id": 119, "direction": "ToServer", "compressed": false, "fields": ["String markerId"], "purpose": "Client requests removal of a world map marker."}
+        ]
+      },
+      "world": {
+        "package": "packets.world",
+        "description": "World state: chunk data, block/fluid changes, time/weather, sound events, particles, sleep, pause, and rendering settings. Chunk-related packets use the dedicated Chunks NetworkChannel.",
+        "file_count": 35,
+        "packet_count": 27,
+        "enum_count": 3,
+        "data_struct_count": 5,
+        "packets": [
+          {"name": "SetChunk", "id": 131, "direction": "ToClient", "channel": "Chunks", "compressed": true, "fields": ["int x", "int y", "int z", "byte[] localLight", "byte[] globalLight", "byte[] data"], "purpose": "Full chunk data transfer. Compressed. Contains block data, local and global lighting."},
+          {"name": "SetChunkHeightmap", "id": 132, "direction": "ToClient", "channel": "Chunks", "compressed": true, "fields": ["int x", "int z", "byte[] heightmap"], "purpose": "Chunk heightmap data for terrain rendering."},
+          {"name": "SetChunkTintmap", "id": 133, "direction": "ToClient", "channel": "Chunks", "compressed": true, "fields": ["int x", "int z", "byte[] tintmap"], "purpose": "Chunk tint/color map for biome coloring."},
+          {"name": "SetChunkEnvironments", "id": 134, "direction": "ToClient", "channel": "Chunks", "compressed": true, "fields": ["int x", "int z", "byte[] environments"], "purpose": "Per-chunk environment zone data."},
+          {"name": "UnloadChunk", "id": 135, "direction": "ToClient", "channel": "Chunks", "compressed": false, "fields": ["int chunkX", "int chunkZ"], "purpose": "Server tells client to unload a chunk."},
+          {"name": "SetFluids", "id": 136, "direction": "ToClient", "channel": "Chunks", "compressed": true, "fields": ["int x", "int y", "int z", "byte[] data"], "purpose": "Full fluid data for a chunk section."},
+          {"name": "ServerSetBlock", "id": 140, "direction": "ToClient", "channel": "Chunks", "compressed": false, "fields": ["int x", "int y", "int z", "int blockId", "byte rotation"], "purpose": "Single block change notification."},
+          {"name": "ServerSetBlocks", "id": 141, "direction": "ToClient", "channel": "Chunks", "compressed": false, "fields": ["int x", "int y", "int z", "SetBlockCmd[] cmds"], "purpose": "Batch block change notification (multiple blocks in one packet)."},
+          {"name": "ServerSetFluid", "id": 142, "direction": "ToClient", "channel": "Chunks", "compressed": false, "fields": ["int x", "int y", "int z", "int fluidId", "byte fluidLevel"], "purpose": "Single fluid change notification."},
+          {"name": "ServerSetFluids", "id": 143, "direction": "ToClient", "channel": "Chunks", "compressed": false, "fields": ["int x", "int y", "int z", "SetFluidCmd[] cmds"], "purpose": "Batch fluid change notification."},
+          {"name": "UpdateBlockDamage", "id": 144, "direction": "ToClient", "channel": "Chunks", "compressed": false, "fields": ["BlockPosition blockPosition", "float damage", "float delta"], "purpose": "Block break progress update."},
+          {"name": "UpdateTimeSettings", "id": 145, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["int daytimeDurationSeconds", "int nighttimeDurationSeconds", "byte totalMoonPhases", "boolean timePaused"], "purpose": "World time configuration."},
+          {"name": "UpdateTime", "id": 146, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["InstantData gameTime"], "purpose": "Current game time sync."},
+          {"name": "UpdateEditorTimeOverride", "id": 147, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["InstantData gameTime", "boolean paused"], "purpose": "Editor time override for content creation."},
+          {"name": "ClearEditorTimeOverride", "id": 148, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": [], "purpose": "Clears editor time override."},
+          {"name": "UpdateWeather", "id": 149, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["int weatherIndex", "float transitionSeconds"], "purpose": "Weather change with transition duration."},
+          {"name": "UpdateEditorWeatherOverride", "id": 150, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["int weatherIndex"], "purpose": "Editor weather override."},
+          {"name": "UpdateEnvironmentMusic", "id": 151, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["int environmentIndex"], "purpose": "Sets current environment music track."},
+          {"name": "SpawnParticleSystem", "id": 152, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["String particleSystemId", "Position position", "Direction rotation", "float scale", "Color color"], "purpose": "Spawns a named particle system at a world position."},
+          {"name": "SpawnBlockParticleSystem", "id": 153, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["int blockId", "BlockParticleEvent particleType", "Position position"], "purpose": "Spawns block-specific particles (Walk, Break, etc.)."},
+          {"name": "PlaySoundEvent2D", "id": 154, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["int soundEventIndex", "SoundCategory category", "float volumeModifier", "float pitchModifier"], "purpose": "Play a 2D (UI/ambient) sound event."},
+          {"name": "PlaySoundEvent3D", "id": 155, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["int soundEventIndex", "SoundCategory category", "Position position", "float volumeModifier", "float pitchModifier"], "purpose": "Play a positional 3D sound event in the world."},
+          {"name": "PlaySoundEventEntity", "id": 156, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["int soundEventIndex", "int networkId", "float volumeModifier", "float pitchModifier"], "purpose": "Play a sound event attached to an entity."},
+          {"name": "UpdateSleepState", "id": 157, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["boolean grayFade", "boolean sleepUi", "SleepClock clock", "SleepMultiplayer multiplayer"], "purpose": "Sleep/rest state with clock progress and multiplayer vote status."},
+          {"name": "SetPaused", "id": 158, "direction": "ToServer", "channel": "Default", "compressed": false, "fields": ["boolean paused"], "purpose": "Client requests game pause (singleplayer)."},
+          {"name": "ServerSetPaused", "id": 159, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["boolean paused"], "purpose": "Server confirms pause state."},
+          {"name": "UpdateSunSettings", "id": 360, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["float heightPercentage", "float angleRadians"], "purpose": "Sun position parameters for sky rendering."},
+          {"name": "UpdatePostFxSettings", "id": 361, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["float globalIntensity", "float power", "float sunshaftScale", "float sunIntensity", "float sunshaftIntensity"], "purpose": "Post-processing effects parameters (god rays, bloom)."}
+        ],
+        "data_structs": ["SetBlockCmd", "SetFluidCmd", "SleepClock", "SleepMultiplayer"],
+        "enums": ["PaletteType", "RotationAxis", "RotationDirection"]
+      },
+      "entities": {
+        "package": "packets.entities",
+        "description": "Entity state synchronization: spawn/despawn/update, animations, velocity changes, knockback, model particles.",
+        "file_count": 7,
+        "packet_count": 7,
+        "packets": [
+          {"name": "SetEntitySeed", "id": 160, "direction": "ToClient", "compressed": false, "fields": ["int entitySeed"], "purpose": "Sets entity random seed for deterministic client-side behavior."},
+          {"name": "EntityUpdates", "id": 161, "direction": "ToClient", "compressed": true, "fields": ["int[] removed", "EntityUpdate[] updates"], "purpose": "Primary entity state sync packet. Compressed. Contains removed entity IDs and full EntityUpdate array (each with position, orientation, component updates, etc.). This is the most bandwidth-intensive packet in the protocol."},
+          {"name": "PlayAnimation", "id": 162, "direction": "ToClient", "compressed": false, "fields": ["int entityId", "String itemAnimationsId", "String animationId", "AnimationSlot slot"], "purpose": "Trigger a named animation on an entity in a specific animation slot (Movement, Action, etc.)."},
+          {"name": "ChangeVelocity", "id": 163, "direction": "ToClient", "compressed": false, "fields": ["float x", "float y", "float z", "ChangeVelocityType changeType", "VelocityConfig config"], "purpose": "Modify player/entity velocity. ChangeVelocityType specifies Add/Set/etc."},
+          {"name": "ApplyKnockback", "id": 164, "direction": "ToClient", "compressed": false, "fields": ["Position hitPosition", "float x", "float y", "float z", "ChangeVelocityType changeType"], "purpose": "Apply knockback force from a hit position."},
+          {"name": "SpawnModelParticles", "id": 165, "direction": "ToClient", "compressed": false, "fields": ["int entityId", "ModelParticle[] modelParticles"], "purpose": "Spawn particle effects attached to an entity's model bones."},
+          {"name": "MountMovement", "id": 166, "direction": "ToServer", "compressed": false, "fields": ["Position absolutePosition", "Direction bodyOrientation", "MovementStates movementStates"], "purpose": "Client sends mount movement input when riding an entity."}
+        ]
+      },
+      "inventory": {
+        "package": "packets.inventory",
+        "description": "Inventory management: item movement, creative mode items, slot activation, hotbar block sets.",
+        "file_count": 10,
+        "packet_count": 10,
+        "packets": [
+          {"name": "UpdatePlayerInventory", "id": 170, "direction": "ToClient", "compressed": true, "fields": ["InventorySection storage", "InventorySection armor", "InventorySection hotbar", "InventorySection utility", "InventorySection builderMaterial", "InventorySection tools", "InventorySection backpack", "SortType sortType"], "purpose": "Full inventory state sync. Contains 7 inventory sections (storage, armor, hotbar, utility, builderMaterial, tools, backpack)."},
+          {"name": "SetCreativeItem", "id": 171, "direction": "ToServer", "compressed": false, "fields": ["int inventorySectionId", "int slotId", "ItemQuantity item", "boolean override"], "purpose": "Creative mode: set a specific item in a slot."},
+          {"name": "DropCreativeItem", "id": 172, "direction": "ToServer", "compressed": false, "fields": ["ItemQuantity item"], "purpose": "Creative mode: drop an item into the world."},
+          {"name": "SmartGiveCreativeItem", "id": 173, "direction": "ToServer", "compressed": false, "fields": ["ItemQuantity item", "SmartMoveType moveType"], "purpose": "Creative mode: smart-give item (auto-place into best slot)."},
+          {"name": "DropItemStack", "id": 174, "direction": "ToServer", "compressed": false, "fields": ["int inventorySectionId", "int slotId", "int quantity"], "purpose": "Drop item stack from inventory."},
+          {"name": "MoveItemStack", "id": 175, "direction": "ToServer", "compressed": false, "fields": ["int fromSectionId", "int fromSlotId", "int quantity", "int toSectionId", "int toSlotId"], "purpose": "Move item stack between inventory slots."},
+          {"name": "SmartMoveItemStack", "id": 176, "direction": "Both", "compressed": false, "fields": ["int fromSectionId", "int fromSlotId", "int quantity", "SmartMoveType moveType"], "purpose": "Smart-move item (auto-find destination). Bidirectional."},
+          {"name": "SetActiveSlot", "id": 177, "direction": "Both", "compressed": false, "fields": ["int inventorySectionId", "int activeSlot"], "purpose": "Set the active hotbar slot. Bidirectional."},
+          {"name": "SwitchHotbarBlockSet", "id": 178, "direction": "ToServer", "compressed": false, "fields": ["String itemId"], "purpose": "Switch hotbar to a different block set."},
+          {"name": "InventoryAction", "id": 179, "direction": "ToServer", "compressed": false, "fields": ["int inventorySectionId", "InventoryActionType inventoryActionType", "byte actionData"], "purpose": "Generic inventory action (TakeAll, etc.)."}
+        ]
+      },
+      "window": {
+        "package": "packets.window",
+        "description": "Container/crafting window management: open, close, update, and actions (craft, select, sort, upgrade).",
+        "file_count": 16,
+        "packet_count": 5,
+        "data_struct_count": 8,
+        "enum_count": 2,
+        "packets": [
+          {"name": "OpenWindow", "id": 200, "direction": "ToClient", "compressed": true, "fields": ["int id", "WindowType windowType", "String windowData", "InventorySection inventory", "ExtraResources extraResources"], "purpose": "Server opens a container/crafting window on the client. Compressed due to inventory contents."},
+          {"name": "UpdateWindow", "id": 201, "direction": "ToClient", "compressed": true, "fields": ["int id", "String windowData", "InventorySection inventory", "ExtraResources extraResources"], "purpose": "Server updates an open window's contents."},
+          {"name": "CloseWindow", "id": 202, "direction": "Both", "compressed": false, "fields": ["int id"], "purpose": "Close a window by ID. Bidirectional."},
+          {"name": "SendWindowAction", "id": 203, "direction": "ToServer", "compressed": false, "fields": ["int id", "WindowAction action"], "purpose": "Client sends a polymorphic window action (craft, select, sort, etc.). WindowAction is a polymorphic base with subtypes: CancelCraftingAction, ChangeBlockAction, CraftItemAction, CraftRecipeAction, SelectSlotAction, SetActiveAction, SortItemsAction, TierUpgradeAction, UpdateCategoryAction."},
+          {"name": "ClientOpenWindow", "id": 204, "direction": "ToServer", "compressed": false, "fields": ["WindowType type"], "purpose": "Client requests to open a window of a specific type."}
+        ],
+        "polymorphic_types": ["WindowAction (abstract) — 9 subtypes for window actions, dispatched by VarInt type ID"],
+        "enums": ["WindowType (Container, Crafting, ...)", "SortType (Name, ...)"]
+      },
+      "interface": {
+        "package": "packets.interface_",
+        "description": "UI and chat: server messages, notifications, kill feed, custom HUD/pages, player list, event titles, portals, recipes, HUD components, editor blocks preview.",
+        "file_count": 42,
+        "packet_count": 24,
+        "data_struct_count": 12,
+        "enum_count": 6,
+        "packets": [
+          {"name": "ServerMessage", "id": 210, "direction": "ToClient", "compressed": false, "fields": ["ChatType type", "FormattedMessage message"], "purpose": "Server sends a chat/system message. ChatType distinguishes Chat/System/etc."},
+          {"name": "ChatMessage", "id": 211, "direction": "ToServer", "compressed": false, "fields": ["String message"], "purpose": "Client sends a chat message."},
+          {"name": "Notification", "id": 212, "direction": "ToClient", "compressed": false, "fields": ["FormattedMessage message", "FormattedMessage secondaryMessage", "NotificationStyle style", "String icon", "float duration"], "purpose": "Server sends a UI notification with optional icon and duration."},
+          {"name": "KillFeedMessage", "id": 213, "direction": "ToClient", "compressed": false, "fields": ["FormattedMessage killer", "FormattedMessage decedent", "String icon"], "purpose": "Kill feed entry."},
+          {"name": "ShowEventTitle", "id": 214, "direction": "ToClient", "compressed": false, "fields": ["float fadeInDuration", "float fadeOutDuration", "float duration", "boolean isMajor", "FormattedMessage primaryTitle", "FormattedMessage secondaryTitle"], "purpose": "Display a large event title on screen."},
+          {"name": "HideEventTitle", "id": 215, "direction": "ToClient", "compressed": false, "fields": ["float fadeOutDuration"], "purpose": "Hide the current event title."},
+          {"name": "SetPage", "id": 216, "direction": "ToClient", "compressed": false, "fields": ["Page page", "boolean canCloseThroughInteraction"], "purpose": "Navigate client to a specific UI page."},
+          {"name": "CustomHud", "id": 217, "direction": "ToClient", "compressed": true, "fields": ["boolean clear", "CustomUICommand[] commands"], "purpose": "Server-driven custom HUD updates via HTML/DOM-like commands."},
+          {"name": "CustomPage", "id": 218, "direction": "ToClient", "compressed": true, "fields": ["boolean isInitial", "boolean clear", "CustomPageLifetime lifetime", "CustomUICommand[] commands", "CustomUIEventBinding[] eventBindings"], "purpose": "Full custom UI page with DOM commands and event bindings."},
+          {"name": "CustomPageEvent", "id": 219, "direction": "ToServer", "compressed": false, "fields": ["CustomPageEventType type", "String data"], "purpose": "Client sends custom page event back to server (Acknowledge, etc.)."},
+          {"name": "EditorBlocksChange", "id": 222, "direction": "ToClient", "compressed": true, "fields": ["EditorSelection selection", "BlockChange[] blocksChange", "FluidChange[] fluidsChange", "int blocksCount", "boolean advancedPreview"], "purpose": "Editor bulk block/fluid change preview."},
+          {"name": "ServerInfo", "id": 223, "direction": "ToClient", "compressed": false, "fields": ["String serverName", "String motd", "int maxPlayers"], "purpose": "Server information for the server list display."},
+          {"name": "AddToServerPlayerList", "id": 224, "direction": "ToClient", "compressed": false, "fields": ["ServerPlayerListPlayer[] players"], "purpose": "Add players to the tab list."},
+          {"name": "RemoveFromServerPlayerList", "id": 225, "direction": "ToClient", "compressed": false, "fields": ["UUID[] players"], "purpose": "Remove players from the tab list."},
+          {"name": "UpdateServerPlayerList", "id": 226, "direction": "ToClient", "compressed": false, "fields": ["ServerPlayerListUpdate[] players"], "purpose": "Update player list entries (world UUID changes)."},
+          {"name": "UpdateServerPlayerListPing", "id": 227, "direction": "ToClient", "compressed": false, "fields": ["Map<UUID, Integer> players"], "purpose": "Batch ping update for the player list."},
+          {"name": "UpdateKnownRecipes", "id": 228, "direction": "ToClient", "compressed": false, "fields": ["Map<String, CraftingRecipe> known"], "purpose": "Server sends the player's known/unlocked crafting recipes."},
+          {"name": "UpdatePortal", "id": 229, "direction": "ToClient", "compressed": false, "fields": ["PortalState state", "PortalDef definition"], "purpose": "Portal interaction state and timer."},
+          {"name": "UpdateVisibleHudComponents", "id": 230, "direction": "ToClient", "compressed": false, "fields": ["HudComponent[] visibleComponents"], "purpose": "Server controls which HUD elements are visible."},
+          {"name": "ResetUserInterfaceState", "id": 231, "direction": "ToClient", "compressed": false, "fields": [], "purpose": "Reset all UI state."},
+          {"name": "UpdateLanguage", "id": 232, "direction": "ToServer", "compressed": false, "fields": ["String language"], "purpose": "Client sets preferred language for server translations."},
+          {"name": "WorldSavingStatus", "id": 233, "direction": "ToClient", "compressed": false, "fields": ["boolean isWorldSaving"], "purpose": "Notify client of world save in progress."},
+          {"name": "OpenChatWithCommand", "id": 234, "direction": "ToClient", "compressed": false, "fields": ["String command"], "purpose": "Open the chat box pre-filled with a command string."},
+          {"name": "UpdateAnchorUI", "id": 235, "direction": "ToClient", "compressed": true, "fields": ["String anchorId", "boolean clear", "CustomUICommand[] commands", "CustomUIEventBinding[] eventBindings"], "purpose": "Update custom UI anchored to a specific world position/entity."}
+        ]
+      },
+      "worldmap": {
+        "package": "packets.worldmap",
+        "description": "World map system: chunk images, markers (player, placed, custom), teleportation, settings.",
+        "file_count": 17,
+        "packet_count": 8,
+        "data_struct_count": 8,
+        "polymorphic_types": ["MapMarkerComponent (abstract) — subtypes: HeightDeltaIconComponent, PlacedByMarkerComponent, PlayerMarkerComponent, TintComponent"],
+        "packets": [
+          {"name": "UpdateWorldMapSettings", "id": 240, "direction": "ToClient", "channel": "Default", "compressed": false, "fields": ["boolean enabled", "Map<Short, BiomeData> biomeDataMap", "boolean allowTeleportToCoordinates", "boolean allowTeleportToMarkers", "boolean allowShowOnMapToggle", "boolean allowCompassTrackingToggle", "boolean allowCreatingMapMarkers", "boolean allowRemovingOtherPlayersMarkers", "float defaultScale", "float minScale"], "purpose": "Full world map configuration — permissions, biome data, scale limits."},
+          {"name": "UpdateWorldMap", "id": 241, "direction": "ToClient", "channel": "WorldMap", "compressed": true, "fields": ["MapChunk[] chunks", "MapMarker[] addedMarkers", "String[] removedMarkers"], "purpose": "Streaming world map update. Contains chunk images and marker changes. Compressed. Uses WorldMap channel."},
+          {"name": "ClearWorldMap", "id": 242, "direction": "ToClient", "channel": "WorldMap", "compressed": false, "fields": [], "purpose": "Clear the entire world map."},
+          {"name": "UpdateWorldMapVisible", "id": 243, "direction": "ToServer", "channel": "Default", "compressed": false, "fields": ["boolean visible"], "purpose": "Client tells server whether the map UI is open (controls streaming)."},
+          {"name": "TeleportToWorldMapMarker", "id": 244, "direction": "ToServer", "channel": "Default", "compressed": false, "fields": ["String id"], "purpose": "Client requests teleport to a named marker."},
+          {"name": "TeleportToWorldMapPosition", "id": 245, "direction": "ToServer", "channel": "Default", "compressed": false, "fields": ["int x", "int y"], "purpose": "Client requests teleport to map coordinates."},
+          {"name": "CreateUserMarker", "id": 246, "direction": "ToServer", "channel": "Default", "compressed": false, "fields": ["float x", "float z", "String name", "String markerImage", "Color tintColor", "boolean shared"], "purpose": "Client creates a custom map marker."}
+        ]
+      },
+      "serveraccess": {
+        "package": "packets.serveraccess",
+        "description": "Server access control: privacy settings, password protection.",
+        "file_count": 4,
+        "packet_count": 3,
+        "enum_count": 1,
+        "packets": [
+          {"name": "RequestServerAccess", "id": 250, "direction": "ToClient", "compressed": false, "fields": ["Access access", "short externalPort"], "purpose": "Server notifies client of current access mode and external port."},
+          {"name": "UpdateServerAccess", "id": 251, "direction": "ToServer", "compressed": false, "fields": ["Access access", "HostAddress[] hosts"], "purpose": "Client/admin updates server access settings with host whitelist."},
+          {"name": "SetServerAccess", "id": 252, "direction": "ToServer", "compressed": false, "fields": ["Access access", "String password"], "purpose": "Set server access mode with optional password."}
+        ],
+        "enums": ["Access (Private, Public, ...)"]
+      },
+      "machinima": {
+        "package": "packets.machinima",
+        "description": "Machinima (in-game filmmaking) system: scene updates, actor model exchange.",
+        "file_count": 4,
+        "packet_count": 3,
+        "enum_count": 1,
+        "packets": [
+          {"name": "RequestMachinimaActorModel", "id": 260, "direction": "ToServer", "compressed": false, "fields": ["String modelId", "String sceneName", "String actorName"], "purpose": "Client requests a machinima actor's model data."},
+          {"name": "SetMachinimaActorModel", "id": 261, "direction": "ToClient", "compressed": false, "fields": ["Model model", "String sceneName", "String actorName"], "purpose": "Server sends the requested actor model."},
+          {"name": "UpdateMachinimaScene", "id": 262, "direction": "Both", "compressed": true, "fields": ["String player", "String sceneName", "float frame", "SceneUpdateType updateType", "byte[] scene"], "purpose": "Bidirectional scene state sync. SceneUpdateType: Update, Play, Stop, etc. Compressed."}
+        ],
+        "enums": ["SceneUpdateType"]
+      },
+      "camera": {
+        "package": "packets.camera",
+        "description": "Camera control: server-controlled camera settings, fly camera mode, camera shake effects.",
+        "file_count": 4,
+        "packet_count": 4,
+        "packets": [
+          {"name": "SetServerCamera", "id": 280, "direction": "ToClient", "compressed": false, "fields": ["ClientCameraView clientCameraView", "boolean isLocked", "ServerCameraSettings cameraSettings"], "purpose": "Server overrides client camera perspective (FirstPerson/ThirdPerson) and lock state."},
+          {"name": "CameraShakeEffect", "id": 281, "direction": "ToClient", "compressed": false, "fields": ["int cameraShakeId", "float intensity", "AccumulationMode mode"], "purpose": "Trigger a camera shake effect with configurable intensity and accumulation mode."},
+          {"name": "RequestFlyCameraMode", "id": 282, "direction": "ToServer", "compressed": false, "fields": ["boolean entering"], "purpose": "Client requests to enter/exit fly camera mode."},
+          {"name": "SetFlyCameraMode", "id": 283, "direction": "ToClient", "compressed": false, "fields": ["boolean entering"], "purpose": "Server confirms fly camera mode toggle."}
+        ]
+      },
+      "interaction": {
+        "package": "packets.interaction",
+        "description": "Interaction chain synchronization: sync, play, and cancel interaction sequences on entities.",
+        "file_count": 6,
+        "packet_count": 5,
+        "data_struct_count": 1,
+        "packets": [
+          {"name": "SyncInteractionChains", "id": 290, "direction": "Both", "compressed": false, "fields": ["SyncInteractionChain[] updates"], "purpose": "Bidirectional sync of active interaction chains. Each SyncInteractionChain carries chain state: active slots, interaction type, override root, equipment slot, chain/forked IDs."},
+          {"name": "CancelInteractionChain", "id": 291, "direction": "ToClient", "compressed": false, "fields": ["int chainId", "ForkedChainId forkedId"], "purpose": "Server cancels an active interaction chain."},
+          {"name": "PlayInteractionFor", "id": 292, "direction": "ToClient", "compressed": false, "fields": ["int entityId", "int chainId", "ForkedChainId forkedId", "int operationIndex", "int interactionId", "InteractionType interactionType", "boolean cancel"], "purpose": "Server tells client to play/cancel a specific interaction animation for an entity."},
+          {"name": "MountNPC", "id": 293, "direction": "ToClient", "compressed": false, "fields": ["float anchorX", "float anchorY", "float anchorZ", "int entityId"], "purpose": "Mount the player onto an NPC at a specified anchor point."},
+          {"name": "DismountNPC", "id": 294, "direction": "Both", "compressed": false, "fields": [], "purpose": "Dismount from an NPC. Bidirectional."}
+        ]
+      },
+      "assets": {
+        "package": "packets.assets",
+        "description": "Game data definition sync: server sends full or incremental updates of game data registries to the client. All are ToClient, most are compressed. Covers blocks, items, interactions, sounds, particles, effects, fluids, recipes, environments, UI components, and more. Each uses an UpdateType enum (Init/Update) and typically carries a Map<id, definition>.",
+        "file_count": 45,
+        "packet_count": 45,
+        "all_to_client": true,
+        "all_compressed": "Most (43 of 45). Exceptions: TrackOrUpdateObjective (ID=69), UntrackObjective (ID=70), UpdateObjectiveTask (ID=71)",
+        "packets": [
+          {"name": "UpdateBlockTypes", "id": 40, "fields": ["UpdateType type", "int maxId", "Map<Integer, BlockType> blockTypes", "boolean updateBlockTextures/ModelTextures/Models/MapGeometry"], "purpose": "Block type registry with texture/model rebuild flags."},
+          {"name": "UpdateBlockHitboxes", "id": 41, "fields": ["UpdateType type", "int maxId", "Map<Integer, Hitbox[]> blockBaseHitboxes"], "purpose": "Block collision hitbox definitions."},
+          {"name": "UpdateBlockSoundSets", "id": 42, "fields": ["UpdateType type", "int maxId", "Map<Integer, BlockSoundSet> blockSoundSets"], "purpose": "Block sound set definitions."},
+          {"name": "UpdateItemSoundSets", "id": 43, "fields": ["UpdateType type", "int maxId", "Map<Integer, ItemSoundSet> itemSoundSets"], "purpose": "Item sound set definitions."},
+          {"name": "UpdateBlockParticleSets", "id": 44, "fields": ["UpdateType type", "Map<String, BlockParticleSet>"], "purpose": "Block particle effects."},
+          {"name": "UpdateBlockBreakingDecals", "id": 45, "fields": ["UpdateType type", "Map<String, BlockBreakingDecal>"], "purpose": "Block breaking visual decals."},
+          {"name": "UpdateBlockSets", "id": 46, "fields": ["UpdateType type", "Map<String, BlockSet>"], "purpose": "Block sets (groups of block types for tools)."},
+          {"name": "UpdateWeathers", "id": 47, "fields": ["UpdateType type", "int maxId", "Map<Integer, Weather>"], "purpose": "Weather definitions."},
+          {"name": "UpdateTrails", "id": 48, "fields": ["UpdateType type", "Map<String, Trail>"], "purpose": "Trail effect definitions."},
+          {"name": "UpdateParticleSystems", "id": 49, "fields": ["UpdateType type", "Map<String, ParticleSystem>", "String[] removedParticleSystems"], "purpose": "Particle system definitions with removal support."},
+          {"name": "UpdateParticleSpawners", "id": 50, "fields": ["UpdateType type", "Map<String, ParticleSpawner>", "String[] removedParticleSpawners"], "purpose": "Particle spawner definitions."},
+          {"name": "UpdateEntityEffects", "id": 51, "fields": ["UpdateType type", "int maxId", "Map<Integer, EntityEffect>"], "purpose": "Entity effect (buff/debuff) definitions."},
+          {"name": "UpdateItemPlayerAnimations", "id": 52, "fields": ["UpdateType type", "Map<String, ItemPlayerAnimations>"], "purpose": "Per-item player animation sets."},
+          {"name": "UpdateModelvfxs", "id": 53, "fields": ["UpdateType type", "int maxId", "Map<Integer, ModelVFX>"], "purpose": "Model visual effects."},
+          {"name": "UpdateItems", "id": 54, "fields": ["UpdateType type", "Map<String, ItemBase>", "boolean updateModels/Icons"], "purpose": "Item definitions with model/icon rebuild flags."},
+          {"name": "UpdateItemQualities", "id": 55, "fields": ["UpdateType type", "int maxId", "Map<Integer, ItemQuality>"], "purpose": "Item quality tier definitions."},
+          {"name": "UpdateItemCategories", "id": 56, "fields": ["UpdateType type", "ItemCategory[]"], "purpose": "Item category definitions."},
+          {"name": "UpdateItemReticles", "id": 57, "fields": ["UpdateType type", "int maxId", "Map<Integer, ItemReticleConfig>"], "purpose": "Item reticle/crosshair configurations."},
+          {"name": "UpdateFieldcraftCategories", "id": 58, "fields": ["UpdateType type", "ItemCategory[]"], "purpose": "Fieldcraft category definitions."},
+          {"name": "UpdateResourceTypes", "id": 59, "fields": ["UpdateType type", "Map<String, ResourceType>"], "purpose": "Resource type definitions."},
+          {"name": "UpdateRecipes", "id": 60, "fields": ["UpdateType type", "Map<String, CraftingRecipe>", "String[] removedRecipes"], "purpose": "Crafting recipe definitions with removal support."},
+          {"name": "UpdateEnvironments", "id": 61, "fields": ["UpdateType type", "int maxId", "Map<Integer, WorldEnvironment>", "boolean rebuildMapGeometry"], "purpose": "World environment/biome definitions."},
+          {"name": "UpdateAmbienceFX", "id": 62, "fields": ["UpdateType type", "int maxId", "Map<Integer, AmbienceFX>"], "purpose": "Ambient sound/FX definitions."},
+          {"name": "UpdateFluidFX", "id": 63, "fields": ["UpdateType type", "int maxId", "Map<Integer, FluidFX>"], "purpose": "Fluid visual FX definitions."},
+          {"name": "UpdateTranslations", "id": 64, "fields": ["UpdateType type", "Map<String, String>"], "purpose": "Localization string table."},
+          {"name": "UpdateSoundEvents", "id": 65, "fields": ["UpdateType type", "int maxId", "Map<Integer, SoundEvent>"], "purpose": "Sound event definitions."},
+          {"name": "UpdateInteractions", "id": 66, "fields": ["UpdateType type", "int maxId", "Map<Integer, Interaction>"], "purpose": "Interaction definitions (polymorphic Interaction hierarchy)."},
+          {"name": "UpdateRootInteractions", "id": 67, "fields": ["UpdateType type", "int maxId", "Map<Integer, RootInteraction>"], "purpose": "Root interaction chain entry points."},
+          {"name": "UpdateUnarmedInteractions", "id": 68, "fields": ["UpdateType type", "Map<InteractionType, Integer>"], "purpose": "Default interactions when no item is equipped."},
+          {"name": "TrackOrUpdateObjective", "id": 69, "compressed": false, "fields": ["Objective objective"], "purpose": "Track or update a quest/objective."},
+          {"name": "UntrackObjective", "id": 70, "compressed": false, "fields": ["UUID objectiveUuid"], "purpose": "Stop tracking an objective."},
+          {"name": "UpdateObjectiveTask", "id": 71, "compressed": false, "fields": ["UUID objectiveUuid", "int taskIndex", "ObjectiveTask task"], "purpose": "Update a specific task within a tracked objective."},
+          {"name": "UpdateEntityStatTypes", "id": 72, "fields": ["UpdateType type", "int maxId", "Map<Integer, EntityStatType>"], "purpose": "Entity stat type definitions (health, stamina, etc.)."},
+          {"name": "UpdateEntityUIComponents", "id": 73, "fields": ["UpdateType type", "int maxId", "Map<Integer, EntityUIComponent>"], "purpose": "Entity UI component configurations (health bars, nameplates, etc.)."},
+          {"name": "UpdateHitboxCollisionConfig", "id": 74, "fields": ["UpdateType type", "int maxId", "Map<Integer, HitboxCollisionConfig>"], "purpose": "Hitbox collision configuration for entities."},
+          {"name": "UpdateRepulsionConfig", "id": 75, "fields": ["UpdateType type", "int maxId", "Map<Integer, RepulsionConfig>"], "purpose": "Entity repulsion physics configuration."},
+          {"name": "UpdateViewBobbing", "id": 76, "fields": ["UpdateType type", "Map<MovementType, ViewBobbing>"], "purpose": "View bobbing animation profiles per movement type."},
+          {"name": "UpdateCameraShake", "id": 77, "fields": ["UpdateType type", "Map<Integer, CameraShake>"], "purpose": "Camera shake profile definitions."},
+          {"name": "UpdateBlockGroups", "id": 78, "fields": ["UpdateType type", "Map<String, BlockGroup>"], "purpose": "Block group definitions."},
+          {"name": "UpdateSoundSets", "id": 79, "fields": ["UpdateType type", "int maxId", "Map<Integer, SoundSet>"], "purpose": "Sound set definitions."},
+          {"name": "UpdateAudioCategories", "id": 80, "fields": ["UpdateType type", "int maxId", "Map<Integer, AudioCategory>"], "purpose": "Audio category definitions."},
+          {"name": "UpdateReverbEffects", "id": 81, "fields": ["UpdateType type", "int maxId", "Map<Integer, ReverbEffect>"], "purpose": "Reverb effect definitions."},
+          {"name": "UpdateEqualizerEffects", "id": 82, "fields": ["UpdateType type", "int maxId", "Map<Integer, EqualizerEffect>"], "purpose": "Audio equalizer effect definitions."},
+          {"name": "UpdateFluids", "id": 83, "fields": ["UpdateType type", "int maxId", "Map<Integer, Fluid>"], "purpose": "Fluid type definitions."},
+          {"name": "UpdateTagPatterns", "id": 84, "fields": ["UpdateType type", "int maxId", "Map<Integer, TagPattern>"], "purpose": "Tag pattern definitions."},
+          {"name": "UpdateProjectileConfigs", "id": 85, "fields": ["UpdateType type", "Map<String, ProjectileConfig>", "String[] removedConfigs"], "purpose": "Projectile configuration definitions."}
+        ]
+      },
+      "asseteditor": {
+        "package": "packets.asseteditor",
+        "description": "In-game asset editor system: browse/create/update/delete game assets and asset packs, JSON schema editing, undo/redo, export/import, model preview. Uses a token-based request/reply pattern. 47 total files, 35 packet types, ~15 support types.",
+        "file_count": 70,
+        "packet_count": 35,
+        "data_struct_count": 15,
+        "enum_count": 6,
+        "id_range": "300-355",
+        "packets_summary": [
+          {"name": "FailureReply", "id": 300, "direction": "Both", "fields": ["int token", "FormattedMessage message"], "purpose": "Generic failure response to a tokenized request."},
+          {"name": "SuccessReply", "id": 301, "direction": "Both", "fields": ["int token", "FormattedMessage message"], "purpose": "Generic success response to a tokenized request."},
+          {"name": "AssetEditorInitialize", "id": 302, "direction": "ToServer", "purpose": "Client opens the asset editor."},
+          {"name": "AssetEditorAuthorization", "id": 303, "direction": "ToClient", "fields": ["boolean canUse"], "purpose": "Server authorizes asset editor access."},
+          {"name": "AssetEditorCapabilities", "id": 304, "direction": "ToClient", "fields": ["boolean canDiscardAssets", "boolean canEditAssets", "boolean canCreateAssetPacks", "boolean canEditAssetPacks", "boolean canDeleteAssetPacks"], "purpose": "Server sends the user's permissions."},
+          {"name": "AssetEditorSetupSchemas", "id": 305, "direction": "ToClient", "compressed": true, "fields": ["SchemaFile[] schemas"], "purpose": "JSON schema files for asset type validation."},
+          {"name": "AssetEditorSetupAssetTypes", "id": 306, "direction": "ToClient", "fields": ["AssetEditorAssetType[] assetTypes"], "purpose": "Available asset type definitions."},
+          {"name": "AssetEditorCreateDirectory", "id": 307, "direction": "ToServer", "purpose": "Create an asset directory."},
+          {"name": "AssetEditorDeleteDirectory", "id": 308, "direction": "ToServer", "purpose": "Delete an asset directory."},
+          {"name": "AssetEditorRenameDirectory", "id": 309, "direction": "ToServer", "purpose": "Rename an asset directory."},
+          {"name": "AssetEditorFetchAsset", "id": 310, "direction": "ToServer", "purpose": "Request asset data for editing."},
+          {"name": "AssetEditorFetchJsonAssetWithParents", "id": 311, "direction": "ToServer", "purpose": "Request JSON asset with inheritance chain."},
+          {"name": "AssetEditorFetchAssetReply", "id": 312, "direction": "ToClient", "fields": ["int token", "byte[] contents"], "purpose": "Raw asset data reply."},
+          {"name": "AssetEditorFetchJsonAssetWithParentsReply", "id": 313, "direction": "ToClient", "compressed": true, "fields": ["int token", "Map<AssetPath, String> assets"], "purpose": "JSON asset with parents reply."},
+          {"name": "AssetEditorAssetPackSetup", "id": 314, "direction": "ToClient", "fields": ["Map<String, AssetPackManifest> packs"], "purpose": "List of available asset packs."},
+          {"name": "AssetEditorUpdateAssetPack", "id": 315, "direction": "Both", "purpose": "Update asset pack manifest."},
+          {"name": "AssetEditorCreateAssetPack", "id": 316, "direction": "ToServer", "purpose": "Create new asset pack."},
+          {"name": "AssetEditorDeleteAssetPack", "id": 317, "direction": "Both", "purpose": "Delete asset pack."},
+          {"name": "AssetEditorEnableAssetPack", "id": 318, "direction": "Packet (unspecified)", "purpose": "Enable/disable asset pack."},
+          {"name": "AssetEditorAssetListSetup", "id": 319, "direction": "ToClient", "compressed": true, "purpose": "Full file tree for asset browsing."},
+          {"name": "AssetEditorAssetListUpdate", "id": 320, "direction": "ToClient", "compressed": true, "purpose": "Incremental file tree update."},
+          {"name": "AssetEditorRequestChildrenList", "id": 321, "direction": "ToServer", "purpose": "Request children of a directory."},
+          {"name": "AssetEditorRequestChildrenListReply", "id": 322, "direction": "ToClient", "purpose": "Reply with child IDs."},
+          {"name": "AssetEditorUpdateJsonAsset", "id": 323, "direction": "ToServer", "compressed": true, "purpose": "Update JSON asset with commands (set/delete/insert property)."},
+          {"name": "AssetEditorUpdateAsset", "id": 324, "direction": "ToServer", "purpose": "Update raw asset data."},
+          {"name": "AssetEditorJsonAssetUpdated", "id": 325, "direction": "ToClient", "purpose": "Notification that a JSON asset was updated (broadcasts to other editors)."},
+          {"name": "AssetEditorAssetUpdated", "id": 326, "direction": "ToClient", "purpose": "Notification that a raw asset was updated."},
+          {"name": "AssetEditorCreateAsset", "id": 327, "direction": "ToServer", "purpose": "Create a new asset."},
+          {"name": "AssetEditorRenameAsset", "id": 328, "direction": "ToServer", "purpose": "Rename an asset."},
+          {"name": "AssetEditorDeleteAsset", "id": 329, "direction": "ToServer", "purpose": "Delete an asset."},
+          {"name": "AssetEditorDiscardChanges", "id": 330, "direction": "ToServer", "purpose": "Discard changes to specific assets."},
+          {"name": "AssetEditorFetchAutoCompleteData", "id": 331, "direction": "ToServer", "purpose": "Request autocomplete suggestions."},
+          {"name": "AssetEditorFetchAutoCompleteDataReply", "id": 332, "direction": "ToClient", "purpose": "Autocomplete suggestions reply."},
+          {"name": "AssetEditorRequestDataset", "id": 333, "direction": "ToServer", "purpose": "Request a named dataset."},
+          {"name": "AssetEditorRequestDatasetReply", "id": 334, "direction": "ToClient", "purpose": "Dataset reply."},
+          {"name": "AssetEditorActivateButton", "id": 335, "direction": "ToServer", "purpose": "Activate an editor button action."},
+          {"name": "AssetEditorSelectAsset", "id": 336, "direction": "ToServer", "purpose": "Select an asset for preview."},
+          {"name": "AssetEditorPopupNotification", "id": 337, "direction": "ToClient", "purpose": "Editor popup notification."},
+          {"name": "AssetEditorFetchLastModifiedAssets", "id": 338, "direction": "ToServer", "purpose": "Request recently modified assets."},
+          {"name": "AssetEditorLastModifiedAssets", "id": 339, "direction": "ToClient", "purpose": "Recently modified assets reply."},
+          {"name": "AssetEditorModifiedAssetsCount", "id": 340, "direction": "ToClient", "fields": ["int count"], "purpose": "Count of modified (unsaved) assets."},
+          {"name": "AssetEditorSubscribeModifiedAssetsChanges", "id": 341, "direction": "ToServer", "purpose": "Subscribe to modified asset count changes."},
+          {"name": "AssetEditorExportAssets", "id": 342, "direction": "ToServer", "purpose": "Request asset export."},
+          {"name": "AssetEditorExportAssetInitialize", "id": 343, "direction": "ToClient", "purpose": "Begin asset export transfer."},
+          {"name": "AssetEditorExportAssetPart", "id": 344, "direction": "ToClient", "compressed": true, "purpose": "Chunk of exported asset data."},
+          {"name": "AssetEditorExportAssetFinalize", "id": 345, "direction": "ToClient", "purpose": "Complete single asset export."},
+          {"name": "AssetEditorExportDeleteAssets", "id": 346, "direction": "ToClient", "purpose": "Delete assets during export."},
+          {"name": "AssetEditorExportComplete", "id": 347, "direction": "ToClient", "purpose": "Full export complete."},
+          {"name": "AssetEditorUndoChanges", "id": 349, "direction": "ToServer", "purpose": "Undo asset change."},
+          {"name": "AssetEditorRedoChanges", "id": 350, "direction": "ToServer", "purpose": "Redo asset change."},
+          {"name": "AssetEditorUndoRedoReply", "id": 351, "direction": "ToClient", "purpose": "Undo/redo result."},
+          {"name": "AssetEditorSetGameTime", "id": 352, "direction": "ToServer", "purpose": "Set game time for preview."},
+          {"name": "AssetEditorUpdateSecondsPerGameDay", "id": 353, "direction": "ToClient", "purpose": "Day/night cycle timing."},
+          {"name": "AssetEditorUpdateWeatherPreviewLock", "id": 354, "direction": "ToServer", "purpose": "Lock weather for preview."},
+          {"name": "AssetEditorUpdateModelPreview", "id": 355, "direction": "ToClient", "purpose": "Model preview update with camera settings."}
+        ]
+      },
+      "buildertools": {
+        "package": "packets.buildertools",
+        "description": "Creative-mode builder tools: brush painting, block/entity manipulation, selection tools, clipboard operations, line/extrude actions, transformation mode, laser pointer, anchors.",
+        "file_count": 46,
+        "packet_count": 22,
+        "data_struct_count": 17,
+        "enum_count": 7,
+        "id_range": "400-425",
+        "packets": [
+          {"name": "BuilderToolArgUpdate", "id": 400, "direction": "ToServer", "fields": ["int token", "int section", "int slot", "BuilderToolArgGroup group", "String id", "String value"], "purpose": "Client updates a builder tool argument."},
+          {"name": "BuilderToolEntityAction", "id": 401, "direction": "ToServer", "fields": ["int entityId", "EntityToolAction action"], "purpose": "Entity tool action (Remove, etc.)."},
+          {"name": "BuilderToolSetEntityTransform", "id": 402, "direction": "ToServer", "fields": ["int entityId", "ModelTransform modelTransform"], "purpose": "Set entity position/rotation via builder tool."},
+          {"name": "BuilderToolExtrudeAction", "id": 403, "direction": "ToServer", "fields": ["int x/y/z", "int xNormal/yNormal/zNormal"], "purpose": "Extrude blocks in a direction."},
+          {"name": "BuilderToolStackArea", "id": 404, "direction": "ToServer", "fields": ["BlockPosition selectionMin/Max", "int normal", "int numStacks"], "purpose": "Stack/repeat a selection along a normal."},
+          {"name": "BuilderToolSelectionTransform", "id": 405, "direction": "ToServer", "fields": ["Quatf rotation", "BlockPosition translationOffset", "BlockPosition initialSelectionMin/Max", "Vector3f initialRotationOrigin", "boolean cutOriginal/applyTransformationToSelectionMinMax/isExitingTransformMode", "BlockPosition initialPastePointForClipboardPaste"], "purpose": "Apply rotation/translation to a block selection."},
+          {"name": "BuilderToolRotateClipboard", "id": 406, "direction": "ToServer", "fields": ["int angle", "Axis axis"], "purpose": "Rotate clipboard contents."},
+          {"name": "BuilderToolPasteClipboard", "id": 407, "direction": "ToServer", "fields": ["int x/y/z"], "purpose": "Paste clipboard at position."},
+          {"name": "BuilderToolSetTransformationModeState", "id": 408, "direction": "ToServer", "fields": ["boolean enabled"], "purpose": "Enter/exit transformation mode."},
+          {"name": "BuilderToolSelectionUpdate", "id": 409, "direction": "ToServer", "fields": ["int xMin/yMin/zMin/xMax/yMax/zMax"], "purpose": "Update block selection bounds."},
+          {"name": "BuilderToolSelectionToolAskForClipboard", "id": 410, "direction": "ToServer", "purpose": "Request clipboard data from server."},
+          {"name": "BuilderToolSelectionToolReplyWithClipboard", "id": 411, "direction": "ToClient", "compressed": true, "fields": ["BlockChange[]", "FluidChange[]"], "purpose": "Server sends clipboard block/fluid data."},
+          {"name": "BuilderToolGeneralAction", "id": 412, "direction": "ToServer", "fields": ["BuilderToolAction action"], "purpose": "General builder action (SelectionPosition1/2, etc.)."},
+          {"name": "BuilderToolOnUseInteraction", "id": 413, "direction": "ToServer", "fields": ["InteractionType type", "int x/y/z", "int offsetForPaintMode", "boolean isAltPlaySculptBrushModDown/isHoldDownInteraction/isDoServerRaytraceForPosition"], "purpose": "Builder tool use at position (paint, sculpt, etc.)."},
+          {"name": "BuilderToolLineAction", "id": 414, "direction": "ToServer", "fields": ["int xStart/yStart/zStart/xEnd/yEnd/zEnd"], "purpose": "Draw a line of blocks between two points."},
+          {"name": "BuilderToolShowAnchor", "id": 415, "direction": "ToClient", "fields": ["int x/y/z"], "purpose": "Display an anchor marker at position."},
+          {"name": "BuilderToolHideAnchors", "id": 416, "direction": "ToClient", "purpose": "Hide all anchor markers."},
+          {"name": "PrefabUnselectPrefab", "id": 417, "direction": "ToServer", "purpose": "Deselect the current prefab."},
+          {"name": "BuilderToolsSetSoundSet", "id": 418, "direction": "ToClient", "fields": ["int soundSetIndex"], "purpose": "Set active sound set for builder tools."},
+          {"name": "BuilderToolLaserPointer", "id": 419, "direction": "ToClient", "fields": ["int playerNetworkId", "float startX/Y/Z", "float endX/Y/Z", "int color", "int durationMs"], "purpose": "Render a laser pointer line from a player."},
+          {"name": "BuilderToolSetEntityScale", "id": 420, "direction": "ToServer", "fields": ["int entityId", "float scale"], "purpose": "Set entity scale."},
+          {"name": "BuilderToolSetEntityPickupEnabled", "id": 421, "direction": "ToServer", "fields": ["int entityId", "boolean enabled"], "purpose": "Enable/disable entity pickup."},
+          {"name": "BuilderToolSetEntityLight", "id": 422, "direction": "ToServer", "fields": ["int entityId", "ColorLight light"], "purpose": "Set entity dynamic light."},
+          {"name": "BuilderToolSetNPCDebug", "id": 423, "direction": "ToServer", "fields": ["int entityId", "boolean enabled"], "purpose": "Toggle NPC debug display."},
+          {"name": "BuilderToolSetEntityCollision", "id": 425, "direction": "ToServer", "fields": ["int entityId", "String collisionType"], "purpose": "Set entity collision type."}
+        ]
+      }
+    },
+    "cross_references": {
+      "overview": "Maps which server systems send/receive which packet categories.",
+      "systems_to_packets": [
+        {"system": "Connection Manager", "packets": ["Connect", "Disconnect", "Ping", "Pong"], "notes": "Handles QUIC connection lifecycle, keep-alive, and graceful disconnection."},
+        {"system": "Authentication", "packets": ["Status", "AuthGrant", "AuthToken", "ServerAuthToken", "ConnectAccept", "PasswordResponse", "PasswordAccepted", "PasswordRejected", "ClientReferral"], "notes": "Implements token-based auth with optional password challenge-response and server transfer via referral."},
+        {"system": "World Loader", "packets": ["WorldSettings", "WorldLoadProgress", "WorldLoadFinished", "JoinWorld", "ClientReady", "RequestAssets", "AssetInitialize", "AssetPart", "AssetFinalize", "RemoveAssets"], "notes": "Orchestrates world loading sequence: settings -> asset transfer -> progress -> finished -> ready."},
+        {"system": "Chunk Manager", "packets": ["SetChunk", "SetChunkHeightmap", "SetChunkTintmap", "SetChunkEnvironments", "SetFluids", "UnloadChunk", "ServerSetBlock", "ServerSetBlocks", "ServerSetFluid", "ServerSetFluids", "UpdateBlockDamage"], "notes": "All use the Chunks NetworkChannel. Handles chunk streaming and incremental block/fluid updates."},
+        {"system": "Entity Manager", "packets": ["SetEntitySeed", "EntityUpdates", "PlayAnimation", "ChangeVelocity", "ApplyKnockback", "SpawnModelParticles", "MountMovement"], "notes": "EntityUpdates is the primary bandwidth consumer — compressed, carries all entity state changes per tick including ComponentUpdate array."},
+        {"system": "Player Controller", "packets": ["SetClientId", "SetGameMode", "SetMovementStates", "ClientMovement", "ClientTeleport", "UpdateMovementSettings", "MouseInteraction", "DamageInfo", "ClientPlaceBlock", "SetBlockPlacementOverride", "SyncPlayerPreferences"], "notes": "Core player loop: client sends movement/input per tick, server sends teleports/damage/mode changes."},
+        {"system": "Inventory System", "packets": ["UpdatePlayerInventory", "MoveItemStack", "SmartMoveItemStack", "DropItemStack", "SetActiveSlot", "SetCreativeItem", "DropCreativeItem", "SmartGiveCreativeItem", "SwitchHotbarBlockSet", "InventoryAction"], "notes": "UpdatePlayerInventory sends full inventory state (7 sections). Individual operations use dedicated packets."},
+        {"system": "Window/Container System", "packets": ["OpenWindow", "UpdateWindow", "CloseWindow", "SendWindowAction", "ClientOpenWindow"], "notes": "Polymorphic WindowAction supports crafting, slot selection, sorting, tier upgrade, category filtering."},
+        {"system": "Interaction System", "packets": ["SyncInteractionChains", "CancelInteractionChain", "PlayInteractionFor", "MountNPC", "DismountNPC"], "notes": "Syncs interaction chain state bidirectionally. Chains reference interactions defined in UpdateInteractions."},
+        {"system": "Chat/UI System", "packets": ["ServerMessage", "ChatMessage", "Notification", "KillFeedMessage", "ShowEventTitle", "HideEventTitle", "SetPage", "CustomHud", "CustomPage", "CustomPageEvent", "OpenChatWithCommand", "UpdateAnchorUI"], "notes": "Supports server-driven custom UI via DOM-like command system (Append, Remove, SetText, etc.) with event bindings."},
+        {"system": "Player List", "packets": ["AddToServerPlayerList", "RemoveFromServerPlayerList", "UpdateServerPlayerList", "UpdateServerPlayerListPing", "ServerInfo"], "notes": "Tab list management with batched ping updates."},
+        {"system": "World Map", "packets": ["UpdateWorldMapSettings", "UpdateWorldMap", "ClearWorldMap", "UpdateWorldMapVisible", "TeleportToWorldMapMarker", "TeleportToWorldMapPosition", "CreateUserMarker", "RemoveMapMarker"], "notes": "Map chunk images use dedicated WorldMap NetworkChannel. Supports user-created markers and coordinate teleportation."},
+        {"system": "Time/Weather", "packets": ["UpdateTimeSettings", "UpdateTime", "UpdateWeather", "UpdateEditorTimeOverride", "ClearEditorTimeOverride", "UpdateEditorWeatherOverride", "UpdateSleepState", "SetTimeDilation", "SetPaused", "ServerSetPaused"], "notes": "Full day/night cycle with moon phases, weather transitions, and sleep-to-skip-night multiplayer voting."},
+        {"system": "Sound/Particles", "packets": ["PlaySoundEvent2D", "PlaySoundEvent3D", "PlaySoundEventEntity", "SpawnParticleSystem", "SpawnBlockParticleSystem", "CameraShakeEffect"], "notes": "All server-to-client. Sound events and particle spawning use integer indices into registry data."},
+        {"system": "Asset Registry Sync", "packets": ["All 45 UpdateXxx packets in assets package"], "notes": "45 ToClient packets that sync the full game data registry (blocks, items, interactions, sounds, particles, effects, fluids, recipes, environments, etc.). Most are compressed. Each supports Init (full) and Update (incremental) modes."},
+        {"system": "Asset Editor", "packets": ["All 35 AssetEditor packets"], "notes": "Full in-game asset editing system with file browsing, JSON editing, undo/redo, export/import, model preview, and collaborative edit notifications."},
+        {"system": "Builder Tools", "packets": ["All 22 BuilderTool packets + PrefabUnselectPrefab"], "notes": "Creative-mode world editing: brush painting, selection, clipboard, extrude, stack, entity manipulation."},
+        {"system": "Machinima", "packets": ["RequestMachinimaActorModel", "SetMachinimaActorModel", "UpdateMachinimaScene"], "notes": "In-game filmmaking system for animating scenes."},
+        {"system": "Server Access Control", "packets": ["RequestServerAccess", "UpdateServerAccess", "SetServerAccess"], "notes": "Server privacy mode management."},
+        {"system": "Camera Control", "packets": ["SetServerCamera", "SetFlyCameraMode", "RequestFlyCameraMode"], "notes": "Server-controlled camera perspective locking and fly camera mode."}
+      ]
+    },
+    "statistics": {
+      "total_files_in_packets_package": 362,
+      "actual_packet_types": 270,
+      "enum_types": "~25",
+      "data_struct_types": "~67",
+      "total_files_in_io_package": 9,
+      "total_files_read": 371,
+      "packet_id_range": "0 to 425 (sparse — not contiguous)",
+      "compressed_packets": "~50 (mostly assets, chunks, editor, inventory, window, world map)",
+      "toserver_only_packets": "~90",
+      "toclient_only_packets": "~155",
+      "bidirectional_packets": "~15 (Disconnect, ViewRadius, SetActiveSlot, SmartMoveItemStack, CloseWindow, SyncInteractionChains, DismountNPC, UpdateMachinimaScene, AssetEditorDeleteAssetPack, AssetEditorUpdateAssetPack, FailureReply, SuccessReply)",
+      "status_packet_note": "Status (ID=10) implements Packet directly without ToClient/ToServer — used for server list queries"
+    }
+  }
+}

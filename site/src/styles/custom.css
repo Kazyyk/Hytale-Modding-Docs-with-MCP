@@ -18,4 +18,38 @@
   font-size: 0.875rem;
 }
 
-/* Badge-style for kind/api_surface in page headers if we add components later */
+/* Maximize content width for API reference tables */
+:root {
+  --sl-content-width: 90rem;
+  --sl-sidebar-width: 17rem;
+}
+
+/* Hide TOC on screens where it squishes content */
+@media (max-width: 1440px) {
+  starlight-toc {
+    display: none;
+  }
+}
+
+/* Tables: full width with natural column sizing */
+.sl-markdown-content table {
+  width: 100%;
+  table-layout: auto;
+}
+
+/* Ensure description columns wrap naturally */
+.sl-markdown-content table td:last-child,
+.sl-markdown-content table th:last-child {
+  white-space: normal;
+}
+
+/* Reduce whitespace between hero section and page content */
+.page .hero + .sl-markdown-content,
+.hero ~ * {
+  margin-top: 0;
+}
+
+.hero {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
