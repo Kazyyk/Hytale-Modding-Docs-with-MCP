@@ -14,3 +14,17 @@ Delayed entity system (2.0s interval) that spawns invasion portals during void e
 
 - public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
 - public Query<EntityStore> getQuery()
+
+Also in this package: Instantiate, StartVoidEventInFragmentSystem, VoidEventRefSystem, VoidEventStagesSystem, VoidSpawnerSystems
+
+Complete API:
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  private static CompletableFuture<Vector3d> findPortalSpawnPosition(World world, VoidEvent voidEvent, CommandBuffer<EntityStore> commandBuffer)
+  private static Transform findRandomPlayerTransform(World world, CommandBuffer<EntityStore> commandBuffer)
+  private static SpatialHashGrid<Ref<EntityStore>> cleanupAndGetSpawners(VoidEvent voidEvent)
+  public Query<EntityStore> getQuery()
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final int MAX_PORTALS
+private CompletableFuture<Vector3d> findPortalSpawnPos

@@ -32,3 +32,16 @@ Converts this asset to its protocol representation.
 ## Related Types
 
 - `Item` -- items can define HUD UI elements
+
+Also in this package: AssetIconProperties, BlockGroup, BlockSelectorToolData, BuilderToolItemReferenceAsset, CraftingRecipe, DurabilityLossBlockTypes, FieldcraftCategory, InteractionModifierId, Item, ItemAppearanceCondition, ItemArmor, ItemCategory, ItemDrop, ItemDropList, ItemEntityConfig, ItemGlider, ItemPullbackConfig, ItemQuality, ItemReticle, ItemReticleConfig (and 10 more)
+
+Complete API:
+  public String getPath()
+  public ItemHudUIType getType()
+  public com.hypixel.hytale.protocol.ItemHudUI toPacket()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ItemHudUI> CODEC
+protected String path
+protected ItemHudUIType type

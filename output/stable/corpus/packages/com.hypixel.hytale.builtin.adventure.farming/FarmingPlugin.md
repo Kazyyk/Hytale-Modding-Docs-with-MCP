@@ -41,3 +41,23 @@ On setup, this plugin:
 
 - FarmingSystems -- ECS systems registered by this plugin
 - FarmingUtil -- utility methods for farming tick logic and harvesting
+
+Also in this package: CoopResidentEntitySystem, CoopResidentTicking, FarmingSystems, FarmingUtil, MigrateFarming, OnCoopAdded, OnFarmBlockAdded, OnSoilAdded, Ticking
+
+Complete API:
+  public static FarmingPlugin get()
+  protected void setup()
+  private static void preventSpreadOnNew(ChunkPreLoadProcessEvent event)
+  public ComponentType<ChunkStore,TilledSoilBlock> getTiledSoilBlockComponentType()
+  public ComponentType<ChunkStore,FarmingBlock> getFarmingBlockComponentType()
+  public ComponentType<ChunkStore,FarmingBlockState> getFarmingBlockStateComponentType()
+  public ComponentType<ChunkStore,CoopBlock> getCoopBlockStateComponentType()
+  public ComponentType<EntityStore,CoopResidentComponent> getCoopResidentComponentType()
+
+Fields:
+protected static FarmingPlugin instance
+private ComponentType<ChunkStore,TilledSoilBlock> tiledSoilBlockComponentType
+private ComponentType<ChunkStore,FarmingBlock> farmingBlockComponentType
+private ComponentType<ChunkStore,FarmingBlockState> farmingBlockStateComponentType
+private ComponentType<ChunkStore,CoopBlock> coopBlockStateComponentType
+private ComponentType<EntityStore,CoopResidentComponent> coopResidentComponentType

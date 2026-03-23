@@ -34,3 +34,27 @@ public class BlockUtil
 - public static int unpackZ(long packed)
 - public static Vector3i unpack(long packed)
 - return new Vector3i(unpackX(packed)
+
+Also in this package: BlockConeUtil, BlockCubeUtil, BlockCylinderUtil, BlockDiamondUtil, BlockDomeUtil, BlockInvertedDomeUtil, BlockPyramidUtil, BlockSphereUtil, BlockTorusUtil
+
+Complete API:
+  public static long pack(Vector3i val)
+  public static long pack(int x, int y, int z)
+  public static long packUnchecked(int x, int y, int z)
+  public static int unpackX(long packed)
+  public static int unpackY(long packed)
+  public static int unpackZ(long packed)
+  public static Vector3i unpack(long packed)
+
+Fields:
+public static final float RADIUS_ADJUST
+public static final long BITS_Y
+public static final long MAX_Y
+public static final long MIN_Y
+public static final long Y_INVERT
+public static final long Y_MASK
+public static final long BITS_PER_DIRECTION
+public static final long MAX
+public static final long MIN
+public static final long DIRECTION_INVERT
+public static final long DIRECTION_MASK

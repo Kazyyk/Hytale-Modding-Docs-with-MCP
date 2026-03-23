@@ -13,3 +13,8 @@ Concrete implementation extending `ChoiceBasePage`.
 ## Methods
 
 - getShopElements(String shopId) | ChoiceElement[] | static protected method.
+
+Also in this package: GiveItemInteraction, ShopAsset, ShopElement, ShopPageSupplier, ShopPlugin
+
+Complete API:
+  protected static ChoiceElement[] getShopElements(String shopId)

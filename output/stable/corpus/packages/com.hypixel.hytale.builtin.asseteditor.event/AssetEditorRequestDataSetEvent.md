@@ -17,3 +17,17 @@ public class AssetEditorRequestDataSetEvent implements IAsyncEvent
 - public String[] getResults()
 - public void setResults(String[] results)
 - @Nonnull @Override public String toString()
+
+Also in this package: AssetEditorActivateButtonEvent, AssetEditorAssetCreatedEvent, AssetEditorClientDisconnectEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorSelectAssetEvent, AssetEditorUpdateWeatherPreviewLockEvent, EditorClientEvent
+
+Complete API:
+  public String getDataSet()
+  public EditorClient getEditorClient()
+  public String[] getResults()
+  public void setResults(String[] results)
+  public String toString()
+
+Fields:
+private final EditorClient editorClient
+private final String dataSet
+private String[] results

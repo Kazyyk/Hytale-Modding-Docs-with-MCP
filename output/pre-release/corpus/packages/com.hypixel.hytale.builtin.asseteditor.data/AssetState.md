@@ -11,3 +11,5 @@ Enumerates AssetState values: `CHANGED`, `NEW`, `DELETED`.
 - CHANGED
 - NEW
 - DELETED
+
+Also in this package: AssetUndoRedoInfo, ModifiedAsset

@@ -13,3 +13,14 @@ public class BlockEventView extends EventView
 - public void onEntityBreakBlock(Ref<EntityStore> ref, BreakBlockEvent event)
 - private void processDamagedBlock(Ref<EntityStore> initiatorRef, String block, Vector3i position, BlockEventType type)
 - private void onPlayerInteraction(PlayerInteractEvent event)
+
+Also in this package: BlockEventType
+
+Complete API:
+  public BlockEventView getUpdatedView(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public void initialiseEntity(Ref<EntityStore> ref, NPCEntity npcComponent)
+  protected void onEvent(int senderTypeId, double x, double y, double z, Ref<EntityStore> initiator, Ref<EntityStore> skip, ComponentAccessor<EntityStore> componentAccessor, BlockEventType type)
+  public void onEntityDamageBlock(Ref<EntityStore> ref, DamageBlockEvent event)
+  public void onEntityBreakBlock(Ref<EntityStore> ref, BreakBlockEvent event)
+  private void processDamagedBlock(Ref<EntityStore> initiatorRef, String block, Vector3i position, BlockEventType type)
+  private void onPlayerInteraction(PlayerInteractEvent event)

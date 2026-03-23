@@ -13,3 +13,11 @@ Inner class of `WorldSettingsSetCommand` that adds a string value to a set-value
 ## Methods
 
 - execute(CommandContext, World, Store<EntityStore>) | void | Adds the specified value to the set, reporting success or duplicate.
+
+Also in this package: ClearSubCommand, RemoveSubCommand, ResetSubCommand, ResetSubCommand, SetSubCommand, SetSubCommand, SetTickingCommand, WorldSettingsBox2DCommand, WorldSettingsCommand, WorldSettingsSetCommand, WorldSettingsSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<String> valueArg

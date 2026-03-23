@@ -21,3 +21,15 @@ Class in the directionality subsystem.
 
 - getRelativeTo(@Nonnull RotatedPosition other) | RotatedPosition | public method.
 - toVector3i() | Vector3i | public method.
+
+Also in this package: Directionality, OrthogonalDirection, PatternDirectionality, RandomDirectionality, RotatedPositionsScanResult, StaticDirectionality
+
+Complete API:
+  public RotatedPosition getRelativeTo(RotatedPosition other)
+  public Vector3i toVector3i()
+
+Fields:
+public final int x
+public final int y
+public final int z
+public final PrefabRotation rotation

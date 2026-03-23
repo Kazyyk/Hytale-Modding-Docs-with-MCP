@@ -19,3 +19,16 @@ Extends `ToolArg` to provide BrushAxisArg functionality.
 - @Nonnull public BuilderToolBrushAxisArg toBrushAxisArgPacket()
 - @Override protected void setupPacket(@Nonnull BuilderToolArg packet)
 - @Nonnull @Override public String toString()
+
+Also in this package: BlockArg, BoolArg, BrushOriginArg, BrushRotationArg, BrushShapeArg, FloatArg, IntArg, MaskArg, OptionArg, StringArg, ToolArg, ToolArgException
+
+Complete API:
+  public Codec<BrushAxis> getCodec()
+  public BrushAxis fromString(String str)
+  public BuilderToolBrushAxisArg toBrushAxisArgPacket()
+  protected void setupPacket(BuilderToolArg packet)
+  public String toString()
+
+Fields:
+public static final Codec<BrushAxis> BRUSH_AXIS_CODEC
+public static final BuilderCodec<BrushAxisArg> CODEC

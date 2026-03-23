@@ -14,3 +14,12 @@ JSON loader that deserializes configuration data from JSON files.
 - protected static double loadTarget(@Nonnull JsonObject json)
 - protected static double loadRadius(@Nonnull JsonObject json)
 - protected static double loadWeight(@Nonnull JsonObject json)
+
+Also in this package: ClimateColorJsonLoader, ClimateGraphJsonLoader, ClimateGridJsonLoader, ClimateMaskJsonLoader, ClimateNoiseJsonLoader, ClimatePointJsonLoader, ClimateTypeJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, ContinentThresholdsJsonLoader, UniqueClimateGeneratorJsonLoader, UniqueClimateJsonLoader
+
+Complete API:
+  public ClimateSearch.Rule load()
+  protected ClimateSearch.Range loadRange(String key)
+  protected static double loadTarget(JsonObject json)
+  protected static double loadRadius(JsonObject json)
+  protected static double loadWeight(JsonObject json)

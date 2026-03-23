@@ -19,3 +19,13 @@ Matches entities with `MountedComponent`.
 
 - MountSystems -- enclosing class
 - MountSystems.RemoveMountedBy -- handles the reverse case (mount entity removed)
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove (and 8 more)
+
+Complete API:
+  public void onEntityAdded(Ref<EntityStore> ref, AddReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onEntityRemove(Ref<EntityStore> ref, RemoveReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final ComponentType<EntityStore,MountedComponent> mountedComponentType

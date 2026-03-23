@@ -17,3 +17,8 @@ Creates a custom UI page for the given player and block entity reference, or ret
 ## See Also
 
 - OpenCustomUIInteraction
+
+Also in this package: AngledDamage, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction, OpenContainerInteraction (and 11 more)
+
+Complete API:
+  CustomUIPage tryCreate(PlayerRef var1, Ref<ChunkStore> var2)

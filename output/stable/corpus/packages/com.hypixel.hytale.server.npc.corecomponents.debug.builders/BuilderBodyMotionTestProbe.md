@@ -28,3 +28,26 @@ NPC behavior tree component builder.
 - getSnapAngle() | float | public method.
 - isAvoidingBlockDamage() | boolean | public method.
 - isRelaxedMoveConstraints() | boolean | public method.
+
+Also in this package: BuilderActionLog, BuilderActionTest
+
+Complete API:
+  public BodyMotionTestProbe build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderBodyMotionTestProbe readConfig(JsonElement data)
+  public double getAdjustX()
+  public double getAdjustZ()
+  public double getAdjustDistance()
+  public float getSnapAngle()
+  public boolean isAvoidingBlockDamage()
+  public boolean isRelaxedMoveConstraints()
+
+Fields:
+protected double adjustX
+protected double adjustZ
+protected double adjustDistance
+protected float snapAngle
+protected boolean isAvoidingBlockDamage
+protected boolean isRelaxedMoveConstraints

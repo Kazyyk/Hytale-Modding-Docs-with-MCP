@@ -19,3 +19,11 @@ Returns dependencies declaring this system runs AFTER the gather group and BEFOR
 ## Related Types
 
 - DamageModule -- parent class that registers this system
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+
+Fields:
+private final Set<Dependency<EntityStore>> dependencies

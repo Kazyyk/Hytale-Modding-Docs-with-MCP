@@ -18,3 +18,17 @@ Fluent builder for constructing `CustomUIEventBinding` arrays sent to the client
 - addEventBinding(CustomUIEventBindingType type, String selector, EventData data) | UIEventBuilder | Adds an event binding with data (locks interface).
 - addEventBinding(CustomUIEventBindingType type, String selector, @Nullable EventData data, boolean locksInterface) | UIEventBuilder | Adds an event binding with full configuration.
 - getEvents() | CustomUIEventBinding[] | Returns the built event binding array.
+
+Also in this package: EventData, UICommandBuilder
+
+Complete API:
+  public UIEventBuilder addEventBinding(CustomUIEventBindingType type, String selector)
+  public UIEventBuilder addEventBinding(CustomUIEventBindingType type, String selector, boolean locksInterface)
+  public UIEventBuilder addEventBinding(CustomUIEventBindingType type, String selector, EventData data)
+  public UIEventBuilder addEventBinding(CustomUIEventBindingType type, String selector, EventData data, boolean locksInterface)
+  public CustomUIEventBinding[] getEvents()
+
+Fields:
+public static final HytaleLogger LOGGER
+public static final CustomUIEventBinding[] EMPTY_EVENT_BINDING_ARRAY
+private final List<CustomUIEventBinding> events

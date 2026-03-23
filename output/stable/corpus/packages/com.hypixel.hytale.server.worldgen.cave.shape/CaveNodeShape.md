@@ -48,3 +48,18 @@ Carves blocks within a chunk, applying block masks, covers, and environment sett
 default boolean hasGeometry()
 
 Returns true if this shape carves blocks. Default is true; EmptyLineCaveNodeShape returns false.
+
+Known implementors: AbstractCaveNodeShape, DistortedCaveNodeShape, PrefabCaveNodeShape
+
+Also in this package: AbstractCaveNodeShape, CaveNodeShapeEnum, CaveNodeShapeGenerator, CaveNodeShapeUtils, CylinderCaveNodeShape, CylinderCaveNodeShapeGenerator, DistortedCaveNodeShape, DistortedCaveNodeShapeGenerator, EllipsoidCaveNodeShape, EllipsoidCaveNodeShapeGenerator, EmptyLineCaveNodeShape, EmptyLineCaveNodeShapeGenerator, PipeCaveNodeShape, PipeCaveNodeShapeGenerator, PrefabCaveNodeShape, PrefabCaveNodeShapeGenerator, TetrahedronCaveNodeShape, TetrahedronCaveNodeShapeGenerator
+
+Complete API:
+  Vector3d getStart()
+  Vector3d getEnd()
+  Vector3d getAnchor(Vector3d var1, double var2, double var4, double var6)
+  IWorldBounds getBounds()
+  boolean shouldReplace(int var1, double var2, double var4, int var6)
+  double getFloorPosition(int var1, double var2, double var4)
+  double getCeilingPosition(int var1, double var2, double var4)
+  void populateChunk(int var1, ChunkGeneratorExecution var2, Cave var3, CaveNode var4, Random var5)
+  default boolean hasGeometry()

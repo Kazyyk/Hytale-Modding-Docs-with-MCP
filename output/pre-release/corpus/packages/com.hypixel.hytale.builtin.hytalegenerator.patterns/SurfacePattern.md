@@ -54,3 +54,24 @@ public class SurfacePattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: AndPattern, ConstantPattern, Context, CuboidPattern, Facing, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, Pattern, RotatorPattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  private void applyFacing(Vector3i pos, SurfacePattern.Facing facing)
+  private void toD(Vector3i pos)
+  private void toN(Vector3i pos)
+  private void toS(Vector3i pos)
+  private void toW(Vector3i pos)
+  private void toE(Vector3i pos)
+  public Bounds3i getBounds_voxelGrid()
+
+Fields:
+private final Pattern wallPattern
+private final Pattern originPattern
+private final List<Vector3i> surfacePositions
+private final List<Vector3i> originPositions
+private final Bounds3i bounds_voxelGrid
+private final Vector3i rChildPosition
+private final Pattern.Context rChildContext

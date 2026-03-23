@@ -17,3 +17,16 @@ Utility type in the `benchmark` subsystem.
 - buildReport() | CompletableFuture<String> | Instance method.
 - registerPrefab(String name) | void | Instance method.
 - registerCaveNode(String name) | void | Instance method.
+
+Complete API:
+  public void start()
+  public void stop()
+  public CompletableFuture<String> buildReport()
+  public boolean isEnabled()
+  public void registerPrefab(String name)
+  public void registerCaveNode(String name)
+
+Fields:
+private final ConcurrentHashMap<String,AtomicInteger> prefabCounts
+private final ConcurrentHashMap<String,AtomicInteger> caveNodeCounts
+private boolean enabled

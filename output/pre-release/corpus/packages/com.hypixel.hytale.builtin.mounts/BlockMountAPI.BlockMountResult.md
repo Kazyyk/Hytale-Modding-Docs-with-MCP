@@ -12,3 +12,7 @@ Sealed result type returned by BlockMountAPI.mountOnBlock(). Permits exactly two
 ## Related Types
 
 - BlockMountAPI -- enclosing class
+
+Known implementors: DidNotMount, Mounted
+
+Also in this package: BlockMountAPI, BlockMountComponent, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)

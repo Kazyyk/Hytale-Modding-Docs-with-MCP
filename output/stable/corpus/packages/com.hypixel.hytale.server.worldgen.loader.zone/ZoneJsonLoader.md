@@ -80,3 +80,17 @@ public class ZoneJsonLoader extends JsonLoader<SeedStringResource, Zone>
 
 - ZoneBiomesJsonLoader
 - ZoneCustomBiomesJsonLoader
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, UniqueZoneEntryJsonLoader, ZoneBiomesJsonLoader, ZoneColorMappingJsonLoader, ZoneCustomBiomesJsonLoader, ZonePatternProviderJsonLoader, ZoneRequirementJsonLoader
+
+Complete API:
+  public Zone load()
+  protected ZoneDiscoveryConfig loadDiscoveryConfig()
+  protected BiomePatternGenerator loadBiomePatternGenerator()
+  protected IWeightedMap<TileBiome> loadBiomes()
+  protected CustomBiome[] loadCustomBiomes(Biome[] tileBiomes)
+  protected CaveGenerator loadCaveGenerator()
+  protected UniquePrefabContainer loadUniquePrefabContainer()
+
+Fields:
+protected final ZoneFileContext zoneContext

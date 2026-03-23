@@ -13,3 +13,14 @@ Queries entities with both `PlayerInput` and `KnockbackSimulation` components.
 - KnockbackPredictionSystems -- parent container class
 - KnockbackSimulation -- simulation state updated by this system
 - PlayerInput -- input queue consumed by this system
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem, PlayerAddedSystem (and 33 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public Set<Dependency<EntityStore>> getDependencies()
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final Query<EntityStore> QUERY
+private static final Set<Dependency<EntityStore>> DEPENDENCIES

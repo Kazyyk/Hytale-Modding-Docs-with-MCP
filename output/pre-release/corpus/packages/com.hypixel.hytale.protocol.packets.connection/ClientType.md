@@ -18,3 +18,13 @@ public enum ClientType
 
 - public int getValue()
 - public static ClientType fromValue(int value)
+
+Also in this package: ClientDisconnect, ClientDisconnectReason, Connect, DisconnectType, Ping, Pong, PongType, QuicApplicationErrorCode, ServerDisconnect
+
+Complete API:
+  public int getValue()
+  public static ClientType fromValue(int value)
+
+Fields:
+public static final ClientType[] VALUES
+private final int value

@@ -14,3 +14,12 @@ A builder tool operation that applies modifications to terrain.
 
 - super(ref, packet, componentAccessor)
 - @Override boolean execute0(int x, int y, int z)
+
+Also in this package: FloodOperation, LaserPointerOperation, LayersOperation, NoiseOperation, OperationFactory, ScatterOperation, SculptOperation, SmoothOperation, SmootherOperation, TintOperation, ToolOperation
+
+Complete API:
+  boolean execute0(int x, int y, int z)
+
+Fields:
+private final int brushDensity
+private LongOpenHashSet packedPlacedBlockPositions

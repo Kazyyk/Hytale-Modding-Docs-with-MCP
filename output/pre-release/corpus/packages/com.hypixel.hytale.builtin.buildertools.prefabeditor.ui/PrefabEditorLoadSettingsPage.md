@@ -58,3 +58,44 @@ Codec-backed data class containing all form fields (root directory, prefab paths
 
 - PrefabEditorExitConfirmPage
 - PrefabEditorSaveSettingsPage
+
+Also in this package: Action, Action, Action, Action, PageData, PageData, PageData, PageData, PageData, PrefabEditorExitConfirmPage, PrefabEditorLoadOptionsPage, PrefabEditorSaveSettingsPage, PrefabTeleportPage
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, PrefabEditorLoadSettingsPage.PageData data)
+  private void onLoadingProgress(PrefabLoadingState state)
+  private void onLoadingFailed(Message errorMessage)
+  private void onShutdownProgress(PrefabLoadingState state)
+  private void handleAssetsNavigation(String fileName)
+  private void handleRegularNavigation(String fileName)
+  private String getCurrentBrowserPath()
+  private void buildBrowserList(UICommandBuilder commandBuilder, UIEventBuilder eventBuilder)
+  private void buildAssetsBrowserList(UICommandBuilder commandBuilder, UIEventBuilder eventBuilder)
+  private void buildRegularBrowserList(UICommandBuilder commandBuilder, UIEventBuilder eventBuilder)
+  private List<DropdownEntryInfo> buildBrowserRootEntries()
+  private Path findActualRootPath(String pathStr)
+  private AssetPack findAssetPackForPath(String pathStr)
+  private PrefabRootDirectory getRootDirectoryForPath(String pathStr)
+  private boolean isAllowedBrowserRoot(String pathStr)
+  private String getRootDisplayPath(Path root)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final Value<String> BUTTON_HIGHLIGHTED
+private static final String ASSETS_ROOT_KEY
+private final AssetPackSaveBrowser packBrowser
+private final List<DropdownEntryInfo> savedConfigsDropdown
+private volatile boolean isLoading
+private volatile boolean loadingCancelled
+private volatile boolean isShuttingDown
+private PrefabLoadingState currentLoadingState
+private String loadingWorldName
+private Path browserRoot
+private Path browserCurrent
+private String selectedPath
+private String browserSearchQuery
+private final List<String> selectedItems
+private final AssetPrefabFileProvider assetProvider
+private boolean inAssetsRoot
+private Path assetsCurrentDir

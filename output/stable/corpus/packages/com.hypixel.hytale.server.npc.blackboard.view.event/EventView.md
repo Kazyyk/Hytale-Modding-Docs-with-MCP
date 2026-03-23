@@ -27,3 +27,24 @@ Class in the event subsystem.
 - cleanup() | void | public method.
 - getSetCount() | int | public method.
 - forEach(@Nonnull IntObjectConsumer<EventType> setConsumer, @Nonnull Consumer<Ref<EntityStore>> npcConsumer) | void | public method.
+
+Known subclasses: BlockEventView, EntityEventView
+
+Also in this package: EntityEventNotification, EventNotification, EventTypeRegistration, IEventCallback
+
+Complete API:
+  public boolean isOutdated(Ref<EntityStore> ref, Store<EntityStore> store)
+  public void onWorldRemoved()
+  public void cleanup()
+  public int getSetCount()
+  public void forEach(IntObjectConsumer<EventType> setConsumer, Consumer<Ref<EntityStore>> npcConsumer)
+  protected void onEvent(int senderTypeId, double x, double y, double z, Ref<EntityStore> initiator, Ref<EntityStore> skip, ComponentAccessor<EntityStore> componentAccessor, EventType type)
+
+Fields:
+protected final Map<EventType,EventTypeRegistration<EventType,NotificationType>> entityMapsByEventType
+protected final World world
+protected final EventType[] eventTypes
+protected EventRegistry eventRegistry
+protected ComponentRegistryProxy<EntityStore> entityStoreRegistry
+protected boolean shutdown
+protected final NotificationType reusableEventNotification

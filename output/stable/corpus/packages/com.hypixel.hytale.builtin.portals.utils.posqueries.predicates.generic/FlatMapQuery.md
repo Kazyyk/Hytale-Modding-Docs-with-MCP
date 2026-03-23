@@ -12,3 +12,12 @@ public class FlatMapQuery implements SpatialQuery
 ## Methods
 
 - @Nonnull @Override public Stream<Vector3d> createCandidates(World world, Vector3d origin, SpatialQueryDebug debug)
+
+Also in this package: FilterQuery
+
+Complete API:
+  public Stream<Vector3d> createCandidates(World world, Vector3d origin, SpatialQueryDebug debug)
+
+Fields:
+private final SpatialQuery generator
+private final SpatialQuery expand

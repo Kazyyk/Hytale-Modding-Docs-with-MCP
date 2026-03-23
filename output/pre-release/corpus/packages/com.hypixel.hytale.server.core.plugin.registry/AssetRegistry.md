@@ -14,3 +14,12 @@ Registry for registering `AssetStore` instances with the global `AssetRegistry`.
 
 - register(@Nonnull S assetStore) | AssetRegistry | Registers an asset store and records an unregister callback. Returns this for chaining.
 - shutdown() | void | No-op shutdown hook.
+
+Also in this package: Assets, CodecMapRegistry, IRegistry, MapKeyMapRegistry
+
+Complete API:
+  public AssetRegistry register(S assetStore)
+  public void shutdown()
+
+Fields:
+protected final List<BooleanConsumer> unregister

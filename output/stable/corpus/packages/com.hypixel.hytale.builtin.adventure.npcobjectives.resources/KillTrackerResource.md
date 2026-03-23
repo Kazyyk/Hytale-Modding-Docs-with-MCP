@@ -15,3 +15,13 @@ ECS resource attached to `EntityStore`.
 
 - watch(KillTaskTransaction task) | void | Instance method.
 - unwatch(KillTaskTransaction task) | void | Instance method.
+
+Complete API:
+  public static ResourceType<EntityStore,KillTrackerResource> getResourceType()
+  public void watch(KillTaskTransaction task)
+  public void unwatch(KillTaskTransaction task)
+  public List<KillTaskTransaction> getKillTasks()
+  public Resource<EntityStore> clone()
+
+Fields:
+private final List<KillTaskTransaction> killTasks

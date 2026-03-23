@@ -32,3 +32,12 @@ Registers as sub-command `"all"` with translation key `"server.commands.npc.all.
 - NPCCommand -- parent command collection
 - NPCSpawnCommand -- spawns individual NPC roles with more options
 - NPCCleanCommand -- removes all NPCs from a world
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand, NPCDumpCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_NPC_ALL_NO_ROLES_TO_SPAWN
+private final OptionalArg<Double> distanceArg

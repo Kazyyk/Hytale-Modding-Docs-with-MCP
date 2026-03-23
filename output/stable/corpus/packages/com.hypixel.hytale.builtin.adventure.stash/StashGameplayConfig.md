@@ -17,3 +17,17 @@ public class StashGameplayConfig
 - public static StashGameplayConfig getOrDefault(@Nonnull GameplayConfig config)
 - public boolean isClearContainerDropList()
 - @Nonnull @Override public String toString()
+
+Also in this package: StashPlugin, StashSystem
+
+Complete API:
+  public static StashGameplayConfig get(GameplayConfig config)
+  public static StashGameplayConfig getOrDefault(GameplayConfig config)
+  public boolean isClearContainerDropList()
+  public String toString()
+
+Fields:
+public static final String ID
+public static final BuilderCodec<StashGameplayConfig> CODEC
+private static final StashGameplayConfig DEFAULT_STASH_GAMEPLAY_CONFIG
+protected boolean clearContainerDropList

@@ -19,3 +19,10 @@ Container class for all spawn beacon ECS systems. Contains static inner classes 
 - LoadTimeDelay | class | Ticks InitialBeaconDelay components and removes them when expired.
 - PositionSelectorUpdate | class | Rebuilds `FloodFillPositionSelector` caches when needed.
 - SpawnJobTick | class | Executes pending NPC beacon spawn jobs.
+
+Also in this package: CheckDespawn, ControllerTick, EntityAdded, InitialBeaconDelay, LegacyEntityAdded, LegacySpawnBeaconEntity, LoadTimeDelay, PositionSelectorUpdate, SpawnBeacon, SpawnJobTick
+
+Fields:
+public static final HytaleLogger LOGGER
+public static final double[] POSITION_CALCULATION_DELAY_RANGE
+private static final double LOAD_TIME_SPAWN_DELAY

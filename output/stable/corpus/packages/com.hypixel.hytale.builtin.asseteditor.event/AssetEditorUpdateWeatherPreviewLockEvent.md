@@ -11,3 +11,11 @@ public class AssetEditorUpdateWeatherPreviewLockEvent extends EditorClientEvent
 ## Methods
 
 - public boolean isLocked()
+
+Also in this package: AssetEditorActivateButtonEvent, AssetEditorAssetCreatedEvent, AssetEditorClientDisconnectEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorRequestDataSetEvent, AssetEditorSelectAssetEvent, EditorClientEvent
+
+Complete API:
+  public boolean isLocked()
+
+Fields:
+private final boolean locked

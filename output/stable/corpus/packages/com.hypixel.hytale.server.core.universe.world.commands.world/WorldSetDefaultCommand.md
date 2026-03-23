@@ -14,3 +14,11 @@ Console command handling WorldSetDefault operations.
 
 - public WorldSetDefaultCommand()
 - @Override protected void executeSync(@Nonnull CommandContext context)
+
+Also in this package: CompactCommand, WorldAddCommand, WorldCommand, WorldListCommand, WorldLoadCommand, WorldPruneCommand, WorldRemoveCommand, WorldRocksDbCommand, WorldSaveCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final RequiredArg<String> nameArg

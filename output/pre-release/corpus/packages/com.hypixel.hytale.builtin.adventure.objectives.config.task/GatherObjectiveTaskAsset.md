@@ -26,3 +26,15 @@ public class GatherObjectiveTaskAsset extends CountObjectiveTaskAsset
 - BlockTagOrItemIdField
 - CountObjectiveTaskAsset
 - ObjectiveTaskAsset
+
+Also in this package: BlockTagOrItemIdField, ChestConfig, CountObjectiveTaskAsset, CraftObjectiveTaskAsset, DialogOptions, ObjectiveTaskAsset, ReachLocationTaskAsset, TaskScope, TaskSet, TreasureMapObjectiveTaskAsset, UseBlockObjectiveTaskAsset, UseEntityObjectiveTaskAsset
+
+Complete API:
+  public ObjectiveTaskAsset.TaskScope getTaskScope()
+  public BlockTagOrItemIdField getBlockTagOrItemIdField()
+  protected boolean matchesAsset0(ObjectiveTaskAsset task)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<GatherObjectiveTaskAsset> CODEC
+protected BlockTagOrItemIdField blockTagOrItemIdField

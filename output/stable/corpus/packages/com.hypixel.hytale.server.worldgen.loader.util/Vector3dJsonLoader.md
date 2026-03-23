@@ -14,3 +14,8 @@ JSON loader that deserializes configuration data from JSON files.
 - return new Vector3d(value, value, value)
 - return new Vector3d(x, y, z)
 - throw new Error("No valid definition for Vector3d found!")
+
+Also in this package: ColorUtil, Constants, Constants, Constants, EntryJsonLoader, FileMaskCache, NoiseBlockArrayJsonLoader, ResolvedBlockArrayJsonLoader, ResolvedVariantsBlockArrayLoader, Vector2dJsonLoader
+
+Complete API:
+  public Vector3d load()

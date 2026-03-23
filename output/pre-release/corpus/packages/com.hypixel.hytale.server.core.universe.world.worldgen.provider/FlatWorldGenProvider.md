@@ -33,3 +33,16 @@ public class FlatWorldGenProvider implements IWorldGenProvider
 - public Transform[] getSpawnPoints(int seed)
 - public CompletableFuture<GeneratedChunk> generate(int seed, long index, int cx, int cz, LongPredicate stillNeeded)
 - public String toString()
+
+Also in this package: DummyWorldGen, DummyWorldGenProvider, FlatWorldGen, IWorldGenProvider, Layer, VoidWorldGen, VoidWorldGenProvider
+
+Complete API:
+  public IWorldGen getGenerator()
+  public String toString()
+
+Fields:
+public static final String ID
+public static final BuilderCodec<FlatWorldGenProvider> CODEC
+public static final Color DEFAULT_TINT
+private Color tint
+private FlatWorldGenProvider.Layer[] layers

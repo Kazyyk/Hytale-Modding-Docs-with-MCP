@@ -19,3 +19,15 @@ Abstract base class in the `builders` package.
         @Nonnull ExecutionContext context,
         Scope globalScope,
         @Nonnull List<String> errors)` |
+
+Known subclasses: BuilderEntityFilterAnd, BuilderEntityFilterOr
+
+Also in this package: BuilderEntityFilterAltitude, BuilderEntityFilterAnd, BuilderEntityFilterAttitude, BuilderEntityFilterCombat, BuilderEntityFilterHeightDifference, BuilderEntityFilterInsideBlock, BuilderEntityFilterInventory, BuilderEntityFilterItemInHand, BuilderEntityFilterLineOfSight, BuilderEntityFilterMovementState, BuilderEntityFilterNPCGroup, BuilderEntityFilterNot, BuilderEntityFilterOr, BuilderEntityFilterSpotsMe, BuilderEntityFilterStandingOnBlock, BuilderEntityFilterStat, BuilderEntityFilterViewSector
+
+Complete API:
+  public void registerTags(Set<String> tags)
+  public Builder<IEntityFilter> readConfig(JsonElement data)
+  public boolean validate(String configName, NPCLoadTimeValidationHelper validationHelper, ExecutionContext context, Scope globalScope, List<String> errors)
+
+Fields:
+protected BuilderObjectListHelper<IEntityFilter> objectListHelper

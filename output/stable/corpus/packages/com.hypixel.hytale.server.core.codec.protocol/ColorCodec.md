@@ -10,3 +10,11 @@ public class ColorCodec implements Codec
 - @Nonnull public Color decode(BsonValue bsonValue, ExtraInfo extraInfo)
 - @Nonnull public Color decodeJson(RawJsonReader reader, ExtraInfo extraInfo) throws IOException
 - @Nonnull @Override public Schema toSchema(SchemaContext context)
+
+Also in this package: ColorAlphaCodec
+
+Complete API:
+  public BsonValue encode(Color color, ExtraInfo extraInfo)
+  public Color decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public Color decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)

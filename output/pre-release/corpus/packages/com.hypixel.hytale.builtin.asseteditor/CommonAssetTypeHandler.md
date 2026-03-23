@@ -17,3 +17,14 @@ public CommonAssetTypeHandler(String id, String icon, String fileExtension, Asse
 - AssetLoadResult unloadAsset(AssetPath, AssetUpdateQuery) | Removes from `CommonAssetRegistry` and sends removal to players if needed
 - AssetLoadResult restoreOriginalAsset(AssetPath, AssetUpdateQuery) | Reads the original file from the asset pack root and re-registers it
 - AssetUpdateQuery getDefaultUpdateQuery() | Returns a query with `commonAssetsRebuild = true
+
+Also in this package: AssetLoadResult, AssetStoreTypeHandler, AssetTypeHandler, JsonTypeHandler
+
+Complete API:
+  public AssetTypeHandler.AssetLoadResult loadAsset(AssetPath path, Path dataPath, byte[] data, AssetUpdateQuery updateQuery, EditorClient editorClient)
+  public AssetTypeHandler.AssetLoadResult unloadAsset(AssetPath path, AssetUpdateQuery updateQuery)
+  public AssetTypeHandler.AssetLoadResult restoreOriginalAsset(AssetPath originalAssetPath, AssetUpdateQuery updateQuery)
+  public AssetUpdateQuery getDefaultUpdateQuery()
+
+Fields:
+private static final HytaleLogger LOGGER

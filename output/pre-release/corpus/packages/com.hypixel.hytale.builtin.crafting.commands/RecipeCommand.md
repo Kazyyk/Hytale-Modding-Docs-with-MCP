@@ -29,3 +29,5 @@ Registers under the name `"recipe"` with description key `"server.commands.recip
 
 - `CraftingPlugin` -- provides `learnRecipe` and `forgetRecipe` static methods
 - `AbstractCommandCollection` -- base class
+
+Also in this package: Forget, ForgetOther, Learn, LearnOther, List, ListOther

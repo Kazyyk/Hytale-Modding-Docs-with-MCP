@@ -23,3 +23,19 @@ Identifies a buffer type in the world generation pipeline. Each BufferType has a
 - public boolean isValidType(@Nonnull Class bufferClass)
 - public boolean isValid(@Nonnull Buffer buffer)
 - @Override public int hashCode()
+
+Known subclasses: ParametrizedBufferType
+
+Also in this package: ParametrizedBufferType
+
+Complete API:
+  public boolean equals(Object o)
+  public boolean isValidType(Class bufferClass)
+  public boolean isValid(Buffer buffer)
+  public int hashCode()
+
+Fields:
+public final Class bufferClass
+public final int index
+public final Supplier<Buffer> bufferSupplier
+public final String name

@@ -30,3 +30,28 @@ Class in the markers subsystem.
 - sendMapMarker(MapMarker marker) | void | public method.
 - doesMarkerNeedNetworkUpdate(@Nullable MapMarker oldMarker, MapMarker newMarker) | boolean | private method.
 - copyFrom(@Nonnull MapMarkerTracker other) | void | public method.
+
+Also in this package: MapMarkerBuilder, MarkersCollector, MarkersCollectorImpl
+
+Complete API:
+  public Player getPlayer()
+  public Map<String,MapMarker> getSentMarkers()
+  public Predicate<PlayerRef> getPlayerMapFilter()
+  public void setPlayerMapFilter(Predicate<PlayerRef> playerMapFilter)
+  private boolean isSendingSmallMovements()
+  private void resetSmallMovementTimer()
+  public void updatePointsOfInterest(float dt, World world, int chunkViewRadius, int playerChunkX, int playerChunkZ)
+  public void sendMapMarker(MapMarker marker)
+  private boolean doesMarkerNeedNetworkUpdate(MapMarker oldMarker, MapMarker newMarker)
+  public void copyFrom(MapMarkerTracker other)
+
+Fields:
+private final WorldMapTracker worldMapTracker
+private final Player player
+private final Map<String,MapMarker> sentToClientById
+public static final float SMALL_MOVEMENTS_UPDATE_INTERVAL
+private float smallMovementsTimer
+private Predicate<PlayerRef> playerMapFilter
+private final Set<String> tempToRemove
+private final Set<MapMarker> tempToAdd
+private final Set<String> tempTestedMarkers

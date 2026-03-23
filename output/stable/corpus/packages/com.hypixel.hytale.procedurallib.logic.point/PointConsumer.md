@@ -7,3 +7,8 @@ public interface PointConsumer<T>
 ## Methods
 
 - void accept(double var1, double var3, T var5)
+
+Also in this package: DistortedPointGenerator, IPointGenerator, OffsetPointGenerator, PointConsumer2d, PointGenerator, ScaledPointGenerator
+
+Complete API:
+  void accept(double var1, double var3, T var5)

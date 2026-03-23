@@ -20,3 +20,19 @@ NPC entity filter builder: Matches entities within the given height range.
 - @Override public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data)
 - public double[] getHeightDifference(@Nonnull BuilderSupport support)
 - public boolean isUseEyePosition(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderEntityFilterAltitude, BuilderEntityFilterAnd, BuilderEntityFilterAttitude, BuilderEntityFilterCombat, BuilderEntityFilterInsideBlock, BuilderEntityFilterInventory, BuilderEntityFilterItemInHand, BuilderEntityFilterLineOfSight, BuilderEntityFilterMany, BuilderEntityFilterMovementState, BuilderEntityFilterNPCGroup, BuilderEntityFilterNot, BuilderEntityFilterOr, BuilderEntityFilterSpotsMe, BuilderEntityFilterStandingOnBlock, BuilderEntityFilterStat, BuilderEntityFilterViewSector
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public IEntityFilter build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<IEntityFilter> readConfig(JsonElement data)
+  public double[] getHeightDifference(BuilderSupport support)
+  public boolean isUseEyePosition(BuilderSupport support)
+
+Fields:
+public static final double[] DEFAULT_HEIGHT_DIFFERENCE_RANGE
+protected final BooleanHolder useEyePosition
+protected final NumberArrayHolder heightDifference

@@ -20,3 +20,13 @@ Origin point for brush placement in builder tools.
 
 - getValue() | int | Returns the integer value of this constant
 - fromValue(int) | BrushOrigin | Returns the constant for the given value, throws `ProtocolException` if invalid
+
+Also in this package: Axis, BrushAxis, BrushShape, BuilderToolAction, BuilderToolArg, BuilderToolArgGroup, BuilderToolArgType, BuilderToolArgUpdate, BuilderToolBlockArg, BuilderToolBoolArg, BuilderToolBrushAxisArg, BuilderToolBrushData, BuilderToolBrushOriginArg, BuilderToolBrushShapeArg, BuilderToolEntityAction, BuilderToolExtrudeAction, BuilderToolFloatArg, BuilderToolGeneralAction, BuilderToolHideAnchors, BuilderToolIntArg (and 26 more)
+
+Complete API:
+  public int getValue()
+  public static BrushOrigin fromValue(int value)
+
+Fields:
+public static final BrushOrigin[] VALUES
+private final int value

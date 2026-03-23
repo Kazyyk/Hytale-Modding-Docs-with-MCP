@@ -15,3 +15,13 @@ Accumulates the closest distance to each biome during the BiomeDistanceStage sca
 
 - boolean isCloserThanCounted(int biomeId, double distance_voxelGrid)
 - void accountFor(int biomeId, double distance_voxelGrid)
+
+Also in this package: BiomeDistanceEntries, BiomeDistanceEntry, BiomeDistanceStage, BiomeStage, BiomeWeights, ColumnData, Context, Entry, EnvironmentStage, PropStage, Stage, TerrainStage, TintStage
+
+Complete API:
+  boolean isCloserThanCounted(int biomeId, double distance_voxelGrid)
+  void accountFor(int biomeId, double distance_voxelGrid)
+
+Fields:
+final List<BiomeDistanceStage.BiomeDistanceEntry> entries
+BiomeDistanceStage.BiomeDistanceEntry cachedEntry

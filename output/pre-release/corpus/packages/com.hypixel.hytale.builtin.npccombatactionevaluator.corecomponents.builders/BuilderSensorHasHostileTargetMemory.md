@@ -12,3 +12,11 @@ NPC behavior tree builder for a sensor node. Configures detection or query logic
 - getShortDescription() | String | public method.
 - getLongDescription() | String | public method.
 - getBuilderDescriptorState() | BuilderDescriptorState | public method.
+
+Also in this package: BuilderActionAddToTargetMemory, BuilderActionCombatAbility, BuilderCombatTargetCollector, BuilderSensorCombatActionEvaluator
+
+Complete API:
+  public Sensor build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()

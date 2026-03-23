@@ -25,3 +25,12 @@ Returns `true` if the item is `null` or provides the configured resource type.
 public ResourceQuantity getResource()
 
 Returns the resource quantity this filter checks against.
+
+Also in this package: ArmorSlotAddFilter, FilterActionType, FilterType, ItemSlotFilter, NoDuplicateFilter, SlotFilter, TagFilter
+
+Complete API:
+  public boolean test(Item item)
+  public ResourceQuantity getResource()
+
+Fields:
+private final ResourceQuantity resource

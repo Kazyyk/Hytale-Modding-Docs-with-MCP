@@ -31,3 +31,15 @@ public int hashCode()
 ## See Also
 
 - Schema -- base class
+
+Also in this package: ArrayOrNull, ArraySchema, BooleanOrSchema, CommonAsset, DoubleOrSchema, HytaleMetadata, InheritSettings, IntegerOrSchema, IntegerSchema, ItemOrItems, NullSchema, NumberSchema, ObjectSchema, Schema, SchemaTypeField, StringOrBlank, StringSchema
+
+Complete API:
+  public Boolean getDefault()
+  public void setDefault(Boolean default_)
+  public boolean equals(Object o)
+  public int hashCode()
+
+Fields:
+public static final BuilderCodec<BooleanSchema> CODEC
+private Boolean default_

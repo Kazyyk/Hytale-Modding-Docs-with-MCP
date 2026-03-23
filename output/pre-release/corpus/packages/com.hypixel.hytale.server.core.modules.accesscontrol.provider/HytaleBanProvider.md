@@ -16,3 +16,16 @@ public class HytaleBanProvider extends BlockingDiskFile implements AccessProvide
 - @Override protected void create(BufferedWriter fileWriter) throws IOException
 - public boolean hasBan(UUID uuid)
 - public boolean modify(Function<Map<UUID,Ban>,Boolean> function)
+
+Also in this package: AccessProvider, ClientDelegatingProvider, HytaleWhitelistProvider
+
+Complete API:
+  public CompletableFuture<Optional<Message>> getDisconnectReason(UUID uuid)
+  protected void read(BufferedReader fileReader)
+  protected void write(BufferedWriter fileWriter)
+  protected void create(BufferedWriter fileWriter)
+  public boolean hasBan(UUID uuid)
+  public boolean modify(Function<Map<UUID,Ban>,Boolean> function)
+
+Fields:
+private final Map<UUID,Ban> bans

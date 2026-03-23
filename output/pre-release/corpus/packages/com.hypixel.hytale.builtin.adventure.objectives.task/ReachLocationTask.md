@@ -55,3 +55,23 @@ public class ReachLocationTask extends ObjectiveTask
 ## Related Types
 
 - ObjectiveTask
+
+Also in this package: CountObjectiveTask, CraftObjectiveTask, GatherObjectiveTask, InventoryChangeAware, ObjectiveTask, ObjectiveTaskRef, TreasureMapObjectiveTask, UseBlockObjectiveTask, UseEntityObjectiveTask
+
+Complete API:
+  public boolean checkCompletion()
+  public ReachLocationTaskAsset getAsset()
+  private String getMarkerId(Objective objective)
+  protected TransactionRecord[] setup0(Objective objective, World world, Store<EntityStore> store)
+  public void setupMarker(Objective objective, ReachLocationMarker locationMarkerEntity, Vector3d position, CommandBuffer<EntityStore> commandBuffer)
+  public com.hypixel.hytale.protocol.ObjectiveTask toPacket(Objective objective)
+  public void onPlayerReachLocationMarker(Store<EntityStore> store, Ref<EntityStore> ref, String locationMarkerId, Objective objective)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ReachLocationTask> CODEC
+public static String MARKER_ICON
+private static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE
+private static final ComponentType<EntityStore,ReachLocationMarker> REACH_LOCATION_MARKER_COMPONENT_TYPE
+private boolean completed
+private boolean markerLoaded

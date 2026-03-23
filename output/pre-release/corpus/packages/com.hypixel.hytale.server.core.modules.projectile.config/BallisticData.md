@@ -14,3 +14,15 @@ Interface providing ballistic trajectory parameters for projectiles: muzzle velo
 - public double getHorizontalCenterShot()
 - public double getDepthShot()
 - public boolean isPitchAdjustShot()
+
+Known implementors: Projectile, ProjectileConfig
+
+Also in this package: BallisticDataProvider, BounceConsumer, ImpactConsumer, PhysicsConfig, ProjectileConfig, ProjectileConfigPacketGenerator, STATE, StandardPhysicsConfig, StandardPhysicsProvider
+
+Complete API:
+  double getMuzzleVelocity()
+  double getGravity()
+  double getVerticalCenterShot()
+  double getHorizontalCenterShot()
+  double getDepthShot()
+  boolean isPitchAdjustShot()

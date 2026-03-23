@@ -15,3 +15,8 @@ Functional interface for loading content from a JSON element.
 
 @Nonnull
     List<T> entries()
+
+Also in this package: BiomeCovers, BiomeDynamicLayers, BiomeEnvironments, BiomeFluids, BiomePrefabs, BiomeStaticLayers, BiomeTints, CaveCovers, CavePrefabs, CaveTypes, EventType, ModifyEvent, ModifyEvents, SeedGenerator
+
+Complete API:
+  T load(JsonElement var1)

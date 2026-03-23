@@ -23,3 +23,21 @@ public class MaskProvider
 - public Zone.UniqueCandidate[] generateUniqueZoneCandidates(Zone.UniqueEntry[] entries, int maxPositions)
 - public MaskProvider generateUniqueZones(int seed, Zone.UniqueCandidate[] candidates, FastRandom random, List<Zone.Unique> zones)
 - public String toString()
+
+Known subclasses: ClimateMaskProvider
+
+Also in this package: BlockPriorityChunk, BlockPriorityModifier, ChunkGenerator, ChunkGeneratorExecution, HeightThresholdInterpolator, ValidationUtil, ZoneBiomeResult
+
+Complete API:
+  public double getX(int seed, double x, double y)
+  public double getY(int seed, double x, double y)
+  public int get(int seed, double x, double y)
+  public double distance(double x, double y)
+  public boolean inBounds(double x, double y)
+  public FuzzyZoom getFuzzyZoom()
+  public Zone.UniqueCandidate[] generateUniqueZoneCandidates(Zone.UniqueEntry[] entries, int maxPositions)
+  public MaskProvider generateUniqueZones(int seed, Zone.UniqueCandidate[] candidates, FastRandom random, List<Zone.Unique> zones)
+  public String toString()
+
+Fields:
+protected final FuzzyZoom fuzzyZoom

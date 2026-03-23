@@ -12,3 +12,12 @@ public class ConstantInt2Flags implements Int2FlagsCondition
 
 - @Override public int eval(int input)
 - @Nonnull @Override public String toString()
+
+Also in this package: CompositeInt2Flags, FlagCondition, FlagOperator, Int2FlagsCondition
+
+Complete API:
+  public int eval(int input)
+  public String toString()
+
+Fields:
+private final int result

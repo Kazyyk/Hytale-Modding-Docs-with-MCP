@@ -12,3 +12,12 @@ Extends `KillObjectiveTask` to provide KillNPCObjectiveTask functionality.
 - protected KillNPCObjectiveTask()
 - @Nonnull @Override protected TransactionRecord[] setup0(@Nonnull Objective objective, @Nonnull World world, @Nonnull Store<EntityStore> store)
 - @Nonnull @Override public String toString()
+
+Also in this package: BountyObjectiveTask, KillObjectiveTask, KillSpawnBeaconObjectiveTask, KillSpawnMarkerObjectiveTask, KillTask
+
+Complete API:
+  protected TransactionRecord[] setup0(Objective objective, World world, Store<EntityStore> store)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<KillNPCObjectiveTask> CODEC

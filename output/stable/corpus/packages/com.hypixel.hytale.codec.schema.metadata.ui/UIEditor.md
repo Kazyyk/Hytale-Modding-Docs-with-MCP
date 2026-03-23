@@ -87,3 +87,15 @@ Icon editor with `defaultPathTemplate`, `width`, and `height`.
 public static class LocalizationKeyField implements UIEditor.EditorComponent
 
 Localization key editor with `keyTemplate` and optional `generateDefaultKey` flag.
+
+Also in this package: ClientCache, DisplayMode, Dropdown, EditorComponent, EditorFeature, FormattedNumber, Icon, LocalizationKeyField, MultilineTextField, PreviewType, TextField, Timeline, UIButton, UICreateButtons, UIDefaultCollapsedState, UIDisplayMode, UIEditorFeatures, UIEditorPreview, UIEditorSectionStart, UIPropertyTitle (and 4 more)
+
+Complete API:
+  public void modify(Schema schema)
+  public static void init()
+
+Fields:
+public static final CodecMapCodec<UIEditor.EditorComponent> CODEC
+public static final UIEditor.Timeline TIMELINE
+public static final UIEditor.WeightedTimeline WEIGHTED_TIMELINE
+private final UIEditor.EditorComponent component

@@ -8,3 +8,9 @@ public class NPCBlockEventSupport extends EventSupport<BlockEventType, EventNoti
 
 - public static ComponentType<EntityStore, NPCBlockEventSupport> getComponentType()
 - @Nonnull @Override public Component<EntityStore> clone()
+
+Also in this package: BeaconSupport, EntityEventSupport, EventMessage, EventSupport, MessageSupport, NPCEntityEventSupport, NPCMessage, PlayerBlockEventSupport, PlayerEntityEventSupport
+
+Complete API:
+  public static ComponentType<EntityStore,NPCBlockEventSupport> getComponentType()
+  public Component<EntityStore> clone()

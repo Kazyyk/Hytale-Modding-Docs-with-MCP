@@ -9,3 +9,10 @@ public class ParticleSystemPacketGenerator extends DefaultAssetPacketGenerator
 - @Nonnull @Override public ToClientPacket generateInitPacket(DefaultAssetMap<String,ParticleSystem> assetMap, Map<String,ParticleSystem> assets)
 - @Nonnull @Override public ToClientPacket generateUpdatePacket(Map<String,ParticleSystem> loadedAssets)
 - @Nonnull @Override public ToClientPacket generateRemovePacket(Set<String> removed)
+
+Also in this package: ParticleSpawnerPacketGenerator
+
+Complete API:
+  public ToClientPacket generateInitPacket(DefaultAssetMap<String,ParticleSystem> assetMap, Map<String,ParticleSystem> assets)
+  public ToClientPacket generateUpdatePacket(Map<String,ParticleSystem> loadedAssets)
+  public ToClientPacket generateRemovePacket(Set<String> removed)

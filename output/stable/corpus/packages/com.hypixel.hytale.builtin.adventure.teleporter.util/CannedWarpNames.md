@@ -10,3 +10,8 @@ Utility type in the `util` subsystem.
 
 - generateCannedWarpName(Ref<ChunkStore> blockRef, String language) | String | Static utility method.
 - generateCannedWarpNameKey(Ref<ChunkStore> blockRef, String language) | String | Static utility method.
+
+Complete API:
+  public static String generateCannedWarpName(Ref<ChunkStore> blockRef, String language)
+  public static String generateCannedWarpNameKey(Ref<ChunkStore> blockRef, String language)
+  private static Set<String> getWarpNamesInWorld(World world)

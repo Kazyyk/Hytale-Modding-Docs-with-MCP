@@ -17,3 +17,11 @@ Enumeration with values: `Status`, `Action`, `Face`.
 
 - get() | String | Accessor method.
 - getMappedSlot() | AnimationSlot | Accessor method.
+
+Complete API:
+  public String get()
+  public AnimationSlot getMappedSlot()
+
+Fields:
+public static final NPCAnimationSlot[] VALUES
+private final AnimationSlot mappedSlot

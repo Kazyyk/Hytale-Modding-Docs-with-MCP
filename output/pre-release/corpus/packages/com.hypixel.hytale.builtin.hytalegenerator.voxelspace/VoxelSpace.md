@@ -28,3 +28,15 @@ void setAll(@Nullable T var1)
 
 @Nonnull
     Bounds3i getBounds()
+
+Known implementors: ArrayVoxelSpace, MaskVoxelSpace, NullSpace, PixelBufferView, RotationVoxelSpace, VoxelBufferView, WindowVoxelSpace
+
+Also in this package: ArrayVoxelSpace, BatchTransfer, MaskVoxelSpace, NullSpace, RotationVoxelSpace, VoxelSpaceUtil, WindowVoxelSpace
+
+Complete API:
+  void set(T var1, int var2, int var3, int var4)
+  void set(T var1, Vector3i var2)
+  void setAll(T var1)
+  T get(int var1, int var2, int var3)
+  T get(Vector3i var1)
+  Bounds3i getBounds()

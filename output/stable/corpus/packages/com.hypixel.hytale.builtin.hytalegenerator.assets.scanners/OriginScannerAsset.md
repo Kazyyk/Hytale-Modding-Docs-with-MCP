@@ -11,3 +11,11 @@ public class OriginScannerAsset extends ScannerAsset
 ## Methods
 
 - @Nonnull @Override public Scanner build(@Nonnull ScannerAsset.Argument argument)
+
+Also in this package: AreaScannerAsset, Argument, ColumnLinearScannerAsset, ColumnRandomScannerAsset, ImportedScannerAsset, ScannerAsset
+
+Complete API:
+  public Scanner build(ScannerAsset.Argument argument)
+
+Fields:
+public static final BuilderCodec<OriginScannerAsset> CODEC

@@ -11,3 +11,11 @@ public class WorldTpsCommand extends AbstractWorldCommand
 ## Methods
 
 - @Override protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Also in this package: WorldTpsResetCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<Integer> tickRateArg

@@ -32,3 +32,24 @@ Concrete implementation extending `TimeRecorder`.
 - formatValues(@Nonnull Formatter formatter, @Nonnull String columnFormatValue) | void | public method.
 - formatValues(@Nonnull Formatter formatter, long normalValue) | void | public method.
 - formatValues(@Nonnull Formatter formatter, long normalValue, @Nonnull String columnFormatValue) | void | public method.
+
+Also in this package: ContinuousValueRecorder, DiscreteValueRecorder, TimeRecorder
+
+Complete API:
+  public void reset()
+  public double recordNanos(long nanos)
+  public int timeToIndex(double secs)
+  public double indexToTime(int index)
+  public int size()
+  public long get(int index)
+  public String toString()
+  public void formatHeader(Formatter formatter, String columnFormatHeader)
+  public void formatValues(Formatter formatter, String columnFormatValue)
+  public void formatValues(Formatter formatter, long normalValue)
+  public void formatValues(Formatter formatter, long normalValue, String columnFormatValue)
+
+Fields:
+protected int minLogRange
+protected int maxLogRange
+protected int logSteps
+protected long[] valueBins

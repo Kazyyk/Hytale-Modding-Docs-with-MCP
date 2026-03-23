@@ -12,3 +12,15 @@ Reduces knockback from incoming damage based on the target entity's armor knockb
 - DamageSystems -- parent class
 - DamageCause -- used to look up per-cause knockback resistance
 - DamageEventSystem -- base class
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool, DamageCalculatorSystems (and 49 more)
+
+Complete API:
+  public SystemGroup<EntityStore> getGroup()
+  public Query<EntityStore> getQuery()
+  public void handle(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, Damage event)
+  public void handleInternal(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, Damage damage)
+
+Fields:
+private static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE
+private static final Query<EntityStore> QUERY

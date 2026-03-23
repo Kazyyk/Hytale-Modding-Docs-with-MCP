@@ -22,3 +22,22 @@ public class CameraShake implements NetworkSerializable, JsonAssetWithMap
 - @Nonnull public com.hypixel.hytale.protocol.CameraShake toPacket()
 - public String getId()
 - @Nonnull @Override public String toString()
+
+Also in this package: CameraShakePacketGenerator
+
+Complete API:
+  public static AssetStore<String,CameraShake,IndexedAssetMap<String,CameraShake>> getAssetStore()
+  public static IndexedAssetMap<String,CameraShake> getAssetMap()
+  public com.hypixel.hytale.protocol.CameraShake toPacket()
+  public String getId()
+  public String toString()
+
+Fields:
+public static final AssetBuilderCodec<String,CameraShake> CODEC
+public static final Codec<String> CHILD_ASSET_CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,CameraShake,IndexedAssetMap<String,CameraShake>> ASSET_STORE
+protected String id
+protected AssetExtraInfo.Data data
+protected CameraShakeConfig firstPerson
+protected CameraShakeConfig thirdPerson

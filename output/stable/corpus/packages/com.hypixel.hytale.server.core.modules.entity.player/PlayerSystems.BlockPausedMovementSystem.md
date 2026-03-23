@@ -9,3 +9,13 @@ An ECS system that blocks player movement input while the game is paused. When a
 ## Related Types
 
 - PlayerSystems -- parent container class
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation (and 35 more)
+
+Complete API:
+  public void tick(float dt, int systemIndex, Store<EntityStore> store)
+  private static void onTick(ArchetypeChunk<EntityStore> archetypeChunk, CommandBuffer<EntityStore> commandBuffer)
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final Query<EntityStore> query

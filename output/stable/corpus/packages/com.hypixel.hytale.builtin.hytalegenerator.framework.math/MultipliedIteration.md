@@ -17,3 +17,9 @@ public class MultipliedIteration
 - throw new IllegalArgumentException("number of iterations must be greater than 0")
 - throw new IllegalArgumentException("precision must be greater than 0")
 - public static int calculateIterations(double multiplier, double startValue, double endValue)
+
+Also in this package: Area, BitConverter, Calculator, CoPrimeGenerator, Combiner, InterpolatedCurve, Interpolation, IntersectionPolicy, Layer, NodeFunction, Normalizer, Probability, Range, RegionGrid, SeedGenerator, Splitter, Stepinizer
+
+Complete API:
+  public static double calculateMultiplier(double startValue, double endValue, int numberOfIterations, double precision)
+  public static int calculateIterations(double multiplier, double startValue, double endValue)

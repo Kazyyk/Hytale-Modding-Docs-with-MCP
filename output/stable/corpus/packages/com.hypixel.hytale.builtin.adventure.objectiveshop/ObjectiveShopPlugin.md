@@ -12,3 +12,12 @@ public class ObjectiveShopPlugin extends JavaPlugin
 
 - public static ObjectiveShopPlugin get()
 - @Override protected void setup()
+
+Also in this package: CanStartObjectiveRequirement, StartObjectiveInteraction
+
+Complete API:
+  public static ObjectiveShopPlugin get()
+  protected void setup()
+
+Fields:
+protected static ObjectiveShopPlugin instance

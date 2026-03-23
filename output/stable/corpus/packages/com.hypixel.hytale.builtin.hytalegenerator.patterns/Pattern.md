@@ -26,3 +26,13 @@ public abstract class Pattern
 ## Inner Types
 
 - `Pattern.Context`
+
+Known subclasses: AndPattern, CeilingPattern, CuboidPattern, FieldFunctionPattern, GapPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, SurfacePattern, WallPattern
+
+Also in this package: AndPattern, CeilingPattern, Context, CuboidPattern, Delimiter, Facing, FieldFunctionPattern, GapPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, PositionedPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public abstract boolean matches(Pattern.Context var1)
+  public abstract SpaceSize readSpace()
+  public static Pattern noPattern()
+  public static Pattern yesPattern()

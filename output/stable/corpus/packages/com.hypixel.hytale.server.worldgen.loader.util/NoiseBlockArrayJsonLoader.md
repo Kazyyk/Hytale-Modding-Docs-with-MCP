@@ -20,3 +20,9 @@ JSON loader that deserializes configuration data from JSON files.
 - throw new IllegalArgumentException("Unknown key! " + key)
 - return new BlockFluidEntry(0, 0, index)
 - throw new Error("BlockLayer does not exist in BlockTypes", var4)
+
+Also in this package: ColorUtil, Constants, Constants, Constants, EntryJsonLoader, FileMaskCache, ResolvedBlockArrayJsonLoader, ResolvedVariantsBlockArrayLoader, Vector2dJsonLoader, Vector3dJsonLoader
+
+Complete API:
+  public NoiseBlockArray load()
+  protected NoiseBlockArray.Entry loadEntry(JsonElement element, int i)

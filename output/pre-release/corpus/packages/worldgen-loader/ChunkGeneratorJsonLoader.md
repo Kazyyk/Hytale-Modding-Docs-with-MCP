@@ -26,3 +26,19 @@ Top-level loader that constructs a `ChunkGenerator` from `World.json`. Orchestra
 *interface*
 
 JSON key constants: `Width`, `Height`, `OffsetX`, `OffsetY`, `Randomizer`, `Masks`, `PrefabStore`, `OverrideDataFolder`, `World.json`, `Zones.json`, `Mask.json`, `Mask.png`.
+
+Also in this package: AssetFileSystem, Constants, Constants, MaskProviderJsonLoader, PrefabPathCollector, Resource, WorldGenPrefabLoader, WorldGenPrefabSupplier, ZonesJsonLoader
+
+Complete API:
+  public ChunkGenerator load()
+  private Path loadOverrideDataFolderPath(JsonObject worldJson, Path dataFolder)
+  protected JsonObject loadWorldJson(Path file)
+  protected Vector2i loadWorldSize(JsonObject worldJson)
+  protected Vector2i loadWorldOffset(JsonObject worldJson)
+  protected MaskProvider loadMaskProvider(JsonObject worldJson, Vector2i worldSize, Vector2i worldOffset)
+  protected PrefabStoreRoot loadPrefabStore(JsonObject worldJson)
+  protected ZonePatternProviderJsonLoader loadZonePatternGenerator(MaskProvider maskProvider)
+  protected static void logAssetPacks(List<AssetPack> packs)
+
+Fields:
+private final WorldGenConfig config

@@ -17,3 +17,13 @@ Condition evaluating FilteredBlockFluid criteria.
 - public FilteredBlockFluidCondition(IBlockFluidCondition filter, IBlockFluidCondition condition)
 - @Override public boolean eval(int block, int fluid)
 - @Nonnull @Override public String toString()
+
+Also in this package: BlockMaskCondition, HashSetBlockFluidCondition, HashSetIntCondition, IntConditionBuilder, Mask, MaskEntry, RandomCoordinateCondition
+
+Complete API:
+  public boolean eval(int block, int fluid)
+  public String toString()
+
+Fields:
+private final IBlockFluidCondition filter
+private final IBlockFluidCondition condition

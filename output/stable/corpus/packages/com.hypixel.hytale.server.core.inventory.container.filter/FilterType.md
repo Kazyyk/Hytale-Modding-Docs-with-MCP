@@ -24,3 +24,14 @@ Returns `true` if items may be added to the container.
 public boolean allowOutput()
 
 Returns `true` if items may be removed from the container.
+
+Also in this package: ArmorSlotAddFilter, FilterActionType, ItemSlotFilter, NoDuplicateFilter, ResourceFilter, SlotFilter, TagFilter
+
+Complete API:
+  public boolean allowInput()
+  public boolean allowOutput()
+
+Fields:
+public static final Codec<FilterType> CODEC
+private final boolean input
+private final boolean output

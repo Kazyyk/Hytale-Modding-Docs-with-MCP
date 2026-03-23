@@ -89,3 +89,85 @@ Enables or disables file-system hot-reload.
 - BuilderFactory -- creates builders by type
 - Builder -- the builder interface
 - BuilderSupport -- runtime context carrying a reference to this manager
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 28 more)
+
+Complete API:
+  public void registerFactory(BuilderFactory<T> factory)
+  public void addCategory(String name, Class<?> clazz)
+  public String getCategoryName(Class<?> factoryClass)
+  public int getIndex(String name)
+  public void setAutoReload(boolean autoReload)
+  public String lookupName(int index)
+  public int getOrCreateIndex(String name)
+  public BuilderInfo tryGetBuilderInfo(int builderIndex)
+  public void unloadBuilders(AssetPack pack)
+  public boolean loadBuilders(AssetPack pack, boolean includeTests)
+  private void finishLoadingBuilders(Int2ObjectOpenHashMap<BuilderInfo> loadedBuilders, List<String> errors)
+  public void assetEditorLoadFile(Path fileName)
+  public void assetEditorRemoveFile(Path filePath)
+  public int loadFile(Path fileName, boolean reloading, List<String> errors)
+  public int loadFile(Path fileName, List<String> errors, Object2IntMap<String> typeCounter, boolean includeTests, boolean reloading)
+  public boolean validateBuilder(BuilderInfo builderInfo)
+  public BuilderFactory<T> getFactory(Class<?> clazz)
+  public BuilderInfo getCachedBuilderInfo(int index, Class<?> classType)
+  public Builder<T> tryGetCachedValidBuilder(int index, Class<?> classType)
+  public Builder<T> getCachedBuilder(int index, Class<?> classType)
+  public boolean isEmpty()
+  public Int2ObjectMap<BuilderInfo> getAllBuilders()
+  public T collectMatchingBuilders(T collection, Predicate<BuilderInfo> filter, BiConsumer<BuilderInfo,T> consumer)
+  public Object2IntMap<String> getNameToIndexMap()
+  public BuilderInfo findMatchingBuilder(BiPredicate<BuilderInfo,T> filter, T t)
+  public BuilderInfo getBuilderInfo(Builder<?> builder)
+  public List<String> getTemplateNames()
+  public void forceValidation(int builderIndex)
+  public void checkIfDeprecated(Builder<?> builder, BuilderFactory<?> builderFactory, JsonElement element, String fileName, String context)
+  public Schema generateSchema(SchemaContext context)
+  public List<BuilderDescriptor> generateDescriptors()
+  public static void saveDescriptors(List<BuilderDescriptor> builderDescriptors, Path fileName)
+  public Builder<Role> tryGetCachedValidRole(int builderIndex)
+  public void validateAllLoadedBuilders(Int2ObjectMap<BuilderInfo> loadedBuilders, boolean validateDependents, List<String> errors)
+  public void onAllBuildersLoaded(Int2ObjectMap<BuilderInfo> loadedBuilders)
+  public static void onBuilderReloaded(BuilderInfo builderInfo)
+  public static int getPlayerGroupID()
+  public static int getSelfGroupID()
+  protected static void onBuilderAdded(BuilderInfo builderInfo)
+  protected boolean isDependant(Builder<?> builder, int builderIndex, int dependencyIndex)
+  protected int cacheBuilder(String name, Builder<?> builder, Path path)
+  private void removeBuilder(int index)
+  private void removeBuilder(String name)
+  private Builder<?> tryGetCachedBuilder(int index)
+  private BuilderInfo tryGetCachedBuilderInfo(int index, Class<?> classType)
+  private static void validateAllSpawnableNPCs(Int2ObjectMap<BuilderInfo> builders, List<String> errors)
+  private static void sendReloadNotification(Message message, Set<String> builders)
+  private static boolean isIgnoredFile(Path path)
+  private static boolean isJsonFile(Path path)
+  private static boolean isJsonFileName(Path path, EventKind eventKind)
+  private static String builderNameFromPath(Path path)
+  private String buildPathString(IntArrayList path, int index)
+  private boolean validateBuilder(BuilderInfo builderInfo, IntSet validatedDependencies, IntArrayList path)
+  private IntSet computeAllDependencies(Builder<?> builder, int builderIndex)
+  private IntSet computeAllDependencies(Builder<?> builder, int builderIndex, IntSet dependencies, IntArrayList path)
+  private void iterateDependencies(IntIterator iterator, IntSet dependencies, IntArrayList path)
+  private void reloadDependants(int dependency)
+
+Fields:
+public static final String CONTENT_KEY
+private static final String CLASS_KEY
+private static final String TEST_TYPE_KEY
+private static final String FAIL_REASON_KEY
+private static final String PLAYER_GROUP_TAG
+private static final String SELF_GROUP_TAG
+private static int playerGroupID
+private static int selfGroupID
+private final Int2ObjectConcurrentHashMap<BuilderInfo> builderCache
+private final String elementTypeName
+private final String defaultFileType
+private boolean autoReload
+private final Map<Class<?>,BuilderFactory<?>> factoryMap
+private final Map<String,Class<?>> categoryNames
+private final Object2IntMap<String> nameToIndexMap
+private final AtomicInteger nextIndex
+private final ReentrantReadWriteLock indexLock
+private boolean setup
+public static BuilderManager SCHEMA_BUILDER_MANAGER

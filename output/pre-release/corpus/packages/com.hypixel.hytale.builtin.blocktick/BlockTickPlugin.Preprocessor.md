@@ -28,3 +28,17 @@ Thread-local helper used by `BlockTickPlugin.discoverTickingBlocks` to collect b
 ## Related Types
 
 - BlockTickPlugin -- the enclosing plugin that uses this preprocessor
+
+Also in this package: BlockTickPlugin
+
+Complete API:
+  public void clear()
+  private void collectType(int value)
+  private void collectIndex(int index)
+
+Fields:
+public static final ThreadLocal<BlockTickPlugin.Preprocessor> LOCAL
+public final IntList tickingIds
+public final IntList tickingIndices
+public final IntConsumer typeCollector
+public final IntConsumer indexCollector

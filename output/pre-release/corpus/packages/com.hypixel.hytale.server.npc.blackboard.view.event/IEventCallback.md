@@ -9,3 +9,8 @@ Interface defining: `notify()`.
 ## Methods
 
 - notify(NPCEntity var1, EventType var2, NotificationType var3) | void | package-private method.
+
+Also in this package: EntityEventNotification, EventNotification, EventTypeRegistration, EventView
+
+Complete API:
+  void notify(NPCEntity var1, EventType var2, NotificationType var3)

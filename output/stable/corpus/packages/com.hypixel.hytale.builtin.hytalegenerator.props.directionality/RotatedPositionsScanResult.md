@@ -18,3 +18,12 @@ Implementation of `ScanResult`.
 
 - cast(ScanResult scanResult) | RotatedPositionsScanResult | static public method.
 - isNegative() | boolean | public method.
+
+Also in this package: Directionality, OrthogonalDirection, PatternDirectionality, RandomDirectionality, RotatedPosition, StaticDirectionality
+
+Complete API:
+  public static RotatedPositionsScanResult cast(ScanResult scanResult)
+  public boolean isNegative()
+
+Fields:
+public final List<RotatedPosition> positions

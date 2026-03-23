@@ -29,3 +29,24 @@ public abstract class SensorWithEntityFilters extends SensorBase implements IAnn
 | `@Override public` | `void` | `setContext(IAnnotatedComponent parent, int index)` |
 | `protected` | `boolean` | `matchesFilters(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> targetRef, @Nonnull Role role, @Nonnull Store<EntityStore> store)` |
 | `protected` | `float` | `findViewAngleFromFilters()` |
+
+Known subclasses: SensorEntityBase, SensorSelf, SensorTarget
+
+Also in this package: ActionBase, ActionWithDelay, AnnotatedComponentBase, BlockTarget, BodyMotionBase, EntityFilterBase, HeadMotionBase, IEntityFilter, ISensorEntityCollector, ISensorEntityPrioritiser, MotionBase, SensorBase, WeightedAction
+
+Complete API:
+  public void registerWithSupport(Role role)
+  public void motionControllerChanged(Ref<EntityStore> ref, NPCEntity npcComponent, MotionController motionController, ComponentAccessor<EntityStore> componentAccessor)
+  public void loaded(Role role)
+  public void spawned(Role role)
+  public void unloaded(Role role)
+  public void removed(Role role)
+  public void teleported(Role role, World from, World to)
+  public int componentCount()
+  public IAnnotatedComponent getComponent(int index)
+  public void setContext(IAnnotatedComponent parent, int index)
+  protected boolean matchesFilters(Ref<EntityStore> ref, Ref<EntityStore> targetRef, Role role, Store<EntityStore> store)
+  protected float findViewAngleFromFilters()
+
+Fields:
+private final IEntityFilter[] filters

@@ -10,3 +10,14 @@ ECS system extending `EntityTickingSystem<EntityStore>`. Processes entities each
 
 - getDependencies() | Set<Dependency<EntityStore>> | public method.
 - getQuery() | Query<EntityStore> | public method.
+
+Also in this package: PlayerRefAddedSystem, WorldConfigSaveSystem
+
+Complete API:
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public Set<Dependency<EntityStore>> getDependencies()
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

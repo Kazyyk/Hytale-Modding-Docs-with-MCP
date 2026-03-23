@@ -42,3 +42,19 @@ public String toString()
 
 - DamageEntityInteraction -- parent interaction
 - TargetEntityEffect -- effect applied to target on hit
+
+Known subclasses: AngledDamage
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction (and 11 more)
+
+Complete API:
+  public com.hypixel.hytale.protocol.TargetedDamage toTargetedDamagePacket()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<DamageEntityInteraction.TargetedDamage> CODEC
+protected int index
+protected DamageCalculator damageCalculator
+protected Map<String,TargetEntityEffect> targetEntityEffects
+protected DamageEffects damageEffects
+protected String next

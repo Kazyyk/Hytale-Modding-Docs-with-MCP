@@ -19,3 +19,21 @@ Inner class of CraftingManager that tracks a single queued crafting operation. S
 - quantityStarted | int | Number of items whose inputs have been consumed.
 - quantityCompleted | int | Number of items whose outputs have been given.
 - timeSecondsCompleted | float | Elapsed time for the current item.
+
+Also in this package: BenchBlock, BenchUpgradingJob, ChestLookupResult, CraftingManager, InputRemovalType, ProcessingBenchBlock
+
+Complete API:
+  public String toString()
+
+Fields:
+private final CraftingWindow window
+private final int transactionId
+private final CraftingRecipe recipe
+private final int quantity
+private final float timeSeconds
+private final ItemContainer inputItemContainer
+private final CraftingManager.InputRemovalType inputRemovalType
+private final Int2ObjectMap<List<ItemStack>> removedItems
+private int quantityStarted
+private int quantityCompleted
+private float timeSecondsCompleted

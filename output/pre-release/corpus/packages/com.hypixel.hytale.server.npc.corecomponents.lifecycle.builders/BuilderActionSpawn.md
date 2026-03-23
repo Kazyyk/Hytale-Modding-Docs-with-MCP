@@ -50,3 +50,45 @@ NPC behavior action builder for ActionSpawn functionality.
 - public boolean isJoinFlock(@Nonnull BuilderSupport support)
 - public String getSpawnState(@Nonnull BuilderSupport support)
 - public String getSpawnSubState(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionDelayDespawn, BuilderActionDespawn, BuilderActionDie, BuilderActionRemove, BuilderActionRole, BuilderSensorAge
+
+Complete API:
+  public ActionSpawn build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionSpawn readConfig(JsonElement data)
+  public float getSpawnDirection(BuilderSupport support)
+  public float getSpawnAngle(BuilderSupport support)
+  public boolean isFanOut(BuilderSupport support)
+  public double[] getDistanceRange(BuilderSupport support)
+  public String getKind(BuilderSupport support)
+  public String getFlock(BuilderSupport support)
+  public int[] getCountRange(BuilderSupport support)
+  public double[] getDelayRange(BuilderSupport support)
+  public boolean isLaunchAtTarget(BuilderSupport support)
+  public boolean isPitchHigh(BuilderSupport support)
+  public double getSpread(BuilderSupport support)
+  public boolean isJoinFlock(BuilderSupport support)
+  public String getSpawnState(BuilderSupport support)
+  public String getSpawnSubState(BuilderSupport support)
+
+Fields:
+public static final double[] DEFAULT_DISTANCE_RANGE
+public static final int[] DEFAULT_COUNT_RANGE
+public static final double[] DEFAULT_DELAY_RANGE
+protected final FloatHolder spawnDirection
+protected final FloatHolder spawnAngle
+protected final BooleanHolder fanOut
+protected final NumberArrayHolder distanceRange
+protected final NumberArrayHolder countRange
+protected final NumberArrayHolder delayRange
+protected final StringHolder kind
+protected final AssetHolder flock
+protected final BooleanHolder launchAtTarget
+protected final BooleanHolder pitchHigh
+protected final DoubleHolder spread
+protected final BooleanHolder joinFlock
+protected final StringHolder spawnState
+protected final StringHolder spawnSubState

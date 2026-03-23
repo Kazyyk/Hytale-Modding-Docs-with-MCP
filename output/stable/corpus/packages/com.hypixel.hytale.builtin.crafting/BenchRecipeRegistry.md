@@ -22,3 +22,26 @@ public class BenchRecipeRegistry
 - public boolean equals(@Nullable Object o)
 - public int hashCode()
 - public String toString()
+
+Also in this package: CraftingPlugin, PlayerAddedSystem
+
+Complete API:
+  public Iterable<String> getIncomingRecipesForItem(String itemId)
+  public void removeRecipe(String id)
+  public void addRecipe(BenchRequirement benchRequirement, CraftingRecipe recipe)
+  public CraftingRecipe[] getAllRecipes()
+  public Set<String> getRecipesForCategory(String benchCategoryId)
+  public void recompute()
+  private void extractMaterialFromRecipes(Set<String> recipes)
+  public boolean isValidCraftingMaterial(ItemStack itemStack)
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+private final String benchId
+private final Map<String,Set<String>> categoryMap
+private final Map<String,Set<String>> itemToIncomingRecipe
+private final Set<String> uncategorizedRecipes
+private final Set<String> allMaterialIds
+private final Set<String> allMaterialResourceType

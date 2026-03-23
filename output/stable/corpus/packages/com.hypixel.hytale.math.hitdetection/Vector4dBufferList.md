@@ -23,3 +23,17 @@ Class in the hitdetection subsystem.
 - get(int i) | Vector4d | public method.
 - isEmpty() | boolean | public method.
 - toString() | String | public method.
+
+Also in this package: HitDetectionBuffer, HitDetectionExecutor, LineOfSightProvider, MatrixProvider
+
+Complete API:
+  public Vector4d next()
+  public void clear()
+  public int size()
+  public Vector4d get(int i)
+  public boolean isEmpty()
+  public String toString()
+
+Fields:
+private Vector4d[] vectors
+private int size

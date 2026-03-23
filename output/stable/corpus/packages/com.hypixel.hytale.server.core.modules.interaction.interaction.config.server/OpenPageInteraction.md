@@ -38,3 +38,15 @@ Gets the player component, checks the usage validator (if registered), and calls
 ## See Also
 
 - `PageManager` -- manages page state for the player
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction (and 13 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public static void registerUsageValidator(Page page, OpenPageInteraction.PageUsageValidator validator)
+
+Fields:
+public static final BuilderCodec<OpenPageInteraction> CODEC
+private static final Map<Page,OpenPageInteraction.PageUsageValidator> USAGE_VALIDATOR_MAP
+protected Page page
+protected boolean canCloseThroughInteraction

@@ -18,3 +18,24 @@ Block argument for builder tools with an optional default value and pattern supp
 - computeSize() | int | Returns the serialized size in bytes
 - validateStructure(ByteBuf, int) | ValidationResult | Validates buffer structure without full deserialization
 - clone() | BuilderToolBlockArg | Creates a shallow copy
+
+Also in this package: Axis, BrushAxis, BrushOrigin, BrushShape, BuilderToolAction, BuilderToolArg, BuilderToolArgType, BuilderToolArgUpdate, BuilderToolBoolArg, BuilderToolBrushAxisArg, BuilderToolBrushOriginArg, BuilderToolBrushShapeArg, BuilderToolEntityAction, BuilderToolExtrudeAction, BuilderToolFloatArg, BuilderToolGeneralAction, BuilderToolHideAnchors, BuilderToolIntArg, BuilderToolLaserPointer, BuilderToolLineAction (and 28 more)
+
+Complete API:
+  public static BuilderToolBlockArg deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public BuilderToolBlockArg clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public String defaultValue
+public boolean allowPattern

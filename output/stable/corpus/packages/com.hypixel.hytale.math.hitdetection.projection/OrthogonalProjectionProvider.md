@@ -32,3 +32,32 @@ public class OrthogonalProjectionProvider implements MatrixProvider
 - @Nonnull public OrthogonalProjectionProvider setRotation(double yaw, double pitch, double roll)
 - @Override public Matrix4d getMatrix()
 - @Nonnull @Override public String toString()
+
+Also in this package: FrustumProjectionProvider
+
+Complete API:
+  public OrthogonalProjectionProvider setLeft(double left)
+  public OrthogonalProjectionProvider setRight(double right)
+  public OrthogonalProjectionProvider setBottom(double bottom)
+  public OrthogonalProjectionProvider setTop(double top)
+  public OrthogonalProjectionProvider setNear(double near)
+  public OrthogonalProjectionProvider setFar(double far)
+  public double getRange()
+  public OrthogonalProjectionProvider setRotation(double yaw, double pitch, double roll)
+  public Matrix4d getMatrix()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<OrthogonalProjectionProvider> CODEC
+protected final Matrix4d matrix
+protected final Matrix4d rotMatrix
+protected boolean invalid
+protected double left
+protected double right
+protected double bottom
+protected double top
+protected double near
+protected double far
+protected double yaw
+protected double pitch
+protected double roll

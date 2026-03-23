@@ -14,3 +14,13 @@ Concrete implementation extending `ConditionAsset`.
 ## Methods
 
 - build() | SpaceAndDepthMaterialProvider.Condition | public method.
+
+Also in this package: AlwaysTrueConditionAsset, AndConditionAsset, ConditionAsset, GreaterThanConditionAsset, NotConditionAsset, OrConditionAsset, SmallerThanConditionAsset
+
+Complete API:
+  public SpaceAndDepthMaterialProvider.Condition build()
+
+Fields:
+public static final BuilderCodec<EqualsConditionAsset> CODEC
+private ConditionParameter parameter
+private int value

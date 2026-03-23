@@ -44,3 +44,18 @@ Creates a block entry with the given chance.
 public PrefabBufferBlockEntry(int y, int blockId, String blockTypeKey, float chance, Holder<ChunkStore> state, int fluidId, byte fluidLevel, byte supportValue, int rotation, int filler)
 
 Creates a fully specified block entry.
+
+Also in this package: BlockComparingPredicate, BlockComparingPrefabPredicate, BlockConsumer, BlockMaskConstants, Builder, ChildConsumer, ChildPrefab, ColumnPredicate, EntityConsumer, EntityPredicate, FluidConsumer, FluidPredicate, IPrefabBuffer, PrefabBuffer, PrefabBufferAccessor, PrefabBufferColumn, RawBlockConsumer, RawBlockPredicate
+
+Fields:
+public static final PrefabBufferBlockEntry[] EMPTY_ARRAY
+public final int y
+public String blockTypeKey
+public int blockId
+public float chance
+public Holder<ChunkStore> state
+public int fluidId
+public byte fluidLevel
+public byte supportValue
+public int filler
+public int rotation

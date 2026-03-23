@@ -12,3 +12,11 @@ Static utility methods for managing NPC inventory items during role initializati
 - public static void setOffHandItems(@Nonnull NPCEntity npcComponent, @Nonnull String[] offHandItems)
 - public static void setItemInHand(@Nonnull NPCEntity npcComponent, @Nullable String itemInHand)
 - public static void setArmor(@Nonnull NPCEntity npcComponent, @Nullable String armor)
+
+Also in this package: AvoidanceMode, DeferredAction, Role, RoleDebugDisplay, RoleDebugFlags, RoleDebugPreset, SpawnEffect
+
+Complete API:
+  public static void setHotbarItems(NPCEntity npcComponent, String[] hotbarItems)
+  public static void setOffHandItems(NPCEntity npcComponent, String[] offHandItems)
+  public static void setItemInHand(NPCEntity npcComponent, String itemInHand)
+  public static void setArmor(NPCEntity npcComponent, String armor)

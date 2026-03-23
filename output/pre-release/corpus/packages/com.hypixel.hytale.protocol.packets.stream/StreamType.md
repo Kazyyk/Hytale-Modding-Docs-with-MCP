@@ -27,3 +27,13 @@ Returns the `StreamType` for the given wire value. Throws `ProtocolException` if
 
 - StreamOpen -- packet that uses this enum
 - StreamOpenResponse -- response packet that uses this enum
+
+Also in this package: StreamOpen, StreamOpenResponse
+
+Complete API:
+  public int getValue()
+  public static StreamType fromValue(int value)
+
+Fields:
+public static final StreamType[] VALUES
+private final int value

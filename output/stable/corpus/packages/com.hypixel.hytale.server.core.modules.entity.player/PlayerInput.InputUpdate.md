@@ -23,3 +23,10 @@ Applies this input update to the entity at the given index in the archetype chun
 - PlayerInput.SetClientVelocity
 - PlayerInput.SetMovementStates
 - PlayerInput.SetRiderMovementStates
+
+Known implementors: AbsoluteMovement, RelativeMovement, SetBody, SetClientVelocity, SetHead, SetMovementStates, SetRiderMovementStates, WishMovement
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation (and 35 more)
+
+Complete API:
+  void apply(CommandBuffer<EntityStore> var1, ArchetypeChunk<EntityStore> var2, int var3)

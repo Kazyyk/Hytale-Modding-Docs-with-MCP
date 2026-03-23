@@ -43,3 +43,16 @@ Sets the kill feed icon identifier.
 - KillFeedEvent -- parent class
 - DeathSystems.KillFeed -- dispatches this event
 - Damage -- reads `DEATH_ICON` meta key for the default icon
+
+Also in this package: DecedentMessage, KillFeedEvent, KillerMessage
+
+Complete API:
+  public List<PlayerRef> getBroadcastTargets()
+  public Damage getDamage()
+  public String getIcon()
+  public void setIcon(String icon)
+
+Fields:
+private final Damage damage
+private String icon
+private final List<PlayerRef> broadcastTargets

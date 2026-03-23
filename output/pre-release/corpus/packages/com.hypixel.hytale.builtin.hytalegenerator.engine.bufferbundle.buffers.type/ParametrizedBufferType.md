@@ -20,3 +20,14 @@ A BufferType that additionally specifies a type parameter class (e.g., `Material
 - @Override public boolean isValid(@Nonnull Buffer buffer)
 - @Override public boolean equals(Object o)
 - @Override public int hashCode()
+
+Also in this package: BufferType
+
+Complete API:
+  public boolean isValidType(Class bufferClass, Class parameterClass)
+  public boolean isValid(Buffer buffer)
+  public boolean equals(Object o)
+  public int hashCode()
+
+Fields:
+public final Class parameterClass

@@ -18,3 +18,12 @@ Logical NOT wrapper that inverts the result of a delegate Pattern. Returns `true
 
 - @Override public boolean matches(@Nonnull Pattern.Context context)
 - @NonNullDecl @Override public Bounds3i getBounds_voxelGrid()
+
+Also in this package: AndPattern, ConstantPattern, Context, CuboidPattern, Facing, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, OffsetPattern, OrPattern, Pattern, RotatorPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public Bounds3i getBounds_voxelGrid()
+
+Fields:
+private final Pattern pattern

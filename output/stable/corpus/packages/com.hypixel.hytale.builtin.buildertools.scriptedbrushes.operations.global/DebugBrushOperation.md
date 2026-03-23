@@ -16,3 +16,16 @@ public class DebugBrushOperation extends GlobalBrushOperation
 ## Methods
 
 - @Override public void modifyBrushConfig(Ref<EntityStore> ref, BrushConfig brushConfig, BrushConfigCommandExecutor brushConfigCommandExecutor, ComponentAccessor<EntityStore> componentAccessor)
+
+Also in this package: DisableHoldInteractionOperation, IgnoreExistingBrushDataOperation
+
+Complete API:
+  public void modifyBrushConfig(Ref<EntityStore> ref, BrushConfig brushConfig, BrushConfigCommandExecutor brushConfigCommandExecutor, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<DebugBrushOperation> CODEC
+private Boolean printOperations
+private Boolean stepThrough
+private Boolean enableBreakpoints
+private BrushConfigCommandExecutor.DebugOutputTarget outputTarget
+private Boolean breakOnError

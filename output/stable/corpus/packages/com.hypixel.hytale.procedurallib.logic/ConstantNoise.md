@@ -20,3 +20,14 @@ public ConstantNoise(double value)
 - public double getValue()
 - public double get(int seed, int offsetSeed, double x, double y)
 - public double get(int seed, int offsetSeed, double x, double y, double z)
+
+Also in this package: Bounds2d, BranchNoise, CellFunction, CellMode, CellNoise, CellularNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GeneralNoise, GridNoise, HexMeshNoise, InterpolationFunction, InterpolationMode, MeshNoise, OldSimplexNoise, PerlinNoise (and 6 more)
+
+Complete API:
+  public double getValue()
+  public double get(int seed, int offsetSeed, double x, double y)
+  public double get(int seed, int offsetSeed, double x, double y, double z)
+  public String toString()
+
+Fields:
+protected final double value

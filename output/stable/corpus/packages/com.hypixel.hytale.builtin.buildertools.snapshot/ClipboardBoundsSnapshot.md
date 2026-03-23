@@ -20,3 +20,15 @@ Immutable snapshot capturing state for undo/redo in the builder tools system.
 
 - getMin() | Vector3i | public method.
 - getMax() | Vector3i | public method.
+
+Also in this package: BlockSelectionSnapshot, ClipboardContentsSnapshot, EntityAddSnapshot, EntityRemoveSnapshot, EntitySnapshot, EntityTransformSnapshot, SelectionSnapshot
+
+Complete API:
+  public Vector3i getMin()
+  public Vector3i getMax()
+  public ClipboardBoundsSnapshot restoreClipboard(Ref<EntityStore> ref, Player player, World world, BuilderToolsPlugin.BuilderState state, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final ClipboardBoundsSnapshot EMPTY
+private final Vector3i min
+private final Vector3i max

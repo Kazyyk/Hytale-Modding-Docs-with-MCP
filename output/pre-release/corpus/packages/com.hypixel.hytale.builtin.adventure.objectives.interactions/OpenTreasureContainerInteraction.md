@@ -27,3 +27,12 @@ Block interaction that opens a treasure chest container for the interacting play
 
 - DestroyTreasureConditionInteraction -- companion interaction for destroy-eligibility checks
 - TreasureChestBlock -- the component this interaction reads
+
+Also in this package: CanBreakRespawnPointInteraction, DestroyTreasureConditionInteraction, StartObjectiveInteraction
+
+Complete API:
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack itemInHand, Vector3i pos, CooldownHandler cooldownHandler)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+
+Fields:
+public static final BuilderCodec<OpenTreasureContainerInteraction> CODEC

@@ -14,3 +14,13 @@ public class AbilityEffects implements NetworkSerializable<com.hypixel.hytale.pr
 - protected AbilityEffects()
 - public com.hypixel.hytale.protocol.AbilityEffects toPacket()
 - public String toString()
+
+Also in this package: ApplicationEffects, EntityEffect, ModelOverride, OverlapBehavior, RemovalBehavior
+
+Complete API:
+  public com.hypixel.hytale.protocol.AbilityEffects toPacket()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<AbilityEffects> CODEC
+protected Set<InteractionType> disabled

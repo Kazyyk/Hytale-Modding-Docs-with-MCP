@@ -23,3 +23,17 @@ Concrete implementation extending `TransactionRecord`.
 - unload() | void | public method.
 - shouldBeSerialized() | boolean | public method.
 - toString() | String | public method.
+
+Also in this package: RegistrationTransactionRecord, SpawnEntityTransactionRecord, TransactionRecord, TransactionStatus, TransactionUtil, UseEntityTransactionRecord, WorldTransactionRecord
+
+Complete API:
+  public void revert()
+  public void complete()
+  public void unload()
+  public boolean shouldBeSerialized()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SpawnTreasureChestTransactionRecord> CODEC
+protected UUID worldUUID
+protected Vector3i blockPosition

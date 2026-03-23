@@ -23,3 +23,17 @@ public AttitudePrioritiser(int[] attitudeToPriority)
 - test(Ref<EntityStore>, Ref<EntityStore>, ComponentAccessor<EntityStore>) | boolean | Evaluates a target's attitude priority; returns `true` (stop iterating) if top priority is reached.
 - getHighestPriorityTarget() | Ref<EntityStore> | Returns the highest-priority target found.
 - cleanup() | void | Resets all state for reuse.
+
+Also in this package: DefaultPrioritiser, SensorEntityPrioritiserAttitude, SensorEntityPrioritiserDefault
+
+Complete API:
+  public void init(Role role)
+  public boolean test(Ref<EntityStore> ref, Ref<EntityStore> targetRef, ComponentAccessor<EntityStore> componentAccessor)
+  public Ref<EntityStore> getHighestPriorityTarget()
+  public void cleanup()
+
+Fields:
+private final int[] attitudeToPriority
+private Ref<EntityStore> highestPriorityTarget
+private int highestPriorityIndex
+private WorldSupport support

@@ -5,3 +5,8 @@ Type: class | Package: com.hypixel.hytale.server.core.event.events | Implements:
 public class BootEvent implements IEvent<Void>
 
 Server lifecycle event.
+
+Also in this package: PrepareUniverseEvent, ShutdownEvent
+
+Complete API:
+  public String toString()

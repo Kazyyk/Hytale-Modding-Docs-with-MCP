@@ -13,3 +13,13 @@ public class DensityTerrainAsset extends TerrainAsset
 
 - @Nonnull @Override public Density buildDensity(SeedBox parentSeed, ReferenceBundle referenceBundle, WorkerIndexer.Id workerId)
 - @Override public void cleanUp()
+
+Also in this package: TerrainAsset
+
+Complete API:
+  public Density buildDensity(SeedBox parentSeed, ReferenceBundle referenceBundle, WorkerIndexer.Id workerId)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<DensityTerrainAsset> CODEC
+private DensityAsset densityAsset

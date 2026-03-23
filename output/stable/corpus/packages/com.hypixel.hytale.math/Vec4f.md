@@ -22,3 +22,16 @@ Class in the math subsystem.
 
 - deserialize(@Nonnull ByteBuf buf, int offset) | Vec4f | static public method.
 - serialize(@Nonnull ByteBuf buf) | void | public method.
+
+Also in this package: Axis, Mat4f, Quatf, Range, Vec2f, Vec3f
+
+Complete API:
+  public static Vec4f deserialize(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+
+Fields:
+public static final int SIZE
+public final float x
+public final float y
+public final float z
+public final float w

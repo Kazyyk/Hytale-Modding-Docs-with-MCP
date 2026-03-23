@@ -15,3 +15,15 @@ public class HourRangeTriggerCondition extends ObjectiveLocationTriggerCondition
 
 - @Override public boolean isConditionMet(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref, ObjectiveLocationMarker objectiveLocationMarker)
 - @Nonnull @Override public String toString()
+
+Also in this package: ObjectiveLocationTriggerCondition, WeatherTriggerCondition
+
+Complete API:
+  public boolean isConditionMet(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref, ObjectiveLocationMarker objectiveLocationMarker)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<HourRangeTriggerCondition> CODEC
+protected static final ResourceType<EntityStore,WorldTimeResource> WORLD_TIME_RESOURCE_RESOURCE_TYPE
+protected int minHour
+protected int maxHour

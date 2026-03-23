@@ -9,3 +9,5 @@ Console command handling EntityStats operations.
 ## Methods
 
 - public EntityStatsSubCommand()
+
+Also in this package: EntityStatsAddCommand, EntityStatsDumpCommand, EntityStatsGetCommand, EntityStatsResetCommand, EntityStatsSetCommand, EntityStatsSetToMaxCommand

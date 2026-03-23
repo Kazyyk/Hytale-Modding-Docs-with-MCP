@@ -20,3 +20,12 @@ Returns `DeathComponent.getComponentType()`.
 - RespawnSystems -- parent class
 - DeathComponent -- the component tracked
 - DeathSystems.OnDeathSystem -- similar base that reacts to addition
+
+Known subclasses: CheckBrokenItemsRespawnSystem, ClearEntityEffectsRespawnSystem, ClearInteractionsRespawnSystem, ClearRespawnUI, ResetPlayerRespawnSystem, ResetStatsRespawnSystem
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public ComponentType<EntityStore,DeathComponent> componentType()
+  public void onComponentAdded(Ref<EntityStore> ref, DeathComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentSet(Ref<EntityStore> ref, DeathComponent oldComponent, DeathComponent newComponent, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)

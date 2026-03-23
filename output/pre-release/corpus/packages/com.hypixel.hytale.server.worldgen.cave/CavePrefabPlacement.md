@@ -19,3 +19,12 @@ Enumeration of prefab placement strategies within cave nodes: ceiling, floor, or
 ## Key Methods
 
 - public CavePrefabPlacement.PrefabPlacementFunction getFunction()
+
+Also in this package: Cave, CaveBiomeMaskFlags, CaveBlockPriorityModifier, CaveGenerator, CaveNodeChildEntry, CaveNodeCoverEntry, CaveNodeCoverType, CaveNodeType, CaveType, CaveYawMode, Defaults, Entry, FluidLevel, OrientationModifier, PrefabPlacementFunction
+
+Complete API:
+  public CavePrefabPlacement.PrefabPlacementFunction getFunction()
+
+Fields:
+public static final int NO_HEIGHT
+private final CavePrefabPlacement.PrefabPlacementFunction function

@@ -68,3 +68,45 @@ public abstract class ObjectiveTask implements NetworkSerializer<Objective, com.
 ## Related Types
 
 - ObjectiveTaskRef
+
+Known subclasses: BountyObjectiveTask, CountObjectiveTask, ReachLocationTask, TreasureMapObjectiveTask
+
+Also in this package: CountObjectiveTask, CraftObjectiveTask, GatherObjectiveTask, InventoryChangeAware, ObjectiveTaskRef, ReachLocationTask, TreasureMapObjectiveTask, UseBlockObjectiveTask, UseEntityObjectiveTask
+
+Complete API:
+  public ObjectiveTaskAsset getAsset()
+  public void setAsset(ObjectiveTaskAsset asset)
+  public boolean isComplete()
+  public TransactionRecord[] getSerializedTransactionRecords()
+  public TransactionRecord[] getNonSerializedTransactionRecords()
+  public List<ObjectiveTaskMarker> getMarkers()
+  public void addMarker(ObjectiveTaskMarker marker)
+  public void removeMarker(String id)
+  public abstract boolean checkCompletion()
+  protected abstract TransactionRecord[] setup0(Objective var1, World var2, Store<EntityStore> var3)
+  public final TransactionRecord[] setup(Objective objective, Store<EntityStore> store)
+  public void complete(Objective objective, ComponentAccessor<EntityStore> componentAccessor)
+  private void registerTaskRef()
+  private void unregisterTaskRef()
+  public void completeTransactionRecords()
+  public void revertTransactionRecords()
+  public void unloadTransactionRecords()
+  private void shutdownEventRegistry()
+  public void assetChanged(Objective objective)
+  public void sendUpdateObjectiveTaskPacket(Objective objective)
+  public boolean areTaskConditionsFulfilled(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref, Set<UUID> objectivePlayers)
+  public void consumeTaskConditions(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref, Set<UUID> objectivePlayers)
+  public String toString()
+
+Fields:
+public static final CodecMapCodec<ObjectiveTask> CODEC
+public static final BuilderCodec<ObjectiveTask> BASE_CODEC
+protected ObjectiveTaskAsset asset
+protected boolean complete
+protected EventRegistry eventRegistry
+protected TransactionRecord[] serializedTransactionRecords
+protected TransactionRecord[] nonSerializedTransactionRecords
+protected int taskIndex
+protected List<ObjectiveTaskMarker> markers
+protected int taskSetIndex
+protected ObjectiveTaskRef<? extends ObjectiveTask> taskRef

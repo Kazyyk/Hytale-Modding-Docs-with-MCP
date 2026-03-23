@@ -15,3 +15,8 @@ Container for all ECS systems managing spawn marker entity lifecycle, from initi
 - EntityAddedFromExternal | RefSystem<EntityStore> | Resets spawn state for markers placed from prefabs or world gen. Initializes `StoredFlock` when deactivation distance is configured.
 - LegacyEntityMigration | MigrationSystem | **Deprecated.** Migrates legacy spawn marker data from unknown components.
 - Ticking | EntityTickingSystem<EntityStore> | Core tick system. Handles respawn timer, deactivation (store/restore NPCs when players leave range), spawn-lost timeout recovery, game-time respawn, and suppression checks.
+
+Also in this package: AddedFromWorldGen, CacheMarker, EnsureNetworkSendable, EntityAdded, EntityAddedFromExternal, FailReason, LegacyEntityMigration, SpawnMarkerEntity, Ticking
+
+Fields:
+private static final HytaleLogger LOGGER

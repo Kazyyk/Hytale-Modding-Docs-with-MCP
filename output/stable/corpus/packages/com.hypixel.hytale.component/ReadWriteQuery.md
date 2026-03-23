@@ -22,3 +22,13 @@ public Archetype<ECS_TYPE> getWriteArchetype()
 ## Related Types
 
 - Archetype -- the read and write archetypes
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, Ref (and 8 more)
+
+Complete API:
+  public Archetype<ECS_TYPE> getReadArchetype()
+  public Archetype<ECS_TYPE> getWriteArchetype()
+
+Fields:
+private final Archetype<ECS_TYPE> read
+private final Archetype<ECS_TYPE> write

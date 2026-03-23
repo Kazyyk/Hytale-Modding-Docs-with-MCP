@@ -14,3 +14,14 @@ public class ComponentChange<ECS_TYPE, T> implements DataChange
 - public ChangeType getType()
 - public ComponentType<ECS_TYPE,T> getComponentType()
 - @Nonnull @Override public String toString()
+
+Also in this package: ChangeType, DataChange, ResourceChange, SystemChange, SystemGroupChange, SystemTypeChange
+
+Complete API:
+  public ChangeType getType()
+  public ComponentType<ECS_TYPE,T> getComponentType()
+  public String toString()
+
+Fields:
+private final ChangeType type
+private final ComponentType<ECS_TYPE,T> componentType

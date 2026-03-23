@@ -39,3 +39,30 @@ public class UniquePrefabGenerator
 | `protected` | `BlockFluidEntry` | `getCoverInGroundAt(int seed, int x, int y, int z, @Nonnull Random random, @Nonnull Biome biome)` |
 | `protected` | `boolean` | `isMatchingCover(int seed, @Nonnull CoverContainer.CoverContainerEntry coverContainerEntry, @Nonnull Random random, int x, int y, int z)` |
 | `public` | `UniquePrefabConfiguration` | `getConfiguration()` |
+
+Also in this package: UniquePrefabConfiguration
+
+Complete API:
+  public String getName()
+  public PrefabCategory getCategory()
+  public IWeightedMap<WorldGenPrefabSupplier> getPrefabs()
+  public WorldGenPrefabSupplier generatePrefab(Random random)
+  public Vector3i generate(int seed, Vector2i position, ChunkGenerator chunkGenerator, Random random, int maxFailed, UniquePrefabContainer.UniquePrefabEntry[] entries)
+  protected Vector3i tryPlacement(int seed, ChunkGenerator chunkGenerator, Random random, UniquePrefabContainer.UniquePrefabEntry[] entries)
+  protected Vector3i forceGeneration(int seed, ChunkGenerator chunkGenerator)
+  protected Vector3i forceUniqueZonePlacement(int seed, Vector2i position, ChunkGenerator chunkGenerator)
+  protected int getHeight(int seed, ChunkGenerator chunkGenerator, Biome biome, int x, int z)
+  protected boolean isMatchingHeight(int seed, int x, int z, Random random, int y)
+  protected boolean isMatchingNoiseDensity(int seed, int x, int z)
+  protected boolean isMatchingParentBlock(int seed, int x, int y, int z, Random random, ZoneBiomeResult zoneAndBiomeResult)
+  protected BlockFluidEntry getCoverInGroundAt(int seed, int x, int y, int z, Random random, Biome biome)
+  protected boolean isMatchingCover(int seed, CoverContainer.CoverContainerEntry coverContainerEntry, Random random, int x, int y, int z)
+  public UniquePrefabConfiguration getConfiguration()
+
+Fields:
+private static final int UNIQUE_ZONE_PLACEMENT_HEURISTIC_ITERATIONS
+protected final String name
+protected final PrefabCategory category
+protected final IWeightedMap<WorldGenPrefabSupplier> prefabs
+protected final UniquePrefabConfiguration configuration
+protected final int zoneIndex

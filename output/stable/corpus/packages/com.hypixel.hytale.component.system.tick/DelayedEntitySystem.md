@@ -22,3 +22,16 @@ public abstract class DelayedEntitySystem<ECS_TYPE> extends EntityTickingSystem<
 ## Inner Types
 
 - `DelayedEntitySystem.Data`
+
+Known subclasses: BiomeDataSystem, CanBreathe, OutOfWorldDamage, TempleRespawnPlayersSystem, UiTickingSystem, UpdateSleepPacketSystem, VoidEventStagesSystem, VoidInvasionPortalsSpawnSystem
+
+Also in this package: ArchetypeTickingSystem, Data, EntityTickingSystem, RunWhenPausedSystem, SystemTaskData, TickableSystem, TickingSystem
+
+Complete API:
+  public ResourceType<ECS_TYPE,DelayedEntitySystem.Data<ECS_TYPE>> getResourceType()
+  public float getIntervalSec()
+  public void tick(float dt, int systemIndex, Store<ECS_TYPE> store)
+
+Fields:
+private final ResourceType<ECS_TYPE,DelayedEntitySystem.Data<ECS_TYPE>> resourceType
+private final float intervalSec

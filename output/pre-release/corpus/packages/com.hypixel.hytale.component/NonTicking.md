@@ -17,3 +17,12 @@ Returns the singleton instance.
 
 - NonSerialized -- the equivalent marker for disabling serialization
 - ComponentRegistry -- registers the NonTicking type at construction
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)
+
+Complete API:
+  public static NonTicking<ECS_TYPE> get()
+  public Component<ECS_TYPE> clone()
+
+Fields:
+private static final NonTicking<?> INSTANCE

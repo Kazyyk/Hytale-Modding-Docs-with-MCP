@@ -36,3 +36,29 @@ public class WeightedAction extends AnnotatedComponentBase implements Action
 | `@Override public` | `void` | `unloaded(Role role)` |
 | `@Override public` | `void` | `removed(Role role)` |
 | `@Override public` | `void` | `teleported(Role role, World from, World to)` |
+
+Also in this package: ActionBase, ActionWithDelay, AnnotatedComponentBase, BlockTarget, BodyMotionBase, EntityFilterBase, HeadMotionBase, IEntityFilter, ISensorEntityCollector, ISensorEntityPrioritiser, MotionBase, SensorBase, SensorWithEntityFilters
+
+Complete API:
+  public double getWeight()
+  public boolean canExecute(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Store<EntityStore> store)
+  public boolean execute(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Store<EntityStore> store)
+  public void activate(Role role, InfoProvider infoProvider)
+  public void deactivate(Role role, InfoProvider infoProvider)
+  public boolean isActivated()
+  public void getInfo(Role role, ComponentInfo holder)
+  public boolean processDelay(float dt)
+  public void clearOnce()
+  public void setOnce()
+  public boolean isTriggered()
+  public void registerWithSupport(Role role)
+  public void motionControllerChanged(Ref<EntityStore> ref, NPCEntity npcComponent, MotionController motionController, ComponentAccessor<EntityStore> componentAccessor)
+  public void loaded(Role role)
+  public void spawned(Role role)
+  public void unloaded(Role role)
+  public void removed(Role role)
+  public void teleported(Role role, World from, World to)
+
+Fields:
+private final Action action
+private final double weight

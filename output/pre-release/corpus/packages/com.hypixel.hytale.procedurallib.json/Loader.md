@@ -34,3 +34,16 @@ Loads and returns the resource, or `null` if loading fails.
 - SeedString -- wraps seed values for deterministic generation
 - SeedResource -- interface providing thread-local result buffers
 - JsonLoader -- JSON-specific subclass
+
+Known subclasses: ChunkGeneratorJsonLoader, JsonLoader, ZonesJsonLoader
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public SeedString<K> getSeed()
+  public Path getDataFolder()
+  public abstract T load()
+
+Fields:
+protected SeedString<K> seed
+protected final Path dataFolder

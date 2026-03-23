@@ -35,3 +35,24 @@ A buffer used in the world generation pipeline for storing voxel or pixel data.
 - `EMPTY`
 - `SINGLE_VALUE`
 - `ARRAY`
+
+Also in this package: ArrayContents, ArrayContents, CountedArrayContents, NBuffer, NEntityBuffer, NPixelBuffer, NSimplePixelBuffer, NVoxelBuffer, State, State, State
+
+Complete API:
+  public T getPixelContent(Vector3i position)
+  public void setPixelContent(Vector3i position, T value)
+  public Class<T> getPixelType()
+  public List<T> getUniqueEntries()
+  public void copyFrom(NCountedPixelBuffer<T> sourceBuffer)
+  public MemInstrument.Report getMemoryUsage()
+  private void switchFromSingleValueToArray()
+  private static int index(Vector3i position)
+
+Fields:
+public static final int BUFFER_SIZE_BITS
+public static final Vector3i SIZE_VOXEL_GRID
+public static final Bounds3i BOUNDS_VOXEL_GRID
+private final Class<T> pixelType
+private NCountedPixelBuffer.State state
+private NCountedPixelBuffer.CountedArrayContents<T> countedArrayContents
+private T singleValue

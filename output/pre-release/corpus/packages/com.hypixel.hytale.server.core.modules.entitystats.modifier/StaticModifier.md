@@ -29,3 +29,20 @@ public class StaticModifier extends Modifier
 ## Inner Types
 
 - `StaticModifier.CalculationType`
+
+Also in this package: CalculationType, DefaultModifiers, Modifier, ModifierTarget
+
+Complete API:
+  public StaticModifier.CalculationType getCalculationType()
+  public float getAmount()
+  public float apply(float statValue)
+  public com.hypixel.hytale.protocol.Modifier toPacket()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<StaticModifier> CODEC
+public static final BuilderCodec<StaticModifier> ENTITY_CODEC
+protected StaticModifier.CalculationType calculationType
+protected float amount

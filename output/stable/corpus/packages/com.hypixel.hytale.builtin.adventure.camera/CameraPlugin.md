@@ -11,3 +11,9 @@ public class CameraPlugin extends JavaPlugin
 ## Methods
 
 - @Override protected void setup()
+
+Complete API:
+  protected void setup()
+
+Fields:
+private static final String CODEC_CAMERA_SHAKE

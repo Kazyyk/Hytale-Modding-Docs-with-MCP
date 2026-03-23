@@ -10,3 +10,13 @@ Object pool for `int[5]` arrays used during flood-fill position calculation. Red
 
 - public int[] allocate()
 - public void deallocate(int[] entry)
+
+Also in this package: ChunkColumnMask, Debug, FloodFillEntryPoolProviderSimple, FloodFillPositionSelector, LightRangePredicate, RandomChunkColumnIterator, SortBufferProvider, WeightedPosition
+
+Complete API:
+  public int[] allocate()
+  public void deallocate(int[] entry)
+
+Fields:
+private static final int ENTRY_SIZE
+private final List<int[]> entryPool

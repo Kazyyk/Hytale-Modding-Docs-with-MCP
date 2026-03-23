@@ -11,3 +11,7 @@ Interface defining: `ofHours()`, `MorningWakeUp()`, `PlayerSomnolence()`, `plus(
 - MorningWakeUp(@Nullable Instant gameTimeStart) | record | public method.
 - NoddingOff(Instant realTimeStart) | record | public method.
 - Slumber(Instant gameTimeStart) | record | public method.
+
+Known implementors: FullyAwake, MorningWakeUp, NoddingOff, Slumber
+
+Also in this package: FullyAwake, MorningWakeUp, NoddingOff, PlayerSomnolence, SleepTracker, Slumber

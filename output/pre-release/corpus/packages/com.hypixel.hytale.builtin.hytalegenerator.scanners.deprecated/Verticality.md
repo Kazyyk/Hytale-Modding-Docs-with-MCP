@@ -10,3 +10,5 @@ Enum of verticality modes: GLOBAL, LOCAL. This type is deprecated.
 
 - `GLOBAL`
 - `LOCAL`
+
+Also in this package: AreaScanner, ColumnLinearScanner, ColumnRandomScanner, ScanShape, Strategy

@@ -13,3 +13,12 @@ A position provider asset used in world generation to define placement positions
 ## Methods
 
 - @Override public PositionProvider build(@Nonnull PositionProviderAsset.Argument argument)
+
+Also in this package: AnchorPositionProviderAsset, Argument, BaseHeightPositionProviderAsset, BoundPositionProviderAsset, CachedPositionProviderAsset, DelimiterAsset, FieldFunctionOccurrencePositionProviderAsset, FieldFunctionPositionProviderAsset, FrameworkPositionProviderAsset, ImportedPositionProviderAsset, ListPositionProviderAsset, Mesh2DPositionProviderAsset, OffsetPositionProviderAsset, PositionAsset, PositionProviderAsset, SimpleHorizontalPositionProviderAsset, SpherePositionProviderAsset, UnionPositionProviderAsset
+
+Complete API:
+  public PositionProvider build(PositionProviderAsset.Argument argument)
+
+Fields:
+public static final BuilderCodec<Mesh3DPositionProviderAsset> CODEC
+private PointGeneratorAsset pointGeneratorAsset

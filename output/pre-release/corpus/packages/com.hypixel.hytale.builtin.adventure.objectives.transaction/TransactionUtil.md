@@ -12,3 +12,11 @@ Class in the transaction subsystem.
 - revertAll(@Nullable TransactionRecord[] transactionRecords) | void | static public method.
 - completeAll(@Nullable TransactionRecord[] transactionRecords) | void | static public method.
 - unloadAll(@Nullable TransactionRecord[] transactionRecords) | void | static public method.
+
+Also in this package: RegistrationTransactionRecord, SpawnEntityTransactionRecord, SpawnTreasureChestTransactionRecord, TransactionRecord, TransactionStatus, UseEntityTransactionRecord, WorldTransactionRecord
+
+Complete API:
+  public static boolean anyFailed(TransactionRecord[] transactionRecords)
+  public static void revertAll(TransactionRecord[] transactionRecords)
+  public static void completeAll(TransactionRecord[] transactionRecords)
+  public static void unloadAll(TransactionRecord[] transactionRecords)

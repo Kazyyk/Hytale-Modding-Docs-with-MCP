@@ -14,3 +14,8 @@ Enum of six orthogonal directions: N, S, E, W, U, D. Used by the deprecated dire
 - `W`
 - `U`
 - `D`
+
+Also in this package: Directionality, PatternDirectionality, RandomDirectionality, RotatedPosition, RotatedPositionsScanResult, StaticDirectionality
+
+Fields:
+public static final Codec<OrthogonalDirection> CODEC

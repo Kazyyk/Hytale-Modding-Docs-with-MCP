@@ -23,3 +23,19 @@ public class BlockSetLookupTable
 - @Nonnull public Object2ObjectMap<String, IntSet> getHitboxNameIdMap()
 - @Nonnull public Object2ObjectMap<String, IntSet> getCategoryIdMap()
 - public boolean isEmpty()
+
+Also in this package: BlockSetModule
+
+Complete API:
+  public void addAll(IntSet result)
+  public Object2ObjectMap<String,IntSet> getBlockNameIdMap()
+  public Object2ObjectMap<String,IntSet> getGroupNameIdMap()
+  public Object2ObjectMap<String,IntSet> getHitboxNameIdMap()
+  public Object2ObjectMap<String,IntSet> getCategoryIdMap()
+  public boolean isEmpty()
+
+Fields:
+private final Object2ObjectMap<String,IntSet> blockNameIdMap
+private final Object2ObjectMap<String,IntSet> groupNameIdMap
+private final Object2ObjectMap<String,IntSet> hitboxNameIdMap
+private final Object2ObjectMap<String,IntSet> categoryIdMap

@@ -35,3 +35,17 @@ public class Object2FloatMapCodec<T> implements Codec<Object2FloatMap<T>>, Wrapp
 ## Related Types
 
 - MapCodec
+
+Also in this package: EnumMapCodec, Float2ObjectMapCodec, Int2ObjectMapCodec, MapCodec, MergedEnumMapCodec, Object2DoubleMapCodec, Object2IntMapCodec, ObjectMapCodec, Short2ObjectMapCodec
+
+Complete API:
+  public Codec<T> getChildCodec()
+  public Object2FloatMap<T> decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Object2FloatMap<T> map, ExtraInfo extraInfo)
+  public Object2FloatMap<T> decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+
+Fields:
+private final Codec<T> keyCodec
+private final Supplier<Object2FloatMap<T>> supplier
+private final boolean unmodifiable

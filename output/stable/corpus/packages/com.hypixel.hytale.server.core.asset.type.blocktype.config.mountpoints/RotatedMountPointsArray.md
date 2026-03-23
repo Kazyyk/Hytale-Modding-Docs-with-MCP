@@ -16,3 +16,16 @@ public class RotatedMountPointsArray
 - public int size()
 - public BlockMountPoint[] getRaw()
 - @Nullable public BlockMountPoint[] getRotated(int rotationIndex)
+
+Also in this package: BlockMountPoint
+
+Complete API:
+  public int size()
+  public BlockMountPoint[] getRaw()
+  public BlockMountPoint[] getRotated(int rotationIndex)
+
+Fields:
+private static final ArrayCodec<BlockMountPoint> CHILD
+public static final Codec<RotatedMountPointsArray> CODEC
+private BlockMountPoint[] raw
+private transient BlockMountPoint[][] rotated

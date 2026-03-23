@@ -52,3 +52,61 @@ Manages debug visualization state for NPC roles. Tracks debug flags (steering, a
 - EntityVisData: Stores sensor color index and match result for an entity check
 - PathWaypointVisData: Waypoint visualization data along an NPC path
 - SensorVisData: Stores range, min range, color index, and view angle for a sensor
+
+Also in this package: CombatSupport, DebugFlagsChangeListener, EntityList, EntitySupport, EntityVisData, LineOfSightBuffer, LineOfSightEntityBuffer, MarkedEntitySupport, PathWaypointVisData, PositionCache, RangeType, RayPredicate, RoleStats, SensorVisData, StateSupport, WorldSupport
+
+Complete API:
+  public RoleDebugDisplay getDebugDisplay()
+  public boolean isTraceSuccess()
+  public boolean isTraceFail()
+  public boolean isTraceSensorFails()
+  public void setLastFailingSensor(Sensor sensor)
+  public Sensor getLastFailingSensor()
+  public boolean isDebugRoleSteering()
+  public boolean isDebugMotionSteering()
+  public void setDisplayCustomString(String displayCustomString)
+  public String pollDisplayCustomString()
+  public void setDisplayPathfinderString(String displayPathfinderString)
+  public String pollDisplayPathfinderString()
+  public EnumSet<RoleDebugFlags> getDebugFlags()
+  public void setDebugFlags(EnumSet<RoleDebugFlags> debugFlags)
+  public boolean isDebugFlagSet(RoleDebugFlags flag)
+  public boolean isAnyDebugFlagSet(EnumSet<RoleDebugFlags> flags)
+  protected void onDebugFlagsChanged()
+  public void registerDebugFlagsListener(DebugSupport.DebugFlagsChangeListener listener)
+  public void removeDebugFlagsListener(DebugSupport.DebugFlagsChangeListener listener)
+  public void notifyDebugFlagsListeners(EnumSet<RoleDebugFlags> flags)
+  public boolean isVisSensorRanges()
+  public void beginSensorVisualization()
+  public int recordSensorRange(double range, double minRange, double viewAngle)
+  public void recordEntityCheck(Ref<EntityStore> entityRef, int sensorColorIndex, boolean matched)
+  public List<DebugSupport.SensorVisData> getSensorVisData()
+  public Map<Ref<EntityStore>,List<DebugSupport.EntityVisData>> getEntityVisData()
+  public boolean hasSensorVisData()
+  public void clearSensorVisData()
+  public boolean isVisPath()
+  public void clearPathVisualization()
+  public void recordPathWaypoint(Vector3d position, boolean isCurrentTarget, boolean isEndNode)
+  public void recordPathWaypoint(Vector3d position, boolean isCurrentTarget, boolean isEndNode, boolean isSeekTarget)
+  public List<DebugSupport.PathWaypointVisData> getPathVisData()
+  public boolean hasPathVisData()
+
+Fields:
+protected final NPCEntity parent
+protected RoleDebugDisplay debugDisplay
+protected boolean debugRoleSteering
+protected boolean debugMotionSteering
+protected EnumSet<RoleDebugFlags> debugFlags
+protected String displayCustomString
+protected String displayPathfinderString
+protected boolean traceSuccess
+protected boolean traceFail
+protected boolean traceSensorFails
+protected Sensor lastFailingSensor
+protected List<DebugSupport.DebugFlagsChangeListener> debugFlagsChangeListeners
+protected boolean visSensorRanges
+protected int currentSensorColorIndex
+protected List<DebugSupport.SensorVisData> sensorVisDataList
+protected Map<Ref<EntityStore>,List<DebugSupport.EntityVisData>> entityVisDataMap
+protected boolean visPath
+protected List<DebugSupport.PathWaypointVisData> pathVisDataList

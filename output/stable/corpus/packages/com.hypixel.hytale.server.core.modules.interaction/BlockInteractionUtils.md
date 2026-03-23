@@ -12,3 +12,8 @@ Utility class with helper methods for block interaction logic.
 public static boolean isNaturalAction(@Nullable Ref<EntityStore> ref, @Nonnull ComponentAccessor<EntityStore> componentAccessor)
 
 Returns `true` if the action should be treated as a "natural" block break (i.e., the player is in Adventure mode, or no player entity is associated with the ref). Natural actions produce item drops; non-natural (Creative mode) actions suppress drops.
+
+Also in this package: BlockHarvestUtils, BlockPlaceUtils, IInteractionSimulationHandler, InteractionModule, InteractionSimulationHandler, Interactions
+
+Complete API:
+  public static boolean isNaturalAction(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)

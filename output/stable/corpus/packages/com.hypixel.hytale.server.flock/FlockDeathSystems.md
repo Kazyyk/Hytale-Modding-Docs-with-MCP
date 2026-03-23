@@ -26,3 +26,5 @@ Fires when a player dies. Removes FlockMembership unconditionally.
 
 - FlockMembership -- removed on death
 - Flock -- receives kill notifications
+
+Also in this package: EntityDeath, EntityRef, EntityRemoved, FilterPlayerFlockDamageSystem, Flock, FlockDebugSystem, FlockMembership, FlockMembershipSystems, FlockPlugin, FlockRemovedStatus, FlockSystems, NPCAddedFromWorldGen, OnDamageDealt, OnDamageReceived, PersistentFlockData, PlayerChangeGameModeEventSystem, PlayerDeath, PrefabPasteEventSystem, RefChange, StoredFlock (and 2 more)

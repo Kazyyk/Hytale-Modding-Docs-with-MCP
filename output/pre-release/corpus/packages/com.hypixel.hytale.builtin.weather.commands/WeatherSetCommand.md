@@ -12,3 +12,12 @@ public class WeatherSetCommand extends AbstractWorldCommand
 
 - @Override protected void execute(CommandContext context, World world, Store<EntityStore> store)
 - protected static void setForcedWeather(World world, String forcedWeather, ComponentAccessor<EntityStore> componentAccessor)
+
+Also in this package: WeatherCommand, WeatherGetCommand, WeatherResetCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+  protected static void setForcedWeather(World world, String forcedWeather, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+private final RequiredArg<Weather> weatherArg

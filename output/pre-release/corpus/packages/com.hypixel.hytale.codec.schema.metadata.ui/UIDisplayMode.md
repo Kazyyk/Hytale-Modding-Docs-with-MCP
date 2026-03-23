@@ -27,3 +27,14 @@ public static enum DisplayMode
 - NORMAL | Standard display mode.
 - COMPACT | Reduced-size display.
 - HIDDEN | Property is hidden from the editor UI.
+
+Also in this package: ClientCache, DisplayMode, Dropdown, EditorComponent, EditorFeature, FormattedNumber, Icon, LocalizationKeyField, MultilineTextField, PreviewType, TextField, Timeline, UIButton, UICreateButtons, UIDefaultCollapsedState, UIEditor, UIEditorFeatures, UIEditorPreview, UIEditorSectionStart, UIPropertyTitle (and 4 more)
+
+Complete API:
+  public void modify(Schema schema)
+
+Fields:
+public static final UIDisplayMode NORMAL
+public static final UIDisplayMode COMPACT
+public static final UIDisplayMode HIDDEN
+private final UIDisplayMode.DisplayMode mode

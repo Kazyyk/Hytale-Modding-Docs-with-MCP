@@ -47,3 +47,15 @@ public class TreasureMapObjectiveTaskAsset extends ObjectiveTaskAsset
 ## Related Types
 
 - ObjectiveTaskAsset
+
+Also in this package: BlockTagOrItemIdField, ChestConfig, CountObjectiveTaskAsset, CraftObjectiveTaskAsset, DialogOptions, GatherObjectiveTaskAsset, ObjectiveTaskAsset, ReachLocationTaskAsset, TaskScope, TaskSet, UseBlockObjectiveTaskAsset, UseEntityObjectiveTaskAsset
+
+Complete API:
+  public ObjectiveTaskAsset.TaskScope getTaskScope()
+  public TreasureMapObjectiveTaskAsset.ChestConfig[] getChestConfigs()
+  protected boolean matchesAsset0(ObjectiveTaskAsset task)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<TreasureMapObjectiveTaskAsset> CODEC
+protected TreasureMapObjectiveTaskAsset.ChestConfig[] chestConfigs

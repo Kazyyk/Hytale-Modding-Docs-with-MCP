@@ -16,3 +16,5 @@ Container class for the three cancellable ECS events dispatched during kill feed
 
 - DeathSystems.KillFeed -- the system that dispatches these events
 - Damage -- the damage event carried through the kill feed
+
+Also in this package: DecedentMessage, Display, KillerMessage

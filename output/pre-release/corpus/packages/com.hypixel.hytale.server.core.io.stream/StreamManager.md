@@ -30,3 +30,21 @@ Singleton registry for auxiliary QUIC stream handlers. Maps `StreamType` to fact
 ## Relationships
 
 - Used by PendingStreamHandler
+
+Also in this package: PendingStreamHandler, StreamHandlerFactory, StreamRegistration
+
+Complete API:
+  public static StreamManager getInstance()
+  public void registerHandler(StreamType type, StreamManager.StreamHandlerFactory factory)
+  public void registerHandler(StreamType type, StreamManager.StreamHandlerFactory factory, QuicStreamPriority priority)
+  public void unregisterHandler(StreamType type)
+  public boolean isSupported(StreamType type)
+  public ChannelHandler createHandler(StreamType type, PacketHandler packetHandler)
+  public void clearAll()
+  public QuicStreamPriority getStreamPriority(StreamType type)
+
+Fields:
+public static final QuicStreamPriority GAME_STREAM_PRIORITY
+public static final QuicStreamPriority DEFAULT_AUXILIARY_PRIORITY
+private static final StreamManager INSTANCE
+private final Map<StreamType,StreamManager.StreamRegistration> handlers

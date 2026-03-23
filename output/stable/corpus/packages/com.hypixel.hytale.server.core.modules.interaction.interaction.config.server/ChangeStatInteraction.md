@@ -40,3 +40,14 @@ public String toString()
 
 - ChangeStatBaseInteraction -- parent class providing shared codec fields
 - ChangeStatWithModifierInteraction -- variant that applies armor-based modifiers
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction (and 13 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected Interaction generatePacket()
+  protected void configurePacket(Interaction packet)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ChangeStatInteraction> CODEC

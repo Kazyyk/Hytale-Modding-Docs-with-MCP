@@ -9,3 +9,15 @@ Drop container producing a single `ItemDrop`. The simplest container type, wrapp
 ## Fields
 
 - drop | ItemDrop | The item drop to produce.
+
+Also in this package: ChoiceItemDropContainer, DroplistItemDropContainer, EmptyItemDropContainer, ItemDropContainer, MultipleItemDropContainer
+
+Complete API:
+  public ItemDrop getDrop()
+  protected void populateDrops(List<ItemDrop> drops, DoubleSupplier chanceProvider, Set<String> droplistReferences)
+  public List<ItemDrop> getAllDrops(List<ItemDrop> list)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SingleItemDropContainer> CODEC
+protected ItemDrop drop

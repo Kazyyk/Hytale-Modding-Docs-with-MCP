@@ -25,3 +25,23 @@ Extends `AbstractByteSectionPalette`.
 - @Override protected boolean isValidInternalId(int internalId)
 - @Override protected int unsignedInternalId(byte internalId)
 - private static int sUnsignedInternalId(byte internalId)
+
+Also in this package: AbstractByteSectionPalette, AbstractShortSectionPalette, EmptySectionPalette, HalfByteSectionPalette, ISectionPalette, KeySerializer, PaletteTypeEnum, SetResult, ShortSectionPalette
+
+Complete API:
+  public PaletteType getPaletteType()
+  protected byte get0(int idx)
+  protected void set0(int idx, byte b)
+  public boolean shouldDemote()
+  public HalfByteSectionPalette demote()
+  public ShortSectionPalette promote()
+  protected boolean isValidInternalId(int internalId)
+  protected int unsignedInternalId(byte internalId)
+  private static int sUnsignedInternalId(byte internalId)
+  public static ByteSectionPalette fromHalfBytePalette(HalfByteSectionPalette section)
+  public static ByteSectionPalette fromShortPalette(ShortSectionPalette section)
+
+Fields:
+private static final int KEY_MASK
+public static final int MAX_SIZE
+public static final int DEMOTE_SIZE

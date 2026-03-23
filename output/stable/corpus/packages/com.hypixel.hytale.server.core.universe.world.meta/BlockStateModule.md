@@ -69,3 +69,22 @@ Returns the spatial resource type used for `ItemContainerState` spatial indexing
 - `LegacyLoadPacketBlockStateSystem<T>` -- Sends block state data packets to players on chunk load.
 - `LegacyTickingBlockStateSystem<T>` -- `EntityTickingSystem` dispatching `tick()` to `TickableBlockState` instances.
 - `LegacyUnloadPacketBlockStateSystem<T>` -- Sends unload packets to players on chunk unload.
+
+Also in this package: BlockState, BlockStateRegistration, BlockStateRegistry, ItemContainerStateRefSystem, LegacyBlockStateHolderSystem, LegacyBlockStateRefSystem, LegacyLateInitBlockStateSystem, LegacyLoadPacketBlockStateSystem, LegacyTickingBlockStateSystem, LegacyUnloadPacketBlockStateSystem
+
+Complete API:
+  public static BlockStateModule get()
+  public ResourceType<ChunkStore,SpatialResource<Ref<ChunkStore>,ChunkStore>> getItemContainerSpatialResourceType()
+  protected void setup()
+  public BlockStateRegistration registerBlockState(Class<T> clazz, String key, Codec<T> codec)
+  public BlockStateRegistration registerBlockState(Class<T> clazz, String key, Codec<T> codec, Class<D> dataClass, Codec<D> dataCodec)
+  public void unregisterBlockState(Class<T> clazz, Class<D> dataClass)
+  public T createBlockState(Class<T> clazz, WorldChunk chunk, Vector3i pos, BlockType blockType)
+  public BlockState createBlockState(String key, WorldChunk chunk, Vector3i pos, BlockType blockType)
+  public ComponentType<ChunkStore,T> getComponentType(Class<T> entityClass)
+
+Fields:
+public static final PluginManifest MANIFEST
+private static BlockStateModule instance
+private final Map<Class<? extends BlockState>,ComponentType<ChunkStore,? extends BlockState>> classToComponentType
+private ResourceType<ChunkStore,SpatialResource<Ref<ChunkStore>,ChunkStore>> itemContainerSpatialResourceType

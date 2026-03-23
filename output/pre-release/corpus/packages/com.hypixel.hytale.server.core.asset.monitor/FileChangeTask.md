@@ -29,3 +29,23 @@ Implements `Runnable` to provide FileChangeTask functionality.
 - @Override public void run()
 - public void cancelSchedule()
 - @Nonnull @Override public String toString()
+
+Also in this package: AssetMonitor, AssetMonitorHandler, DirectoryHandlerChangeTask, EventKind, PathEvent, PathWatcherThread
+
+Complete API:
+  public AssetMonitor getAssetMonitor()
+  public Path getPath()
+  public PathEvent getPathEvent()
+  public void run()
+  public void cancelSchedule()
+  public String toString()
+
+Fields:
+public static final HytaleLogger LOGGER
+private static final long FILE_SIZE_CHECK_DELAY_MILLIS
+private final AssetMonitor assetMonitor
+private final Path path
+private final PathEvent pathEvent
+private final boolean createdOrModified
+private final ScheduledFuture<?> task
+private long lastSize

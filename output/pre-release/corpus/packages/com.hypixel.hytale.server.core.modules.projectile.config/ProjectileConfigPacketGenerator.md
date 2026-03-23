@@ -11,3 +11,10 @@ Generates network packets for projectile config asset synchronization. Produces 
 - public ToClientPacket generateInitPacket(@Nonnull DefaultAssetMap<String, ProjectileConfig> assetMap, Map<String, ProjectileConfig> assets)
 - public ToClientPacket generateUpdatePacket(@Nonnull Map<String, ProjectileConfig> loadedAssets)
 - public ToClientPacket generateRemovePacket(@Nonnull Set<String> removed)
+
+Also in this package: BallisticData, BallisticDataProvider, BounceConsumer, ImpactConsumer, PhysicsConfig, ProjectileConfig, STATE, StandardPhysicsConfig, StandardPhysicsProvider
+
+Complete API:
+  public ToClientPacket generateInitPacket(DefaultAssetMap<String,ProjectileConfig> assetMap, Map<String,ProjectileConfig> assets)
+  public ToClientPacket generateUpdatePacket(Map<String,ProjectileConfig> loadedAssets)
+  public ToClientPacket generateRemovePacket(Set<String> removed)

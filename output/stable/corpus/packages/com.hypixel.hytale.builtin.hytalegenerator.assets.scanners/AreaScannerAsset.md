@@ -16,3 +16,16 @@ public class AreaScannerAsset extends ScannerAsset
 
 - @Nonnull @Override public Scanner build(@Nonnull ScannerAsset.Argument argument)
 - @Override public void cleanUp()
+
+Also in this package: Argument, ColumnLinearScannerAsset, ColumnRandomScannerAsset, ImportedScannerAsset, OriginScannerAsset, ScannerAsset
+
+Complete API:
+  public Scanner build(ScannerAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<AreaScannerAsset> CODEC
+private int resultCap
+private AreaScanner.ScanShape scanShape
+private int scanRange
+private ScannerAsset childScannerAsset

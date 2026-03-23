@@ -16,3 +16,16 @@ public class WeatherExistsValidator extends AssetValidator
 - @Override @Nonnull public String getAssetName()
 - public static WeatherExistsValidator required()
 - @Nonnull public static WeatherExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Also in this package: AttitudeGroupExistsValidator, BeaconSpawnExistsValidator, BlockSetExistsValidator, CombatInteractionValidator, EntityEffectExistsValidator, EntityStatExistsValidator, EnvironmentExistsValidator, FlockAssetExistsValidator, ItemAttitudeGroupExistsValidator, ItemDropListExistsValidator, ItemExistsValidator, ManualSpawnMarkerExistsValidator, ModelExistsValidator, ParticleSystemExistsValidator, RoleExistsValidator, RootInteractionValidator, SoundEventExistsValidator
+
+Complete API:
+  public String getDomain()
+  public boolean test(String value)
+  public String errorMessage(String value, String attribute)
+  public String getAssetName()
+  public static WeatherExistsValidator required()
+  public static WeatherExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Fields:
+private static final WeatherExistsValidator DEFAULT_INSTANCE

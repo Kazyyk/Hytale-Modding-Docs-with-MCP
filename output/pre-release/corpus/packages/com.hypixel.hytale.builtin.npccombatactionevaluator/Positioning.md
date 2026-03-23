@@ -12,3 +12,5 @@ Enumeration of relative positioning options for NPC combat (front, behind, flank
 - `Front`
 - `Behind`
 - `Flank`
+
+Also in this package: CombatActionEvaluatorSystems, CombatConstructionData, EvaluatorTick, NPCCombatActionEvaluatorPlugin, OnAdded

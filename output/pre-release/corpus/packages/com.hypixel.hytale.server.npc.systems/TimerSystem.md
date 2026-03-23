@@ -40,3 +40,15 @@ Returns `EntityTickingSystem.maybeUseParallel(archetypeChunkSize, taskCount)`.
 
 - RoleBuilderSystem -- allocates timers during role construction
 - SteppableTickingSystem -- base class
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 49 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public Query<EntityStore> getQuery()
+  public void steppedTick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,Timers> timersComponentType
+private final Set<Dependency<EntityStore>> dependencies

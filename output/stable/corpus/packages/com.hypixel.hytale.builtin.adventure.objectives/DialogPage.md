@@ -11,3 +11,13 @@ A custom UI page that displays an NPC dialog during a use-entity objective task.
 - public void build( Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store )
 - public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, DialogPage.DialogPageEventData data)
 - public static final BuilderCodec<DialogPage.DialogPageEventData> CODEC = BuilderCodec.builder( DialogPage.DialogPageEventData.class, DialogPage.DialogPageEventData::new )
+
+Also in this package: DialogPageEventData, Objective, ObjectiveDataStore, ObjectivePlugin, ObjectivePluginConfig
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, DialogPage.DialogPageEventData data)
+
+Fields:
+public static final String LAYOUT
+private final UseEntityObjectiveTaskAsset.DialogOptions dialogOptions

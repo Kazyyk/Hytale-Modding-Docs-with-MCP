@@ -37,3 +37,14 @@ Per-packet-ID statistics tracker. Thread-safe via atomic integers/longs. Tracks 
 public record SizeRecord(long nanos, int uncompressedSize, int compressedSize)
 
 Timestamped record of a single packet's sizes for recent-activity tracking.
+
+Also in this package: DisconnectReason, NetworkSerializable, NetworkSerializer, NetworkSerializers, PacketHandler, PacketStatsEntry, PingInfo, ProtocolVersion, ServerManager, SizeRecord
+
+Complete API:
+  public void recordSend(int packetId, int uncompressedSize, int compressedSize)
+  public void recordReceive(int packetId, int uncompressedSize, int compressedSize)
+  public PacketStatsRecorderImpl.PacketStatsEntry getEntry(int packetId)
+
+Fields:
+public static final MetricsRegistry<PacketStatsRecorderImpl> METRICS_REGISTRY
+private final PacketStatsRecorderImpl.PacketStatsEntry[] entries

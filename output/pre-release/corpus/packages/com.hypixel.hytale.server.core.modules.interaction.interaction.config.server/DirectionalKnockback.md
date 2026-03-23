@@ -33,3 +33,15 @@ public String toString()
 - Knockback -- base class
 - PointKnockback -- simpler point-based variant
 - ForceKnockback -- fixed-direction variant
+
+Also in this package: DamageCalculator, DamageClass, DamageEffects, ForceKnockback, Knockback, PointKnockback, TargetEntityEffect, Type
+
+Complete API:
+  public Vector3d calculateVector(Vector3d source, float yaw, Vector3d target)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<DirectionalKnockback> CODEC
+protected float relativeX
+protected float velocityY
+protected float relativeZ

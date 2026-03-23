@@ -15,3 +15,15 @@ public class PersistentRefCount implements Component
 - public int get()
 - public void increment()
 - @Nonnull @Override public Component<EntityStore> clone()
+
+Also in this package: InvalidatablePersistentRef, PersistentRef
+
+Complete API:
+  public static ComponentType<EntityStore,PersistentRefCount> getComponentType()
+  public int get()
+  public void increment()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<PersistentRefCount> CODEC
+private int refCount

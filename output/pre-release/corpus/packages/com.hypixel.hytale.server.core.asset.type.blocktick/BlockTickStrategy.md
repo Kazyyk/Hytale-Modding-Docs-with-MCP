@@ -12,3 +12,5 @@ Enumeration with values: `CONTINUE`, `IGNORED`, `SLEEP`, `WAIT_FOR_ADJACENT_CHUN
 - IGNORED | Enumeration constant.
 - SLEEP | Enumeration constant.
 - WAIT_FOR_ADJACENT_CHUNK_LOAD | Enumeration constant.
+
+Also in this package: BlockTickManager, IBlockTickProvider

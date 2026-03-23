@@ -332,3 +332,13 @@ Thread-safely adds a viewer to the `visibleTo` map. If the viewer was not in `pr
 - `TransformComponent` -- position component used by `CollectVisible`
 - `EffectControllerComponent` -- effect state component used by `EffectControllerSystem`
 - `NetworkSendableSpatialSystem` -- spatial indexing system that `CollectVisible` depends on
+
+Also in this package: AddToVisible, ClearEntityViewers, ClearPreviouslyVisible, CollectVisible, EffectControllerSystem, EnsureVisibleComponent, EntityUpdate, EntityViewer, LegacyEntityModel, LegacyEntitySkin, LegacyEntityTrackerSystems, LegacyEquipment, LegacyHideFromEntity, LegacyLODCull, NetworkId, RemoveEmptyVisibleComponent, RemoveVisibleComponent, SendPackets, Visible
+
+Complete API:
+  public static boolean despawnAll(Ref<EntityStore> viewerRef, Store<EntityStore> store)
+  public static boolean clear(Ref<EntityStore> viewerRef, Store<EntityStore> store)
+
+Fields:
+public static final SystemGroup<EntityStore> FIND_VISIBLE_ENTITIES_GROUP
+public static final SystemGroup<EntityStore> QUEUE_UPDATE_GROUP

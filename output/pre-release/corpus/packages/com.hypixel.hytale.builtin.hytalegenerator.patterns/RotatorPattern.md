@@ -21,3 +21,15 @@ Pattern decorator that applies a rotation transform before delegating to a child
 
 - @Override public boolean matches(@NonNullDecl Pattern.Context context)
 - @NonNullDecl @Override public Bounds3i getBounds_voxelGrid()
+
+Also in this package: AndPattern, ConstantPattern, Context, CuboidPattern, Facing, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, Pattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public Bounds3i getBounds_voxelGrid()
+
+Fields:
+private final Pattern pattern
+private final Bounds3i bounds
+private final RotationVoxelSpace readRotationVoxelSpace
+private final Pattern.Context rChildContext

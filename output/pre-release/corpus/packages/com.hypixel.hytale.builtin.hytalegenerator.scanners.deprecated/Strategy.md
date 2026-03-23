@@ -10,3 +10,7 @@ Enum of column random scanner strategies: DART_THROW, PICK_VALID. This type is d
 
 - `DART_THROW`
 - `PICK_VALID`
+
+Known implementors: CaseInsensitiveHashStrategy
+
+Also in this package: AreaScanner, ColumnLinearScanner, ColumnRandomScanner, ScanShape, Verticality

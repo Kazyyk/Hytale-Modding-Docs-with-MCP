@@ -37,3 +37,14 @@ public class GatherObjectiveTask extends CountObjectiveTask
 
 - CountObjectiveTask
 - ObjectiveTask
+
+Also in this package: CountObjectiveTask, CraftObjectiveTask, ObjectiveTask, ObjectiveTaskRef, ReachLocationTask, TreasureMapObjectiveTask, UseBlockObjectiveTask, UseEntityObjectiveTask
+
+Complete API:
+  public GatherObjectiveTaskAsset getAsset()
+  protected TransactionRecord[] setup0(Objective objective, World world, Store<EntityStore> store)
+  private int countObjectiveItemInInventories(Set<UUID> participatingPlayers, ComponentAccessor<EntityStore> componentAccessor)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<GatherObjectiveTask> CODEC

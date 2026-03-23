@@ -62,3 +62,42 @@ Serializes this `PlayerSkin` into the given buffer.
 public int computeSize()
 
 Returns the serialized size in bytes.
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 381 more)
+
+Complete API:
+  public static PlayerSkin deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public PlayerSkin clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public String bodyCharacteristic
+public String underwear
+public String face
+public String eyes
+public String ears
+public String mouth
+public String facialHair
+public String haircut
+public String eyebrows
+public String pants
+public String overpants
+public String undertop
+public String overtop
+public String shoes
+public String headAccessory
+public String faceAccessory
+public String earAccessory
+public String skinFeature
+public String gloves
+public String cape

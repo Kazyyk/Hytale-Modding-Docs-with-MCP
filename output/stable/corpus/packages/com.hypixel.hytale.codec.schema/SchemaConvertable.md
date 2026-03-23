@@ -8,3 +8,11 @@ public interface SchemaConvertable<T>
 
 - @Nonnull Schema toSchema(SchemaContext var1)
 - @Nonnull default Schema toSchema(SchemaContext context, T def)
+
+Known implementors: Builder, BuilderFactory, Codec, SchemaGenerator, SchemaGenerator
+
+Also in this package: NamedSchema, SchemaContext
+
+Complete API:
+  Schema toSchema(SchemaContext var1)
+  default Schema toSchema(SchemaContext context, T def)

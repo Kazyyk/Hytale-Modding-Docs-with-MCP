@@ -63,3 +63,63 @@ public class Steering
 - public double getSpeed()
 - public double getRelativeTurnSpeed()
 - @Nonnull @Override public String toString()
+
+Also in this package: FlockMembershipType, FlockPlayerMembership, GroupSteeringAccumulator, MotionKind, MovementState, NavState
+
+Complete API:
+  public Steering clear()
+  public Steering assign(Steering other)
+  public boolean equals(Object o)
+  public int hashCode()
+  public Steering clearTranslation()
+  public Steering clearRotation()
+  public Vector3d getTranslation()
+  public double getX()
+  public Steering setX(double value)
+  public double getY()
+  public Steering setY(double value)
+  public double getZ()
+  public Steering setZ(double value)
+  public Steering setTranslation(Vector3d translation)
+  public Steering setTranslation(double x, double y, double z)
+  public Steering setTranslationRelativeSpeed(double relativeSpeed)
+  public Steering scaleTranslation(double speedFactor)
+  public Steering ensureMinTranslation(double relativeSpeed)
+  public double getMaxDistance()
+  public void setMaxDistance(double maxDistance)
+  public void clearMaxDistance()
+  public Vector3d getMaxDistanceComponentSelector()
+  public void setMaxDistanceComponentSelector(Vector3d maxDistanceComponentSelector)
+  public void clearMaxDistanceComponentSelector()
+  public float getYaw()
+  public Steering setYaw(float angle)
+  public void clearYaw()
+  public float getPitch()
+  public Steering setPitch(float angle)
+  public void clearPitch()
+  public float getRoll()
+  public Steering setRoll(float angle)
+  public void clearRoll()
+  public Steering setRelativeTurnSpeed(double relativeTurnSpeed)
+  public boolean hasTranslation()
+  public boolean hasYaw()
+  public boolean hasPitch()
+  public boolean hasRoll()
+  public double getSpeed()
+  public double getRelativeTurnSpeed()
+  public String toString()
+
+Fields:
+public static final Steering NULL
+private final Vector3d translation
+private double maxDistance
+private Vector3d maxDistanceComponentSelector
+private boolean hasTranslation
+private float yaw
+private boolean hasYaw
+private float pitch
+private boolean hasPitch
+private float roll
+private boolean hasRoll
+private double relativeTurnSpeed
+private boolean hasRelativeTurnSpeed

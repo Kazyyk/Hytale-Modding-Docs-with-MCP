@@ -35,3 +35,13 @@ No-op for simulation.
 
 - `LaunchPad` -- block state component holding velocity configuration
 - `Velocity` -- entity component that receives the velocity instruction
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchProjectileInteraction (and 13 more)
+
+Complete API:
+  public WaitForDataFrom getWaitForDataFrom()
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack itemInHand, Vector3i targetBlock, CooldownHandler cooldownHandler)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+
+Fields:
+public static final BuilderCodec<LaunchPadInteraction> CODEC

@@ -21,3 +21,14 @@ Concrete implementation extending `PositionProvider`.
 - setTarget(@Nullable Ref<EntityStore> ref, @Nonnull ComponentAccessor<EntityStore> componentAccessor) | Ref<EntityStore> | public method.
 - getTarget() | Ref<EntityStore> | public method.
 - hasPosition() | boolean | public method.
+
+Also in this package: CachedPositionProvider, ExtraInfoProvider, IPathProvider, IPositionProvider, InfoProvider, InfoProviderBase, PathProvider, PositionProvider, ValueWrappedInfoProvider, WrappedInfoProvider
+
+Complete API:
+  public void clear()
+  public Ref<EntityStore> setTarget(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public Ref<EntityStore> getTarget()
+  public boolean hasPosition()
+
+Fields:
+private Ref<EntityStore> target

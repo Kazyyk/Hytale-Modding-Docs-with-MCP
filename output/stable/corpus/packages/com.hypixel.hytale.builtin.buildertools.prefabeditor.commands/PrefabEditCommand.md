@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.builtin.buildertools.prefabeditor.comm
 public class PrefabEditCommand
 
 Root command collection for `/editprefab` (aliases: `prefabedit`, `pedit`). Registers all prefab editor subcommands.
+
+Also in this package: PrefabEditCreateNewCommand, PrefabEditExitCommand, PrefabEditInfoCommand, PrefabEditKillEntitiesCommand, PrefabEditLoadCommand, PrefabEditModifiedCommand, PrefabEditSaveAsCommand, PrefabEditSaveCommand, PrefabEditSaveUICommand, PrefabEditSelectCommand, PrefabEditTeleportCommand, PrefabEditUpdateBoxCommand

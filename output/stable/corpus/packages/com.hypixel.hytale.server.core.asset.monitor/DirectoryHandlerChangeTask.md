@@ -32,3 +32,26 @@ Implements `Runnable` to provide DirectoryHandlerChangeTask functionality.
 - public void markChanged()
 - public void cancelSchedule()
 - @Nonnull @Override public String toString()
+
+Also in this package: AssetMonitor, AssetMonitorHandler, EventKind, FileChangeTask, PathEvent, PathWatcherThread
+
+Complete API:
+  public void run()
+  public AssetMonitor getAssetMonitor()
+  public Path getParent()
+  public AssetMonitorHandler getHandler()
+  public void addPath(Path path, PathEvent pathEvent)
+  public void removePath(Path path)
+  public void markChanged()
+  public void cancelSchedule()
+  public String toString()
+
+Fields:
+public static final HytaleLogger LOGGER
+private static final long ACCUMULATION_DELAY_MILLIS
+private final AssetMonitor assetMonitor
+private final Path parent
+private final AssetMonitorHandler handler
+private final ScheduledFuture<?> task
+private final AtomicBoolean changed
+private final Map<Path,PathEvent> paths

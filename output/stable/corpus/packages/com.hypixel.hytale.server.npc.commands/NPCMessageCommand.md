@@ -29,3 +29,14 @@ Registers as sub-command `"message"` with translation key `"server.commands.npc.
 
 - NPCCommandUtils -- used for target resolution
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDumpCommand (and 28 more)
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+
+Fields:
+private final RequiredArg<String> messageArg
+private final OptionalArg<Double> expirationTimeArg
+private final FlagArg allArg
+private final EntityWrappedArg entityArg

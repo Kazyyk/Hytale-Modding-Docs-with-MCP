@@ -11,3 +11,12 @@ Utility type in the `waypoint` subsystem.
 - onReplaced | void
 - initialise | void | UUID var1, String var2, int var3, double var4, float var6, int var7, ComponentAccessor<EntityStore> var8
 - getParentPath | IPath<IPrefabPathWaypoint>
+
+Known implementors: PatrolPathMarkerEntity
+
+Also in this package: RelativeWaypointDefinition
+
+Complete API:
+  void onReplaced()
+  void initialise(UUID var1, String var2, int var3, double var4, float var6, int var7, ComponentAccessor<EntityStore> var8)
+  IPath<IPrefabPathWaypoint> getParentPath()

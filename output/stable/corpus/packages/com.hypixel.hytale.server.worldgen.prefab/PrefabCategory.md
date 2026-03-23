@@ -17,3 +17,15 @@ Represents a named prefab category with a priority value used to resolve placeme
 ## Methods
 
 - public static void parse(JsonElement json, BiConsumer<String, PrefabCategory> consumer)
+
+Also in this package: PrefabLoadingCache, PrefabPasteBuffer, PrefabPasteUtil, PrefabPatternGenerator, PrefabStoreRoot
+
+Complete API:
+  public static void parse(JsonElement json, BiConsumer<String,PrefabCategory> consumer)
+
+Fields:
+public static final String FILENAME
+public static final int MIN_PRIORITY
+public static final int MAX_PRIORITY
+public static final PrefabCategory NONE
+public static final PrefabCategory UNIQUE

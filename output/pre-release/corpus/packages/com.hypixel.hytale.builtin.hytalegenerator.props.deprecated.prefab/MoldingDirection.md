@@ -15,3 +15,8 @@ Enum of molding directions for prefab placement: NONE, UP, DOWN, NORTH, SOUTH, E
 - `SOUTH`
 - `EAST`
 - `WEST`
+
+Also in this package: PrefabMoldingConfiguration, PrefabProp, PrefabPropUtil
+
+Fields:
+public static final Codec<MoldingDirection> CODEC

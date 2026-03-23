@@ -12,3 +12,14 @@ public abstract class ChunkEvent implements IEvent
 
 - public WorldChunk getChunk()
 - @Nonnull @Override public String toString()
+
+Known subclasses: ChunkPreLoadProcessEvent
+
+Also in this package: AddWorldEvent, AllWorldsLoadedEvent, ChunkPreLoadProcessEvent, RemovalReason, RemoveWorldEvent, StartWorldEvent, WorldEvent
+
+Complete API:
+  public WorldChunk getChunk()
+  public String toString()
+
+Fields:
+private final WorldChunk chunk

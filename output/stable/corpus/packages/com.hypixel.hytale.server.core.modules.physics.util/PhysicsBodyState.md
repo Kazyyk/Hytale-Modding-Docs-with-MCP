@@ -8,3 +8,9 @@ public class PhysicsBodyState
 
 - public final Vector3d position
 - public final Vector3d velocity
+
+Also in this package: ForceAccumulator, ForceProvider, ForceProviderEntity, ForceProviderStandard, ForceProviderStandardState, PhysicsBodyStateUpdater, PhysicsBodyStateUpdaterMidpoint, PhysicsBodyStateUpdaterRK4, PhysicsBodyStateUpdaterSymplecticEuler, PhysicsConstants, PhysicsFlags, PhysicsMath
+
+Fields:
+public final Vector3d position
+public final Vector3d velocity

@@ -57,3 +57,18 @@ Sets the view distance for particle visibility.
 
 - Damage -- the damage event that carries particles via meta store
 - DamageSystems.ApplyParticles -- system that reads and spawns these particles
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public ModelParticle[] getModelParticles()
+  public void setModelParticles(ModelParticle[] modelParticles)
+  public WorldParticle[] getWorldParticles()
+  public void setWorldParticles(WorldParticle[] worldParticles)
+  public double getViewDistance()
+  public void setViewDistance(double viewDistance)
+
+Fields:
+protected ModelParticle[] modelParticles
+protected WorldParticle[] worldParticles
+protected double viewDistance

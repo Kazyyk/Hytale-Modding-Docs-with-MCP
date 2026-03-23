@@ -21,3 +21,14 @@ Resolves the entity effect index from the builder at construction time.
 
 - matchesEntity(Ref<EntityStore>, Ref<EntityStore>, Role, Store<EntityStore>) | boolean | Returns `true` if the target entity's `EffectControllerComponent` has the specified effect active.
 - cost() | int | Returns `100`.
+
+Also in this package: EntityFilterAltitude, EntityFilterAnd, EntityFilterAttitude, EntityFilterCombat, EntityFilterHeightDifference, EntityFilterInsideBlock, EntityFilterInventory, EntityFilterItemInHand, EntityFilterLineOfSight, EntityFilterMany, EntityFilterMovementState, EntityFilterNPCGroup, EntityFilterNot, EntityFilterOr, EntityFilterSpotsMe, EntityFilterStandingOnBlock, EntityFilterStat, EntityFilterViewSector, EntityStatTarget, Mode (and 1 more)
+
+Complete API:
+  public boolean matchesEntity(Ref<EntityStore> ref, Ref<EntityStore> targetRef, Role role, Store<EntityStore> store)
+  public int cost()
+
+Fields:
+public static final int COST
+private static final ComponentType<EntityStore,EffectControllerComponent> EFFECT_CONTROLLER_COMPONENT_TYPE
+private final int entityEffectIndex

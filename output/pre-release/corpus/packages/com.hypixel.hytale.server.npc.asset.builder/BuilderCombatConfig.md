@@ -49,3 +49,14 @@ Validates that any override combat config string refers to an existing `BalanceA
 
 - BuilderCodecObjectHelper -- parent class
 - BuilderModifier -- can provide `_CombatConfig` overrides
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  public String build()
+  public void readConfig(JsonElement data, ExtraInfo extraInfo)
+  public String build(ExecutionContext context)
+  public boolean validate(String configName, NPCLoadTimeValidationHelper loadTimeValidationHelper, ExecutionContext context, List<String> errors)
+
+Fields:
+private boolean inline

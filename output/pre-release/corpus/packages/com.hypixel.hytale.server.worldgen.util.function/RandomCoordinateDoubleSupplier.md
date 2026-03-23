@@ -14,3 +14,13 @@ Utility for supplying values with caching or special behavior.
 
 - apply(int seed, int x, int y) | double | Instance method.
 - apply(int seed, int x, int y, int z) | double | Instance method.
+
+Also in this package: ConstantCoordinateDoubleSupplier, ICoordinateDoubleSupplier
+
+Complete API:
+  public IDoubleRange getRange()
+  public double apply(int seed, int x, int y)
+  public double apply(int seed, int x, int y, int z)
+
+Fields:
+protected final IDoubleRange range

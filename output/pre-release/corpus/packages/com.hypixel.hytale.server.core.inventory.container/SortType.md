@@ -23,3 +23,13 @@ Defines sorting strategies for item containers. Each constant provides a `Compar
 ## Relationships
 
 - Used by `ItemContainer.sortItems()`
+
+Also in this package: CombinedItemContainer, DelegateItemContainer, Dummy, EmptyItemContainer, FetchedItemContainer, InternalContainerUtilItemStack, InternalContainerUtilMaterial, InternalContainerUtilResource, InternalContainerUtilTag, ItemContainer, ItemContainerChangeEvent, ItemContainerUtil, ItemStackItemContainer, ItemType, SimpleItemContainer, SlotReplacementFunction, TempItemData, TestRemoveItemSlotResult
+
+Complete API:
+  public Comparator<ItemStack> getComparator()
+  private static Comparator<ItemStack> comparatorFor(Function<ItemStack,U> key)
+
+Fields:
+public static SortType[] VALUES
+private final Comparator<ItemStack> comparator

@@ -18,3 +18,17 @@ Interaction handler extending `SimpleInstantInteraction`.
 - generatePacket() | Interaction | protected method.
 - configurePacket(Interaction packet) | void | protected method.
 - toString() | String | public method.
+
+Also in this package: RemoveEntityInteraction, SendMessageInteraction
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected void simulateFirstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected Interaction generatePacket()
+  protected void configurePacket(Interaction packet)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ApplyEffectInteraction> CODEC
+private String effectId
+private InteractionTarget entityTarget

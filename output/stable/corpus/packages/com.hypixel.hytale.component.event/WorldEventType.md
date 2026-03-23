@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.component.event | Extends: EventSystem
 public class WorldEventType<ECS_TYPE, Event extends EcsEvent> extends EventSystemType<ECS_TYPE, Event, WorldEventSystem<ECS_TYPE, Event>>
 
 ECS event dispatched through the entity component system.
+
+Also in this package: EntityEventType, EventSystemType

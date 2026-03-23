@@ -9,3 +9,8 @@ Utility type in the `ticking` subsystem.
 ## Abstract Methods
 
 - tick | void | float var1
+
+Known implementors: AttitudeMemoryEntry, CooldownHandler, Timer, WorldMapTracker
+
+Complete API:
+  void tick(float var1)

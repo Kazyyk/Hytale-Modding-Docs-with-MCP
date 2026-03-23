@@ -26,3 +26,9 @@ public class ReachLocationMarkerSystems
             @Nonnull ArchetypeChunk<EntityStore> archetypeChunk,
             @Nonnull Store<EntityStore> store,
             @Nonnull CommandBuffer<EntityStore> commandBuffer)` |
+
+Also in this package: EnsureNetworkSendable, EntityAdded, ReachLocationMarker, ReachLocationMarkerAsset, Ticking
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final ThreadLocal<Set<UUID>> THREAD_LOCAL_TEMP_UUIDS

@@ -18,3 +18,18 @@ public class BuilderSensorAnimation extends BuilderSensorBase
 - @Nonnull @Override public Builder<Sensor> readConfig(@Nonnull JsonElement data)
 - public NPCAnimationSlot getAnimationSlot(@Nonnull BuilderSupport support)
 - public String getAnimationId(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionAppearance, BuilderActionDisplayName, BuilderActionModelAttachment, BuilderActionPlayAnimation, BuilderActionPlaySound, BuilderActionSpawnParticles
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public Sensor build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Sensor> readConfig(JsonElement data)
+  public NPCAnimationSlot getAnimationSlot(BuilderSupport support)
+  public String getAnimationId(BuilderSupport support)
+
+Fields:
+protected final EnumHolder<NPCAnimationSlot> animationSlot
+protected final StringHolder animationId

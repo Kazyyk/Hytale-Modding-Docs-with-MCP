@@ -24,3 +24,11 @@ On paste start (`event.isPasteStart()` returns `true`), creates new `ConcurrentH
 
 - BuilderToolsPlugin -- enclosing class; owns the paste tracking maps
 - BuilderToolsPlugin.BuilderState -- paste operations originate from the builder state
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  public void handle(Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, PrefabPasteEvent event)
+
+Fields:
+private final BuilderToolsPlugin plugin

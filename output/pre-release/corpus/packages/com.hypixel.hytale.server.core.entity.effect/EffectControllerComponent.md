@@ -41,3 +41,44 @@ public class EffectControllerComponent implements Component<EntityStore>
 - @Nullable public ActiveEntityEffect[] getAllActiveEntityEffects()
 - @Override @Nonnull public String toString()
 - @Nonnull public EffectControllerComponent clone()
+
+Also in this package: ActiveEntityEffect
+
+Complete API:
+  public static ComponentType<EntityStore,EffectControllerComponent> getComponentType()
+  public boolean isInvulnerable()
+  public void setInvulnerable(boolean invulnerable)
+  public boolean addEffect(Ref<EntityStore> ownerRef, EntityEffect entityEffect, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean addEffect(Ref<EntityStore> ownerRef, int entityEffectIndex, EntityEffect entityEffect, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean addEffect(Ref<EntityStore> ownerRef, EntityEffect entityEffect, float duration, OverlapBehavior overlapBehavior, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean addEffect(Ref<EntityStore> ownerRef, int entityEffectIndex, EntityEffect entityEffect, float duration, OverlapBehavior overlapBehavior, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean addInfiniteEffect(Ref<EntityStore> ownerRef, int entityEffectIndex, EntityEffect entityEffect, ComponentAccessor<EntityStore> componentAccessor)
+  public void setModelChange(Ref<EntityStore> ownerRef, EntityEffect entityEffect, int entityEffectIndex, ComponentAccessor<EntityStore> componentAccessor)
+  public void tryResetModelChange(Ref<EntityStore> ownerRef, int activeEffectIndex, ComponentAccessor<EntityStore> componentAccessor)
+  public void addActiveEntityEffects(ActiveEntityEffect[] activeEntityEffects)
+  public void removeEffect(Ref<EntityStore> ownerRef, int entityEffectIndex, ComponentAccessor<EntityStore> componentAccessor)
+  public void removeEffect(Ref<EntityStore> ownerRef, int entityEffectIndex, RemovalBehavior removalBehavior, ComponentAccessor<EntityStore> componentAccessor)
+  private void addChange(EntityEffectUpdate update)
+  public void clearEffects(Ref<EntityStore> ownerRef, ComponentAccessor<EntityStore> componentAccessor)
+  public void invalidateCache()
+  public Int2ObjectMap<ActiveEntityEffect> getActiveEffects()
+  public int[] getActiveEffectIndexes()
+  public boolean consumeNetworkOutdated()
+  public EntityEffectUpdate[] consumeChanges()
+  public void clearChanges()
+  public EntityEffectUpdate[] createInitUpdates()
+  public ActiveEntityEffect[] getAllActiveEntityEffects()
+  public boolean hasEffect(EntityEffect entityEffect)
+  public boolean hasEffect(int effectIndex)
+  public String toString()
+  public EffectControllerComponent clone()
+
+Fields:
+public static final BuilderCodec<EffectControllerComponent> CODEC
+protected final Int2ObjectMap<ActiveEntityEffect> activeEffects
+protected int[] cachedActiveEffectIndexes
+protected ObjectList<EntityEffectUpdate> changes
+protected boolean isNetworkOutdated
+protected Model originalModel
+protected int activeModelChangeEntityEffectIndex
+protected boolean isInvulnerable

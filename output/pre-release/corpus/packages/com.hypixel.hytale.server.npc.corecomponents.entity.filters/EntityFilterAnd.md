@@ -5,3 +5,8 @@ Type: class | Package: com.hypixel.hytale.server.npc.corecomponents.entity.filte
 public class EntityFilterAnd extends EntityFilterBase
 
 Composite filter returning true only when all child filters match (logical AND). Cost is the sum of child costs.
+
+Also in this package: EntityFilterAltitude, EntityFilterAttitude, EntityFilterCombat, EntityFilterEntityEffect, EntityFilterHeightDifference, EntityFilterInsideBlock, EntityFilterInventory, EntityFilterItemInHand, EntityFilterLineOfSight, EntityFilterMany, EntityFilterMovementState, EntityFilterNPCGroup, EntityFilterNot, EntityFilterOr, EntityFilterSpotsMe, EntityFilterStandingOnBlock, EntityFilterStat, EntityFilterViewSector, EntityStatTarget, Mode (and 1 more)
+
+Complete API:
+  public boolean matchesEntity(Ref<EntityStore> ref, Ref<EntityStore> targetRef, Role role, Store<EntityStore> store)

@@ -96,3 +96,5 @@ Legacy support for NPCs without `FromWorldGen` or `WorldGenId` components. Reads
 - BalancingInitialisationSystem -- stat initialization
 - NPCDamageSystems -- damage event handling
 - NPCDeathSystems -- death event handling
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 49 more)

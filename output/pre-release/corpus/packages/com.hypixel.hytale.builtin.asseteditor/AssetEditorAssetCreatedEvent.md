@@ -17,3 +17,17 @@ public AssetEditorAssetCreatedEvent(EditorClient editorClient, String assetType,
 - Path getAssetPath() | Returns the created asset's path
 - byte[] getData() | Returns the raw asset data
 - String getButtonId() | Returns the button that triggered creation
+
+Also in this package: AssetEditorActivateButtonEvent, AssetEditorClientDisconnectEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorRequestDataSetEvent, AssetEditorSelectAssetEvent, AssetEditorUpdateWeatherPreviewLockEvent, EditorClientEvent
+
+Complete API:
+  public String getAssetType()
+  public Path getAssetPath()
+  public byte[] getData()
+  public String getButtonId()
+
+Fields:
+private final String assetType
+private final Path assetPath
+private final byte[] data
+private final String buttonId

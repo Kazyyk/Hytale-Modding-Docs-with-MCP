@@ -14,3 +14,12 @@ Matches entities with `Player`.
 
 - NPCMountSystems -- enclosing class
 - NPCMountSystems.DismountOnMountDeath -- handles the reverse case (mount dies)
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onComponentAdded(Ref<EntityStore> ref, DeathComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,Player> playerComponentType

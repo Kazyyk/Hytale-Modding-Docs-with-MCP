@@ -11,3 +11,12 @@ A builder tool operation that applies modifications to terrain.
 - super(ref, packet, componentAccessor)
 - @Override public void execute(ComponentAccessor<EntityStore> componentAccessor)
 - @Override boolean execute0(int x, int y, int z)
+
+Also in this package: FloodOperation, LayersOperation, NoiseOperation, OperationFactory, PaintOperation, ScatterOperation, SculptOperation, SmoothOperation, SmootherOperation, TintOperation, ToolOperation
+
+Complete API:
+  public void execute(ComponentAccessor<EntityStore> componentAccessor)
+  boolean execute0(int x, int y, int z)
+
+Fields:
+private static final double MAX_DISTANCE

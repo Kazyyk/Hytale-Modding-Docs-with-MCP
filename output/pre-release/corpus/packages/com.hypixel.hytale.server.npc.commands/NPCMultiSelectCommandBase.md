@@ -87,3 +87,27 @@ Iterates over the selected entity references and calls `execute` for each NPC. S
 
 - NPCWorldCommandBase -- parent base class for single-NPC commands
 - NPCDebugCommand -- primary user of this base class
+
+Known subclasses: ClearCommand, DefaultsCommand, SetCommand, ShowCommand, ToggleCommand
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+  protected void processEntityList(CommandContext context, World world, Store<EntityStore> store, List<Ref<EntityStore>> refs)
+
+Fields:
+protected static final float DEFAULT_CONE_ANGLE
+protected static final float DEFAULT_RANGE
+protected static final float RANGE_MIN
+protected static final float RANGE_MAX
+protected static final float CONE_ANGLE_MIN
+protected static final float CONE_ANGLE_MAX
+protected final OptionalArg<Float> coneAngleArg
+protected final OptionalArg<Float> rangeArg
+private final OptionalArg<String> rolesArg
+private final FlagArg nearestArg
+private final FlagArg presetCone30
+private final FlagArg presetCone30all
+private final FlagArg presetSphere
+private final FlagArg presetRay

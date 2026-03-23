@@ -18,3 +18,16 @@ Interaction handler for the prefab selection tool. On primary click, ray-traces 
 
 - PrefabEditSession
 - PrefabSetAnchorInteraction
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabAnchor, PrefabDirtySystems, PrefabEditSession, PrefabEditSessionManager, PrefabEditingMetadata, PrefabEditorCreationContext, PrefabEditorCreationSettings, PrefabLoadingState, PrefabMarkerProvider, PrefabSetAnchorInteraction, Tri
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  private static Vector3i getTargetLocation(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_EDIT_PREFAB_SELECT_ERROR_NO_TARGET_FOUND
+private static final Message MESSAGE_COMMANDS_EDIT_PREFAB_SELECT_ERROR_NO_PREFAB_FOUND
+private static final Message MESSAGE_COMMANDS_EDIT_PREFAB_NOT_IN_EDIT_SESSION
+private static final float ENTITY_TARGET_RADIUS
+public static final BuilderCodec<PrefabSelectionInteraction> CODEC

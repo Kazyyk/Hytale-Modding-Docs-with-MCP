@@ -8,3 +8,5 @@ public class NameplateSystems
 
 - `NameplateSystems.EntityTrackerRemove`
 - `NameplateSystems.EntityTrackerUpdate`
+
+Also in this package: EntityTrackerRemove, EntityTrackerUpdate, Nameplate

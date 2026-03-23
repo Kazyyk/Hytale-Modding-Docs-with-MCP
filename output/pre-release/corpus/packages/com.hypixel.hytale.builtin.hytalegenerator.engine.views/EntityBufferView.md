@@ -23,3 +23,17 @@ Provides a voxel-space view over entity buffers within a `BufferBundle.Access.Vi
 - public void copyFrom(@Nonnull EntityBufferView source)
 - @Override public void addEntity(@Nonnull EntityPlacementData entityPlacementData)
 - @Override public Bounds3i getBounds()
+
+Also in this package: PixelBufferView, VoxelBufferView
+
+Complete API:
+  public void forEach(Consumer<EntityPlacementData> consumer)
+  private EntityBuffer getBuffer_fromBufferGrid(Vector3i position_bufferGrid)
+  public void copyFrom(EntityBufferView source)
+  public void addEntity(EntityPlacementData entityPlacementData)
+  public Bounds3i getBounds()
+
+Fields:
+private final BufferBundle.Access.View access
+private final Bounds3i bounds_voxelGrid
+private final Bounds3i bounds_bufferGrid

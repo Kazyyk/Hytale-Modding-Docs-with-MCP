@@ -25,3 +25,15 @@ Aggregates timing samples from hierarchical probes across multiple chunk generat
 - public void takeSample(@Nonnull TimeInstrument.Probe probe)
 - @Nonnull @Override public String toString()
 - @Nonnull private String toString(int indentation, @Nonnull TimeInstrument.Probe probe)
+
+Also in this package: MemInstrument, Probe, Report, State
+
+Complete API:
+  public void takeSample(TimeInstrument.Probe probe)
+  public String toString()
+  private String toString(int indentation, TimeInstrument.Probe probe)
+
+Fields:
+private int sampleCount
+private TimeInstrument.Probe totalProbe
+private String header

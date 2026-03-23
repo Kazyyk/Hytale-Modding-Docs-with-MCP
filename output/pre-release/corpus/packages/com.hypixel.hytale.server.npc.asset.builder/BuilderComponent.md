@@ -72,3 +72,21 @@ Adds `Class`, `Interface`, `Default`, `DefaultState`, and `ResetOnStateChange` p
 - BuilderBase -- parent class
 - BuilderObjectReferenceHelper -- handles the reference resolution
 - BuilderFactory -- automatically registers this as the `"Component"` type
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public T build(BuilderSupport builderSupport)
+  public Class<T> category()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public boolean isEnabled(ExecutionContext context)
+  public Builder<T> readConfig(JsonElement data)
+  public boolean validate(String configName, NPCLoadTimeValidationHelper validationHelper, ExecutionContext context, Scope globalScope, List<String> errors)
+  public boolean canRequireFeature()
+  public Schema toSchema(SchemaContext context)
+
+Fields:
+private final Class<T> classType
+private final BuilderObjectReferenceHelper<T> content

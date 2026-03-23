@@ -31,3 +31,21 @@ Provides bounded read access into a BufferBundle.Grid. Maintains an array of tra
 - public void close()
 - @Nonnull @Override public MemInstrument.Report getMemoryUsage()
 - private void loadGrid()
+
+Also in this package: BufferBundle, Grid, GridEntry, MemoryReport, TrackedBuffer, Tracker, View
+
+Complete API:
+  public BufferBundle.Access.View createView(Bounds3i viewBounds_bufferGrid)
+  public BufferBundle.Access.View createView()
+  public BufferBundle.Grid.TrackedBuffer getBuffer(int x_bufferGrid, int y_bufferGrid, int z_bufferGrid)
+  public BufferBundle.Grid.TrackedBuffer getBuffer(Vector3i position_bufferGrid)
+  public Bounds3i getBounds_bufferGrid()
+  public void close()
+  public MemInstrument.Report getMemoryUsage()
+  private void loadGrid()
+
+Fields:
+private final BufferBundle.Grid grid
+private final Bounds3i bounds_bufferGrid
+private final BufferBundle.Grid.TrackedBuffer[] buffers
+private boolean isClosed

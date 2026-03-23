@@ -8,3 +8,9 @@ public abstract class ArchetypeChunkSystem<ECS_TYPE> extends System<ECS_TYPE> im
 
 - public abstract void onSystemAddedToArchetypeChunk(ArchetypeChunk<ECS_TYPE> var1)
 - public abstract void onSystemRemovedFromArchetypeChunk(ArchetypeChunk<ECS_TYPE> var1)
+
+Also in this package: CancellableEcsEvent, Data, DelayedSystem, EcsEvent, EntityEventSystem, EventSystem, HolderSystem, ICancellableEcsEvent, ISystem, MetricSystem, QuerySystem, RefChangeSystem, RefSystem, StoreSystem, System, WorldEventSystem
+
+Complete API:
+  public abstract void onSystemAddedToArchetypeChunk(ArchetypeChunk<ECS_TYPE> var1)
+  public abstract void onSystemRemovedFromArchetypeChunk(ArchetypeChunk<ECS_TYPE> var1)

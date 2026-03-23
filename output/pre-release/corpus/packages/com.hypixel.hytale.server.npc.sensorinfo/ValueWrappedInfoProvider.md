@@ -23,3 +23,17 @@ Implementation of `InfoProvider`.
 - passExtraInfo(E provider) | void | public method.
 - getPassedExtraInfo(Class<E> clazz) | E | public method.
 - hasPosition() | boolean | public method.
+
+Also in this package: CachedPositionProvider, EntityPositionProvider, ExtraInfoProvider, IPathProvider, IPositionProvider, InfoProvider, InfoProviderBase, PathProvider, PositionProvider, WrappedInfoProvider
+
+Complete API:
+  public IPositionProvider getPositionProvider()
+  public ParameterProvider getParameterProvider(int parameter)
+  public E getExtraInfo(Class<E> clazz)
+  public void passExtraInfo(E provider)
+  public E getPassedExtraInfo(Class<E> clazz)
+  public boolean hasPosition()
+
+Fields:
+private final InfoProvider wrappedProvider
+private final ParameterProvider parameterProvider

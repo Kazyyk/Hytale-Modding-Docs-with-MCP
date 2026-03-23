@@ -82,3 +82,28 @@ Dispatches a world-scoped event to a specific event type.
 
 - Store -- concrete implementation for direct store access
 - CommandBuffer -- concrete implementation for deferred commands
+
+Known implementors: CommandBuffer, Store
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)
+
+Complete API:
+  T getComponent(Ref<ECS_TYPE> var1, ComponentType<ECS_TYPE,T> var2)
+  T ensureAndGetComponent(Ref<ECS_TYPE> var1, ComponentType<ECS_TYPE,T> var2)
+  Archetype<ECS_TYPE> getArchetype(Ref<ECS_TYPE> var1)
+  T getResource(ResourceType<ECS_TYPE,T> var1)
+  ECS_TYPE getExternalData()
+  void putComponent(Ref<ECS_TYPE> var1, ComponentType<ECS_TYPE,T> var2, T var3)
+  void addComponent(Ref<ECS_TYPE> var1, ComponentType<ECS_TYPE,T> var2, T var3)
+  T addComponent(Ref<ECS_TYPE> var1, ComponentType<ECS_TYPE,T> var2)
+  Ref<ECS_TYPE>[] addEntities(Holder<ECS_TYPE>[] var1, AddReason var2)
+  Ref<ECS_TYPE> addEntity(Holder<ECS_TYPE> var1, AddReason var2)
+  Holder<ECS_TYPE> removeEntity(Ref<ECS_TYPE> var1, Holder<ECS_TYPE> var2, RemoveReason var3)
+  void removeComponent(Ref<ECS_TYPE> var1, ComponentType<ECS_TYPE,T> var2)
+  void tryRemoveComponent(Ref<ECS_TYPE> var1, ComponentType<ECS_TYPE,T> var2)
+  void invoke(Ref<ECS_TYPE> var1, Event var2)
+  void invoke(EntityEventType<ECS_TYPE,Event> var1, Ref<ECS_TYPE> var2, Event var3)
+  void invoke(Holder<ECS_TYPE> var1, Event var2)
+  void invoke(EntityHolderEventType<ECS_TYPE,Event> var1, Holder<ECS_TYPE> var2, Event var3)
+  void invoke(Event var1)
+  void invoke(WorldEventType<ECS_TYPE,Event> var1, Event var2)

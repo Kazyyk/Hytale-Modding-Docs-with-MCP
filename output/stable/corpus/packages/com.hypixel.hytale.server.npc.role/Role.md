@@ -86,3 +86,203 @@ public interface DeferredAction {
 }
 
 Returns `true` when the action is complete and should be removed.
+
+Also in this package: AvoidanceMode, DeferredAction, RoleDebugDisplay, RoleDebugFlags, RoleDebugPreset, RoleUtils, SpawnEffect
+
+Complete API:
+  public int getInitialMaxHealth()
+  public boolean isAvoidingEntities()
+  public double getCollisionProbeDistance()
+  public boolean isApplySeparation()
+  public double getSeparationDistance()
+  public Instruction getRootInstruction()
+  public Instruction getInteractionInstruction()
+  public Instruction getDeathInstruction()
+  public Steering getBodySteering()
+  public Steering getHeadSteering()
+  public Set<Ref<EntityStore>> getIgnoredEntitiesForAvoidance()
+  public String getDropListId()
+  public String getBalanceAsset()
+  public Map<String,String> getInteractionVars()
+  public boolean isMemory()
+  public String getMemoriesNameOverride()
+  public String getNameTranslationKey()
+  public boolean isMemoriesNameOverriden()
+  public float getSpawnLockTime()
+  public void postRoleBuilt(BuilderSupport builderSupport)
+  public void loaded()
+  public void spawned(Holder<EntityStore> holder, NPCEntity npcComponent)
+  public void unloaded()
+  public void removed()
+  public void teleported(World from, World to)
+  public String getAppearanceName()
+  public MotionController getActiveMotionController()
+  public CombatSupport getCombatSupport()
+  public StateSupport getStateSupport()
+  public WorldSupport getWorldSupport()
+  public MarkedEntitySupport getMarkedEntitySupport()
+  public PositionCache getPositionCache()
+  public EntitySupport getEntitySupport()
+  public DebugSupport getDebugSupport()
+  public boolean isRoleChangeRequested()
+  public void setRoleChangeRequested()
+  public boolean setActiveMotionController(Ref<EntityStore> ref, NPCEntity npcComponent, String name, ComponentAccessor<EntityStore> componentAccessor)
+  public void setActiveMotionController(Ref<EntityStore> ref, NPCEntity npcComponent, MotionController motionController, ComponentAccessor<EntityStore> componentAccessor)
+  protected void motionControllerChanged(Ref<EntityStore> ref, NPCEntity npcComponent, MotionController motionController, ComponentAccessor<EntityStore> componentAccessor)
+  public void setMotionControllers(NPCEntity npcComponent, Map<String,MotionController> motionControllers, String initialMotionController)
+  public void updateMotionControllers(Ref<EntityStore> ref, Model model, Box boundingBox, ComponentAccessor<EntityStore> componentAccessor)
+  public void updateMovementState(Ref<EntityStore> ref, MovementStates movementStates, Vector3d velocity, ComponentAccessor<EntityStore> componentAccessor)
+  public void tick(Ref<EntityStore> ref, float tickTime, Store<EntityStore> store)
+  public void addDeferredAction(Role.DeferredAction handler)
+  protected void computeActionsAndSteering(Ref<EntityStore> ref, double tickTime, Steering bodySteering, Steering headSteering, Store<EntityStore> store)
+  public void blendSeparation(Ref<EntityStore> selfRef, Vector3d position, Steering steering, ComponentType<EntityStore,TransformComponent> transformComponentType, CommandBuffer<EntityStore> commandBuffer)
+  public Vector3d getLastSeparationSteering()
+  public void blendAvoidance(Ref<EntityStore> ref, Vector3d position, Steering steering, CommandBuffer<EntityStore> commandBuffer)
+  public Vector3d getLastAvoidanceSteering()
+  public void resetInstruction(int instruction)
+  public String getRoleName()
+  public int getRoleIndex()
+  public void setRoleIndex(int roleIndex, String roleName)
+  public boolean isInvulnerable()
+  public boolean isBreathesInAir()
+  public boolean isBreathesInWater()
+  public double getInertia()
+  public double getKnockbackScale()
+  public boolean canBreathe(BlockMaterial breathingMaterial, int fluidId)
+  public boolean couldBreathe(BlockMaterial breathingMaterial, int fluidId)
+  public boolean couldBreatheCached()
+  public void addForce(Vector3d velocity, VelocityConfig velocityConfig)
+  public void forceVelocity(Vector3d velocity, VelocityConfig velocityConfig, boolean ignoreDamping)
+  public void processAddVelocityInstruction(Vector3d velocity, VelocityConfig velocityConfig)
+  public void processSetVelocityInstruction(Vector3d velocity, VelocityConfig velocityConfig)
+  public boolean isOnGround()
+  public void setArmor(NPCEntity npcComponent, String[] armor)
+  public boolean isPickupDropOnDeath()
+  public boolean requiresLeashPosition()
+  public void clearOnce()
+  public void clearOnceIfNeeded()
+  public void setMarkedTarget(String targetSlot, Ref<EntityStore> target)
+  public boolean isFriendly(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean isIgnoredForAvoidance(Ref<EntityStore> entityReference)
+  public Role.AvoidanceMode getAvoidanceMode()
+  public double getCollisionRadius()
+  public int[] getFlockSpawnTypes()
+  public String[] getFlockAllowedRoles()
+  public boolean isFlockSpawnTypesRandom()
+  public boolean isCanLeadFlock()
+  public double getFlockInfluenceRange()
+  public double getDeathAnimationTime()
+  public String getDeathInteraction()
+  public float getDespawnAnimationTime()
+  public void setReachedTerminalAction(boolean hasReached)
+  public boolean hasReachedTerminalAction()
+  public void setFlag(int index, boolean value)
+  public boolean isFlagSet(int index)
+  public boolean isBackingAway()
+  public void setBackingAway(boolean backingAway)
+  public Instruction swapTreeModeSteps(Instruction newStep)
+  public void notifySensorMatch()
+  public void resetAllInstructions()
+  public String getSteeringMotionName()
+  public int componentCount()
+  public IAnnotatedComponent getComponent(int index)
+  public void getInfo(Role role, ComponentInfo holder)
+  public int getIndex()
+  public void setContext(IAnnotatedComponent parent, int index)
+  public IAnnotatedComponent getParent()
+  public String getLabel()
+  private void initialiseInventories(NPCEntity npcComponent)
+  public boolean isCorpseStaysInFlock()
+  public void onLoadFromWorldGenOrPrefab(Ref<EntityStore> ref, NPCEntity npcComponent, ComponentAccessor<EntityStore> componentAccessor)
+  public RoleStats getRoleStats()
+
+Fields:
+public static final double INTERACTION_PLAYER_DISTANCE
+public static final boolean DEBUG_APPLIED_FORCES
+protected final CombatSupport combatSupport
+protected final StateSupport stateSupport
+protected final MarkedEntitySupport markedEntitySupport
+protected final WorldSupport worldSupport
+protected final EntitySupport entitySupport
+protected final PositionCache positionCache
+protected final DebugSupport debugSupport
+protected final int initialMaxHealth
+protected final double collisionProbeDistance
+protected final double collisionRadius
+protected final double collisionForceFalloff
+protected final float collisionViewAngle
+protected final float collisionViewHalfAngleCosine
+protected final Steering bodySteering
+protected final Steering headSteering
+protected final SteeringForceAvoidCollision steeringForceAvoidCollision
+protected final GroupSteeringAccumulator groupSteeringAccumulator
+protected final Vector3d separation
+protected final Set<Ref<EntityStore>> ignoredEntitiesForAvoidance
+protected final double entityAvoidanceStrength
+protected final Role.AvoidanceMode avoidanceMode
+protected final boolean isAvoidingEntities
+protected final double separationDistance
+protected final double separationWeight
+protected final double separationDistanceTarget
+protected final double separationNearRadiusTarget
+protected final double separationFarRadiusTarget
+protected final boolean applySeparation
+protected final Vector3d lastSeparationSteering
+protected final float[] headPitchAngleRange
+protected final boolean stayInEnvironment
+protected final String allowedEnvironments
+protected final String[] flockSpawnTypes
+protected final boolean flockSpawnTypesRandom
+protected final String[] flockAllowedRoles
+protected final boolean canLeadFlock
+protected final double flockWeightAlignment
+protected final double flockWeightSeparation
+protected final double flockWeightCohesion
+protected final double flockInfluenceRange
+protected final boolean corpseStaysInFlock
+protected final double inertia
+protected final double knockbackScale
+protected final boolean breathesInAir
+protected final boolean breathesInWater
+protected final boolean pickupDropOnDeath
+protected final String[] hotbarItems
+protected final String[] offHandItems
+protected final double deathAnimationTime
+protected final float despawnAnimationTime
+protected final String dropListId
+protected final String deathInteraction
+protected final boolean invulnerable
+protected final int inventorySlots
+protected final String inventoryContentsDropList
+protected final int hotbarSlots
+protected final int offHandSlots
+protected final byte defaultOffHandSlot
+protected final List<Role.DeferredAction> deferredActions
+protected final RoleStats roleStats
+protected final String balanceAsset
+protected final Map<String,String> interactionVars
+protected int roleIndex
+protected String roleName
+protected String appearance
+protected boolean isActivated
+protected Map<String,MotionController> motionControllers
+protected MotionController activeMotionController
+protected int[] flockSpawnTypeIndices
+protected boolean requiresLeashPosition
+protected boolean hasReachedTerminalAction
+protected String[] armor
+protected boolean[] flags
+protected Instruction rootInstruction
+protected Instruction lastBodyMotionStep
+protected Instruction lastHeadMotionStep
+protected Instruction[] indexedInstructions
+protected Instruction interactionInstruction
+protected Instruction deathInstruction
+protected Instruction currentTreeModeStep
+protected boolean roleChangeRequested
+protected final boolean isMemory
+protected final String memoriesNameOverride
+protected final boolean isMemoriesNameOverriden
+protected final float spawnLockTime
+protected final String nameTranslationKey
+protected boolean backingAway

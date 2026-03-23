@@ -34,3 +34,15 @@ Returns the entity holders array, or `null` if this column has no entities.
 public Int2ObjectMap<Holder<ChunkStore>> getBlockComponents()
 
 Returns the block component holder map.
+
+Also in this package: BlockComparingPredicate, BlockComparingPrefabPredicate, BlockConsumer, BlockMaskConstants, Builder, ChildConsumer, ChildPrefab, ColumnPredicate, EntityConsumer, EntityPredicate, FluidConsumer, FluidPredicate, IPrefabBuffer, PrefabBuffer, PrefabBufferAccessor, PrefabBufferBlockEntry, RawBlockConsumer, RawBlockPredicate
+
+Complete API:
+  public int getReaderIndex()
+  public Holder<EntityStore>[] getEntityHolders()
+  public Int2ObjectMap<Holder<ChunkStore>> getBlockComponents()
+
+Fields:
+private final int readerIndex
+private final Holder<EntityStore>[] entityHolders
+private final Int2ObjectMap<Holder<ChunkStore>> blockComponents

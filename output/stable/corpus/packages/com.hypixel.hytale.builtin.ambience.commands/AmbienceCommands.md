@@ -9,3 +9,5 @@ Abstract base for related commands.
 ## Constructors
 
 - AmbienceCommands() | Creates a new AmbienceCommands instance.
+
+Also in this package: AmbienceClearCommand, AmbienceEmitterAddCommand, AmbienceEmitterCommands, AmbienceSetMusicCommand

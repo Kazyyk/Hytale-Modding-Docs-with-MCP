@@ -35,3 +35,24 @@ A PixelBuffer variant that tracks all unique values (biomes) stored in the buffe
 - @Nonnull @Override public MemInstrument.Report getMemoryUsage()
 - private void switchFromSingleValueToArray()
 - private static int index(@Nonnull Vector3i position)
+
+Also in this package: ArrayContents, ArrayContents, Buffer, CountedArrayContents, EntityBuffer, PixelBuffer, SimplePixelBuffer, State, State, State, VoxelBuffer
+
+Complete API:
+  public T getPixelContent(Vector3i position)
+  public void setPixelContent(Vector3i position, T value)
+  public Class<T> getPixelType()
+  public List<T> getUniqueEntries()
+  public void copyFrom(CountedPixelBuffer<T> sourceBuffer)
+  public MemInstrument.Report getMemoryUsage()
+  private void switchFromSingleValueToArray()
+  private static int index(Vector3i position)
+
+Fields:
+public static final int BUFFER_SIZE_BITS
+public static final Vector3i SIZE_VOXEL_GRID
+public static final Bounds3i BOUNDS_VOXEL_GRID
+private final Class<T> pixelType
+private CountedPixelBuffer.State state
+private CountedPixelBuffer.CountedArrayContents<T> countedArrayContents
+private T singleValue

@@ -14,3 +14,12 @@ public class ReputationRequirement extends ChoiceRequirement
 
 - @Override public boolean canFulfillRequirement(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
 - @Nonnull @Override public String toString()
+
+Complete API:
+  public boolean canFulfillRequirement(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ReputationRequirement> CODEC
+protected String reputationGroupId
+protected String minRequiredRankId

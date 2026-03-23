@@ -24,3 +24,22 @@ Gameplay configuration for the memories system, loaded as a plugin config from `
 - public String getMemoriesCatchItemId()
 - public ModelParticle getMemoriesCatchEntityParticle()
 - public int getMemoriesCatchParticleViewDistance()
+
+Also in this package: MemoriesPlugin, MemoriesPluginConfig, PlayerAddedSystem, RecordedMemories
+
+Complete API:
+  public static MemoriesGameplayConfig get(GameplayConfig config)
+  public int[] getMemoriesAmountPerLevel()
+  public String getMemoriesRecordParticles()
+  public String getMemoriesCatchItemId()
+  public ModelParticle getMemoriesCatchEntityParticle()
+  public int getMemoriesCatchParticleViewDistance()
+
+Fields:
+public static final String ID
+public static final BuilderCodec<MemoriesGameplayConfig> CODEC
+private int[] memoriesAmountPerLevel
+private String memoriesRecordParticles
+private String memoriesCatchItemId
+private ModelParticle memoriesCatchEntityParticle
+private int memoriesCatchParticleViewDistance

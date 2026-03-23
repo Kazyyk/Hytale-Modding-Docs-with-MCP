@@ -19,3 +19,20 @@ Class in the event subsystem.
 - setInitiator(Ref<EntityStore> initiator) | void | public method.
 - getSet() | int | public method.
 - setSet(int set) | void | public method.
+
+Known subclasses: EntityEventNotification
+
+Also in this package: EntityEventNotification, EventTypeRegistration, EventView, IEventCallback
+
+Complete API:
+  public Vector3d getPosition()
+  public void setPosition(double x, double y, double z)
+  public Ref<EntityStore> getInitiator()
+  public void setInitiator(Ref<EntityStore> initiator)
+  public int getSet()
+  public void setSet(int set)
+
+Fields:
+private final Vector3d position
+private Ref<EntityStore> initiator
+private int set

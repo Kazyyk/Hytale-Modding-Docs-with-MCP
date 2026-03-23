@@ -12,3 +12,12 @@ Declared as a static inner class of FarmingSystems. Registered by FarmingPlugin 
 
 - void` / `Query tick(...)
 - void` / `Query getQuery(...)
+
+Also in this package: CoopResidentEntitySystem, FarmingPlugin, FarmingSystems, FarmingUtil, MigrateFarming, OnCoopAdded, OnFarmBlockAdded, OnSoilAdded, Ticking
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,CoopResidentComponent> coopResidentComponentType

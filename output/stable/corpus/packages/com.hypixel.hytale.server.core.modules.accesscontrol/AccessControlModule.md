@@ -23,3 +23,21 @@ public class AccessControlModule extends JavaPlugin
 - public void registerAccessProvider(AccessProvider provider)
 - public Ban parseBan(String type, JsonObject object)
 - @Nonnull private CompletableFuture<Optional<String>> getDisconnectReason(UUID uuid)
+
+Complete API:
+  public static AccessControlModule get()
+  protected void setup()
+  protected void start()
+  protected void shutdown()
+  public void registerBanParser(String type, BanParser banParser)
+  public void registerAccessProvider(AccessProvider provider)
+  public Ban parseBan(String type, JsonObject object)
+  private CompletableFuture<Optional<String>> getDisconnectReason(UUID uuid)
+
+Fields:
+public static final PluginManifest MANIFEST
+private static AccessControlModule instance
+private final HytaleWhitelistProvider whitelistProvider
+private final HytaleBanProvider banProvider
+private final List<AccessProvider> providerRegistry
+private final Map<String,BanParser> parsers

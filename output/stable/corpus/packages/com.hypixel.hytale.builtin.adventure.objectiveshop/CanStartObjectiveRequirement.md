@@ -13,3 +13,13 @@ public class CanStartObjectiveRequirement extends ChoiceRequirement
 
 - @Override public boolean canFulfillRequirement(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
 - @Nonnull @Override public String toString()
+
+Also in this package: ObjectiveShopPlugin, StartObjectiveInteraction
+
+Complete API:
+  public boolean canFulfillRequirement(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<CanStartObjectiveRequirement> CODEC
+protected String objectiveId

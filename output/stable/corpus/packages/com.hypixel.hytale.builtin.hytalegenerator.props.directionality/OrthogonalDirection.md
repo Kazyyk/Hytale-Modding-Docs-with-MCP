@@ -14,3 +14,8 @@ Enumeration type in the directionality subsystem.
 - W | W constant.
 - U | U constant.
 - D | D constant.
+
+Also in this package: Directionality, PatternDirectionality, RandomDirectionality, RotatedPosition, RotatedPositionsScanResult, StaticDirectionality
+
+Fields:
+public static final Codec<OrthogonalDirection> CODEC

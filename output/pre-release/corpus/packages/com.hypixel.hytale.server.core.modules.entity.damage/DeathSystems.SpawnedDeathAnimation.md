@@ -11,3 +11,13 @@ Plays the death animation on entities that are spawned into the world already de
 - DeathSystems -- parent class
 - DeathSystems.DeathAnimation -- plays animation when death component is added at runtime
 - DeathComponent -- required component
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onEntityAdded(Ref<EntityStore> ref, AddReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onEntityRemove(Ref<EntityStore> ref, RemoveReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final Query<EntityStore> QUERY

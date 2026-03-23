@@ -32,3 +32,11 @@ Builds the inline builder with a `null` BuilderSupport, passing only the manager
 
 - BuilderObjectReferenceHelper -- parent class
 - BuilderObjectStaticListHelper -- uses this for list elements
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public void readConfig(JsonElement data, BuilderManager builderManager, BuilderParameters builderParameters, BuilderValidationHelper builderValidationHelper)
+  protected void setInternalReference(StringHolder holder, InternalReferenceResolver referenceResolver)
+  protected void setFileReference(StringHolder holder, JsonObject jsonObject, BuilderManager builderManager)
+  public T staticBuild(BuilderManager manager)

@@ -23,3 +23,15 @@ Returns `initialState` if `x < switchPoint`, otherwise returns `finalState`.
 ## Related Types
 
 - `ResponseCurve` -- abstract base class
+
+Also in this package: ExponentialResponseCurve, LogisticResponseCurve, Reference, ResponseCurve, SineWaveResponseCurve
+
+Complete API:
+  public double computeY(double x)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SwitchResponseCurve> CODEC
+protected double initialState
+protected double finalState
+protected double switchPoint

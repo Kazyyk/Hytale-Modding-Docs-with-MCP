@@ -15,3 +15,8 @@ Enumeration controlling how a child node's yaw combines with the parent node's y
 ## Key Methods
 
 - public abstract float combine(float parentYaw, @Nullable PrefabRotation parentRotation)
+
+Also in this package: Cave, CaveBiomeMaskFlags, CaveBlockPriorityModifier, CaveGenerator, CaveNodeChildEntry, CaveNodeCoverEntry, CaveNodeCoverType, CaveNodeType, CavePrefabPlacement, CaveType, Defaults, Entry, FluidLevel, OrientationModifier, PrefabPlacementFunction
+
+Complete API:
+  public abstract float combine(float var1, PrefabRotation var2)

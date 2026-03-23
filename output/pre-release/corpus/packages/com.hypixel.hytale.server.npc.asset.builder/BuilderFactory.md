@@ -102,3 +102,26 @@ Generates a conditional JSON Schema where the `if/then/else` structure selects t
 - Builder -- the interface of created objects
 - BuilderComponent -- default `"Component"` builder
 - BuilderManager -- registers and retrieves factories
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  public BuilderFactory<T> add(String name, Supplier<Builder<T>> builder)
+  public Class<T> getCategory()
+  public Builder<T> createBuilder(JsonElement config)
+  public String getKeyName(JsonElement config)
+  public Builder<T> createBuilder(String name)
+  public Builder<T> tryCreateDefaultBuilder()
+  public List<String> getBuilderNames()
+  private Builder<T> createBuilder(JsonObject config, String tag)
+  public String getSchemaName()
+  public Schema toSchema(SchemaContext context)
+  public Schema toSchema(SchemaContext context, boolean isRoot)
+
+Fields:
+public static final String DEFAULT_TYPE
+public static final String COMPONENT_TYPE
+private final String typeTag
+private final Supplier<Builder<T>> defaultBuilder
+private final Class<T> category
+private final Map<String,Supplier<Builder<T>>> buildersSuppliers

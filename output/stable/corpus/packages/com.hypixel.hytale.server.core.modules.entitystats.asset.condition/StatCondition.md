@@ -19,3 +19,14 @@ public class StatCondition extends EntityStatBoundCondition
 - public String toString()
 - public String getPrefix()
 - public boolean satisfies(float compareTo, float f)
+
+Also in this package: AliveCondition, ChargingCondition, Condition, EntityStatBoundCondition, EnvironmentCondition, GlidingCondition, LogicCondition, NoDamageTakenCondition, Operator, OutOfCombatCondition, PlayerCondition, RegenHealthCondition, SprintingCondition, StatComparisonType, SuffocatingCondition, WieldingCondition
+
+Complete API:
+  public boolean eval0(Ref<EntityStore> ref, Instant currentTime, EntityStatValue statValue)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<StatCondition> CODEC
+protected StatCondition.StatComparisonType comparison
+protected float amount

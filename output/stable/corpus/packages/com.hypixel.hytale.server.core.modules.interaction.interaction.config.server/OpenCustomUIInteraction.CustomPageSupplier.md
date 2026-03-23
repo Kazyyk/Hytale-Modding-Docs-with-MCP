@@ -18,3 +18,10 @@ Creates a custom UI page, or returns `null` if the page cannot be created for th
 ## See Also
 
 - OpenCustomUIInteraction
+
+Known implementors: ItemRepairPageSupplier, MemoriesPageSupplier, MemoriesUnlockedPageSuplier, PortalDevicePageSupplier, ShopPageSupplier, TeleporterSettingsPageSupplier
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction (and 13 more)
+
+Complete API:
+  CustomUIPage tryCreate(Ref<EntityStore> var1, ComponentAccessor<EntityStore> var2, PlayerRef var3, InteractionContext var4)

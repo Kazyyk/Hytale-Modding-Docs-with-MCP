@@ -17,3 +17,13 @@ public class WhitelistEnableCommand extends CommandBase
 ## Methods
 
 - @Override protected void executeSync(@Nonnull CommandContext context)
+
+Also in this package: BanCommand, UnbanCommand, WhitelistAddCommand, WhitelistClearCommand, WhitelistCommand, WhitelistDisableCommand, WhitelistListCommand, WhitelistRemoveCommand, WhitelistStatusCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private static final Message MESSAGE_MODULES_WHITELIST_ALREADY_ENABLED
+private static final Message MESSAGE_MODULES_WHITELIST_ENABLED
+private final HytaleWhitelistProvider whitelistProvider

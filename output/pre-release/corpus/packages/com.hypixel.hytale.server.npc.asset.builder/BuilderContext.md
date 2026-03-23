@@ -55,3 +55,15 @@ Returns the full breadcrumb string (convenience overload).
 - Builder -- extends this interface
 - BuilderObjectHelper -- implements this interface
 - BuilderBase -- implements this via Builder
+
+Known implementors: Builder, BuilderObjectHelper
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  BuilderContext getOwner()
+  String getLabel()
+  default void setCurrentStateName(String name)
+  default Builder<?> getParent()
+  default void getBreadCrumbs(StringBuilder stringBuilder)
+  default String getBreadCrumbs()

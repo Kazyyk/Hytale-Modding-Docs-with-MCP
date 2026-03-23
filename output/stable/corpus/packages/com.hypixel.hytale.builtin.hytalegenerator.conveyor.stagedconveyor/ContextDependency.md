@@ -32,3 +32,30 @@ public class ContextDependency
 - @Nonnull public static ContextDependency from(Bounds3i readBounds, Bounds3i writeBounds)
 - @Nonnull private static Vector3i rangeFromBounds(Bounds3i readBounds)
 - @Nonnull public ContextDependency clone()
+
+Complete API:
+  public Bounds3i getReadBounds_voxelGrid()
+  public Bounds3i getWriteBounds_voxelGrid()
+  private void update()
+  public ContextDependency stackOver(ContextDependency other)
+  public Vector3i getReadRange()
+  public Vector3i getWriteRange()
+  public Vector3i getTrashRange()
+  public Vector3i getExternalDependencyRange()
+  public Vector3i getPositioningRange()
+  public static Vector3i getRequiredPadOf(List<ContextDependency> dependencies)
+  public static Map<Integer,ContextDependency> cloneMap(Map<Integer,ContextDependency> map)
+  public static Map<Integer,ContextDependency> stackMaps(Map<Integer,ContextDependency> under, Map<Integer,ContextDependency> over)
+  public static ContextDependency mostOf(List<ContextDependency> dependencies)
+  public static ContextDependency mostOf(ContextDependency a, ContextDependency b)
+  public static ContextDependency from(Bounds3i readBounds, Bounds3i writeBounds)
+  private static Vector3i rangeFromBounds(Bounds3i readBounds)
+  public ContextDependency clone()
+
+Fields:
+public static ContextDependency EMPTY
+private final Vector3i readRange
+private final Vector3i writeRange
+private Vector3i trashRange
+private Vector3i externalDependencyRange
+private Vector3i positioningRange

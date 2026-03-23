@@ -19,3 +19,20 @@ Concrete implementation extending `WorldStructureAsset`.
 - build(@Nonnull WorldStructureAsset.Argument argument) | WorldStructure | public method.
 - getSpawnPositionsAsset() | PositionProviderAsset | public method.
 - cleanUp() | void | public method.
+
+Also in this package: BiomeRangeAsset
+
+Complete API:
+  public WorldStructure build(WorldStructureAsset.Argument argument)
+  public PositionProviderAsset getSpawnPositionsAsset()
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<BasicWorldStructureAsset> CODEC
+private BiomeRangeAsset[] biomeRangeAssets
+private int biomeTransitionDistance
+private int maxBiomeEdgeDistance
+private DensityAsset densityAsset
+private String defaultBiomeId
+private FrameworkAsset[] frameworkAssets
+private PositionProviderAsset spawnPositionsAsset

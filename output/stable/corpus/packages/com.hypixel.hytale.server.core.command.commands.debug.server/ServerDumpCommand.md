@@ -13,3 +13,12 @@ Server command extending `CommandBase`.
 ## Methods
 
 - executeSync(@Nonnull CommandContext context) | void | protected method.
+
+Also in this package: ServerCommand, ServerGCCommand, ServerStatsCommand, ServerStatsCpuCommand, ServerStatsGcCommand, ServerStatsMemoryCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_SERVER_DUMP_DUMPING_STATE
+private final FlagArg jsonFlag

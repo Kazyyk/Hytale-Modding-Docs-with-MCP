@@ -28,3 +28,22 @@ private static enum SpreadOutcome { SUCCESS, UNLOADED_CHUNK; }
 
 - FluidTicker -- base class
 - Fluid -- owns this ticker
+
+Also in this package: Accessor, AliveStatus, CachedAccessor, ConversionResult, DefaultFluidTicker, FireFluidTicker, FlammabilityConfig, Fluid, FluidCollisionConfig, FluidTicker, FluidTypePacketGenerator, SpreadOutcome
+
+Complete API:
+  protected FluidTicker.AliveStatus isAlive(FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, Fluid fluid, int fluidId, byte fluidLevel, int worldX, int worldY, int worldZ)
+  protected BlockTickStrategy spread(World world, long tick, FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, Fluid fluid, int fluidId, byte fluidLevel, int worldX, int worldY, int worldZ)
+  private boolean spreadDownwards(FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, FluidSection belowFluidSection, BlockSection belowBlockSection, int worldX, int worldY, int worldZ, Fluid fluid, int fluidId, byte fluidLevel, int bottomFluidId, byte bottomFluidLevel)
+  private BlockTickStrategy spreadSideways(long tick, FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, int worldX, int worldY, int worldZ, Fluid fluid, int fluidId, byte fluidLevel)
+  private FiniteFluidTicker.SpreadOutcome spreadToOffset(FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, Vector2i offset, int worldX, int worldY, int worldZ, Fluid fluid, int fluidId, byte fluidLevel)
+  private boolean drainFromTopBlock(FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, int worldX, int worldY, int worldZ, Fluid fluid, int fluidId, byte drainLevels)
+  private int getTopY(FluidTicker.Accessor accessor, FluidSection fluidSection, int worldX, int worldY, int worldZ, Fluid fluid, int fluidId)
+  private static boolean isOffsetConnected(FluidTicker.Accessor accessor, BlockSection blockSection, Vector2i offset, int worldX, int worldY, int worldZ)
+
+Fields:
+public static BuilderCodec<FiniteFluidTicker> CODEC
+private static final Vector2i[] DIAG_OFFSETS
+private static final int MAX_DROP_DISTANCE
+private static final List<List<Vector2i[]>> OFFSETS_LISTS
+private static final int RANDOM_VARIANTS

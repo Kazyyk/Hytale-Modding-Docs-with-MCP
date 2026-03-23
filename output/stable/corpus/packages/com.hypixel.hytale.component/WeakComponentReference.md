@@ -30,3 +30,21 @@ public Ref<ECS_TYPE> getEntityReference()
 
 - Ref -- the entity reference this wraps
 - ComponentType -- the component type being referenced
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery (and 8 more)
+
+Complete API:
+  public T get()
+  public Store<ECS_TYPE> getStore()
+  public ComponentType<ECS_TYPE,T> getType()
+  public Ref<ECS_TYPE> getEntityReference()
+  void invalidate()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+private final Store<ECS_TYPE> store
+private final ComponentType<ECS_TYPE,T> type
+private Ref<ECS_TYPE> ref
+private WeakReference<T> reference

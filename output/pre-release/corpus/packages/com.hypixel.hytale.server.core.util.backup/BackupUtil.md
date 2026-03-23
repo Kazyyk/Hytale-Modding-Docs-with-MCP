@@ -12,3 +12,11 @@ Class in the backup subsystem.
 - broadcastBackupStatus(boolean isWorldSaving) | void | static package-private method.
 - broadcastBackupError(Throwable cause) | void | static package-private method.
 - findOldBackups(@Nonnull Path backupDirectory, int maxBackupCount) | List<Path> | static package-private method.
+
+Also in this package: BackupTask
+
+Complete API:
+  static void walkFileTreeAndZip(Path sourceDir, Path zipPath)
+  static void broadcastBackupStatus(boolean isWorldSaving)
+  static void broadcastBackupError(Throwable cause)
+  static List<Path> findOldBackups(Path backupDirectory, int maxBackupCount)

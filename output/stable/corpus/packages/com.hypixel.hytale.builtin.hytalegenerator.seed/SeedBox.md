@@ -10,3 +10,11 @@ Utility type in the `seed` subsystem.
 
 - child(String childKey) | SeedBox | Instance method.
 - createSupplier() | Supplier<Integer> | Instance method.
+
+Complete API:
+  public SeedBox child(String childKey)
+  public Supplier<Integer> createSupplier()
+  public String toString()
+
+Fields:
+private final String key

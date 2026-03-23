@@ -10,3 +10,8 @@ Functional interface defining `accept` that returns `void`.
 ## Abstract Methods
 
 - accept | void | float var1
+
+Also in this package: BooleanConsumer, DoubleQuadObjectConsumer, IntBiObjectConsumer, IntObjectConsumer, IntTriObjectConsumer, QuadConsumer, ShortObjectConsumer, TriConsumer, TriIntConsumer
+
+Complete API:
+  void accept(float var1)

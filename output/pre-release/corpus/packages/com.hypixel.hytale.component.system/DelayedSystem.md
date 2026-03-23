@@ -23,3 +23,17 @@ public abstract class DelayedSystem<ECS_TYPE> extends TickingSystem<ECS_TYPE>
 ## Inner Types
 
 - `DelayedSystem.Data`
+
+Known subclasses: SleepNotificationSystem, StartSlumberSystem, StartVoidEventInFragmentSystem, TickingSystem, TimePacketSystem, UpdateEntitySeedSystem, WorldConfigSaveSystem
+
+Also in this package: ArchetypeChunkSystem, CancellableEcsEvent, Data, EcsEvent, EntityEventSystem, EntityHolderEventSystem, EventSystem, HolderSystem, ICancellableEcsEvent, ISystem, MetricSystem, QuerySystem, RefChangeSystem, RefSystem, StoreSystem, System, WorldEventSystem
+
+Complete API:
+  public ResourceType<ECS_TYPE,DelayedSystem.Data<ECS_TYPE>> getResourceType()
+  public float getIntervalSec()
+  public void tick(float dt, int systemIndex, Store<ECS_TYPE> store)
+  public abstract void delayedTick(float var1, int var2, Store<ECS_TYPE> var3)
+
+Fields:
+private final ResourceType<ECS_TYPE,DelayedSystem.Data<ECS_TYPE>> resourceType
+private final float intervalSec

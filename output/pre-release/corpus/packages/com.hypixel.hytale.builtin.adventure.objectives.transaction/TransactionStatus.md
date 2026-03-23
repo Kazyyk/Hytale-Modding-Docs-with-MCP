@@ -10,3 +10,5 @@ Enumeration type in the transaction subsystem.
 
 - SUCCESS | Success constant.
 - FAIL | Fail constant.
+
+Also in this package: RegistrationTransactionRecord, SpawnEntityTransactionRecord, SpawnTreasureChestTransactionRecord, TransactionRecord, TransactionUtil, UseEntityTransactionRecord, WorldTransactionRecord

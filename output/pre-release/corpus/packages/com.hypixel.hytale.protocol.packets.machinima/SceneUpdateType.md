@@ -21,3 +21,13 @@ public enum SceneUpdateType
 
 - public int getValue()
 - public static SceneUpdateType fromValue(int value)
+
+Also in this package: RequestMachinimaActorModel, SetMachinimaActorModel, UpdateMachinimaScene
+
+Complete API:
+  public int getValue()
+  public static SceneUpdateType fromValue(int value)
+
+Fields:
+public static final SceneUpdateType[] VALUES
+private final int value

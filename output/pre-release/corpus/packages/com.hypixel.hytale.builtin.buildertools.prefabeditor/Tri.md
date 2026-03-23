@@ -16,3 +16,15 @@ public Tri(A left, B middle, C right)
 - getLeft() | A | Returns the first element.
 - getMiddle() | B | Returns the second element.
 - getRight() | C | Returns the third element.
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabAnchor, PrefabDirtySystems, PrefabEditSession, PrefabEditSessionManager, PrefabEditingMetadata, PrefabEditorCreationContext, PrefabEditorCreationSettings, PrefabLoadingState, PrefabMarkerProvider, PrefabSelectionInteraction
+
+Complete API:
+  public A getLeft()
+  public B getMiddle()
+  public C getRight()
+
+Fields:
+private final A left
+private final B middle
+private final C right

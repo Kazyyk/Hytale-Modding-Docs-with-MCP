@@ -22,3 +22,16 @@ Component that defers corpse removal by a configurable time. Attached to dead en
 
 - Implements `Component<EntityStore>`
 - Used by `DeathSystems.CorpseRemoval` and `DeathSystems.TickCorpseRemoval`
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  public static ComponentType<EntityStore,DeferredCorpseRemoval> getComponentType()
+  public void tick(float dt)
+  public boolean shouldRemove()
+  public String getDeathParticles()
+  public Component<EntityStore> clone()
+
+Fields:
+protected double timeRemaining
+protected String deathParticles

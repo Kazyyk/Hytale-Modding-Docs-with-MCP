@@ -10,3 +10,10 @@ Record containing a target and an array of operations to apply to matching event
 
 
 @Nonnull Target target, @Nonnull Op[] ops
+
+Known subclasses: StaticModifier
+
+Also in this package: EventHandler, PriorityEntry, Target, WorldGenModifier
+
+Fields:
+public static final EventHandler.Modifier[] EMPTY_ARRAY

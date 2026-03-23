@@ -7,3 +7,8 @@ public interface VoxelConsumer<V>
 ## Methods
 
 - void accept(V var1, int var2, int var3, int var4)
+
+Also in this package: BatchTransfer, BooleanVoxelSpace, NullSpace, VoxelCoordinate, VoxelSpace, VoxelSpaceUtil, WindowVoxelSpace
+
+Complete API:
+  void accept(V var1, int var2, int var3, int var4)

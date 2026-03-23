@@ -22,3 +22,5 @@ Enumeration of noise property types used for codec registration and dispatch.
 - `GRADIENT`
 - `CURVE`
 - `BLEND`
+
+Also in this package: BlendNoiseProperty, CurveNoiseProperty, DistortedNoiseProperty, Entry, Formula, FractalFunction, FractalMode, FractalNoiseProperty, GradientMode, GradientNoiseProperty, InvertNoiseProperty, MaxNoiseProperty, MinNoiseProperty, MultiplyNoiseProperty, NoiseFormula, NoiseFormulaProperty, NoiseProperty, NormalizeNoiseProperty, OffsetNoiseProperty, PowerCurve (and 4 more)

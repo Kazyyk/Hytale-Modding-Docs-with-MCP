@@ -17,3 +17,14 @@ NPC sensor that checks the state of a named persistent alarm. Supports three sta
 - ActionSetAlarm -- action that sets alarms
 - SensorAlarm.State -- alarm state enum
 - BuilderSensorAlarm -- JSON builder for this sensor
+
+Also in this package: ActionSetAlarm, ActionTimer, BodyMotionTimer, HeadMotionTimer, MotionTimer, SensorTimer, State
+
+Complete API:
+  public boolean matches(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public InfoProvider getSensorInfo()
+
+Fields:
+protected final Alarm alarm
+protected final SensorAlarm.State state
+protected final boolean clear

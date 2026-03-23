@@ -12,3 +12,7 @@ Storage state for a VoxelBuffer. The REFERENCE state enables copy-on-write optim
 - SINGLE_VALUE
 - ARRAY
 - REFERENCE
+
+Known implementors: CanSpawnPortal, Error, Error, InstanceKeyNotFound, PortalIsOpen, PortalTypeNotFound
+
+Also in this package: ArrayContents, ArrayContents, Buffer, CountedArrayContents, CountedPixelBuffer, EntityBuffer, PixelBuffer, SimplePixelBuffer, State, State, VoxelBuffer

@@ -10,3 +10,9 @@ Registry for managing and tracking registered resources.
 
 - registerTask(CompletableFuture<Void> task) | TaskRegistration | Instance method.
 - registerTask(ScheduledFuture<Void> task) | TaskRegistration | Instance method.
+
+Also in this package: TaskRegistration
+
+Complete API:
+  public TaskRegistration registerTask(CompletableFuture<Void> task)
+  public TaskRegistration registerTask(ScheduledFuture<Void> task)

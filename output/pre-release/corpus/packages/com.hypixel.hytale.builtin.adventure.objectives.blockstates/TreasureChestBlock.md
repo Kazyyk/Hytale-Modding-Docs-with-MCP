@@ -40,3 +40,19 @@ ECS component stored on chunk-store block entities that tracks treasure chest st
 - `ObjectivePlugin` -- registers this component type under the key `"TreasureChest"`
 - DestroyTreasureConditionInteraction -- checks `canDestroy`
 - OpenTreasureContainerInteraction -- checks `canOpen` and calls `onOpen`
+
+Complete API:
+  public static ComponentType<ChunkStore,TreasureChestBlock> getComponentType()
+  public boolean canOpen(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean canDestroy(Ref<EntityStore> playerRef, ComponentAccessor<EntityStore> componentAccessor)
+  public void onOpen(Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void setOpened(boolean opened)
+  public boolean isOpened()
+  public void setObjectiveData(UUID objectiveUUID, UUID chestUUID)
+  public Component<ChunkStore> clone()
+
+Fields:
+public static final BuilderCodec<TreasureChestBlock> CODEC
+protected UUID objectiveUUID
+protected UUID chestUUID
+protected boolean opened

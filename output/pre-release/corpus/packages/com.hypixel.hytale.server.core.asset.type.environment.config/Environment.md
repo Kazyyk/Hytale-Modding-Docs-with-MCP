@@ -45,3 +45,43 @@ Implementation of `JsonAssetWithMap<String, IndexedLookupTableAssetMap<String, E
 - toString() | String | public method.
 - getUnknownFor(final String unknownId) | Environment | static public method.
 - getIndexOrUnknown(String id, String message, Object... params) | int | static public method.
+
+Also in this package: WeatherForecast
+
+Complete API:
+  public static AssetStore<String,Environment,IndexedLookupTableAssetMap<String,Environment>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,Environment> getAssetMap()
+  public String getId()
+  public Color getWaterTint()
+  public Map<String,FluidParticle> getFluidParticles()
+  public Int2ObjectMap<IWeightedMap<WeatherForecast>> getWeatherForecasts()
+  public IWeightedMap<WeatherForecast> getWeatherForecast(int hour)
+  public String getWeatherSeedKey()
+  public double getSpawnDensity()
+  public boolean isBlockModificationAllowed()
+  public WorldEnvironment toPacket()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+  public static Environment getUnknownFor(String unknownId)
+  public static int getIndexOrUnknown(String id, String message, Object params)
+
+Fields:
+public static final int HOURS_PER_DAY
+public static final int MAX_KEY_HOUR
+public static final Integer[] HOURS
+private static final IWeightedMap<WeatherForecast> DEFAULT_WEATHER_FORECAST
+public static final AssetBuilderCodec<String,Environment> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,Environment,IndexedLookupTableAssetMap<String,Environment>> ASSET_STORE
+public static final int UNKNOWN_ID
+public static final Environment UNKNOWN
+protected AssetExtraInfo.Data data
+protected String id
+protected Color waterTint
+protected Map<String,FluidParticle> fluidParticles
+protected Int2ObjectMap<IWeightedMap<WeatherForecast>> weatherForecasts
+protected double spawnDensity
+protected boolean blockModificationAllowed
+private String weatherSeedKey
+private SoftReference<WorldEnvironment> cachedPacket

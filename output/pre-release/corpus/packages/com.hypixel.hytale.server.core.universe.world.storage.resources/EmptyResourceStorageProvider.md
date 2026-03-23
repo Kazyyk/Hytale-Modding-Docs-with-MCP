@@ -14,3 +14,14 @@ public class EmptyResourceStorageProvider implements IResourceStorageProvider
 
 - @Nonnull @Override public <T extends WorldProvider> IResourceStorage getResourceStorage(@Nonnull World world)
 - @Nonnull @Override public String toString()
+
+Also in this package: DefaultResourceStorageProvider, DiskResourceStorage, DiskResourceStorageProvider, IResourceStorageProvider
+
+Complete API:
+  public IResourceStorage getResourceStorage(World world)
+  public String toString()
+
+Fields:
+public static final EmptyResourceStorageProvider INSTANCE
+public static final String ID
+public static final BuilderCodec<EmptyResourceStorageProvider> CODEC

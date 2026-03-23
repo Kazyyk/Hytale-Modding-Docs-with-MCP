@@ -12,3 +12,12 @@ public class WorldPathChangedEvent implements IEvent
 
 - public WorldPath getWorldPath()
 - @Nonnull @Override public String toString()
+
+Also in this package: IPath, IPathWaypoint, SimplePathWaypoint, WorldPath, WorldPathConfig
+
+Complete API:
+  public WorldPath getWorldPath()
+  public String toString()
+
+Fields:
+private WorldPath worldPath

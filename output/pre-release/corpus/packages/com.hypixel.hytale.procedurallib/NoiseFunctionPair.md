@@ -14,3 +14,18 @@ Utility type in the `procedurallib` subsystem.
 - setNoiseFunction3d(NoiseFunction3d noiseFunction3d) | void | Mutator method.
 - get(int seed, int offsetSeed, double x, double y) | double | Accessor method.
 - get(int seed, int offsetSeed, double x, double y, double z) | double | Accessor method.
+
+Also in this package: NoiseFunction, NoiseFunction2d, NoiseFunction3d, NoiseType
+
+Complete API:
+  public NoiseFunction2d getNoiseFunction2d()
+  public void setNoiseFunction2d(NoiseFunction2d noiseFunction2d)
+  public NoiseFunction3d getNoiseFunction3d()
+  public void setNoiseFunction3d(NoiseFunction3d noiseFunction3d)
+  public double get(int seed, int offsetSeed, double x, double y)
+  public double get(int seed, int offsetSeed, double x, double y, double z)
+  public String toString()
+
+Fields:
+protected NoiseFunction2d noiseFunction2d
+protected NoiseFunction3d noiseFunction3d

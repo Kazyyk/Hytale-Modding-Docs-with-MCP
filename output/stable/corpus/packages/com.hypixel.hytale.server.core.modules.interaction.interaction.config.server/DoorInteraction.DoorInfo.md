@@ -33,3 +33,16 @@ public DoorInteraction.DoorState getDoorState()
 
 - DoorInteraction -- uses this class for double-door logic
 - DoorInteraction.DoorState
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction (and 13 more)
+
+Complete API:
+  public BlockType getBlockType()
+  public Vector3i getBlockPosition()
+  public DoorInteraction.DoorState getDoorState()
+
+Fields:
+private final BlockType blockType
+private final int filler
+private final Vector3i blockPosition
+private final DoorInteraction.DoorState doorState

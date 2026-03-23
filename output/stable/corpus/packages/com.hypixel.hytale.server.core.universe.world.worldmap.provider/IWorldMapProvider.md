@@ -11,3 +11,13 @@ public interface IWorldMapProvider
 ## Methods
 
 - IWorldMap getGenerator(World var1) throws WorldMapLoadException
+
+Known implementors: ChunkGenerator, DisabledWorldMapProvider, WorldGenWorldMapProvider
+
+Also in this package: DisabledWorldMap, DisabledWorldMapProvider
+
+Complete API:
+  IWorldMap getGenerator(World var1)
+
+Fields:
+BuilderCodecMapCodec<IWorldMapProvider> CODEC

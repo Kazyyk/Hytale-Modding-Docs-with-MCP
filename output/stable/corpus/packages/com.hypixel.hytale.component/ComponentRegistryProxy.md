@@ -38,3 +38,30 @@ Deprecated variant that bypasses the one-system-per-class uniqueness check.
 
 - IComponentRegistry -- the interface this proxy implements
 - ComponentRegistry -- the concrete registry being proxied
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)
+
+Complete API:
+  public void shutdown()
+  public ComponentType<ECS_TYPE,T> registerComponent(Class<? super T> tClass, Supplier<T> supplier)
+  public ComponentType<ECS_TYPE,T> registerComponent(Class<? super T> tClass, String id, BuilderCodec<T> codec)
+  public ComponentType<ECS_TYPE,T> registerComponent(Class<? super T> tClass, String id, BuilderCodec<T> codec, boolean skipValidation)
+  public ResourceType<ECS_TYPE,T> registerResource(Class<? super T> tClass, Supplier<T> supplier)
+  public ResourceType<ECS_TYPE,T> registerResource(Class<? super T> tClass, String id, BuilderCodec<T> codec)
+  public ResourceType<ECS_TYPE,SpatialResource<Ref<ECS_TYPE>,ECS_TYPE>> registerSpatialResource(Supplier<SpatialStructure<Ref<ECS_TYPE>>> supplier)
+  public SystemType<ECS_TYPE,T> registerSystemType(Class<? super T> systemTypeClass)
+  public EntityEventType<ECS_TYPE,T> registerEntityEventType(Class<? super T> eventTypeClass)
+  public WorldEventType<ECS_TYPE,T> registerWorldEventType(Class<? super T> eventTypeClass)
+  public SystemGroup<ECS_TYPE> registerSystemGroup()
+  public void registerSystem(ISystem<ECS_TYPE> system)
+  public void registerSystem(ISystem<ECS_TYPE> system, boolean bypassClassCheck)
+  private ComponentType<ECS_TYPE,T> registerComponentType(ComponentType<ECS_TYPE,T> componentType)
+  private ResourceType<ECS_TYPE,T> registerResourceType(ResourceType<ECS_TYPE,T> componentType)
+  private SystemType<ECS_TYPE,T> registerSystemType(SystemType<ECS_TYPE,T> systemType)
+  private EntityEventType<ECS_TYPE,T> registerEntityEventType(EntityEventType<ECS_TYPE,T> eventType)
+  private WorldEventType<ECS_TYPE,T> registerWorldEventType(WorldEventType<ECS_TYPE,T> eventType)
+  private SystemGroup<ECS_TYPE> registerSystemGroup(SystemGroup<ECS_TYPE> systemGroup)
+
+Fields:
+private final ComponentRegistry<ECS_TYPE> registry
+private final List<BooleanConsumer> unregister

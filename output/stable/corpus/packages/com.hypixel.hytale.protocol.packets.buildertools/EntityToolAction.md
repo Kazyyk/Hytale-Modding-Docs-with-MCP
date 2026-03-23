@@ -20,3 +20,13 @@ Actions for the entity tool packet.
 
 - getValue() | int | Returns the integer value of this constant
 - fromValue(int) | EntityToolAction | Returns the constant for the given value, throws `ProtocolException` if invalid
+
+Also in this package: Axis, BrushAxis, BrushOrigin, BrushShape, BuilderToolAction, BuilderToolArg, BuilderToolArgGroup, BuilderToolArgType, BuilderToolArgUpdate, BuilderToolBlockArg, BuilderToolBoolArg, BuilderToolBrushAxisArg, BuilderToolBrushData, BuilderToolBrushOriginArg, BuilderToolBrushShapeArg, BuilderToolEntityAction, BuilderToolExtrudeAction, BuilderToolFloatArg, BuilderToolGeneralAction, BuilderToolHideAnchors (and 26 more)
+
+Complete API:
+  public int getValue()
+  public static EntityToolAction fromValue(int value)
+
+Fields:
+public static final EntityToolAction[] VALUES
+private final int value

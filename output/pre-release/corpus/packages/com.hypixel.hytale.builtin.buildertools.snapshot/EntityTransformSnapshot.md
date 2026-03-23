@@ -19,3 +19,13 @@ Immutable snapshot capturing state for undo/redo in the builder tools system.
 ## Methods
 
 - restoreEntity(@Nonnull Player player, @Nonnull World world, @Nonnull ComponentAccessor<EntityStore> componentAccessor) | EntityTransformSnapshot | public method.
+
+Also in this package: BlockSelectionSnapshot, ClipboardBoundsSnapshot, ClipboardContentsSnapshot, EntityAddSnapshot, EntityRemoveSnapshot, EntitySnapshot, SelectionSnapshot
+
+Complete API:
+  public EntityTransformSnapshot restoreEntity(Player player, World world, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+private final Ref<EntityStore> ref
+private final Transform transform
+private final Vector3f headRotation

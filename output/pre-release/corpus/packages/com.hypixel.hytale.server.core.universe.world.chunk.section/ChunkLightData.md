@@ -87,3 +87,59 @@ Serializes the octree to a byte buffer with a length prefix.
 public void serializeForPacket(@Nonnull ByteBuf buf)
 
 Serializes the octree for network packets (little-endian shorts).
+
+Known subclasses: ChunkLightDataBuilder
+
+Also in this package: BlockSection, ChunkLightDataBuilder, ChunkSection, ChunkSectionReference, FluidSection, Res, TickRequest
+
+Complete API:
+  public short getChangeId()
+  public byte getRedBlockLight(int x, int y, int z)
+  public byte getRedBlockLight(int index)
+  public byte getGreenBlockLight(int x, int y, int z)
+  public byte getGreenBlockLight(int index)
+  public byte getBlueBlockLight(int x, int y, int z)
+  public byte getBlueBlockLight(int index)
+  public byte getBlockLightIntensity(int x, int y, int z)
+  public byte getBlockLightIntensity(int index)
+  public short getBlockLight(int x, int y, int z)
+  public short getBlockLight(int index)
+  public byte getSkyLight(int x, int y, int z)
+  public byte getSkyLight(int index)
+  public byte getLight(int index, int channel)
+  public short getLightRaw(int x, int y, int z)
+  public short getLightRaw(int index)
+  protected static short getTraverse(ByteBuf local, int index, int pointer, int depth)
+  public void serialize(ByteBuf buf)
+  private void serializeOctree(ByteBuf buf, int position)
+  public void serializeForPacket(ByteBuf buf)
+  private void serializeOctreeForPacket(ByteBuf buf, int position)
+  public static ChunkLightData deserialize(ByteBuf buf, int version)
+  private static int deserializeOctree(ByteBuf from, ByteBuf to, int position, int segmentIndex)
+  public String octreeToString()
+  public static short combineLightValues(byte red, byte green, byte blue, byte sky)
+  public static short combineLightValues(byte red, byte green, byte blue)
+  public static byte getLightValue(short value, int channel)
+
+Fields:
+public static final ChunkLightData EMPTY
+public static final int TREE_SIZE
+public static final int TREE_MASK
+public static final int DEPTH_MAGIC
+public static final int SIZE_MAGIC
+public static final int INITIAL_CAPACITY
+public static final byte MAX_VALUE
+public static final int CHANNEL_COUNT
+public static final int BITS_PER_CHANNEL
+public static final int CHANNEL_MASK
+public static final int RED_CHANNEL
+public static final int GREEN_CHANNEL
+public static final int BLUE_CHANNEL
+public static final int SKY_CHANNEL
+public static final int RED_CHANNEL_BIT
+public static final int GREEN_CHANNEL_BIT
+public static final int BLUE_CHANNEL_BIT
+public static final int SKY_CHANNEL_BIT
+public static final int RGB_MASK
+protected final short changeId
+ByteBuf light

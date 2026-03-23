@@ -10,3 +10,8 @@ Functional interface defining `apply` that returns `R`.
 ## Abstract Methods
 
 - apply | R | double var1, double var3, double var5, double var7, double var9
+
+Also in this package: BiCarta, BiDouble2DoubleFunction, QuadDoubleFunction, TriCarta, TriDoubleFunction, TriFunction
+
+Complete API:
+  R apply(double var1, double var3, double var5, double var7, double var9)

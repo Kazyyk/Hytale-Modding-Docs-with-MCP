@@ -7,3 +7,6 @@ public class CrouchSlidePlugin extends JavaPlugin
 Server plugin that initializes the CrouchSlide system and registers related features.
 
 ## Accessors
+
+Complete API:
+  protected void setup()

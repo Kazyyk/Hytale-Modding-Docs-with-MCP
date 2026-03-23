@@ -47,3 +47,15 @@ Returns a human-readable description with `AND` between the contained masks.
 
 - BlockMask -- parent class; single-level mask
 - BlockFilter -- individual filter used within each child mask
+
+Also in this package: BlockEntry, BlockFilter, BlockMask, BlockPattern, BlocksAndFluids, FilterType, ParsedFilterParts
+
+Complete API:
+  public boolean isExcluded(ChunkAccessor accessor, int x, int y, int z, Vector3i min, Vector3i max, int blockId)
+  public boolean isExcluded(ChunkAccessor accessor, int x, int y, int z, Vector3i min, Vector3i max, int blockId, int fluidId)
+  public String toString()
+  public String informativeToString()
+
+Fields:
+private static final String BLOCK_MASK_SEPARATOR
+private final BlockMask[] masks

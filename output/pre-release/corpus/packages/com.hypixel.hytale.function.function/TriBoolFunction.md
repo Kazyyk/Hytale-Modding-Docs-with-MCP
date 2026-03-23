@@ -10,3 +10,8 @@ Functional interface defining `apply` that returns `R`.
 ## Abstract Methods
 
 - apply | R | T var1, U var2, V var3, boolean var4
+
+Also in this package: BiDoubleToDoubleFunction, BiIntToDoubleFunction, BiLongToDoubleFunction, BiToFloatFunction, QuadBoolFunction, ToFloatFunction, TriFunction, TriIntObjectDoubleToByteFunction, TriToIntFunction
+
+Complete API:
+  R apply(T var1, U var2, V var3, boolean var4)

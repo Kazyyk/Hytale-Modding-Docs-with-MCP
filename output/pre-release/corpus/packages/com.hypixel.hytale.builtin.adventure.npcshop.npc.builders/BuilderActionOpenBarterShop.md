@@ -16,3 +16,16 @@ public class BuilderActionOpenBarterShop extends BuilderActionBase
 - @Nonnull @Override public BuilderDescriptorState getBuilderDescriptorState()
 - @Nonnull public BuilderActionOpenBarterShop readConfig(JsonElement data)
 - public String getShopId(BuilderSupport support)
+
+Also in this package: BuilderActionOpenShop
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public Action build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionOpenBarterShop readConfig(JsonElement data)
+  public String getShopId(BuilderSupport support)
+
+Fields:
+protected final AssetHolder shopId

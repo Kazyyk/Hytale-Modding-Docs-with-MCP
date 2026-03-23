@@ -32,3 +32,18 @@ public class CameraShakeConfig implements NetworkSerializable<com.hypixel.hytale
 
 - `CameraShakeConfig.OffsetNoise`
 - `CameraShakeConfig.RotationNoise`
+
+Also in this package: ClampConfig, EasingConfig, NoiseConfig, OffsetNoise, RotationNoise
+
+Complete API:
+  public com.hypixel.hytale.protocol.CameraShakeConfig toPacket()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<CameraShakeConfig> CODEC
+protected float duration
+protected Float startTime
+protected EasingConfig easeIn
+protected EasingConfig easeOut
+protected CameraShakeConfig.OffsetNoise offset
+protected CameraShakeConfig.RotationNoise rotation

@@ -10,3 +10,12 @@ Handles `BlockReplaceEvent` for block entity holders (not yet added to the store
 
 - Inner class of ItemContainerSystems
 - Operates on ItemContainerBlock
+
+Also in this package: ItemContainerBlockSpatialSystem, ItemContainerSystems, OnAddedOrRemoved, OnReplaced
+
+Complete API:
+  public void handle(Holder<ChunkStore> holder, Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer, BlockReplaceEvent event)
+  public Query<ChunkStore> getQuery()
+
+Fields:
+private final ComponentType<ChunkStore,ItemContainerBlock> itemContainerBlockComponentType

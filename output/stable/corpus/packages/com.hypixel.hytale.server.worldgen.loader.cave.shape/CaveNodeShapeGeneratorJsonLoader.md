@@ -3,3 +3,7 @@
 Type: abstract class | Package: com.hypixel.hytale.server.worldgen.loader.cave.shape | Extends: JsonLoader<SeedStringResource, CaveNodeShapeEnum.CaveNodeShapeGenerator>
 
 public abstract class CaveNodeShapeGeneratorJsonLoader extends JsonLoader<SeedStringResource, CaveNodeShapeEnum.CaveNodeShapeGenerator>
+
+Known subclasses: CylinderCaveNodeShapeGeneratorJsonLoader, DistortedCaveNodeShapeGeneratorJsonLoader, EllipsoidCaveNodeShapeGeneratorJsonLoader, EmptyLineCaveNodeShapeGeneratorJsonLoader, PipeCaveNodeShapeGeneratorJsonLoader, PrefabCaveNodeShapeGeneratorJsonLoader
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, Constants, Constants, CylinderCaveNodeShapeGeneratorJsonLoader, DistortedCaveNodeShapeGeneratorJsonLoader, EllipsoidCaveNodeShapeGeneratorJsonLoader, EmptyLineCaveNodeShapeGeneratorJsonLoader, PipeCaveNodeShapeGeneratorJsonLoader, PrefabCaveNodeShapeGeneratorJsonLoader, ShapeDistortionJsonLoader

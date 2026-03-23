@@ -20,3 +20,14 @@ Configured via `BuilderCodec` with an `"EffectId"` string field resolved to an a
 ## Methods
 
 - evaluate(int, ArchetypeChunk, Ref, CommandBuffer, EvaluationContext) | boolean | Returns `false` if target is null/invalid; otherwise checks if the target's effect controller has the specified effect.
+
+Also in this package: HasTargetCondition, IsInStateCondition, LineOfSightCondition, NearbyCountCondition, RandomiserCondition, SelfHasEffectCondition, SelfStatAbsoluteCondition, SelfStatPercentageCondition, TargetDistanceCondition, TargetMovementStateCondition, TargetStatAbsoluteCondition, TargetStatPercentageCondition, TimeOfDayCondition, TimeSinceLastUsedCondition
+
+Complete API:
+  protected boolean evaluate(int selfIndex, ArchetypeChunk<EntityStore> archetypeChunk, Ref<EntityStore> target, CommandBuffer<EntityStore> commandBuffer, EvaluationContext context)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<TargetHasEffectCondition> CODEC
+private String entityEffectId
+private int entityEffectIndex

@@ -35,3 +35,28 @@ public class EnvironmentChunk implements Component<ChunkStore>
 - public void write(@Nonnull EnvironmentColumn environmentColumn)
 - public void count(int environmentId, int count)
 - public void intake(@Nonnull Int2IntFunction dataSource)
+
+Also in this package: BulkWriter, ColumnWriter, EnvironmentColumn, EnvironmentRange
+
+Complete API:
+  public static ComponentType<ChunkStore,EnvironmentChunk> getComponentType()
+  public Component<ChunkStore> clone()
+  public int get(int x, int y, int z)
+  public EnvironmentColumn get(int x, int z)
+  public void setColumn(int x, int z, int environmentId)
+  public boolean set(int x, int y, int z, int environmentId)
+  public boolean contains(int environmentId)
+  private void createIfNotExist(int environmentId)
+  private void incrementBlockCount(int internalId)
+  private void incrementBlockCount(int internalId, int count)
+  private boolean decrementBlockCount(int environmentId, long count)
+  private byte[] serialize()
+  private void deserialize(byte[] bytes)
+  public byte[] serializeProtocol()
+  public void trim()
+  private static int idx(int x, int z)
+
+Fields:
+public static final BuilderCodec<EnvironmentChunk> CODEC
+private final EnvironmentColumn[] columns
+private final Int2LongMap counts

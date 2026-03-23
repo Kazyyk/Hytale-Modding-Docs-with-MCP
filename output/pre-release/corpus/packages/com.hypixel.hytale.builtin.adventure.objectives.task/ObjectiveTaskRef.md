@@ -21,3 +21,13 @@ public class ObjectiveTaskRef<T extends ObjectiveTask>
 ## Related Types
 
 - ObjectiveTask
+
+Also in this package: CountObjectiveTask, CraftObjectiveTask, GatherObjectiveTask, InventoryChangeAware, ObjectiveTask, ReachLocationTask, TreasureMapObjectiveTask, UseBlockObjectiveTask, UseEntityObjectiveTask
+
+Complete API:
+  public UUID getObjectiveUUID()
+  public T getObjectiveTask()
+
+Fields:
+private final UUID objectiveUUID
+private final T objectiveTask

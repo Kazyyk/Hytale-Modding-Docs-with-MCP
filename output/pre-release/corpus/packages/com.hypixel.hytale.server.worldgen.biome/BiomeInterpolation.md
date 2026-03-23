@@ -25,3 +25,17 @@ public class BiomeInterpolation
 ## Inner Types
 
 - `BiomeInterpolation.EmptyInt2IntMap`
+
+Also in this package: Biome, BiomePatternGenerator, CustomBiome, CustomBiomeGenerator, EmptyInt2IntMap, TileBiome
+
+Complete API:
+  public int getRadius()
+  public int getBiomeRadius2(int biome)
+  public String toString()
+  public static BiomeInterpolation create(int radius, Int2IntMap biomeRadii2)
+
+Fields:
+public static final Int2IntMap EMPTY_MAP
+public static final BiomeInterpolation DEFAULT
+protected final int radius
+protected final Int2IntMap biomeRadii2

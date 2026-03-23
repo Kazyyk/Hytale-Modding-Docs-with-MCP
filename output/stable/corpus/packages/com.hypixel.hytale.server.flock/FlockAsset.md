@@ -44,3 +44,28 @@ public static IndexedLookupTableAssetMap<String, FlockAsset> getAssetMap()
 - WeightedSizeFlockAsset -- weighted distribution implementation
 - FlockPlugin -- registers the asset store
 - PersistentFlockData -- uses max grow size and blocked roles
+
+Known subclasses: RangeSizeFlockAsset, WeightedSizeFlockAsset
+
+Also in this package: RangeSizeFlockAsset, WeightedSizeFlockAsset
+
+Complete API:
+  public static AssetStore<String,FlockAsset,IndexedLookupTableAssetMap<String,FlockAsset>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,FlockAsset> getAssetMap()
+  public String getId()
+  public abstract int getMinFlockSize()
+  public abstract int pickFlockSize()
+  public int getMaxGrowSize()
+  public String[] getBlockedRoles()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<FlockAsset> ABSTRACT_CODEC
+public static final AssetCodecMapCodec<String,FlockAsset> CODEC
+public static final Codec<String> CHILD_ASSET_CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,FlockAsset,IndexedLookupTableAssetMap<String,FlockAsset>> ASSET_STORE
+private AssetExtraInfo.Data data
+protected String id
+protected int maxGrowSize
+protected String[] blockedRoles

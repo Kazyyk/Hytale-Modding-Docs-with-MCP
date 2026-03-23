@@ -7,3 +7,5 @@ public class WorldMapCommand extends AbstractCommandCollection
 ## Constructors
 
 - public WorldMapCommand()
+
+Also in this package: QuantizeCommand, WorldMapClearMarkersCommand, WorldMapDiscoverCommand, WorldMapReloadCommand, WorldMapUndiscoverCommand, WorldMapViewRadiusGetCommand, WorldMapViewRadiusRemoveCommand, WorldMapViewRadiusSetCommand, WorldMapViewRadiusSubCommand

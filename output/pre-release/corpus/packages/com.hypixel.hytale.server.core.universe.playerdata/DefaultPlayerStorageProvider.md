@@ -14,3 +14,15 @@ Implementation of `PlayerStorageProvider`.
 
 - getPlayerStorage() | PlayerStorage | public method.
 - toString() | String | public method.
+
+Also in this package: DiskPlayerStorage, DiskPlayerStorageProvider, PlayerStorage, PlayerStorageProvider
+
+Complete API:
+  public PlayerStorage getPlayerStorage()
+  public String toString()
+
+Fields:
+public static final DefaultPlayerStorageProvider INSTANCE
+public static final String ID
+public static final BuilderCodec<DefaultPlayerStorageProvider> CODEC
+public static final DiskPlayerStorageProvider DEFAULT

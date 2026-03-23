@@ -27,3 +27,26 @@ Class in the portalworld subsystem.
 - getObjectivesKeys() | String[] | public method.
 - getWisdomKeys() | String[] | public method.
 - getSplashImageFilename() | String | public method.
+
+Also in this package: PillTag, PortalSpawnConfig, PortalType
+
+Complete API:
+  public String getDisplayNameKey()
+  public Message getDisplayName()
+  public String getFlavorTextKey()
+  public Message getFlavorText()
+  public Color getThemeColor()
+  public List<PillTag> getPillTags()
+  public String[] getObjectivesKeys()
+  public String[] getWisdomKeys()
+  public String getSplashImageFilename()
+
+Fields:
+public static final BuilderCodec<PortalDescription> CODEC
+private String displayNameKey
+private String flavorTextKey
+private Color themeColor
+private PillTag[] pillTags
+private String[] objectivesKeys
+private String[] wisdomKeys
+private String splashImageFilename

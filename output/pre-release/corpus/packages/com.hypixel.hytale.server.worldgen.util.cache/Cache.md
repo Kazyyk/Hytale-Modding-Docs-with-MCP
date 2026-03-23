@@ -9,3 +9,12 @@ public interface Cache<K, V>
 - void shutdown()
 - void cleanup()
 - V get(K var1)
+
+Known implementors: ConcurrentSizedTimeoutCache, SizedTimeoutCache, TimeoutCache
+
+Also in this package: Bucket, CacheEntry, CacheEntry, CacheEntry, CleanupFutureAction, CleanupRunnable, ConcurrentSizedTimeoutCache, SizedTimeoutCache, TimeoutCache
+
+Complete API:
+  void shutdown()
+  void cleanup()
+  V get(K var1)

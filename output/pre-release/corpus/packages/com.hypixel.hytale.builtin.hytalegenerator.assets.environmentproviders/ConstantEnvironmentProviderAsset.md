@@ -13,3 +13,12 @@ Asset definition for ConstantEnvironmentProvider configuration data.
 ## Methods
 
 - @Nonnull @Override public EnvironmentProvider build(@Nonnull EnvironmentProviderAsset.Argument argument)
+
+Also in this package: Argument, DelimiterAsset, DensityDelimitedEnvironmentProviderAsset, EnvironmentProviderAsset
+
+Complete API:
+  public EnvironmentProvider build(EnvironmentProviderAsset.Argument argument)
+
+Fields:
+public static final BuilderCodec<ConstantEnvironmentProviderAsset> CODEC
+private String environment

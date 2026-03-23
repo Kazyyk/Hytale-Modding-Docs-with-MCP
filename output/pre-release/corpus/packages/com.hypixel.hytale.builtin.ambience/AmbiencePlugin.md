@@ -28,3 +28,23 @@ Plugin that registers systems, commands for the builtin subsystem.
 - getAmbientEmitterComponentType() | ComponentType<EntityStore, AmbientEmitterComponent> | public method.
 - getAmbienceResourceType() | ResourceType<EntityStore, AmbienceResource> | public method.
 - getAmbientEmitterModel() | Model | public method.
+
+Also in this package: AmbiencePluginConfig
+
+Complete API:
+  public static AmbiencePlugin get()
+  protected void setup()
+  protected void start()
+  public ComponentType<EntityStore,AmbienceTracker> getAmbienceTrackerComponentType()
+  public ComponentType<EntityStore,AmbientEmitterComponent> getAmbientEmitterComponentType()
+  public ResourceType<EntityStore,AmbienceResource> getAmbienceResourceType()
+  public Model getAmbientEmitterModel()
+
+Fields:
+private static final String DEFAULT_AMBIENT_EMITTER_MODEL
+private static AmbiencePlugin instance
+private ComponentType<EntityStore,AmbienceTracker> ambienceTrackerComponentType
+private ComponentType<EntityStore,AmbientEmitterComponent> ambientEmitterComponentType
+private ResourceType<EntityStore,AmbienceResource> ambienceResourceType
+private final Config<AmbiencePlugin.AmbiencePluginConfig> config
+private Model ambientEmitterModel

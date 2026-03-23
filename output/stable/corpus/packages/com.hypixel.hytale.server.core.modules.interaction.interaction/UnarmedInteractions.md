@@ -17,3 +17,19 @@ JSON asset defining unarmed (empty-hand) interactions mapped by `InteractionType
 - id | String | Asset identifier
 - interactions | Map<InteractionType, String> | Mapping from interaction type to root interaction ID
 - data | AssetExtraInfo.Data | Asset metadata
+
+Also in this package: Cooldown, CooldownHandler, InteractionPacketGenerator, RootInteractionPacketGenerator, UnarmedInteractionsPacketGenerator
+
+Complete API:
+  public static DefaultAssetMap<String,UnarmedInteractions> getAssetMap()
+  public String getId()
+  public Map<InteractionType,String> getInteractions()
+  public String toString()
+
+Fields:
+public static final String DEFAULT_UNARMED_ID
+public static final AssetBuilderCodec<String,UnarmedInteractions> CODEC
+private static DefaultAssetMap<String,UnarmedInteractions> ASSET_MAP
+protected AssetExtraInfo.Data data
+protected String id
+protected Map<InteractionType,String> interactions

@@ -177,3 +177,40 @@ public class FloodLightCalculation implements LightCalculation
 - CalculationResult
 - ChunkLightingManager
 - LightCalculation
+
+Also in this package: CalculationResult, ChunkLightingManager, FullBrightLightCalculation, LightCalculation
+
+Complete API:
+  public void init(WorldChunk chunk)
+  private void initChunk(int x, int z)
+  private void initChunk(WorldChunk chunk, int x, int z)
+  private void initNeighbours(int x, int z)
+  private void initSection(WorldChunk chunk, int x, int y, int z)
+  private void initNeighbours(LocalCachedChunkAccessor accessor, int chunkX, int chunkY, int chunkZ)
+  private void initNeighbourSections(LocalCachedChunkAccessor accessor, int x, int y, int z)
+  public CalculationResult calculateLight(Vector3i chunkPosition)
+  public CalculationResult updateLocalLight(LocalCachedChunkAccessor accessor, WorldChunk worldChunk, int chunkX, int chunkY, int chunkZ, BlockSection toSection, FluidSection fluidSection, AtomicLong chunkLightTiming, boolean fineLoggable)
+  public CalculationResult updateGlobalLight(LocalCachedChunkAccessor accessor, WorldChunk worldChunk, int chunkX, int chunkY, int chunkZ, BlockSection toSection, AtomicLong chunkLightTiming, boolean fineLoggable)
+  public boolean invalidateLightAtBlock(ChunkStore chunkStore, int blockX, int blockY, int blockZ, BlockType blockType, int oldHeight, int newHeight)
+  private void invalidateLightingFor(ChunkStore chunkStore, int chunkX, int chunkZ, int sectionIndexFrom, int sectionIndexTo)
+  public boolean invalidateLightInChunkSections(ChunkStore chunkStore, int chunkX, int chunkZ, int sectionIndexFrom, int sectionIndexTo)
+  private ChunkLightDataBuilder floodEmptyChunkSection(WorldChunk worldChunk, short changeCounter, int chunkY)
+  private ChunkLightDataBuilder floodChunkSection(WorldChunk worldChunk, BlockSection toSection, FluidSection fluidSection, int chunkY)
+  protected byte getSkyValue(WorldChunk worldChunk, int chunkY, int blockX, int blockY, int blockZ, int sectionY, int height)
+  private void propagateLight(BitSet bitSetQueue, BlockSection section, ChunkLightDataBuilder light)
+  public boolean testNeighboursForLocalLight(LocalCachedChunkAccessor accessor, WorldChunk worldChunk, int chunkX, int chunkY, int chunkZ)
+  public void propagateSides(BlockSection toSection, ChunkLightDataBuilder globalLight, BitSet bitSetQueue)
+  private void propagateSide(BitSet bitSetQueue, BlockSection fromSection, BlockSection toSection, ChunkLightDataBuilder toLight, IntBinaryOperator fromIndex, IntBinaryOperator toIndex)
+  public void propagateEdges(BlockSection toSection, ChunkLightDataBuilder globalLight, BitSet bitSetQueue)
+  private void propagateEdge(BitSet bitSetQueue, BlockSection fromSection, BlockSection toSection, ChunkLightDataBuilder toLight, Int2IntFunction fromIndex, Int2IntFunction toIndex)
+  public void propagateCorners(BlockSection toSection, ChunkLightDataBuilder globalLight, BitSet bitSetQueue)
+  private void propagateCorner(BitSet bitSetQueue, BlockSection fromSection, BlockSection toSection, ChunkLightDataBuilder toLight, int fromBlockIndex, int toBlockIndex)
+  private void propagateLight(BitSet bitSetQueue, byte propagatedRedValue, byte propagatedGreenValue, byte propagatedBlueValue, byte propagatedSkyValue, BlockSection toSection, ChunkLightDataBuilder toLight, int toBlockIndex)
+
+Fields:
+protected final ChunkLightingManager chunkLightingManager
+protected final AverageCollector emptyAvg
+protected final AverageCollector blocksAvg
+protected final AverageCollector borderAvg
+protected final AverageCollector avgChunk
+protected final BlockSection[][] fromSections

@@ -33,3 +33,19 @@ Returns the ambience FX asset key.
 
 - BlockType -- uses this for conditional block sounds
 - `SoundEvent` -- the referenced sound event asset
+
+Also in this package: BlockBreakingDropType, BlockFace, BlockFaceSupport, BlockFlipType, BlockGathering, BlockMigration, BlockMovementSettings, BlockPlacementSettings, BlockPreviewVisibility, BlockSupportsRequiredForType, BlockToolData, BlockType, BlockTypeTextures, CustomModelTexture, FaceConnectionType, HarvestingDropType, Match, MergedBlockFaces, PhysicsDropType, RequiredBlockFaceSupport (and 8 more)
+
+Complete API:
+  public com.hypixel.hytale.protocol.ConditionalBlockSound toPacket()
+  public String getSoundEventId()
+  public String getAmbienceFXId()
+  protected void processConfig()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ConditionalBlockSound> CODEC
+protected String soundEventId
+protected transient int soundEventIndex
+protected String ambienceFXId
+protected transient int ambienceFXIndex

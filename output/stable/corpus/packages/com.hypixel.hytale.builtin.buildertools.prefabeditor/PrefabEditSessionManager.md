@@ -33,3 +33,59 @@ Manages the lifecycle of prefab edit sessions. Handles creating editor worlds (f
 - PrefabEditSession
 - PrefabEditorCreationSettings
 - PrefabLoadingState
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabAnchor, PrefabDirtySystems, PrefabEditSession, PrefabEditingMetadata, PrefabEditorCreationContext, PrefabEditorCreationSettings, PrefabLoadingState, PrefabMarkerProvider, PrefabSelectionInteraction, PrefabSetAnchorInteraction, Tri
+
+Complete API:
+  private void onPlayerReady(PlayerReadyEvent event)
+  private void givePrefabSelectorTool(Player playerComponent, PlayerRef playerRef)
+  public void onPlayerAddedToWorld(AddPlayerToWorldEvent event)
+  public void updatePathOfLoadedPrefab(Path oldPath, Path newPath)
+  public boolean isEditingAPrefab(UUID playerUUID)
+  public PrefabEditSession getPrefabEditSession(UUID playerUUID)
+  public Map<UUID,PrefabEditSession> getActiveEditSessions()
+  void populateActiveEditSession(UUID playerUuid, PrefabEditSession editSession)
+  void populatePrefabsBeingEdited(Path prefabPath)
+  void scheduleAnchorEntityRecreation(PrefabEditSession editSession)
+  public boolean hasInProgressLoading(UUID playerUuid)
+  public void cancelLoading(UUID playerUuid)
+  public boolean isLoadingCancelled(UUID playerUuid)
+  public void clearLoadingState(UUID playerUuid)
+  public CompletableFuture<Void> createEditSessionForNewPrefab(Ref<EntityStore> ref, Player editor, PrefabEditorCreationSettings settings, ComponentAccessor<EntityStore> componentAccessor)
+  public CompletableFuture<Void> loadPrefabAndCreateEditSession(Ref<EntityStore> ref, Player editor, PrefabEditorCreationSettings settings, ComponentAccessor<EntityStore> componentAccessor)
+  public CompletableFuture<Void> loadPrefabAndCreateEditSession(Ref<EntityStore> ref, Player editor, PrefabEditorCreationSettings settings, ComponentAccessor<EntityStore> componentAccessor, Consumer<PrefabLoadingState> progressCallback)
+  private void notifyProgress(Consumer<PrefabLoadingState> progressCallback, PrefabLoadingState loadingState)
+  private CompletableFuture<Void> createEditSession(Ref<EntityStore> ref, PrefabEditorCreationContext context, boolean createNewPrefab, ComponentAccessor<EntityStore> componentAccessor)
+  private CompletableFuture<Void> createEditSession(Ref<EntityStore> ref, PrefabEditorCreationContext context, boolean createNewPrefab, ComponentAccessor<EntityStore> componentAccessor, PrefabLoadingState loadingState, Consumer<PrefabLoadingState> progressCallback)
+  private CompletableFuture<World> getWorldCreatingFuture(PrefabEditorCreationContext context, WorldConfig config)
+  private String getWorldName(PrefabEditorCreationContext context)
+  private String getWeatherFromEnvironment(String environmentId)
+  private Path getSavePath(PrefabEditorCreationContext context)
+  private void applyWorldGenWorldConfig(PrefabEditorCreationContext context, int yLevelToPastePrefabsAt, WorldConfig worldConfig)
+  private CompletableFuture<World> getPrefabCreatingCompletableFuture(PrefabEditorCreationContext context, PrefabEditSession editSession, WorldConfig worldConfig)
+  private CompletableFuture<World> getPrefabLoadingCompletableFuture(PrefabEditorCreationContext context, PrefabEditSession editSession, WorldConfig worldConfig, PrefabLoadingState loadingState, Consumer<PrefabLoadingState> progressCallback, UUID playerUuid)
+  private int[] calculateRowGroups(PrefabEditorCreationContext context, int prefabCount)
+  private int getAmountOfBlocksBelowPrefab(int prefabHeight, int desiredYLevel)
+  public CompletableFuture<Void> exitEditSession(Ref<EntityStore> ref, World world, PlayerRef playerRef, ComponentAccessor<EntityStore> componentAccessor)
+  public CompletableFuture<Void> cleanupCancelledSession(UUID playerUuid, String worldName, Consumer<PrefabLoadingState> progressCallback)
+  public CompletableFuture<Void> cleanupCancelledSession(UUID playerUuid, String worldName)
+  private CompletableFuture<IPrefabBuffer> getPrefabBuffer(CommandSender sender, Path path)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final Message MESSAGE_COMMANDS_PREFAB_EDIT_SESSION_MANAGER_EXISTING_EDIT_SESSION
+private static final Message MESSAGE_COMMANDS_EDIT_PREFAB_SOMETHING_WENT_WRONG
+public static final float NOON_TIME
+public static final String DEFAULT_NEW_WORLD_ZERO_COORDINATE_BLOCK_NAME
+public static final String DEFAULT_ENVIRONMENT
+private static final String PREFAB_SELECTOR_TOOL_ID
+public static final String DEFAULT_CHUNK_ENVIRONMENT
+public static final String PREFAB_EDITING_WORLD_NAME_PREFIX
+public static final Color DEFAULT_TINT
+private static final long PROGRESS_UPDATE_INTERVAL_NANOS
+public static final String DEFAULT_GRASS_TINT_HEX
+private final Map<UUID,PrefabEditSession> activeEditSessions
+private final HashSet<Path> prefabsBeingEdited
+private final Map<UUID,UUID> inProgressTeleportations
+private final HashSet<UUID> inProgressLoading
+private final HashSet<UUID> cancelledLoading

@@ -50,3 +50,16 @@ Returns a new `PlayerSkinComponent` wrapping the same `PlayerSkin`.
 
 - ApplyRandomSkinPersistedComponent -- flags for random skin assignment
 - PlayerSystems.PlayerSpawnedSystem -- includes skin in player self update
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public static ComponentType<EntityStore,PlayerSkinComponent> getComponentType()
+  public boolean consumeNetworkOutdated()
+  public PlayerSkin getPlayerSkin()
+  public void setNetworkOutdated()
+  public Component<EntityStore> clone()
+
+Fields:
+private final PlayerSkin playerSkin
+private boolean isNetworkOutdated

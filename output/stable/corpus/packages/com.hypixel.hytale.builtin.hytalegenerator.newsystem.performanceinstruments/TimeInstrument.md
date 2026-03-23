@@ -23,3 +23,15 @@ public class TimeInstrument
 ## Inner Types
 
 - `TimeInstrument.Probe`
+
+Also in this package: MemInstrument, Probe, Report, State
+
+Complete API:
+  public void takeSample(TimeInstrument.Probe probe)
+  public String toString()
+  private String toString(int indentation, TimeInstrument.Probe probe)
+
+Fields:
+private int sampleCount
+private TimeInstrument.Probe totalProbe
+private String header

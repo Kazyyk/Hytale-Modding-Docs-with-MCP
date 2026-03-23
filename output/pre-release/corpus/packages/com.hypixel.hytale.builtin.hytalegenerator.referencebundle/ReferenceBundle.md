@@ -13,3 +13,11 @@ Utility type in the `referencebundle` subsystem.
 ## Methods
 
 - put(String name, T reference, Class<T> type) | void | Instance method.
+
+Complete API:
+  public void put(String name, T reference, Class<T> type)
+  public T get(String name, Class<T> type)
+
+Fields:
+private final Map<String,Object> dataLayerMap
+private final Map<String,Class<?>> layerTypeMap

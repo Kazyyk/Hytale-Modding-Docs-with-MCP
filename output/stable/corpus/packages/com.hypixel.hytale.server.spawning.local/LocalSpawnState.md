@@ -13,3 +13,18 @@ World-level resource tracking local spawn controller state including active cont
 - public List<LegacySpawnBeaconEntity> getLocalPendingSpawns()
 - public boolean pollForceTriggerControllers()
 - public void forceTriggerControllers()
+
+Also in this package: LocalSpawnBeacon, LocalSpawnBeaconSystem, LocalSpawnController, LocalSpawnControllerSystem, LocalSpawnForceTriggerSystem, LocalSpawnSetupSystem
+
+Complete API:
+  public static ResourceType<EntityStore,LocalSpawnState> getResourceType()
+  public List<Ref<EntityStore>> getLocalControllerList()
+  public List<LegacySpawnBeaconEntity> getLocalPendingSpawns()
+  public boolean pollForceTriggerControllers()
+  public void forceTriggerControllers()
+  public Resource<EntityStore> clone()
+
+Fields:
+private final List<Ref<EntityStore>> localControllerList
+private final List<LegacySpawnBeaconEntity> localPendingSpawns
+private boolean forceTriggerControllers

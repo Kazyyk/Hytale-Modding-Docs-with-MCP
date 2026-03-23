@@ -21,3 +21,8 @@ Classifies damage types for the combat system. Used by armor to apply class-spec
 
 - DamageCalculator -- uses `DamageClass` for armor modifier resolution
 - DamageEntityInteraction -- applies damage class during armor calculations
+
+Also in this package: DamageCalculator, DamageEffects, DirectionalKnockback, ForceKnockback, Knockback, PointKnockback, TargetEntityEffect, Type
+
+Fields:
+public static final EnumCodec<DamageClass> CODEC

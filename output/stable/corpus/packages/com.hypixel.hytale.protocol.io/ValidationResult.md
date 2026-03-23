@@ -14,3 +14,12 @@ Immutable record representing the result of a packet validation check.
 
 - public static ValidationResult error(String message)
 - public void throwIfInvalid()
+
+Also in this package: NoopPacketStatsRecorder, PacketIO, PacketStatsEntry, PacketStatsRecorder, ProtocolException, RecentStats, VarInt
+
+Complete API:
+  public static ValidationResult error(String message)
+  public void throwIfInvalid()
+
+Fields:
+public static final ValidationResult OK

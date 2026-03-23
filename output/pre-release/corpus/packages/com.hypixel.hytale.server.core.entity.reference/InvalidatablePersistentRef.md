@@ -16,3 +16,16 @@ public class InvalidatablePersistentRef extends PersistentRef
 - public void setRefCount(int refCount)
 - public int getRefCount()
 - @Override protected boolean validateEntityReference(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+
+Also in this package: PersistentRef, PersistentRefCount
+
+Complete API:
+  public void setEntity(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public void clear()
+  public void setRefCount(int refCount)
+  public int getRefCount()
+  protected boolean validateEntityReference(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<InvalidatablePersistentRef> CODEC
+protected int refCount

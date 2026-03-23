@@ -135,3 +135,24 @@ Sets the seed for octave offset generation.
 - NoiseField -- abstract base class
 - Simplex -- underlying simplex noise implementation
 - CellNoiseField -- alternative noise field using cellular noise
+
+Also in this package: Builder, CellNoiseField, Grad, NoiseField, Simplex
+
+Complete API:
+  public static SimplexNoiseField.Builder builder()
+  public double valueAt(double x, double y, double z, double w)
+  public double valueAt(double x, double y, double z)
+  public double valueAt(double x, double y)
+  public double valueAt(double x)
+  public long getSeed()
+
+Fields:
+private final long seed
+private final double[] offsetX
+private final double[] offsetY
+private final double[] offsetZ
+private final double[] offsetW
+private final int numberOfOctaves
+private final double[] octaveFrequency
+private final double[] octaveAmplitude
+private final double normalizer

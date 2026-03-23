@@ -32,3 +32,9 @@ public class FloatRange
 
 - `FloatRange.Constant`
 - `FloatRange.Normal`
+
+Also in this package: Constant, Constant, ConstantDoubleCoordinateHashSupplier, ConstantFloatCoordinateHashSupplier, DoubleRange, DoubleRangeCoordinateHashSupplier, DoubleRangeNoiseSupplier, FloatRangeNoiseSupplier, FloatSupplier, IDoubleCoordinateHashSupplier, IDoubleCoordinateSupplier, IDoubleCoordinateSupplier2d, IDoubleCoordinateSupplier3d, IDoubleRange, IFloatCoordinateHashSupplier, IFloatCoordinateSupplier, IFloatRange, ISeedDoubleRange, Multiple, Normal (and 1 more)
+
+Fields:
+public static final FloatRange.Constant ZERO
+public static final FloatRange.Constant ONE

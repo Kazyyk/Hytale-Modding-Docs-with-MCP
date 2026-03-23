@@ -47,3 +47,17 @@ Sets the entity stat modifications to apply on hit.
 - DamageCalculatorSystems -- parent class
 - DamageCalculatorSystems.Sequence -- the hit counter
 - DamageCalculatorSystems.SequenceModifier -- system that reads this data
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public int getSequentialHits()
+  public void addSequentialHit()
+  public DamageCalculator getDamageCalculator()
+  public DamageEntityInteraction.EntityStatOnHit[] getEntityStatOnHit()
+  public void setEntityStatOnHit(DamageEntityInteraction.EntityStatOnHit[] entityStatOnHit)
+
+Fields:
+private final DamageCalculatorSystems.Sequence sequence
+private final DamageCalculator damageCalculator
+private DamageEntityInteraction.EntityStatOnHit[] entityStatOnHit

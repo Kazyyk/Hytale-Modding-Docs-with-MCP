@@ -17,3 +17,14 @@ NPC action that sets or cancels a named persistent alarm timer. Duration is rand
 
 - BuilderActionSetAlarm -- JSON builder for this action
 - SensorAlarm -- sensor checking alarm state
+
+Also in this package: ActionTimer, BodyMotionTimer, HeadMotionTimer, MotionTimer, SensorAlarm, SensorTimer, State
+
+Complete API:
+  public boolean execute(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Store<EntityStore> store)
+
+Fields:
+protected final Alarm alarm
+protected final TemporalAmount minDuration
+protected final long randomVariation
+protected final boolean cancel

@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.server.core.asset.common.events | Exte
 public class CommonAssetMonitorEvent extends AssetMonitorEvent<Void>
 
 Utility type in the `events` subsystem.
+
+Also in this package: SendCommonAssetsEvent

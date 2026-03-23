@@ -43,3 +43,12 @@ No-op.
 
 - BlockMountAPI -- performs the actual mount logic
 - MountPlugin -- registers this interaction
+
+Also in this package: MountInteraction, SpawnMinecartInteraction
+
+Complete API:
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack itemInHand, Vector3i targetBlock, CooldownHandler cooldownHandler)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+
+Fields:
+public static final BuilderCodec<SeatingInteraction> CODEC

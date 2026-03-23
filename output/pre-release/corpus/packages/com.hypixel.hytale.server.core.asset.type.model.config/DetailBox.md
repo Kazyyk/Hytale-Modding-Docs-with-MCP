@@ -24,3 +24,16 @@ public DetailBox(DetailBox other)
 - public Box getBox()
 - public DetailBox scaled(float scale)
 - @Nonnull public com.hypixel.hytale.protocol.DetailBox toPacket()
+
+Also in this package: Animation, AnimationSet, Model, ModelAsset, ModelAttachment, ModelParticle, ModelReference
+
+Complete API:
+  public Vector3d getOffset()
+  public Box getBox()
+  public DetailBox scaled(float scale)
+  public com.hypixel.hytale.protocol.DetailBox toPacket()
+
+Fields:
+public static final BuilderCodec<DetailBox> CODEC
+protected Vector3d offset
+protected Box box

@@ -11,3 +11,11 @@ public class ConstantEnvironmentProvider extends EnvironmentProvider
 ## Methods
 
 - @Override public int getValue(EnvironmentProvider.Context context)
+
+Also in this package: Context, DensityDelimitedEnvironmentProvider, EnvironmentProvider
+
+Complete API:
+  public int getValue(EnvironmentProvider.Context context)
+
+Fields:
+private final int value

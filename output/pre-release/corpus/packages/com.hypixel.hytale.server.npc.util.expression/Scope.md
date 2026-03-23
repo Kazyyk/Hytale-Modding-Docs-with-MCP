@@ -51,3 +51,26 @@ A callable expression function. Receives the ExecutionContext (with arguments on
 - StdScope -- symbol-table implementation of this interface
 - StdLib -- singleton standard library scope
 - ExecutionContext -- the VM that reads from scopes
+
+Known implementors: StdScope
+
+Also in this package: ExecutionContext, Expression, Function, Instruction, Operand, StdLib, StdScope, Symbol, SymbolBoolean, SymbolBooleanArray, SymbolFunction, SymbolNumber, SymbolNumberArray, SymbolString, SymbolStringArray, ValueType
+
+Complete API:
+  Supplier<String> getStringSupplier(String var1)
+  DoubleSupplier getNumberSupplier(String var1)
+  BooleanSupplier getBooleanSupplier(String var1)
+  Supplier<String[]> getStringArraySupplier(String var1)
+  Supplier<double[]> getNumberArraySupplier(String var1)
+  Supplier<boolean[]> getBooleanArraySupplier(String var1)
+  Scope.Function getFunction(String var1)
+  default String getString(String name)
+  default double getNumber(String name)
+  default boolean getBoolean(String name)
+  default String[] getStringArray(String name)
+  default double[] getNumberArray(String name)
+  default boolean[] getBooleanArray(String name)
+  boolean isConstant(String var1)
+  ValueType getType(String var1)
+  static String encodeFunctionName(String name, ValueType[] values)
+  static char encodeType(ValueType type)

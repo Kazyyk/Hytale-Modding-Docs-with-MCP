@@ -36,3 +36,37 @@ Implementation of `MemInstrument`.
 - isCorrect() | boolean | public method.
 - correct() | void | public method.
 - getMemoryUsage() | MemInstrument.Report | public method.
+
+Also in this package: Bounds3i
+
+Complete API:
+  public boolean contains(int x, int y, int z)
+  public boolean contains(double x, double y, double z)
+  public boolean contains(Vector3i position)
+  public boolean contains(Vector3d position)
+  public boolean contains(Bounds3d other)
+  public boolean intersects(Bounds3d other)
+  public boolean isZeroVolume()
+  public Vector3d getSize()
+  public Bounds3d assign(Bounds3d other)
+  public Bounds3d assign(Bounds3i other)
+  public Bounds3d assign(Vector3d min, Vector3d max)
+  public Bounds3d offset(Vector3d vector)
+  public Bounds3d offsetOpposite(Vector3d vector)
+  public Bounds3d intersect(Bounds3d other)
+  public Bounds3d encompass(Bounds3d other)
+  public Bounds3d encompass(Vector3d position)
+  public Bounds3d stack(Bounds3d other)
+  public Bounds3d flipOnOriginPoint()
+  public Bounds3d flipOnOriginVoxel()
+  public Bounds3d applyRotation(RotationTuple rotationTuple, Vector3d anchor)
+  public Bounds3d undoRotation(RotationTuple rotationTuple, Vector3d anchor)
+  public Bounds3d clone()
+  public boolean isCorrect()
+  public void correct()
+  public MemInstrument.Report getMemoryUsage()
+
+Fields:
+public static final Bounds3d ZERO
+public final Vector3d min
+public final Vector3d max

@@ -24,3 +24,19 @@ Implementation of `JsonAssetWithMap<String, DefaultAssetMap<String, BiomeRangeAs
 - getBiomeAsset() | BiomeAsset | public method.
 - getBiomeAssetId() | String | public method.
 - getId() | String | public method.
+
+Also in this package: BasicWorldStructureAsset
+
+Complete API:
+  public DoubleRange getRange()
+  public BiomeAsset getBiomeAsset()
+  public String getBiomeAssetId()
+  public String getId()
+
+Fields:
+public static final AssetBuilderCodec<String,BiomeRangeAsset> CODEC
+private String id
+private AssetExtraInfo.Data data
+private double min
+private double max
+private String biomeAssetId

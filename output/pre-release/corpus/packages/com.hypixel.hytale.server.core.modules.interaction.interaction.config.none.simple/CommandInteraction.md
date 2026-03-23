@@ -15,3 +15,13 @@ Interaction that executes a server command as the owning player. When triggered,
 
 - protected void firstRun(@Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler)
 - @Nonnull String toString()
+
+Also in this package: ApplyEffectInteraction, RemoveEntityInteraction, SendMessageInteraction
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<CommandInteraction> CODEC
+private String command

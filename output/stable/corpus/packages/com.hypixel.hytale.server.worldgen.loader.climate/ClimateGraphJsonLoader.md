@@ -15,3 +15,12 @@ JSON loader that deserializes configuration data from JSON files.
 - protected double loadFadeRadius()
 - protected double loadFadeDistance()
 - @Nonnull protected ClimateType[] loadClimates()
+
+Also in this package: ClimateColorJsonLoader, ClimateGridJsonLoader, ClimateMaskJsonLoader, ClimateNoiseJsonLoader, ClimatePointJsonLoader, ClimateRuleJsonLoader, ClimateTypeJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, ContinentThresholdsJsonLoader, UniqueClimateGeneratorJsonLoader, UniqueClimateJsonLoader
+
+Complete API:
+  public ClimateGraph load()
+  protected ClimateGraph.FadeMode loadFadeMode()
+  protected double loadFadeRadius()
+  protected double loadFadeDistance()
+  protected ClimateType[] loadClimates()

@@ -19,3 +19,20 @@ public IntSet getIndexesForTag(int index)
 
 @Override
 public boolean requireReplaceOnRemove()
+
+Known subclasses: BlockTypeAssetMap, IndexedAssetMap, IndexedLookupTableAssetMap, LookupTableAssetMap, ProvidedIndexAssetMap
+
+Also in this package: AssetRef, BlockTypeAssetMap, CaseInsensitiveHashStrategy, DefaultAssetMap, IndexedAssetMap, IndexedLookupTableAssetMap, JsonAssetWithMap, LookupTableAssetMap, ProvidedIndexAssetMap
+
+Complete API:
+  protected void clear()
+  public IntSet getIndexesForTag(int index)
+  protected void putAssetTags(AssetCodec<K,T> codec, Map<K,T> loadedAssets)
+  protected void putAssetTag(AssetCodec<K,T> codec, K key, int index, T value)
+  protected void putAssetTag(K key, int index, int tag)
+  public boolean requireReplaceOnRemove()
+
+Fields:
+public static final int NOT_FOUND
+protected final Int2ObjectConcurrentHashMap<IntSet> indexedTagStorage
+protected final Int2ObjectConcurrentHashMap<IntSet> unmodifiableIndexedTagStorage

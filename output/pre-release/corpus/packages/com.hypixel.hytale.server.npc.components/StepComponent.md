@@ -13,3 +13,13 @@ public class StepComponent implements Component
 - public static ComponentType<EntityStore,StepComponent> getComponentType()
 - public float getTickLength()
 - @Nonnull @Override public Component<EntityStore> clone()
+
+Also in this package: FailedSpawnComponent, SortBufferProviderResource, SpawnBeaconReference, SpawnMarkerReference, SpawnReference, Timers
+
+Complete API:
+  public static ComponentType<EntityStore,StepComponent> getComponentType()
+  public float getTickLength()
+  public Component<EntityStore> clone()
+
+Fields:
+private final float tickLength

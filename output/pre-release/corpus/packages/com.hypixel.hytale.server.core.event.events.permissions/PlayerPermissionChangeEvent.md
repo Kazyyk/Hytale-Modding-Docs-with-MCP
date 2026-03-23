@@ -22,3 +22,13 @@ public abstract class PlayerPermissionChangeEvent implements IEvent<Void>
 - `PlayerPermissionChangeEvent.GroupRemoved`
 - `PlayerPermissionChangeEvent.PermissionsAdded`
 - `PlayerPermissionChangeEvent.PermissionsRemoved`
+
+Known subclasses: GroupAdded, GroupRemoved, PermissionsAdded, PermissionsRemoved, PlayerGroupEvent
+
+Also in this package: Added, Added, GroupAdded, GroupPermissionChangeEvent, GroupRemoved, PermissionsAdded, PermissionsRemoved, PlayerGroupEvent, Removed, Removed
+
+Complete API:
+  public UUID getPlayerUuid()
+
+Fields:
+private final UUID playerUuid

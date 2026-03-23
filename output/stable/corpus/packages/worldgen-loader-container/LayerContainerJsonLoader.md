@@ -41,3 +41,12 @@ Base class for layer entry loaders. Loads block arrays and noise masks.
 *interface*
 
 JSON key constants for all layer-related fields and error messages.
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CoverContainerEntryJsonLoader, CoverContainerJsonLoader, DefaultEnvironmentContainerEntryLoader, DefaultTintContainerEntryJsonLoader, DynamicLayerEntryJsonLoader, DynamicLayerJsonLoader, EnvironmentContainerEntryJsonLoader, EnvironmentContainerJsonLoader, FadeContainerJsonLoader, LayerEntryJsonLoader, PrefabContainerEntryJsonLoader, PrefabContainerJsonLoader (and 8 more)
+
+Complete API:
+  public LayerContainer load()
+  protected int loadDefault()
+  protected int loadDefaultEnvironment()
+  protected LayerContainer.StaticLayer[] loadStaticLayers()
+  protected LayerContainer.DynamicLayer[] loadDynamicLayers()

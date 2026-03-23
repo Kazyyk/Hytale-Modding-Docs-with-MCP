@@ -25,3 +25,20 @@ public class RespawnPage extends InteractiveCustomUIPage<RespawnPage.RespawnPage
 ## Inner Types
 
 - `RespawnPage.RespawnPageEventData`
+
+Also in this package: BasicCustomUIPage, CustomUIPage, InteractiveCustomUIPage, PageManager, RespawnPageEventData
+
+Complete API:
+  private static ItemStack[] combineSimilarItemStacks(ItemStack[] itemsLostOnDeath)
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, RespawnPage.RespawnPageEventData data)
+  public void onDismiss(Ref<EntityStore> ref, Store<EntityStore> store)
+
+Fields:
+private static final String UI_RESPAWN_PAGE
+private static final String ELEMENT_BUTTON_RESPAWN
+private static final String ELEMENT_LABEL_DEATH_REASON_TEXT_SPANS
+private final Message deathReason
+private final boolean displayDataOnDeathScreen
+private final DeathItemLoss deathItemLoss
+private final ItemStack[] itemsLostOnDeath

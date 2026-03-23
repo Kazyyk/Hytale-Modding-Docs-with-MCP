@@ -10,3 +10,9 @@ Functional interface defining `acceptNow` that returns `void`.
 ## Abstract Methods
 
 - acceptNow | void | T var1, U var2
+
+Also in this package: ThrowableConsumer, ThrowableIntConsumer, ThrowableTriConsumer
+
+Complete API:
+  default void accept(T t, U u)
+  void acceptNow(T var1, U var2)

@@ -10,3 +10,13 @@ Utility type in the `delimiters` subsystem.
 
 - getRange() | RangeDouble | Accessor method.
 - getValue() | V | Accessor method.
+
+Also in this package: DelimiterInt, RangeDouble, RangeInt
+
+Complete API:
+  public RangeDouble getRange()
+  public V getValue()
+
+Fields:
+private final RangeDouble range
+private final V value

@@ -58,3 +58,8 @@ protected void setup() {
 - `Registry` -- base class providing lifecycle management
 - `Entity` -- base entity type
 - `PluginBase` -- provides `getEntityRegistry()` to obtain this registry
+
+Also in this package: AllLegacyEntityTypesQuery, AllLegacyLivingEntityTypesQuery, BlockEntitySetupSystem, BlockEntitySystems, BlockEntityTrackerSystem, BlockMigrationExtraInfo, DespawnComponent, DespawnSystem, EntityModule, EntityRegistration, HiddenFromPlayerMigrationSystem, LegacyEntityHolderSystem, LegacyEntityRefSystem, LegacyProjectileSystems, LegacyTransformSystem, LegacyUUIDSystem, LegacyUUIDUpdateSystem, MigrationSystem, OnAddHolderSystem, OnAddRefSystem (and 4 more)
+
+Complete API:
+  public EntityRegistration registerEntity(String key, Class<T> clazz, Function<World,T> constructor, DirectDecodeCodec<T> codec)

@@ -33,3 +33,29 @@ Type: class | Package: com.hypixel.hytale.server.core.modules.blockset | Extends
 - public boolean blockInSet(int set, @Nullable BlockType blockType)
 - public boolean blockInSet(int set, @Nullable String blockTypeKey)
 - public static BlockSetModule getInstance()
+
+Also in this package: BlockSetLookupTable
+
+Complete API:
+  protected void setup()
+  private void onBlockTypesChanged(LoadedAssetsEvent<String,BlockType,BlockTypeAssetMap<String,BlockType>> event)
+  private void onBlockSetsChanged(LoadedAssetsEvent<String,BlockSet,DefaultAssetMap<String,BlockSet>> event)
+  private Int2ObjectMap<IntSet> flattenBlockSets(BlockSetLookupTable lookupTable)
+  private IntOpenHashSet createSet(BlockSet blockSet, BlockSetLookupTable lookupTable, Int2ObjectMap<IntSet> flattenedSets)
+  private void consume(String[] values, Map<String,IntSet> map, String typeString, Consumer<IntSet> addAll)
+  private void consume(String[][] values, BlockSetLookupTable lookupTable, Consumer<IntSet> addAll)
+  private IntOpenHashSet createSet(String name, BlockSetLookupTable lookupTable, Int2ObjectMap<IntSet> flattenedSets)
+  private void consumeCategory(String[] categories, Consumer<IntSet> predicate, BlockSetLookupTable lookupTable)
+  private void consumeEntry(String name, Consumer<IntSet> predicate, Map<String,IntSet> nameIdMap, String typeString)
+  public Int2ObjectMap<IntSet> getBlockSets()
+  public boolean blockInSet(int set, int blockId)
+  public boolean blockInSet(int set, BlockType blockType)
+  public boolean blockInSet(int set, String blockTypeKey)
+  public static BlockSetModule getInstance()
+
+Fields:
+public static final PluginManifest MANIFEST
+private static BlockSetModule INSTANCE
+private Int2ObjectMap<IntSet> flattenedBlockSets
+private Int2ObjectMap<IntSet> unmodifiableFlattenedBlockSets
+private BlockSetLookupTable blockSetLookupTable

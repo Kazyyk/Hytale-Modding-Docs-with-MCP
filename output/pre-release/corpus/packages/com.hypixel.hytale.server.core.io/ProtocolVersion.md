@@ -26,3 +26,14 @@ public int hashCode()
 
 
 public String toString()
+
+Also in this package: DisconnectReason, NetworkSerializable, NetworkSerializer, NetworkSerializers, PacketHandler, PacketStatsEntry, PacketStatsRecorderImpl, PingInfo, ServerManager, SizeRecord
+
+Complete API:
+  public int getCrc()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+private final int crc

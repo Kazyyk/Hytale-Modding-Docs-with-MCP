@@ -9,3 +9,10 @@ Implements the `/blockset` server command.
 ## Methods
 
 - executeSync(CommandContext context) | void | Instance method.
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final BlockSetModule blockSetModule
+private final OptionalArg<String> blockSetArg

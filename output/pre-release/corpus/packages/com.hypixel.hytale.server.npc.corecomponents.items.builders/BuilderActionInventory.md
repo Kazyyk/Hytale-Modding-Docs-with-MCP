@@ -27,3 +27,25 @@ NPC behavior action builder for ActionInventory functionality.
 - public int getCount(@Nonnull BuilderSupport builderSupport)
 - public boolean getUseTarget(@Nonnull BuilderSupport support)
 - public int getSlot(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionDropItem, BuilderActionPickUpItem, BuilderSensorDroppedItem
+
+Complete API:
+  public Action build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Action> readConfig(JsonElement data)
+  public boolean validate(String configName, NPCLoadTimeValidationHelper validationHelper, ExecutionContext context, Scope globalScope, List<String> errors)
+  public ActionInventory.Operation getOperation(BuilderSupport builderSupport)
+  public String getItem(BuilderSupport builderSupport)
+  public int getCount(BuilderSupport builderSupport)
+  public boolean getUseTarget(BuilderSupport support)
+  public int getSlot(BuilderSupport support)
+
+Fields:
+protected final EnumHolder<ActionInventory.Operation> operation
+protected final AssetHolder item
+protected final IntHolder count
+protected final BooleanHolder useTarget
+protected final IntHolder slot

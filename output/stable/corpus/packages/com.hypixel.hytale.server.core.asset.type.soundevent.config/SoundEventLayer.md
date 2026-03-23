@@ -44,3 +44,30 @@ public class SoundEventLayer implements NetworkSerializable<com.hypixel.hytale.p
 ## Inner Types
 
 - `SoundEventLayer.RandomSettings`
+
+Also in this package: RandomSettings, SoundEvent
+
+Complete API:
+  public float getVolume()
+  public float getStartDelay()
+  public boolean isLooping()
+  public int getProbability()
+  public float getProbabilityRerollDelay()
+  public SoundEventLayer.RandomSettings getRandomSettings()
+  public String[] getFiles()
+  public int getRoundRobinHistorySize()
+  public int getHighestNumberOfChannels()
+  public com.hypixel.hytale.protocol.SoundEventLayer toPacket()
+  public String toString()
+
+Fields:
+public static final Codec<SoundEventLayer> CODEC
+protected transient float volume
+protected float startDelay
+protected boolean looping
+protected int probability
+protected float probabilityRerollDelay
+protected SoundEventLayer.RandomSettings randomSettings
+protected String[] files
+protected int roundRobinHistorySize
+protected transient int highestNumberOfChannels

@@ -17,3 +17,10 @@ Marker interface for objective tasks that need to react to player inventory chan
 ## Related Types
 
 - ObjectiveInventoryChangeSystem -- the system that dispatches to this interface
+
+Known implementors: GatherObjectiveTask
+
+Also in this package: CountObjectiveTask, CraftObjectiveTask, GatherObjectiveTask, ObjectiveTask, ObjectiveTaskRef, ReachLocationTask, TreasureMapObjectiveTask, UseBlockObjectiveTask, UseEntityObjectiveTask
+
+Complete API:
+  void onInventoryChange(Objective var1, Ref<EntityStore> var2, Store<EntityStore> var3, InventoryChangeEvent var4)

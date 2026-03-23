@@ -49,3 +49,23 @@ Populates the protocol packet with `itemToRemove`, `adjustHeldItemQuantity`, `it
 @Nonnull
 @Override
 public String toString()
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, OpenContainerInteraction (and 11 more)
+
+Complete API:
+  public WaitForDataFrom getWaitForDataFrom()
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected Interaction generatePacket()
+  protected void configurePacket(Interaction packet)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ModifyInventoryInteraction> CODEC
+private GameMode requiredGameMode
+private ItemStack itemToRemove
+private int adjustHeldItemQuantity
+private ItemStack itemToAdd
+private double adjustHeldItemDurability
+private String brokenItem
+private Boolean notifyOnBreak
+private String notifyOnBreakMessage

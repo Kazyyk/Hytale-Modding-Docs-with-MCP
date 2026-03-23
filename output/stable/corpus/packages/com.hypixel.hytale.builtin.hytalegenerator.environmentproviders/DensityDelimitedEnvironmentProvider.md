@@ -13,3 +13,13 @@ public class DensityDelimitedEnvironmentProvider extends EnvironmentProvider
 ## Methods
 
 - @Override public int getValue(EnvironmentProvider.Context context)
+
+Also in this package: ConstantEnvironmentProvider, Context, EnvironmentProvider
+
+Complete API:
+  public int getValue(EnvironmentProvider.Context context)
+
+Fields:
+private final List<DelimiterDouble<EnvironmentProvider>> delimiters
+private final Density density
+private final Density.Context rDensityContext

@@ -16,3 +16,16 @@ public class WorldBounds extends ChunkBounds implements IWorldBounds
 - public void expandNegative(double x, double y, double z)
 - public void expandPositive(double x, double y, double z)
 - @Override public void include(IChunkBounds bounds)
+
+Also in this package: ChunkBounds, IWorldBounds
+
+Complete API:
+  public int getLowBoundY()
+  public int getHighBoundY()
+  public void expandNegative(double x, double y, double z)
+  public void expandPositive(double x, double y, double z)
+  public void include(IChunkBounds bounds)
+
+Fields:
+protected int minY
+protected int maxY

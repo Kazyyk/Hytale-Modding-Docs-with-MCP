@@ -43,3 +43,41 @@ public class InstancesPlugin extends JavaPlugin
 - @Nonnull public ComponentType<EntityStore, InstanceEntityConfig> getInstanceEntityConfigComponentType()
 - @Nonnull public ComponentType<ChunkStore, InstanceBlock> getInstanceBlockComponentType()
 - @Nonnull public ComponentType<ChunkStore, ConfigurableInstanceBlock> getConfigurableInstanceBlockComponentType()
+
+Also in this package: InstanceValidator
+
+Complete API:
+  public static InstancesPlugin get()
+  protected void setup()
+  public CompletableFuture<World> spawnInstance(String name, World forWorld, Transform returnPoint)
+  public CompletableFuture<World> spawnInstance(String name, String worldName, World forWorld, Transform returnPoint)
+  public static void teleportPlayerToLoadingInstance(Ref<EntityStore> entityRef, ComponentAccessor<EntityStore> componentAccessor, CompletableFuture<World> worldFuture, Transform overrideReturn)
+  public static void teleportPlayerToInstance(Ref<EntityStore> playerRef, ComponentAccessor<EntityStore> componentAccessor, World targetWorld, Transform overrideReturn)
+  public static CompletableFuture<Void> exitInstance(Ref<EntityStore> targetRef, ComponentAccessor<EntityStore> componentAccessor)
+  public static void safeRemoveInstance(String worldName)
+  public static void safeRemoveInstance(UUID worldUUID)
+  public static void safeRemoveInstance(World instanceWorld)
+  public static Path getInstanceAssetPath(String name)
+  public static boolean doesInstanceAssetExist(String name)
+  public static CompletableFuture<World> loadInstanceAssetForEdit(String name)
+  public List<String> getInstanceAssets()
+  private static void onPlayerConnect(PlayerConnectEvent event)
+  private static void onPlayerAddToWorld(AddPlayerToWorldEvent event)
+  private static void onPlayerReady(PlayerReadyEvent event)
+  private static void showInstanceDiscovery(Ref<EntityStore> ref, Store<EntityStore> store, UUID instanceUuid, InstanceDiscoveryConfig discoveryConfig)
+  private static void onPlayerDrainFromWorld(DrainPlayerFromWorldEvent event)
+  private void validateInstanceAssets(LoadAssetEvent event)
+  public static String safeName(String name)
+  public ResourceType<ChunkStore,InstanceDataResource> getInstanceDataResourceType()
+  public ComponentType<EntityStore,InstanceEntityConfig> getInstanceEntityConfigComponentType()
+  public ComponentType<ChunkStore,InstanceBlock> getInstanceBlockComponentType()
+  public ComponentType<ChunkStore,ConfigurableInstanceBlock> getConfigurableInstanceBlockComponentType()
+
+Fields:
+private static InstancesPlugin instance
+public static final String INSTANCE_PREFIX
+public static final String CONFIG_FILENAME
+private ResourceType<ChunkStore,InstanceDataResource> instanceDataResourceType
+private ComponentType<EntityStore,InstanceEntityConfig> instanceEntityConfigComponentType
+private ComponentType<ChunkStore,InstanceBlock> instanceBlockComponentType
+private ComponentType<ChunkStore,ConfigurableInstanceBlock> configurableInstanceBlockComponentType

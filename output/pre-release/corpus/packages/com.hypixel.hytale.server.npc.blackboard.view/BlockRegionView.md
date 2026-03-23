@@ -28,3 +28,28 @@ Implementation of `IBlackboardView<ViewType>`.
 - xFromIndex(int index) | int | static public method.
 - yFromIndex(int index) | int | static public method.
 - zFromIndex(int index) | int | static public method.
+
+Known subclasses: BlockTypeView, ResourceView
+
+Also in this package: BlockRegionViewManager, IBlackboardView, IBlackboardViewManager, PrioritisedProvider, PrioritisedProviderView, SingletonBlackboardViewManager
+
+Complete API:
+  public static int toRegionalBlackboardCoordinate(int pos)
+  public static int toWorldCoordinate(int pos)
+  public static int chunkToRegionalBlackboardCoordinate(int pos)
+  public static long indexView(int x, int z)
+  public static int indexSection(int y)
+  public static int xOfViewIndex(long index)
+  public static int zOfViewIndex(long index)
+  public static long indexViewFromChunkCoordinates(int x, int z)
+  public static long indexViewFromWorldPosition(Vector3d pos)
+  public static int indexBlock(int x, int y, int z)
+  public static int xFromIndex(int index)
+  public static int yFromIndex(int index)
+  public static int zFromIndex(int index)
+
+Fields:
+public static final int BITS
+public static final int SIZE
+public static final int SIZE_MASK
+public static final int BITS2

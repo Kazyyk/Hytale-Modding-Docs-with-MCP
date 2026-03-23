@@ -10,3 +10,5 @@ Enumerates ChangeType values: `REGISTERED`, `UNREGISTERED`.
 
 - REGISTERED
 - UNREGISTERED
+
+Also in this package: ComponentChange, DataChange, ResourceChange, SystemChange, SystemGroupChange, SystemTypeChange

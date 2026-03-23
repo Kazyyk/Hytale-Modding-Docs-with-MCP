@@ -23,3 +23,23 @@ NPC entity filter builder: Test various conditions relating to entity inventory.
 - @Nullable public String[] getItems(@Nonnull BuilderSupport support)
 - public int[] getCount(@Nonnull BuilderSupport support)
 - public int[] getFreeSlotsRange(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderEntityFilterAltitude, BuilderEntityFilterAnd, BuilderEntityFilterAttitude, BuilderEntityFilterCombat, BuilderEntityFilterHeightDifference, BuilderEntityFilterInsideBlock, BuilderEntityFilterItemInHand, BuilderEntityFilterLineOfSight, BuilderEntityFilterMany, BuilderEntityFilterMovementState, BuilderEntityFilterNPCGroup, BuilderEntityFilterNot, BuilderEntityFilterOr, BuilderEntityFilterSpotsMe, BuilderEntityFilterStandingOnBlock, BuilderEntityFilterStat, BuilderEntityFilterViewSector
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public IEntityFilter build(BuilderSupport builderSupport)
+  public Builder<IEntityFilter> readConfig(JsonElement data)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public String[] getItems(BuilderSupport support)
+  public int[] getCount(BuilderSupport support)
+  public int[] getFreeSlotsRange(BuilderSupport support)
+
+Fields:
+public static final int[] DEFAULT_FREE_SLOT_RANGE
+public static final int[] DEFAULT_ITEM_COUNT_RANGE
+public static final String[] DEFAULT_ITEM_PATTERNS
+protected final AssetArrayHolder items
+protected final NumberArrayHolder count
+protected final NumberArrayHolder freeSlots

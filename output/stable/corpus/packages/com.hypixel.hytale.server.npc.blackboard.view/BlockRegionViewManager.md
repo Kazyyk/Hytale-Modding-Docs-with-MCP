@@ -19,3 +19,24 @@ Implementation of `IBlackboardViewManager<Type>`.
 - onWorldRemoved() | void | public method.
 - forEachView(@Nonnull Consumer<Type> consumer) | void | public method.
 - clear() | void | public method.
+
+Known subclasses: BlockTypeViewManager, ResourceViewManager
+
+Also in this package: BlockRegionView, IBlackboardView, IBlackboardViewManager, PrioritisedProvider, PrioritisedProviderView, SingletonBlackboardViewManager
+
+Complete API:
+  public Type get(Ref<EntityStore> ref, Blackboard blackboard, ComponentAccessor<EntityStore> componentAccessor)
+  public Type get(Vector3d position, Blackboard blackboard)
+  public Type get(int chunkX, int chunkZ, Blackboard blackboard)
+  public Type get(long index, Blackboard blackboard)
+  protected abstract Type createView(long var1, Blackboard var3)
+  public Type getIfExists(long index)
+  public void cleanup()
+  protected abstract boolean shouldCleanup(Type var1)
+  public void onWorldRemoved()
+  public void forEachView(Consumer<Type> consumer)
+  public void clear()
+
+Fields:
+protected Long2ObjectConcurrentHashMap<Type> views
+protected LongArrayFIFOQueue removalQueue

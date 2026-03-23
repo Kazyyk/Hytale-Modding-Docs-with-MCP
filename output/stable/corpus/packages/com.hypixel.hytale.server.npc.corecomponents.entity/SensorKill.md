@@ -21,3 +21,13 @@ public class SensorKill extends SensorBase
 
 - public boolean matches(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, double dt, @Nonnull Store<EntityStore> store)
 - public InfoProvider getSensorInfo()
+
+Also in this package: ActionBeacon, ActionIgnoreForAvoidance, ActionNotify, ActionOverrideAttitude, ActionReleaseTarget, ActionSetMarkedTarget, ActionSetStat, HeadMotionWatch, SensorBeacon, SensorCount, SensorEntity, SensorEntityBase, SensorPlayer, SensorSelf, SensorTarget
+
+Complete API:
+  public boolean matches(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public InfoProvider getSensorInfo()
+
+Fields:
+protected final int targetSlot
+protected final PositionProvider positionProvider

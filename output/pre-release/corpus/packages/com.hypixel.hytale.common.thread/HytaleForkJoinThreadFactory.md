@@ -13,3 +13,8 @@ Utility type in the `thread` subsystem.
 ## Methods
 
 - newThread(ForkJoinPool pool) | ForkJoinWorkerThread | Instance method.
+
+Also in this package: WorkerThread
+
+Complete API:
+  public ForkJoinWorkerThread newThread(ForkJoinPool pool)

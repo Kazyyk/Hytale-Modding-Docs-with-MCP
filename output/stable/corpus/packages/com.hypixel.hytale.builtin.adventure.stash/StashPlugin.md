@@ -20,3 +20,12 @@ public class StashPlugin extends JavaPlugin
 ## Inner Types
 
 - `StashPlugin.StashSystem`
+
+Also in this package: StashGameplayConfig, StashSystem
+
+Complete API:
+  protected void setup()
+  public static ListTransaction<ItemStackTransaction> stash(ItemContainerState containerState, boolean clearDropList)
+
+Fields:
+private static final HytaleLogger LOGGER

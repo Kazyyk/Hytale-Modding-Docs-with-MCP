@@ -11,3 +11,5 @@ Identifies the type of slot action being filtered.
 - ADD | An item is being placed into a slot.
 - REMOVE | An item is being taken from a slot.
 - DROP | An item is being dropped from a slot.
+
+Also in this package: ArmorSlotAddFilter, FilterType, ItemSlotFilter, NoDuplicateFilter, ResourceFilter, SlotFilter, TagFilter

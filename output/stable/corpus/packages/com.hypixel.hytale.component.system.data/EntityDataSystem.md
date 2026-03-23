@@ -16,3 +16,13 @@ Abstract ECS data system that iterates individual entities within archetype chun
 ## Inner Classes
 
 - SystemTaskData<ECS_TYPE, Q, R> | Holds per-task state for parallel entity processing. Implements `IntConsumer` to process entity indices.
+
+Known subclasses: LoadFuturePacketDataQuerySystem, LoadPacketDataQuerySystem, UnloadPacketDataQuerySystem
+
+Also in this package: ArchetypeDataSystem, SystemTaskData
+
+Complete API:
+  public boolean isParallel()
+  public void fetch(ArchetypeChunk<ECS_TYPE> archetypeChunk, Store<ECS_TYPE> store, CommandBuffer<ECS_TYPE> commandBuffer, Q query, List<R> results)
+  public abstract void fetch(int var1, ArchetypeChunk<ECS_TYPE> var2, Store<ECS_TYPE> var3, CommandBuffer<ECS_TYPE> var4, Q var5, List<R> var6)
+  public static void doFetch(EntityDataSystem<ECS_TYPE,Q,R> system, ArchetypeChunk<ECS_TYPE> archetypeChunk, Store<ECS_TYPE> store, CommandBuffer<ECS_TYPE> commandBuffer, Q query, List<R> results)

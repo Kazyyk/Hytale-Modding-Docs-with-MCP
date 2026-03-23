@@ -23,3 +23,16 @@ An `EntityStore` component attached to NPC entities that are residents of a Coop
 ## Codec
 
 Serialized fields: `CoopLocation` (Vector3i), `MarkedForDespawn` (boolean).
+
+Complete API:
+  public static ComponentType<EntityStore,CoopResidentComponent> getComponentType()
+  public void setCoopLocation(Vector3i coopLocation)
+  public Vector3i getCoopLocation()
+  public void setMarkedForDespawn(boolean markedForDespawn)
+  public boolean getMarkedForDespawn()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<CoopResidentComponent> CODEC
+private Vector3i coopLocation
+private boolean markedForDespawn

@@ -24,3 +24,21 @@ public class FarmingData
 ## Inner Types
 
 - `FarmingData.SoilConfig`
+
+Also in this package: FarmingStageData, GrowthModifierAsset, SoilConfig
+
+Complete API:
+  public Map<String,FarmingStageData[]> getStages()
+  public String getStartingStageSet()
+  public String getStageSetAfterHarvest()
+  public String[] getGrowthModifiers()
+  public FarmingData.SoilConfig getSoilConfig()
+  public String toString()
+
+Fields:
+public static Codec<FarmingData> CODEC
+protected Map<String,FarmingStageData[]> stages
+protected String startingStageSet
+protected String stageSetAfterHarvest
+protected String[] growthModifiers
+protected FarmingData.SoilConfig soilConfig

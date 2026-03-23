@@ -59,3 +59,27 @@ public static boolean isCoverMatchingParent(int cx, int cz, int y, @Nonnull Chun
 
 
 public static boolean invalidateCover(int x, int y, int z, CaveNodeType.CaveNodeCoverType type, @Nonnull ChunkGeneratorExecution execution, @Nonnull BlockTypeAssetMap<String, BlockType> blockTypeMap)
+
+Also in this package: AbstractCaveNodeShape, CaveNodeShape, CaveNodeShapeEnum, CaveNodeShapeGenerator, CylinderCaveNodeShape, CylinderCaveNodeShapeGenerator, DistortedCaveNodeShape, DistortedCaveNodeShapeGenerator, EllipsoidCaveNodeShape, EllipsoidCaveNodeShapeGenerator, EmptyLineCaveNodeShape, EmptyLineCaveNodeShapeGenerator, PipeCaveNodeShape, PipeCaveNodeShapeGenerator, PrefabCaveNodeShape, PrefabCaveNodeShapeGenerator, TetrahedronCaveNodeShape, TetrahedronCaveNodeShapeGenerator
+
+Complete API:
+  public static Vector3d getBoxAnchor(Vector3d vector, IWorldBounds bounds, double tx, double ty, double tz)
+  public static Vector3d getLineAnchor(Vector3d vector, Vector3d o, Vector3d v, double t)
+  public static Vector3d getSphereAnchor(Vector3d vector, Vector3d origin, double rx, double ry, double rz, double tx, double ty, double tz)
+  public static Vector3d getPipeAnchor(Vector3d vector, Vector3d o, Vector3d v, double rx, double ry, double rz, double t, double tv, double th)
+  public static Vector3d getOffset(CaveNode parent, CaveNodeType.CaveNodeChildEntry childEntry)
+  public static double getEndRadius(CaveNode node, IDoubleRange range, Random random)
+  public static double getEndWidth(CaveNode node, IDoubleRange range, Random random)
+  public static double getEndHeight(CaveNode node, IDoubleRange range, Random random)
+  public static double getEndRadius(CaveNodeShape shape, BiDoubleToDoubleFunction widthHeightSelector)
+  public static BlockFluidEntry getFillingBlock(CaveType cave, CaveNodeType node, int y, Random random)
+  protected static int getCoverHeight(int lowest, int lowestPossible, int highest, int highestPossible, boolean heightLimited, CaveNodeType.CaveNodeCoverEntry cover, CaveNodeType.CaveNodeCoverEntry.Entry entry)
+  public static boolean isCoverMatchingParent(int cx, int cz, int y, ChunkGeneratorExecution execution, CaveNodeType.CaveNodeCoverEntry cover)
+  public static boolean invalidateCover(int x, int y, int z, CaveNodeType.CaveNodeCoverType type, ChunkGeneratorExecution execution, BlockTypeAssetMap<String,BlockType> blockTypeMap)
+  protected static Vector3d getRadialProjection(Vector3d vector, double x, double y, double z, double rx, double ry, double rz, double tx, double ty, double tz)
+
+Fields:
+public static final BiDoubleToDoubleFunction LEFT
+public static final BiDoubleToDoubleFunction RIGHT
+public static final BiDoubleToDoubleFunction MIN
+public static final BiDoubleToDoubleFunction MAX

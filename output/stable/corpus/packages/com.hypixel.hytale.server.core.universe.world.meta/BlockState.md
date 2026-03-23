@@ -162,3 +162,53 @@ public static BlockState getBlockState(@Nonnull Holder<ChunkStore> holder)
 - BlockStateModule -- Plugin that manages block state registration and lifecycle systems.
 - BlockStateRegistration -- Registration handle for a block state class.
 - BlockStateRegistry -- Registry facade used by plugins to register block states.
+
+Known subclasses: BenchState, ItemContainerState, PrefabSpawnerState, SpawnMarkerBlockState
+
+Also in this package: BlockStateModule, BlockStateRegistration, BlockStateRegistry, ItemContainerStateRefSystem, LegacyBlockStateHolderSystem, LegacyBlockStateRefSystem, LegacyLateInitBlockStateSystem, LegacyLoadPacketBlockStateSystem, LegacyTickingBlockStateSystem, LegacyUnloadPacketBlockStateSystem
+
+Complete API:
+  public void setReference(Ref<ChunkStore> reference)
+  public Ref<ChunkStore> getReference()
+  public void unloadFromWorld()
+  public boolean initialize(BlockType blockType)
+  public void onUnload()
+  public void validateInitialized()
+  public int getIndex()
+  public void setPosition(WorldChunk chunk, Vector3i position)
+  public void setPosition(Vector3i position)
+  public Vector3i getPosition()
+  public Vector3i __internal_getPosition()
+  public void clearPositionForSerialization()
+  public int getBlockX()
+  public int getBlockY()
+  public int getBlockZ()
+  public Vector3i getBlockPosition()
+  public Vector3d getCenteredBlockPosition()
+  public WorldChunk getChunk()
+  public BlockType getBlockType()
+  public int getRotationIndex()
+  public void invalidate()
+  public void markNeedsSave()
+  public BsonDocument saveToDocument()
+  public Component<ChunkStore> clone()
+  public Holder<ChunkStore> toHolder()
+  public static BlockState load(BsonDocument doc, WorldChunk chunk, Vector3i pos)
+  public static BlockState load(BsonDocument doc, WorldChunk chunk, Vector3i pos, BlockType blockType)
+  public static BlockState ensureState(WorldChunk worldChunk, int x, int y, int z)
+  public static BlockState getBlockState(Ref<ChunkStore> reference, ComponentAccessor<ChunkStore> componentAccessor)
+  public static BlockState getBlockState(int index, ArchetypeChunk<ChunkStore> archetypeChunk)
+  public static BlockState getBlockState(Holder<ChunkStore> holder)
+  private static ComponentType<ChunkStore,T> findComponentType(Archetype<ChunkStore> archetype, Class<C> entityClass)
+
+Fields:
+private static final HytaleLogger LOGGER
+public static final CodecMapCodec<BlockState> CODEC
+public static final BuilderCodec<BlockState> BASE_CODEC
+public static final KeyedCodec<String> TYPE_STRUCTURE
+public static final String OPEN_WINDOW
+public static final String CLOSE_WINDOW
+final AtomicBoolean initialized
+private WorldChunk chunk
+private Vector3i position
+protected Ref<ChunkStore> reference

@@ -15,3 +15,14 @@ Concrete implementation extending `TagPattern`.
 - test(Int2ObjectMap<IntSet> tags) | boolean | public method.
 - toPacket() | com.hypixel.hytale.protocol.TagPattern | public method.
 - toString() | String | public method.
+
+Also in this package: AndPatternOp, EqualsTagOp, MultiplePatternOp, OrPatternOp, TagPattern
+
+Complete API:
+  public boolean test(Int2ObjectMap<IntSet> tags)
+  public com.hypixel.hytale.protocol.TagPattern toPacket()
+  public String toString()
+
+Fields:
+public static BuilderCodec<NotPatternOp> CODEC
+protected TagPattern pattern

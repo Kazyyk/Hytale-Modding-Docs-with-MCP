@@ -23,3 +23,5 @@ Registers as sub-command `"attack"` with translation key `"server.commands.npc.a
 - NPCAttackCommand.SetAttackCommand -- sets attack override interactions
 - NPCAttackCommand.ClearAttackCommand -- clears attack overrides
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDumpCommand, NPCFreezeCommand (and 28 more)

@@ -49,3 +49,28 @@ public class HeightThresholdInterpolator
 - ChunkGenerator
 - ChunkGeneratorExecution
 - ZoneBiomeResult
+
+Also in this package: BlockPriorityChunk, BlockPriorityModifier, ChunkGenerator, ChunkGeneratorExecution, MaskProvider, ValidationUtil, ZoneBiomeResult
+
+Complete API:
+  public CoreDataCacheEntry[] getEntries()
+  public HeightThresholdInterpolator populate(int seed)
+  public void generateInterpolatedBiomeCountAt(int cx, int cz, InterpolatedBiomeCountList biomeCountList)
+  public double getHeightNoise(int cx, int cz)
+  public float getHeightThreshold(int seed, int x, int z, int y)
+  private float interpolateHeightThreshold(int seed, int x, int z, int y)
+  protected CoreDataCacheEntry tableEntry(int cx, int cz)
+  protected void setTableEntry(int cx, int cz, CoreDataCacheEntry entry)
+  protected ZoneBiomeResult zoneBiomeResult(int cx, int cz)
+  public int getLowestNonOne(int cx, int cz)
+  public int getHighestNonZero(int cx, int cz)
+  protected int indexLocal(int x, int z)
+
+Fields:
+public static final int MAX_RADIUS
+public static final int MAX_RADIUS2
+private final ChunkGeneratorExecution execution
+private final CoreDataCacheEntry[] entries
+private final int radius
+private final int size
+private final int totalSize

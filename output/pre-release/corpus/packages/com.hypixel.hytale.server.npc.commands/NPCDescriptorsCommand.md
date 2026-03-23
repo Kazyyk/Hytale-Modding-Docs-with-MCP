@@ -16,3 +16,8 @@ Registers as `"descriptors"` with description key `"server.commands.npc.descript
 ## Methods
 
 - executeAsync(CommandContext, Store<EntityStore>, Ref<EntityStore>, PlayerRef, World) | CompletableFuture<Void> | Calls `NPCPlugin.get().generateDescriptors()` and `saveDescriptors()`, then reports the output path.
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDumpCommand (and 29 more)
+
+Complete API:
+  protected CompletableFuture<Void> executeAsync(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)

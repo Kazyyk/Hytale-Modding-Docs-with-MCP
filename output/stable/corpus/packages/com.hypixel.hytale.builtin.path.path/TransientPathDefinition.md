@@ -18,3 +18,12 @@ Class in the path subsystem.
 ## Methods
 
 - buildPath(@Nonnull Vector3d position, @Nonnull Vector3f rotation) | IPath<SimplePathWaypoint> | public method.
+
+Also in this package: IPrefabPath, PatrolPath, TransientPath
+
+Complete API:
+  public IPath<SimplePathWaypoint> buildPath(Vector3d position, Vector3f rotation)
+
+Fields:
+protected final List<RelativeWaypointDefinition> waypointDefinitions
+protected final double scale

@@ -13,3 +13,13 @@ public class SingleDoubleParameterProvider extends SingleParameterProvider imple
 - @Override public double getDoubleParameter()
 - @Override public void clear()
 - public void overrideDouble(double value)
+
+Also in this package: DoubleParameterProvider, IntParameterProvider, MultipleParameterProvider, ParameterProvider, SingleIntParameterProvider, SingleParameterProvider, SingleStringParameterProvider, StringParameterProvider
+
+Complete API:
+  public double getDoubleParameter()
+  public void clear()
+  public void overrideDouble(double value)
+
+Fields:
+private double value

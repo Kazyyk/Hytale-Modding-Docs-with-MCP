@@ -23,3 +23,17 @@ Implementation of `Collector`.
 - collect(@Nonnull CollectorTag tag, @Nonnull InteractionContext context, @Nonnull Interaction interaction) | boolean | public method.
 - outof() | void | public method.
 - finished() | void | public method.
+
+Also in this package: Collector, CollectorTag, ListCollector, Node, StringTag, TreeCollector
+
+Complete API:
+  public T getResult()
+  public void start()
+  public void into(InteractionContext context, Interaction interaction)
+  public boolean collect(CollectorTag tag, InteractionContext context, Interaction interaction)
+  public void outof()
+  public void finished()
+
+Fields:
+private final TriFunction<CollectorTag,InteractionContext,Interaction,T> function
+private T result

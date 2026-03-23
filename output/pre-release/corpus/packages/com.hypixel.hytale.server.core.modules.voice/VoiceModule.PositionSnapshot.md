@@ -9,3 +9,5 @@ Immutable snapshot of a player's position data used for voice routing calculatio
 ## See Also
 
 - VoiceModule
+
+Also in this package: ListenerCandidate, VoiceModule, VoiceModuleConfig, VoicePacketHandler, VoicePlayerState, VoiceRouter, VoiceStreamHandler

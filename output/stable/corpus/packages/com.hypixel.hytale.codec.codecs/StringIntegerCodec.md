@@ -18,3 +18,15 @@ Codec for serializing and deserializing StringInteger values.
 - @Nonnull public BsonValue encode(Integer t, ExtraInfo extraInfo)
 - @Nonnull public Integer decodeJson(@Nonnull RawJsonReader reader, ExtraInfo extraInfo)
 - @Nonnull public StringSchema toSchema(@Nonnull SchemaContext context)
+
+Also in this package: BsonDocumentCodec, EnumCodec, EnumStyle, InetSocketAddressCodec, UUIDBinaryCodec
+
+Complete API:
+  public Integer decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Integer t, ExtraInfo extraInfo)
+  public Integer decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public StringSchema toSchema(SchemaContext context)
+
+Fields:
+public static final StringIntegerCodec INSTANCE
+private static final Pattern INTEGER_PATTERN

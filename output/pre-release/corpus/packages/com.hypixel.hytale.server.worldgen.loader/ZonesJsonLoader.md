@@ -29,3 +29,11 @@ public class ZonesJsonLoader extends Loader<SeedStringResource, Zone[]>
 ## Inner Types
 
 - `ZonesJsonLoader.Constants`
+
+Also in this package: AssetFileSystem, ChunkGeneratorJsonLoader, Constants, Constants, MaskProviderJsonLoader, PrefabPathCollector, Resource, WorldGenPrefabLoader, WorldGenPrefabSupplier
+
+Complete API:
+  public Zone[] load()
+
+Fields:
+protected final FileLoadingContext loadingContext

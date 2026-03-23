@@ -13,3 +13,14 @@ A singleton null-object implementation of BuilderModifier. Used when a `"Modify"
 ## Related Types
 
 - BuilderModifier -- parent class
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public boolean isEmpty()
+  public int exportedStateCount()
+  public void applyComponentStateMap(BuilderSupport support)
+  public void popComponentStateMap(BuilderSupport support)
+
+Fields:
+public static final EmptyBuilderModifier INSTANCE

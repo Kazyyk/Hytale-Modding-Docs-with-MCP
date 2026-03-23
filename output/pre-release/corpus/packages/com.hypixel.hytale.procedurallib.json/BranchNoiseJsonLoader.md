@@ -21,3 +21,20 @@ Loads branching noise configurations. Creates `BranchNoise` with separate parent
 
 - BranchNoiseJsonLoader.LoadedBranchNoise -- inner class with SeedResource
 - BranchNoiseJsonLoader.Constant -- JSON keys and defaults
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public BranchNoise load()
+  protected CellType loadParentCellType()
+  protected CellType loadLineCellType()
+  protected PointEvaluator loadParentEvaluator()
+  protected IIntCondition loadParentDensity()
+  protected DistanceNoise.Distance2Function loadParentDistance2Function()
+  protected NoiseFormulaProperty.NoiseFormula.Formula loadParentFormula()
+  protected PointEvaluator loadLineEvaluator(CellDistanceFunction parentFunction, CellPointFunction linePointFunction, double lineScale)
+  protected double loadDouble(String key, double def)
+  protected IDoubleRange loadRange(String key, double def)
+  protected E loadEnum(String key, Function<String,E> valueOf, E def)
+  protected static CellDistanceFunction getCellDistanceFunction(CellType cellType)
+  protected static CellPointFunction getCellPointFunction(CellType cellType)

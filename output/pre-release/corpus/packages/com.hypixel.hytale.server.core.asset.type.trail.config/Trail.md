@@ -44,3 +44,40 @@ Class in the config subsystem.
 - getEnd() | Edge | public method.
 - getAnimation() | Animation | public method.
 - toString() | String | public method.
+
+Also in this package: Animation, Edge
+
+Complete API:
+  public static AssetStore<String,Trail,DefaultAssetMap<String,Trail>> getAssetStore()
+  public static DefaultAssetMap<String,Trail> getAssetMap()
+  public com.hypixel.hytale.protocol.Trail toPacket()
+  public String getId()
+  public String getTexture()
+  public FXRenderMode getRenderMode()
+  public IntersectionHighlight getIntersectionHighlight()
+  public int getLifeSpan()
+  public float getRoll()
+  public float getLightInfluence()
+  public boolean isSmooth()
+  public Edge getStart()
+  public Edge getEnd()
+  public Animation getAnimation()
+  public String toString()
+
+Fields:
+public static final AssetBuilderCodec<String,Trail> CODEC
+private static AssetStore<String,Trail,DefaultAssetMap<String,Trail>> ASSET_STORE
+public static final ValidatorCache<String> VALIDATOR_CACHE
+protected AssetExtraInfo.Data data
+protected String id
+protected String texture
+protected FXRenderMode renderMode
+protected IntersectionHighlight intersectionHighlight
+protected int lifeSpan
+protected float roll
+protected float lightInfluence
+protected boolean smooth
+protected Edge start
+protected Edge end
+protected Animation animation
+protected SoftReference<com.hypixel.hytale.protocol.Trail> cachedPacket

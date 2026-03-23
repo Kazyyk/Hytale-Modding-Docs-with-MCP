@@ -12,3 +12,8 @@ Functional interface used by `ItemContainer.replaceAll(SlotReplacementFunction)`
 ItemStack replace(short var1, ItemStack var2)
 
 Given a slot index and the current item stack in that slot, returns the replacement item stack.
+
+Also in this package: CombinedItemContainer, DelegateItemContainer, Dummy, EmptyItemContainer, FetchedItemContainer, InternalContainerUtilItemStack, InternalContainerUtilMaterial, InternalContainerUtilResource, InternalContainerUtilTag, ItemContainer, ItemContainerChangeEvent, ItemContainerUtil, ItemStackItemContainer, ItemType, SimpleItemContainer, SortType, TempItemData, TestRemoveItemSlotResult
+
+Complete API:
+  ItemStack replace(short var1, ItemStack var2)

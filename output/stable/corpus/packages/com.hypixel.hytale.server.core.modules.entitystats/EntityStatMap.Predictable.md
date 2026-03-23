@@ -11,3 +11,5 @@ Controls client-side prediction for stat updates. When a stat change is predicta
 - NONE | Not predictable by any viewer.
 - SELF | Predictable by the entity's own client only.
 - ALL | Predictable by all viewers (self and others).
+
+Also in this package: Changes, ClearChanges, EntityStatMap, EntityStatValue, EntityStatsModule, EntityStatsSystems, EntityTrackerRemove, EntityTrackerUpdate, PlayerRegenerateStatsSystem, Recalculate, Regenerate, RegeneratingValue, Setup, StatModifyingSystem

@@ -12,3 +12,12 @@ public class AssetEditorClientDisconnectEvent extends EditorClientEvent
 
 - public PacketHandler.DisconnectReason getDisconnectReason()
 - @Nonnull @Override public String toString()
+
+Also in this package: AssetEditorActivateButtonEvent, AssetEditorAssetCreatedEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorRequestDataSetEvent, AssetEditorSelectAssetEvent, AssetEditorUpdateWeatherPreviewLockEvent, EditorClientEvent
+
+Complete API:
+  public PacketHandler.DisconnectReason getDisconnectReason()
+  public String toString()
+
+Fields:
+private final PacketHandler.DisconnectReason disconnectReason

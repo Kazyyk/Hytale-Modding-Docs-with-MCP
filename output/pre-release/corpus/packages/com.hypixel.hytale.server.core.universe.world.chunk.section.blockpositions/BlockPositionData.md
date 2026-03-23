@@ -21,3 +21,21 @@ public class BlockPositionData implements IBlockPositionData
 - @Override public double getXCentre()
 - @Override public double getYCentre()
 - @Override public double getZCentre()
+
+Also in this package: BlockPositionProvider, IBlockPositionData
+
+Complete API:
+  public BlockSection getChunkSection()
+  public int getBlockType()
+  public int getX()
+  public int getY()
+  public int getZ()
+  public double getXCentre()
+  public double getYCentre()
+  public double getZCentre()
+
+Fields:
+private static final double HALF_BLOCK
+private int blockIndex
+private ChunkSectionReference section
+private int blockType

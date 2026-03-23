@@ -10,3 +10,8 @@ Enum of area scan shapes: CIRCLE, SQUARE. This type is deprecated.
 
 - `CIRCLE`
 - `SQUARE`
+
+Also in this package: AreaScanner, ColumnLinearScanner, ColumnRandomScanner, Strategy, Verticality
+
+Fields:
+public static final Codec<AreaScanner.ScanShape> CODEC

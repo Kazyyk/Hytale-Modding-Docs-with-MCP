@@ -26,3 +26,17 @@ Container that manages a collection of typed buffer grids for the world generati
 - @Nonnull @Override public MemInstrument.Report getMemoryUsage()
 - private boolean existingGridHasBufferTypeIndex(int bufferTypeIndex)
 - @Nonnull public BufferBundle.MemoryReport createMemoryReport()
+
+Also in this package: Access, Grid, GridEntry, MemoryReport, TrackedBuffer, Tracker, View
+
+Complete API:
+  public BufferBundle.Grid createGrid(BufferType bufferType, int capacity)
+  public BufferBundle.Access createBufferAccess(BufferType bufferType, Bounds3i bounds_bufferGrid)
+  public void closeALlAccesses()
+  public BufferBundle.Grid getGrid(BufferType contentType)
+  public MemInstrument.Report getMemoryUsage()
+  private boolean existingGridHasBufferTypeIndex(int bufferTypeIndex)
+  public BufferBundle.MemoryReport createMemoryReport()
+
+Fields:
+private final Map<BufferType,BufferBundle.Grid> grids

@@ -26,3 +26,20 @@ Component attached to block entities that contain an item container (e.g., chest
 - Implements `Component<ChunkStore>`
 - Managed by BlockModule
 - Systems: `ItemContainerSystems.OnAddedOrRemoved`, `ItemContainerSystems.OnReplaced`
+
+Complete API:
+  public static ComponentType<ChunkStore,ItemContainerBlock> getComponentType()
+  public void setItemContainer(SimpleItemContainer itemContainer)
+  public String getDroplist()
+  public void setDroplist(String droplist)
+  public Map<UUID,ContainerBlockWindow> getWindows()
+  public SimpleItemContainer getItemContainer()
+  public short getCapacity()
+  public Component<ChunkStore> clone()
+
+Fields:
+public static final BuilderCodec<ItemContainerBlock> CODEC
+private final transient Map<UUID,ContainerBlockWindow> windows
+protected String droplist
+protected SimpleItemContainer itemContainer
+protected short capacity

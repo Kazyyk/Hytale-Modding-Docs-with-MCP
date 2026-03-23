@@ -15,3 +15,5 @@ Result codes returned by SpawningContext spawn validation methods.
 - FAIL_NO_MOTION_CONTROLLERS | NPC has no motion controllers configured
 - FAIL_NOT_SPAWNABLE | Entity is not spawnable at the context
 - FAIL_NOT_BREATHABLE | NPC cannot breathe at the position
+
+Also in this package: ISpawnable, ISpawnableWithModel, LegacySpawnSuppressorEntityMigration, LoadedNPCEvent, NPCSpawningConfig, SpawnRejection, SpawnSpan, SpawningContext, SpawningPlugin

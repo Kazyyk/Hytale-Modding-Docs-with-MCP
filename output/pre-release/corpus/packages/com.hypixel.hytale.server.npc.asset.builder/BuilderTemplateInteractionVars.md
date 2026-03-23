@@ -32,3 +32,10 @@ Returns the interaction vars map. If the execution context provides an override,
 
 - BuilderCodecObjectHelper -- parent class
 - BuilderModifier -- can provide `_InteractionVars` overrides
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public Map<String,String> build()
+  public void readConfig(JsonElement data, ExtraInfo extraInfo)
+  public Map<String,String> build(ExecutionContext context)

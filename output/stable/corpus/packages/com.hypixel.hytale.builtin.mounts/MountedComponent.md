@@ -60,3 +60,25 @@ Returns a copy sharing the same entity reference, offset, and controller. Does n
 - MountSystems -- systems reacting to this component
 - BlockMountAPI -- creates block-mount instances
 - MountInteraction -- creates entity-mount instances
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public static ComponentType<EntityStore,MountedComponent> getComponentType()
+  public Ref<EntityStore> getMountedToEntity()
+  public Ref<ChunkStore> getMountedToBlock()
+  public Vector3f getAttachmentOffset()
+  public MountController getControllerType()
+  public BlockMountType getBlockMountType()
+  public long getMountedDurationMs()
+  public boolean consumeNetworkOutdated()
+  public Component<EntityStore> clone()
+
+Fields:
+private Ref<EntityStore> mountedToEntity
+private Ref<ChunkStore> mountedToBlock
+private MountController controller
+private BlockMountType blockMountType
+private Vector3f attachmentOffset
+private long mountStartMs
+private boolean isNetworkOutdated

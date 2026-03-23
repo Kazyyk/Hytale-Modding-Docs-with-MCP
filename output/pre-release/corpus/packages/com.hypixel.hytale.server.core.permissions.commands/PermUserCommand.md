@@ -12,3 +12,5 @@ Command collection under `perm user` for managing per-user permissions. Users ar
 - add: Adds permissions to a user by UUID.
 - remove: Removes permissions from a user by UUID.
 - group: Nested collection: `list`/`add`/`remove` user group membership.
+
+Also in this package: PermCommand, PermGroupAddCommand, PermGroupCommand, PermGroupListCommand, PermGroupRemoveCommand, PermTestCommand, PermUserAddCommand, PermUserGroupAddCommand, PermUserGroupCommand, PermUserGroupListCommand, PermUserGroupRemoveCommand, PermUserListCommand, PermUserRemoveCommand

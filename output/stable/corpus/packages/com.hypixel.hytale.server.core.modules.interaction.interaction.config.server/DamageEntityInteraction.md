@@ -85,3 +85,39 @@ Returns `WaitForDataFrom.None`.
 - DamageCalculator -- computes base damage values
 - DamageEffects -- visual/audio/knockback effects
 - Knockback -- knockback force calculation
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction (and 13 more)
+
+Complete API:
+  protected void tick0(boolean firstRun, float time, InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected void simulateTick0(boolean firstRun, float time, InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  private boolean processDamage(InteractionContext context, Damage[] queuedDamage)
+  public void compile(OperationsBuilder builder)
+  public boolean walk(Collector collector, InteractionContext context)
+  protected com.hypixel.hytale.protocol.Interaction generatePacket()
+  protected void configurePacket(com.hypixel.hytale.protocol.Interaction packet)
+  public boolean needsRemoteSync()
+  public WaitForDataFrom getWaitForDataFrom()
+  private void attemptEntityDamage0(Damage.Source source, InteractionContext context, Ref<EntityStore> attackerRef, Ref<EntityStore> targetRef, Vector4d hit)
+  private static void calculateKnockbackAndArmorModifiers(DamageClass damageClass, Object2FloatMap<DamageCause> damage, Ref<EntityStore> targetRef, Ref<EntityStore> attackerRef, float[] armorDamageModifiers, double[] knockbackMultiplier, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<DamageEntityInteraction> CODEC
+private static final int FAILED_LABEL_INDEX
+private static final int SUCCESS_LABEL_INDEX
+private static final int BLOCKED_LABEL_INDEX
+private static final int ANGLED_LABEL_OFFSET
+public static final int ARMOR_RESISTANCE_FLAT_MODIFIER
+public static final int ARMOR_RESISTANCE_MULTIPLIER_MODIFIER
+private static final MetaKey<DamageCalculatorSystems.Sequence> SEQUENTIAL_HITS
+private static final MetaKey<Integer> NEXT_INDEX
+private static final MetaKey<Damage[]> QUEUED_DAMAGE
+protected DamageCalculator damageCalculator
+protected DamageEffects damageEffects
+protected DamageEntityInteraction.AngledDamage[] angledDamage
+protected DamageEntityInteraction.EntityStatOnHit[] entityStatsOnHit
+protected Map<String,DamageEntityInteraction.TargetedDamage> targetedDamage
+protected String[] sortedTargetDamageKeys
+protected String next
+protected String blocked
+protected String failed

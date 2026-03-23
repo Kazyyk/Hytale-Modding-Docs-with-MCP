@@ -24,3 +24,22 @@ NPC behavior motion builder for HeadMotionAim functionality.
 - public boolean isDeflection(BuilderSupport support)
 - public double getHitProbability(BuilderSupport support)
 - public double getRelativeTurnSpeed(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionApplyEntityEffect, BuilderActionAttack, BuilderBodyMotionAimCharge, BuilderSensorDamage, BuilderSensorIsBackingAway
+
+Complete API:
+  public HeadMotionAim build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderHeadMotionAim readConfig(JsonElement data)
+  public double getSpread(BuilderSupport support)
+  public boolean isDeflection(BuilderSupport support)
+  public double getHitProbability(BuilderSupport support)
+  public double getRelativeTurnSpeed(BuilderSupport support)
+
+Fields:
+protected final DoubleHolder spread
+protected final BooleanHolder deflection
+protected final DoubleHolder hitProbability
+protected final DoubleHolder relativeTurnSpeed

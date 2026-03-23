@@ -25,3 +25,12 @@ Returns `true` if the item is `null`, or if the item has armor data with a match
 public ItemArmorSlot getItemArmorSlot()
 
 Returns the armor slot this filter requires.
+
+Also in this package: FilterActionType, FilterType, ItemSlotFilter, NoDuplicateFilter, ResourceFilter, SlotFilter, TagFilter
+
+Complete API:
+  public boolean test(Item item)
+  public ItemArmorSlot getItemArmorSlot()
+
+Fields:
+private final ItemArmorSlot itemArmorSlot

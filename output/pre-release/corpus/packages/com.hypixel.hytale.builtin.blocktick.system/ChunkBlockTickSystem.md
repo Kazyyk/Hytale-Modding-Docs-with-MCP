@@ -14,3 +14,8 @@ ECS system handling ChunkBlockTick tick processing.
 
 - `ChunkBlockTickSystem.PreTick` -- pre-tick pass running `BlockChunk.preTick()`
 - ChunkBlockTickSystem.Ticking -- main tick pass executing block tick procedures
+
+Also in this package: MergeWaitingBlocksSystem, PreTick, Ticking
+
+Fields:
+protected static final HytaleLogger LOGGER

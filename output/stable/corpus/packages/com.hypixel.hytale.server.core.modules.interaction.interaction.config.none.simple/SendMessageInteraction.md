@@ -20,3 +20,14 @@ Interaction handler extending `SimpleInstantInteraction`.
 
 - firstRun(@Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) | void | protected method.
 - toString() | String | public method.
+
+Also in this package: ApplyEffectInteraction, RemoveEntityInteraction
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SendMessageInteraction> CODEC
+private String key
+private String message

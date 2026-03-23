@@ -14,3 +14,14 @@ public class OffsetOperation extends SequenceBrushOperation
 ## Methods
 
 - @Override public void modifyBrushConfig(Ref<EntityStore> ref, BrushConfig brushConfig, BrushConfigCommandExecutor brushConfigCommandExecutor, ComponentAccessor<EntityStore> componentAccessor)
+
+Also in this package: RandomOffsetOperation
+
+Complete API:
+  public void modifyBrushConfig(Ref<EntityStore> ref, BrushConfig brushConfig, BrushConfigCommandExecutor brushConfigCommandExecutor, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<OffsetOperation> CODEC
+public RelativeVector3i offsetArg
+public LoadIntFromToolArgOperation.TargetField targetFieldArg
+public boolean negateArg

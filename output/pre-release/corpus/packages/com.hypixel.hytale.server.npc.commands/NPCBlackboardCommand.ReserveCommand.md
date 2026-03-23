@@ -22,3 +22,13 @@ Registers as sub-command `"reserve"` with translation key `"server.commands.npc.
 
 - NPCBlackboardCommand -- parent command collection
 - NPCBlackboardCommand.ReservationCommand -- checks reservation status
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+  private Ref<EntityStore> getNPCRef(CommandContext context, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<Boolean> reserveArg
+private final EntityWrappedArg entityArg

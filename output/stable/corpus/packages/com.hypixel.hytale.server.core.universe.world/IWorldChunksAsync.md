@@ -17,3 +17,13 @@ Deprecated asynchronous chunk retrieval interface. Provides `CompletableFuture`-
 ## See Also
 
 - IWorldChunks
+
+Known implementors: IWorldChunks
+
+Also in this package: ChunkConfig, ClientEffectWorldSettings, Default, GenericBlockBulkUpdater, IWorldChunks, ParticleUtil, PlaceBlockSettings, PlayerUtil, SetBlockSettings, SoundUtil, SpawnUtil, ValidationOption, World, WorldConfig, WorldConfigProvider, WorldMapTracker, WorldNotificationHandler, WorldProvider, ZoneDiscoveryInfo
+
+Complete API:
+  CompletableFuture<WorldChunk> getChunkAsync(long var1)
+  CompletableFuture<WorldChunk> getNonTickingChunkAsync(long var1)
+  default CompletableFuture<WorldChunk> getChunkAsync(int x, int z)
+  default CompletableFuture<WorldChunk> getNonTickingChunkAsync(int x, int z)

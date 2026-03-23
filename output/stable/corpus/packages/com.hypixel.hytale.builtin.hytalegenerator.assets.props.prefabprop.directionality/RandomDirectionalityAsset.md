@@ -13,3 +13,13 @@ public class RandomDirectionalityAsset extends DirectionalityAsset
 ## Methods
 
 - @Nonnull @Override public Directionality build(@Nonnull DirectionalityAsset.Argument argument)
+
+Also in this package: Argument, DirectionalityAsset, ImportedDirectionalityAsset, PatternDirectionalityAsset, StaticDirectionalityAsset
+
+Complete API:
+  public Directionality build(DirectionalityAsset.Argument argument)
+
+Fields:
+public static final BuilderCodec<RandomDirectionalityAsset> CODEC
+private String seed
+private PatternAsset patternAsset

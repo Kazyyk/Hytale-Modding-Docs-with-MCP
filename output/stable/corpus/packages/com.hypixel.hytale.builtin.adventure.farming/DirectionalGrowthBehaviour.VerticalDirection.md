@@ -15,3 +15,11 @@ Defines the vertical direction constraint for DirectionalGrowthBehaviour spread.
 ## Methods
 
 - public int getValue()
+
+Also in this package: BlockTypeWeight, DirectionalGrowthBehaviour, SpreadFarmingStageData, SpreadGrowthBehaviour
+
+Complete API:
+  public int getValue()
+
+Fields:
+private final int value

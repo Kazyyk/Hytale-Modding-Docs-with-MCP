@@ -29,3 +29,15 @@ Codec-backed data class with `searchQuery` and `prefabUuid` fields.
 
 - PrefabEditorExitConfirmPage
 - PrefabEditorLoadSettingsPage
+
+Also in this package: Action, Action, Action, PageData, PageData, PageData, PageData, PrefabEditorExitConfirmPage, PrefabEditorLoadSettingsPage, PrefabEditorSaveSettingsPage
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  private void buildPrefabList(UICommandBuilder commandBuilder, UIEventBuilder eventBuilder)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, PrefabTeleportPage.PageData data)
+
+Fields:
+private static final Value<String> BUTTON_HIGHLIGHTED
+private final PrefabEditSession prefabEditSession
+private String searchQuery

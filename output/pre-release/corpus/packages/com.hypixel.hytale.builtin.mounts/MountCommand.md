@@ -20,3 +20,5 @@ Creates the collection with name `"mount"` and registers two subcommands:
 - DismountCommand -- dismount subcommand
 - MountCheckCommand -- mount status check subcommand
 - MountPlugin -- registers this command
+
+Also in this package: DismountCommand, DismountOtherCommand, MountCheckCommand

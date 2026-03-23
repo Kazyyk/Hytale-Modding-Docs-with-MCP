@@ -23,3 +23,12 @@ Builds and returns the immutable `AbbreviationMap`.
 ## Related Types
 
 - `AbbreviationMap` -- the map type this builds
+
+Also in this package: AbbreviationMap, AbstractCommand, CommandContext, CommandManager, CommandOwner, CommandRegistration, CommandRegistry, CommandSender, CommandUtil, CommandValidationResults, MatchResult, ParseResult, ParserContext, PreOptionalListContext, Tokenizer
+
+Complete API:
+  public AbbreviationMap.AbbreviationMapBuilder<Value> put(String key, Value value)
+  public AbbreviationMap<Value> build()
+
+Fields:
+private final Map<String,Value> keys

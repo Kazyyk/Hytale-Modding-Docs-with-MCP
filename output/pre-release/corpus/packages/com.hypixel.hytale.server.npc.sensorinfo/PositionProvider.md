@@ -32,3 +32,26 @@ Implementation of `IPositionProvider`.
 - getPositionProvider() | IPositionProvider | public method.
 - hasPosition() | boolean | public method.
 - getTarget() | Ref<EntityStore> | public method.
+
+Known subclasses: AnchorPositionProvider, BaseHeightPositionProvider, BoundPositionProvider, CachedPositionProvider, CachedPositionProvider, ClustersPositionProvider, EmptyPositionProvider, EntityPositionProvider, FieldFunctionOccurrencePositionProvider, FieldFunctionPositionProvider, Jitter2dPositionProvider, Jitter3dPositionProvider, ListPositionProvider, Mesh2DPositionProvider, Mesh3DPositionProvider, OffsetPositionProvider, ScalerPositionProvider, SimpleHorizontalPositionProvider, SquareGrid2dPositionProvider, SquareGrid3dPositionProvider, TriangularGrid2dPositionProvider, UnionPositionProvider
+
+Also in this package: CachedPositionProvider, EntityPositionProvider, ExtraInfoProvider, IPathProvider, IPositionProvider, InfoProvider, InfoProviderBase, PathProvider, ValueWrappedInfoProvider, WrappedInfoProvider
+
+Complete API:
+  public void clear()
+  public Ref<EntityStore> setTarget(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public void setTarget(Vector3d pos)
+  public void setTarget(double x, double y, double z)
+  public boolean providePosition(Vector3d result)
+  public double getX()
+  public double getY()
+  public double getZ()
+  public IPositionProvider getPositionProvider()
+  public boolean hasPosition()
+  public Ref<EntityStore> getTarget()
+
+Fields:
+protected double x
+protected double y
+protected double z
+protected boolean isValid

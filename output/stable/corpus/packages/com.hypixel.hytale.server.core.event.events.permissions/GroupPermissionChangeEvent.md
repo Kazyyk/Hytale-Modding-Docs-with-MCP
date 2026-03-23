@@ -20,3 +20,13 @@ public abstract class GroupPermissionChangeEvent implements IEvent<Void>
 
 - `GroupPermissionChangeEvent.Added`
 - `GroupPermissionChangeEvent.Removed`
+
+Known subclasses: Added, Removed
+
+Also in this package: Added, Added, GroupAdded, GroupRemoved, PermissionsAdded, PermissionsRemoved, PlayerGroupEvent, PlayerPermissionChangeEvent, Removed, Removed
+
+Complete API:
+  public String getGroupName()
+
+Fields:
+private final String groupName

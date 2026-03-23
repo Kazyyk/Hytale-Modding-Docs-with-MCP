@@ -11,3 +11,14 @@ States that a `SensorAlarm` can check against.
 - SET | "Set" | Alarm is set and has not yet passed.
 - UNSET | "Not set" | Alarm has not been set.
 - PASSED | "Passed" | Alarm time has elapsed.
+
+Known implementors: CanSpawnPortal, Error, Error, InstanceKeyNotFound, PortalIsOpen, PortalTypeNotFound
+
+Also in this package: ActionSetAlarm, ActionTimer, BodyMotionTimer, HeadMotionTimer, MotionTimer, SensorAlarm, SensorTimer
+
+Complete API:
+  public String asText()
+  public String get()
+
+Fields:
+private final String asText

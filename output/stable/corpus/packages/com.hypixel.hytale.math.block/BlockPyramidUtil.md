@@ -52,3 +52,13 @@ public class BlockPyramidUtil
         boolean capped,
         T t,
         @Nonnull TriIntObjPredicate<T> consumer)` |
+
+Also in this package: BlockConeUtil, BlockCubeUtil, BlockCylinderUtil, BlockDiamondUtil, BlockDomeUtil, BlockInvertedDomeUtil, BlockSphereUtil, BlockTorusUtil, BlockUtil
+
+Complete API:
+  public static void forEachBlock(int originX, int originY, int originZ, int radiusX, int height, int radiusZ, T t, TriIntObjPredicate<T> consumer)
+  public static void forEachBlock(int originX, int originY, int originZ, int radiusX, int height, int radiusZ, int thickness, T t, TriIntObjPredicate<T> consumer)
+  public static void forEachBlock(int originX, int originY, int originZ, int radiusX, int height, int radiusZ, int thickness, boolean capped, T t, TriIntObjPredicate<T> consumer)
+  public static void forEachBlockInverted(int originX, int originY, int originZ, int radiusX, int height, int radiusZ, T t, TriIntObjPredicate<T> consumer)
+  public static void forEachBlockInverted(int originX, int originY, int originZ, int radiusX, int height, int radiusZ, int thickness, T t, TriIntObjPredicate<T> consumer)
+  public static void forEachBlockInverted(int originX, int originY, int originZ, int radiusX, int height, int radiusZ, int thickness, boolean capped, T t, TriIntObjPredicate<T> consumer)

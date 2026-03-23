@@ -13,3 +13,11 @@ Inner class of `WorldSettingsSetCommand` that removes a specific value from a se
 ## Methods
 
 - execute(CommandContext, World, Store<EntityStore>) | void | Removes the specified value from the set, reporting success or not-found.
+
+Also in this package: AddSubCommand, ClearSubCommand, ResetSubCommand, ResetSubCommand, SetSubCommand, SetSubCommand, SetTickingCommand, WorldSettingsBox2DCommand, WorldSettingsCommand, WorldSettingsSetCommand, WorldSettingsSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<String> valueArg

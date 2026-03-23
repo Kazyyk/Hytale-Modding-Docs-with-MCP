@@ -13,3 +13,16 @@ Stair shape variants.
 - CORNER_RIGHT | Right corner
 - INVERTED_CORNER_LEFT | Left inverted corner
 - INVERTED_CORNER_RIGHT | Right inverted corner
+
+Also in this package: ConnectedBlockOutput, RoofConnectedBlockRuleSet, StairConnectedBlockRuleSet, StairConnection, StairLikeConnectedBlockRuleSet
+
+Complete API:
+  public static StairConnectedBlockRuleSet.StairType corner(boolean right)
+  public static StairConnectedBlockRuleSet.StairType invertedCorner(boolean right)
+  public boolean isCorner()
+  public boolean isInvertedCorner()
+  public boolean isLeft()
+  public boolean isRight()
+
+Fields:
+private static final StairConnectedBlockRuleSet.StairType[] VALUES

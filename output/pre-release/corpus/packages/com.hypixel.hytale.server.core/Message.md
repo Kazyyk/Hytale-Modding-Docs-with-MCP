@@ -42,3 +42,44 @@ A rich text message supporting i18n translations, parameterized values, styling 
 - @Nonnull public List<Message> getChildren()
 - @Nonnull public String getAnsiMessage()
 - public FormattedMessage getFormattedMessage()
+
+Also in this package: AuthMode, AuthModeConverter, Constants, Defaults, HytaleServer, HytaleServerConfig, LevelValueConverter, MaybeBoolCodec, Module, NameMatching, Options, ParamValueCodec, PathConverter, PathType, RecoveryMode, ShutdownReason, SocketAddressValueConverter, StringToPathMapConverter, TimeoutProfile, UUIDConverter
+
+Complete API:
+  public Message param(String key, String value)
+  public Message param(String key, boolean value)
+  public Message param(String key, double value)
+  public Message param(String key, int value)
+  public Message param(String key, long value)
+  public Message param(String key, float value)
+  public Message param(String key, Message formattedMessage)
+  public Message bold(boolean bold)
+  public Message italic(boolean italic)
+  public Message monospace(boolean monospace)
+  public Message color(String color)
+  public Message color(Color color)
+  public Message link(String url)
+  public Message insert(Message formattedMessage)
+  public Message insert(String message)
+  public Message insertAll(Message formattedMessages)
+  public Message insertAll(List<Message> formattedMessages)
+  public String getRawText()
+  public String getMessageId()
+  public String getColor()
+  public List<Message> getChildren()
+  public String getAnsiMessage()
+  public FormattedMessage getFormattedMessage()
+  public String toString()
+  public static Message empty()
+  public static Message translation(String messageId)
+  public static Message raw(String message)
+  public static Message parse(String message)
+  public static Message join(Message messages)
+
+Fields:
+private static final BuilderCodec.Builder<FormattedMessage> MESSAGE_CODEC_BUILDER
+private static final BuilderCodec<FormattedMessage> MESSAGE_CODEC
+private static final Codec<ParamValue> PARAM_CODEC
+private static final Codec<MaybeBool> MAYBE_BOOL_CODEC
+public static final FunctionCodec<FormattedMessage,Message> CODEC
+private final FormattedMessage message

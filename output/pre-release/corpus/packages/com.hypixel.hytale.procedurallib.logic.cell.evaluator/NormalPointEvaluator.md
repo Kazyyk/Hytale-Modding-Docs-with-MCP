@@ -20,3 +20,20 @@ public class NormalPointEvaluator implements PointEvaluator
 - @Override public void evalPoint2( int seed, double x, double y, double z, int cellHash, int cellX, int cellY, int cellZ, double cellPointX, double cellPointY, double cellPointZ, @Nonnull ResultBuffer.ResultBuffer3d buffer )
 - @Override @Nonnull public String toString()
 - public static PointEvaluator of(PointDistanceFunction distanceFunction)
+
+Also in this package: BorderPointEvaluator, BranchEvaluator, DensityPointEvaluator, Direction, DistancePointEvaluator, JitterPointEvaluator, Mode, PointEvaluator, SkipCellPointEvaluator
+
+Complete API:
+  public void evalPoint(int seed, double x, double y, int cellHash, int cellX, int cellY, double cellPointX, double cellPointY, ResultBuffer.ResultBuffer2d buffer)
+  public void evalPoint2(int seed, double x, double y, int cellHash, int cellX, int cellY, double cellPointX, double cellPointY, ResultBuffer.ResultBuffer2d buffer)
+  public void evalPoint(int seed, double x, double y, double z, int cellHash, int cellX, int cellY, int cellZ, double cellPointX, double cellPointY, double cellPointZ, ResultBuffer.ResultBuffer3d buffer)
+  public void evalPoint2(int seed, double x, double y, double z, int cellHash, int cellX, int cellY, int cellZ, double cellPointX, double cellPointY, double cellPointZ, ResultBuffer.ResultBuffer3d buffer)
+  public String toString()
+  public static PointEvaluator of(PointDistanceFunction distanceFunction)
+
+Fields:
+public static final PointEvaluator EUCLIDEAN
+public static final PointEvaluator MANHATTAN
+public static final PointEvaluator NATURAL
+public static final PointEvaluator MAX
+protected final PointDistanceFunction distanceFunction

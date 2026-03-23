@@ -15,3 +15,22 @@ Provides cached index lookups for the six built-in entity stat types. Indices ar
 - getSignatureEnergy() | int | Index of the "SignatureEnergy" stat.
 - getAmmo() | int | Index of the "Ammo" stat.
 - update() | void | Re-resolves all indices from the asset map. Called on startup and asset reload.
+
+Also in this package: EntityStatEffects, EntityStatType, EntityStatTypePacketGenerator, RegenType, Regenerating
+
+Complete API:
+  public static int getHealth()
+  public static int getOxygen()
+  public static int getStamina()
+  public static int getMana()
+  public static int getSignatureEnergy()
+  public static int getAmmo()
+  public static void update()
+
+Fields:
+private static int HEALTH
+private static int OXYGEN
+private static int STAMINA
+private static int MANA
+private static int SIGNATURE_ENERGY
+private static int AMMO

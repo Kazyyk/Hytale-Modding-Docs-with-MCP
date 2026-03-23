@@ -28,3 +28,11 @@ public enum MovementState implements Supplier<String>
 ## Methods
 
 - public String get()
+
+Also in this package: FlockMembershipType, FlockPlayerMembership, GroupSteeringAccumulator, MotionKind, NavState, Steering
+
+Complete API:
+  public String get()
+
+Fields:
+private final String name

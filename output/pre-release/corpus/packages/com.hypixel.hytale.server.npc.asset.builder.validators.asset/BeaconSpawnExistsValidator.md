@@ -16,3 +16,16 @@ public class BeaconSpawnExistsValidator extends AssetValidator
 - @Override @Nonnull public String getAssetName()
 - public static BeaconSpawnExistsValidator required()
 - @Nonnull public static BeaconSpawnExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Also in this package: AttitudeGroupExistsValidator, BlockSetExistsValidator, CombatInteractionValidator, EntityEffectExistsValidator, EntityStatExistsValidator, EnvironmentExistsValidator, FlockAssetExistsValidator, ItemAttitudeGroupExistsValidator, ItemDropListExistsValidator, ItemExistsValidator, ManualSpawnMarkerExistsValidator, ModelExistsValidator, ParticleSystemExistsValidator, RoleExistsValidator, RootInteractionValidator, SoundEventExistsValidator, WeatherExistsValidator
+
+Complete API:
+  public String getDomain()
+  public boolean test(String beacon)
+  public String errorMessage(String beacon, String attributeName)
+  public String getAssetName()
+  public static BeaconSpawnExistsValidator required()
+  public static BeaconSpawnExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Fields:
+private static final BeaconSpawnExistsValidator DEFAULT_INSTANCE

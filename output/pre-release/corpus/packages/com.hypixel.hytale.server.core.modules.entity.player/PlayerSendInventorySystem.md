@@ -11,3 +11,15 @@ Queries entities with `Player` and `PlayerRef`.
 ## Related Types
 
 - PlayerSystems -- other player systems
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem (and 33 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,Player> componentType
+private final ComponentType<EntityStore,PlayerRef> refComponentType
+private final Query<EntityStore> query

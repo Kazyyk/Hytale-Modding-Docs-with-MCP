@@ -15,3 +15,13 @@ public class FlyCameraModule extends JavaPlugin
 - private void handlePlayerGroupRemoved(PlayerGroupEvent.Removed event)
 - private void handleGroupPermissionsRemoved(GroupPermissionChangeEvent.Removed event)
 - private void checkAndEnforceFlyCameraPermission(UUID uuid)
+
+Complete API:
+  protected void setup()
+  private void handlePlayerPermissionsRemoved(PlayerPermissionChangeEvent.PermissionsRemoved event)
+  private void handlePlayerGroupRemoved(PlayerGroupEvent.Removed event)
+  private void handleGroupPermissionsRemoved(GroupPermissionChangeEvent.Removed event)
+  private void checkAndEnforceFlyCameraPermission(UUID uuid)
+
+Fields:
+public static final PluginManifest MANIFEST

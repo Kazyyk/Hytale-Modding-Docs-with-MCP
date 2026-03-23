@@ -25,3 +25,18 @@ public static enum Action
 public static class PageData
 
 Codec-serialized event data containing all form fields. Decoded via `BuilderCodec` from UI event bindings.
+
+Also in this package: Action, Action, InstanceListPage, PageData, PageData
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, ConfigureInstanceBlockPage.PageData data)
+  private String emptyToNull(String s)
+  private void buildPositionOffset(UICommandBuilder commandBuilder)
+  private void buildRotation(UICommandBuilder commandBuilder)
+
+Fields:
+private final ConfigurableInstanceBlock instanceBlock
+private final Ref<ChunkStore> ref
+private Vector3d positionOffset
+private Vector3f rotation

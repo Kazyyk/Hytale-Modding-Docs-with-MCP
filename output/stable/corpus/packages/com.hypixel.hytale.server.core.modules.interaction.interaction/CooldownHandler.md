@@ -17,3 +17,15 @@ Manages interaction cooldowns with charge-based timers. Tracks per-interaction c
 ## Inner Classes
 
 - `Cooldown` -- tracks remaining cooldown time, charge count, charge timer, and recharge interruption state. Fields: `cooldownMax`, `charges`, `remainingCooldown`, `chargeTimer`, `chargeCount`, `interruptRecharge`.
+
+Also in this package: Cooldown, InteractionPacketGenerator, RootInteractionPacketGenerator, UnarmedInteractions, UnarmedInteractionsPacketGenerator
+
+Complete API:
+  public boolean isOnCooldown(RootInteraction root, String id, float maxTime, float[] chargeTimes, boolean interruptRecharge)
+  public void resetCooldown(String id, float maxTime, float[] chargeTimes, boolean interruptRecharge)
+  public CooldownHandler.Cooldown getCooldown(String id, float maxTime, float[] chargeTimes, boolean force, boolean interruptRecharge)
+  public CooldownHandler.Cooldown getCooldown(String id)
+  public void tick(float dt)
+
+Fields:
+private final Map<String,CooldownHandler.Cooldown> cooldowns

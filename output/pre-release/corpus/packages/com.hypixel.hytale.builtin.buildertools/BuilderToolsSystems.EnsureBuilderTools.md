@@ -38,3 +38,15 @@ No-op implementation. No cleanup is performed on entity removal.
 - BuilderToolsSystems -- enclosing class
 - BuilderToolsPlugin -- registers this system during setup
 - BuilderToolsUserDataSystem -- companion system that ensures per-player data component
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onEntityAdd(Holder<EntityStore> holder, AddReason reason, Store<EntityStore> store)
+  public void onEntityRemoved(Holder<EntityStore> holder, RemoveReason reason, Store<EntityStore> store)
+  public Set<Dependency<EntityStore>> getDependencies()
+
+Fields:
+private static final ComponentType<EntityStore,Player> PLAYER_COMPONENT_TYPE
+private final Set<Dependency<EntityStore>> dependencies

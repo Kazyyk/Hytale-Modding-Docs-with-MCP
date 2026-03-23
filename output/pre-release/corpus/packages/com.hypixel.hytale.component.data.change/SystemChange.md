@@ -14,3 +14,14 @@ public class SystemChange<ECS_TYPE> implements DataChange
 - public ChangeType getType()
 - public ISystem<ECS_TYPE> getSystem()
 - @Nonnull @Override public String toString()
+
+Also in this package: ChangeType, ComponentChange, DataChange, ResourceChange, SystemGroupChange, SystemTypeChange
+
+Complete API:
+  public ChangeType getType()
+  public ISystem<ECS_TYPE> getSystem()
+  public String toString()
+
+Fields:
+private final ChangeType type
+private final ISystem<ECS_TYPE> system

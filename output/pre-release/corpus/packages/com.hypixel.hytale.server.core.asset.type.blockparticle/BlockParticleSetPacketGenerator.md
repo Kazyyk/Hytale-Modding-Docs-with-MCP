@@ -11,3 +11,8 @@ Generates init, update, and remove network packets for `BlockParticleSet` assets
 - generateInitPacket(DefaultAssetMap<String, BlockParticleSet> assetMap, Map<String, BlockParticleSet> assets) | ToClientPacket | Instance method.
 - generateUpdatePacket(Map<String, BlockParticleSet> loadedAssets) | ToClientPacket | Instance method.
 - generateRemovePacket(Set<String> removed) | ToClientPacket | Instance method.
+
+Complete API:
+  public ToClientPacket generateInitPacket(DefaultAssetMap<String,BlockParticleSet> assetMap, Map<String,BlockParticleSet> assets)
+  public ToClientPacket generateUpdatePacket(Map<String,BlockParticleSet> loadedAssets)
+  public ToClientPacket generateRemovePacket(Set<String> removed)

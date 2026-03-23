@@ -60,3 +60,32 @@ Returns the serialized size in bytes.
 - ParticleUVOption
 - Size
 - SoftParticle
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 378 more)
+
+Complete API:
+  public static Particle deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public Particle clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public String texturePath
+public Size frameSize
+public ParticleUVOption uvOption
+public ParticleScaleRatioConstraint scaleRatioConstraint
+public SoftParticle softParticles
+public float softParticlesFadeFactor
+public boolean useSpriteBlending
+public ParticleAnimationFrame initialAnimationFrame
+public ParticleAnimationFrame collisionAnimationFrame
+public Map<Integer,ParticleAnimationFrame> animationFrames

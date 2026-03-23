@@ -14,3 +14,14 @@ public class LivingEntityInventoryChangeEvent extends EntityEvent
 - public ItemContainer getItemContainer()
 - public Transaction getTransaction()
 - @Nonnull @Override public String toString()
+
+Also in this package: EntityEvent, EntityRemoveEvent, LivingEntityUseBlockEvent
+
+Complete API:
+  public ItemContainer getItemContainer()
+  public Transaction getTransaction()
+  public String toString()
+
+Fields:
+private ItemContainer itemContainer
+private Transaction transaction

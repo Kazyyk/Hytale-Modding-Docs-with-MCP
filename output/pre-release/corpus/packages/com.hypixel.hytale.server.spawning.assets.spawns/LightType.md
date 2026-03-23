@@ -14,3 +14,6 @@ Enumeration with values: `Light`, `SkyLight`, `Sunlight`, `RedLight`, `GreenLigh
 - RedLight | Enumeration constant.
 - GreenLight | Enumeration constant.
 - BlueLight | Enumeration constant.
+
+Fields:
+public static final LightType[] VALUES

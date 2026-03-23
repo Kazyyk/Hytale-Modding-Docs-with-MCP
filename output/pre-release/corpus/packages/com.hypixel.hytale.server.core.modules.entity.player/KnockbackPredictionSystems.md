@@ -32,3 +32,14 @@ Container class for ECS systems that handle server-side knockback prediction for
 
 - KnockbackSimulation -- component holding the knockback simulation state
 - PlayerInput -- player input component consumed by these systems
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem, PlayerAddedSystem (and 33 more)
+
+Fields:
+public static boolean DEBUG_KNOCKBACK_POSITION
+public static final float DEFAULT_BLOCK_DRAG
+public static final float AIR_DENSITY
+public static final float COLLISION_PADDING
+public static final float MAX_CYCLE_MOVEMENT
+public static final float TIME_STEP
+public static final int MAX_JUMP_COMBOS

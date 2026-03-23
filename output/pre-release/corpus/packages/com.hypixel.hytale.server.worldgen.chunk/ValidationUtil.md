@@ -24,3 +24,13 @@ public class ValidationUtil
 - private static boolean isCaveNodeInvalid(@Nonnull CaveNodeType caveNodeType, @Nonnull Set<String> encounteredNodes, @Nonnull Deque<String> trace)
 - private static boolean arePrefabsInvalid(@Nonnull IWeightedMap<WorldGenPrefabSupplier> prefabs, @Nonnull Deque<String> trace)
 - private static boolean isChildPrefabInvalid(@Nonnull PrefabBuffer.ChildPrefab childMarker, @Nonnull WorldGenPrefabLoader loader, @Nonnull Deque<String> trace)
+
+Also in this package: BlockPriorityChunk, BlockPriorityModifier, ChunkGenerator, ChunkGeneratorExecution, HeightThresholdInterpolator, MaskProvider, ZoneBiomeResult
+
+Complete API:
+  public static boolean isInvalid(ZonePatternProvider zonePatternProvider, Executor executor)
+  private static boolean isZoneInvalid(Zone zone, Deque<String> trace)
+  private static boolean isBiomeInvalid(Biome biome, Deque<String> trace)
+  private static boolean isCaveNodeInvalid(CaveNodeType caveNodeType, Set<String> encounteredNodes, Deque<String> trace)
+  private static boolean arePrefabsInvalid(IWeightedMap<WorldGenPrefabSupplier> prefabs, Deque<String> trace)
+  private static boolean isChildPrefabInvalid(PrefabBuffer.ChildPrefab childMarker, WorldGenPrefabLoader loader, Deque<String> trace)

@@ -53,3 +53,8 @@ Queries for entities matching the archetype of `TransformComponent`, `BlockEntit
 - `BlockEntity` -- the ECS component these systems operate on
 - `BoundingBox` -- bounding box component initialized by the setup system
 - `EntityTrackerSystems.Visible` -- visibility tracking used by the tracker system
+
+Also in this package: AllLegacyEntityTypesQuery, AllLegacyLivingEntityTypesQuery, BlockEntitySetupSystem, BlockEntityTrackerSystem, BlockMigrationExtraInfo, DespawnComponent, DespawnSystem, EntityModule, EntityRegistration, EntityRegistry, HiddenFromPlayerMigrationSystem, LegacyEntityHolderSystem, LegacyEntityRefSystem, LegacyProjectileSystems, LegacyTransformSystem, LegacyUUIDSystem, LegacyUUIDUpdateSystem, MigrationSystem, OnAddHolderSystem, OnAddRefSystem (and 4 more)
+
+Fields:
+private static final HytaleLogger LOGGER

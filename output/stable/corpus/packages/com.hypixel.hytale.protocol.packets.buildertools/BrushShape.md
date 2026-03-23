@@ -28,3 +28,13 @@ Shape presets for builder tool brush operations.
 
 - getValue() | int | Returns the integer value of this constant
 - fromValue(int) | BrushShape | Returns the constant for the given value, throws `ProtocolException` if invalid
+
+Also in this package: Axis, BrushAxis, BrushOrigin, BuilderToolAction, BuilderToolArg, BuilderToolArgGroup, BuilderToolArgType, BuilderToolArgUpdate, BuilderToolBlockArg, BuilderToolBoolArg, BuilderToolBrushAxisArg, BuilderToolBrushData, BuilderToolBrushOriginArg, BuilderToolBrushShapeArg, BuilderToolEntityAction, BuilderToolExtrudeAction, BuilderToolFloatArg, BuilderToolGeneralAction, BuilderToolHideAnchors, BuilderToolIntArg (and 26 more)
+
+Complete API:
+  public int getValue()
+  public static BrushShape fromValue(int value)
+
+Fields:
+public static final BrushShape[] VALUES
+private final int value

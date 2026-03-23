@@ -32,3 +32,20 @@ public CaveNodeType loadCaveNodeType(@Nonnull String name)
 
 
 public CaveNodeType loadCaveNodeType(@Nonnull String name, @Nonnull JsonObject json)
+
+Also in this package: CaveBiomeMaskJsonLoader, CaveGeneratorJsonLoader, CaveNodeChildEntryJsonLoader, CaveNodeCoverEntryJsonLoader, CaveNodeTypeJsonLoader, CavePrefabConfigJsonLoader, CavePrefabContainerJsonLoader, CavePrefabEntryJsonLoader, CaveTypeJsonLoader, CaveTypesJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 3 more)
+
+Complete API:
+  public SeedString<SeedStringResource> getSeed()
+  public void add(String name, CaveNodeType caveNodeType)
+  public CaveNodeType getOrLoadCaveNodeType(String name)
+  public CaveNodeType getCaveNodeType(String name)
+  public CaveNodeType loadCaveNodeType(String name)
+  public CaveNodeType loadCaveNodeType(String name, JsonObject json)
+
+Fields:
+protected final SeedString<SeedStringResource> seed
+protected final Path dataFolder
+protected final Path caveFolder
+protected final ZoneFileContext zoneContext
+protected final Map<String,CaveNodeType> caveNodeTypes

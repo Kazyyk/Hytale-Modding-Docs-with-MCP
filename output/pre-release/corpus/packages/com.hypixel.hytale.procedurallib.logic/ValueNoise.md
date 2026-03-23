@@ -20,3 +20,14 @@ public ValueNoise(GeneralNoise.InterpolationFunction interpolationFunction)
 - public GeneralNoise.InterpolationFunction getInterpolationFunction()
 - public double get(int seed, int offsetSeed, double x, double y)
 - public double get(int seed, int offsetSeed, double x, double y, double z)
+
+Also in this package: Bounds2d, BranchNoise, CellFunction, CellMode, CellNoise, CellularNoise, ConstantNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GeneralNoise, GridNoise, HexMeshNoise, InterpolationFunction, InterpolationMode, MeshNoise, OldSimplexNoise (and 6 more)
+
+Complete API:
+  public GeneralNoise.InterpolationFunction getInterpolationFunction()
+  public double get(int seed, int offsetSeed, double x, double y)
+  public double get(int seed, int offsetSeed, double x, double y, double z)
+  public String toString()
+
+Fields:
+protected final GeneralNoise.InterpolationFunction interpolationFunction

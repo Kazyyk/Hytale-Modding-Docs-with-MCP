@@ -34,3 +34,29 @@ NPC behavior sensor builder for SensorDamage functionality.
 - public boolean isEnvironmentDamage()
 - public boolean isOtherDamage()
 - public int getTargetSlot(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionApplyEntityEffect, BuilderActionAttack, BuilderBodyMotionAimCharge, BuilderHeadMotionAim, BuilderSensorIsBackingAway
+
+Complete API:
+  public SensorDamage build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Sensor> readConfig(JsonElement data)
+  public boolean isCombatDamage()
+  public boolean isFriendlyDamage()
+  public boolean isDrowningDamage()
+  public boolean isEnvironmentDamage()
+  public boolean isOtherDamage()
+  public int getTargetSlot(BuilderSupport support)
+
+Fields:
+public static final String[] REQUIRE_ONE_OF
+public static final String[] ANTECEDENT
+public static final String[] SUBSEQUENT
+protected boolean combatDamage
+protected boolean friendlyDamage
+protected boolean drowningDamage
+protected boolean environmentDamage
+protected boolean otherDamage
+protected String targetSlot

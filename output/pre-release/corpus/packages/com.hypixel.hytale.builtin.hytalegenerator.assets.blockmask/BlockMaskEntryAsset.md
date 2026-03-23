@@ -21,3 +21,18 @@ Implementation of `JsonAssetWithMap<String, DefaultAssetMap<String, BlockMaskEnt
 - getReplacesBlockSet(@Nonnull MaterialCache materialCache) | MaterialSet | public method.
 - getId() | String | public method.
 - cleanUp() | void | public method.
+
+Also in this package: BlockMaskAsset, Exported
+
+Complete API:
+  public MaterialSet getPropBlockSet(MaterialCache materialCache)
+  public MaterialSet getReplacesBlockSet(MaterialCache materialCache)
+  public String getId()
+  public void cleanUp()
+
+Fields:
+public static final AssetBuilderCodec<String,BlockMaskEntryAsset> CODEC
+private String id
+private AssetExtraInfo.Data data
+private MaterialSetAsset propBlockSet
+private MaterialSetAsset replacesBlockSet

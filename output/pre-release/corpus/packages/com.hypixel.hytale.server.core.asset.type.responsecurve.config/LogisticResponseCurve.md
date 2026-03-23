@@ -25,3 +25,20 @@ public class LogisticResponseCurve extends ResponseCurve
 - public double getHorizontalShift()
 - public double getVerticalShift()
 - @Nonnull @Override public String toString()
+
+Also in this package: ExponentialResponseCurve, Reference, ResponseCurve, SineWaveResponseCurve, SwitchResponseCurve
+
+Complete API:
+  public double computeY(double x)
+  public double getRateOfChange()
+  public double getCeiling()
+  public double getHorizontalShift()
+  public double getVerticalShift()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<LogisticResponseCurve> CODEC
+protected double rateOfChange
+protected double ceiling
+protected double horizontalShift
+protected double verticalShift

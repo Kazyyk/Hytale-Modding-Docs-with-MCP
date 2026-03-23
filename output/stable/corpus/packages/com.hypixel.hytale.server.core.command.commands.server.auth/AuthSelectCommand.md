@@ -14,3 +14,16 @@ Server command implementation.
 - static void sendProfileList(@Nonnull CommandContext context, @Nonnull SessionServiceClient.GameProfile[] profiles)
 - SelectProfileVariant()
 - super("server.commands.auth.select.variant.desc")
+
+Also in this package: AuthCancelCommand, AuthCommand, AuthFlow, AuthFlow, AuthLoginBrowserCommand, AuthLoginCommand, AuthLoginDeviceCommand, AuthLogoutCommand, AuthPersistenceCommand, AuthStatusCommand, SelectProfileVariant, SetPersistenceVariant
+
+Complete API:
+  protected void executeSync(CommandContext context)
+  static void sendProfileList(CommandContext context, SessionServiceClient.GameProfile[] profiles)
+
+Fields:
+private static final Message MESSAGE_NO_PENDING
+private static final Message MESSAGE_SUCCESS
+private static final Message MESSAGE_FAILED
+private static final Message MESSAGE_AVAILABLE_PROFILES
+private static final Message MESSAGE_USAGE

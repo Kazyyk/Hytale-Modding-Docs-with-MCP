@@ -9,3 +9,8 @@ Supplier that creates a MemoriesPage when a player interacts with a memories blo
 ## Methods
 
 - public CustomUIPage tryCreate(@Nonnull Ref<EntityStore> ref, @Nonnull ComponentAccessor<EntityStore> componentAccessor, @Nonnull PlayerRef playerRef, @Nonnull InteractionContext context)
+
+Also in this package: MemoriesPage, MemoriesUnlockedPage, MemoriesUnlockedPageSuplier, PageAction, PageAction, PageEventData, PageEventData
+
+Complete API:
+  public CustomUIPage tryCreate(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, PlayerRef playerRef, InteractionContext context)

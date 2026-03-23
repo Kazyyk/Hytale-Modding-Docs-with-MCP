@@ -37,3 +37,26 @@ public class PixelDistanceProvider
 - `PixelDistanceProvider.IPixelSet`
 - `PixelDistanceProvider.MultiplePixelSet`
 - `PixelDistanceProvider.SinglePixelSet`
+
+Also in this package: ExactZoom, FuzzyZoom, IPixelSet, MultiplePixelSet, PixelProvider, SinglePixelSet
+
+Complete API:
+  public IntSet getColors()
+  public double distanceSqToDifferentPixel(double ox, double oy, int px, int py)
+  protected double distanceSqToDiffInSeq(double ox, double oy, int pixel, int cellX, int cellY)
+  protected boolean hasDifferentPixel(int cellX, int cellY, int pixel)
+  private void prepareSegmentTable()
+  protected int clampX(int x)
+  protected int clampY(int y)
+  protected int cellIndex(int cellX, int cellY)
+  private static double distanceSqToPixel(double ox, double oy, int px, int py)
+
+Fields:
+private static final int TABLE_SIZE
+protected final PixelProvider image
+protected final int width
+protected final int height
+protected final int cellsX
+protected final int cellsY
+protected final PixelDistanceProvider.IPixelSet[] table
+protected final IntSet pixels

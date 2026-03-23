@@ -12,3 +12,12 @@ public class PortalGameplayConfig
 ## Methods
 
 - @Nullable public VoidEventConfig getVoidEvent()
+
+Also in this package: PortalMarkerProvider, PortalRemovalCondition
+
+Complete API:
+  public VoidEventConfig getVoidEvent()
+
+Fields:
+public static final BuilderCodec<PortalGameplayConfig> CODEC
+private VoidEventConfig voidEvent

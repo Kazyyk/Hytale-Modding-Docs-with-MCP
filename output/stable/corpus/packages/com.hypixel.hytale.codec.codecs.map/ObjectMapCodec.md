@@ -36,3 +36,19 @@ public class ObjectMapCodec<K, V, M extends Map<K, V>> implements Codec<Map<K, V
 ## Related Types
 
 - MapCodec
+
+Also in this package: EnumMapCodec, Float2ObjectMapCodec, Int2ObjectMapCodec, MapCodec, MergedEnumMapCodec, Object2DoubleMapCodec, Object2FloatMapCodec, Object2IntMapCodec, Short2ObjectMapCodec
+
+Complete API:
+  public Codec<V> getChildCodec()
+  public Map<K,V> decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Map<K,V> map, ExtraInfo extraInfo)
+  public Map<K,V> decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+
+Fields:
+private final Codec<V> codec
+private final Supplier<M> supplier
+private final Function<K,String> keyToString
+private final Function<String,K> stringToKey
+private final boolean unmodifiable

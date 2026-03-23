@@ -22,3 +22,13 @@ Comparison operators for stat conditions.
 ## Relationships
 
 - Inner enum of StatCondition
+
+Also in this package: AliveCondition, ChargingCondition, CheckPlayerGameModeCondition, Condition, EntityStatBoundCondition, EnvironmentCondition, GlidingCondition, HasEffectCondition, InFluidCondition, IsPlayerCondition, LogicCondition, NoDamageTakenCondition, Operator, OutOfCombatCondition, RegenHealthCondition, SprintingCondition, StatCondition, SuffocatingCondition, WieldingCondition
+
+Complete API:
+  public String getPrefix()
+  public boolean satisfies(float compareTo, float f)
+
+Fields:
+private final String prefix
+private final BiFloatPredicate satisfies

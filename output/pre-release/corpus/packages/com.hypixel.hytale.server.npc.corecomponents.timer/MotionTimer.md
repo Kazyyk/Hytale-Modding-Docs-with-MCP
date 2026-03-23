@@ -19,3 +19,26 @@ Abstract generic motion wrapper that constrains a child motion to a random time 
 - BodyMotionTimer -- concrete body motion timer
 - HeadMotionTimer -- concrete head motion timer
 - BuilderMotionTimer -- abstract builder base
+
+Known subclasses: BodyMotionTimer, HeadMotionTimer
+
+Also in this package: ActionSetAlarm, ActionTimer, BodyMotionTimer, HeadMotionTimer, SensorAlarm, SensorTimer, State
+
+Complete API:
+  public void activate(Ref<EntityStore> ref, Role role, ComponentAccessor<EntityStore> componentAccessor)
+  public void deactivate(Ref<EntityStore> ref, Role role, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean computeSteering(Ref<EntityStore> ref, Role support, InfoProvider sensorInfo, double dt, Steering desiredSteering, ComponentAccessor<EntityStore> componentAccessor)
+  public void registerWithSupport(Role role)
+  public void motionControllerChanged(Ref<EntityStore> ref, NPCEntity npcComponent, MotionController motionController, ComponentAccessor<EntityStore> componentAccessor)
+  public void loaded(Role role)
+  public void spawned(Role role)
+  public void unloaded(Role role)
+  public void removed(Role role)
+  public void teleported(Role role, World from, World to)
+
+Fields:
+protected final T motion
+protected final double atLeastSeconds
+protected final double atMostSeconds
+protected double activeTime
+protected double timeToLive

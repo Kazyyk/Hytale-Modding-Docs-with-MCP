@@ -14,3 +14,12 @@ A conditional multiplier applied to a regeneration amount. If all conditions are
 ## Methods
 
 - getModifier(ComponentAccessor<EntityStore>, Ref<EntityStore>, Instant) | float | Returns `amount` if conditions are met, otherwise `1.0f`.
+
+Complete API:
+  public float getModifier(ComponentAccessor<EntityStore> store, Ref<EntityStore> ref, Instant currentTime)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<RegeneratingModifier> CODEC
+protected Condition[] conditions
+protected float amount

@@ -33,3 +33,5 @@ public class UIComponentSystems
 - `UIComponentSystems.Remove`
 - `UIComponentSystems.Setup`
 - `UIComponentSystems.Update`
+
+Also in this package: EntityUIModule, Remove, Setup, UIComponentList, Update

@@ -32,3 +32,32 @@ public class PhysicsMath
 - public static float pitchY(float pitch)
 - public static float headingX(float heading)
 - public static float headingZ(float heading)
+
+Also in this package: ForceAccumulator, ForceProvider, ForceProviderEntity, ForceProviderStandard, ForceProviderStandardState, PhysicsBodyState, PhysicsBodyStateUpdater, PhysicsBodyStateUpdaterMidpoint, PhysicsBodyStateUpdaterRK4, PhysicsBodyStateUpdaterSymplecticEuler, PhysicsConstants, PhysicsFlags
+
+Complete API:
+  public static double getAcceleration(double speed, double terminalSpeed)
+  public static double getTerminalVelocity(double mass, double density, double areaMillimetersSquared, double dragCoefficient)
+  public static double getRelativeDensity(Vector3d position, Box boundingBox)
+  public static double computeDragCoefficient(double terminalSpeed, double area, double mass, double gravity)
+  public static double computeTerminalSpeed(double dragCoefficient, double area, double mass, double gravity)
+  public static double computeProjectedArea(double x, double y, double z, Box box)
+  public static double computeProjectedArea(Vector3d direction, Box box)
+  public static double volumeOfIntersection(Box a, Vector3d posA, Box b, Vector3d posB)
+  public static double volumeOfIntersection(Box a, Vector3d posA, Box b, double posBX, double posBY, double posBZ)
+  public static double lengthOfIntersection(double aMin, double aMax, double bMin, double bMax)
+  public static float headingFromDirection(double x, double z)
+  public static float normalizeAngle(float rad)
+  public static float normalizeTurnAngle(float rad)
+  public static float pitchFromDirection(double x, double y, double z)
+  public static Vector3d vectorFromAngles(float heading, float pitch, Vector3d outDirection)
+  public static float pitchX(float pitch)
+  public static float pitchY(float pitch)
+  public static float headingX(float heading)
+  public static float headingZ(float heading)
+
+Fields:
+public static final double DENSITY_AIR
+public static final double DENSITY_WATER
+public static final double AIR_DENSITY
+public static final float HEADING_DIRECTION

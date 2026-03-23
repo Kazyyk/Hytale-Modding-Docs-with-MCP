@@ -88,3 +88,131 @@ Exports metrics via `STATE_METRICS_REGISTRY`:
 - PrototypePlayerBuilderToolSettings -- companion per-player settings
 - EditOperation -- block change tracking for brush operations
 - BuilderToolsUserData -- user preferences (selection history)
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  private void release()
+  private void retain(Player player, PlayerRef playerRef)
+  public void addToQueue(ThrowableTriConsumer<Ref<EntityStore>,BuilderToolsPlugin.BuilderState,ComponentAccessor<EntityStore>,T> task)
+  public void computeSelectionCopy(ThrowableConsumer<BlockSelection,T> task)
+  public void runTask()
+  public int getTaskCount()
+  public int getUndoCount()
+  public int getRedoCount()
+  public String getDisplayName()
+  public BuilderToolsUserData getUserData()
+  public CompletableFuture<Void> getTaskFuture()
+  public BlockSelection getSelection()
+  public BlockMask getGlobalMask()
+  public Random getRandom()
+  public void setSelection(BlockSelection selection)
+  public void sendSelectionToClient()
+  private void sendErrorFeedback(Ref<EntityStore> ref, Message message, ComponentAccessor<EntityStore> componentAccessor)
+  private void sendFeedback(Ref<EntityStore> ref, Message message, String sound, ComponentAccessor<EntityStore> componentAccessor)
+  private void sendFeedback(Ref<EntityStore> ref, Message message, String sound, NotificationStyle notificationStyle, ComponentAccessor<EntityStore> componentAccessor)
+  private void sendFeedback(Message message, ComponentAccessor<EntityStore> componentAccessor)
+  private void sendFeedback(Message message, NotificationStyle notificationStyle, ComponentAccessor<EntityStore> componentAccessor)
+  private void sendFeedback(String key, int total, ComponentAccessor<EntityStore> componentAccessor)
+  private void sendFeedback(String key, int total, int num, ComponentAccessor<EntityStore> componentAccessor)
+  public void setActivePrefabPath(UUID path)
+  public UUID getActivePrefabPath()
+  public Path getPrefabListRoot()
+  public void setPrefabListRoot(Path prefabListRoot)
+  public Path getPrefabListPath()
+  public void setPrefabListPath(Path prefabListPath)
+  public String getPrefabListSearchQuery()
+  public void setPrefabListSearchQuery(String prefabListSearchQuery)
+  public int edit(Ref<EntityStore> ref, BuilderToolOnUseInteraction packet, ComponentAccessor<EntityStore> componentAccessor)
+  public void placeBrushConfig(Ref<EntityStore> ref, long startTime, BrushConfigEditStore brushConfigEditStore, ComponentAccessor<EntityStore> componentAccessor)
+  public void flood(EditOperation editOperation, int x, int y, int z, int shapeWidth, int shapeHeight, BlockPattern pattern, int targetBlockId)
+  private boolean isFloodPossible(ChunkAccessor accessor, long blockPosition, Vector3i min, Vector3i max, int blockId, int targetBlockId)
+  public boolean isAsideAir(ChunkAccessor accessor, int x, int y, int z)
+  public boolean isAsideBlock(ChunkAccessor accessor, int x, int y, int z)
+  public BuilderToolsPlugin.BuilderState.BlocksSampleData getBlocksSampleData(ChunkAccessor accessor, int x, int y, int z, int radius)
+  public BuilderToolsPlugin.BuilderState.SmoothSampleData getBlocksSmoothData(ChunkAccessor accessor, int x, int y, int z)
+  public void editLine(int x1, int y1, int z1, int x2, int y2, int z2, BlockPattern material, int lineWidth, int lineHeight, int wallThickness, BrushShape shape, BrushOrigin origin, int spacing, int density, ComponentAccessor<EntityStore> componentAccessor)
+  public void editLine(int x1, int y1, int z1, int x2, int y2, int z2, BlockPattern material, int lineWidth, int lineHeight, int wallThickness, BrushShape shape, BrushOrigin origin, int spacing, int density, BlockMask mask, ComponentAccessor<EntityStore> componentAccessor)
+  private Predicate<Vector3i> createShapePredicate(BrushShape shape, float halfWidth, float halfHeight, float innerHalfWidth, float innerHalfHeight, boolean hollow)
+  public void extendFace(int x, int y, int z, int normalX, int normalY, int normalZ, int extrudeDepth, int radiusAllowed, int blockId, Vector3i min, Vector3i max, ComponentAccessor<EntityStore> componentAccessor)
+  private void extendFaceFindBlocks(LocalCachedChunkAccessor accessor, BlockSelection before, BlockSelection after, int normalX, int normalY, int normalZ, int extrudeDepth, int blockId, Vector3i min, Vector3i max, Vector3i surfaceMin, Vector3i surfaceMax)
+  public void update(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax)
+  public void tint(Ref<EntityStore> ref, int color, ComponentAccessor<EntityStore> componentAccessor)
+  public void tint(int x, int y, int z, int color, BrushShape shape, int shapeRange, int shapeHeight, ComponentAccessor<EntityStore> componentAccessor)
+  public void environment(Ref<EntityStore> ref, int environmentId, ComponentAccessor<EntityStore> componentAccessor)
+  public int copyOrCut(Ref<EntityStore> ref, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, int settings, ComponentAccessor<EntityStore> componentAccessor)
+  public int copyOrCut(Ref<EntityStore> ref, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, int settings, Vector3i playerAnchor, ComponentAccessor<EntityStore> componentAccessor)
+  public int copyOrCut(Ref<EntityStore> ref, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, int settings, Vector3i playerAnchor, Set<Ref<EntityStore>> skipEntityRemoveSnapshotFor, ComponentAccessor<EntityStore> componentAccessor)
+  public int clear(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, ComponentAccessor<EntityStore> componentAccessor)
+  public static RotationTuple transformRotation(RotationTuple prevRot, Quaterniond rotation)
+  private void transformEntityRotation(Vector3f rotation, Quaterniond deltaQuat)
+  public void transformThenPasteClipboard(BlockChange[] blockChanges, PrototypePlayerBuilderToolSettings.FluidChange[] fluidChanges, PrototypePlayerBuilderToolSettings.EntityChange[] entityChanges, Quaterniond rotation, Vector3i translationOffset, Vector3f rotationOrigin, Vector3i initialPastePoint, boolean keepEmptyBlocks, PrototypePlayerBuilderToolSettings prototypeSettings, ComponentAccessor<EntityStore> componentAccessor)
+  public void transformSelectionPoints(Quaterniond rotation, Vector3i translationOffset, Vector3f rotationOrigin)
+  public Vector3i transformBlockLocation(Vector3i blockLocation, Quaterniond rotation, Vector3i translationOffset, Vector3f rotationOrigin)
+  public void layer(int x, int y, int z, List<Pair<Integer,String>> layers, int depth, Vector3i direction, WorldChunk chunk, BlockSelection before, BlockSelection after)
+  public void layer(List<Pair<Integer,String>> layers, Vector3i direction, ComponentAccessor<EntityStore> componentAccessor)
+  private boolean attemptSetLayer(int x, int y, int z, int depth, List<Pair<Integer,String>> layers, WorldChunk chunk, BlockSelection before, BlockSelection after)
+  public int paste(Ref<EntityStore> ref, int x, int y, int z, ComponentAccessor<EntityStore> componentAccessor)
+  public int paste(Ref<EntityStore> ref, int x, int y, int z, boolean technicalPaste, ComponentAccessor<EntityStore> componentAccessor)
+  private BlockSelection convertEmptyBlocksToEditorEmpty(BlockSelection original)
+  public void rotate(Ref<EntityStore> ref, Axis axis, int angle, ComponentAccessor<EntityStore> componentAccessor)
+  public void rotate(Ref<EntityStore> ref, Axis axis, int angle, Vector3f originOfRotation, ComponentAccessor<EntityStore> componentAccessor)
+  public void rotateArbitrary(Ref<EntityStore> ref, float yaw, float pitch, float roll, ComponentAccessor<EntityStore> componentAccessor)
+  public void flip(Ref<EntityStore> ref, Axis axis, ComponentAccessor<EntityStore> componentAccessor)
+  public void hollow(Ref<EntityStore> ref, int blockId, int thickness, boolean setTop, boolean setBottom, ComponentAccessor<EntityStore> componentAccessor)
+  public void walls(Ref<EntityStore> ref, int blockId, int thickness, boolean cappedTop, boolean cappedBottom, ComponentAccessor<EntityStore> componentAccessor)
+  public void walls(Ref<EntityStore> ref, BlockPattern pattern, int thickness, boolean cappedTop, boolean cappedBottom, ComponentAccessor<EntityStore> componentAccessor)
+  public void set(int blockId, ComponentAccessor<EntityStore> componentAccessor)
+  public void set(BlockPattern pattern, ComponentAccessor<EntityStore> componentAccessor)
+  public void fill(BlockPattern pattern, ComponentAccessor<EntityStore> componentAccessor)
+  public void replace(Ref<EntityStore> ref, Material from, Material to, ComponentAccessor<EntityStore> componentAccessor)
+  private void clearFillerBlocksIfNeeded(int baseX, int baseY, int baseZ, int oldBlockId, int rotationIndex, LocalCachedChunkAccessor accessor, BlockSelection before, BlockSelection after)
+  private void replaceMultiBlockStructure(int baseX, int baseY, int baseZ, int oldBlockId, int newBlockId, int rotationIndex, LocalCachedChunkAccessor accessor, BlockSelection before, BlockSelection after)
+  public void replace(Ref<EntityStore> ref, IntPredicate doReplace, BlockPattern toPattern, ComponentAccessor<EntityStore> componentAccessor)
+  public void replace(Ref<EntityStore> ref, Int2IntFunction function, ComponentAccessor<EntityStore> componentAccessor)
+  public void move(Ref<EntityStore> ref, Vector3i direction, boolean empty, boolean entities, ComponentAccessor<EntityStore> componentAccessor)
+  public void shift(Ref<EntityStore> ref, Vector3i direction, ComponentAccessor<EntityStore> componentAccessor)
+  public void pos1(Vector3i pos1, ComponentAccessor<EntityStore> componentAccessor)
+  public void pos2(Vector3i pos2, ComponentAccessor<EntityStore> componentAccessor)
+  public void select(Vector3i pos1, Vector3i pos2, String reason, ComponentAccessor<EntityStore> componentAccessor)
+  public void deselect(ComponentAccessor<EntityStore> componentAccessor)
+  public void stack(Ref<EntityStore> ref, Vector3i direction, int count, boolean empty, int spacing, ComponentAccessor<EntityStore> componentAccessor)
+  public void expand(Ref<EntityStore> ref, Vector3i direction, ComponentAccessor<EntityStore> componentAccessor)
+  public void contract(Ref<EntityStore> ref, Vector3i direction, ComponentAccessor<EntityStore> componentAccessor)
+  public void repairFillers(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public List<BuilderToolsPlugin.ActionEntry> undo(Ref<EntityStore> ref, int count, ComponentAccessor<EntityStore> componentAccessor)
+  public List<BuilderToolsPlugin.ActionEntry> redo(Ref<EntityStore> ref, int count, ComponentAccessor<EntityStore> componentAccessor)
+  public void save(Ref<EntityStore> ref, String name, boolean relativize, boolean overwrite, ComponentAccessor<EntityStore> componentAccessor)
+  public void save(Ref<EntityStore> ref, String name, boolean relativize, boolean overwrite, boolean clearSupport, ComponentAccessor<EntityStore> componentAccessor)
+  public void saveFromSelection(Ref<EntityStore> ref, String name, boolean relativize, boolean overwrite, boolean includeEntities, boolean includeEmpty, ComponentAccessor<EntityStore> componentAccessor)
+  public void saveFromSelection(Ref<EntityStore> ref, String name, boolean relativize, boolean overwrite, boolean includeEntities, boolean includeEmpty, Vector3i playerAnchor, boolean clearSupport, ComponentAccessor<EntityStore> componentAccessor)
+  public void load(String name, ComponentAccessor<EntityStore> componentAccessor)
+  public void load(String name, BlockSelection serverPrefab, ComponentAccessor<EntityStore> componentAccessor)
+  public void clearHistory(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public void setGlobalMask(BlockMask mask, ComponentAccessor<EntityStore> componentAccessor)
+  private void sendUpdate()
+  public void sendArea()
+  private void pushHistory(BuilderToolsPlugin.Action action, SelectionSnapshot<?> snapshot)
+  private void pushHistory(BuilderToolsPlugin.Action action, List<SelectionSnapshot<?>> snapshots)
+  private void markPrefabsDirtyFromSnapshots(List<SelectionSnapshot<?>> snapshots)
+  private BuilderToolsPlugin.ActionEntry historyAction(Ref<EntityStore> ref, ObjectArrayFIFOQueue<BuilderToolsPlugin.ActionEntry> from, ObjectArrayFIFOQueue<BuilderToolsPlugin.ActionEntry> to, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+private static final MetricsRegistry<BuilderToolsPlugin.BuilderState> STATE_METRICS_REGISTRY
+private Player player
+private PlayerRef playerRef
+private final BuilderToolsUserData userData
+private final StampedLock undoLock
+private final ObjectArrayFIFOQueue<BuilderToolsPlugin.ActionEntry> undo
+private final ObjectArrayFIFOQueue<BuilderToolsPlugin.ActionEntry> redo
+private final StampedLock taskLock
+private final ObjectArrayFIFOQueue<BuilderToolsPlugin.QueuedTask> tasks
+private volatile CompletableFuture<Void> taskFuture
+private volatile long timestamp
+private BlockSelection selection
+private BlockMask globalMask
+private Random random
+private UUID activePrefabPath
+private Path prefabListRoot
+private Path prefabListPath
+private String prefabListSearchQuery

@@ -207,3 +207,130 @@ A reentrant lock used to protect structural mutations (entity add/remove, compon
 - Holder -- portable entity data container
 - ArchetypeChunk -- columnar storage for entities of the same archetype
 - ComponentAccessor -- the interface Store implements
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery (and 8 more)
+
+Complete API:
+  CommandBuffer<ECS_TYPE> takeCommandBuffer()
+  void storeCommandBuffer(CommandBuffer<ECS_TYPE> commandBuffer)
+  public int getStoreIndex()
+  public ComponentRegistry<ECS_TYPE> getRegistry()
+  public ECS_TYPE getExternalData()
+  public IResourceStorage getResourceStorage()
+  public ParallelTask<EntityTickingSystem.SystemTaskData<ECS_TYPE>> getParallelTask()
+  public ParallelTask<EntityDataSystem.SystemTaskData<ECS_TYPE,?,?>> getFetchTask()
+  public HistoricMetric[] getSystemMetrics()
+  public boolean isShutdown()
+  void onAdd(ComponentRegistry.Data<ECS_TYPE> data)
+  public void shutdown()
+  void shutdown0(ComponentRegistry.Data<ECS_TYPE> data)
+  public CompletableFuture<Void> saveAllResources()
+  private CompletableFuture<Void> saveAllResources0(ComponentRegistry.Data<ECS_TYPE> data)
+  public int getEntityCount()
+  public int getEntityCountFor(Query<ECS_TYPE> query)
+  public int getEntityCountFor(int systemIndex)
+  public int getArchetypeChunkCount()
+  public ArchetypeChunkData[] collectArchetypeChunkData()
+  public int getArchetypeChunkCountFor(int systemIndex)
+  protected void setEntityChunkIndex(Ref<ECS_TYPE> ref, int newEntityChunkIndex)
+  public Ref<ECS_TYPE> addEntity(Archetype<ECS_TYPE> archetype, AddReason reason)
+  public Ref<ECS_TYPE> addEntity(Holder<ECS_TYPE> holder, AddReason reason)
+  public Ref<ECS_TYPE> addEntity(Holder<ECS_TYPE> holder, Ref<ECS_TYPE> ref, AddReason reason)
+  public Ref<ECS_TYPE>[] addEntities(Holder<ECS_TYPE>[] holders, AddReason reason)
+  public Ref<ECS_TYPE>[] addEntities(Holder<ECS_TYPE>[] holders, int start, int length, AddReason reason)
+  public void addEntities(Holder<ECS_TYPE>[] holders, Ref<ECS_TYPE>[] refs, AddReason reason)
+  public void addEntities(Holder<ECS_TYPE>[] holders, int holderStart, Ref<ECS_TYPE>[] refs, int refStart, int length, AddReason reason)
+  public Holder<ECS_TYPE> copyEntity(Ref<ECS_TYPE> ref)
+  public Holder<ECS_TYPE> copyEntity(Ref<ECS_TYPE> ref, Holder<ECS_TYPE> holder)
+  public Holder<ECS_TYPE> copySerializableEntity(Ref<ECS_TYPE> ref)
+  public Holder<ECS_TYPE> copySerializableEntity(Ref<ECS_TYPE> ref, Holder<ECS_TYPE> holder)
+  public Archetype<ECS_TYPE> getArchetype(Ref<ECS_TYPE> ref)
+  protected Archetype<ECS_TYPE> __internal_getArchetype(Ref<ECS_TYPE> ref)
+  public Holder<ECS_TYPE> removeEntity(Ref<ECS_TYPE> ref, RemoveReason reason)
+  public Holder<ECS_TYPE> removeEntity(Ref<ECS_TYPE> ref, Holder<ECS_TYPE> holder, RemoveReason reason)
+  Holder<ECS_TYPE> removeEntity(Ref<ECS_TYPE> ref, Holder<ECS_TYPE> holder, RemoveReason reason, Throwable proxyReason)
+  public Holder<ECS_TYPE>[] removeEntities(Ref<ECS_TYPE>[] refs, RemoveReason reason)
+  public Holder<ECS_TYPE>[] removeEntities(Ref<ECS_TYPE>[] refs, int start, int length, RemoveReason reason)
+  public Holder<ECS_TYPE>[] removeEntities(Ref<ECS_TYPE>[] refs, Holder<ECS_TYPE>[] holders, RemoveReason reason)
+  public Holder<ECS_TYPE>[] removeEntities(Ref<ECS_TYPE>[] refArr, int refStart, Holder<ECS_TYPE>[] holders, int holderStart, int length, RemoveReason reason)
+  public void ensureComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType)
+  public T ensureAndGetComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType)
+  public T addComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType)
+  public void addComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType, T component)
+  public void replaceComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType, T component)
+  public void putComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType, T component)
+  public T getComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType)
+  protected T __internal_getComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType)
+  public void removeComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType)
+  public void tryRemoveComponent(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType)
+  public boolean removeComponentIfExists(Ref<ECS_TYPE> ref, ComponentType<ECS_TYPE,T> componentType)
+  public void replaceResource(ResourceType<ECS_TYPE,T> resourceType, T resource)
+  public T getResource(ResourceType<ECS_TYPE,T> resourceType)
+  protected T __internal_getResource(ResourceType<ECS_TYPE,T> resourceType)
+  public void forEachChunk(BiConsumer<ArchetypeChunk<ECS_TYPE>,CommandBuffer<ECS_TYPE>> consumer)
+  public boolean forEachChunk(BiPredicate<ArchetypeChunk<ECS_TYPE>,CommandBuffer<ECS_TYPE>> predicate)
+  public void forEachChunk(Query<ECS_TYPE> query, BiConsumer<ArchetypeChunk<ECS_TYPE>,CommandBuffer<ECS_TYPE>> consumer)
+  public boolean forEachChunk(Query<ECS_TYPE> query, BiPredicate<ArchetypeChunk<ECS_TYPE>,CommandBuffer<ECS_TYPE>> predicate)
+  public void forEachChunk(int systemIndex, BiConsumer<ArchetypeChunk<ECS_TYPE>,CommandBuffer<ECS_TYPE>> consumer)
+  public boolean forEachChunk(int systemIndex, BiPredicate<ArchetypeChunk<ECS_TYPE>,CommandBuffer<ECS_TYPE>> predicate)
+  public void forEachEntityParallel(IntBiObjectConsumer<ArchetypeChunk<ECS_TYPE>,CommandBuffer<ECS_TYPE>> consumer)
+  public void forEachEntityParallel(Query<ECS_TYPE> query, IntBiObjectConsumer<ArchetypeChunk<ECS_TYPE>,CommandBuffer<ECS_TYPE>> consumer)
+  public void fetch(SystemType<ECS_TYPE,T> systemType, Q query, List<R> results)
+  public void fetch(Collection<Ref<ECS_TYPE>> refs, SystemType<ECS_TYPE,T> systemType, Q query, List<R> results)
+  public void invoke(Ref<ECS_TYPE> ref, Event param)
+  public void invoke(EntityEventType<ECS_TYPE,Event> systemType, Ref<ECS_TYPE> ref, Event param)
+  public void invoke(Holder<ECS_TYPE> holder, Event param)
+  public void invoke(EntityHolderEventType<ECS_TYPE,Event> systemType, Holder<ECS_TYPE> holder, Event param)
+  public void invoke(Event param)
+  public void invoke(WorldEventType<ECS_TYPE,Event> systemType, Event param)
+  protected void internal_invoke(CommandBuffer<ECS_TYPE> sourceCommandBuffer, Ref<ECS_TYPE> ref, Event param)
+  protected void internal_invoke(CommandBuffer<ECS_TYPE> sourceCommandBuffer, EntityEventType<ECS_TYPE,Event> systemType, Ref<ECS_TYPE> ref, Event param)
+  protected void internal_invoke(CommandBuffer<ECS_TYPE> sourceCommandBuffer, Holder<ECS_TYPE> holder, Event param)
+  protected void internal_invoke(CommandBuffer<ECS_TYPE> commandBuffer, EntityHolderEventType<ECS_TYPE,Event> systemType, Holder<ECS_TYPE> holder, Event param)
+  protected void internal_invoke(CommandBuffer<ECS_TYPE> sourceCommandBuffer, Event param)
+  protected void internal_invoke(CommandBuffer<ECS_TYPE> sourceCommandBuffer, WorldEventType<ECS_TYPE,Event> systemType, Event param)
+  public void tick(float dt)
+  public void pausedTick(float dt)
+  private void tickInternal(float dt, SystemType<ECS_TYPE,Tickable> tickingSystemType)
+  public void tick(ArchetypeTickingSystem<ECS_TYPE> system, float dt, int systemIndex)
+  void updateData(ComponentRegistry.Data<ECS_TYPE> oldData, ComponentRegistry.Data<ECS_TYPE> data)
+  private void updateData(ComponentRegistry.Data<ECS_TYPE> oldData, ComponentRegistry.Data<ECS_TYPE> newData, DataChange dataChange)
+  private void updateData0(ComponentRegistry.Data<ECS_TYPE> oldData, ComponentRegistry.Data<ECS_TYPE> newData, DataChange dataChange)
+  private void updateArchetypeIndexes(ComponentRegistry.Data<ECS_TYPE> data)
+  public void assertWriteProcessing()
+  public boolean isProcessing()
+  public void assertThread()
+  public boolean isInThread()
+  public boolean isAliveInDifferentThread()
+  public String toString()
+  private void datachunk_addComponent(Ref<ECS_TYPE> ref, int fromArchetypeIndex, ComponentType<ECS_TYPE,T> componentType, T component, CommandBuffer<ECS_TYPE> commandBuffer)
+  private int findOrCreateArchetypeChunk(Archetype<ECS_TYPE> archetype)
+  private void removeArchetypeChunk(int archetypeIndex)
+
+Fields:
+public static final Store[] EMPTY_ARRAY
+public static final MetricsRegistry<Store<?>> METRICS_REGISTRY
+private final ComponentRegistry<ECS_TYPE> registry
+private final ECS_TYPE externalData
+private final IResourceStorage resourceStorage
+private final Deque<CommandBuffer<ECS_TYPE>> commandBuffers
+private final Thread thread
+private final ParallelTask<EntityTickingSystem.SystemTaskData<ECS_TYPE>> parallelTask
+private final ParallelTask<ForEachTaskData<ECS_TYPE>> forEachTask
+private final ParallelTask<EntityDataSystem.SystemTaskData<ECS_TYPE,?,?>> fetchTask
+private final Store.ProcessingCounter processing
+private boolean shutdown
+int storeIndex
+private int entitiesSize
+private Ref<ECS_TYPE>[] refs
+private int[] entityToArchetypeChunk
+private int[] entityChunkIndex
+private BitSet[] systemIndexToArchetypeChunkIndexes
+private BitSet[] archetypeChunkIndexesToSystemIndex
+private final Object2IntMap<Archetype<ECS_TYPE>> archetypeToIndexMap
+private int archetypeSize
+private final BitSet archetypeChunkReuse
+private ArchetypeChunk<ECS_TYPE>[] archetypeChunks
+private Resource<ECS_TYPE>[] resources
+private HistoricMetric[] systemMetrics
+private boolean disableProcessingAssert

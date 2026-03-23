@@ -67,3 +67,31 @@ public class WeightedMap<T> implements IWeightedMap<T>
 - public T[] toArray()
 - public <K> IWeightedMap<K> resolveKeys(@Nonnull Function<T, K> mapper, @Nonnull IntFunction<K[]> arraySupplier)
 - public String toString()
+
+Also in this package: Builder, DefaultMap, IWeightedElement, IWeightedMap, SeedCoordinateFunction, SingletonWeightedMap
+
+Complete API:
+  public static WeightedMap.Builder<T> builder(T[] emptyKeys)
+  public T get(double value)
+  public T get(DoubleSupplier supplier)
+  public T get(Random random)
+  public T get(int x, int z, BiIntToDoubleFunction supplier)
+  public T get(long x, long z, BiLongToDoubleFunction supplier)
+  public T get(double x, double z, BiDoubleToDoubleFunction supplier)
+  public T get(int seed, int x, int z, IWeightedMap.SeedCoordinateFunction<K> supplier, K k)
+  public int size()
+  public boolean contains(T obj)
+  public void forEach(Consumer<T> consumer)
+  public void forEachEntry(ObjDoubleConsumer<T> consumer)
+  public T[] internalKeys()
+  public T[] toArray()
+  public IWeightedMap<K> resolveKeys(Function<T,K> mapper, IntFunction<K[]> arraySupplier)
+  public String toString()
+
+Fields:
+public static final double EPSILON
+public static final double ONE_MINUS_EPSILON
+private final Set<T> keySet
+private final T[] keys
+private final double[] values
+private final double sum

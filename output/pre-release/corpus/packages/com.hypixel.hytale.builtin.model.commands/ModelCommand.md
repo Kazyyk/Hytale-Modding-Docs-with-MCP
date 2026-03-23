@@ -29,3 +29,8 @@ Registers under `"model"` with description key `"server.commands.model.desc"`. A
 - `CosmeticsModule` -- provides model creation from player skin
 - `ModelComponent` -- the ECS component that holds the entity's model
 - `PlayerSkinComponent` -- provides the player's authenticated skin
+
+Also in this package: ModelOtherCommand, ModelResetCommand, ModelResetOtherCommand, ModelSetCommand, ModelSetOtherCommand
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)

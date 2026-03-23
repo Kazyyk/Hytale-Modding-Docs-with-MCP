@@ -18,3 +18,17 @@ Asset definition for KillObjectiveTask configuration data.
 - public String getNpcGroupId()
 - @Override protected boolean matchesAsset0(ObjectiveTaskAsset task)
 - @Nonnull @Override public String toString()
+
+Known subclasses: KillSpawnBeaconObjectiveTaskAsset, KillSpawnMarkerObjectiveTaskAsset
+
+Also in this package: BountyObjectiveTaskAsset, KillSpawnBeaconObjectiveTaskAsset, KillSpawnMarkerObjectiveTaskAsset, ObjectiveSpawnBeacon
+
+Complete API:
+  public ObjectiveTaskAsset.TaskScope getTaskScope()
+  public String getNpcGroupId()
+  protected boolean matchesAsset0(ObjectiveTaskAsset task)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<KillObjectiveTaskAsset> CODEC
+protected String npcGroupId

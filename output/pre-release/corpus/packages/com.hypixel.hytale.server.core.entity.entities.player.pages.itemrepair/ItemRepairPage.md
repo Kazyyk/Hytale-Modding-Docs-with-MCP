@@ -8,3 +8,9 @@ public class ItemRepairPage extends ChoiceBasePage
 
 - @Override public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
 - @Nonnull protected static ChoiceElement[] getItemElements(ItemContainer itemContainer, double repairPenalty, ItemContext heldItemContext)
+
+Also in this package: ItemRepairElement, RepairItemInteraction
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  protected static ChoiceElement[] getItemElements(ItemContainer itemContainer, double repairPenalty, ItemContext heldItemContext)

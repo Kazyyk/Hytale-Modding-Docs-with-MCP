@@ -46,3 +46,30 @@ public BranchNoise(
 - @Nonnull protected ResultBuffer.ResultBuffer2d getParentNoise(int seed, double x, double y)
 - protected double getLineValue(int seed, double x, double y, int parentHash, double parentX, double parentY, double parentDistance, @Nonnull ResultBuffer.ResultBuffer2d buffer)
 - protected static double toOutputRange(double value)
+
+Known subclasses: LoadedBranchNoise
+
+Also in this package: Bounds2d, CellFunction, CellMode, CellNoise, CellularNoise, ConstantNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GeneralNoise, GridNoise, HexMeshNoise, InterpolationFunction, InterpolationMode, MeshNoise, OldSimplexNoise, PerlinNoise (and 6 more)
+
+Complete API:
+  public double get(int seed, int offsetSeed, double x, double y)
+  public double get(int seed, int offsetSeed, double x, double y, double z)
+  protected ResultBuffer.ResultBuffer2d localBuffer2d()
+  protected ResultBuffer.ResultBuffer2d getParentNoise(int seed, double x, double y)
+  protected double getLineValue(int seed, double x, double y, int parentHash, double parentX, double parentY, double parentDistance, ResultBuffer.ResultBuffer2d buffer)
+  public String toString()
+  protected static double toOutputRange(double value)
+
+Fields:
+protected final CellDistanceFunction parentFunction
+protected final PointEvaluator parentEvaluator
+protected final double parentValue
+protected final double emptyValue
+protected final IDoubleRange parentFade
+protected final IIntCondition parentDensity
+protected final DistanceNoise.Distance2Function distance2Function
+protected final NoiseFormulaProperty.NoiseFormula.Formula noiseFormula
+protected final CellDistanceFunction lineFunction
+protected final PointEvaluator lineEvaluator
+protected final double lineScale
+protected final IDoubleRange lineThickness

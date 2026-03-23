@@ -26,3 +26,20 @@ public class ExponentialResponseCurve extends ResponseCurve
 - public double getHorizontalShift()
 - public double getVerticalShift()
 - @Nonnull @Override public String toString()
+
+Also in this package: LogisticResponseCurve, Reference, ResponseCurve, SineWaveResponseCurve
+
+Complete API:
+  public double computeY(double x)
+  public double getSlope()
+  public double getExponent()
+  public double getHorizontalShift()
+  public double getVerticalShift()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ExponentialResponseCurve> CODEC
+protected double slope
+protected double exponent
+protected double horizontalShift
+protected double verticalShift

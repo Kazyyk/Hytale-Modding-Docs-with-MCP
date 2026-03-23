@@ -14,3 +14,15 @@ public class ModelOverride implements NetworkSerializable<com.hypixel.hytale.pro
 - protected ModelOverride()
 - public com.hypixel.hytale.protocol.ModelOverride toPacket()
 - public String toString()
+
+Also in this package: AbilityEffects, ApplicationEffects, EntityEffect, OverlapBehavior, RemovalBehavior
+
+Complete API:
+  public com.hypixel.hytale.protocol.ModelOverride toPacket()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ModelOverride> CODEC
+protected String model
+protected String texture
+protected Map<String,ModelAsset.AnimationSet> animationSetMap

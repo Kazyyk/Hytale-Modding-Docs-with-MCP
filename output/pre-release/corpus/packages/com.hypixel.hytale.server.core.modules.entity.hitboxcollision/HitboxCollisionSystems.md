@@ -31,3 +31,5 @@ public class HitboxCollisionSystems
 - public Query<EntityStore> getQuery()
 - public void onEntityAdd(@Nonnull Holder<EntityStore> holder, @Nonnull AddReason reason, @Nonnull Store<EntityStore> store)
 - public void onEntityRemoved(@Nonnull Holder<EntityStore> holder, @Nonnull RemoveReason reason, @Nonnull Store<EntityStore> store)
+
+Also in this package: EntityTrackerRemove, EntityTrackerUpdate, HitboxCollision, HitboxCollisionConfig, HitboxCollisionConfigPacketGenerator, Setup

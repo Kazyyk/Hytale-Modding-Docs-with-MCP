@@ -10,3 +10,8 @@ Console command handling BrushConfigExit operations.
 
 - public BrushConfigExitCommand()
 - @Override protected void execute(@Nonnull CommandContext context, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world)
+
+Also in this package: BrushConfigClearCommand, BrushConfigCommand, BrushConfigDebugStepCommand, BrushConfigListCommand, BrushConfigLoadCommand, LoadByNameCommand
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)

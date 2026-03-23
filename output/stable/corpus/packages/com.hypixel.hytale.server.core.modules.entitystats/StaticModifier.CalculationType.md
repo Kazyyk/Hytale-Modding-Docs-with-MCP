@@ -15,3 +15,9 @@ Defines how a `StaticModifier` transforms a stat bound value.
 
 - compute(float value, float amount) | float | Applies the calculation to the given inputs.
 - createKey(String armor) | String | Creates a modifier map key by appending `_ADDITIVE` or `_MULTIPLICATIVE`.
+
+Also in this package: DefaultModifiers, Modifier, ModifierTarget, StaticModifier
+
+Complete API:
+  public abstract float compute(float var1, float var2)
+  public String createKey(String armor)

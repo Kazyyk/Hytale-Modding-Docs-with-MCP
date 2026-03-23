@@ -47,3 +47,23 @@ public String toString()
 
 - DamageEffects -- configures knockback as part of damage effects
 - `KnockbackComponent` -- entity component that receives knockback instructions
+
+Known subclasses: DirectionalKnockback, ForceKnockback, PointKnockback
+
+Also in this package: DamageCalculator, DamageClass, DamageEffects, DirectionalKnockback, ForceKnockback, PointKnockback, TargetEntityEffect, Type
+
+Complete API:
+  public float getForce()
+  public float getDuration()
+  public ChangeVelocityType getVelocityType()
+  public VelocityConfig getVelocityConfig()
+  public abstract Vector3d calculateVector(Vector3d var1, float var2, Vector3d var3)
+  public String toString()
+
+Fields:
+public static final CodecMapCodec<Knockback> CODEC
+public static final BuilderCodec<Knockback> BASE_CODEC
+protected float force
+protected float duration
+protected ChangeVelocityType velocityType
+private VelocityConfig velocityConfig

@@ -21,3 +21,21 @@ public class ReputationGroup implements JsonAssetWithMap
 - public String getId()
 - public String[] getNpcGroups()
 - public int getInitialReputationValue()
+
+Also in this package: ReputationRank
+
+Complete API:
+  public static AssetStore<String,ReputationGroup,DefaultAssetMap<String,ReputationGroup>> getAssetStore()
+  public static DefaultAssetMap<String,ReputationGroup> getAssetMap()
+  public String getId()
+  public String[] getNpcGroups()
+  public int getInitialReputationValue()
+
+Fields:
+public static final AssetBuilderCodec<String,ReputationGroup> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,ReputationGroup,DefaultAssetMap<String,ReputationGroup>> ASSET_STORE
+protected AssetExtraInfo.Data data
+protected String id
+protected String[] npcGroups
+protected int initialReputationValue

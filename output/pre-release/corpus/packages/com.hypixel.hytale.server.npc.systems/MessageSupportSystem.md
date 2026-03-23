@@ -75,3 +75,17 @@ Ticks entity event messages from player sources.
 
 - RoleBuilderSystem -- adds the message support components during role construction
 - BlackboardSystems -- blackboard views that generate the events these systems tick
+
+Known subclasses: BeaconSystem, NPCBlockEventSystem, NPCEntityEventSystem, PlayerBlockEventSystem, PlayerEntityEventSystem
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 49 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public void steppedTick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final ComponentType<EntityStore,T> messageSupportComponentType
+private final Set<Dependency<EntityStore>> dependencies

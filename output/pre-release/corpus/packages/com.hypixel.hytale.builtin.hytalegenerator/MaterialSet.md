@@ -10,3 +10,13 @@ Predicate-based set of materials using hash codes, supporting inclusive and excl
 
 - public boolean test(@Nullable Material value)
 - public boolean test(int hashMaterialIds)
+
+Also in this package: ArrayUtil, BiOperation3i, BlockMask, EntityPlacementData, FutureUtils, GridUtils, LoggerUtil, NakedOperation3i, Operation3i, PropRuntime, Registry, Retriever, ReusableList, VectorUtil, Viewport, WeightedMap
+
+Complete API:
+  public boolean test(Material value)
+  public boolean test(int hashMaterialIds)
+
+Fields:
+private final boolean isInclusive
+private final IntSet mask

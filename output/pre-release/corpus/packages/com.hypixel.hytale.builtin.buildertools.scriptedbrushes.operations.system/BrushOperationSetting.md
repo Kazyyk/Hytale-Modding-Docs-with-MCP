@@ -39,3 +39,28 @@ public class BrushOperationSetting<T>
 - @Nullable public Validator<T> getValueValidator()
 - @Nullable public T getValue()
 - public String getValueString()
+
+Also in this package: BrushOperation, GlobalBrushOperation, SequenceBrushOperation
+
+Complete API:
+  public BrushOperationSetting<T> setValue(T value)
+  public BrushOperationSetting<T> setValueUnsafe(String input, Object value)
+  public ParseResult parseAndSetValue(String[] input)
+  public String getInput()
+  public String getName()
+  public String getDescription()
+  public T getDefaultValue()
+  public ArgumentType<T> getArgumentType()
+  public Validator<T> getValueValidator()
+  public T getValue()
+  public String getValueString()
+
+Fields:
+private final String name
+private final String description
+private String input
+private final T defaultValue
+private T value
+private final ArgumentType<T> argumentType
+private final Validator<T> valueValidator
+private final Function<BrushOperationSetting<T>,String> toStringFunction

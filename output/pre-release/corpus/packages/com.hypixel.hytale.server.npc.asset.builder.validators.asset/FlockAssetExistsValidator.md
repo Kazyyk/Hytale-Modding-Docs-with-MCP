@@ -16,3 +16,16 @@ public class FlockAssetExistsValidator extends AssetValidator
 - @Override @Nonnull public String getAssetName()
 - public static FlockAssetExistsValidator required()
 - @Nonnull public static FlockAssetExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Also in this package: AttitudeGroupExistsValidator, BeaconSpawnExistsValidator, BlockSetExistsValidator, CombatInteractionValidator, EntityEffectExistsValidator, EntityStatExistsValidator, EnvironmentExistsValidator, ItemAttitudeGroupExistsValidator, ItemDropListExistsValidator, ItemExistsValidator, ManualSpawnMarkerExistsValidator, ModelExistsValidator, ParticleSystemExistsValidator, RoleExistsValidator, RootInteractionValidator, SoundEventExistsValidator, WeatherExistsValidator
+
+Complete API:
+  public String getDomain()
+  public boolean test(String flockAsset)
+  public String errorMessage(String flockAsset, String attribute)
+  public String getAssetName()
+  public static FlockAssetExistsValidator required()
+  public static FlockAssetExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Fields:
+private static final FlockAssetExistsValidator DEFAULT_INSTANCE

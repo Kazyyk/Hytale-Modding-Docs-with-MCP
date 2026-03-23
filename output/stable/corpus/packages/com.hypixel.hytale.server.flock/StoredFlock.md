@@ -40,3 +40,18 @@ public StoredFlock cloneSerializable()
 
 - FlockPlugin -- the flock system
 - `SpawnMarkerEntity` -- uses StoredFlock for deactivation persistence
+
+Also in this package: EntityDeath, EntityRef, EntityRemoved, FilterPlayerFlockDamageSystem, Flock, FlockDeathSystems, FlockDebugSystem, FlockMembership, FlockMembershipSystems, FlockPlugin, FlockRemovedStatus, FlockSystems, NPCAddedFromWorldGen, OnDamageDealt, OnDamageReceived, PersistentFlockData, PlayerChangeGameModeEventSystem, PlayerDeath, PrefabPasteEventSystem, RefChange (and 2 more)
+
+Complete API:
+  public void storeNPCs(List<Ref<EntityStore>> refs, Store<EntityStore> store)
+  public boolean hasStoredNPCs()
+  public void restoreNPCs(List<Ref<EntityStore>> output, Store<EntityStore> store)
+  public void clear()
+  public String toString()
+  public StoredFlock clone()
+  public StoredFlock cloneSerializable()
+
+Fields:
+public static final BuilderCodec<StoredFlock> CODEC
+private Holder<EntityStore>[] members

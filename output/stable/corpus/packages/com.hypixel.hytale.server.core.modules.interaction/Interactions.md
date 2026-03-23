@@ -62,3 +62,21 @@ Sets the interaction hint and marks the component as network-dirty.
 public boolean consumeNetworkOutdated()
 
 Returns and clears the network-dirty flag.
+
+Also in this package: BlockHarvestUtils, BlockInteractionUtils, BlockPlaceUtils, IInteractionSimulationHandler, InteractionModule, InteractionSimulationHandler
+
+Complete API:
+  public static ComponentType<EntityStore,Interactions> getComponentType()
+  public String getInteractionId(InteractionType type)
+  public void setInteractionId(InteractionType type, String interactionId)
+  public Map<InteractionType,String> getInteractions()
+  public String getInteractionHint()
+  public void setInteractionHint(String interactionHint)
+  public Component<EntityStore> clone()
+  public boolean consumeNetworkOutdated()
+
+Fields:
+public static final BuilderCodec<Interactions> CODEC
+private Map<InteractionType,String> interactions
+private String interactionHint
+private boolean isNetworkOutdated

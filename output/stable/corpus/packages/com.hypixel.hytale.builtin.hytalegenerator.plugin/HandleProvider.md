@@ -26,3 +26,20 @@ Provider supplying Handle values based on context.
 - @Nonnull public String getWorldStructureName()
 - @Nullable public String getSeedOverride()
 - @Nonnull @Override public IWorldGen getGenerator()
+
+Also in this package: Handle, HytaleGenerator
+
+Complete API:
+  public void setWorldStructureName(String worldStructureName)
+  public void setSeedOverride(String seedOverride)
+  public String getWorldStructureName()
+  public String getSeedOverride()
+  public IWorldGen getGenerator()
+
+Fields:
+public static final String ID
+public static final String DEFAULT_WORLD_STRUCTURE_NAME
+private final HytaleGenerator plugin
+private String worldStructureName
+private String seedOverride
+private int worldCounter

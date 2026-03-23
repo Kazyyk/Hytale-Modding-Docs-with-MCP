@@ -49,3 +49,49 @@ Class in the config subsystem.
 - isLimitDecayHighFrequency() | boolean | public method.
 - toString() | String | public method.
 - toPacket() | com.hypixel.hytale.protocol.ReverbEffect | public method.
+
+Complete API:
+  public static AssetStore<String,ReverbEffect,IndexedLookupTableAssetMap<String,ReverbEffect>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,ReverbEffect> getAssetMap()
+  public String getId()
+  public float getDryGain()
+  public float getModalDensity()
+  public float getDiffusion()
+  public float getGain()
+  public float getHighFrequencyGain()
+  public float getDecayTime()
+  public float getHighFrequencyDecayRatio()
+  public float getReflectionGain()
+  public float getReflectionDelay()
+  public float getLateReverbGain()
+  public float getLateReverbDelay()
+  public float getRoomRolloffFactor()
+  public float getAirAbsorptionHighFrequencyGain()
+  public boolean isLimitDecayHighFrequency()
+  public String toString()
+  public com.hypixel.hytale.protocol.ReverbEffect toPacket()
+
+Fields:
+public static final int EMPTY_ID
+public static final String EMPTY
+public static final ReverbEffect EMPTY_REVERB_EFFECT
+public static final AssetBuilderCodec<String,ReverbEffect> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,ReverbEffect,IndexedLookupTableAssetMap<String,ReverbEffect>> ASSET_STORE
+protected AssetExtraInfo.Data data
+protected String id
+protected float dryGain
+protected float modalDensity
+protected float diffusion
+protected float gain
+protected float highFrequencyGain
+protected float decayTime
+protected float highFrequencyDecayRatio
+protected float reflectionGain
+protected float reflectionDelay
+protected float lateReverbGain
+protected float lateReverbDelay
+protected float roomRolloffFactor
+protected float airAbsorptionHighFrequencyGain
+protected boolean limitDecayHighFrequency
+private SoftReference<com.hypixel.hytale.protocol.ReverbEffect> cachedPacket

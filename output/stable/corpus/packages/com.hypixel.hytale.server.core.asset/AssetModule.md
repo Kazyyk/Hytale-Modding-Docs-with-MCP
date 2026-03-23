@@ -19,3 +19,37 @@ Core plugin managing asset pack discovery, registration, loading, validation, an
 - public void unregisterPack(@Nonnull String name)
 - @Nullable public AssetPack getAssetPack(@Nonnull String name)
 - public void initPendingStores()
+
+Also in this package: AssetNotifications, AssetPackRegisterEvent, AssetPackUnregisterEvent, AssetRegistryLoader, AssetStoreMonitorHandler, Builder, GenerateSchemaEvent, HytaleAssetStore, LoadAssetEvent
+
+Complete API:
+  public static AssetModule get()
+  protected void setup()
+  protected void shutdown()
+  public AssetPack getBaseAssetPack()
+  public List<AssetPack> getAssetPacks()
+  public AssetMonitor getAssetMonitor()
+  public AssetPack findAssetPackForPath(Path path)
+  public boolean isWithinPackSubDir(Path path, String subDir)
+  public boolean isAssetPathImmutable(Path path)
+  private PluginManifest loadPackManifest(Path packPath)
+  private void loadPacksFromDirectory(Path modsPath)
+  private void loadAndRegisterPack(Path packPath, boolean isExternal)
+  public void registerPack(String name, Path path, PluginManifest manifest, boolean ignoreIfExists)
+  public void unregisterPack(String name)
+  public AssetPack getAssetPack(String name)
+  private void onRemoveStore(RemoveAssetStoreEvent event)
+  private void onNewStore(RegisterAssetStoreEvent event)
+  public void initPendingStores()
+  private void initStore(AssetStore<?,?,?> assetStore)
+  private static void validateWorldGen(LoadAssetEvent event)
+
+Fields:
+public static final PluginManifest MANIFEST
+private static AssetModule instance
+private AssetMonitor assetMonitor
+private final List<AssetPack> assetPacks
+private final List<ObjectBooleanPair<AssetPack>> pendingAssetPacks
+private boolean hasSetup
+private boolean hasLoaded
+private final List<AssetStore<?,?,?>> pendingAssetStores

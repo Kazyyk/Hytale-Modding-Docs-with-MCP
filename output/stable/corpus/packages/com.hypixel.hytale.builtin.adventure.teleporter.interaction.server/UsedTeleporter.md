@@ -28,3 +28,21 @@ Implementation of `Component<EntityStore>`.
 - getClearOutXZSquared() | double | public method.
 - getClearOutY() | double | public method.
 - clone() | Component<EntityStore> | public method.
+
+Also in this package: TeleporterInteraction
+
+Complete API:
+  public static ComponentType<EntityStore,UsedTeleporter> getComponentType()
+  public UUID getDestinationWorldUuid()
+  public Vector3d getDestinationPosition()
+  public double getClearOutXZ()
+  public double getClearOutXZSquared()
+  public double getClearOutY()
+  public Component<EntityStore> clone()
+
+Fields:
+private UUID destinationWorldUuid
+private Vector3d destinationPosition
+private double clearOutXZ
+private double clearOutXZSquared
+private double clearOutY

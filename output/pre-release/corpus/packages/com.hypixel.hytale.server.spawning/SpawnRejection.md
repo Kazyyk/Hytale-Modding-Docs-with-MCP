@@ -18,3 +18,8 @@ Reasons why a spawn attempt was rejected during position validation.
 ## Static Fields
 
 - VALUES | SpawnRejection[] | Cached array of all enum constants
+
+Also in this package: ISpawnable, ISpawnableWithModel, LegacySpawnSuppressorEntityMigration, LoadedNPCEvent, NPCSpawningConfig, SpawnSpan, SpawnTestResult, SpawningContext, SpawningPlugin
+
+Fields:
+public static final SpawnRejection[] VALUES

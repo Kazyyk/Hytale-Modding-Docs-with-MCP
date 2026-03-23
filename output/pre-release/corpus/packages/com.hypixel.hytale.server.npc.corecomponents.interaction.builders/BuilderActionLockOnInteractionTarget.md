@@ -14,3 +14,16 @@ NPC behavior tree builder for an action node. Configures execution logic.
 - getBuilderDescriptorState() | BuilderDescriptorState | public method.
 - readConfig(@Nonnull JsonElement data) | BuilderActionLockOnInteractionTarget | public method.
 - getTargetSlot(@Nonnull BuilderSupport support) | int | public method.
+
+Also in this package: BuilderActionSetInteractable, BuilderSensorCanInteract, BuilderSensorHasInteracted, BuilderSensorInteractionContext
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public Action build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionLockOnInteractionTarget readConfig(JsonElement data)
+  public int getTargetSlot(BuilderSupport support)
+
+Fields:
+protected final StringHolder targetSlot

@@ -51,3 +51,19 @@ Gets the player's `PageManager`, checks no custom page is open, creates the page
 
 - `PageManager` -- manages open pages for a player
 - `CustomUIPage` -- the page object displayed to the player
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction (and 13 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public static void registerCustomPageSupplier(PluginBase plugin, Class<?> tClass, String id, S supplier)
+  public static void registerSimple(PluginBase plugin, Class<?> tClass, String id, Function<PlayerRef,CustomUIPage> supplier)
+  public static void registerBlockCustomPage(PluginBase plugin, Class<?> tClass, String id, Class<T> stateClass, OpenCustomUIInteraction.BlockCustomPageSupplier<T> blockSupplier)
+  public static void registerBlockCustomPage(PluginBase plugin, Class<?> tClass, String id, Class<T> stateClass, OpenCustomUIInteraction.BlockCustomPageSupplier<T> blockSupplier, boolean createState)
+  public static void registerBlockEntityCustomPage(PluginBase plugin, Class<?> tClass, String id, OpenCustomUIInteraction.BlockEntityCustomPageSupplier blockSupplier)
+  public static void registerBlockEntityCustomPage(PluginBase plugin, Class<?> tClass, String id, OpenCustomUIInteraction.BlockEntityCustomPageSupplier blockSupplier, Supplier<Holder<ChunkStore>> creator)
+
+Fields:
+public static final CodecMapCodec<OpenCustomUIInteraction.CustomPageSupplier> PAGE_CODEC
+public static final BuilderCodec<OpenCustomUIInteraction> CODEC
+private OpenCustomUIInteraction.CustomPageSupplier customPageSupplier

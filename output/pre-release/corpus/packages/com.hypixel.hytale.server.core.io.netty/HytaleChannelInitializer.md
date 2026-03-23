@@ -20,3 +20,14 @@ Netty channel initializer for the Hytale server. Sets up the packet encode/decod
 - Extends `ChannelInitializer<Channel>`
 - Creates `InitialPacketHandler` and `PlayerChannelHandler`
 - Delegates auxiliary streams to `PendingStreamHandler`
+
+Also in this package: AuxiliaryStreamExceptionHandler, DelayedFlush, DelayedHandler, DelayedRead, DelayedWrite, ExceptionHandler, LatencySimulationHandler, NettyUtil, PacketArrayEncoder, PlayerChannelHandler, RateLimitHandler, ReflectiveChannelFactory, TimeoutContext
+
+Complete API:
+  protected void initChannel(Channel channel)
+  private void initAuxiliaryStream(Channel channel, PacketHandler packetHandler)
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+  public void channelInactive(ChannelHandlerContext ctx)
+
+Fields:
+public static final AttributeKey<PacketHandler> GAME_PACKET_HANDLER_ATTR

@@ -18,3 +18,12 @@ Immutable snapshot capturing state for undo/redo in the builder tools system.
 
 - getEntityRef() | Ref<EntityStore> | public method.
 - restoreEntity(@Nonnull Player player, @Nonnull World world, @Nonnull ComponentAccessor<EntityStore> componentAccessor) | EntityRemoveSnapshot | public method.
+
+Also in this package: BlockSelectionSnapshot, ClipboardBoundsSnapshot, ClipboardContentsSnapshot, EntityRemoveSnapshot, EntitySnapshot, EntityTransformSnapshot, SelectionSnapshot
+
+Complete API:
+  public Ref<EntityStore> getEntityRef()
+  public EntityRemoveSnapshot restoreEntity(Player player, World world, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+private final Ref<EntityStore> entityRef

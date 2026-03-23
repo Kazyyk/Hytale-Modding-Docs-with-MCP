@@ -16,3 +16,16 @@ public class BuilderActionCompleteTask extends BuilderActionPlayAnimation
 - @Nonnull public BuilderActionCompleteTask readConfig(JsonElement data)
 - @Nonnull @Override public BuilderDescriptorState getBuilderDescriptorState()
 - public boolean isPlayAnimation(BuilderSupport support)
+
+Also in this package: BuilderActionStartObjective, BuilderSensorHasTask
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public ActionCompleteTask build(BuilderSupport builderSupport)
+  public BuilderActionCompleteTask readConfig(JsonElement data)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public boolean isPlayAnimation(BuilderSupport support)
+
+Fields:
+protected final BooleanHolder playAnimation

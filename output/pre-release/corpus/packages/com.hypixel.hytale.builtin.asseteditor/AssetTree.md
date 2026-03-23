@@ -25,3 +25,28 @@ The second constructor immediately loads the file tree by walking `Server/` (fil
 - AssetEditorFileEntry removeAsset(Path) | Removes a file or directory (and all children)
 - boolean isDirectoryEmpty(Path) | Checks if a directory has any child entries
 - void applyAssetChanges(Map<Path, ModifiedAsset>, Map<Path, ModifiedAsset>) | Batch-applies directory creations and asset modifications (new, deleted, renamed)
+
+Also in this package: AssetEditorGamePacketHandler, AssetEditorPacketHandler, AssetEditorPlugin, AssetPath, AssetSpecificFunctionality, AssetToDiscard, AssetTypeRegistry, DiscardResult, EditorClient, InitState, Messages, PlayerPreviewData, UndoRedoManager
+
+Complete API:
+  public void replaceAssetTree(AssetTree assetTree)
+  public void sendPackets(EditorClient editorClient)
+  public boolean isDirectoryEmpty(Path path)
+  public AssetEditorFileEntry ensureAsset(Path path, boolean isDirectory)
+  public AssetEditorFileEntry getAssetFile(Path path)
+  public AssetEditorFileEntry removeAsset(Path path)
+  public void applyAssetChanges(Map<Path,ModifiedAsset> createdDirectories, Map<Path,ModifiedAsset> modifiedAssets)
+  private List<AssetEditorFileEntry> getAssetListForPath(Path path)
+  private void load(Collection<AssetTypeHandler> assetTypes)
+  private static void loadServerAssets(Path root, Collection<AssetTypeHandler> assetTypes, List<AssetEditorFileEntry> files)
+  private static void walkFileTree(Path root, Path dirPath, List<AssetEditorFileEntry> files)
+
+Fields:
+private static final HytaleLogger LOGGER
+private final StampedLock lock
+private final Path rootPath
+private final String packKey
+private final boolean isReadOnly
+private final boolean canBeDeleted
+List<AssetEditorFileEntry> serverAssets
+List<AssetEditorFileEntry> commonAssets

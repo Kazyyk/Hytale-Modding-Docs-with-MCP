@@ -89,3 +89,25 @@ When a `BlockMask` is set, both `setBlock()` and the internal `setFluid()` check
 
 - BuilderToolsPlugin.BuilderState -- creates `EditOperation` instances for brush tool use
 - CopyCutSettings -- flags controlling clipboard operations that produce edit history
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  public BlockMask getBlockMask()
+  public BlockSelection getBefore()
+  public BlockSelection getAfter()
+  public OverridableChunkAccessor getAccessor()
+  public int getBlock(int x, int y, int z)
+  public boolean setBlock(int x, int y, int z, int blockId)
+  public boolean setBlock(int x, int y, int z, int blockId, int rotation)
+  private boolean setFluid(int x, int y, int z, int fluidId, byte fluidLevel)
+  public int getFluid(int x, int y, int z)
+  public boolean setMaterial(int x, int y, int z, Material material)
+
+Fields:
+private final BlockMask blockMask
+private final OverridableChunkAccessor accessor
+private final BlockSelection before
+private final BlockSelection after
+private final Vector3i min
+private final Vector3i max

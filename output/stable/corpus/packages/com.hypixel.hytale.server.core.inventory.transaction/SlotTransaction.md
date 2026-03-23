@@ -32,3 +32,34 @@ public class SlotTransaction implements Transaction
 - public SlotTransaction toParent(ItemContainer parent, short start, ItemContainer container)
 - public SlotTransaction fromParent(ItemContainer parent, short start, @Nonnull ItemContainer container)
 - public String toString()
+
+Known subclasses: ItemStackSlotTransaction, MaterialSlotTransaction, ResourceSlotTransaction, TagSlotTransaction
+
+Also in this package: ActionType, ClearTransaction, ItemStackSlotTransaction, ItemStackTransaction, ListTransaction, MaterialSlotTransaction, MaterialTransaction, MoveTransaction, MoveType, ResourceSlotTransaction, ResourceTransaction, TagSlotTransaction, TagTransaction, Transaction
+
+Complete API:
+  public boolean succeeded()
+  public boolean wasSlotModified(short slot)
+  public ActionType getAction()
+  public short getSlot()
+  public ItemStack getSlotBefore()
+  public ItemStack getSlotAfter()
+  public ItemStack getOutput()
+  public boolean isAllOrNothing()
+  public boolean isExactAmount()
+  public boolean isFilter()
+  public SlotTransaction toParent(ItemContainer parent, short start, ItemContainer container)
+  public SlotTransaction fromParent(ItemContainer parent, short start, ItemContainer container)
+  public String toString()
+
+Fields:
+public static final SlotTransaction FAILED_ADD
+private final boolean succeeded
+private final ActionType action
+private final short slot
+private final ItemStack slotBefore
+private final ItemStack slotAfter
+private final ItemStack output
+private final boolean allOrNothing
+private final boolean exactAmount
+private final boolean filter

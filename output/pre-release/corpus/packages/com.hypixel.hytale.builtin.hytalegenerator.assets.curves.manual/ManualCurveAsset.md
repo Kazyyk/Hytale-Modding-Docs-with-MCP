@@ -16,3 +16,16 @@ public class ManualCurveAsset extends CurveAsset
 - @Nonnull public NodeFunction build()
 - @Override public String getId()
 - @Override public void cleanUp()
+
+Also in this package: PointInOutAsset
+
+Complete API:
+  public NodeFunction build()
+  public String getId()
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<ManualCurveAsset> CODEC
+private String id
+private AssetExtraInfo.Data data
+private PointInOutAsset[] nodes

@@ -38,3 +38,36 @@ public class PortalWorld implements Resource
 - @Nonnull public UpdatePortal createUpdatePacket(World world)
 - @Nonnull private PortalState createStateForPacket(World world)
 - @Override public Resource<EntityStore> clone()
+
+Complete API:
+  public static ResourceType<EntityStore,PortalWorld> getResourceType()
+  public void init(PortalType portalType, int timeLimitSeconds, PortalRemovalCondition removalCondition, PortalGameplayConfig gameplayConfig)
+  public PortalType getPortalType()
+  public boolean exists()
+  public int getTimeLimitSeconds()
+  public double getElapsedSeconds(World world)
+  public double getRemainingSeconds(World world)
+  public static void setRemainingSeconds(World world, double seconds)
+  public Set<UUID> getDiedInWorld()
+  public Set<UUID> getSeesUi()
+  public PortalGameplayConfig getGameplayConfig()
+  public VoidEventConfig getVoidEventConfig()
+  public Transform getSpawnPoint()
+  public void setSpawnPoint(Transform spawnPoint)
+  public Ref<EntityStore> getVoidEventRef()
+  public boolean isVoidEventActive()
+  public void setVoidEventRef(Ref<EntityStore> voidEventRef)
+  public UpdatePortal createFullPacket(World world)
+  public UpdatePortal createUpdatePacket(World world)
+  private PortalState createStateForPacket(World world)
+  public Resource<EntityStore> clone()
+
+Fields:
+private String portalTypeId
+private int timeLimitSeconds
+private PortalRemovalCondition worldRemovalCondition
+private PortalGameplayConfig storedGameplayConfig
+private Set<UUID> diedInWorld
+private Set<UUID> seesUi
+private Transform spawnPoint
+private Ref<EntityStore> voidEventRef

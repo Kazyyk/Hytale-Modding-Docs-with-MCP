@@ -19,3 +19,13 @@ Groups for builder tool arguments.
 
 - getValue() | int | Returns the integer value of this constant
 - fromValue(int) | BuilderToolArgGroup | Returns the constant for the given value, throws `ProtocolException` if invalid
+
+Also in this package: Axis, BrushAxis, BrushOrigin, BrushShape, BuilderToolAction, BuilderToolArg, BuilderToolArgType, BuilderToolArgUpdate, BuilderToolBlockArg, BuilderToolBoolArg, BuilderToolBrushAxisArg, BuilderToolBrushData, BuilderToolBrushOriginArg, BuilderToolBrushShapeArg, BuilderToolEntityAction, BuilderToolExtrudeAction, BuilderToolFloatArg, BuilderToolGeneralAction, BuilderToolHideAnchors, BuilderToolIntArg (and 26 more)
+
+Complete API:
+  public int getValue()
+  public static BuilderToolArgGroup fromValue(int value)
+
+Fields:
+public static final BuilderToolArgGroup[] VALUES
+private final int value

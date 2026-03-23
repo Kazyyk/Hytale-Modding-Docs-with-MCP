@@ -9,3 +9,12 @@ Abstract base for related commands.
 ## Constructors
 
 - PlayerStatsAddCommand() | Creates a new PlayerStatsAddCommand instance.
+
+Also in this package: PlayerStatsDumpCommand, PlayerStatsGetCommand, PlayerStatsResetCommand, PlayerStatsSetCommand, PlayerStatsSetToMaxCommand, PlayerStatsSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, Ref<EntityStore> sourceRef, Ref<EntityStore> ref, PlayerRef playerRef, World world, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<String> entityStatNameArg
+private final RequiredArg<Integer> statAmountArg

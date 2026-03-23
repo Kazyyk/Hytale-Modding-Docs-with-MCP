@@ -8,3 +8,5 @@ public record Fail(Message errorMsg) implements UserMarkerValidator.PlaceResult,
 
 - public record Fail(Message errorMsg)
 - public Fail(String messageKey)
+
+Also in this package: CanRemove, CanSpawn, PlaceResult, RemoveResult, UserMapMarker, UserMapMarkersStore, UserMarkerValidator

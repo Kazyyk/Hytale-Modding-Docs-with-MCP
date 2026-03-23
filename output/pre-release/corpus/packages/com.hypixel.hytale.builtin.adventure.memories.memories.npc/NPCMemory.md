@@ -45,3 +45,29 @@ public class NPCMemory extends Memory
 - private static String findLocationZoneName(@Nonnull World world, @Nonnull Vector3d position)
 - private static void displayCatchEntityParticles( @Nonnull MemoriesGameplayConfig memoriesGameplayConfig, @Nonnull Vector3d targetPosition, @Nonnull Ref<EntityStore> targetRef, @Nonnull CommandBuffer<EntityStore> commandBuffer )
 - public Query<EntityStore> getQuery()
+
+Also in this package: GatherMemoriesSystem, NPCMemoryProvider
+
+Complete API:
+  public String getId()
+  public String getTitle()
+  public Message getTooltipText()
+  public String getIconPath()
+  public Message getUndiscoveredTooltipText()
+  public String getNpcRole()
+  public long getCapturedTimestamp()
+  public String getFoundLocationZoneNameKey()
+  public Message getLocationMessage()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final String ID
+public static final String ZONE_NAME_UNKNOWN
+public static final BuilderCodec<NPCMemory> CODEC
+private String npcRole
+private long capturedTimestamp
+private String foundLocationZoneNameKey
+private String foundLocationGeneralNameKey
+private String memoryTitleKey

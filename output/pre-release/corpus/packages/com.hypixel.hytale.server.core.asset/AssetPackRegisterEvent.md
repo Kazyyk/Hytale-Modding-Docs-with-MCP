@@ -9,3 +9,11 @@ Event fired when an asset pack is registered with the server, either at boot or 
 ## Methods
 
 - public AssetPack getAssetPack()
+
+Also in this package: AssetModule, AssetNotifications, AssetPackUnregisterEvent, AssetRegistryLoader, AssetStoreMonitorHandler, Builder, HytaleAssetStore, LoadAssetEvent
+
+Complete API:
+  public AssetPack getAssetPack()
+
+Fields:
+private final AssetPack assetPack

@@ -28,3 +28,5 @@ public class ParkourCheckpointSystems
             UUID playerUuid,
             int checkpointIndex,
             int lastIndex)` |
+
+Also in this package: EnsureNetworkSendable, Init, ParkourCheckpoint, ParkourCommand, ParkourPlugin, Ticking

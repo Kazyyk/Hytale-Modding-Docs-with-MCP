@@ -20,3 +20,9 @@ Container class for all farming-related ECS systems. Contains static inner class
 
 - private static boolean hasCropAbove(@Nonnull BlockChunk blockChunk, int x, int y, int z)
 - private static boolean updateSoilDecayTime(@Nonnull CommandBuffer<ChunkStore> commandBuffer, @Nonnull TilledSoilBlock soilBlock, @Nullable BlockType blockType)
+
+Also in this package: CoopResidentEntitySystem, CoopResidentTicking, FarmingPlugin, FarmingUtil, MigrateFarming, OnCoopAdded, OnFarmBlockAdded, OnSoilAdded, Ticking
+
+Complete API:
+  private static boolean hasCropAbove(BlockChunk blockChunk, int x, int y, int z)
+  private static boolean updateSoilDecayTime(CommandBuffer<ChunkStore> commandBuffer, TilledSoilBlock soilBlock, BlockType blockType)

@@ -26,3 +26,24 @@ NPC behavior tree builder for an action node. Configures execution logic.
 - getSubStateIndex() | int | public method.
 - isClearState() | boolean | public method.
 - isComponentLocal() | boolean | public method.
+
+Also in this package: BuilderActionParentState, BuilderActionToggleStateEvaluator, BuilderSensorIsBusy, BuilderSensorState
+
+Complete API:
+  public ActionState build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionState readConfig(JsonElement data)
+  public int getStateIndex()
+  public int getSubStateIndex()
+  public boolean isClearState()
+  public boolean isComponentLocal()
+
+Fields:
+protected String state
+protected String subState
+protected int stateIndex
+protected int subStateIndex
+protected boolean clearState
+protected boolean componentLocal

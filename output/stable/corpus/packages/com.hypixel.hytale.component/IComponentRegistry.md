@@ -76,3 +76,19 @@ Registers a spatial resource backed by a `SpatialStructure` (e.g., KDTree).
 - ComponentType -- returned by component registration
 - ResourceType -- returned by resource registration
 - SystemType -- returned by system type registration
+
+Known implementors: ComponentRegistry, ComponentRegistryProxy
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)
+
+Complete API:
+  ComponentType<ECS_TYPE,T> registerComponent(Class<? super T> var1, Supplier<T> var2)
+  ComponentType<ECS_TYPE,T> registerComponent(Class<? super T> var1, String var2, BuilderCodec<T> var3)
+  ResourceType<ECS_TYPE,T> registerResource(Class<? super T> var1, Supplier<T> var2)
+  ResourceType<ECS_TYPE,T> registerResource(Class<? super T> var1, String var2, BuilderCodec<T> var3)
+  SystemType<ECS_TYPE,T> registerSystemType(Class<? super T> var1)
+  EntityEventType<ECS_TYPE,T> registerEntityEventType(Class<? super T> var1)
+  WorldEventType<ECS_TYPE,T> registerWorldEventType(Class<? super T> var1)
+  SystemGroup<ECS_TYPE> registerSystemGroup()
+  void registerSystem(ISystem<ECS_TYPE> var1)
+  ResourceType<ECS_TYPE,SpatialResource<Ref<ECS_TYPE>,ECS_TYPE>> registerSpatialResource(Supplier<SpatialStructure<Ref<ECS_TYPE>>> var1)

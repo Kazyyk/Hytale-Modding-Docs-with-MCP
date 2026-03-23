@@ -16,3 +16,16 @@ public class ItemDropListExistsValidator extends AssetValidator
 - @Override @Nonnull public String getAssetName()
 - public static ItemDropListExistsValidator required()
 - @Nonnull public static ItemDropListExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Also in this package: AttitudeGroupExistsValidator, BeaconSpawnExistsValidator, BlockSetExistsValidator, CombatInteractionValidator, EntityEffectExistsValidator, EntityStatExistsValidator, EnvironmentExistsValidator, FlockAssetExistsValidator, ItemAttitudeGroupExistsValidator, ItemExistsValidator, ManualSpawnMarkerExistsValidator, ModelExistsValidator, ParticleSystemExistsValidator, RoleExistsValidator, RootInteractionValidator, SoundEventExistsValidator, WeatherExistsValidator
+
+Complete API:
+  public String getDomain()
+  public boolean test(String value)
+  public String errorMessage(String value, String attribute)
+  public String getAssetName()
+  public static ItemDropListExistsValidator required()
+  public static ItemDropListExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Fields:
+private static final ItemDropListExistsValidator DEFAULT_INSTANCE

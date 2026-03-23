@@ -16,3 +16,15 @@ Codec for serializing and deserializing UUIDBinary values.
 - @Nonnull public static UUID uuidFromBytes(@Nonnull byte[] bytes)
 - @Nonnull public static UUID uuidFromHex(String src)
 - @Nonnull @Override public Schema toSchema(@Nonnull SchemaContext context)
+
+Also in this package: BsonDocumentCodec, EnumCodec, EnumStyle, InetSocketAddressCodec, StringIntegerCodec
+
+Complete API:
+  public UUID decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(UUID uuid, ExtraInfo extraInfo)
+  public UUID decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public static void writeLongToArrayBigEndian(byte[] bytes, int offset, long x)
+  public static long readLongFromArrayBigEndian(byte[] bytes, int offset)
+  public static UUID uuidFromBytes(byte[] bytes)
+  public static UUID uuidFromHex(String src)
+  public Schema toSchema(SchemaContext context)

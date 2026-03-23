@@ -14,3 +14,17 @@ public interface IBlockPositionData
 - double getXCentre()
 - double getYCentre()
 - double getZCentre()
+
+Known implementors: BlockPositionData
+
+Also in this package: BlockPositionData, BlockPositionProvider
+
+Complete API:
+  BlockSection getChunkSection()
+  int getBlockType()
+  int getX()
+  int getY()
+  int getZ()
+  double getXCentre()
+  double getYCentre()
+  double getZCentre()

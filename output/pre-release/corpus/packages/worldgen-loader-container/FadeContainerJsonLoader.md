@@ -24,3 +24,13 @@ Loads `FadeContainer` zone-border fade configuration from JSON. Controls terrain
 *interface*
 
 JSON key constants: `FadeStart`, `FadeLength`, `TerrainStart`, `TerrainLength`, `FadeHeightmap`.
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CoverContainerEntryJsonLoader, CoverContainerJsonLoader, DefaultEnvironmentContainerEntryLoader, DefaultTintContainerEntryJsonLoader, DynamicLayerEntryJsonLoader, DynamicLayerJsonLoader, EnvironmentContainerEntryJsonLoader, EnvironmentContainerJsonLoader, LayerContainerJsonLoader, LayerEntryJsonLoader, PrefabContainerEntryJsonLoader, PrefabContainerJsonLoader (and 8 more)
+
+Complete API:
+  public FadeContainer load()
+  protected double loadFadeStart()
+  protected double loadFadeLength()
+  protected double loadTerrainStart()
+  protected double loadTerrainLength()
+  protected double loadFadeHeightmap()

@@ -12,3 +12,5 @@ Inner record of `DebugSupport`. Stores visualization data for a single waypoint 
 - boolean isCurrentTarget
 - boolean isEndNode
 - boolean isSeekTarget
+
+Also in this package: CombatSupport, DebugFlagsChangeListener, DebugSupport, EntityList, EntitySupport, EntityVisData, LineOfSightBuffer, LineOfSightEntityBuffer, MarkedEntitySupport, PositionCache, RangeType, RayPredicate, RoleStats, SensorVisData, StateSupport, WorldSupport

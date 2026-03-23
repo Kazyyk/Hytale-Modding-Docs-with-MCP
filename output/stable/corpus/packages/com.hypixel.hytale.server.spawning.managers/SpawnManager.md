@@ -18,3 +18,20 @@ public abstract class SpawnManager<T, U>
 - public void onNPCLoaded(String name, IntSet changeSet)
 - public void onNPCSpawnRemoved(String key)
 - protected void untrackNPCs(int index)
+
+Known subclasses: BeaconSpawnManager, WorldSpawnManager
+
+Also in this package: BeaconSpawnManager
+
+Complete API:
+  public T getSpawnWrapper(int spawnConfigIndex)
+  public T removeSpawnWrapper(int spawnConfigurationIndex)
+  public boolean addSpawnWrapper(T spawnWrapper)
+  public void onNPCLoaded(String name, IntSet changeSet)
+  public void onNPCSpawnRemoved(String key)
+  protected void untrackNPCs(int index)
+
+Fields:
+private final Int2ObjectMap<T> spawnWrapperCache
+private final Object2IntMap<String> wrapperNameMap
+private final StampedLock wrapperLock

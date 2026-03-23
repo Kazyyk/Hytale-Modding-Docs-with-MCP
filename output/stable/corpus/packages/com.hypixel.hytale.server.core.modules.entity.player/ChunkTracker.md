@@ -180,3 +180,65 @@ Returns a new `ChunkTracker` with copied state.
 ## Related Types
 
 - PlayerChunkTrackerSystems -- systems that initialize and tick the chunk tracker
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation (and 35 more)
+
+Complete API:
+  public static ComponentType<EntityStore,ChunkTracker> getComponentType()
+  public void unloadAll(PlayerRef playerRefComponent)
+  public void clear()
+  public void tick(Player playerComponent, PlayerRef playerRefComponent, TransformComponent transformComponent, float dt, CommandBuffer<EntityStore> commandBuffer)
+  public boolean isLoaded(long indexChunk)
+  public void removeForReload(long indexChunk)
+  public boolean shouldBeVisible(long chunkCoordinates)
+  public ChunkTracker.ChunkVisibility getChunkVisibility(long indexChunk)
+  public int getMaxChunksPerSecond()
+  public void setMaxChunksPerSecond(int maxChunksPerSecond)
+  public void setDefaultMaxChunksPerSecond(PlayerRef playerRef)
+  public int getMaxChunksPerTick()
+  public void setMaxChunksPerTick(int maxChunksPerTick)
+  public int getMinLoadedChunksRadius()
+  public void setMinLoadedChunksRadius(int minLoadedChunksRadius)
+  public int getMaxHotLoadedChunksRadius()
+  public void setMaxHotLoadedChunksRadius(int maxHotLoadedChunksRadius)
+  public int getLoadedChunksCount()
+  public int getLoadingChunksCount()
+  private String getLoadedChunksGrid()
+  public Message getLoadedChunksMessage()
+  public String getLoadedChunksDebug()
+  public void setReadyForChunks(boolean readyForChunks)
+  public boolean isReadyForChunks()
+  public void copyFrom(ChunkTracker chunkTracker)
+  private static boolean shouldBeVisible(int chunkViewRadiusSquared, int chunkX, int chunkZ, int x, int z)
+  public static boolean tryUnloadChunk(long chunkIndex, int chunkViewRadiusSquared, int chunkX, int chunkZ, PlayerRef playerRef, LongSet loading)
+  public void tryLoadChunkAsync(ChunkStore chunkStore, PlayerRef playerRefComponent, long chunkIndex, TransformComponent transformComponent, ComponentAccessor<EntityStore> componentAccessor)
+  private CompletableFuture<Void> _loadChunkAsync(long chunkIndex, PlayerRef playerRefComponent, Ref<ChunkStore> chunkRef, ChunkStore chunkComponentStore)
+  public Component<EntityStore> clone()
+
+Fields:
+public static final MetricsRegistry<ChunkTracker> METRICS_REGISTRY
+public static final int MAX_CHUNKS_PER_SECOND_LOCAL
+public static final int MAX_CHUNKS_PER_SECOND_LAN
+public static final int MAX_CHUNKS_PER_SECOND
+public static final int MAX_CHUNKS_PER_TICK
+public static final int MIN_LOADED_CHUNKS_RADIUS
+public static final int MAX_HOT_LOADED_CHUNKS_RADIUS
+public static final long MAX_FAILURE_BACKOFF_NANOS
+private TransformComponent transformComponent
+private int chunkViewRadius
+private final CircleSpiralIterator spiralIterator
+private final StampedLock loadedLock
+private final HLongSet loading
+private final HLongSet loaded
+private final HLongSet reload
+private int maxChunksPerSecond
+private float inverseMaxChunksPerSecond
+private int maxChunksPerTick
+private int minLoadedChunksRadius
+private int maxHotLoadedChunksRadius
+private float accumulator
+private int sentViewRadius
+private int hotRadius
+private int lastChunkX
+private int lastChunkZ
+private boolean readyForChunks

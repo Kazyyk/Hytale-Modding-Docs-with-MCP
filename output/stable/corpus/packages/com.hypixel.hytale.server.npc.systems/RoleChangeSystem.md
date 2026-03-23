@@ -68,3 +68,24 @@ Data class holding: `reference` (Ref), `roleIndex` (int), `changeAppearance` (bo
 
 - RoleBuilderSystem -- rebuilds the role after the change
 - NewSpawnStartTickingSystem -- runs before this system
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 48 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public void tick(float dt, int systemIndex, Store<EntityStore> store)
+  public static void requestRoleChange(Ref<EntityStore> ref, Role role, int roleIndex, boolean changeAppearance, Store<EntityStore> store)
+  public static void requestRoleChange(Ref<EntityStore> ref, Role role, int roleIndex, boolean changeAppearance, String state, String subState, ComponentAccessor<EntityStore> store)
+
+Fields:
+private static final HytaleLogger LOGGER
+private final ResourceType<EntityStore,RoleChangeSystem.RoleChangeQueue> roleChangeQueueResourceType
+private final ComponentType<EntityStore,BeaconSupport> beaconSupportComponentType
+private final ComponentType<EntityStore,PlayerBlockEventSupport> playerBlockEventSupportComponentType
+private final ComponentType<EntityStore,NPCBlockEventSupport> npcBlockEventSupportComponentType
+private final ComponentType<EntityStore,PlayerEntityEventSupport> playerEntityEventSupportComponentType
+private final ComponentType<EntityStore,NPCEntityEventSupport> npcEntityEventSupportComponentType
+private final ComponentType<EntityStore,Timers> timersComponentType
+private final ComponentType<EntityStore,StateEvaluator> stateEvaluatorComponentType
+private final ComponentType<EntityStore,ValueStore> valueStoreComponentType
+private final Set<Dependency<EntityStore>> dependencies

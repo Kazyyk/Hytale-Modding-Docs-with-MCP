@@ -37,3 +37,14 @@ Reads the target player's MountedComponent and sends one of four messages:
 
 - MountCommand -- parent command collection
 - MountedComponent -- the component being inspected
+
+Also in this package: DismountCommand, DismountOtherCommand, MountCommand
+
+Complete API:
+  protected void execute(CommandContext context, Ref<EntityStore> sourceRef, Ref<EntityStore> ref, PlayerRef playerRef, World world, Store<EntityStore> store)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_CHECK_NO_COMPONENT
+private static final Message MESSAGE_COMMANDS_CHECK_MOUNTED_TO_ENTITY
+private static final Message MESSAGE_COMMANDS_CHECK_MOUNTED_TO_BLOCK
+private static final Message MESSAGE_COMMANDS_CHECK_UNKNOWN_STATUS

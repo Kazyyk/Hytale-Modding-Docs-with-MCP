@@ -9,3 +9,6 @@ Utility type in the `utils` subsystem.
 ## Accessors
 
 - isUserMarker(MapMarker protoMarker) | boolean | Boolean accessor.
+
+Complete API:
+  public static boolean isUserMarker(MapMarker protoMarker)

@@ -20,3 +20,24 @@ public interface FileIO
 - static Path append(Path root, Path path)
 - static boolean equals(@Nullable Path a, @Nullable Path b)
 - static int hashCode(@Nullable Path path)
+
+Also in this package: AssetLoader, AssetPath, DefaultIOFileSystem, FileIOSystem, PathArray, Provider
+
+Complete API:
+  static void setDefaultRoot(Path path)
+  static FS openFileIOSystem(FS fs)
+  static void closeFileIOSystem(FileIOSystem fs)
+  static boolean exists(AssetPath path)
+  static boolean exists(Path root, Path path)
+  static AssetPath resolve(Path path)
+  static T load(AssetPath assetPath, AssetLoader<T> loader)
+  static T load(Path path, AssetLoader<T> loader)
+  static List<AssetPath> list(Path path, Predicate<AssetPath> matcher, UnaryOperator<AssetPath> disableOp)
+  static boolean startsWith(Path path, Path prefix)
+  static Path relativize(Path child, Path parent)
+  static Path append(Path root, Path path)
+  static boolean equals(Path a, Path b)
+  static int hashCode(Path path)
+
+Fields:
+Strategy<Path> PATH_STRATEGY

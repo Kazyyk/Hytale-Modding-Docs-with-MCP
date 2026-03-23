@@ -33,3 +33,13 @@ If the damage amount is positive and the event has a `DAMAGE_SEQUENCE` meta, app
 - DamageCalculatorSystems.DamageSequence -- the meta data read by this system
 - DamageEventSystem -- base class
 - DamageSystems.ApplyDamage -- runs after this system
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public Query<EntityStore> getQuery()
+  public void handle(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, Damage damage)
+
+Fields:
+private final Set<Dependency<EntityStore>> dependencies

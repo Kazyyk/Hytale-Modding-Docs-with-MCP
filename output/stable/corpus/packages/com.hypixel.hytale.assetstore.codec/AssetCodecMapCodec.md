@@ -77,3 +77,28 @@ public class AssetCodecMapCodec<K, T extends JsonAsset<K>> extends StringCodecMa
 
 - AssetBuilderCodec
 - AssetCodec
+
+Also in this package: AssetBuilderCodec, AssetCodec, Builder, ContainedAssetCodec, Mode
+
+Complete API:
+  public KeyedCodec<K> getKeyCodec()
+  public KeyedCodec<K> getParentCodec()
+  public AssetExtraInfo.Data getData(T t)
+  public AssetCodecMapCodec<K,T> register(String id, Class<? extends T> aClass, BuilderCodec<? extends T> codec)
+  public AssetCodecMapCodec<K,T> register(Priority priority, String id, Class<? extends T> aClass, BuilderCodec<? extends T> codec)
+  public T decodeAndInherit(BsonDocument document, T parent, ExtraInfo extraInfo)
+  public void decodeAndInherit(BsonDocument document, T t, T parent, ExtraInfo extraInfo)
+  public T decodeAndInheritJson(RawJsonReader reader, T parent, ExtraInfo extraInfo)
+  public void decodeAndInheritJson(RawJsonReader reader, T t, T parent, ExtraInfo extraInfo)
+  public T decodeJsonAsset(RawJsonReader reader, AssetExtraInfo<K> extraInfo)
+  public T decodeAndInheritJsonAsset(RawJsonReader reader, T parent, AssetExtraInfo<K> extraInfo)
+  public Schema toSchema(SchemaContext context)
+  protected void mutateChildSchema(String key, SchemaContext context, BuilderCodec<? extends T> c, ObjectSchema objectSchema)
+
+Fields:
+protected final KeyedCodec<K> idCodec
+protected final KeyedCodec<K> parentCodec
+protected final BiConsumer<T,K> idSetter
+protected final Function<T,K> idGetter
+protected final BiConsumer<T,AssetExtraInfo.Data> dataSetter
+protected final Function<T,AssetExtraInfo.Data> dataGetter

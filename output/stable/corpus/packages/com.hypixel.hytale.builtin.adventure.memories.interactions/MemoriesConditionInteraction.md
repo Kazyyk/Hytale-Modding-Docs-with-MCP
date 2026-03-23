@@ -26,3 +26,23 @@ public class MemoriesConditionInteraction extends Interaction
 ## Inner Types
 
 - `MemoriesConditionInteraction.MemoriesTag`
+
+Also in this package: MemoriesTag, SetMemoriesCapacityInteraction
+
+Complete API:
+  protected void tick0(boolean firstRun, float time, InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected void simulateTick0(boolean firstRun, float time, InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public void compile(OperationsBuilder builder)
+  protected com.hypixel.hytale.protocol.Interaction generatePacket()
+  protected void configurePacket(com.hypixel.hytale.protocol.Interaction packet)
+  public boolean walk(Collector collector, InteractionContext context)
+  public boolean needsRemoteSync()
+  public WaitForDataFrom getWaitForDataFrom()
+
+Fields:
+public static final BuilderCodec<MemoriesConditionInteraction> CODEC
+private static final StringTag TAG_FAILED
+private Int2ObjectMap<String> next
+private transient int[] sortedKeys
+private final Int2IntOpenHashMap levelToLabel
+private String failed

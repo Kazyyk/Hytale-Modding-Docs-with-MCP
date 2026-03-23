@@ -12,3 +12,12 @@ public class ImportedDirectionalityAsset extends DirectionalityAsset
 ## Methods
 
 - @Override public Directionality build(@Nonnull DirectionalityAsset.Argument argument)
+
+Also in this package: Argument, DirectionalityAsset, PatternDirectionalityAsset, RandomDirectionalityAsset, StaticDirectionalityAsset
+
+Complete API:
+  public Directionality build(DirectionalityAsset.Argument argument)
+
+Fields:
+public static final BuilderCodec<ImportedDirectionalityAsset> CODEC
+private String name

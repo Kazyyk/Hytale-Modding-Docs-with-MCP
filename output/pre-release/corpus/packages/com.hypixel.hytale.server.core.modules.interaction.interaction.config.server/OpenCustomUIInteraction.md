@@ -17,3 +17,17 @@ Opens a custom UI page when the interaction is triggered. The page is created vi
 
 - `OpenCustomUIInteraction.CustomPageSupplier` -- functional interface for creating custom UI pages
 - `OpenCustomUIInteraction.BlockEntityCustomPageSupplier` -- functional interface for block-entity-based custom pages
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction (and 11 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public static void registerCustomPageSupplier(PluginBase plugin, Class<?> tClass, String id, S supplier)
+  public static void registerSimple(PluginBase plugin, Class<?> tClass, String id, Function<PlayerRef,CustomUIPage> supplier)
+  public static void registerBlockEntityCustomPage(PluginBase plugin, Class<?> tClass, String id, OpenCustomUIInteraction.BlockEntityCustomPageSupplier blockSupplier)
+  public static void registerBlockEntityCustomPage(PluginBase plugin, Class<?> tClass, String id, OpenCustomUIInteraction.BlockEntityCustomPageSupplier blockSupplier, Supplier<Holder<ChunkStore>> creator)
+
+Fields:
+public static final CodecMapCodec<OpenCustomUIInteraction.CustomPageSupplier> PAGE_CODEC
+public static final BuilderCodec<OpenCustomUIInteraction> CODEC
+private OpenCustomUIInteraction.CustomPageSupplier customPageSupplier

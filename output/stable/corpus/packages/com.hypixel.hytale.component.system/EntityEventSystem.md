@@ -16,3 +16,11 @@ public abstract class EntityEventSystem<ECS_TYPE, EventType extends EcsEvent> ex
         @Nonnull Store<ECS_TYPE> store,
         @Nonnull CommandBuffer<ECS_TYPE> commandBuffer,
         @Nonnull EventType event)` |
+
+Known subclasses: BlockBreakDirtySystem, BlockPlaceDirtySystem, BreakBlockEventSystem, DamageBlockEventSystem, DamageEventSystem, KillFeedDecedentEventSystem, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KillFeedKillerEventSystem, PlaceBlockEventSystem, PlayerChangeGameModeEventSystem
+
+Also in this package: ArchetypeChunkSystem, CancellableEcsEvent, Data, DelayedSystem, EcsEvent, EventSystem, HolderSystem, ICancellableEcsEvent, ISystem, MetricSystem, QuerySystem, RefChangeSystem, RefSystem, StoreSystem, System, WorldEventSystem
+
+Complete API:
+  public abstract void handle(int var1, ArchetypeChunk<ECS_TYPE> var2, Store<ECS_TYPE> var3, CommandBuffer<ECS_TYPE> var4, EventType var5)
+  public void handleInternal(int index, ArchetypeChunk<ECS_TYPE> archetypeChunk, Store<ECS_TYPE> store, CommandBuffer<ECS_TYPE> commandBuffer, EventType event)

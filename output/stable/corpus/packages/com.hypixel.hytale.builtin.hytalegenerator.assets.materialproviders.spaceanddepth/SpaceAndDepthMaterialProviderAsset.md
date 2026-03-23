@@ -16,3 +16,14 @@ public class SpaceAndDepthMaterialProviderAsset extends MaterialProviderAsset
 
 - @Nonnull @Override public MaterialProvider<Material> build(MaterialProviderAsset.Argument argument)
 - @Override public void cleanUp()
+
+Complete API:
+  public MaterialProvider<Material> build(MaterialProviderAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<SpaceAndDepthMaterialProviderAsset> CODEC
+private SpaceAndDepthMaterialProvider.LayerContextType layerContext
+private int maxDistance
+private ConditionAsset conditionAsset
+private LayerAsset[] layerAssets

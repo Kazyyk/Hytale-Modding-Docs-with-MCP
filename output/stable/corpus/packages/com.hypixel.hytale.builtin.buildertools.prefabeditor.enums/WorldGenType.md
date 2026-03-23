@@ -18,3 +18,11 @@ Enumerates WorldGenType values: `FLAT`, `VOID`.
 ## Methods
 
 - public String getLocalizationString()
+
+Also in this package: PrefabAlignment, PrefabRootDirectory, PrefabRowSplitMode, PrefabStackingAxis
+
+Complete API:
+  public String getLocalizationString()
+
+Fields:
+private final String localizationString

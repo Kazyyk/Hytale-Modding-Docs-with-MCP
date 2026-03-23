@@ -50,3 +50,20 @@ Returns the percentage of item durability lost.
 
 - DeathComponent -- creates `DeathItemLoss` instances via `getDeathItemLoss()`
 - DeathSystems.DropPlayerDeathItems -- system that processes item drops
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  public static DeathItemLoss noLossMode()
+  public DeathConfig.ItemsLossMode getLossMode()
+  public ItemStack[] getItemsLost()
+  public double getAmountLossPercentage()
+  public double getDurabilityLossPercentage()
+
+Fields:
+public static final BuilderCodec<DeathItemLoss> CODEC
+private DeathConfig.ItemsLossMode lossMode
+private ItemStack[] itemsLost
+private double amountLossPercentage
+private double durabilityLossPercentage
+private static final DeathItemLoss NO_LOSS_MODE

@@ -14,3 +14,8 @@ Pairs a `Buffer` with a BufferBundle.Tracker. Reports combined memory usage of b
 ## Methods
 
 - @Nonnull @Override public MemInstrument.Report getMemoryUsage()
+
+Also in this package: Access, BufferBundle, Grid, GridEntry, MemoryReport, Tracker, View
+
+Complete API:
+  public MemInstrument.Report getMemoryUsage()

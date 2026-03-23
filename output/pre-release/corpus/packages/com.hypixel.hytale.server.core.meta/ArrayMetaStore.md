@@ -27,3 +27,20 @@ Extends `AbstractMetaStore` to provide ArrayMetaStore functionality.
 - @Override public boolean hasMetaObject(@Nonnull MetaKey<?> key)
 - @Override public void forEachMetaObject(@Nonnull IMetaStore.MetaEntryConsumer consumer)
 - private <T> void resizeArray(T obj, int id)
+
+Also in this package: AbstractMetaStore, DynamicMetaStore, IMetaRegistry, IMetaStore, IMetaStoreImpl, MetaEntryConsumer, MetaEntryConsumer, MetaKey, MetaRegistry, MetaRegistryEntry, PersistentMetaKey
+
+Complete API:
+  protected T get0(MetaKey<T> key)
+  public T getMetaObject(MetaKey<T> key)
+  public T getIfPresentMetaObject(MetaKey<T> key)
+  public T putMetaObject(MetaKey<T> key, T obj)
+  public T removeMetaObject(MetaKey<T> key)
+  public T removeSerializedMetaObject(MetaKey<T> key)
+  public boolean hasMetaObject(MetaKey<?> key)
+  public void forEachMetaObject(IMetaStore.MetaEntryConsumer consumer)
+  private void resizeArray(T obj, int id)
+
+Fields:
+private static final Object NO_ENTRY
+private Object[] array

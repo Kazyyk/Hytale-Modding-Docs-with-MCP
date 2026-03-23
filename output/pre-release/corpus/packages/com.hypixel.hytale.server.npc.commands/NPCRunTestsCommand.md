@@ -31,3 +31,20 @@ Registers as sub-command `"runtests"` with translation key `"server.commands.npc
 
 - NPCRunTestsCommand.NPCTestData -- test session state component
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+  private static void setNextRole(NPCRunTestsCommand.NPCTestData testData, Ref<EntityStore> reference, Store<EntityStore> store, World world)
+  private static void cleanupNPC(Ref<EntityStore> ref, Store<EntityStore> store)
+  private static void spawnNPC(Ref<EntityStore> playerReference, NPCRunTestsCommand.NPCTestData testData, int index, Vector3d position, Vector3f rotation, Store<EntityStore> store)
+  private static void reportResults(Ref<EntityStore> playerReference, NPCRunTestsCommand.NPCTestData testData, Store<EntityStore> store)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_NPC_RUN_TESTS_SPECIFY_ROLES
+private final OptionalArg<String> rolesArg
+private final FlagArg presetArg
+private final FlagArg passArg
+private final FlagArg failArg
+private final FlagArg abortArg

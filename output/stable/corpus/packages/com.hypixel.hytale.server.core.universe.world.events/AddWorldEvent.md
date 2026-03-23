@@ -13,3 +13,13 @@ public class AddWorldEvent extends WorldEvent implements ICancellable
 - @Nonnull @Override public String toString()
 - @Override public boolean isCancelled()
 - @Override public void setCancelled(boolean cancelled)
+
+Also in this package: AllWorldsLoadedEvent, ChunkEvent, ChunkPreLoadProcessEvent, RemovalReason, RemoveWorldEvent, StartWorldEvent, WorldEvent
+
+Complete API:
+  public String toString()
+  public boolean isCancelled()
+  public void setCancelled(boolean cancelled)
+
+Fields:
+private boolean cancelled

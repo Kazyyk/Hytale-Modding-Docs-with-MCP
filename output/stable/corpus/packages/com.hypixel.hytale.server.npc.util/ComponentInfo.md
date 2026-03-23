@@ -13,3 +13,18 @@ A diagnostic helper class that records component metadata (name, index, nesting 
 - public String getName()
 - public int getIndex()
 - public List<String> getFields()
+
+Also in this package: AimingData, AimingHelper, Alarm, AttitudeMemoryEntry, BlockPlacementHelper, DamageData, Direction, IAnnotatedComponent, IAnnotatedComponentCollection, IComponentExecutionControl, IEntityByPriorityFilter, InventoryHelper, NPCPhysicsMath, PositionProbeAir, PositionProbeBase, PositionProbeWater, RayBlockHitTest, RootSolver, SensorSupportBenchmark, Timer (and 3 more)
+
+Complete API:
+  public void addField(String field)
+  public String toString()
+  public String getName()
+  public int getIndex()
+  public List<String> getFields()
+
+Fields:
+private final String name
+private final int index
+private final int nestingDepth
+private final List<String> fields

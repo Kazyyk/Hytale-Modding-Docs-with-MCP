@@ -15,3 +15,13 @@ Implementation of `RemovalCondition`.
 
 - getTimeoutSeconds() | double | public method.
 - shouldRemoveWorld(@Nonnull Store<ChunkStore> store) | boolean | public method.
+
+Also in this package: IdleTimeoutCondition, InstanceDataResource, RemovalCondition, RemovalSystem, WorldEmptyCondition
+
+Complete API:
+  public double getTimeoutSeconds()
+  public boolean shouldRemoveWorld(Store<ChunkStore> store)
+
+Fields:
+public static final BuilderCodec<TimeoutCondition> CODEC
+private double timeoutSeconds

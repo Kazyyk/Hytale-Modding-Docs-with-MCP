@@ -12,3 +12,5 @@ Represents a file or directory entry in the file browser listing. The `isTermina
 - public FileEntry(@Nonnull String name, @Nonnull String displayName, boolean isDirectory)
 - public FileEntry(@Nonnull String name, @Nonnull String displayName, boolean isDirectory, boolean isTerminal)
 - public FileEntry(@Nonnull String name, @Nonnull String displayName, boolean isDirectory, boolean isTerminal, int matchScore)
+
+Also in this package: ActionResult, AssetPackSaveBrowser, AssetPackSaveBrowserConfig, AssetPackSaveBrowserEventData, AssetPackSearchResult, Builder, CreatePackResult, FileBrowserConfig, FileBrowserEventData, FileListProvider, ModsDirectory, PackEntry, PendingPack, RootEntry, ServerFileBrowser

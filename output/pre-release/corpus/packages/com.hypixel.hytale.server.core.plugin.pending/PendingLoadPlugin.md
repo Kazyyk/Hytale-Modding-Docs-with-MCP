@@ -32,3 +32,26 @@ public abstract class PendingLoadPlugin
 ## Inner Types
 
 - `PendingLoadPlugin.EntryNode`
+
+Known subclasses: PendingLoadJavaPlugin
+
+Also in this package: EntryNode, PendingLoadJavaPlugin
+
+Complete API:
+  public PluginIdentifier getIdentifier()
+  public PluginManifest getManifest()
+  public Path getPath()
+  public abstract PendingLoadPlugin createSubPendingLoadPlugin(PluginManifest var1)
+  public abstract PluginBase load()
+  public List<PendingLoadPlugin> createSubPendingLoadPlugins()
+  public boolean dependsOn(PluginIdentifier identifier)
+  public abstract boolean isInServerClassPath()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+  public static List<PendingLoadPlugin> calculateLoadOrder(Map<PluginIdentifier,PendingLoadPlugin> pending)
+
+Fields:
+private final PluginIdentifier identifier
+private final PluginManifest manifest
+private final Path path

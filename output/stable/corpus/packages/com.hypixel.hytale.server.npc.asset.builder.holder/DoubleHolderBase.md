@@ -18,3 +18,19 @@ public abstract class DoubleHolderBase extends ValueHolder
 - protected void validateRelations(ExecutionContext executionContext, double value)
 - public double rawGet(ExecutionContext executionContext)
 - public void validate(double value)
+
+Known subclasses: DoubleHolder, FloatHolder
+
+Also in this package: ArrayHolder, AssetArrayHolder, AssetHolder, BooleanArrayHolder, BooleanHolder, DeferEvaluateAssetHolder, DoubleHolder, EnumArrayHolder, EnumHolder, EnumSetHolder, FloatHolder, IntHolder, NumberArrayHolder, StringArrayHolder, StringHolder, StringHolderBase, TemporalArrayHolder, ValueHolder
+
+Complete API:
+  public void readJSON(JsonElement requiredJsonElement, DoubleValidator validator, String name, BuilderParameters builderParameters)
+  public void readJSON(JsonElement optionalJsonElement, double defaultValue, DoubleValidator validator, String name, BuilderParameters builderParameters)
+  public void addRelationValidator(ObjDoubleConsumer<ExecutionContext> validator)
+  protected void validateRelations(ExecutionContext executionContext, double value)
+  public double rawGet(ExecutionContext executionContext)
+  public void validate(double value)
+
+Fields:
+protected List<ObjDoubleConsumer<ExecutionContext>> relationValidators
+protected DoubleValidator doubleValidator

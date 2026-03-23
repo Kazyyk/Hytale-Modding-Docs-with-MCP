@@ -14,3 +14,11 @@ public AssetEditorActivateButtonEvent(EditorClient editorClient, String buttonId
 ## Methods
 
 - String getButtonId() | Returns the button identifier
+
+Also in this package: AssetEditorAssetCreatedEvent, AssetEditorClientDisconnectEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorRequestDataSetEvent, AssetEditorSelectAssetEvent, AssetEditorUpdateWeatherPreviewLockEvent, EditorClientEvent
+
+Complete API:
+  public String getButtonId()
+
+Fields:
+private final String buttonId

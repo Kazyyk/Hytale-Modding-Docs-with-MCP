@@ -13,3 +13,8 @@ Server command extending `CommandBase`.
 ## Methods
 
 - executeSync(@Nonnull CommandContext context) | void | protected method.
+
+Also in this package: InteractionClearCommand, InteractionCommand, InteractionRunCommand, InteractionRunSpecificCommand, InteractionSetSnapshotSourceCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)

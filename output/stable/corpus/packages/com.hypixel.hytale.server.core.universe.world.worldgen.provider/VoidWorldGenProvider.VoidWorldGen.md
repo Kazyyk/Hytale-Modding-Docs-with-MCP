@@ -17,3 +17,14 @@ public static class VoidWorldGen implements IWorldGen
 - public WorldGenTimingsCollector getTimings()
 - public Transform[] getSpawnPoints(int seed)
 - public CompletableFuture<GeneratedChunk> generate(int seed, long index, int cx, int cz, LongPredicate stillNeeded)
+
+Also in this package: DummyWorldGen, DummyWorldGenProvider, FlatWorldGen, FlatWorldGenProvider, IWorldGenProvider, Layer, VoidWorldGenProvider
+
+Complete API:
+  public WorldGenTimingsCollector getTimings()
+  public Transform[] getSpawnPoints(int seed)
+  public CompletableFuture<GeneratedChunk> generate(int seed, long index, int cx, int cz, LongPredicate stillNeeded)
+
+Fields:
+private final int tintId
+private final int environmentId

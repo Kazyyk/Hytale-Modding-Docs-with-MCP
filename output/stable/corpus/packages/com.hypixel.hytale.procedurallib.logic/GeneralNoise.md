@@ -45,3 +45,22 @@ public static enum InterpolationMode
 - public final GeneralNoise.InterpolationFunction function
 
 - GeneralNoise.InterpolationFunction getFunction()
+
+Also in this package: Bounds2d, BranchNoise, CellFunction, CellMode, CellNoise, CellularNoise, ConstantNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GridNoise, HexMeshNoise, InterpolationFunction, InterpolationMode, MeshNoise, OldSimplexNoise, PerlinNoise (and 6 more)
+
+Complete API:
+  public static int fastFloor(double f)
+  public static int fastCeil(double f)
+  public static double lerp(double a, double b, double t)
+  public static int hash2D(int seed, int x, int y)
+  public static int hash3D(int seed, int x, int y, int z)
+  public static double gradCoord2D(int seed, int x, int y, double xd, double yd)
+  public static double gradCoord3D(int seed, int x, int y, int z, double xd, double yd, double zd)
+  public static double limit(double val)
+
+Fields:
+public static final int X_PRIME
+public static final int Y_PRIME
+public static final int Z_PRIME
+private static final DoubleArray.Double2[] GRAD_2D
+private static final DoubleArray.Double3[] GRAD_3D

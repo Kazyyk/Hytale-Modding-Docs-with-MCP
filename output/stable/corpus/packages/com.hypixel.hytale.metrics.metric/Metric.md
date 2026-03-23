@@ -26,3 +26,24 @@ Provides Metric functionality within the metric subsystem.
 - public void addToAverage(long value)
 - public void set(@Nonnull Metric metric)
 - @Nonnull @Override public String toString()
+
+Also in this package: AverageCollector, Builder, HistoricMetric, SynchronizedAverageCollector
+
+Complete API:
+  public void add(long value)
+  public void remove(long value)
+  public long getMin()
+  public double getAverage()
+  public long getMax()
+  public void clear()
+  public void resetMinMax()
+  public void calculateMinMax(long value)
+  public void addToAverage(long value)
+  public void set(Metric metric)
+  public String toString()
+
+Fields:
+public static final Codec<Metric> CODEC
+private long min
+private final AverageCollector average
+private long max

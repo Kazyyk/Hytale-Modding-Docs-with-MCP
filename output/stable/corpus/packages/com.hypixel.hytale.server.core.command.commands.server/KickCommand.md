@@ -11,3 +11,11 @@ public class KickCommand extends CommandBase
 ## Methods
 
 - @Override protected void executeSync(CommandContext context)
+
+Also in this package: MaxPlayersCommand, StopCommand, WhoCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final RequiredArg<PlayerRef> playerArg

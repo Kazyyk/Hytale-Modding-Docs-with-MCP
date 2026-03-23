@@ -16,3 +16,12 @@ public class DeathMarkerProvider implements WorldMapManager.MarkerProvider
 
 - @Override public void update(@Nonnull World world, @Nonnull Player player, @Nonnull MarkersCollector collector)
 - private static void addDeathMarker(@Nonnull MarkersCollector collector, @Nonnull PlayerDeathPositionData deathPosition)
+
+Also in this package: OtherPlayersMarkerProvider, POIMarkerProvider, PerWorldDataMarkerProvider, PersonalMarkersProvider, PlayerIconMarkerProvider, RespawnMarkerProvider, SharedMarkersProvider, SpawnMarkerProvider
+
+Complete API:
+  public void update(World world, Player player, MarkersCollector collector)
+  private static void addDeathMarker(MarkersCollector collector, PlayerDeathPositionData deathPosition)
+
+Fields:
+public static final DeathMarkerProvider INSTANCE

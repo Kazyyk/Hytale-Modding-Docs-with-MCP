@@ -11,3 +11,11 @@ public class ItemRepairElement extends ChoiceElement
 ## Methods
 
 - @Override public void addButton(UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, String selector, PlayerRef playerRef)
+
+Also in this package: ItemRepairPage, RepairItemInteraction
+
+Complete API:
+  public void addButton(UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, String selector, PlayerRef playerRef)
+
+Fields:
+protected ItemStack itemStack

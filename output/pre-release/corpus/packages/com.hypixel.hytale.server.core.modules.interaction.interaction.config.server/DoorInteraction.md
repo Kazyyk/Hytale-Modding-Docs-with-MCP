@@ -39,3 +39,28 @@ No-op for simulation.
 
 - `BlockType` -- provides door state management and interaction sound indices
 - `FillerBlockUtil` -- handles multi-block door bounding box updates
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction, OpenContainerInteraction (and 11 more)
+
+Complete API:
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack itemInHand, Vector3i targetBlock, CooldownHandler cooldownHandler)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+  private boolean checkForDoubleDoor(World world, Vector3i blockPosition, BlockType blockType, int rotation, DoorInteraction.DoorState fromState, DoorInteraction.DoorState doorStateToCheck)
+  private static boolean isHorizontalDoor(BlockType blockType)
+  private DoorInteraction.DoorState checkDoor(ChunkAccessor<WorldChunk> chunkAccessor, Vector3i blockPosition, BlockType blockType, int rotation, DoorInteraction.DoorState oldDoorState, DoorInteraction.DoorState newDoorState)
+  private static BlockType activateDoor(World world, BlockType blockType, Vector3i blockPosition, DoorInteraction.DoorState fromState, DoorInteraction.DoorState doorState)
+  private static DoorInteraction.DoorInfo getDoubleDoor(ChunkAccessor<WorldChunk> chunkAccessor, Vector3i worldPosition, BlockType blockType, int rotation, DoorInteraction.DoorState doorStateToCheck)
+  public static DoorInteraction.DoorInfo getDoorAtPosition(ChunkAccessor<WorldChunk> chunkAccessor, int x, int y, int z, Rotation rotationToCheck)
+  private static boolean canOpenDoor(ChunkAccessor<WorldChunk> chunkAccessor, Vector3i blockPosition, String state)
+  private static boolean isInFrontOfDoor(Vector3i blockPosition, Rotation doorRotationYaw, Vector3d playerPosition)
+  private static String getInteractionState(DoorInteraction.DoorState fromState, DoorInteraction.DoorState doorState)
+  private static DoorInteraction.DoorState getOppositeDoorState(DoorInteraction.DoorState doorState)
+
+Fields:
+private static final String OPEN_DOOR_IN
+private static final String OPEN_DOOR_OUT
+private static final String CLOSE_DOOR_IN
+private static final String CLOSE_DOOR_OUT
+private static final String DOOR_BLOCKED
+public static final BuilderCodec<DoorInteraction> CODEC
+private boolean horizontal

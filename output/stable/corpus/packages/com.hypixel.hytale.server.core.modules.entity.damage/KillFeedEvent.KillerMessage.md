@@ -43,3 +43,16 @@ Returns the killer's display message, or `null` if not set.
 - KillFeedEvent -- parent class
 - DeathSystems.KillFeed -- dispatches this event
 - Damage -- the killing damage
+
+Also in this package: DecedentMessage, Display, KillFeedEvent
+
+Complete API:
+  public Damage getDamage()
+  public Ref<EntityStore> getTargetRef()
+  public void setMessage(Message message)
+  public Message getMessage()
+
+Fields:
+private final Damage damage
+private final Ref<EntityStore> targetRef
+private Message message

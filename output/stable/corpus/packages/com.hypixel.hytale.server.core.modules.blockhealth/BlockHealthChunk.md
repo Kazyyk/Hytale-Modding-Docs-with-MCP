@@ -26,3 +26,28 @@ Provides methods to damage blocks (reducing health and sending network updates),
 - public float getBlockHealth(Vector3i block)
 - public void createBlockDamagePackets(@Nonnull List<ToClientPacket> list)
 - @Nonnull public BlockHealthChunk clone()
+
+Also in this package: BlockHealth, BlockHealthModule, BlockHealthPacketSystem, BlockHealthSystem, EnsureBlockHealthSystem, FragileBlock, PlaceBlockEventSystem
+
+Complete API:
+  public Instant getLastRepairGameTime()
+  public void setLastRepairGameTime(Instant lastRepairGameTime)
+  public Map<Vector3i,BlockHealth> getBlockHealthMap()
+  public Map<Vector3i,FragileBlock> getBlockFragilityMap()
+  public BlockHealth damageBlock(Instant currentUptime, World world, Vector3i block, float health)
+  public BlockHealth repairBlock(World world, Vector3i block, float progress)
+  public void removeBlock(World world, Vector3i block)
+  public void makeBlockFragile(Vector3i blockLocation, float fragileDuration)
+  public boolean isBlockFragile(Vector3i block)
+  public float getBlockHealth(Vector3i block)
+  public void createBlockDamagePackets(List<ToClientPacket> list)
+  public BlockHealthChunk clone()
+  public void deserialize(byte[] data)
+  public byte[] serialize()
+
+Fields:
+private static final byte SERIALIZATION_VERSION
+public static final BuilderCodec<BlockHealthChunk> CODEC
+private final Map<Vector3i,BlockHealth> blockHealthMap
+private final Map<Vector3i,FragileBlock> blockFragilityMap
+private Instant lastRepairGameTime

@@ -21,3 +21,13 @@ public class NotPattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: AndPattern, CeilingPattern, Context, CuboidPattern, Delimiter, Facing, FieldFunctionPattern, GapPattern, MaterialPattern, MaterialSetPattern, OffsetPattern, OrPattern, Pattern, PositionedPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public SpaceSize readSpace()
+
+Fields:
+private final Pattern pattern
+private final SpaceSize readSpaceSize

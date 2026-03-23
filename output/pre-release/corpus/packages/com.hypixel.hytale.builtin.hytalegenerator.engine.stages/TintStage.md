@@ -28,3 +28,22 @@ A Stage that generates per-column tint values. Reads biome IDs from a `CountedPi
 - @Nonnull @Override public Map<BufferType, Bounds3i> getInputTypesAndBounds_bufferGrid()
 - @Nonnull @Override public List<BufferType> getOutputTypes()
 - @Nonnull @Override public String getName()
+
+Also in this package: BiomeDistanceCounter, BiomeDistanceEntries, BiomeDistanceEntry, BiomeDistanceStage, BiomeStage, BiomeWeights, ColumnData, Context, Entry, EnvironmentStage, PropStage, Stage, TerrainStage
+
+Complete API:
+  public void run(Stage.Context context)
+  public Map<BufferType,Bounds3i> getInputTypesAndBounds_bufferGrid()
+  public List<BufferType> getOutputTypes()
+  public String getName()
+
+Fields:
+public static final Class<CountedPixelBuffer> biomeBufferClass
+public static final Class<Integer> biomeClass
+public static final Class<SimplePixelBuffer> tintBufferClass
+public static final Class<Integer> tintClass
+private final ParametrizedBufferType biomeInputBufferType
+private final ParametrizedBufferType tintOutputBufferType
+private final Bounds3i inputBounds_bufferGrid
+private final String stageName
+private final WorkerIndexer.Data<WorldStructure> worldStructure_workerData

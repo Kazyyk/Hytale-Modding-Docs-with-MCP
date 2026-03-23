@@ -43,3 +43,24 @@ public class Stepinizer implements Function<Double, Double>, Double2DoubleFuncti
 
 - Calculator
 - Normalizer
+
+Also in this package: Area, BitConverter, Calculator, CoPrimeGenerator, Combiner, InterpolatedCurve, Interpolation, IntersectionPolicy, Layer, MultipliedIteration, NodeFunction, Normalizer, Probability, Range, RegionGrid, SeedGenerator, Splitter
+
+Complete API:
+  public Stepinizer setSmooth(double top, double bottom)
+  public Stepinizer setEdgeSlope(double slope)
+  public Stepinizer setStep(double size)
+  public double apply(double x)
+  public double get(double x)
+  private double closestStep(double x)
+  private double topStep(double x)
+  private double bottomStep(double x)
+  private double polarity(double x)
+  private double steepness(double x)
+
+Fields:
+private double stepSize
+private double stepSizeHalf
+private double slope
+private double topSmooth
+private double bottomSmooth

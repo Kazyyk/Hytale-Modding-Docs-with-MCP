@@ -16,3 +16,11 @@ Registered under `"test"` with description key `"server.commands.testperm.desc"`
 ## Methods
 
 - protected void executeSync(@Nonnull CommandContext context)
+
+Also in this package: PermCommand, PermGroupAddCommand, PermGroupCommand, PermGroupListCommand, PermGroupRemoveCommand, PermUserAddCommand, PermUserCommand, PermUserGroupAddCommand, PermUserGroupCommand, PermUserGroupListCommand, PermUserGroupRemoveCommand, PermUserListCommand, PermUserRemoveCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final RequiredArg<List<String>> nodesArg

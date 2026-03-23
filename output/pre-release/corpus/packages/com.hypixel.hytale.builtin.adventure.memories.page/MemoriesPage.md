@@ -30,3 +30,17 @@ When no category is selected, builds the category panel showing all memory categ
 
 - MemoriesPage.PageAction -- enum of UI actions (Record, ViewCategory, Back, MemoriesInfo, SelectMemory)
 - MemoriesPage.PageEventData -- codec-backed event data carrying action, category, and memory ID
+
+Also in this package: MemoriesPageSupplier, MemoriesUnlockedPage, MemoriesUnlockedPageSuplier, PageAction, PageAction, PageEventData, PageEventData
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  private static void buildChestMarkers(UICommandBuilder commandBuilder, GameplayConfig gameplayConfig, int totalMemories)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, MemoriesPage.PageEventData data)
+  private static void updateMemoryButtonSelection(UICommandBuilder commandBuilder, int index, Memory memory, boolean isSelected)
+  private static void updateMemoryDetailsPanel(UICommandBuilder commandBuilder, Memory memory)
+
+Fields:
+private String currentCategory
+private Memory selectedMemory
+private final Vector3d recordMemoriesParticlesPosition

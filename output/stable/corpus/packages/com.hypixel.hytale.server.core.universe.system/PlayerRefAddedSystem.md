@@ -18,3 +18,14 @@ ECS system extending `RefSystem<EntityStore>`. Processes entities each tick.
 
 - getDependencies() | Set<Dependency<EntityStore>> | public method.
 - getQuery() | Query<EntityStore> | public method.
+
+Also in this package: PlayerVelocityInstructionSystem, WorldConfigSaveSystem
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public Query<EntityStore> getQuery()
+  public void onEntityAdded(Ref<EntityStore> ref, AddReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onEntityRemove(Ref<EntityStore> ref, RemoveReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,PlayerRef> playerRefComponentType

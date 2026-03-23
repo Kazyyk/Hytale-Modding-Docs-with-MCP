@@ -14,3 +14,13 @@ Interaction handler extending `SimpleInstantInteraction`.
 
 - needsRemoteSync() | boolean | public method.
 - firstRun(@Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) | void | protected method.
+
+Also in this package: SpawnDeployableFromRaycastInteraction
+
+Complete API:
+  public boolean needsRemoteSync()
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+
+Fields:
+public static final BuilderCodec<SpawnDeployableAtHitLocationInteraction> CODEC
+private DeployableConfig config

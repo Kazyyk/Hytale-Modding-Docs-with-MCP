@@ -15,3 +15,15 @@ A weighted entry defining a block type and its probability for directional sprea
 
 - public double getWeight()
 - public String getBlockTypeKey()
+
+Also in this package: DirectionalGrowthBehaviour, SpreadFarmingStageData, SpreadGrowthBehaviour, VerticalDirection
+
+Complete API:
+  public double getWeight()
+  public String getBlockTypeKey()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<DirectionalGrowthBehaviour.BlockTypeWeight> CODEC
+protected double weight
+protected String blockTypeKey

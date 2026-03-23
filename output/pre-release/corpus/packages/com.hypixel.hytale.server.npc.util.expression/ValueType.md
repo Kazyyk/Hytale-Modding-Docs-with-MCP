@@ -29,3 +29,9 @@ Discriminant for the eight value types supported by the expression system. Used 
 - ExecutionContext -- uses this to track stack operand types
 - Scope -- uses this for type queries
 - StdScope -- symbols carry a `ValueType`
+
+Also in this package: ExecutionContext, Expression, Function, Instruction, Operand, Scope, StdLib, StdScope, Symbol, SymbolBoolean, SymbolBooleanArray, SymbolFunction, SymbolNumber, SymbolNumberArray, SymbolString, SymbolStringArray
+
+Complete API:
+  public static boolean isAssignableType(ValueType from, ValueType to)
+  public static boolean isTypedArray(ValueType valueType)

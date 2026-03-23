@@ -14,3 +14,12 @@ public class ViewportCommand extends AbstractPlayerCommand
 ## Methods
 
 - @Override protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+
+Fields:
+private final FlagArg deleteFlag
+private final OptionalArg<Integer> radiusArg
+private final AssetManager assetManager
+private Runnable activeTask

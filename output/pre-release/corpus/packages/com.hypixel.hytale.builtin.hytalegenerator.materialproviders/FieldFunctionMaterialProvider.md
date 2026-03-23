@@ -16,3 +16,13 @@ Provider supplying FieldFunctionMaterial values based on context.
 
 - public FieldFunctionMaterialProvider(@Nonnull Density density, @Nonnull List<FieldFunctionMaterialProvider.FieldDelimiter<V>> delimiters)
 - @Nullable @Override public V getVoxelTypeAt(@Nonnull MaterialProvider.Context context)
+
+Also in this package: ConstantMaterialProvider, Context, DownwardDepthMaterialProvider, DownwardSpaceMaterialProvider, FieldDelimiter, FieldDelimiter, HorizontalMaterialProvider, MaterialProvider, QueueMaterialProvider, SolidityMaterialProvider, Stripe, StripedMaterialProvider, TerrainDensityMaterialProvider, UpwardDepthMaterialProvider, UpwardSpaceMaterialProvider, WeightedMaterialProvider
+
+Complete API:
+  public V getVoxelTypeAt(MaterialProvider.Context context)
+
+Fields:
+private final Density density
+private final FieldFunctionMaterialProvider.FieldDelimiter<V>[] fieldDelimiters
+private final Density.Context rDensityContext

@@ -66,3 +66,20 @@ public enum RoleDebugFlags implements Supplier<String>
 - public static StringBuilder getListOfAllPresets(@Nonnull StringBuilder stringBuilder)
 - @Nonnull public static EnumSet<RoleDebugFlags> getPreset(String arg)
 - public static boolean havePreset(String name)
+
+Also in this package: AvoidanceMode, DeferredAction, Role, RoleDebugDisplay, RoleDebugPreset, RoleUtils, SpawnEffect
+
+Complete API:
+  public String get()
+  public static EnumSet<RoleDebugFlags> getFlags(String[] args)
+  public static StringBuilder getListOfFlags(EnumSet<RoleDebugFlags> flags, StringBuilder stringBuilder)
+  public static StringBuilder getListOfAllFlags(StringBuilder stringBuilder)
+  public static StringBuilder getListOfAllPresets(StringBuilder stringBuilder)
+  public static EnumSet<RoleDebugFlags> getPreset(String arg)
+  private static String getValidNameString()
+  private static EnumSet<RoleDebugFlags> findPreset(String name)
+  public static boolean havePreset(String name)
+
+Fields:
+private static final RoleDebugFlags.RoleDebugPreset[] presets
+private final String description

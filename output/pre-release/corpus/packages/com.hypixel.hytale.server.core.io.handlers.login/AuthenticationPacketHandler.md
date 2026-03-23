@@ -30,3 +30,13 @@ Transitions the channel to a PasswordPacketHandler after successful authenticati
 ## Inner Types
 
 - **AuthHandlerSupplier** -- Functional interface for creating the next `PacketHandler` after authentication.
+
+Also in this package: AuthHandlerSupplier, AuthState, HandshakeHandler, PasswordPacketHandler, SetupHandlerSupplier
+
+Complete API:
+  public String getIdentifier()
+  public void registered0(PacketHandler oldHandler)
+  protected void onAuthenticated(byte[] passwordChallenge)
+
+Fields:
+private final AuthenticationPacketHandler.AuthHandlerSupplier authHandlerSupplier

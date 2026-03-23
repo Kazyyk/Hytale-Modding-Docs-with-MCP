@@ -18,3 +18,18 @@ public class OrthogonalRotationAsset implements JsonAssetWithMap
 - @Nonnull public RotationTuple build()
 - public boolean isNone()
 - public String getId()
+
+Also in this package: MaterialAsset
+
+Complete API:
+  public RotationTuple build()
+  public boolean isNone()
+  public String getId()
+
+Fields:
+public static final AssetBuilderCodec<String,OrthogonalRotationAsset> CODEC
+private String id
+private AssetExtraInfo.Data data
+private Rotation yaw
+private Rotation pitch
+private Rotation roll

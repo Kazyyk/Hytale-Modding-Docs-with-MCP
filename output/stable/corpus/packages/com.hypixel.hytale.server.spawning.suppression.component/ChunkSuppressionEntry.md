@@ -21,3 +21,15 @@ Implementation of `Component<ChunkStore>`.
 - containsOnly(UUID suppressorId) | boolean | public method.
 - isSuppressingRoleAt(int roleIndex, int yPosition) | boolean | public method.
 - clone() | Component<ChunkStore> | public method.
+
+Also in this package: ChunkSuppressionQueue, SpawnSuppressionComponent, SpawnSuppressionController, SuppressionSpan
+
+Complete API:
+  public static ComponentType<ChunkStore,ChunkSuppressionEntry> getComponentType()
+  public List<ChunkSuppressionEntry.SuppressionSpan> getSuppressionSpans()
+  public boolean containsOnly(UUID suppressorId)
+  public boolean isSuppressingRoleAt(int roleIndex, int yPosition)
+  public Component<ChunkStore> clone()
+
+Fields:
+private final List<ChunkSuppressionEntry.SuppressionSpan> suppressionSpans

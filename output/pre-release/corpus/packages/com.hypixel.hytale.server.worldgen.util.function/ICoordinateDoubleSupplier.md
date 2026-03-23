@@ -10,3 +10,11 @@ Utility type in the `function` subsystem.
 
 - apply | double | int var1, int var2, int var3
 - apply | double | int var1, int var2, int var3, int var4
+
+Known implementors: ConstantCoordinateDoubleSupplier, RandomCoordinateDoubleSupplier
+
+Also in this package: ConstantCoordinateDoubleSupplier, RandomCoordinateDoubleSupplier
+
+Complete API:
+  double apply(int var1, int var2, int var3)
+  double apply(int var1, int var2, int var3, int var4)

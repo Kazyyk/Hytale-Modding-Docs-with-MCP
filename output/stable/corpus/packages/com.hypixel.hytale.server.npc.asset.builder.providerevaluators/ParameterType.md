@@ -19,3 +19,11 @@ Enumerates ParameterType values: `DOUBLE`, `STRING`, `INTEGER`.
 ## Methods
 
 - public String get()
+
+Also in this package: FeatureProviderEvaluator, ParameterProviderEvaluator, ProviderEvaluator, ProviderEvaluatorTypeRegistry, ReferenceProviderEvaluator, UnconditionalFeatureProviderEvaluator, UnconditionalParameterProviderEvaluator
+
+Complete API:
+  public String get()
+
+Fields:
+private final String description

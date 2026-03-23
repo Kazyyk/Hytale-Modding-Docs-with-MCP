@@ -11,3 +11,12 @@ JSON loader that deserializes configuration data from JSON files.
 - super(seed, dataFolder, json)
 - @Nonnull public ClimateColor load()
 - protected int loadColor(@Nonnull String key, int defaultColor)
+
+Also in this package: ClimateGraphJsonLoader, ClimateGridJsonLoader, ClimateMaskJsonLoader, ClimateNoiseJsonLoader, ClimatePointJsonLoader, ClimateRuleJsonLoader, ClimateTypeJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, ContinentThresholdsJsonLoader, UniqueClimateGeneratorJsonLoader, UniqueClimateJsonLoader
+
+Complete API:
+  public ClimateColor load()
+  protected int loadColor(String key, int defaultColor)
+
+Fields:
+private final ClimateColor parent

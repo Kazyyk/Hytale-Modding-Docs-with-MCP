@@ -42,3 +42,13 @@ Returns `this` -- the component is immutable, so cloning returns the same instan
 - EntityTrackerSystems -- the `SendPackets` system reads `NetworkId` to assign network IDs in outbound packets
 - `EntityModule` -- registers the `NetworkId` component type
 - `EntityStore` -- the ECS store this component belongs to
+
+Also in this package: AddToVisible, ClearEntityViewers, ClearPreviouslyVisible, CollectVisible, EffectControllerSystem, EnsureVisibleComponent, EntityTrackerSystems, EntityUpdate, EntityViewer, LegacyEntityModel, LegacyEntitySkin, LegacyEntityTrackerSystems, LegacyEquipment, LegacyHideFromEntity, LegacyLODCull, RemoveEmptyVisibleComponent, RemoveVisibleComponent, SendPackets, Visible
+
+Complete API:
+  public static ComponentType<EntityStore,NetworkId> getComponentType()
+  public int getId()
+  public Component<EntityStore> clone()
+
+Fields:
+private final int id

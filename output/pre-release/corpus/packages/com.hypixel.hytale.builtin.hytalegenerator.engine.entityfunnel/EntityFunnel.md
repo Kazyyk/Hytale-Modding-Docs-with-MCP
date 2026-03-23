@@ -14,3 +14,14 @@ Defines the contract for receiving entity placement data during world generation
 
 - void addEntity(@Nonnull EntityPlacementData var1)
 - @Nonnull Bounds3i getBounds()
+
+Known implementors: EntityBufferView, RotationEntityFunnel
+
+Also in this package: RotationEntityFunnel
+
+Complete API:
+  void addEntity(EntityPlacementData var1)
+  Bounds3i getBounds()
+
+Fields:
+EntityFunnel NULL

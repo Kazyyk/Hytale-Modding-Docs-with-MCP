@@ -13,3 +13,11 @@ public class SpawnBlockCommand extends AbstractWorldCommand
 ## Methods
 
 - @Override protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<String> blockArg
+private final RequiredArg<RelativeDoublePosition> positionArg
+private final DefaultArg<Vector3f> rotationArg

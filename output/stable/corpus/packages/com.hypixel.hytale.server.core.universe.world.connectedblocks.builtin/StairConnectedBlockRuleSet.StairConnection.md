@@ -10,3 +10,8 @@ Corner connection directions (left/right).
 
 - CORNER_LEFT | Connection to the left
 - CORNER_RIGHT | Connection to the right
+
+Also in this package: ConnectedBlockOutput, RoofConnectedBlockRuleSet, StairConnectedBlockRuleSet, StairLikeConnectedBlockRuleSet, StairType
+
+Complete API:
+  public StairConnectedBlockRuleSet.StairType getStairType(boolean inverted)

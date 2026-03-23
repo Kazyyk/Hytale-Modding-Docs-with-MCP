@@ -14,3 +14,5 @@ public enum MotionKind
 - FLYING
 - SWIMMING
 - SWIMMING_TURNING
+
+Also in this package: FlockMembershipType, FlockPlayerMembership, GroupSteeringAccumulator, MovementState, NavState, Steering

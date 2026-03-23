@@ -13,3 +13,18 @@ Handles ordered loading of all registered asset stores from asset packs. Resolve
 - public static void loadAssets(@Nullable LoadAssetEvent event, @Nonnull AssetPack assetPack)
 - public static void sendAssets(@Nonnull PacketHandler packetHandler)
 - @Nonnull public static Map<String, Schema> generateSchemas(@Nonnull SchemaContext context, @Nonnull BsonDocument vsCodeConfig)
+
+Also in this package: AssetModule, AssetNotifications, AssetPackRegisterEvent, AssetPackUnregisterEvent, AssetStoreMonitorHandler, Builder, GenerateSchemaEvent, HytaleAssetStore, LoadAssetEvent
+
+Complete API:
+  public static void init()
+  public static void preLoadAssets(LoadAssetEvent event)
+  public static void loadAssets(LoadAssetEvent event, AssetPack assetPack)
+  private static void preLoadAssets0(LoadAssetEvent event)
+  private static void loadAssets0(LoadAssetEvent event, AssetPack assetPack)
+  public static void sendAssets(PacketHandler packetHandler)
+  public static Map<String,Schema> generateSchemas(SchemaContext context, BsonDocument vsCodeConfig)
+  public static void writeSchemas(LoadAssetEvent event)
+
+Fields:
+public static final HytaleLogger LOGGER

@@ -13,3 +13,13 @@ public class RandomizeDimensionsOperation extends SequenceBrushOperation
 ## Methods
 
 - @Override public void modifyBrushConfig(Ref<EntityStore> ref, BrushConfig brushConfig, BrushConfigCommandExecutor brushConfigCommandExecutor, ComponentAccessor<EntityStore> componentAccessor)
+
+Also in this package: DimensionsOperation
+
+Complete API:
+  public void modifyBrushConfig(Ref<EntityStore> ref, BrushConfig brushConfig, BrushConfigCommandExecutor brushConfigCommandExecutor, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<RandomizeDimensionsOperation> CODEC
+public RelativeIntegerRange widthRangeArg
+public RelativeIntegerRange heightRangeArg

@@ -21,3 +21,15 @@ public class SensorInflictedDamage extends SensorBase
 ## Inner Types
 
 - `SensorInflictedDamage.Target`
+
+Also in this package: ActionFlockBeacon, ActionFlockJoin, ActionFlockLeave, ActionFlockSetTarget, ActionFlockState, BodyMotionFlock, EntityFilterFlock, SensorFlockCombatDamage, SensorFlockLeader, Target
+
+Complete API:
+  public boolean matches(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public InfoProvider getSensorInfo()
+  protected static boolean inSameFlock(Ref<EntityStore> selfReference, Ref<EntityStore> target, Store<EntityStore> store)
+
+Fields:
+protected final SensorInflictedDamage.Target target
+protected final boolean friendlyFire
+protected final EntityPositionProvider positionProvider

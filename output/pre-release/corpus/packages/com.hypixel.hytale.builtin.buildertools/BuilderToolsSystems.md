@@ -14,3 +14,5 @@ Container class for ECS systems related to builder tools. Contains the EnsureBui
 
 - BuilderToolsPlugin -- registers `EnsureBuilderTools` as an entity store system during setup
 - BuilderToolsUserDataSystem -- companion system that ensures `BuilderToolsUserData` component
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)

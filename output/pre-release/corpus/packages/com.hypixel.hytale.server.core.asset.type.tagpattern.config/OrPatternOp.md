@@ -11,3 +11,13 @@ Concrete implementation extending `MultiplePatternOp`.
 - test(Int2ObjectMap<IntSet> tags) | boolean | public method.
 - toPacket() | com.hypixel.hytale.protocol.TagPattern | public method.
 - toString() | String | public method.
+
+Also in this package: AndPatternOp, EqualsTagOp, MultiplePatternOp, NotPatternOp, TagPattern
+
+Complete API:
+  public boolean test(Int2ObjectMap<IntSet> tags)
+  public com.hypixel.hytale.protocol.TagPattern toPacket()
+  public String toString()
+
+Fields:
+public static BuilderCodec<OrPatternOp> CODEC

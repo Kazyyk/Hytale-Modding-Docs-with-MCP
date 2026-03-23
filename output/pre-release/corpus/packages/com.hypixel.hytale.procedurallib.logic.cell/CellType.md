@@ -8,3 +8,5 @@ public enum CellType
 
 - SQUARE
 - HEX
+
+Also in this package: BorderDistanceFunction, CellDistanceFunction, CellPointFunction, DistanceCalculationMode, GridCellDistanceFunction, HexCellDistanceFunction, MeasurementMode, PointDistanceFunction, SquirrelHash

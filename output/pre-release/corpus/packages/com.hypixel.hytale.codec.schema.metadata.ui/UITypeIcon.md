@@ -18,3 +18,11 @@ public UITypeIcon(String icon)
 ## Methods
 
 - public void modify(@Nonnull Schema schema)
+
+Also in this package: ClientCache, DisplayMode, Dropdown, EditorComponent, EditorFeature, FormattedNumber, Icon, LocalizationKeyField, MultilineTextField, PreviewType, TextField, Timeline, UIButton, UICreateButtons, UIDefaultCollapsedState, UIDisplayMode, UIEditor, UIEditorFeatures, UIEditorPreview, UIEditorSectionStart (and 4 more)
+
+Complete API:
+  public void modify(Schema schema)
+
+Fields:
+private final String icon

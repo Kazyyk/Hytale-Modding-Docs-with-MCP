@@ -25,3 +25,19 @@ Fixed-size 2D grid of `double` values backed by a flat array. Used by the climat
 - at(int index) | double | Returns the value at the given flat index.
 - set(int x, int y, double value) | void | Sets the value at the given 2D position.
 - set(int index, double value) | void | Sets the value at the given flat index.
+
+Also in this package: DistanceTransform, IntMap, Node
+
+Complete API:
+  public int index(int x, int y)
+  public boolean validate(int index)
+  public void clear()
+  public double at(int x, int y)
+  public double at(int index)
+  public void set(int x, int y, double value)
+  public void set(int index, double value)
+
+Fields:
+public final int width
+public final int height
+protected final double[] values

@@ -10,3 +10,5 @@ Determines how the regeneration amount is interpreted.
 
 - ADDITIVE | The amount is added directly to the stat value.
 - PERCENTAGE | The amount is multiplied by `(max - min)` to get the actual value to add.
+
+Also in this package: DefaultEntityStatTypes, EntityStatEffects, EntityStatType, EntityStatTypePacketGenerator, Regenerating

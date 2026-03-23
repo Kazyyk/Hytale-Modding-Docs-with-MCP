@@ -23,3 +23,22 @@ NPC sensor builder: Check if there is a certain number of NPCs or players within
 - public double[] getRange(@Nonnull BuilderSupport builderSupport)
 - public int[] getIncludeGroups()
 - public int[] getExcludeGroups()
+
+Also in this package: BuilderActionBeacon, BuilderActionIgnoreForAvoidance, BuilderActionNotify, BuilderActionOverrideAttitude, BuilderActionReleaseTarget, BuilderActionSetMarkedTarget, BuilderActionSetStat, BuilderHeadMotionWatch, BuilderSensorBeacon, BuilderSensorEntity, BuilderSensorEntityBase, BuilderSensorKill, BuilderSensorPlayer, BuilderSensorSelf, BuilderSensorTarget
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public SensorCount build(BuilderSupport builderSupport)
+  public Builder<Sensor> readConfig(JsonElement data)
+  public int[] getCount(BuilderSupport builderSupport)
+  public double[] getRange(BuilderSupport builderSupport)
+  public int[] getIncludeGroups()
+  public int[] getExcludeGroups()
+
+Fields:
+protected final NumberArrayHolder count
+protected final NumberArrayHolder range
+protected String[] includeGroups
+protected String[] excludeGroups

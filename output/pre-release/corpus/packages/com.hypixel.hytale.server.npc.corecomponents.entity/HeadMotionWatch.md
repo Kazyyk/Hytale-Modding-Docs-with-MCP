@@ -34,3 +34,13 @@ public class HeadMotionWatch extends HeadMotionBase
         double dt,
         @Nonnull Steering desiredSteering,
         @Nonnull ComponentAccessor<EntityStore> componentAccessor)` |
+
+Also in this package: ActionBeacon, ActionIgnoreForAvoidance, ActionNotify, ActionOverrideAttitude, ActionReleaseTarget, ActionSetMarkedTarget, ActionSetStat, SensorBeacon, SensorCount, SensorEntity, SensorEntityBase, SensorKill, SensorPlayer, SensorSelf, SensorTarget
+
+Complete API:
+  public boolean computeSteering(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Steering desiredSteering, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+protected static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE
+protected static final ComponentType<EntityStore,ModelComponent> MODEL_COMPONENT_TYPE
+protected final double relativeTurnSpeed

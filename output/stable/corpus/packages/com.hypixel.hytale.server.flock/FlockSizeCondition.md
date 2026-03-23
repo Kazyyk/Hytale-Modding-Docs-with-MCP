@@ -18,3 +18,10 @@ Returns the `EntityGroup` size of the NPC's flock, or `1.0` if not in a flock.
 
 - FlockMembership -- accessed to find the flock reference
 - FlockPlugin -- registers this condition
+
+Complete API:
+  protected double getInput(int selfIndex, ArchetypeChunk<EntityStore> archetypeChunk, Ref<EntityStore> target, CommandBuffer<EntityStore> commandBuffer, EvaluationContext context)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<FlockSizeCondition> CODEC

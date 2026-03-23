@@ -24,3 +24,18 @@ Class in the relative subsystem.
 - equals(@Nullable Object o) | boolean | public method.
 - hashCode() | int | public method.
 - toString() | String | public method.
+
+Also in this package: RelativeVector2d, RelativeVector2i, RelativeVector2l, RelativeVector3d, RelativeVector3l
+
+Complete API:
+  public Vector3i getVector()
+  public boolean isRelative()
+  public Vector3i resolve(Vector3i vector)
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<RelativeVector3i> CODEC
+private Vector3i vector
+private boolean relative

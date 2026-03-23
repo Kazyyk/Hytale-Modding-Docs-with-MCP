@@ -16,3 +16,16 @@ public class HytaleLogFormatter extends Formatter
 
 - @Override @Nonnull public String format(@Nonnull LogRecord record)
 - public static String stripAnsi(@Nonnull String message)
+
+Also in this package: HytaleConsole, HytaleFileHandler, HytaleJdkLogger, HytaleLogManager, HytaleLoggerBackend, HytaleUncaughtExceptionHandler, RawLogRecord
+
+Complete API:
+  public String format(LogRecord record)
+  public static String stripAnsi(String message)
+
+Fields:
+private static final DateTimeFormatter DATE_FORMATTER
+private static final Pattern ANSI_CONTROL_CODES
+private BooleanSupplier ansi
+public int maxModuleName
+private int shorterCount

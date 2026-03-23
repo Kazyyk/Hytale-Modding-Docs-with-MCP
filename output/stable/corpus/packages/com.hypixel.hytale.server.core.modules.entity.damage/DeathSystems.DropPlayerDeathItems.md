@@ -18,3 +18,12 @@ Dropped items are spawned as item entities at the player's position (offset upwa
 - DeathSystems.PlayerDropItemsConfig -- runs before this system to configure loss parameters
 - DeathComponent -- reads loss configuration
 - DeathSystems.OnDeathSystem -- base class
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onComponentAdded(Ref<EntityStore> ref, DeathComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final Query<EntityStore> QUERY

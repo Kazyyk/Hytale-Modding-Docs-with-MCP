@@ -9,3 +9,13 @@ Data class serialized via `BuilderCodec`.
 ## Accessors
 
 - getDropListId() | String | Accessor method.
+
+Also in this package: ClearObjectiveItemsCompletionAsset, ObjectiveCompletionAsset
+
+Complete API:
+  public String getDropListId()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<GiveItemsCompletionAsset> CODEC
+protected String dropListId

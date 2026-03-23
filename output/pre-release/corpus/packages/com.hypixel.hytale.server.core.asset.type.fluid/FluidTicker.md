@@ -67,3 +67,41 @@ Thread-local cached accessor that stores fluid and block section lookups to avoi
 - DefaultFluidTicker -- standard liquid spreading
 - FiniteFluidTicker -- volume-conserving simulation
 - FireFluidTicker -- fire propagation
+
+Known subclasses: DefaultFluidTicker, FiniteFluidTicker, FireFluidTicker
+
+Also in this package: Accessor, AliveStatus, CachedAccessor, ConversionResult, DefaultFluidTicker, FiniteFluidTicker, FireFluidTicker, FlammabilityConfig, Fluid, FluidCollisionConfig, FluidTypePacketGenerator, SpreadOutcome
+
+Complete API:
+  public int getSupportedById()
+  public BlockTickStrategy tick(CommandBuffer<ChunkStore> commandBuffer, FluidTicker.CachedAccessor cachedAccessor, FluidSection fluidSection, BlockSection blockSection, Fluid fluid, int fluidId, int worldX, int worldY, int worldZ)
+  public boolean canOccupySolidBlocks()
+  public BlockTickStrategy process(World world, long tick, FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, Fluid fluid, int fluidId, int worldX, int worldY, int worldZ)
+  protected FluidTicker.AliveStatus isAlive(FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, Fluid fluid, int fluidId, byte fluidLevel, int worldX, int worldY, int worldZ)
+  protected abstract BlockTickStrategy spread(World var1, long var2, FluidTicker.Accessor var4, FluidSection var5, BlockSection var6, Fluid var7, int var8, byte var9, int var10, int var11, int var12)
+  public static void setTickingSurrounding(FluidTicker.Accessor accessor, BlockSection blockSection, int worldX, int worldY, int worldZ)
+  protected int getSpreadOffsets(BlockTypeAssetMap<String,BlockType> blockMap, FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, int worldX, int worldY, int worldZ, Vector2i[] offsetArray, int fluidId, int maxDropDistance)
+  protected int distanceToDrop(BlockTypeAssetMap<String,BlockType> blockMap, FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, int worldX, int worldY, int worldZ, Vector2i offset, int fluidId, int maxDropDistance)
+  public static boolean isFullySolid(BlockType blockType)
+  public static boolean isSolid(BlockType blockType)
+  public boolean blocksFluidFrom(BlockType blockType, int rotationIndex, int offsetX, int offsetZ)
+  public boolean blocksFluidFrom(BlockType blockType, int rotationIndex, int offsetX, int offsetZ, int filler)
+  private static boolean boxesBlockFace(Box[] boxes, int offsetX, int offsetZ)
+  public boolean isSelfFluid(int selfFluidId, int otherFluidId)
+  public boolean canDemote()
+
+Fields:
+public static final BuilderCodec<FluidTicker> BASE_CODEC
+public static final CodecMapCodec<FluidTicker> CODEC
+protected static final Vector2i[] ORTO_OFFSETS
+protected static final int SPREAD_NO_PATH
+protected static final int SPREAD_NO_CHUNK
+protected static final int OFFSET_DROP_NONE
+public static final int FLUID_BLOCK_DISTANCE
+private static final double FULL_DIMENSION_THRESHOLD
+private static final double PARTIAL_DIMENSION_THRESHOLD
+private static final double FACE_BLOCK_THRESHOLD
+private float flowRate
+private boolean canDemote
+private String supportedBy
+private transient int supportedById

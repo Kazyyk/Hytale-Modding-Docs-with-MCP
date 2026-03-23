@@ -38,3 +38,33 @@ public class ItemGridSlot
 - public void setActivatable(boolean activatable)
 - public boolean isSkipItemQualityBackground()
 - public void setSkipItemQualityBackground(boolean skipItemQualityBackground)
+
+Also in this package: Anchor, Area, DropdownEntryInfo, LocalizableString, LocalizableStringCodec, PatchStyle, Value, ValueCodec
+
+Complete API:
+  public ItemGridSlot setItemStack(ItemStack itemStack)
+  public ItemGridSlot setBackground(Value<PatchStyle> background)
+  public ItemGridSlot setOverlay(Value<PatchStyle> overlay)
+  public ItemGridSlot setIcon(Value<PatchStyle> icon)
+  public ItemGridSlot setItemIncompatible(boolean itemIncompatible)
+  public ItemGridSlot setName(String name)
+  public ItemGridSlot setDescription(String description)
+  public boolean isItemUncraftable()
+  public void setItemUncraftable(boolean itemUncraftable)
+  public boolean isActivatable()
+  public void setActivatable(boolean activatable)
+  public boolean isSkipItemQualityBackground()
+  public void setSkipItemQualityBackground(boolean skipItemQualityBackground)
+
+Fields:
+public static final BuilderCodec<ItemGridSlot> CODEC
+private ItemStack itemStack
+private Value<PatchStyle> background
+private Value<PatchStyle> overlay
+private Value<PatchStyle> icon
+private boolean isItemIncompatible
+private String name
+private String description
+private boolean skipItemQualityBackground
+private boolean isActivatable
+private boolean isItemUncraftable

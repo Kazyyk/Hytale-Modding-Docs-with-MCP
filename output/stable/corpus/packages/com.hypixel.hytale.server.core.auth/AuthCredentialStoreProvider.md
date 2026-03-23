@@ -20,3 +20,13 @@ Polymorphic codec for deserializing provider implementations from configuration.
 IAuthCredentialStore createStore()
 
 Creates and returns a new credential store instance.
+
+Known implementors: EncryptedAuthCredentialStoreProvider, MemoryAuthCredentialStoreProvider
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthConfigGenerated, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse, LauncherDataResponse, MemoryAuthCredentialStoreProvider (and 8 more)
+
+Complete API:
+  IAuthCredentialStore createStore()
+
+Fields:
+BuilderCodecMapCodec<AuthCredentialStoreProvider> CODEC

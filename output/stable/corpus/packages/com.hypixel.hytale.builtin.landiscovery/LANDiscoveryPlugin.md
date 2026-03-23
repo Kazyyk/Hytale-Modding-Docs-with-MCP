@@ -24,3 +24,18 @@ Plugin that registers commands for the builtin subsystem.
 - setLANDiscoveryEnabled(boolean enabled) | void | public method.
 - isLANDiscoveryEnabled() | boolean | public method.
 - getLanDiscoveryThread() | LANDiscoveryThread | public method.
+
+Also in this package: LANDiscoveryCommand, LANDiscoveryThread
+
+Complete API:
+  public static LANDiscoveryPlugin get()
+  protected void setup()
+  protected void start()
+  protected void shutdown()
+  public void setLANDiscoveryEnabled(boolean enabled)
+  public boolean isLANDiscoveryEnabled()
+  public LANDiscoveryThread getLanDiscoveryThread()
+
+Fields:
+private LANDiscoveryThread lanDiscoveryThread
+private static LANDiscoveryPlugin instance

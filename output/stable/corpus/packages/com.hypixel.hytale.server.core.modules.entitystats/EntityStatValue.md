@@ -38,3 +38,37 @@ Creates a stat value initialized from the asset's initial value.
 - EntityStatType -- asset definition for a stat type
 - RegeneratingValue -- regeneration behavior
 - `Modifier` -- modifiers applied to min/max bounds
+
+Also in this package: Changes, ClearChanges, EntityStatMap, EntityStatsModule, EntityStatsSystems, EntityTrackerRemove, EntityTrackerUpdate, PlayerRegenerateStatsSystem, Predictable, Recalculate, Regenerate, RegeneratingValue, Setup, StatModifyingSystem
+
+Complete API:
+  public String getId()
+  public int getIndex()
+  public float get()
+  public float asPercentage()
+  public float getMin()
+  public float getMax()
+  protected float set(float newValue)
+  public RegeneratingValue[] getRegeneratingValues()
+  public Modifier getModifier(String key)
+  public boolean getIgnoreInvulnerability()
+  public Map<String,Modifier> getModifiers()
+  protected Modifier putModifier(String key, Modifier modifier)
+  protected Modifier removeModifier(String key)
+  public boolean synchronizeAsset(int index, EntityStatType asset)
+  private void initializeRegenerating(EntityStatType entityStatType)
+  protected void computeModifiers(EntityStatType asset)
+  private void applyModifier(Modifier modifier)
+  public String toString()
+
+Fields:
+public static final EntityStatValue[] EMPTY_ARRAY
+public static final BuilderCodec<EntityStatValue> CODEC
+private String id
+private int index
+private float value
+private float min
+private float max
+private boolean ignoreInvulnerability
+private RegeneratingValue[] regeneratingValues
+private Map<String,Modifier> modifiers

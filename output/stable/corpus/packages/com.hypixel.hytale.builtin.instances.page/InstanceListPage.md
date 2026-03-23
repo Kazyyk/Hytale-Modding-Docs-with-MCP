@@ -25,3 +25,19 @@ public static enum Action
 public static class PageData
 
 Codec-serialized event data with instance, action, file, search query, and search result fields.
+
+Also in this package: Action, Action, ConfigureInstanceBlockPage, PageData, PageData
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, InstanceListPage.PageData data)
+  private boolean isInstance(Path path)
+  private void load(Ref<EntityStore> ref, Store<EntityStore> store)
+  private void spawn(Ref<EntityStore> ref, Store<EntityStore> store)
+  private String getInstanceNameFromVirtualPath(String virtualPath)
+  private void updateSelection(String virtualPath)
+
+Fields:
+private static final String ASSET_PACK_SUB_PATH
+private String selectedInstance
+private final ServerFileBrowser browser

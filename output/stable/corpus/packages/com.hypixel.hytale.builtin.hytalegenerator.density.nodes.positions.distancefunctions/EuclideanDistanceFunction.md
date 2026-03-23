@@ -9,3 +9,8 @@ Utility type in the `distancefunctions` subsystem.
 ## Accessors
 
 - getDistance(Vector3d point) | double | Accessor method.
+
+Also in this package: DistanceFunction, ManhattanDistanceFunction
+
+Complete API:
+  public double getDistance(Vector3d point)

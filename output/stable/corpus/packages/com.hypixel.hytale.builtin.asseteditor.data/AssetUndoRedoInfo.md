@@ -8,3 +8,9 @@ public class AssetUndoRedoInfo
 
 - public final Deque<JsonUpdateCommand> undoStack
 - public final Deque<JsonUpdateCommand> redoStack
+
+Also in this package: AssetState, ModifiedAsset
+
+Fields:
+public final Deque<JsonUpdateCommand> undoStack
+public final Deque<JsonUpdateCommand> redoStack

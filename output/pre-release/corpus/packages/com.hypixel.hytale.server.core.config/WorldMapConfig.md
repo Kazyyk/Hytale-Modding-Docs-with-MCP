@@ -46,3 +46,22 @@ Sets the maximum view radius.
 
 - ServerWorldMapConfig -- server-level implementation
 - WorldWorldMapConfig -- per-world implementation
+
+Known subclasses: ServerWorldMapConfig, WorldWorldMapConfig
+
+Also in this package: AutoApplyMode, BackupConfig, ModConfig, RateLimitConfig, ServerWorldMapConfig, UpdateConfig, WorldWorldMapConfig
+
+Complete API:
+  public abstract int getDefaultViewRadiusMin()
+  public abstract int getDefaultViewRadiusMax()
+  public int getViewRadiusMin()
+  public void setViewRadiusMin(int viewRadiusMin)
+  public int getViewRadiusMax()
+  public void setViewRadiusMax(int viewRadiusMax)
+  protected static void validate(WorldMapConfig config, int ceiling)
+
+Fields:
+public static final int ABSOLUTE_MAX_VIEW_RADIUS
+public static final BuilderCodec<WorldMapConfig> ABSTRACT_CODEC
+protected Integer viewRadiusMin
+protected Integer viewRadiusMax

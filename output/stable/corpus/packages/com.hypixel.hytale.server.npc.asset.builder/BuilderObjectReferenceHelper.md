@@ -82,3 +82,44 @@ Delegates to `builder.excludeFromRegularBuilding()`.
 - BuilderModifier -- applied during reference resolution
 - InternalReferenceResolver -- resolves local references
 - BuilderFactory -- creates inline builders
+
+Known subclasses: BuilderObjectStaticHelper
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectStaticHelper (and 28 more)
+
+Complete API:
+  public boolean excludeFromRegularBuild()
+  public T build(BuilderSupport builderSupport)
+  public boolean validate(String configName, NPCLoadTimeValidationHelper loadTimeValidationHelper, BuilderManager manager, ExecutionContext context, Scope globalScope, List<String> errors)
+  public Builder<T> getBuilder(BuilderManager builderManager, BuilderSupport support, boolean nullable)
+  public Builder<T> getBuilder(BuilderManager builderManager, ExecutionContext context, Builder<?> parentSpawnable)
+  public void readConfig(JsonElement data, BuilderManager builderManager, BuilderParameters builderParameters, BuilderValidationHelper builderValidationHelper)
+  public void readConfig(JsonElement data, BuilderFactory<T> factory, BuilderManager builderManager, BuilderParameters builderParameters, BuilderValidationHelper builderValidationHelper)
+  protected void setInternalReference(StringHolder holder, InternalReferenceResolver referenceResolver)
+  protected void setFileReference(StringHolder holder, JsonObject jsonObject, BuilderManager builderManager)
+  private void validateRequiredFeatures(Builder<T> builder, BuilderManager manager, ExecutionContext context)
+  private void validateInstructionContext(Builder<T> builder, BuilderSupport support)
+  private void validateComponentInterfaceMatch(String builderInterfaceCode)
+  public boolean isPresent()
+  public boolean isFinal()
+  public String getLabel()
+  public void setLabel(String label)
+
+Fields:
+public static final String KEY_REFERENCE
+public static final String KEY_LOCAL
+public static final String KEY_INTERFACE_LIST
+public static final String KEY_NULLABLE
+public static final String NULL_COMPONENT
+public static final String KEY_LABEL
+protected Builder<T> builder
+protected final StringHolder fileReference
+protected String[] componentInterfaces
+protected int referenceIndex
+protected boolean isReference
+protected boolean isNullable
+protected BuilderModifier modifier
+protected FeatureEvaluatorHelper evaluatorHelper
+protected InternalReferenceResolver internalReferenceResolver
+protected boolean isInternalReference
+protected String label

@@ -7,3 +7,5 @@ public record ChunkRequest
 ## Inner Types
 
 - `ChunkRequest.GeneratorProfile`
+
+Also in this package: Arguments, ChunkGenerator, FallbackGenerator, GeneratorProfile

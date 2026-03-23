@@ -28,3 +28,13 @@ public class CraftObjectiveTask extends CountObjectiveTask
 
 - CountObjectiveTask
 - ObjectiveTask
+
+Also in this package: CountObjectiveTask, GatherObjectiveTask, ObjectiveTask, ObjectiveTaskRef, ReachLocationTask, TreasureMapObjectiveTask, UseBlockObjectiveTask, UseEntityObjectiveTask
+
+Complete API:
+  public CraftObjectiveTaskAsset getAsset()
+  protected TransactionRecord[] setup0(Objective objective, World world, Store<EntityStore> store)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<CraftObjectiveTask> CODEC

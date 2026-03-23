@@ -14,3 +14,15 @@ Utility for supplying values with caching or special behavior.
 ## Methods
 
 - invalidate() | void | Instance method.
+
+Also in this package: SupplierUtil
+
+Complete API:
+  public T get()
+  public T getValue()
+  public void invalidate()
+
+Fields:
+private final Supplier<T> delegate
+private transient volatile boolean initialized
+private transient T value

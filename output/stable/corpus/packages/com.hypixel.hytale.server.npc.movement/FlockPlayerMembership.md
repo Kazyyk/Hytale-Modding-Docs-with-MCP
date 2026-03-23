@@ -21,3 +21,11 @@ public enum FlockPlayerMembership implements Supplier<String>
 ## Methods
 
 - public String get()
+
+Also in this package: FlockMembershipType, GroupSteeringAccumulator, MotionKind, MovementState, NavState, Steering
+
+Complete API:
+  public String get()
+
+Fields:
+private final String description

@@ -25,3 +25,13 @@ public static final class Context
 
 
 public Context(@Nonnull Map<NBufferType, NBufferBundle.Access.View> bufferAccess, @Nonnull WorkerIndexer.Id workerId)
+
+Known implementors: NBiomeDistanceStage, NBiomeStage, NEnvironmentStage, NPropStage, NTerrainStage, NTestPropStage, NTestTerrainStage, NTintStage
+
+Also in this package: BiomeDistanceCounter, BiomeDistanceEntries, BiomeDistanceEntry, BiomeWeights, ColumnData, Context, Entry, NBiomeDistanceStage, NBiomeStage, NEnvironmentStage, NPropStage, NTerrainStage, NTestPropStage, NTestTerrainStage, NTintStage
+
+Complete API:
+  void run(NStage.Context var1)
+  Map<NBufferType,Bounds3i> getInputTypesAndBounds_bufferGrid()
+  List<NBufferType> getOutputTypes()
+  String getName()

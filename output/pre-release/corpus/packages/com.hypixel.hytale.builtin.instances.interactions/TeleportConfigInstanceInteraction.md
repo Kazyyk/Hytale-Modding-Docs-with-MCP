@@ -69,3 +69,18 @@ public class TeleportConfigInstanceInteraction extends SimpleBlockInteraction
 | `` | `throw new` | `IllegalArgumentException("Hitbox asset not found for block type: " + blockType.getId()` |
 | `` | `return new` | `Transform(position, rotationOutput)` |
 | `` | `throw new` | `IllegalArgumentException("Chunk not loaded")` |
+
+Also in this package: ExitInstanceInteraction, OriginSource, TeleportInstanceInteraction
+
+Complete API:
+  public WaitForDataFrom getWaitForDataFrom()
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack itemInHand, Vector3i targetBlock, CooldownHandler cooldownHandler)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+  private static Transform getPersonalReturnPoint(ConfigurableInstanceBlock state, InteractionContext context, Transform returnPoint, ComponentAccessor<EntityStore> componentAccessor)
+  private static Transform makeReturnPoint(ConfigurableInstanceBlock state, InteractionContext context, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final Message MESSAGE_GENERAL_INTERACTION_CONFIGURE_INSTANCE_NO_INSTANCE_NAME
+public static final BuilderCodec<TeleportConfigInstanceInteraction> CODEC
+private static final int SET_BLOCK_SETTINGS

@@ -27,3 +27,21 @@ public class NoiseConfig implements NetworkSerializable<com.hypixel.hytale.proto
 ## Inner Types
 
 - `NoiseConfig.ClampConfig`
+
+Also in this package: CameraShakeConfig, ClampConfig, EasingConfig, OffsetNoise, RotationNoise
+
+Complete API:
+  public com.hypixel.hytale.protocol.NoiseConfig toPacket()
+  public String toString()
+  public static com.hypixel.hytale.protocol.NoiseConfig[] toPacket(NoiseConfig[] configs)
+
+Fields:
+public static final Codec<NoiseType> NOISE_TYPE_CODEC
+public static final BuilderCodec<NoiseConfig> CODEC
+public static final ArrayCodec<NoiseConfig> ARRAY_CODEC
+public static final com.hypixel.hytale.protocol.NoiseConfig[] NOISE_CONFIGS
+protected int seed
+protected NoiseType type
+protected NoiseConfig.ClampConfig clamp
+protected float frequency
+protected float amplitude

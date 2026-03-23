@@ -16,3 +16,12 @@ public class CacheVectorProvider extends VectorProvider
 ## Inner Types
 
 - `CacheVectorProvider.Cache`
+
+Also in this package: Cache, ConstantVectorProvider, Context, DensityGradientVectorProvider, VectorProvider
+
+Complete API:
+  public void process(VectorProvider.Context context, Vector3d vector_out)
+
+Fields:
+private final VectorProvider vectorProvider
+private final CacheVectorProvider.Cache cache

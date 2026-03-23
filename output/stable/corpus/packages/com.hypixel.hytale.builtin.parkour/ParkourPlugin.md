@@ -31,3 +31,29 @@ Plugin class that registers components, systems, and commands for the parkour su
 - public void updateLastIndex(int index)
 - public void updateLastIndex()
 - public void resetPlayer(UUID playerUuid)
+
+Also in this package: EnsureNetworkSendable, Init, ParkourCheckpoint, ParkourCheckpointSystems, ParkourCommand, Ticking
+
+Complete API:
+  public static ParkourPlugin get()
+  public ComponentType<EntityStore,ParkourCheckpoint> getParkourCheckpointComponentType()
+  public Model getParkourCheckpointModel()
+  public Object2IntMap<UUID> getCurrentCheckpointByPlayerMap()
+  public Object2LongMap<UUID> getStartTimeByPlayerMap()
+  public Int2ObjectMap<UUID> getCheckpointUUIDMap()
+  public int getLastIndex()
+  protected void setup()
+  protected void start()
+  public void updateLastIndex(int index)
+  public void updateLastIndex()
+  public void resetPlayer(UUID playerUuid)
+
+Fields:
+protected static ParkourPlugin instance
+public static final String PARKOUR_CHECKPOINT_MODEL_ID
+private final Object2IntMap<UUID> currentCheckpointByPlayerMap
+private final Object2LongMap<UUID> startTimeByPlayerMap
+private final Int2ObjectMap<UUID> checkpointUUIDMap
+private ComponentType<EntityStore,ParkourCheckpoint> parkourCheckpointComponentType
+private Model parkourCheckpointModel
+private int lastIndex

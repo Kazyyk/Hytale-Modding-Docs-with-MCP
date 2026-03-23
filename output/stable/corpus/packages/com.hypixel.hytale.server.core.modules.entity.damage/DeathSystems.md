@@ -28,3 +28,8 @@ Container class for all ECS systems triggered when an entity dies (when a DeathC
 - DeathComponent -- the component whose addition triggers these systems
 - DamageModule -- registers all death systems
 - RespawnSystems -- systems triggered on respawn (component removal)
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  private static void playDeathAnimation(Ref<EntityStore> ref, DeathComponent deathComponent, ModelComponent modelComponent, MovementStatesComponent movementStatesComponent, ComponentAccessor<EntityStore> componentAccessor)

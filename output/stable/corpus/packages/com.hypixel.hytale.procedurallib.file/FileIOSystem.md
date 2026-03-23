@@ -16,3 +16,14 @@ public interface FileIOSystem extends AutoCloseable
 
 - `FileIOSystem.PathArray`
 - `FileIOSystem.Provider`
+
+Known implementors: AssetFileSystem, DefaultIOFileSystem
+
+Also in this package: AssetLoader, AssetPath, DefaultIOFileSystem, FileIO, PathArray, Provider
+
+Complete API:
+  Path baseRoot()
+  FileIOSystem.PathArray roots()
+  default AssetPath resolve(Path path)
+  default T load(AssetPath path, AssetLoader<T> loader)
+  default void close()

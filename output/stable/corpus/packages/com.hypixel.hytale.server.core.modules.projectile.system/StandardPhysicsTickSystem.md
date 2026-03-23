@@ -15,3 +15,14 @@ ECS system handling StandardPhysicsTick tick processing.
         @Nonnull ArchetypeChunk<EntityStore> archetypeChunk,
         @Nonnull Store<EntityStore> store,
         @Nonnull CommandBuffer<EntityStore> commandBuffer)` |
+
+Also in this package: EntityTrackerUpdate, PredictedProjectileSystems
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public Query<EntityStore> getQuery()
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final Query<EntityStore> query
+private final Set<Dependency<EntityStore>> dependencies

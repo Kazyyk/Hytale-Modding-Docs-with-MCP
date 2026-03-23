@@ -10,3 +10,12 @@ public class SuffocatingCondition extends Condition
 - public SuffocatingCondition(boolean inverse)
 - public boolean eval0(@Nonnull ComponentAccessor<EntityStore> componentAccessor, @Nonnull Ref<EntityStore> ref, @Nonnull Instant currentTime)
 - public String toString()
+
+Also in this package: AliveCondition, ChargingCondition, Condition, EntityStatBoundCondition, EnvironmentCondition, GlidingCondition, LogicCondition, NoDamageTakenCondition, Operator, OutOfCombatCondition, PlayerCondition, RegenHealthCondition, SprintingCondition, StatComparisonType, StatCondition, WieldingCondition
+
+Complete API:
+  public boolean eval0(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref, Instant currentTime)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SuffocatingCondition> CODEC

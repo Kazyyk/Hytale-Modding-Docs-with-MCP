@@ -56,3 +56,17 @@ Returns `true`.
 
 - BuilderBase -- parent class
 - Builder -- dynamic dependency default methods are overridden here
+
+Known subclasses: BuilderRole, BuilderRoleVariant
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public boolean hasDynamicDependencies()
+  public void addDynamicDependency(int builderIndex)
+  public IntSet getDynamicDependencies()
+  public void clearDynamicDependencies()
+  public boolean isSpawnable()
+
+Fields:
+private IntSet dynamicDependencies

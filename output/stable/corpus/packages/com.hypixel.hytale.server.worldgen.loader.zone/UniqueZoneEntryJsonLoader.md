@@ -59,3 +59,14 @@ public class UniqueZoneEntryJsonLoader extends JsonLoader<SeedStringResource, Zo
 ## Inner Types
 
 - `UniqueZoneEntryJsonLoader.Constants`
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, ZoneBiomesJsonLoader, ZoneColorMappingJsonLoader, ZoneCustomBiomesJsonLoader, ZoneJsonLoader, ZonePatternProviderJsonLoader, ZoneRequirementJsonLoader
+
+Complete API:
+  public Zone.UniqueEntry[] load()
+  protected Zone.UniqueEntry loadEntry(int index, JsonObject json)
+  protected static int[] loadParentColors(int index, JsonElement json)
+  public static void collectZones(Set<String> zoneSet, JsonElement json)
+
+Fields:
+protected final Map<String,Zone> zoneLookup

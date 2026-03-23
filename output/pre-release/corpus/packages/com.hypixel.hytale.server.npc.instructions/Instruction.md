@@ -57,3 +57,60 @@ public class Instruction implements RoleStateChange, IAnnotatedComponentCollecti
 - protected <T> void forEachInstruction(@Nonnull BiConsumer<Instruction, T> instructionConsumer, T obj)
 - protected <T, U, V> void forEachInstruction(@Nonnull QuadConsumer<Instruction, T, U, V> instructionConsumer, T t, U u, V v)
 - @Nonnull public static Instruction createRootInstruction(Instruction[] instructions, @Nonnull BuilderSupport support)
+
+Known subclasses: InstructionRandomized
+
+Also in this package: Action, ActionList, BodyMotion, HeadMotion, InstructionHolder, InstructionRandomized, Motion, NullSensor, RoleStateChange, Sensor
+
+Complete API:
+  public Sensor getSensor()
+  public String getDebugTag()
+  public double getWeight()
+  public boolean isContinueAfter()
+  public BodyMotion getBodyMotion()
+  public HeadMotion getHeadMotion()
+  public void registerWithSupport(Role role)
+  public void motionControllerChanged(Ref<EntityStore> ref, NPCEntity npcComponent, MotionController motionController, ComponentAccessor<EntityStore> componentAccessor)
+  public void loaded(Role role)
+  public void spawned(Role role)
+  public void unloaded(Role role)
+  public void removed(Role role)
+  public void teleported(Role role, World from, World to)
+  public int componentCount()
+  public IAnnotatedComponent getComponent(int index)
+  public void getInfo(Role role, ComponentInfo holder)
+  public IAnnotatedComponent getParent()
+  public int getIndex()
+  public String getLabel()
+  public void setContext(IAnnotatedComponent parent, int index)
+  public boolean matches(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public void executeActions(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Store<EntityStore> store)
+  public void execute(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public void clearOnce()
+  public void onEndMotion()
+  public void onMatched(Role role)
+  public void onCompleted(Role role)
+  public void notifyChildSensorMatch()
+  public void reset()
+  protected void forEachInstruction(Consumer<Instruction> instructionConsumer)
+  protected void forEachInstruction(BiConsumer<Instruction,T> instructionConsumer, T obj)
+  protected void forEachInstruction(QuadConsumer<Instruction,T,U,V> instructionConsumer, T t, U u, V v)
+  public static Instruction createRootInstruction(Instruction[] instructions, BuilderSupport support)
+
+Fields:
+public static final Instruction[] EMPTY_ARRAY
+public static final HytaleLogger LOGGER
+protected IAnnotatedComponent parent
+protected final String name
+protected final String tag
+protected final Sensor sensor
+protected int index
+protected final Instruction[] instructionList
+protected final BodyMotion bodyMotion
+protected final HeadMotion headMotion
+protected final ActionList actions
+protected final double weight
+protected final boolean treeMode
+protected final boolean invertTreeModeResult
+protected boolean continueAfter
+protected Instruction parentTreeModeStep

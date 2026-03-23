@@ -16,3 +16,16 @@ public class ItemAttitudeGroupExistsValidator extends AssetValidator
 - @Override @Nonnull public String getAssetName()
 - public static ItemAttitudeGroupExistsValidator required()
 - @Nonnull public static ItemAttitudeGroupExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Also in this package: AttitudeGroupExistsValidator, BeaconSpawnExistsValidator, BlockSetExistsValidator, CombatInteractionValidator, EntityEffectExistsValidator, EntityStatExistsValidator, EnvironmentExistsValidator, FlockAssetExistsValidator, ItemDropListExistsValidator, ItemExistsValidator, ManualSpawnMarkerExistsValidator, ModelExistsValidator, ParticleSystemExistsValidator, RoleExistsValidator, RootInteractionValidator, SoundEventExistsValidator, WeatherExistsValidator
+
+Complete API:
+  public String getDomain()
+  public boolean test(String attitudeGroup)
+  public String errorMessage(String attitudeGroup, String attributeName)
+  public String getAssetName()
+  public static ItemAttitudeGroupExistsValidator required()
+  public static ItemAttitudeGroupExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Fields:
+private static final ItemAttitudeGroupExistsValidator DEFAULT_INSTANCE

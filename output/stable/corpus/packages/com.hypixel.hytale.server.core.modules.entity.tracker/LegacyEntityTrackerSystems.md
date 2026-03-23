@@ -100,3 +100,8 @@ Mutable LOD ratio threshold. Can be adjusted at runtime.
 - `PlayerSkinComponent` -- skin data component read by `LegacyEntitySkin`
 - `PlayerSettings` -- player settings controlling equipment visibility and entity marker display
 - `BoundingBox` -- bounding box component used by `LegacyLODCull` for size-based culling
+
+Also in this package: AddToVisible, ClearEntityViewers, ClearPreviouslyVisible, CollectVisible, EffectControllerSystem, EnsureVisibleComponent, EntityTrackerSystems, EntityUpdate, EntityViewer, LegacyEntityModel, LegacyEntitySkin, LegacyEquipment, LegacyHideFromEntity, LegacyLODCull, NetworkId, RemoveEmptyVisibleComponent, RemoveVisibleComponent, SendPackets, Visible
+
+Complete API:
+  public static boolean clear(Player player, Holder<EntityStore> holder)

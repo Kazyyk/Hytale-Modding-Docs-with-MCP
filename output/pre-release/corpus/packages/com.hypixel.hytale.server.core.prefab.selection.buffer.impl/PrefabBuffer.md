@@ -124,3 +124,23 @@ public static class PrefabBufferAccessor implements IPrefabBuffer
 Read-only accessor for a `PrefabBuffer` that implements the IPrefabBuffer interface. Created via `PrefabBuffer.newAccess()`. Each accessor holds a retained duplicate of the buffer, which must be released independently.
 
 Supports rotation-aware bounds queries, column-based iteration, raw iteration, prefab comparison, and random-access block/filler/rotation lookups.
+
+Also in this package: BlockComparingPredicate, BlockComparingPrefabPredicate, BlockConsumer, BlockMaskConstants, Builder, ChildConsumer, ChildPrefab, ColumnPredicate, EntityConsumer, EntityPredicate, FluidConsumer, FluidPredicate, IPrefabBuffer, PrefabBufferAccessor, PrefabBufferBlockEntry, PrefabBufferColumn, RawBlockConsumer, RawBlockPredicate
+
+Complete API:
+  public static PrefabBuffer.Builder newBuilder()
+  public int getAnchorX()
+  public int getAnchorY()
+  public int getAnchorZ()
+  public PrefabBuffer.PrefabBufferAccessor newAccess()
+  public void release()
+  private void checkReleased()
+
+Fields:
+public static final float DEFAULT_CHANCE
+private final Vector3i anchor
+private final Vector3i min
+private final Vector3i max
+private final Int2ObjectMap<PrefabBufferColumn> columns
+private final PrefabBuffer.ChildPrefab[] childPrefabs
+private ByteBuf buf

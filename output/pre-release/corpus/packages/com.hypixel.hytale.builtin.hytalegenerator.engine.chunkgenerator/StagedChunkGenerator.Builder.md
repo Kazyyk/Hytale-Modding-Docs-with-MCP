@@ -41,3 +41,43 @@ Fluent builder for constructing a StagedChunkGenerator. Stages are appended in e
 - @Nonnull private Set<BufferType> createListOfAllBufferTypes()
 - @Nonnull private static Bounds3i getEncompassingBounds(@Nonnull Collection<Bounds3i> set)
 - private boolean isGeneratorOutputBufferType(@Nonnull BufferType bufferType)
+
+Known subclasses: Builder
+
+Known implementors: BuilderActionRecomputePath, BuilderBase, BuilderBodyMotionFindBase
+
+Also in this package: Arguments, ChunkGenerator, ChunkRequest, FallbackGenerator, GeneratorProfile, StagedChunkGenerator
+
+Complete API:
+  public StagedChunkGenerator build()
+  public StagedChunkGenerator.Builder withStats(String statsHeader, Set<Integer> statsCheckpoints)
+  public StagedChunkGenerator.Builder withSpawnPositions(PositionProvider spawnPositions)
+  public StagedChunkGenerator.Builder withConcurrentExecutor(ExecutorService executor, WorkerIndexer workerIndexer)
+  public StagedChunkGenerator.Builder withMaterialCache(MaterialCache materialCache)
+  public StagedChunkGenerator.Builder withBufferCapacity(double factor, double targetViewDistance, double targetPlayerCount)
+  public StagedChunkGenerator.Builder appendStage(Stage stage)
+  private List<Integer> createStagesThatReadFrom(int stageIndex)
+  private Map<Integer,Set<Integer>> createStageDependencyMap()
+  private int resolveBufferCapacity(BufferType bufferType, Bounds3i[] stagesOutputBounds)
+  private static int calculateCapacityFromBounds(Bounds3i bounds, double factor, double viewDistance_voxelGrid, double playerCount)
+  private void createTotalOutputBoundsForStage(int stageIndex, Map<Integer,Set<Integer>> stageDependencyMap, Bounds3i[] totalOutputBoundsPerStage_bufferGrid)
+  private Bounds3i[] createTotalOutputBoundsArray(Map<Integer,Set<Integer>> stageDependencyMap)
+  private Set<BufferType> createListOfAllBufferTypes()
+  private static Bounds3i getEncompassingBounds(Collection<Bounds3i> set)
+  private boolean isGeneratorOutputBufferType(BufferType bufferType)
+
+Fields:
+public final ParametrizedBufferType MATERIAL_OUTPUT_BUFFER_TYPE
+public final ParametrizedBufferType TINT_OUTPUT_BUFFER_TYPE
+public final ParametrizedBufferType ENVIRONMENT_OUTPUT_BUFFER_TYPE
+public final BufferType ENTITY_OUTPUT_BUFFER_TYPE
+private List<Stage> stages
+private ExecutorService concurrentExecutor
+private MaterialCache materialCache
+private WorkerIndexer workerIndexer
+private String statsHeader
+private Set<Integer> statsCheckpoints
+private PositionProvider spawnPositions
+private double bufferCapacityFactor
+private double targetViewDistance
+private double targetPlayerCount

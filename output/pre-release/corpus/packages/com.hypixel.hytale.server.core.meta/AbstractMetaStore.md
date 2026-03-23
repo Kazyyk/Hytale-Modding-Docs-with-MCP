@@ -29,3 +29,28 @@ Abstract base class providing shared logic for MetaStore implementations.
 - protected <T> boolean tryDecodeUnknownKey(@Nonnull PersistentMetaKey<T> key)
 - @Nonnull @Override public BsonDocument encode(final ExtraInfo extraInfo)
 - @Override public void decode(@Nonnull BsonDocument document, ExtraInfo extraInfo)
+
+Known subclasses: ArrayMetaStore, DynamicMetaStore
+
+Also in this package: ArrayMetaStore, DynamicMetaStore, IMetaRegistry, IMetaStore, IMetaStoreImpl, MetaEntryConsumer, MetaEntryConsumer, MetaKey, MetaRegistry, MetaRegistryEntry, PersistentMetaKey
+
+Complete API:
+  protected abstract T get0(MetaKey<T> var1)
+  public IMetaStoreImpl<K> getMetaStore()
+  public IMetaRegistry<K> getRegistry()
+  public void forEachUnknownEntry(BiConsumer<String,BsonValue> consumer)
+  public final void markMetaStoreDirty()
+  public final boolean consumeMetaStoreDirty()
+  protected T decodeOrNewMetaObject(MetaKey<T> key)
+  protected boolean tryDecodeUnknownKey(PersistentMetaKey<T> key)
+  public BsonDocument encode(ExtraInfo extraInfo)
+  public void decode(BsonDocument document, ExtraInfo extraInfo)
+
+Fields:
+protected final K parent
+protected final IMetaRegistry<K> registry
+private final BsonDocument unknownValues
+private final IntSet notUnknownKeys
+private BsonDocument cachedEncoded
+private boolean dirty
+private boolean bypassEncodedCache

@@ -37,3 +37,14 @@ Returns a localized death message using the source entity's display name. If the
 - Damage -- the damage event
 - Damage.Source -- parent interface
 - Damage.ProjectileSource -- subclass for projectile damage
+
+Known subclasses: ProjectileSource
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public Ref<EntityStore> getRef()
+  public Message getDeathMessage(Damage info, Ref<EntityStore> targetRef, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+protected final Ref<EntityStore> sourceRef

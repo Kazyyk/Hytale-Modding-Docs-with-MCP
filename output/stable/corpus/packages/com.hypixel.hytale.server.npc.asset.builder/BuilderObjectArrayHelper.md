@@ -56,3 +56,21 @@ Creates a new reference helper. Overridable by subclasses (e.g., BuilderObjectSt
 - BuilderObjectListHelper -- produces a `List<T>`
 - BuilderObjectMapHelper -- produces a `Map<K, V>`
 - BuilderObjectReferenceHelper -- each array element
+
+Known subclasses: BuilderObjectListHelper, BuilderObjectMapHelper
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 28 more)
+
+Complete API:
+  public void readConfig(JsonElement data, BuilderManager builderManager, BuilderParameters builderParameters, BuilderValidationHelper builderValidationHelper)
+  public boolean validate(String configName, NPCLoadTimeValidationHelper loadTimeValidationHelper, BuilderManager manager, ExecutionContext context, Scope globalScope, List<String> errors)
+  public boolean isPresent()
+  public boolean isEmpty()
+  public boolean hasNoElements()
+  public String getLabel()
+  public void setLabel(String label)
+  protected BuilderObjectReferenceHelper<U> createReferenceHelper()
+
+Fields:
+protected BuilderObjectReferenceHelper[] builders
+protected String label

@@ -23,3 +23,8 @@ Converts a block state string to a `DoorState`. Maps `"OpenDoorOut"` to `OPENED_
 ## See Also
 
 - DoorInteraction
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction, OpenContainerInteraction (and 11 more)
+
+Complete API:
+  public static DoorInteraction.DoorState fromBlockState(String state)

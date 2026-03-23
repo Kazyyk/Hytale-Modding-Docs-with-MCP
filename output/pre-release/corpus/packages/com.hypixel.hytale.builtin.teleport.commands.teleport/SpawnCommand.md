@@ -49,3 +49,12 @@ public class SpawnCommand extends AbstractPlayerCommand
 
 - SpawnSetCommand
 - SpawnSetDefaultCommand
+
+Also in this package: SpawnOtherCommand, SpawnSetCommand, SpawnSetDefaultCommand, TeleportAllCommand, TeleportBackCommand, TeleportCommand, TeleportForwardCommand, TeleportHistoryCommand, TeleportHomeCommand, TeleportTopCommand, TeleportWorldCommand
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+  private static Transform resolveSpawn(CommandContext context, World world, PlayerRef playerRef, OptionalArg<Integer> spawnIndexArg)
+
+Fields:
+private final OptionalArg<Integer> spawnIndexArg

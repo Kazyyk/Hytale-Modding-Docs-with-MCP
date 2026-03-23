@@ -21,3 +21,12 @@ public class WorldMapViewRadiusSetCommand extends AbstractTargetPlayerCommand
         @Nonnull PlayerRef playerRef,
         @Nonnull World world,
         @Nonnull Store<EntityStore> store)` |
+
+Also in this package: WorldMapClearMarkersCommand, WorldMapCommand, WorldMapDiscoverCommand, WorldMapReloadCommand, WorldMapUndiscoverCommand, WorldMapViewRadiusGetCommand, WorldMapViewRadiusRemoveCommand, WorldMapViewRadiusSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, Ref<EntityStore> sourceRef, Ref<EntityStore> ref, PlayerRef playerRef, World world, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<Integer> radiusArg
+private final FlagArg bypassArg

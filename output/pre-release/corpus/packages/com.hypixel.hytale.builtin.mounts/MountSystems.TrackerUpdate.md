@@ -30,3 +30,17 @@ Delegates to `EntityTickingSystem.maybeUseParallel()`.
 
 - MountSystems -- enclosing class
 - MountSystems.TrackerRemove -- handles removal updates
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove (and 8 more)
+
+Complete API:
+  public SystemGroup<EntityStore> getGroup()
+  public Query<EntityStore> getQuery()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  private static void queueUpdatesFor(Ref<EntityStore> ref, Map<Ref<EntityStore>,EntityTrackerSystems.EntityViewer> visibleTo, MountedComponent component)
+
+Fields:
+private final ComponentType<EntityStore,EntityTrackerSystems.Visible> visibleComponentType
+private final ComponentType<EntityStore,MountedComponent> mountedComponentType
+private final Query<EntityStore> query

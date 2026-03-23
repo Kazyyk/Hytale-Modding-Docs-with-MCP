@@ -13,3 +13,14 @@ Interface defining: `isOutdated()`, `getUpdatedView()`, `initialiseEntity()`, `c
 - initialiseEntity(@Nonnull Ref<EntityStore> var1, @Nonnull NPCEntity var2) | void | package-private method.
 - cleanup() | void | package-private method.
 - onWorldRemoved() | void | package-private method.
+
+Known implementors: BlockRegionView, EventView, PrioritisedProviderView
+
+Also in this package: BlockRegionView, BlockRegionViewManager, IBlackboardViewManager, PrioritisedProvider, PrioritisedProviderView, SingletonBlackboardViewManager
+
+Complete API:
+  boolean isOutdated(Ref<EntityStore> var1, Store<EntityStore> var2)
+  View getUpdatedView(Ref<EntityStore> var1, ComponentAccessor<EntityStore> var2)
+  void initialiseEntity(Ref<EntityStore> var1, NPCEntity var2)
+  void cleanup()
+  void onWorldRemoved()

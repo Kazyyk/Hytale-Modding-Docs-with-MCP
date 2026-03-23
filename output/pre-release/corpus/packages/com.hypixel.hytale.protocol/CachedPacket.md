@@ -68,3 +68,21 @@ try {
 } finally {
     cached.close(); // Release the buffer
 }
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 381 more)
+
+Complete API:
+  public static CachedPacket<T> cache(T packet)
+  public int getId()
+  public NetworkChannel getChannel()
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public Class<T> getPacketType()
+  public int getCachedSize()
+  public void close()
+
+Fields:
+private final Class<T> packetType
+private final int packetId
+private final NetworkChannel packetChannel
+private final ByteBuf cachedBytes

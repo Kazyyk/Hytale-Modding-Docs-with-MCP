@@ -27,3 +27,19 @@ Tracks a modified asset's state, location, and edit metadata. Serialized to disk
 public static final BuilderCodec<ModifiedAsset> CODEC
 
 Serializes/deserializes the asset modification record with fields: `File`, `Path`, `OldPath`, `State`, `LastModificationTimestamp`, `LastModificationPlayerUuid`, `LastModificationUsername`. Legacy `IsNew`/`IsDeleted` boolean fields are supported for deserialization.
+
+Also in this package: AssetState, AssetUndoRedoInfo
+
+Complete API:
+  public void markEditedBy(EditorClient editorClient)
+  public AssetInfo toAssetInfoPacket(String assetPack)
+
+Fields:
+public static final BuilderCodec<ModifiedAsset> CODEC
+public Path dataFile
+public Path path
+public Path oldPath
+public AssetState state
+public Instant lastModificationTimestamp
+public UUID lastModificationPlayerUuid
+public String lastModificationUsername

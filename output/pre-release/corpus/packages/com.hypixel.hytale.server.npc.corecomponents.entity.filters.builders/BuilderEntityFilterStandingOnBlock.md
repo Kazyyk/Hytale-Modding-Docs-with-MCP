@@ -16,3 +16,16 @@ NPC entity filter builder: Matches the block directly beneath the entity against
 - @Override public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data)
 - public int getBlockSet(@Nonnull BuilderSupport support)
 - throw new IllegalArgumentException("Unknown key! " + key)
+
+Also in this package: BuilderEntityFilterAltitude, BuilderEntityFilterAnd, BuilderEntityFilterAttitude, BuilderEntityFilterCombat, BuilderEntityFilterEntityEffect, BuilderEntityFilterHeightDifference, BuilderEntityFilterInsideBlock, BuilderEntityFilterInventory, BuilderEntityFilterItemInHand, BuilderEntityFilterLineOfSight, BuilderEntityFilterMany, BuilderEntityFilterMovementState, BuilderEntityFilterNPCGroup, BuilderEntityFilterNot, BuilderEntityFilterOr, BuilderEntityFilterSpotsMe, BuilderEntityFilterStat, BuilderEntityFilterViewSector
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public IEntityFilter build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<IEntityFilter> readConfig(JsonElement data)
+  public int getBlockSet(BuilderSupport support)
+
+Fields:
+protected final AssetHolder blockSet

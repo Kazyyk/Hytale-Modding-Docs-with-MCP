@@ -26,3 +26,27 @@ NPC action builder: Send Beacon Message.
 - public double getExpirationTime()
 - public int getSendCount()
 - public int getTargetToSendSlot(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionIgnoreForAvoidance, BuilderActionNotify, BuilderActionOverrideAttitude, BuilderActionReleaseTarget, BuilderActionSetMarkedTarget, BuilderActionSetStat, BuilderHeadMotionWatch, BuilderSensorBeacon, BuilderSensorCount, BuilderSensorEntity, BuilderSensorEntityBase, BuilderSensorKill, BuilderSensorPlayer, BuilderSensorSelf, BuilderSensorTarget
+
+Complete API:
+  public ActionBeacon build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public void registerTags(Set<String> tags)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionBeacon readConfig(JsonElement data)
+  public String getMessage(BuilderSupport support)
+  public double getRange()
+  public int[] getTargetGroups(BuilderSupport support)
+  public double getExpirationTime()
+  public int getSendCount()
+  public int getTargetToSendSlot(BuilderSupport support)
+
+Fields:
+protected final StringHolder message
+protected double range
+protected final AssetArrayHolder targetGroups
+protected final StringHolder targetToSendSlot
+protected double expirationTime
+protected int sendCount

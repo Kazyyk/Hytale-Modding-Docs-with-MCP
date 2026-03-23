@@ -56,3 +56,31 @@ Returns and clears all entity references. Returns `null` if empty.
 ## Inner Classes
 
 - `EntityChunkLoadingSystem` -- `RefChangeSystem` that converts between holders and live references during chunk ticking transitions.
+
+Also in this package: AbstractCachedAccessor, BlockChunk, BlockComponentChunk, BlockComponentChunkLoadingSystem, BlockOperations, BlockRotationUtil, ChunkColumn, ChunkFlag, EntityChunkLoadingSystem, LoadBlockChunkPacketSystem, LoadBlockComponentPacketSystem, UnloadBlockComponentPacketSystem, WorldChunk
+
+Complete API:
+  public static ComponentType<ChunkStore,EntityChunk> getComponentType()
+  public Component<ChunkStore> clone()
+  public Component<ChunkStore> cloneSerializable()
+  public List<Holder<EntityStore>> getEntityHolders()
+  public void addEntityHolder(Holder<EntityStore> holder)
+  public void storeEntityHolder(Holder<EntityStore> holder)
+  public Set<Ref<EntityStore>> getEntityReferences()
+  public void addEntityReference(Ref<EntityStore> reference)
+  public void loadEntityReference(Ref<EntityStore> reference)
+  public void removeEntityReference(Ref<EntityStore> reference)
+  public void unloadEntityReference(Ref<EntityStore> reference)
+  public Holder<EntityStore>[] takeEntityHolders()
+  public Ref<EntityStore>[] takeEntityReferences()
+  public boolean getNeedsSaving()
+  public void markNeedsSaving()
+  public boolean consumeNeedsSaving()
+
+Fields:
+public static final BuilderCodec<EntityChunk> CODEC
+private final List<Holder<EntityStore>> entityHolders
+private final ReferenceSet<Ref<EntityStore>> entityReferences
+private final List<Holder<EntityStore>> entityHoldersUnmodifiable
+private final Set<Ref<EntityStore>> entityReferencesUnmodifiable
+private boolean needsSaving

@@ -25,3 +25,16 @@ Enumerates PrefabRootDirectory values: `SERVER`, `ASSET`, `WORLDGEN`, `ASSET_ROO
 - public String getLocalizationString()
 - public boolean supportsMultiPack()
 - @Nonnull public List<PrefabStore.AssetPackPrefabPath> getAllPrefabPaths()
+
+Also in this package: PrefabAlignment, PrefabRowSplitMode, PrefabStackingAxis, WorldGenType
+
+Complete API:
+  public Path getPrefabPath()
+  public String getLocalizationString()
+  public boolean supportsMultiPack()
+  public List<PrefabStore.AssetPackPrefabPath> getAllPrefabPaths()
+
+Fields:
+private final Supplier<Path> prefabPath
+private final String localizationString
+private final boolean supportsMultiPack

@@ -16,3 +16,16 @@ Subclass: AssetStoreTypeHandler.
 
 - loadAsset(AssetPath, Path, byte[], AssetUpdateQuery, EditorClient) | Parses JSON to `BsonDocument` and delegates to `loadAssetFromDocument
 - boolean isValidData(byte[]) | Validates JSON structure via `RawJsonReader.validateBsonDocument()
+
+Known subclasses: AssetStoreTypeHandler, NPCRoleAssetTypeHandler
+
+Also in this package: AssetLoadResult, AssetStoreTypeHandler, AssetTypeHandler, CommonAssetTypeHandler
+
+Complete API:
+  public AssetTypeHandler.AssetLoadResult loadAsset(AssetPath path, Path dataPath, byte[] data, AssetUpdateQuery updateQuery, EditorClient editorClient)
+  public abstract AssetTypeHandler.AssetLoadResult loadAssetFromDocument(AssetPath var1, Path var2, BsonDocument var3, AssetUpdateQuery var4, EditorClient var5)
+  public AssetTypeHandler.AssetLoadResult loadAssetFromDocument(AssetPath path, Path dataPath, BsonDocument document, EditorClient editorClient)
+  public boolean isValidData(byte[] data)
+
+Fields:
+private static final HytaleLogger LOGGER

@@ -27,3 +27,17 @@ Core plugin that manages block health, damage, repair, and fragility. Registers 
 - BlockHealthChunk -- per-chunk health tracking component
 - BlockHealth -- per-block health state
 - FragileBlock -- per-block fragility timer
+
+Also in this package: BlockHealth, BlockHealthChunk, BlockHealthPacketSystem, BlockHealthSystem, EnsureBlockHealthSystem, FragileBlock, PlaceBlockEventSystem
+
+Complete API:
+  public static BlockHealthModule get()
+  protected void setup()
+  public ComponentType<ChunkStore,BlockHealthChunk> getBlockHealthChunkComponentType()
+
+Fields:
+public static final PluginManifest MANIFEST
+private static final long SECONDS_UNTIL_REGENERATION
+private static final float HEALING_PER_SECOND
+private static BlockHealthModule instance
+private ComponentType<ChunkStore,BlockHealthChunk> blockHealthChunkComponentType

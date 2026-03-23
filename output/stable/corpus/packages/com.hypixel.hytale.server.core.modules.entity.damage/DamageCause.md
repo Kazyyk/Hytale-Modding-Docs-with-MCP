@@ -110,3 +110,40 @@ Converts this damage cause to a protocol packet representation containing the ID
 - DamageSystems.FallDamageNPCs -- generates FALL damage
 - DamageSystems.CanBreathe -- generates DROWNING and SUFFOCATION damage
 - DeathComponent -- stores the cause of death
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public static AssetStore<String,DamageCause,IndexedLookupTableAssetMap<String,DamageCause>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,DamageCause> getAssetMap()
+  public String getId()
+  public boolean isDurabilityLoss()
+  public boolean isStaminaLoss()
+  public boolean doesBypassResistances()
+  public String getInherits()
+  public String getAnimationId()
+  public String getDeathAnimationId()
+  public com.hypixel.hytale.protocol.DamageCause toPacket()
+
+Fields:
+public static final AssetBuilderCodec<String,DamageCause> CODEC
+private static AssetStore<String,DamageCause,IndexedLookupTableAssetMap<String,DamageCause>> ASSET_STORE
+public static final ValidatorCache<String> VALIDATOR_CACHE
+public static final Codec<String> CHILD_ASSET_CODEC
+public static DamageCause PHYSICAL
+public static DamageCause PROJECTILE
+public static DamageCause COMMAND
+public static DamageCause DROWNING
+public static DamageCause ENVIRONMENT
+public static DamageCause FALL
+public static DamageCause OUT_OF_WORLD
+public static DamageCause SUFFOCATION
+protected AssetExtraInfo.Data data
+protected String id
+protected String inherits
+protected boolean durabilityLoss
+protected boolean staminaLoss
+protected boolean bypassResistances
+protected String damageTextColor
+protected String animationId
+protected String deathAnimationId

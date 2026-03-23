@@ -75,3 +75,17 @@ Human-readable memory usage summary across all grids, sorted by buffer type inde
 public static class Tracker implements MemInstrument
 
 Tracks which pipeline stage last wrote to a buffer. Initial stage index is -1.
+
+Also in this package: Access, Grid, GridEntry, MemoryReport, TrackedBuffer, Tracker, View
+
+Complete API:
+  public NBufferBundle.Grid createGrid(NBufferType bufferType, int capacity)
+  public NBufferBundle.Access createBufferAccess(NBufferType bufferType, Bounds3i bounds_bufferGrid)
+  public void closeALlAccesses()
+  public NBufferBundle.Grid getGrid(NBufferType contentType)
+  public MemInstrument.Report getMemoryUsage()
+  private boolean existingGridHasBufferTypeIndex(int bufferTypeIndex)
+  public NBufferBundle.MemoryReport createMemoryReport()
+
+Fields:
+private final Map<NBufferType,NBufferBundle.Grid> grids

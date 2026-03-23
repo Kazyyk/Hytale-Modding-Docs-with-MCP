@@ -28,3 +28,31 @@ Implements all methods from IAuthCredentialStore. Each `setTokens()` and `setPro
 ## Inner Types
 
 - StoredCredentials -- internal DTO for serialized credential data
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthConfigGenerated, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, HttpResponseException, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse, LauncherDataResponse (and 9 more)
+
+Complete API:
+  private static SecretKey deriveKey()
+  private void load()
+  private void save()
+  private byte[] encrypt(byte[] plaintext)
+  private byte[] decrypt(byte[] encrypted)
+  public void setTokens(IAuthCredentialStore.OAuthTokens tokens)
+  public IAuthCredentialStore.OAuthTokens getTokens()
+  public void setProfile(UUID uuid)
+  public UUID getProfile()
+  public void clear()
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final String ALGORITHM
+private static final int GCM_IV_LENGTH
+private static final int GCM_TAG_LENGTH
+private static final int KEY_LENGTH
+private static final int PBKDF2_ITERATIONS
+private static final byte[] SALT
+private static final BuilderCodec<EncryptedAuthCredentialStore.StoredCredentials> CREDENTIALS_CODEC
+private final Path path
+private final SecretKey encryptionKey
+private IAuthCredentialStore.OAuthTokens tokens
+private UUID profile

@@ -9,3 +9,12 @@ An ECS component-change system that updates the `Nameplate` component text whene
 ## Related Types
 
 - PlayerSystems -- parent container class
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public ComponentType<EntityStore,DisplayNameComponent> componentType()
+  public void onComponentAdded(Ref<EntityStore> ref, DisplayNameComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentSet(Ref<EntityStore> ref, DisplayNameComponent oldComponent, DisplayNameComponent newComponent, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentRemoved(Ref<EntityStore> ref, DisplayNameComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)

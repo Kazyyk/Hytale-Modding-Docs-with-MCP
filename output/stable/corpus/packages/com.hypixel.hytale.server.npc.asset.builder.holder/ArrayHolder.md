@@ -19,3 +19,20 @@ public abstract class ArrayHolder extends ValueHolder
 - protected void validateLength(int length)
 - protected void setLength(int minLength, int maxLength)
 - protected void setLength(int length)
+
+Known subclasses: BooleanArrayHolder, EnumArrayHolder, EnumSetHolder, NumberArrayHolder, StringArrayHolder
+
+Also in this package: AssetArrayHolder, AssetHolder, BooleanArrayHolder, BooleanHolder, DeferEvaluateAssetHolder, DoubleHolder, DoubleHolderBase, EnumArrayHolder, EnumHolder, EnumSetHolder, FloatHolder, IntHolder, NumberArrayHolder, StringArrayHolder, StringHolder, StringHolderBase, TemporalArrayHolder, ValueHolder
+
+Complete API:
+  protected void readJSON(JsonElement requiredJsonElement, int minLength, int maxLength, String name, BuilderParameters builderParameters)
+  protected void readJSON(JsonElement optionalJsonElement, int minLength, int maxLength, double[] defaultValue, String name, BuilderParameters builderParameters)
+  protected void readJSON(JsonElement optionalJsonElement, int minLength, int maxLength, String[] defaultValue, String name, BuilderParameters builderParameters)
+  protected void readJSON(JsonElement optionalJsonElement, int minLength, int maxLength, boolean[] defaultValue, String name, BuilderParameters builderParameters)
+  protected void validateLength(int length)
+  protected void setLength(int minLength, int maxLength)
+  protected void setLength(int length)
+
+Fields:
+protected int minLength
+protected int maxLength

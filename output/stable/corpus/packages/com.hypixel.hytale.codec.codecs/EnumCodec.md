@@ -25,3 +25,21 @@ Codec for serializing and deserializing Enum values.
 - @Nonnull @Override public Schema toSchema(@Nonnull SchemaContext context)
 - @Nonnull public Schema toSchema(@Nonnull SchemaContext context, @Nullable T def)
 - @Nullable private T getEnum(String value)
+
+Also in this package: BsonDocumentCodec, EnumStyle, InetSocketAddressCodec, StringIntegerCodec, UUIDBinaryCodec
+
+Complete API:
+  public EnumCodec<T> documentKey(T key, String doc)
+  public T decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(T r, ExtraInfo extraInfo)
+  public T decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+  public Schema toSchema(SchemaContext context, T def)
+  private T getEnum(String value)
+
+Fields:
+private final Class<T> clazz
+private final T[] enumConstants
+private final String[] enumKeys
+private final EnumCodec.EnumStyle enumStyle
+private final EnumMap<T,String> documentation

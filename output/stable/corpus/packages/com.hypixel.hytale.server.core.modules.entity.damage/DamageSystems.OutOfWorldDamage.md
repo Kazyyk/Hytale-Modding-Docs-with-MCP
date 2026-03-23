@@ -11,3 +11,14 @@ A ticking system in the gather damage group that damages entities below Y=0. Tic
 - DamageSystems -- parent class
 - DamageCause -- uses `OUT_OF_WORLD` cause
 - DeathComponent -- added directly for entities far below the world
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public SystemGroup<EntityStore> getGroup()
+  public Query<EntityStore> getQuery()
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+
+Fields:
+private static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE

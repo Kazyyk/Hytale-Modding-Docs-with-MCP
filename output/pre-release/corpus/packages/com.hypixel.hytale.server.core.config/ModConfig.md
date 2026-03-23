@@ -17,3 +17,16 @@ Configuration class for Mod settings.
 - public void setEnabled(@Nonnull Boolean enabled)
 - @Nullable public SemverRange getRequiredVersion()
 - public void setRequiredVersion(@Nonnull SemverRange requiredVersion)
+
+Also in this package: AutoApplyMode, BackupConfig, RateLimitConfig, ServerWorldMapConfig, UpdateConfig, WorldMapConfig, WorldWorldMapConfig
+
+Complete API:
+  public Boolean getEnabled()
+  public void setEnabled(Boolean enabled)
+  public SemverRange getRequiredVersion()
+  public void setRequiredVersion(SemverRange requiredVersion)
+
+Fields:
+public static final BuilderCodec<ModConfig> CODEC
+private Boolean enabled
+private SemverRange requiredVersion

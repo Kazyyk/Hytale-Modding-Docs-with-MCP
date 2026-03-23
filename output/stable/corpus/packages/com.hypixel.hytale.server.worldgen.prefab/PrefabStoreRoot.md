@@ -18,3 +18,11 @@ Enumerates the root directories for prefab storage: `ASSETS` (from the asset pre
 ## Methods
 
 - public static Path resolvePrefabStore(PrefabStoreRoot store, Path dataFolder)
+
+Also in this package: PrefabCategory, PrefabLoadingCache, PrefabPasteBuffer, PrefabPasteUtil, PrefabPatternGenerator
+
+Complete API:
+  public static Path resolvePrefabStore(PrefabStoreRoot store, Path dataFolder)
+
+Fields:
+public static final PrefabStoreRoot DEFAULT

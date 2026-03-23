@@ -14,3 +14,11 @@ Console command handling WorldLoad operations.
 
 - public WorldLoadCommand()
 - @Override protected void executeSync(@Nonnull CommandContext context)
+
+Also in this package: CompactCommand, WorldAddCommand, WorldCommand, WorldListCommand, WorldPruneCommand, WorldRemoveCommand, WorldRocksDbCommand, WorldSaveCommand, WorldSetDefaultCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final RequiredArg<String> nameArg

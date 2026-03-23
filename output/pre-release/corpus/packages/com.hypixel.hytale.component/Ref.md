@@ -61,3 +61,22 @@ Throws `IllegalStateException` if the ref is invalid.
 - Holder -- portable entity data container used when adding/removing entities
 - CommandBuffer -- uses Ref to identify entities in deferred commands
 - WeakComponentReference -- a weak reference to a specific component on a specific entity
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery (and 8 more)
+
+Complete API:
+  public Store<ECS_TYPE> getStore()
+  public int getIndex()
+  void setIndex(int index)
+  void invalidate()
+  void invalidate(Throwable invalidatedBy)
+  public int validate(Store<ECS_TYPE> store)
+  public void validate()
+  public boolean isValid()
+  public String toString()
+
+Fields:
+public static final Ref<?>[] EMPTY_ARRAY
+private final Store<ECS_TYPE> store
+private volatile int index
+private volatile Throwable invalidatedBy

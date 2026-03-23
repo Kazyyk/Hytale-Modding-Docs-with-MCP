@@ -98,3 +98,38 @@ public int hashCode()
 
 - Schema -- base class
 - ObjectSchema -- uses `StringSchema` for `propertyNames`
+
+Also in this package: ArrayOrNull, ArraySchema, BooleanOrSchema, BooleanSchema, CommonAsset, DoubleOrSchema, HytaleMetadata, InheritSettings, IntegerOrSchema, IntegerSchema, ItemOrItems, NullSchema, NumberSchema, ObjectSchema, Schema, SchemaTypeField, StringOrBlank
+
+Complete API:
+  public String getPattern()
+  public void setPattern(String pattern)
+  public void setPattern(Pattern pattern)
+  public Integer getMinLength()
+  public void setMinLength(int minLength)
+  public Integer getMaxLength()
+  public void setMaxLength(int maxLength)
+  public String[] getEnum()
+  public void setEnum(String[] enum_)
+  public String getConst()
+  public void setConst(String const_)
+  public String getDefault()
+  public void setDefault(String default_)
+  public StringSchema.CommonAsset getHytaleCommonAsset()
+  public void setHytaleCommonAsset(StringSchema.CommonAsset hytaleCommonAsset)
+  public String getHytaleCosmeticAsset()
+  public void setHytaleCosmeticAsset(String hytaleCosmeticAsset)
+  public boolean equals(Object o)
+  public int hashCode()
+  public static Schema constant(String c)
+
+Fields:
+public static final BuilderCodec<StringSchema> CODEC
+private String pattern
+private String[] enum_
+private String const_
+private String default_
+private Integer minLength
+private Integer maxLength
+private StringSchema.CommonAsset hytaleCommonAsset
+private String hytaleCosmeticAsset

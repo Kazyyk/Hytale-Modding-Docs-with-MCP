@@ -23,3 +23,21 @@ public abstract class WorldStructureAsset implements Cleanable, JsonAssetWithMap
 ## Inner Types
 
 - `WorldStructureAsset.Argument`
+
+Known subclasses: BasicWorldStructureAsset
+
+Also in this package: Argument
+
+Complete API:
+  public abstract WorldStructure build(WorldStructureAsset.Argument var1)
+  public abstract PositionProviderAsset getSpawnPositionsAsset()
+  public String getId()
+  public void cleanUp()
+
+Fields:
+public static final AssetCodecMapCodec<String,WorldStructureAsset> CODEC
+public static final Codec<String> CHILD_ASSET_CODEC
+public static final Codec<String[]> CHILD_ASSET_CODEC_ARRAY
+public static final BuilderCodec<WorldStructureAsset> ABSTRACT_CODEC
+private String id
+private AssetExtraInfo.Data data

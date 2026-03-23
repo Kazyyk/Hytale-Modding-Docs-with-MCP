@@ -23,3 +23,15 @@ public class WeightedAssignmentsAsset extends AssignmentsAsset
 ## Inner Types
 
 - `WeightedAssignmentsAsset.WeightedAssets`
+
+Also in this package: Argument, AssignmentsAsset, ConstantAssignmentsAsset, DelimiterAsset, DelimiterAsset, FieldFunctionAssignmentsAsset, ImportedAssignmentsAsset, SandwichAssignmentsAsset, WeightedAssets
+
+Complete API:
+  public Assignments build(AssignmentsAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<WeightedAssignmentsAsset> CODEC
+private WeightedAssignmentsAsset.WeightedAssets[] weightedAssets
+private String seed
+private double skipChance

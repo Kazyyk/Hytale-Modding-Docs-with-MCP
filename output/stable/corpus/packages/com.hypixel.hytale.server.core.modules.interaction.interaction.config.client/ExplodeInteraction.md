@@ -13,3 +13,13 @@ Performs an explosion using a provided `ExplosionConfig`. Determines the explosi
 ## Related Types
 
 - Parent hierarchy types are in package `com.hypixel.hytale.server.core.modules.interaction.interaction.config`
+
+Also in this package: AddItemInteraction, AngledWielding, ApplyForceInteraction, BlockConditionInteraction, BlockIdMatcher, BlockMatcher, BreakBlockInteraction, ChainingInteraction, ChainingTag, ChangeBlockInteraction, ChangeStateInteraction, ChargingInteraction, ChargingTag, CooldownConditionInteraction, CostType, CycleBlockGroupInteraction, Data, DestroyBlockInteraction, FirstClickInteraction, Force (and 13 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+
+Fields:
+public static final BuilderCodec<ExplodeInteraction> CODEC
+public static final Damage.EnvironmentSource DAMAGE_SOURCE_EXPLOSION
+private ExplosionConfig config

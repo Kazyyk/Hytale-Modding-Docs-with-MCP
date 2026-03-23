@@ -24,3 +24,14 @@ public class WorkerIndexer
 - `WorkerIndexer.Data`
 - `WorkerIndexer.Id`
 - `WorkerIndexer.Session`
+
+Also in this package: Data, Id, Session
+
+Complete API:
+  public int getWorkerCount()
+  public List<WorkerIndexer.Id> getWorkedIds()
+  public WorkerIndexer.Session createSession()
+
+Fields:
+private final int workerCount
+private final List<WorkerIndexer.Id> ids

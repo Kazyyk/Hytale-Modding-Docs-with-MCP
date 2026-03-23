@@ -14,3 +14,12 @@ Concrete implementation extending `EventNotification`.
 
 - getFlockReference() | Ref<EntityStore> | public method.
 - setFlockReference(Ref<EntityStore> flockReference) | void | public method.
+
+Also in this package: EventNotification, EventTypeRegistration, EventView, IEventCallback
+
+Complete API:
+  public Ref<EntityStore> getFlockReference()
+  public void setFlockReference(Ref<EntityStore> flockReference)
+
+Fields:
+private Ref<EntityStore> flockReference

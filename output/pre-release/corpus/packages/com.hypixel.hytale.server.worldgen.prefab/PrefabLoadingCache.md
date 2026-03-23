@@ -10,3 +10,14 @@ Thread-safe cache for loaded prefab buffers. Maps `WorldGenPrefabSupplier` insta
 
 - public IPrefabBuffer getPrefabAccessor(WorldGenPrefabSupplier prefabSupplier)
 - public void clear()
+
+Also in this package: PrefabCategory, PrefabPasteBuffer, PrefabPasteUtil, PrefabPatternGenerator, PrefabStoreRoot
+
+Complete API:
+  public IPrefabBuffer getPrefabAccessor(WorldGenPrefabSupplier prefabSupplier)
+  public void clear()
+  public String toString()
+
+Fields:
+private final Map<WorldGenPrefabSupplier,PrefabBuffer> cache
+private final Function<WorldGenPrefabSupplier,PrefabBuffer> loader

@@ -9,3 +9,8 @@ public enum OverlapBehavior
 - EXTEND
 - OVERWRITE
 - IGNORE
+
+Also in this package: AbilityEffects, ApplicationEffects, EntityEffect, ModelOverride, RemovalBehavior
+
+Fields:
+public static final EnumCodec<OverlapBehavior> CODEC

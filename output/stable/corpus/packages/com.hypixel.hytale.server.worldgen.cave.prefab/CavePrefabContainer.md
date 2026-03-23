@@ -19,3 +19,11 @@ public class CavePrefabContainer
 ## Inner Types
 
 - `CavePrefabContainer.CavePrefabEntry`
+
+Also in this package: CavePrefabConfig, CavePrefabEntry
+
+Complete API:
+  public CavePrefabContainer.CavePrefabEntry[] getEntries()
+
+Fields:
+protected final CavePrefabContainer.CavePrefabEntry[] entries

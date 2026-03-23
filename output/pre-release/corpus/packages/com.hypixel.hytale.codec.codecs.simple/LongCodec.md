@@ -11,3 +11,12 @@ public class LongCodec implements Codec<Long>, RawJsonCodec<Long>, PrimitiveCode
 - @Nonnull public Long decodeJson(@Nonnull RawJsonReader reader, ExtraInfo extraInfo)
 - @Nonnull @Override public Schema toSchema(@Nonnull SchemaContext context)
 - @Nonnull public Schema toSchema(@Nonnull SchemaContext context, @Nullable Long def)
+
+Also in this package: BooleanCodec, ByteCodec, DoubleCodec, FloatCodec, IntegerCodec, ShortCodec, StringCodec
+
+Complete API:
+  public Long decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Long t, ExtraInfo extraInfo)
+  public Long decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+  public Schema toSchema(SchemaContext context, Long def)

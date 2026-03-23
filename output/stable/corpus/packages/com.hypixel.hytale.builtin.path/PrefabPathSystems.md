@@ -31,3 +31,5 @@ Container for ECS systems that manage prefab patrol paths. Handles path marker e
 ### WorldGenChangeSystem
 
 `RefChangeSystem<EntityStore, WorldGenId>` that updates display names when the worldgen ID changes on path markers.
+
+Also in this package: AddOrRemove, AddedFromWorldGen, NameplateHolderSystem, NameplateRefChangeSystem, PathPlugin, PathSet, PathSpatialSystem, PrefabPasteEventSystem, PrefabPathCollection, PrefabPlaceEntityEventSystem, WorldGenChangeSystem, WorldPathBuilder, WorldPathData

@@ -47,3 +47,60 @@ Uses a pool of 4 dedicated `VoiceRouter` executor threads for voice routing. Rat
 ## Inner Types
 
 - VoiceModule.PositionSnapshot -- cached position data record
+
+Also in this package: ListenerCandidate, PositionSnapshot, VoiceModuleConfig, VoicePacketHandler, VoicePlayerState, VoiceRouter, VoiceStreamHandler
+
+Complete API:
+  public static VoiceModule get()
+  protected void setup()
+  protected void start()
+  private void updateAllPlayerPositions()
+  protected void shutdown()
+  private void onServerAccessChanged(SingleplayerRequestAccessEvent event)
+  private void onPlayerConnect(PlayerConnectEvent event)
+  public void scheduleImmediatePositionUpdate(PlayerRef playerRef)
+  private void onPlayerDisconnect(PlayerDisconnectEvent event)
+  public VoicePlayerState getPlayerState(UUID playerId)
+  public VoiceRouter getVoiceRouter()
+  public boolean isVoiceEnabled()
+  public void setVoiceEnabled(boolean enabled)
+  public boolean isDeadPlayersCanHear()
+  public float getMaxHearingDistance()
+  public void setMaxHearingDistance(float distance)
+  public float getReferenceDistance()
+  public void setReferenceDistance(float distance)
+  private void broadcastConfigToAllPlayers()
+  private void broadcastMuteUpdate(UUID playerId, boolean isMuted)
+  public boolean isPlayerMuted(UUID playerId)
+  public boolean mutePlayer(UUID playerId)
+  public boolean unmutePlayer(UUID playerId)
+  public Set<UUID> getGloballyMutedPlayers()
+  public int getMaxPacketsPerSecond()
+  public int getBurstCapacity()
+  public int getMaxPacketSize()
+  private boolean isEyeInFluid(Vector3d position, World world)
+  public void updatePositionCache(UUID playerId, Vector3d position)
+  public void updatePositionCache(UUID playerId, Vector3d position, boolean isUnderwater)
+  public void updatePositionCache(UUID playerId, Vector3d position, boolean isUnderwater, long worldId, int networkId)
+  public void updatePositionCache(UUID playerId, Vector3d position, boolean isUnderwater, long worldId, int networkId, boolean isDead)
+  public VoiceModule.PositionSnapshot getCachedPosition(UUID playerId)
+  public ExecutorService getVoiceExecutor(UUID speakerId)
+  public boolean isShutdown()
+  public Map<UUID,VoicePlayerState> getPlayerStates()
+
+Fields:
+private static final long POSITION_CACHE_UPDATE_INTERVAL_MS
+public static final PluginManifest MANIFEST
+private static VoiceModule instance
+private final Config<VoiceModuleConfig> config
+private static final int MAX_PACKETS_PER_SECOND
+private static final int BURST_CAPACITY
+private static final int MAX_PACKET_SIZE
+private static final double PLAYER_EYE_HEIGHT_OFFSET
+private final Map<UUID,VoicePlayerState> playerStates
+private VoiceRouter voiceRouter
+private static final int VOICE_THREAD_POOL_SIZE
+private final ExecutorService[] voiceExecutors
+private volatile boolean isShutdown
+private final ConcurrentHashMap<UUID,VoiceModule.PositionSnapshot> positionCache
+private ScheduledFuture<?> positionUpdateTask

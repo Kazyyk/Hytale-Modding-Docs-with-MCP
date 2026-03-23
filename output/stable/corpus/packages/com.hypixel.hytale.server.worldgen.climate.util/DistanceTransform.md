@@ -15,3 +15,14 @@ Class in the util subsystem.
 
 - apply(@Nonnull IntMap source, @Nonnull DoubleMap dest, double radius) | void | static public method.
 - Node(int index, double distance) | record | private method.
+
+Also in this package: DoubleMap, IntMap, Node
+
+Complete API:
+  public static void apply(IntMap source, DoubleMap dest, double radius)
+
+Fields:
+private static final IntArrayList EMPTY_LIST
+private static final int[] DX
+private static final int[] DY
+private static final double[] COST

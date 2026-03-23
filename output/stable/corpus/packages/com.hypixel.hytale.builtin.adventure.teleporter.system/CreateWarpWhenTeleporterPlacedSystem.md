@@ -37,3 +37,20 @@ public class CreateWarpWhenTeleporterPlacedSystem extends RefChangeSystem<ChunkS
         @Nonnull CommandBuffer<ChunkStore> commandBuffer)` |
 | `@Nonnull @Override public` | `ComponentType<ChunkStore, PlacedByInteractionComponent>` | `componentType()` |
 | `@Nonnull @Override public` | `Query<ChunkStore>` | `getQuery()` |
+
+Also in this package: ClearUsedTeleporterSystem, TurnOffTeleportersSystem
+
+Complete API:
+  public void onComponentAdded(Ref<ChunkStore> ref, PlacedByInteractionComponent placedBy, Store<ChunkStore> chunkStore, CommandBuffer<ChunkStore> commandBuffer)
+  public static void createWarp(WorldChunk worldChunk, BlockModule.BlockStateInfo blockStateInfo, String name)
+  public void onComponentSet(Ref<ChunkStore> ref, PlacedByInteractionComponent oldComponent, PlacedByInteractionComponent newComponent, Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer)
+  public void onComponentRemoved(Ref<ChunkStore> ref, PlacedByInteractionComponent component, Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer)
+  public ComponentType<ChunkStore,PlacedByInteractionComponent> componentType()
+  public Query<ChunkStore> getQuery()
+
+Fields:
+private final ComponentType<ChunkStore,PlacedByInteractionComponent> placedByInteractionComponentType
+private final ComponentType<ChunkStore,Teleporter> teleporterComponentType
+private final ComponentType<ChunkStore,BlockModule.BlockStateInfo> blockStateInfoComponentType
+private final ComponentType<EntityStore,PlayerRef> playerRefComponentType
+private final Query<ChunkStore> query

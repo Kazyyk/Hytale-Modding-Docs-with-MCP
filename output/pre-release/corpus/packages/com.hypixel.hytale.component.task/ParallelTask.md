@@ -20,3 +20,20 @@ public class ParallelTask<D> extends CountedCompleter
 - public ParallelRangeTask<D> get(int i)
 - @Override public void compute()
 - public void doInvoke()
+
+Also in this package: ParallelRangeTask, SubTask
+
+Complete API:
+  public void reinitialize()
+  public void init()
+  public ParallelRangeTask<D> appendTask()
+  public int size()
+  public ParallelRangeTask<D> get(int i)
+  public void compute()
+  public void doInvoke()
+
+Fields:
+private final Supplier<D> supplier
+private ParallelRangeTask<D>[] subTasks
+private int size
+private volatile boolean running

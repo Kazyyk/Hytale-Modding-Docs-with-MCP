@@ -46,3 +46,16 @@ public String toString()
 
 - `EntityEffect` -- the effect asset being cleared
 - `EffectControllerComponent` -- manages active effects on entities
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction, OpenContainerInteraction (and 11 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected Interaction generatePacket()
+  protected void configurePacket(Interaction packet)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ClearEntityEffectInteraction> CODEC
+protected String entityEffectId
+private InteractionTarget entityTarget

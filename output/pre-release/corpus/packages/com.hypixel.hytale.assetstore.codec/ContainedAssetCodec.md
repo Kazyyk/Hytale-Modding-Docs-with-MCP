@@ -56,3 +56,21 @@ public class ContainedAssetCodec<K, T extends JsonAssetWithMap<K, M>, M extends 
 ## Related Types
 
 - AssetCodec
+
+Also in this package: AssetBuilderCodec, AssetCodec, AssetCodecMapCodec, Builder, Mode
+
+Complete API:
+  public Class<T> getAssetClass()
+  public K decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(K key, ExtraInfo extraInfo)
+  public K decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+  public void validate(K k, ExtraInfo extraInfo)
+  public void validateDefaults(ExtraInfo extraInfo, Set<Codec<?>> tested)
+
+Fields:
+private static final boolean DISABLE_DIRECT_LOADING
+private final Class<T> assetClass
+private final AssetCodec<K,T> codec
+private final ContainedAssetCodec.Mode mode
+private final Function<AssetExtraInfo<K>,K> keyGenerator

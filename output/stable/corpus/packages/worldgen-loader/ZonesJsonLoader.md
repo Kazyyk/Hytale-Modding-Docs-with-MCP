@@ -19,3 +19,11 @@ Loads all zones for a world generator. Iterates the zone registry from `FileLoad
 *interface*
 
 Constants: `PATH_ZONES` = `Zones`, `FILE_ZONE_MAIN_FILE` = `Zone.json`.
+
+Also in this package: AssetFileSystem, ChunkGeneratorJsonLoader, Constants, Constants, MaskProviderJsonLoader, PrefabPathCollector, Resource, WorldGenPrefabLoader, WorldGenPrefabSupplier
+
+Complete API:
+  public Zone[] load()
+
+Fields:
+protected final FileLoadingContext loadingContext

@@ -17,3 +17,13 @@ public class ActionModelAttachment extends ActionBase
 
 - @Override public boolean execute(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store)
 - private static void setModelAttachment(@Nonnull Ref<EntityStore> ref, @Nonnull String slot, @Nullable String attachment, @Nonnull ComponentAccessor<EntityStore> componentAccessor)
+
+Also in this package: ActionAppearance, ActionDisplayName, ActionPlayAnimation, ActionPlaySound, ActionSpawnParticles, SensorAnimation
+
+Complete API:
+  public boolean execute(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Store<EntityStore> store)
+  private static void setModelAttachment(Ref<EntityStore> ref, String slot, String attachment, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+protected final String slot
+protected final String attachment

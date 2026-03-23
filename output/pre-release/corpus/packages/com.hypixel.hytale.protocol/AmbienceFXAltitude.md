@@ -32,3 +32,13 @@ Serialized as a single byte (`0`--`3`). The static `VALUES` array is used for O(
 ## Related Types
 
 - AmbienceFXSound
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot, ApplicationEffects (and 381 more)
+
+Complete API:
+  public int getValue()
+  public static AmbienceFXAltitude fromValue(int value)
+
+Fields:
+public static final AmbienceFXAltitude[] VALUES
+private final int value

@@ -9,3 +9,8 @@ Subcommand `/voice status` that displays current voice configuration (enabled, d
 ## See Also
 
 - VoiceCommand
+
+Also in this package: VoiceCommand, VoiceEnabledCommand, VoiceFullVolumeDistanceCommand, VoiceMaxDistanceCommand, VoiceMuteCommand, VoiceMutedListCommand, VoiceUnmuteCommand
+
+Complete API:
+  protected CompletableFuture<Void> execute(CommandContext context)

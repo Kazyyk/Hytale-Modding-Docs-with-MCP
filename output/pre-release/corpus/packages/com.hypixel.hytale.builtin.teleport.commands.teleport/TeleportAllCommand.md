@@ -58,3 +58,18 @@ public class TeleportAllCommand extends CommandBase
 - new Vector3d(x, y, z)
 - new Vector3f(previousBodyRotation.getPitch()
 - new Vector3f(pitch, yaw, roll)
+
+Also in this package: SpawnCommand, SpawnOtherCommand, SpawnSetCommand, SpawnSetDefaultCommand, TeleportBackCommand, TeleportCommand, TeleportForwardCommand, TeleportHistoryCommand, TeleportHomeCommand, TeleportTopCommand, TeleportWorldCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_ERRORS_PLAYER_NOT_IN_WORLD
+private final RequiredArg<Coord> xArg
+private final RequiredArg<Coord> yArg
+private final RequiredArg<Coord> zArg
+private final OptionalArg<RelativeFloat> yawArg
+private final OptionalArg<RelativeFloat> pitchArg
+private final OptionalArg<RelativeFloat> rollArg
+private final OptionalArg<World> worldArg

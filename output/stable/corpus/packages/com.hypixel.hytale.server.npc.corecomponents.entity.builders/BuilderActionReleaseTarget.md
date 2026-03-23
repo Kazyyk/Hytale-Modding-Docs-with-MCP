@@ -14,3 +14,16 @@ NPC action builder: Clear locked target.
 - @Override public String getLongDescription()
 - @Override public BuilderDescriptorState getBuilderDescriptorState()
 - public int getTargetSlot(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionBeacon, BuilderActionIgnoreForAvoidance, BuilderActionNotify, BuilderActionOverrideAttitude, BuilderActionSetMarkedTarget, BuilderActionSetStat, BuilderHeadMotionWatch, BuilderSensorBeacon, BuilderSensorCount, BuilderSensorEntity, BuilderSensorEntityBase, BuilderSensorKill, BuilderSensorPlayer, BuilderSensorSelf, BuilderSensorTarget
+
+Complete API:
+  public ActionReleaseTarget build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionReleaseTarget readConfig(JsonElement data)
+  public int getTargetSlot(BuilderSupport support)
+
+Fields:
+protected final StringHolder targetSlot

@@ -60,3 +60,20 @@ Performs a harvest pickup: removes the block and adds the harvest drops directly
 public static List<ItemStack> getDrops(@Nonnull BlockType blockType, int quantity, @Nullable String itemId, @Nullable String dropListId)
 
 Resolves the item drops for a block break, combining explicit item IDs and drop list randomization.
+
+Also in this package: BlockInteractionUtils, BlockPlaceUtils, IInteractionSimulationHandler, InteractionModule, InteractionSimulationHandler, Interactions
+
+Complete API:
+  public static ItemToolSpec getSpecPowerDamageBlock(Item item, BlockType blockType, ItemTool tool)
+  public static double calculateDurabilityUse(Item item, BlockType blockType)
+  public static boolean performBlockDamage(Vector3i targetBlock, ItemStack itemStack, ItemTool tool, float damageScale, int setBlockSettings, Ref<ChunkStore> chunkReference, CommandBuffer<EntityStore> commandBuffer, ComponentAccessor<ChunkStore> chunkStore)
+  public static boolean performBlockDamage(LivingEntity entity, Ref<EntityStore> ref, Vector3i targetBlockPos, ItemStack itemStack, ItemTool tool, String toolId, boolean matchTool, float damageScale, int setBlockSettings, Ref<ChunkStore> chunkReference, ComponentAccessor<EntityStore> entityStore, ComponentAccessor<ChunkStore> chunkStore)
+  public static void performBlockBreak(Ref<EntityStore> ref, ItemStack heldItemStack, Vector3i targetBlock, Ref<ChunkStore> chunkReference, ComponentAccessor<EntityStore> entityStore, ComponentAccessor<ChunkStore> chunkStore)
+  public static void performBlockBreak(Ref<EntityStore> ref, ItemStack heldItemStack, Vector3i targetBlock, int setBlockSettings, Ref<ChunkStore> chunkReference, ComponentAccessor<EntityStore> entityStore, ComponentAccessor<ChunkStore> chunkStore)
+  public static void performBlockBreak(World world, Vector3i blockPosition, BlockType targetBlockTypeKey, ItemStack heldItemStack, int dropQuantity, String dropItemId, String dropListId, int setBlockSettings, Ref<EntityStore> ref, Ref<ChunkStore> chunkReference, ComponentAccessor<EntityStore> entityStore, ComponentAccessor<ChunkStore> chunkStore)
+  public static void naturallyRemoveBlockByPhysics(Vector3i blockPosition, BlockType blockType, int filler, int setBlockSettings, Ref<ChunkStore> chunkReference, ComponentAccessor<EntityStore> entityStore, ComponentAccessor<ChunkStore> chunkStore)
+  public static void naturallyRemoveBlock(Vector3i blockPosition, BlockType blockType, int filler, int quantity, String itemId, String dropListId, int setBlockSettings, Ref<ChunkStore> chunkReference, ComponentAccessor<EntityStore> entityStore, ComponentAccessor<ChunkStore> chunkStore)
+  public static boolean shouldPickupByInteraction(BlockType blockType)
+  public static void performPickupByInteraction(Ref<EntityStore> ref, Vector3i targetBlock, BlockType blockType, int filler, Ref<ChunkStore> chunkReference, ComponentAccessor<EntityStore> entityStore, ComponentAccessor<ChunkStore> chunkStore)
+  protected static void removeBlock(Vector3i blockPosition, BlockType blockType, int setBlockSettings, Ref<ChunkStore> chunkReference, ComponentAccessor<ChunkStore> chunkStore)
+  public static List<ItemStack> getDrops(BlockType blockType, int quantity, String itemId, String dropListId)

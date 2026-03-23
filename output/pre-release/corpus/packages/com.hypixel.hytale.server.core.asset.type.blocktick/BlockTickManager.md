@@ -12,3 +12,13 @@ Utility type in the `blocktick` subsystem.
 - setBlockTickProvider(IBlockTickProvider provider) | void | Mutator method.
 - getBlockTickProvider() | IBlockTickProvider | Accessor method.
 - hasBlockTickProvider() | boolean | Boolean accessor.
+
+Also in this package: BlockTickStrategy, IBlockTickProvider
+
+Complete API:
+  public static void setBlockTickProvider(IBlockTickProvider provider)
+  public static IBlockTickProvider getBlockTickProvider()
+  public static boolean hasBlockTickProvider()
+
+Fields:
+private static final AtomicReference<IBlockTickProvider> BLOCK_TICK_PROVIDER

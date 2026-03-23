@@ -89,3 +89,36 @@ A single parameter definition containing an expression, description, validation/
 - BuilderModifier -- overrides parameters via the `"Modify"` block
 - BuilderBase -- owns a `BuilderParameters` instance
 - StateMappingHelper -- handles imported state mappings
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public boolean isEmpty()
+  public void addParametersToScope()
+  public ValueType getParameterType(String name)
+  public void readJSON(JsonObject jsonObject, StateMappingHelper stateHelper)
+  public void createCompileContext()
+  public void disposeCompileContext()
+  public CompileContext getCompileContext()
+  public ValueType compile(String expression)
+  public List<ExecutionContext.Instruction> getInstructions()
+  public ExecutionContext.Operand getConstantOperand()
+  public StdScope getScope()
+  public StdScope createScope()
+  public void validateNoDuplicateParameters(BuilderParameters other)
+  public String getFileName()
+  public IntSet getDependencies()
+  public String getInterfaceCode()
+  public void addDependency(int d)
+  public static ObjectSchema toSchema(SchemaContext context)
+
+Fields:
+public static final String KEY_PARAMETERS
+public static final String KEY_IMPORT_STATES
+public static final String KEY_INTERFACE
+protected final Map<String,BuilderParameters.Parameter> parameters
+protected StdScope scope
+protected CompileContext compileContext
+protected final String fileName
+protected final IntSet dependencies
+protected final String interfaceCode

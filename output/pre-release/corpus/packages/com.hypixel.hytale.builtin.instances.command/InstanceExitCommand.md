@@ -13,3 +13,12 @@ Server command implementation.
 - InstanceExitOtherCommand()
 - super("server.commands.instances.exit.other.desc")
 - @Override protected void executeSync(@Nonnull CommandContext context)
+
+Also in this package: InstanceEditCopyCommand, InstanceEditListCommand, InstanceEditLoadCommand, InstanceEditNewCommand, InstanceExitOtherCommand, InstanceMigrateCommand, InstanceSpawnCommand, InstancesCommand, InstancesEditCommand
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_INSTANCES_EXIT_FAIL
+private static final Message MESSAGE_COMMANDS_INSTANCES_EXIT_SUCCESS_SELF

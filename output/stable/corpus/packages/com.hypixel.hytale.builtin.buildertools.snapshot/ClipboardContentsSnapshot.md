@@ -17,3 +17,12 @@ Immutable snapshot capturing state for undo/redo in the builder tools system.
 ## Methods
 
 - copyOf(@Nonnull BlockSelection selection) | ClipboardContentsSnapshot | static public method.
+
+Also in this package: BlockSelectionSnapshot, ClipboardBoundsSnapshot, EntityAddSnapshot, EntityRemoveSnapshot, EntitySnapshot, EntityTransformSnapshot, SelectionSnapshot
+
+Complete API:
+  public ClipboardContentsSnapshot restoreClipboard(Ref<EntityStore> ref, Player player, World world, BuilderToolsPlugin.BuilderState builderState, ComponentAccessor<EntityStore> componentAccessor)
+  public static ClipboardContentsSnapshot copyOf(BlockSelection selection)
+
+Fields:
+private final BlockSelection selection

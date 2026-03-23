@@ -11,3 +11,8 @@ public class TargetMemorySystems
 ## Inner Types
 
 - `TargetMemorySystems.Ticking`
+
+Also in this package: CollectDamage, DamageMemory, DamageMemorySystems, TargetMemory, Ticking
+
+Fields:
+public static final HytaleLogger LOGGER

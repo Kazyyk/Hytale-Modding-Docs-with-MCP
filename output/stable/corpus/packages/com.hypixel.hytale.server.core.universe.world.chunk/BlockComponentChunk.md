@@ -60,3 +60,36 @@ Returns `true` if any entity (reference or holder) exists at the given block ind
 - `BlockComponentChunkLoadingSystem` -- `RefChangeSystem` managing the transition between holders and live references when chunks start/stop ticking.
 - `LoadBlockComponentPacketSystem` -- Sends block component data packets to clients on chunk load.
 - `UnloadBlockComponentPacketSystem` -- Sends unload packets to clients on chunk unload.
+
+Also in this package: AbstractCachedAccessor, BlockChunk, BlockComponentChunkLoadingSystem, BlockRotationUtil, ChunkColumn, ChunkFlag, EntityChunk, EntityChunkLoadingSystem, LoadBlockChunkPacketSystem, LoadBlockComponentPacketSystem, UnloadBlockComponentPacketSystem, WorldChunk
+
+Complete API:
+  public static ComponentType<ChunkStore,BlockComponentChunk> getComponentType()
+  public Component<ChunkStore> clone()
+  public Component<ChunkStore> cloneSerializable()
+  public Int2ObjectMap<Holder<ChunkStore>> getEntityHolders()
+  public Holder<ChunkStore> getEntityHolder(int index)
+  public void addEntityHolder(int index, Holder<ChunkStore> holder)
+  public void storeEntityHolder(int index, Holder<ChunkStore> holder)
+  public Holder<ChunkStore> removeEntityHolder(int index)
+  public Int2ObjectMap<Ref<ChunkStore>> getEntityReferences()
+  public Ref<ChunkStore> getEntityReference(int index)
+  public void addEntityReference(int index, Ref<ChunkStore> reference)
+  public void loadEntityReference(int index, Ref<ChunkStore> reference)
+  public void removeEntityReference(int index, Ref<ChunkStore> reference)
+  public void unloadEntityReference(int index, Ref<ChunkStore> reference)
+  public Int2ObjectMap<Holder<ChunkStore>> takeEntityHolders()
+  public Int2ObjectMap<Ref<ChunkStore>> takeEntityReferences()
+  public T getComponent(int index, ComponentType<ChunkStore,T> componentType)
+  public boolean hasComponents(int index)
+  public boolean getNeedsSaving()
+  public void markNeedsSaving()
+  public boolean consumeNeedsSaving()
+
+Fields:
+public static final BuilderCodec<BlockComponentChunk> CODEC
+private final Int2ObjectMap<Holder<ChunkStore>> entityHolders
+private final Int2ObjectMap<Ref<ChunkStore>> entityReferences
+private final Int2ObjectMap<Holder<ChunkStore>> entityHoldersUnmodifiable
+private final Int2ObjectMap<Ref<ChunkStore>> entityReferencesUnmodifiable
+private boolean needsSaving

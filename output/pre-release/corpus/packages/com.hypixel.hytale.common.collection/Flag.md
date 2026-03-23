@@ -8,3 +8,11 @@ public interface Flag
 
 - String name()
 - int mask()
+
+Known implementors: ChunkFlag
+
+Also in this package: Bucket, BucketItem, BucketItemPool, BucketList, Flags, SortBufferProvider
+
+Complete API:
+  String name()
+  int mask()

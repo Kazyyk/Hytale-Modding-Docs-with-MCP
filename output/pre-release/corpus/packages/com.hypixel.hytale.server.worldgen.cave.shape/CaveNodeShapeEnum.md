@@ -26,3 +26,5 @@ Factory interface that generates a CaveNodeShape instance from randomized parame
 
 
 CaveNodeShape generateCaveNodeShape(Random var1, CaveType var2, CaveNode var3, CaveNodeType.CaveNodeChildEntry var4, Vector3d var5, float var6, float var7)
+
+Also in this package: AbstractCaveNodeShape, CaveNodeShape, CaveNodeShapeGenerator, CaveNodeShapeUtils, CylinderCaveNodeShape, CylinderCaveNodeShapeGenerator, DistortedCaveNodeShape, DistortedCaveNodeShapeGenerator, EllipsoidCaveNodeShape, EllipsoidCaveNodeShapeGenerator, EmptyLineCaveNodeShape, EmptyLineCaveNodeShapeGenerator, PipeCaveNodeShape, PipeCaveNodeShapeGenerator, PrefabCaveNodeShape, PrefabCaveNodeShapeGenerator, TetrahedronCaveNodeShape, TetrahedronCaveNodeShapeGenerator

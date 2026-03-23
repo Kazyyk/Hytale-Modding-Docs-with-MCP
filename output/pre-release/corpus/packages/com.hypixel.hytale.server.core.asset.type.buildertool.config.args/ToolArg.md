@@ -24,3 +24,24 @@ Abstract base class providing shared logic for ToolArg implementations.
 - protected abstract void setupPacket(BuilderToolArg var1)
 - @Nonnull public BuilderToolArg toPacket()
 - @Nonnull @Override public String toString()
+
+Known subclasses: BlockArg, BoolArg, BrushAxisArg, BrushOriginArg, BrushRotationArg, BrushShapeArg, FloatArg, IntArg, MaskArg, OptionArg, StringArg
+
+Also in this package: BlockArg, BoolArg, BrushAxisArg, BrushOriginArg, BrushRotationArg, BrushShapeArg, FloatArg, IntArg, MaskArg, OptionArg, StringArg, ToolArgException
+
+Complete API:
+  public String getId()
+  public T getValue()
+  public boolean isRequired()
+  public abstract Codec<T> getCodec()
+  public abstract T fromString(String var1)
+  protected abstract void setupPacket(BuilderToolArg var1)
+  public BuilderToolArg toPacket()
+  public String toString()
+
+Fields:
+public static final CodecMapCodec<ToolArg> CODEC
+public static final BuilderCodec<ToolArg> DEFAULT_CODEC
+protected String id
+protected boolean required
+protected T value

@@ -11,3 +11,11 @@ public class EntitySnapshotLengthCommand extends CommandBase
 ## Methods
 
 - @Override protected void executeSync(CommandContext context)
+
+Also in this package: EntitySnapshotHistoryCommand, EntitySnapshotSubCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final RequiredArg<Integer> lengthArg

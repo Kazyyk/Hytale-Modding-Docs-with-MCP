@@ -13,3 +13,11 @@ Mutable control flag passed through pipe callbacks to signal early termination. 
 ## Methods
 
 - public void reset()
+
+Also in this package: One, Pipe, Two
+
+Complete API:
+  public void reset()
+
+Fields:
+public boolean stop

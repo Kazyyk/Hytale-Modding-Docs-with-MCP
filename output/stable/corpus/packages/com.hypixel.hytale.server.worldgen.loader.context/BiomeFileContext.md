@@ -22,3 +22,12 @@ public class BiomeFileContext extends FileContext<ZoneFileContext>
 ## Inner Types
 
 - `BiomeFileContext.Type`
+
+Also in this package: Constants, Constants, Constants, Constants, FileContext, FileContextLoader, FileLoadingContext, Registry, Type, ZoneFileContext
+
+Complete API:
+  public BiomeFileContext.Type getType()
+  public static BiomeFileContext.Type getBiomeType(AssetPath path)
+
+Fields:
+private final BiomeFileContext.Type type

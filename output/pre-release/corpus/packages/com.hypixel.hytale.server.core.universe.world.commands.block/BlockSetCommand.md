@@ -8,3 +8,11 @@ public class BlockSetCommand extends SimpleBlockCommand
 
 - public BlockSetCommand()
 - protected void executeWithBlock(@Nonnull CommandContext context, @Nonnull WorldChunk chunk, int x, int y, int z)
+
+Also in this package: BlockCommand, BlockGetCommand, BlockGetStateCommand, BlockInspectFillerCommand, BlockInspectPhysicsCommand, BlockInspectRotationCommand, BlockRowCommand, BlockSelectCommand, BlockSetStateCommand, BlockSetTickingCommand, SimpleBlockCommand
+
+Complete API:
+  protected void executeWithBlock(CommandContext context, WorldChunk chunk, int x, int y, int z)
+
+Fields:
+private final RequiredArg<BlockType> blockArg

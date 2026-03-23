@@ -10,3 +10,12 @@ Handles `BlockReplaceEvent` for existing block entity refs. Moves all items from
 
 - Inner class of ItemContainerSystems
 - Operates on ItemContainerBlock
+
+Also in this package: ItemContainerBlockSpatialSystem, ItemContainerSystems, OnAddedOrRemoved, OnReplacedHolder
+
+Complete API:
+  public void handle(int index, ArchetypeChunk<ChunkStore> archetypeChunk, Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer, BlockReplaceEvent event)
+  public Query<ChunkStore> getQuery()
+
+Fields:
+private final ComponentType<ChunkStore,ItemContainerBlock> itemContainerBlockComponentType

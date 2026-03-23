@@ -21,3 +21,21 @@ public class WorldPath implements IPath
 - public SimplePathWaypoint get(int index)
 - public List<Transform> getWaypoints()
 - @Nonnull @Override public String toString()
+
+Also in this package: IPath, IPathWaypoint, SimplePathWaypoint, WorldPathChangedEvent, WorldPathConfig
+
+Complete API:
+  public UUID getId()
+  public String getName()
+  public List<SimplePathWaypoint> getPathWaypoints()
+  public int length()
+  public SimplePathWaypoint get(int index)
+  public List<Transform> getWaypoints()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<WorldPath> CODEC
+protected UUID id
+protected String name
+protected List<Transform> waypoints
+protected List<SimplePathWaypoint> simpleWaypoints

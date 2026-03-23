@@ -34,3 +34,15 @@ Objective task that tracks item-gathering progress. Counts matching items across
 - CountObjectiveTask -- base class providing count tracking
 - InventoryChangeAware -- the interface this task implements
 - ObjectiveTask -- root task type
+
+Also in this package: CountObjectiveTask, CraftObjectiveTask, InventoryChangeAware, ObjectiveTask, ObjectiveTaskRef, ReachLocationTask, TreasureMapObjectiveTask, UseBlockObjectiveTask, UseEntityObjectiveTask
+
+Complete API:
+  public GatherObjectiveTaskAsset getAsset()
+  protected TransactionRecord[] setup0(Objective objective, World world, Store<EntityStore> store)
+  public void onInventoryChange(Objective objective, Ref<EntityStore> playerRef, Store<EntityStore> store, InventoryChangeEvent event)
+  private int countObjectiveItemInInventories(Set<UUID> participatingPlayers, ComponentAccessor<EntityStore> componentAccessor)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<GatherObjectiveTask> CODEC

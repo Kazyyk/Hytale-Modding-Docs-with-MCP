@@ -36,3 +36,24 @@ Core plugin that manages the entity stats system. Registers the EntityStatMap EC
 - EntityStatMap -- the component this module registers
 - EntityStatsSystems -- all ECS systems for stat processing
 - DefaultEntityStatTypes -- built-in stat type indices
+
+Also in this package: Changes, ClearChanges, EntityStatMap, EntityStatValue, EntityStatsSystems, EntityTrackerRemove, EntityTrackerUpdate, PlayerRegenerateStatsSystem, Predictable, Recalculate, Regenerate, RegeneratingValue, Setup, StatModifyingSystem
+
+Complete API:
+  public static EntityStatsModule get()
+  protected void setup()
+  protected void start()
+  public static EntityStatMap get(Entity entity)
+  private void onLoadedAssetsEvent(LoadedAssetsEvent<String,EntityStatType,IndexedLookupTableAssetMap<String,EntityStatType>> event)
+  private static void onLoadedAssetsInvalidate(LoadedAssetsEvent<K,T,M> event)
+  public static Int2FloatMap resolveEntityStats(Object2FloatMap<String> raw)
+  public static Int2ObjectMap<T> resolveEntityStats(Map<String,T> raw)
+  public static int[] resolveEntityStats(String[] raw)
+  public ComponentType<EntityStore,EntityStatMap> getEntityStatMapComponentType()
+  public SystemType<EntityStore,EntityStatsSystems.StatModifyingSystem> getStatModifyingSystemType()
+
+Fields:
+public static final PluginManifest MANIFEST
+private static EntityStatsModule instance
+private ComponentType<EntityStore,EntityStatMap> entityStatMapComponentType
+private SystemType<EntityStore,EntityStatsSystems.StatModifyingSystem> statModifyingSystemType

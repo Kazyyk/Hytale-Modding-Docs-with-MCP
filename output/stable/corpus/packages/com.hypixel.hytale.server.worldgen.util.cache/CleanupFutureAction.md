@@ -16,3 +16,12 @@ public class CleanupFutureAction implements Runnable
 ## Methods
 
 - public void run()
+
+Also in this package: Bucket, Cache, CacheEntry, CacheEntry, CacheEntry, CleanupRunnable, ConcurrentSizedTimeoutCache, SizedTimeoutCache, TimeoutCache
+
+Complete API:
+  public void run()
+
+Fields:
+public static final Cleaner CLEANER
+private final ScheduledFuture<?> future

@@ -16,3 +16,13 @@ An `EntityStore` component storing ReputationGroupComponent-related data on enti
 - @Nonnull public static ComponentType<EntityStore, ReputationGroupComponent> getComponentType()
 - @Nonnull public String getReputationGroupId()
 - @Nonnull @Override public Component<EntityStore> clone()
+
+Also in this package: ReputationGameplayConfig, ReputationPlugin, ReputationStorageType
+
+Complete API:
+  public static ComponentType<EntityStore,ReputationGroupComponent> getComponentType()
+  public String getReputationGroupId()
+  public Component<EntityStore> clone()
+
+Fields:
+private final String reputationGroupId

@@ -13,3 +13,8 @@ Actions for the memories unlocked page.
 ## Fields
 
 - public static final Codec<MemoriesUnlockedPage.PageAction> CODEC
+
+Also in this package: MemoriesPage, MemoriesPageSupplier, MemoriesUnlockedPage, MemoriesUnlockedPageSuplier, PageAction, PageEventData, PageEventData
+
+Fields:
+public static final Codec<MemoriesUnlockedPage.PageAction> CODEC

@@ -17,3 +17,20 @@ public class SurfacePatternAsset extends PatternAsset
 
 - public Pattern build(@Nonnull PatternAsset.Argument argument)
 - public void cleanUp()
+
+Also in this package: AndPatternAsset, Argument, BlockSetPatternAsset, CeilingPatternAsset, ConstantPatternAsset, CuboidPatternAsset, DelimiterAsset, DensityPatternAsset, FloorPatternAsset, ImportedPatternAsset, MaterialPatternAsset, NotPatternAsset, OffsetPatternAsset, OrPatternAsset, PatternAsset, RotatorPatternAsset, WallPatternAsset
+
+Complete API:
+  public Pattern build(PatternAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<SurfacePatternAsset> CODEC
+private PatternAsset surface
+private PatternAsset origin
+private double surfaceRadius
+private double originRadius
+private int surfaceGap
+private int originGap
+private SurfacePattern.Facing[] facings
+private boolean requireAllFacings

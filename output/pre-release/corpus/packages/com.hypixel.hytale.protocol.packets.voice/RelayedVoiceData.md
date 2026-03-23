@@ -59,3 +59,33 @@ Validates buffer structure without full deserialization.
 - `ToClientPacket` -- directional marker interface
 - VoiceData -- client-to-server voice data packet
 - VoiceConfig -- voice configuration packet
+
+Also in this package: VoiceCodec, VoiceConfig, VoiceData
+
+Complete API:
+  public int getId()
+  public NetworkChannel getChannel()
+  public static RelayedVoiceData deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public RelayedVoiceData clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int PACKET_ID
+public static final boolean IS_COMPRESSED
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public UUID speakerId
+public int entityId
+public short sequenceNumber
+public int timestamp
+public Position speakerPosition
+public boolean speakerIsUnderwater
+public byte[] opusData

@@ -25,3 +25,16 @@ Concrete bench implementation for standard recipe-based crafting with grid dimen
 - public String getDiagram()
 - public int getSlots()
 - public boolean isSpecialSlot()
+
+Known subclasses: DiagramCraftingBench
+
+Also in this package: Bench, BenchCategory, BenchItemCategory, BenchSlot, BenchTierLevel, BenchUpgradeRequirement, DiagramCraftingBench, ExtraOutput, ProcessingBench, ProcessingSlot, StructuralCraftingBench
+
+Complete API:
+  public CraftingBench.BenchCategory[] getCategories()
+  public boolean equals(Object o)
+  public int hashCode()
+
+Fields:
+public static final BuilderCodec<CraftingBench> CODEC
+protected CraftingBench.BenchCategory[] categories

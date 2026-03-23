@@ -29,3 +29,12 @@ Returns the human-readable description string.
 
 - InstructionContextHelper -- validates component context
 - InstructionType -- the other context dimension
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public String get()
+
+Fields:
+private final String description
+public static final EnumSet<ComponentContext> NotSelfEntitySensor

@@ -9,3 +9,8 @@ public class EnvironmentPacketGenerator extends AssetPacketGenerator
 - @Nonnull public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,Environment> assetMap, Map<String,Environment> assets)
 - @Nonnull public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,Environment> assetMap, Map<String,Environment> loadedAssets, AssetUpdateQuery query)
 - @Nonnull public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,Environment> assetMap, Set<String> removed, AssetUpdateQuery query)
+
+Complete API:
+  public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,Environment> assetMap, Map<String,Environment> assets)
+  public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,Environment> assetMap, Map<String,Environment> loadedAssets, AssetUpdateQuery query)
+  public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,Environment> assetMap, Set<String> removed, AssetUpdateQuery query)

@@ -21,3 +21,5 @@ Container class for ECS systems triggered when an entity respawns (when the Deat
 - DeathComponent -- removal of this component triggers respawn systems
 - DeathSystems -- handles death (component addition)
 - DamageModule -- registers all respawn systems
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)

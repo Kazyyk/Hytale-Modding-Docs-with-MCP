@@ -23,3 +23,13 @@ public class MaterialSetPattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: AndPattern, CeilingPattern, Context, CuboidPattern, Delimiter, Facing, FieldFunctionPattern, GapPattern, MaterialPattern, NotPattern, OffsetPattern, OrPattern, Pattern, PositionedPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public SpaceSize readSpace()
+
+Fields:
+private static final SpaceSize READ_SPACE_SIZE
+private final MaterialSet materialSet

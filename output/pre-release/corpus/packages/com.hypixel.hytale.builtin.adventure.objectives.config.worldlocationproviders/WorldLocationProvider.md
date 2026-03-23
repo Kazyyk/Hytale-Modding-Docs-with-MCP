@@ -15,3 +15,17 @@ public abstract class WorldLocationProvider
 - @Override public abstract boolean equals(Object var1)
 - @Override public abstract int hashCode()
 - @Nonnull @Override public String toString()
+
+Known subclasses: CheckTagWorldHeightRadiusProvider, LocationRadiusProvider, LookBlocksBelowProvider
+
+Also in this package: CheckTagWorldHeightRadiusProvider, LocationRadiusProvider, LookBlocksBelowProvider
+
+Complete API:
+  public abstract Vector3i runCondition(World var1, Vector3i var2)
+  public abstract boolean equals(Object var1)
+  public abstract int hashCode()
+  public String toString()
+
+Fields:
+public static final CodecMapCodec<WorldLocationProvider> CODEC
+public static final BuilderCodec<WorldLocationProvider> BASE_CODEC

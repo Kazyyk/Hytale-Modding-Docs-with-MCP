@@ -14,3 +14,11 @@ public AssetEditorUpdateWeatherPreviewLockEvent(EditorClient editorClient, boole
 ## Methods
 
 - boolean isLocked() | Returns whether the weather preview is now locked
+
+Also in this package: AssetEditorActivateButtonEvent, AssetEditorAssetCreatedEvent, AssetEditorClientDisconnectEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorRequestDataSetEvent, AssetEditorSelectAssetEvent, EditorClientEvent
+
+Complete API:
+  public boolean isLocked()
+
+Fields:
+private final boolean locked

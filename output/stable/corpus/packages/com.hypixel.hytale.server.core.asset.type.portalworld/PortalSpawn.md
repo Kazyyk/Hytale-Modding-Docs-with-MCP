@@ -24,3 +24,24 @@ Class in the portalworld subsystem.
 - getMaxRadius() | int | public method.
 - getChunkDartThrows() | int | public method.
 - getChecksPerChunk() | int | public method.
+
+Also in this package: PillTag, PortalDescription, PortalType
+
+Complete API:
+  public Vector3i getCenter()
+  public int getCheckSpawnY()
+  public int getScanHeight()
+  public int getMinRadius()
+  public int getMaxRadius()
+  public int getChunkDartThrows()
+  public int getChecksPerChunk()
+
+Fields:
+public static final BuilderCodec<PortalSpawn> CODEC
+private Vector3i center
+private int scanHeight
+private int checkSpawnY
+private int minRadius
+private int maxRadius
+private int chunkDartThrows
+private int checksPerChunk

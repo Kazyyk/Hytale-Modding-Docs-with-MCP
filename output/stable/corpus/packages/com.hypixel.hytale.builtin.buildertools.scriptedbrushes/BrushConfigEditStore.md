@@ -63,3 +63,28 @@ Returns the accumulated edits (previous layer).
 public BlockSelection getBefore()
 
 Returns the original world state snapshot.
+
+Also in this package: BCExecutionStatus, BrushConfig, BrushConfigChunkAccessor, BrushConfigCommandExecutor, DataGettingFlags, DataSettingFlags, DebugOutputTarget, HistoryMask, ScriptedBrushAsset
+
+Complete API:
+  public BrushConfigChunkAccessor getAccessor()
+  public int getOriginalBlock(int x, int y, int z)
+  public int getBlock(int x, int y, int z)
+  public int getBlockIncludingCurrent(int x, int y, int z)
+  public boolean setBlock(int x, int y, int z, int blockId)
+  private boolean setFluid(int x, int y, int z, int fluidId, byte fluidLevel)
+  private int getOriginalFluid(int x, int y, int z)
+  public int getFluid(int x, int y, int z)
+  public boolean setMaterial(int x, int y, int z, Material material)
+  public BuilderToolsPlugin.BuilderState.BlocksSampleData getBlockSampledataIncludingPreviousStages(int x, int y, int z, int radius)
+  public void flushCurrentEditsToPrevious()
+  public BlockSelection getAfter()
+  public BlockSelection getBefore()
+
+Fields:
+private final BrushConfig brushConfig
+private final BrushConfigChunkAccessor accessor
+private final BlockSelection before
+private final BlockSelection previous
+private BlockSelection current
+private final LongOpenHashSet packedPlacedBlockPositions

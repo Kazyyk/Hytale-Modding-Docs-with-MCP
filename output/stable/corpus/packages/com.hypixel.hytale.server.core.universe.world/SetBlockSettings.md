@@ -21,3 +21,20 @@ Bitfield constants controlling block-set behavior. Flags can be combined with bi
 - NO_UPDATE_HEIGHTMAP | int | 512 | Skip heightmap recalculation.
 - NO_SEND_AUDIO | int | 1024 | Suppress block audio.
 - NO_DROP_ITEMS | int | 2048 | Do not drop items when breaking.
+
+Also in this package: ChunkConfig, ClientEffectWorldSettings, Default, GenericBlockBulkUpdater, IWorldChunks, IWorldChunksAsync, ParticleUtil, PlaceBlockSettings, PlayerUtil, SoundUtil, SpawnUtil, ValidationOption, World, WorldConfig, WorldConfigProvider, WorldMapTracker, WorldNotificationHandler, WorldProvider, ZoneDiscoveryInfo
+
+Fields:
+public static final int NONE
+public static final int NO_NOTIFY
+public static final int NO_UPDATE_STATE
+public static final int NO_SEND_PARTICLES
+public static final int NO_SET_FILLER
+public static final int NO_BREAK_FILLER
+public static final int PHYSICS
+public static final int FORCE_CHANGED
+public static final int NO_UPDATE_NEIGHBOR_CONNECTIONS
+public static final int PERFORM_BLOCK_UPDATE
+public static final int NO_UPDATE_HEIGHTMAP
+public static final int NO_SEND_AUDIO
+public static final int NO_DROP_ITEMS

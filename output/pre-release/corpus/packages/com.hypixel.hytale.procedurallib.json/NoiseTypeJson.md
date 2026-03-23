@@ -31,3 +31,12 @@ Reflectively constructs a new loader instance for this noise type.
 ## Related Types
 
 - NoiseFunctionJsonLoader -- uses this enum to dispatch to the correct loader
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public JsonLoader<K,NoiseFunction> newLoader(SeedString<K> seed, Path dataFolder, JsonElement json)
+
+Fields:
+private final NoiseType noiseType
+private final Constructor constructor

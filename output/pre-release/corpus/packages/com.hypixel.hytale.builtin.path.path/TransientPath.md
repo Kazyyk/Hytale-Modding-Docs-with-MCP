@@ -14,3 +14,17 @@ Implementation of `IPath<SimplePathWaypoint>`.
 - getPathWaypoints() | List<SimplePathWaypoint> | public method.
 - length() | int | public method.
 - get(int index) | SimplePathWaypoint | public method.
+
+Also in this package: IPrefabPath, PatrolPath, TransientPathDefinition
+
+Complete API:
+  public void addWaypoint(Vector3d position, Vector3f rotation)
+  public UUID getId()
+  public String getName()
+  public List<SimplePathWaypoint> getPathWaypoints()
+  public int length()
+  public SimplePathWaypoint get(int index)
+  public static IPath<SimplePathWaypoint> buildPath(Vector3d origin, Vector3f rotation, Queue<RelativeWaypointDefinition> instructions, double scale)
+
+Fields:
+protected final List<SimplePathWaypoint> waypoints

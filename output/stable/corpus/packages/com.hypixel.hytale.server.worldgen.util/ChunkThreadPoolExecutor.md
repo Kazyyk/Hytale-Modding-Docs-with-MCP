@@ -25,3 +25,13 @@ Extends `ThreadPoolExecutor` to provide ChunkThreadPoolExecutor functionality.
         ThreadFactory threadFactory,
         Runnable shutdownHook)` |
 | `@Override protected` | `void` | `terminated()` |
+
+Also in this package: ArrayUtli, BlockArray, BlockFluidEntry, ChunkWorker, ChunkWorkerThreadFactory, ConstantNoiseProperty, Entry, LogUtil, NoiseBlockArray, ObjectPool, ResolvedBlockArray
+
+Complete API:
+  protected void terminated()
+
+Fields:
+private static final AtomicInteger GENERATION_COUNTER
+private final int generation
+private final Runnable shutdownHook

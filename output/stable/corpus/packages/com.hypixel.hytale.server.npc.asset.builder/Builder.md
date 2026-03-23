@@ -184,3 +184,37 @@ Returns `true` if this builder produces a spawnable entity. Defaults to `false`.
 - BuilderManager -- manages loading and validation of builders
 - BuilderDescriptorState -- lifecycle state enum
 - BuilderParameters -- parameter definitions and scope
+
+Known subclasses: Builder
+
+Known implementors: BuilderActionRecomputePath, BuilderBase, BuilderBodyMotionFindBase
+
+Also in this package: BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 28 more)
+
+Complete API:
+  T build(BuilderSupport var1)
+  boolean validate(String var1, NPCLoadTimeValidationHelper var2, ExecutionContext var3, Scope var4, List<String> var5)
+  void readConfig(BuilderContext var1, JsonElement var2, BuilderManager var3, BuilderParameters var4, BuilderValidationHelper var5)
+  void ignoreAttribute(String var1)
+  Class<T> category()
+  void setTypeName(String var1)
+  String getTypeName()
+  void setLabel(String var1)
+  Schema toSchema(SchemaContext var1)
+  BuilderDescriptor getDescriptor(String var1, String var2, BuilderManager var3)
+  default boolean isDeprecated()
+  BuilderDescriptorState getBuilderDescriptorState()
+  IntSet getDependencies()
+  default boolean hasDynamicDependencies()
+  default void addDynamicDependency(int builderIndex)
+  default IntSet getDynamicDependencies()
+  default void clearDynamicDependencies()
+  BuilderParameters getBuilderParameters()
+  FeatureEvaluatorHelper getEvaluatorHelper()
+  StateMappingHelper getStateMappingHelper()
+  InstructionContextHelper getInstructionContextHelper()
+  boolean canRequireFeature()
+  void validateReferencedProvidedFeatures(BuilderManager var1, ExecutionContext var2)
+  boolean excludeFromRegularBuilding()
+  boolean isEnabled(ExecutionContext var1)
+  default boolean isSpawnable()

@@ -50,3 +50,24 @@ public class EnumMapCodec<K extends Enum<K>, V> implements Codec<Map<K, V>>, Wra
 ## Related Types
 
 - MapCodec
+
+Also in this package: Float2ObjectMapCodec, Int2ObjectMapCodec, MapCodec, MergedEnumMapCodec, Object2DoubleMapCodec, Object2FloatMapCodec, Object2IntMapCodec, ObjectMapCodec, Short2ObjectMapCodec
+
+Complete API:
+  public EnumMapCodec<K,V> documentKey(K key, String doc)
+  public Codec<V> getChildCodec()
+  public Map<K,V> decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Map<K,V> map, ExtraInfo extraInfo)
+  public Map<K,V> decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+  protected K getEnum(String value)
+
+Fields:
+private final Class<K> clazz
+private final K[] enumConstants
+private final String[] enumKeys
+private final EnumCodec.EnumStyle enumStyle
+private final Codec<V> codec
+private final Supplier<Map<K,V>> supplier
+private final boolean unmodifiable
+private final EnumMap<K,String> keyDocumentation

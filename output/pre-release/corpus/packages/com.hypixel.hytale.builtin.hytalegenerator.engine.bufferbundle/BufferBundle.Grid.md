@@ -34,3 +34,24 @@ Spatial grid of tracked buffers organized by 3D position in buffer-grid coordina
 - private boolean destroyOldestBufferColumn()
 - private void removeBufferColumn(@Nonnull Vector3i position_bufferGrid)
 - private boolean isBufferColumnInAccess(@Nonnull Vector3i position_bufferGrid)
+
+Also in this package: Access, BufferBundle, GridEntry, MemoryReport, TrackedBuffer, Tracker, View
+
+Complete API:
+  public BufferType getBufferType()
+  public BufferBundle.Access openAccess(Bounds3i bounds_bufferGrid)
+  public void closeAllAccesses()
+  public MemInstrument.Report getMemoryUsage()
+  private void ensureBufferColumnExists(Vector3i position_bufferGrid, BufferBundle.Grid.TrackedBuffer[] trackedBuffersOut)
+  private void createBufferColumn(Vector3i position_bufferGrid, BufferBundle.Grid.TrackedBuffer[] trackedBuffersOut)
+  private void tryTrimSurplus(int extraRoom)
+  private boolean destroyOldestBufferColumn()
+  private void removeBufferColumn(Vector3i position_bufferGrid)
+  private boolean isBufferColumnInAccess(Vector3i position_bufferGrid)
+
+Fields:
+private final BufferType bufferType
+private final Map<Vector3i,BufferBundle.Grid.TrackedBuffer> buffers
+private final Deque<Vector3i> oldestColumnEntryDeque_bufferGrid
+private final int capacity
+private final List<BufferBundle.Access> accessors

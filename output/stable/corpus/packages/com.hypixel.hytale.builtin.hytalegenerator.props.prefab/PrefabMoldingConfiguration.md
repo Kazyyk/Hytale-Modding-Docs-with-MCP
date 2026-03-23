@@ -17,3 +17,14 @@ Provides PrefabMoldingConfiguration functionality within the prefab subsystem.
 
 - public PrefabMoldingConfiguration(Scanner moldingScanner, Pattern moldingPattern, MoldingDirection moldingDirection, boolean moldChildren)
 - @Nonnull public static PrefabMoldingConfiguration none()
+
+Also in this package: MoldingDirection, PrefabProp, PropPrefabUtil
+
+Complete API:
+  public static PrefabMoldingConfiguration none()
+
+Fields:
+public final Scanner moldingScanner
+public final Pattern moldingPattern
+public final MoldingDirection moldingDirection
+public final boolean moldChildren

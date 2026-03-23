@@ -25,3 +25,11 @@ Inner loader for individual cover container entries. Loads block type arrays, we
 *interface*
 
 JSON key constants: `Type`, `Weight`, `Density`, `NoiseMask`, `HeightThreshold`, `Offset`, `Parent`, `OnWater`.
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CoverContainerEntryJsonLoader, DefaultEnvironmentContainerEntryLoader, DefaultTintContainerEntryJsonLoader, DynamicLayerEntryJsonLoader, DynamicLayerJsonLoader, EnvironmentContainerEntryJsonLoader, EnvironmentContainerJsonLoader, FadeContainerJsonLoader, LayerContainerJsonLoader, LayerEntryJsonLoader, PrefabContainerEntryJsonLoader, PrefabContainerJsonLoader (and 8 more)
+
+Complete API:
+  public CoverContainer load()
+
+Fields:
+protected final BiomeFileContext biomeContext

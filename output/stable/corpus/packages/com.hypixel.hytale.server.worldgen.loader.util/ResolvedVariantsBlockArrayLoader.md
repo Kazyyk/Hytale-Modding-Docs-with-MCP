@@ -22,3 +22,11 @@ JSON loader that deserializes configuration data from JSON files.
 - throw new IllegalArgumentException("BlockLayer does not exist in BlockTypes", var10)
 - @Nonnull public static BlockFluidEntry[] resolveBlockArrayWithVariants(String baseKey, @Nonnull BlockTypeAssetMap<String, BlockType> assetMap, int fluidId)
 - throw new IllegalArgumentException("Unknown key! " + key)
+
+Also in this package: ColorUtil, Constants, Constants, Constants, EntryJsonLoader, FileMaskCache, NoiseBlockArrayJsonLoader, ResolvedBlockArrayJsonLoader, Vector2dJsonLoader, Vector3dJsonLoader
+
+Complete API:
+  public ResolvedBlockArray load()
+  public static ResolvedBlockArray loadSingleBlock(String blockName)
+  public static ResolvedBlockArray loadSingleBlock(JsonObject object)
+  public static BlockFluidEntry[] resolveBlockArrayWithVariants(String baseKey, BlockTypeAssetMap<String,BlockType> assetMap, int fluidId)

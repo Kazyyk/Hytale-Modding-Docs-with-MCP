@@ -11,3 +11,13 @@ Cancels all incoming damage to player entities when player incoming damage is di
 - DamageSystems -- parent class
 - DamageSystems.FilterNPCWorldConfig -- equivalent system for NPCs
 - DamageEventSystem -- base class
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public SystemGroup<EntityStore> getGroup()
+  public Query<EntityStore> getQuery()
+  public void handle(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, Damage event)
+
+Fields:
+private static final Query<EntityStore> QUERY

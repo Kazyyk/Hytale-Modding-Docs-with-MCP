@@ -14,3 +14,9 @@ Schema node for the JSON Schema `"null"` type. No additional fields beyond those
 ## See Also
 
 - Schema -- base class
+
+Also in this package: ArrayOrNull, ArraySchema, BooleanOrSchema, BooleanSchema, CommonAsset, DoubleOrSchema, HytaleMetadata, InheritSettings, IntegerOrSchema, IntegerSchema, ItemOrItems, NumberSchema, ObjectSchema, Schema, SchemaTypeField, StringOrBlank, StringSchema
+
+Fields:
+public static final BuilderCodec<NullSchema> CODEC
+public static final NullSchema INSTANCE

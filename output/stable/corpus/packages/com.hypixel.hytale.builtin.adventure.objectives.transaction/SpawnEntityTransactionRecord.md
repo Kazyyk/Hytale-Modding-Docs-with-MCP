@@ -24,3 +24,18 @@ Concrete implementation extending `TransactionRecord`.
 - shouldBeSerialized() | boolean | public method.
 - removeEntity() | void | private method.
 - toString() | String | public method.
+
+Also in this package: RegistrationTransactionRecord, SpawnTreasureChestTransactionRecord, TransactionRecord, TransactionStatus, TransactionUtil, UseEntityTransactionRecord, WorldTransactionRecord
+
+Complete API:
+  public void revert()
+  public void complete()
+  public void unload()
+  public boolean shouldBeSerialized()
+  private void removeEntity()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SpawnEntityTransactionRecord> CODEC
+protected UUID worldUUID
+protected UUID entityUUID

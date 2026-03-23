@@ -15,3 +15,15 @@ public class NPCInteractionSimulationHandler implements IInteractionSimulationHa
 - public boolean shouldCancelCharging( boolean firstRun, float time, InteractionType type, InteractionContext context, Ref<EntityStore> ref, CooldownHandler cooldownHandler )
 - public float getChargeValue( boolean firstRun, float time, InteractionType type, InteractionContext context, Ref<EntityStore> ref, CooldownHandler cooldownHandler )
 - public void requestChargeTime(float chargeTime)
+
+Also in this package: ContextualUseNPCInteraction, SpawnData, SpawnNPCInteraction, UseNPCInteraction, WeightedNPCSpawn
+
+Complete API:
+  public void setState(InteractionType type, boolean state)
+  public boolean isCharging(boolean firstRun, float time, InteractionType type, InteractionContext context, Ref<EntityStore> ref, CooldownHandler cooldownHandler)
+  public boolean shouldCancelCharging(boolean firstRun, float time, InteractionType type, InteractionContext context, Ref<EntityStore> ref, CooldownHandler cooldownHandler)
+  public float getChargeValue(boolean firstRun, float time, InteractionType type, InteractionContext context, Ref<EntityStore> ref, CooldownHandler cooldownHandler)
+  public void requestChargeTime(float chargeTime)
+
+Fields:
+private float requestedChargeTime

@@ -9,3 +9,10 @@ public class HitboxCollisionConfigPacketGenerator extends AssetPacketGenerator<S
 - public ToClientPacket generateInitPacket( @Nonnull IndexedLookupTableAssetMap<String, HitboxCollisionConfig> assetMap, @Nonnull Map<String, HitboxCollisionConfig> assets )
 - public ToClientPacket generateUpdatePacket( @Nonnull IndexedLookupTableAssetMap<String, HitboxCollisionConfig> assetMap, @Nonnull Map<String, HitboxCollisionConfig> loadedAssets, @Nonnull AssetUpdateQuery query )
 - public ToClientPacket generateRemovePacket( @Nonnull IndexedLookupTableAssetMap<String, HitboxCollisionConfig> assetMap, @Nonnull Set<String> removed, @Nonnull AssetUpdateQuery query )
+
+Also in this package: EntityTrackerRemove, EntityTrackerUpdate, HitboxCollision, HitboxCollisionConfig, HitboxCollisionSystems, Setup
+
+Complete API:
+  public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,HitboxCollisionConfig> assetMap, Map<String,HitboxCollisionConfig> assets)
+  public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,HitboxCollisionConfig> assetMap, Map<String,HitboxCollisionConfig> loadedAssets, AssetUpdateQuery query)
+  public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,HitboxCollisionConfig> assetMap, Set<String> removed, AssetUpdateQuery query)

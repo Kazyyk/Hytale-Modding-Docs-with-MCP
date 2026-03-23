@@ -73,3 +73,9 @@ Provides two constructors: a default no-arg constructor and a full constructor f
 - `SnapshotBuffer` -- ECS component holding the circular buffer of position/rotation snapshots
 - `TransformComponent` -- provides the position and rotation to capture
 - `EntityModule` -- registers these systems and provides the resource type
+
+Also in this package: Add, AdventurePlayerSystem, AnimationEntityTrackerUpdate, ApplyRandomSkin, AssignNetworkIdToProps, AudioSystems, Capture, ClearFromPrefabMarker, ClearFromWorldGenMarker, ClearMarker, DynamicLightTracker, EnsurePropsPrefabCopyable, EntityInteractableSystems, EntitySpatialSystem, EntitySystems, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerUpdate (and 40 more)
+
+Fields:
+public static long HISTORY_LENGTH_NS
+private static final HytaleLogger LOGGER

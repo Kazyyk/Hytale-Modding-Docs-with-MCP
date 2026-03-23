@@ -21,3 +21,23 @@ public abstract class TerrainAsset implements Cleanable, JsonAssetWithMap
 - public abstract Density buildDensity(SeedBox var1, ReferenceBundle var2, WorkerIndexer.Id var3)
 - public String getId()
 - @Override public void cleanUp()
+
+Known subclasses: DensityTerrainAsset
+
+Also in this package: DensityTerrainAsset
+
+Complete API:
+  public abstract Density buildDensity(SeedBox var1, ReferenceBundle var2, WorkerIndexer.Id var3)
+  public String getId()
+  public void cleanUp()
+
+Fields:
+private static final TerrainAsset[] EMPTY_INPUTS
+public static final AssetCodecMapCodec<String,TerrainAsset> CODEC
+public static final Codec<String> CHILD_ASSET_CODEC
+public static final Codec<String[]> CHILD_ASSET_CODEC_ARRAY
+public static final BuilderCodec<TerrainAsset> ABSTRACT_CODEC
+private String id
+private AssetExtraInfo.Data data
+private TerrainAsset[] inputs
+private boolean skip

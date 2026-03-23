@@ -31,3 +31,12 @@ Removes a persisted resource.
 - EmptyResourceStorage -- no-op implementation
 - Resource -- the interface for resource data
 - Store -- uses IResourceStorage for resource persistence
+
+Known implementors: DiskResourceStorage, EmptyResourceStorage
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)
+
+Complete API:
+  CompletableFuture<T> load(Store<ECS_TYPE> var1, ComponentRegistry.Data<ECS_TYPE> var2, ResourceType<ECS_TYPE,T> var3)
+  CompletableFuture<Void> save(Store<ECS_TYPE> var1, ComponentRegistry.Data<ECS_TYPE> var2, ResourceType<ECS_TYPE,T> var3, T var4)
+  CompletableFuture<Void> remove(Store<ECS_TYPE> var1, ComponentRegistry.Data<ECS_TYPE> var2, ResourceType<ECS_TYPE,T> var3)

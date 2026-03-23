@@ -24,3 +24,13 @@ public enum Access
 
 - public int getValue()
 - public static Access fromValue(int value)
+
+Also in this package: RequestServerAccess, SetServerAccess, UpdateServerAccess
+
+Complete API:
+  public int getValue()
+  public static Access fromValue(int value)
+
+Fields:
+public static final Access[] VALUES
+private final int value

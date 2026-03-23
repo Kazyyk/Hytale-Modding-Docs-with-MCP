@@ -16,3 +16,17 @@ A ticking system in the gather damage group that inflicts drowning or suffocatio
 - DamageSystems -- parent class
 - DamageCause -- uses `DROWNING` and `SUFFOCATION` causes
 - Damage -- the damage events generated
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool, DamageCalculatorSystems (and 49 more)
+
+Complete API:
+  public SystemGroup<EntityStore> getGroup()
+  public Query<EntityStore> getQuery()
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+
+Fields:
+private static final float DAMAGE_AMOUNT_DROWNING
+private static final float DAMAGE_AMOUNT_SUFFOCATION
+private static final ComponentType<EntityStore,ModelComponent> MODEL_COMPONENT_TYPE
+private static final Query<EntityStore> QUERY

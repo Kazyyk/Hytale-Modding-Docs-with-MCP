@@ -23,3 +23,19 @@ Provider supplying HytaleWorldGen values based on context.
 - @Nonnull public Semver getVersion()
 - @Nonnull @Override public IWorldGen getGenerator()
 - @Override public String toString()
+
+Also in this package: BiomeDataSystem, ChunkGeneratorResource, SeedStringResource, WorldGenBuilderCodec, WorldGenConfig, WorldGenConstants
+
+Complete API:
+  public Semver getVersion()
+  public IWorldGen getGenerator()
+  public String toString()
+
+Fields:
+public static final String ID
+public static final String DEFAULT_NAME
+public static final Semver MIN_VERSION
+public static final HytaleWorldGenProvider.WorldGenBuilderCodec CODEC
+private String name
+private Semver version
+private String path

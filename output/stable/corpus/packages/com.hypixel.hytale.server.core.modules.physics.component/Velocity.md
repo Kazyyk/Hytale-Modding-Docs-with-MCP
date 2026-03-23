@@ -46,3 +46,34 @@ ECS component representing an entity's velocity state. Maintains both a server-a
 ## Inner Classes
 
 - Instruction | Holds a velocity vector, optional `VelocityConfig`, and `ChangeVelocityType` for deferred application.
+
+Also in this package: Instruction, PhysicsValues
+
+Complete API:
+  public static ComponentType<EntityStore,Velocity> getComponentType()
+  public void setZero()
+  public void addForce(Vector3d force)
+  public void addForce(double x, double y, double z)
+  public void set(Vector3d newVelocity)
+  public void set(double x, double y, double z)
+  public void setClient(Vector3d newVelocity)
+  public void setClient(double x, double y, double z)
+  public void setX(double x)
+  public void setY(double y)
+  public void setZ(double z)
+  public double getX()
+  public double getY()
+  public double getZ()
+  public double getSpeed()
+  public void addInstruction(Vector3d velocity, VelocityConfig config, ChangeVelocityType type)
+  public List<Velocity.Instruction> getInstructions()
+  public Vector3d getVelocity()
+  public Vector3d getClientVelocity()
+  public Vector3d assignVelocityTo(Vector3d vector)
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<Velocity> CODEC
+protected final List<Velocity.Instruction> instructions
+protected final Vector3d velocity
+protected final Vector3d clientVelocity

@@ -25,3 +25,20 @@ Iterates over each motion controller builder and calls its `canSpawn()`. All con
 - Class<Map<String, MotionController>> category() | Returns BuilderMotionControllerMapUtil`.CLASS_REFERENCE
 - boolean isEnabled(ExecutionContext) | Always returns `true
 - String getIdentifier() | Returns the builder's key name from `NPCPlugin.getBuilderInfo()
+
+Also in this package: BuilderMotionControllerBase, BuilderMotionControllerDive, BuilderMotionControllerFly, BuilderMotionControllerWalk
+
+Complete API:
+  public Map<String,MotionController> build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Map<String,MotionController>> readConfig(JsonElement data)
+  public Class<Map<String,MotionController>> category()
+  public final boolean isEnabled(ExecutionContext context)
+  public String getIdentifier()
+  public SpawnTestResult canSpawn(SpawningContext context)
+  public boolean validate(String configName, NPCLoadTimeValidationHelper validationHelper, ExecutionContext context, Scope globalScope, List<String> errors)
+
+Fields:
+private final BuilderObjectMapHelper<String,MotionController> motionControllers

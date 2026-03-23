@@ -12,3 +12,12 @@ public class NPCEditorPlugin extends JavaPlugin
 
 - @Override protected void setup()
 - private static void onSelectAsset(AssetEditorSelectAssetEvent event)
+
+Also in this package: NPCRoleAssetTypeHandler
+
+Complete API:
+  protected void setup()
+  private static void onSelectAsset(AssetEditorSelectAssetEvent event)
+
+Fields:
+private static final AssetEditorPreviewCameraSettings DEFAULT_PREVIEW_CAMERA_SETTINGS

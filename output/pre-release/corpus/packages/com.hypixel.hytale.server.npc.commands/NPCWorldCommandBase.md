@@ -74,3 +74,18 @@ Validates that the given entity reference has an `NPCEntity` component. Returns 
 
 - NPCCommandUtils -- standalone utility with similar NPC resolution
 - NPCMultiSelectCommandBase -- extends this for multi-NPC selection
+
+Known subclasses: ClearAttackCommand, GetRoleCommand, GiveNothingCommand, NPCAppearanceCommand, NPCDumpCommand, NPCGiveCommand, NPCMultiSelectCommandBase, NPCRoleCommand, PolygonPathCommand, SetAttackCommand, SetPathCommand
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+  protected abstract void execute(CommandContext var1, NPCEntity var2, World var3, Store<EntityStore> var4, Ref<EntityStore> var5)
+  private NPCEntity getNPC(CommandContext context, Store<EntityStore> store)
+  protected static NPCEntity ensureIsNPC(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref)
+
+Fields:
+protected static final Message MESSAGE_COMMANDS_ERRORS_PLAYER_OR_ARG
+protected static final Message MESSAGE_COMMANDS_ERRORS_NO_ENTITY_IN_VIEW
+protected final EntityWrappedArg entityArg

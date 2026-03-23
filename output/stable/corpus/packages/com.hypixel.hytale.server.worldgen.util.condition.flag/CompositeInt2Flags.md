@@ -17,3 +17,13 @@ public class CompositeInt2Flags implements Int2FlagsCondition
 ## Inner Types
 
 - `CompositeInt2Flags.FlagCondition`
+
+Also in this package: ConstantInt2Flags, FlagCondition, FlagOperator, Int2FlagsCondition
+
+Complete API:
+  public int eval(int input)
+  public String toString()
+
+Fields:
+private final CompositeInt2Flags.FlagCondition[] flags
+private final int defaultResult

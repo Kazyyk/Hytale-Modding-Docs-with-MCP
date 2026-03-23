@@ -15,3 +15,13 @@ Resizable backpack inventory section. Can be dynamically resized via `resize()`.
 - public static ComponentType<EntityStore, InventoryComponent.Backpack> getComponentType()
 - public void resize(short capacity, List<ItemStack> remainder)
 - public Component<EntityStore> clone()
+
+Also in this package: Armor, ArmorChangeEventSystem, BackpackChangeEventSystem, Combined, Hotbar, HotbarChangeEventSystem, Inventory, InventoryChangeEvent, InventoryChangeEventSystem, InventoryComponent, InventorySystems, ItemContext, ItemPickupType, ItemStack, LegacyArmorChangeStatSystem, LegacyHotbarChangeStatSystem, LegacyUtilityChangeStatSystem, MaterialQuantity, Metadata, PlayerInventoryChangeEventSystem (and 7 more)
+
+Complete API:
+  public static ComponentType<EntityStore,InventoryComponent.Backpack> getComponentType()
+  public void resize(short capacity, List<ItemStack> remainder)
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<InventoryComponent.Backpack> CODEC

@@ -9,3 +9,10 @@ Defines the contract for SemverSatisfies operations. A functional interface for 
 ## Methods
 
 - boolean satisfies(Semver var1)
+
+Known implementors: SemverComparator, SemverRange
+
+Also in this package: ComparisonType, Semver, SemverComparator, SemverRange
+
+Complete API:
+  boolean satisfies(Semver var1)

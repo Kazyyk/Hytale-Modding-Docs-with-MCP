@@ -24,3 +24,21 @@ An `EntityStore` component.
 - public void setNextMoveInRepeat(float nextMoveInRepeat)
 - @Override public Component<EntityStore> clone()
 - public boolean test(@Nonnull Ref<EntityStore> targetRef)
+
+Also in this package: ActiveAnimationComponent, AudioComponent, BoundingBox, CollisionResultComponent, DisplayNameComponent, DynamicLight, EntityScaleComponent, FromPrefab, FromWorldGen, HeadRotation, HiddenFromAdventurePlayers, Intangible, Interactable, Invulnerable, ModelComponent, NPCMarkerComponent, NewSpawnComponent, PersistentDynamicLight, PersistentModel, PositionDataComponent (and 7 more)
+
+Complete API:
+  public static ComponentType<EntityStore,MovementAudioComponent> getComponentType()
+  public MovementAudioComponent.ShouldHearPredicate getShouldHearPredicate(Ref<EntityStore> ref)
+  public int getLastInsideBlockTypeId()
+  public void setLastInsideBlockTypeId(int lastInsideBlockTypeId)
+  public boolean canMoveInRepeat()
+  public boolean tickMoveInRepeat(float dt)
+  public void setNextMoveInRepeat(float nextMoveInRepeat)
+  public Component<EntityStore> clone()
+
+Fields:
+public static float NO_REPEAT
+private final MovementAudioComponent.ShouldHearPredicate shouldHearPredicate
+private int lastInsideBlockTypeId
+private float nextMoveInRepeat

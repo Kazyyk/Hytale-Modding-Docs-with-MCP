@@ -90,3 +90,28 @@ public boolean isRemoved()
 
 - BuilderManager -- owns the builder cache containing these info objects
 - Builder -- the builder instance stored in this info
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  public int getIndex()
+  public String getKeyName()
+  public Builder<?> getBuilder()
+  public Path getPath()
+  public boolean isValidated()
+  public boolean isValid()
+  public boolean setValidated(boolean success)
+  public void setForceValidation()
+  public void setNeedsValidation()
+  public void setNeedsReload()
+  public boolean canBeValidated()
+  public boolean needsValidation()
+  public void setRemoved()
+  public boolean isRemoved()
+
+Fields:
+private final String keyName
+private final int index
+private final Builder<?> builder
+private final Path path
+private BuilderInfo.State status

@@ -29,3 +29,13 @@ Registers as sub-command `"thaw"` with translation key `"server.commands.npc.tha
 - NPCStepCommand -- steps frozen NPCs one tick
 - NPCCommandUtils -- used for target resolution
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_NPC_THAW_ALL
+private final FlagArg allArg
+private final EntityWrappedArg entityArg

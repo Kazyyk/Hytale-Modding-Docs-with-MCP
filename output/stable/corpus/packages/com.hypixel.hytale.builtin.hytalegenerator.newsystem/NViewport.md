@@ -9,3 +9,13 @@ Represents a rectangular viewport in voxel space, tracking affected chunk indice
 ## Key Methods
 
 - public void refresh()
+
+Also in this package: Builder, GridUtils, NStagedChunkGenerator, TerrainDensityProvider
+
+Complete API:
+  public void refresh()
+
+Fields:
+private final World world
+private final CommandSender sender
+private final LongSet affectedChunkIndices

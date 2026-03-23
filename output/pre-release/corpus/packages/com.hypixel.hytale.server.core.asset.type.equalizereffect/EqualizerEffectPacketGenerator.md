@@ -9,3 +9,8 @@ public class EqualizerEffectPacketGenerator extends SimpleAssetPacketGenerator
 - @Nonnull public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,EqualizerEffect> assetMap, Map<String,EqualizerEffect> assets)
 - @Nonnull public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,EqualizerEffect> assetMap, Map<String,EqualizerEffect> loadedAssets)
 - @Nonnull public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,EqualizerEffect> assetMap, Set<String> removed)
+
+Complete API:
+  public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,EqualizerEffect> assetMap, Map<String,EqualizerEffect> assets)
+  public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,EqualizerEffect> assetMap, Map<String,EqualizerEffect> loadedAssets)
+  public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,EqualizerEffect> assetMap, Set<String> removed)

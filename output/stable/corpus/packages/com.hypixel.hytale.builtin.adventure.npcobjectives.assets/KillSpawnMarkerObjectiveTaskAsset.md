@@ -19,3 +19,16 @@ Asset definition for KillSpawnMarkerObjectiveTask configuration data.
 - public float getRadius()
 - @Override protected boolean matchesAsset0(ObjectiveTaskAsset task)
 - @Nonnull @Override public String toString()
+
+Also in this package: BountyObjectiveTaskAsset, KillObjectiveTaskAsset, KillSpawnBeaconObjectiveTaskAsset, ObjectiveSpawnBeacon
+
+Complete API:
+  public String[] getSpawnMarkerIds()
+  public float getRadius()
+  protected boolean matchesAsset0(ObjectiveTaskAsset task)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<KillSpawnMarkerObjectiveTaskAsset> CODEC
+protected String[] spawnMarkerIds
+protected float radius

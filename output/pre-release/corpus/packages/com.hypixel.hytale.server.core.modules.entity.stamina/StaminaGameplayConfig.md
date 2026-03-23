@@ -18,3 +18,14 @@ Configuration class for Stamina settings.
 
 - @Nonnull public StaminaGameplayConfig.SprintRegenDelayConfig getSprintRegenDelay()
 - @Nonnull @Override public String toString()
+
+Also in this package: SprintRegenDelayConfig, SprintStaminaEffectSystem, SprintStaminaRegenDelay, StaminaModule, StaminaSystems
+
+Complete API:
+  public StaminaGameplayConfig.SprintRegenDelayConfig getSprintRegenDelay()
+  public String toString()
+
+Fields:
+public static final String ID
+public static final BuilderCodec<StaminaGameplayConfig> CODEC
+protected StaminaGameplayConfig.SprintRegenDelayConfig sprintRegenDelay

@@ -14,3 +14,11 @@ Extends `SimpleFileVisitor` to provide PrefabFileVisitor functionality.
 
 - public PrefabFileVisitor(@Nonnull List<PrefabBuffer> prefabBuffers)
 - @Nonnull public FileVisitResult visitFile(@Nonnull Path file, @Nonnull BasicFileAttributes attrs)
+
+Also in this package: PrefabLoader, PrefabPropAsset, WeightedPathAsset
+
+Complete API:
+  public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+
+Fields:
+private final List<PrefabBuffer> prefabBuffers

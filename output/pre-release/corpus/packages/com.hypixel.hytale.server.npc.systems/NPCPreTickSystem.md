@@ -48,3 +48,19 @@ Returns `EntityTickingSystem.maybeUseParallel(archetypeChunkSize, taskCount)`.
 
 - ComputeVelocitySystem -- uses the tick-start position stored by this system
 - SpawnReferenceSystems -- spawn marker/beacon despawn logic
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 49 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public Query<EntityStore> getQuery()
+  public void steppedTick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final float DEFAULT_DESPAWN_CHECK_DELAY
+private final ComponentType<EntityStore,NPCEntity> npcComponentType
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final ComponentType<EntityStore,ModelComponent> modelComponentType
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

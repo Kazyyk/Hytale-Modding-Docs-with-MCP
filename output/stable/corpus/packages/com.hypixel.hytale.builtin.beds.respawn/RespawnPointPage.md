@@ -22,3 +22,17 @@ public abstract class RespawnPointPage extends InteractiveCustomUIPage<RespawnPo
 - public String getAction()
 - public int getIndex()
 - public String getRespawnPointName()
+
+Known subclasses: OverrideNearbyRespawnPointPage, SelectOverrideRespawnPointPage, SetNameRespawnPointPage
+
+Also in this package: OverrideNearbyRespawnPointPage, RespawnPointEventData, SelectOverrideRespawnPointPage, SetNameRespawnPointPage
+
+Complete API:
+  public abstract void build(Ref<EntityStore> var1, UICommandBuilder var2, UIEventBuilder var3, Store<EntityStore> var4)
+  protected void setRespawnPointForPlayer(Ref<EntityStore> ref, Store<EntityStore> store, Vector3i blockPosition, RespawnBlock respawnBlock, String respawnPointName, PlayerRespawnPointData respawnPointsToRemove)
+  private static PlayerRespawnPointData[] handleRespawnPointsToRemove(World world, PlayerRespawnPointData[] respawnPoints, PlayerRespawnPointData[] respawnPointsToRemove)
+  protected void displayError(Message errorMessage)
+
+Fields:
+private static final Message MESSAGE_SERVER_CUSTOM_UI_NEED_TO_SET_NAME
+private static final int RESPAWN_NAME_MAX_LENGTH

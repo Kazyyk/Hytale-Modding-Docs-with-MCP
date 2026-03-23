@@ -40,3 +40,19 @@ public class WallPattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: AndPattern, ConstantPattern, Context, CuboidPattern, Facing, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, Pattern, RotatorPattern, SurfacePattern, WallDirection
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  private boolean matches(Pattern.Context context, WallPattern.WallDirection direction)
+  public Bounds3i getBounds_voxelGrid()
+
+Fields:
+private final Pattern wallPattern
+private final Pattern originPattern
+private final List<WallPattern.WallDirection> directions
+private final boolean matchAll
+private final Bounds3i bounds_voxelGrid
+private final Vector3i rWallPosition
+private final Pattern.Context rWallContext

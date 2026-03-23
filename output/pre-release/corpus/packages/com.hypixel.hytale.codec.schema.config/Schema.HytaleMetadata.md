@@ -54,3 +54,78 @@ public int hashCode()
 ## See Also
 
 - Schema -- parent class
+
+Also in this package: ArrayOrNull, ArraySchema, BooleanOrSchema, BooleanSchema, CommonAsset, DoubleOrSchema, InheritSettings, IntegerOrSchema, IntegerSchema, ItemOrItems, NullSchema, NumberSchema, ObjectSchema, Schema, SchemaTypeField, StringOrBlank, StringSchema
+
+Complete API:
+  public String getType()
+  public void setType(String type)
+  public String getPath()
+  public void setPath(String path)
+  public String getVirtualPath()
+  public void setVirtualPath(String virtualPath)
+  public String getExtension()
+  public void setExtension(String extension)
+  public String getIdProvider()
+  public void setIdProvider(String idProvider)
+  public String[] getInternalKeys()
+  public void setInternalKeys(String[] internalKeys)
+  public UIDisplayMode.DisplayMode getUiDisplayMode()
+  public void setUiDisplayMode(UIDisplayMode.DisplayMode uiDisplayMode)
+  public UIEditor.EditorComponent getUiEditorComponent()
+  public void setUiEditorComponent(UIEditor.EditorComponent uiEditorComponent)
+  public UIEditorFeatures.EditorFeature[] getUiEditorFeatures()
+  public void setUiEditorFeatures(UIEditorFeatures.EditorFeature[] uiEditorFeatures)
+  public UIEditorPreview.PreviewType getUiEditorPreview()
+  public void setUiEditorPreview(UIEditorPreview.PreviewType uiEditorPreview)
+  public String getUiTypeIcon()
+  public void setUiTypeIcon(String uiTypeIcon)
+  public Boolean getUiEditorIgnore()
+  public void setUiEditorIgnore(Boolean uiEditorIgnore)
+  public Boolean getAllowEmptyObject()
+  public void setAllowEmptyObject(Boolean allowEmptyObject)
+  public String getUiPropertyTitle()
+  public void setUiPropertyTitle(String uiPropertyTitle)
+  public String getUiSectionStart()
+  public void setUiSectionStart(String uiSectionStart)
+  public boolean isInheritsProperty()
+  public void setInheritsProperty(boolean inheritsProperty)
+  public boolean getMergesProperties()
+  public void setMergesProperties(boolean mergesProperties)
+  public UIRebuildCaches.ClientCache[] getUiRebuildCaches()
+  public void setUiRebuildCaches(UIRebuildCaches.ClientCache[] uiRebuildCaches)
+  public Boolean getUiRebuildCachesForChildProperties()
+  public void setUiRebuildCachesForChildProperties(Boolean uiRebuildCachesForChildProperties)
+  public UIButton[] getUiSidebarButtons()
+  public void setUiSidebarButtons(UIButton[] uiSidebarButtons)
+  public Boolean getUiCollapsedByDefault()
+  public void setUiCollapsedByDefault(Boolean uiCollapsedByDefault)
+  public UIButton[] getUiCreateButtons()
+  public void setUiCreateButtons(UIButton[] uiCreateButtons)
+  public boolean equals(Object o)
+  public int hashCode()
+
+Fields:
+public static final BuilderCodec<Schema.HytaleMetadata> CODEC
+private String type
+private String path
+private String virtualPath
+private String extension
+private String idProvider
+private String[] internalKeys
+private Boolean inheritsProperty
+private Boolean mergesProperties
+private UIEditorFeatures.EditorFeature[] uiEditorFeatures
+private UIEditorPreview.PreviewType uiEditorPreview
+private String uiTypeIcon
+private Boolean uiEditorIgnore
+private Boolean allowEmptyObject
+private UIDisplayMode.DisplayMode uiDisplayMode
+private UIEditor.EditorComponent uiEditorComponent
+private String uiPropertyTitle
+private String uiSectionStart
+private UIRebuildCaches.ClientCache[] uiRebuildCaches
+private Boolean uiRebuildCachesForChildProperties
+private UIButton[] uiSidebarButtons
+private Boolean uiCollapsedByDefault
+private UIButton[] uiCreateButtons

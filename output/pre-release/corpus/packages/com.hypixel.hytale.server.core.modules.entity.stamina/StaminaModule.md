@@ -18,3 +18,16 @@ Plugin class that registers components, systems, and commands for the StaminaMod
 - public ResourceType<EntityStore, SprintStaminaRegenDelay> getSprintRegenDelayResourceType()
 - protected static void onGameplayConfigsLoaded(LoadedAssetsEvent<String, GameplayConfig, AssetMap<String, GameplayConfig>> event)
 - public static StaminaModule get()
+
+Also in this package: SprintRegenDelayConfig, SprintStaminaEffectSystem, SprintStaminaRegenDelay, StaminaGameplayConfig, StaminaSystems
+
+Complete API:
+  protected void setup()
+  public ResourceType<EntityStore,SprintStaminaRegenDelay> getSprintRegenDelayResourceType()
+  protected static void onGameplayConfigsLoaded(LoadedAssetsEvent<String,GameplayConfig,AssetMap<String,GameplayConfig>> event)
+  public static StaminaModule get()
+
+Fields:
+public static final PluginManifest MANIFEST
+private static StaminaModule instance
+private ResourceType<EntityStore,SprintStaminaRegenDelay> sprintRegenDelayResourceType

@@ -16,3 +16,12 @@ public class WhitelistAddCommand extends AbstractAsyncCommand
 ## Methods
 
 - @Nonnull @Override protected CompletableFuture<Void> executeAsync(@Nonnull CommandContext context)
+
+Also in this package: BanCommand, UnbanCommand, WhitelistClearCommand, WhitelistCommand, WhitelistDisableCommand, WhitelistEnableCommand, WhitelistListCommand, WhitelistRemoveCommand, WhitelistStatusCommand
+
+Complete API:
+  protected CompletableFuture<Void> executeAsync(CommandContext context)
+
+Fields:
+private final HytaleWhitelistProvider whitelistProvider
+private final RequiredArg<ProfileServiceClient.PublicGameProfile> playerArg

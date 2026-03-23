@@ -14,3 +14,12 @@ Main storage inventory section. Extends InventoryComponent.
 
 - public static ComponentType<EntityStore, InventoryComponent.Storage> getComponentType()
 - public Component<EntityStore> clone()
+
+Also in this package: Armor, ArmorChangeEventSystem, Backpack, BackpackChangeEventSystem, Combined, Hotbar, HotbarChangeEventSystem, Inventory, InventoryChangeEvent, InventoryChangeEventSystem, InventoryComponent, InventorySystems, ItemContext, ItemPickupType, ItemStack, LegacyArmorChangeStatSystem, LegacyHotbarChangeStatSystem, LegacyUtilityChangeStatSystem, MaterialQuantity, Metadata (and 7 more)
+
+Complete API:
+  public static ComponentType<EntityStore,InventoryComponent.Storage> getComponentType()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<InventoryComponent.Storage> CODEC

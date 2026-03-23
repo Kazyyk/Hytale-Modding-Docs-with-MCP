@@ -21,3 +21,15 @@ Concrete implementation extending `ObjectiveRewardHistoryData`.
 - getItemId() | String | public method.
 - getQuantity() | int | public method.
 - toString() | String | public method.
+
+Also in this package: CommonObjectiveHistoryData, ObjectiveHistoryData, ObjectiveLineHistoryData, ObjectiveRewardHistoryData
+
+Complete API:
+  public String getItemId()
+  public int getQuantity()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ItemObjectiveRewardHistoryData> CODEC
+protected String itemId
+protected int quantity

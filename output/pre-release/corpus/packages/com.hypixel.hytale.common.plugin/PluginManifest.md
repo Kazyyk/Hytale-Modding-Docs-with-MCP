@@ -68,3 +68,53 @@ public class PluginManifest
 ## Inner Types
 
 - `PluginManifest.CoreBuilder`
+
+Also in this package: AuthorInfo, CoreBuilder, PluginIdentifier
+
+Complete API:
+  public String getGroup()
+  public String getName()
+  public Semver getVersion()
+  public String getDescription()
+  public List<AuthorInfo> getAuthors()
+  public String getWebsite()
+  public void setGroup(String group)
+  public void setName(String name)
+  public void setVersion(Semver version)
+  public void setDescription(String description)
+  public void setAuthors(List<AuthorInfo> authors)
+  public void setWebsite(String website)
+  public String getMain()
+  public String getServerVersion()
+  public void setServerVersion(String serverVersion)
+  public Map<PluginIdentifier,SemverRange> getDependencies()
+  public void injectDependency(PluginIdentifier identifier, SemverRange range)
+  public Map<PluginIdentifier,SemverRange> getOptionalDependencies()
+  public Map<PluginIdentifier,SemverRange> getLoadBefore()
+  public boolean isDisabledByDefault()
+  public boolean includesAssetPack()
+  public List<PluginManifest> getSubPlugins()
+  public void inherit(PluginManifest manifest)
+  public String toString()
+  public static PluginManifest.CoreBuilder corePlugin(Class<?> pluginClass)
+
+Fields:
+private static final BuilderCodec.Builder<PluginManifest> BUILDER
+public static final Codec<PluginManifest> CODEC
+public static final Codec<PluginManifest[]> ARRAY_CODEC
+public static final String CORE_GROUP
+private static final Semver CORE_VERSION
+private String group
+private String name
+private Semver version
+private String description
+private List<AuthorInfo> authors
+private String website
+private String main
+private String serverVersion
+private Map<PluginIdentifier,SemverRange> dependencies
+private Map<PluginIdentifier,SemverRange> optionalDependencies
+private Map<PluginIdentifier,SemverRange> loadBefore
+private List<PluginManifest> subPlugins
+private boolean disabledByDefault
+private boolean includesAssetPack

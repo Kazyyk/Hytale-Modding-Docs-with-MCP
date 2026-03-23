@@ -16,3 +16,17 @@ ECS ticking system that applies avoidance and separation steering to NPCs. Runs 
 - public boolean isParallel(int archetypeChunkSize, int taskCount)
 - public Query<EntityStore> getQuery()
 - public void steppedTick(float dt, int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer)
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem, FilterDamageSystem (and 49 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public Query<EntityStore> getQuery()
+  public void steppedTick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,NPCEntity> componentType
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final Query<EntityStore> query
+private final Set<Dependency<EntityStore>> dependencies

@@ -20,3 +20,20 @@ public class BuilderRelativeWaypointDefinition extends BuilderBase
 - @Override public final boolean isEnabled(ExecutionContext context)
 - public float getRotation()
 - public double getDistance()
+
+Also in this package: BuilderTransientPathDefinition
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public RelativeWaypointDefinition build(BuilderSupport builderSupport)
+  public Class<RelativeWaypointDefinition> category()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<RelativeWaypointDefinition> readConfig(JsonElement data)
+  public final boolean isEnabled(ExecutionContext context)
+  public float getRotation()
+  public double getDistance()
+
+Fields:
+protected float rotation
+protected double distance

@@ -12,3 +12,12 @@ public class HytaleUncaughtExceptionHandler implements UncaughtExceptionHandler
 
 - public static void setup()
 - @Override public void uncaughtException(Thread t, Throwable e)
+
+Also in this package: HytaleConsole, HytaleFileHandler, HytaleJdkLogger, HytaleLogFormatter, HytaleLogManager, HytaleLoggerBackend, RawLogRecord
+
+Complete API:
+  public static void setup()
+  public void uncaughtException(Thread t, Throwable e)
+
+Fields:
+public static final HytaleUncaughtExceptionHandler INSTANCE

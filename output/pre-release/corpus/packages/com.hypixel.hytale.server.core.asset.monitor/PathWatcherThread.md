@@ -26,3 +26,21 @@ Implements `Runnable` to provide PathWatcherThread functionality.
 - public void shutdown()
 - public void addPath(Path path)
 - private void watchPath(@Nonnull Path path)
+
+Also in this package: AssetMonitor, AssetMonitorHandler, DirectoryHandlerChangeTask, EventKind, FileChangeTask, PathEvent
+
+Complete API:
+  public final void run()
+  public void start()
+  public void shutdown()
+  public void addPath(Path path)
+  private void watchPath(Path path)
+
+Fields:
+public static final HytaleLogger LOGGER
+public static final boolean HAS_FILE_TREE_SUPPORT
+public static final Kind<?>[] WATCH_EVENT_KINDS
+private final BiConsumer<Path,EventKind> consumer
+private final Thread thread
+private final WatchService service
+private final Map<Path,WatchKey> registered

@@ -14,3 +14,8 @@ Determines which bound of a stat value a modifier targets.
 ## Static Fields
 
 - VALUES | ModifierTarget[] | Cached `values()` array for iteration.
+
+Also in this package: CalculationType, DefaultModifiers, Modifier, StaticModifier
+
+Fields:
+public static final Modifier.ModifierTarget[] VALUES

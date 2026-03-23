@@ -53,3 +53,8 @@ Queries for entities matching the archetype of `ProjectileComponent`, `Transform
 - `ProjectileComponent` -- the ECS component these systems operate on
 - `BoundingBox` -- bounding box component initialized during setup
 - `ModelComponent` -- visual model set when a model asset is available
+
+Also in this package: AllLegacyEntityTypesQuery, AllLegacyLivingEntityTypesQuery, BlockEntitySetupSystem, BlockEntitySystems, BlockEntityTrackerSystem, BlockMigrationExtraInfo, DespawnComponent, DespawnSystem, EntityModule, EntityRegistration, EntityRegistry, HiddenFromPlayerMigrationSystem, LegacyEntityHolderSystem, LegacyEntityRefSystem, LegacyTransformSystem, LegacyUUIDSystem, LegacyUUIDUpdateSystem, MigrationSystem, OnAddHolderSystem, OnAddRefSystem (and 4 more)
+
+Fields:
+private static final HytaleLogger LOGGER

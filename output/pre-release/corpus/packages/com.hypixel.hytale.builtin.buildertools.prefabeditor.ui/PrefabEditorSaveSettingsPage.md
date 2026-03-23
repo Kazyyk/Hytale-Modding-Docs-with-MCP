@@ -51,3 +51,26 @@ Codec-backed data class with fields for save options (prefabsToSave, entities, e
 
 - PrefabEditorExitConfirmPage
 - PrefabEditorLoadSettingsPage
+
+Also in this package: Action, Action, Action, Action, PageData, PageData, PageData, PageData, PageData, PrefabEditorExitConfirmPage, PrefabEditorLoadOptionsPage, PrefabEditorLoadSettingsPage, PrefabTeleportPage
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, PrefabEditorSaveSettingsPage.PageData data)
+  private void buildPrefabList(UICommandBuilder commandBuilder, UIEventBuilder eventBuilder)
+  private String toDisplayPath(PrefabEditingMetadata metadata)
+  private Path getWritableSavePath(PrefabEditingMetadata metadata)
+  private void onSavingFailed(Message errorMessage)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final Value<String> BUTTON_HIGHLIGHTED
+private static final Value<String> BUTTON_SELECTED
+private final PrefabEditSession prefabEditSession
+private final AssetPackSaveBrowser packBrowser
+private final boolean exitOnSave
+private volatile boolean isSaving
+private volatile long lastProgressUpdateTime
+private static final long PROGRESS_UPDATE_INTERVAL_MS
+private String browserSearchQuery
+private final Set<UUID> selectedPrefabUuids

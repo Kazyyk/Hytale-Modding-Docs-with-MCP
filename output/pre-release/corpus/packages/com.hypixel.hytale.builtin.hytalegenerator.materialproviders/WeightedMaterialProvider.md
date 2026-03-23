@@ -20,3 +20,14 @@ A `MaterialProvider` that selects from a weighted map of child providers using a
 ## Methods
 
 - @Nullable @Override public V getVoxelTypeAt(@Nonnull MaterialProvider.Context context)
+
+Also in this package: ConstantMaterialProvider, Context, DownwardDepthMaterialProvider, DownwardSpaceMaterialProvider, FieldDelimiter, FieldDelimiter, FieldFunctionMaterialProvider, HorizontalMaterialProvider, MaterialProvider, QueueMaterialProvider, SolidityMaterialProvider, Stripe, StripedMaterialProvider, TerrainDensityMaterialProvider, UpwardDepthMaterialProvider, UpwardSpaceMaterialProvider
+
+Complete API:
+  public V getVoxelTypeAt(MaterialProvider.Context context)
+
+Fields:
+private final WeightedMap<MaterialProvider<V>> weightedMap
+private final RngField rngField
+private final FastRandom random
+private final double noneProbability

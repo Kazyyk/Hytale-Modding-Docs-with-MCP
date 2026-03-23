@@ -48,3 +48,47 @@ Class in the config subsystem.
 - getPostColor() | Color | public method.
 - getPostColorOpacity() | float | public method.
 - toString() | String | public method.
+
+Complete API:
+  public static AssetStore<String,ModelVFX,IndexedLookupTableAssetMap<String,ModelVFX>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,ModelVFX> getAssetMap()
+  public com.hypixel.hytale.protocol.ModelVFX toPacket()
+  public String getId()
+  public SwitchTo getSwitchTo()
+  public EffectDirection getEffectDirection()
+  public float getAnimationDuration()
+  public Vector2f getAnimationRange()
+  public LoopOption getLoopOption()
+  public CurveType getCurveType()
+  public Color getHighlightColor()
+  public boolean useBloomOnHighlight()
+  public boolean useProgessiveHighlight()
+  public float getHighlightThickness()
+  public Vector2f getNoiseScale()
+  public Vector2f getNoiseScrollSpeed()
+  public Color getPostColor()
+  public float getPostColorOpacity()
+  public String toString()
+
+Fields:
+public static final AssetBuilderCodec<String,ModelVFX> CODEC
+public static final Codec<String> CHILD_ASSET_CODEC
+public static final Codec<String[]> CHILD_ASSET_CODEC_ARRAY
+private static AssetStore<String,ModelVFX,IndexedLookupTableAssetMap<String,ModelVFX>> STORE
+public static final ValidatorCache<String> VALIDATOR_CACHE
+protected AssetExtraInfo.Data data
+protected String id
+private SwitchTo switchTo
+private EffectDirection effectDirection
+private float animationDuration
+private Vector2f animationRange
+private LoopOption loopOption
+private CurveType curveType
+private Color highlightColor
+private float highlightThickness
+private boolean useBloomOnHighlight
+private boolean useProgressiveHighlight
+private Vector2f noiseScale
+private Vector2f noiseScrollSpeed
+private Color postColor
+private float postColorOpacity

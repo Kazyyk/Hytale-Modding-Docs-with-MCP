@@ -7,3 +7,8 @@ public class EntitySnapshotHistoryCommand extends AbstractWorldCommand
 ## Methods
 
 - @Override protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Also in this package: EntitySnapshotLengthCommand, EntitySnapshotSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)

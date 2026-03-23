@@ -55,3 +55,24 @@ public String toString()
 
 - Schema -- base class
 - StringSchema -- used for `propertyNames` constraints
+
+Also in this package: ArrayOrNull, ArraySchema, BooleanOrSchema, BooleanSchema, CommonAsset, DoubleOrSchema, HytaleMetadata, InheritSettings, IntegerOrSchema, IntegerSchema, ItemOrItems, NullSchema, NumberSchema, Schema, SchemaTypeField, StringOrBlank, StringSchema
+
+Complete API:
+  public Map<String,Schema> getProperties()
+  public void setProperties(Map<String,Schema> properties)
+  public Object getAdditionalProperties()
+  public void setAdditionalProperties(boolean additionalProperties)
+  public void setAdditionalProperties(Schema additionalProperties)
+  public StringSchema getPropertyNames()
+  public void setPropertyNames(StringSchema propertyNames)
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ObjectSchema> CODEC
+private Map<String,Schema> properties
+private Object additionalProperties
+private StringSchema propertyNames
+private Schema unevaluatedProperties

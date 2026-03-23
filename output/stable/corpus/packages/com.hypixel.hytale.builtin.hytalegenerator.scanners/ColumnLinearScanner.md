@@ -18,3 +18,18 @@ public class ColumnLinearScanner extends Scanner
 
 - @Override @Nonnull public List<Vector3i> scan(@Nonnull Scanner.Context context)
 - @Override @Nonnull public SpaceSize scanSpace()
+
+Also in this package: AreaScanner, ColumnRandomScanner, Context, OriginScanner, ScanShape, Scanner, Strategy, Verticality
+
+Complete API:
+  public List<Vector3i> scan(Scanner.Context context)
+  public SpaceSize scanSpace()
+
+Fields:
+private final int minY
+private final int maxY
+private final boolean isRelativeToPosition
+private final double baseHeight
+private final int resultsCap
+private final boolean topDownOrder
+private final SpaceSize scanSpaceSize

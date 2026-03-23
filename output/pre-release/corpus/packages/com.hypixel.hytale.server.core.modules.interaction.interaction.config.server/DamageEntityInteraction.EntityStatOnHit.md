@@ -39,3 +39,20 @@ public String toString()
 ## See Also
 
 - DamageEntityInteraction -- parent interaction
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction, OpenContainerInteraction (and 11 more)
+
+Complete API:
+  public void processEntityStatsOnHit(int hits, EntityStatMap statMap)
+  public String toString()
+  public com.hypixel.hytale.protocol.EntityStatOnHit toPacket()
+
+Fields:
+public static final BuilderCodec<DamageEntityInteraction.EntityStatOnHit> CODEC
+public static final float[] DEFAULT_MULTIPLIERS_PER_ENTITIES_HIT
+public static final float DEFAULT_MULTIPLIER_PER_EXTRA_ENTITY_HIT
+protected String entityStatId
+protected float amount
+protected float[] multipliersPerEntitiesHit
+protected float multiplierPerExtraEntityHit
+private int entityStatIndex

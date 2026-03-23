@@ -13,3 +13,19 @@ Runs single-threaded and depends on `PlayerSpatialSystem`.
 ## Related Types
 
 - PlayerSystems -- other player systems
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem (and 33 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public Query<EntityStore> getQuery()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,ItemComponent> itemComponentType
+private final ComponentType<EntityStore,Player> playerComponentType
+private final ResourceType<EntityStore,SpatialResource<Ref<EntityStore>,EntityStore>> playerSpatialComponent
+private final ComponentType<EntityStore,InteractionManager> interactionManagerType
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

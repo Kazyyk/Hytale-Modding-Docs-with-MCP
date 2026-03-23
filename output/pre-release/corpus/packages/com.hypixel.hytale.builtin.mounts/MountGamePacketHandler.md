@@ -39,3 +39,12 @@ Throws `RuntimeException` if the player reference is invalid.
 
 - MountPlugin -- registers this handler
 - MountedComponent -- checked and removed during dismount
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public void registerHandlers()
+  public void handle(DismountNPC packet)
+
+Fields:
+private final IPacketHandler packetHandler

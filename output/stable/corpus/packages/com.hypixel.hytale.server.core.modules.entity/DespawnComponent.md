@@ -98,3 +98,20 @@ Returns a new `DespawnComponent` with the same `timeToDespawnAt` value.
 - EntityModule -- registers this component type under the key `"Despawn"`
 - `TimeResource` -- provides the current server time used by factory methods
 - `Component` -- the ECS component interface
+
+Also in this package: AllLegacyEntityTypesQuery, AllLegacyLivingEntityTypesQuery, BlockEntitySetupSystem, BlockEntitySystems, BlockEntityTrackerSystem, BlockMigrationExtraInfo, DespawnSystem, EntityModule, EntityRegistration, EntityRegistry, HiddenFromPlayerMigrationSystem, LegacyEntityHolderSystem, LegacyEntityRefSystem, LegacyProjectileSystems, LegacyTransformSystem, LegacyUUIDSystem, LegacyUUIDUpdateSystem, MigrationSystem, OnAddHolderSystem, OnAddRefSystem (and 4 more)
+
+Complete API:
+  public static ComponentType<EntityStore,DespawnComponent> getComponentType()
+  public void setDespawn(Instant timeToDespawnAt)
+  public void setDespawnTo(Instant from, float additionalSeconds)
+  public Instant getDespawn()
+  public static DespawnComponent despawnInSeconds(TimeResource time, int seconds)
+  public static DespawnComponent despawnInSeconds(TimeResource time, float seconds)
+  public static DespawnComponent despawnInMilliseconds(TimeResource time, long milliseconds)
+  public static void trySetDespawn(CommandBuffer<EntityStore> commandBuffer, TimeResource timeResource, Ref<EntityStore> ref, DespawnComponent despawnComponent, Float newLifetime)
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<DespawnComponent> CODEC
+private Instant timeToDespawnAt

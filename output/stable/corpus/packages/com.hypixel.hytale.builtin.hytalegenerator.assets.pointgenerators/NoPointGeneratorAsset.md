@@ -11,3 +11,11 @@ public class NoPointGeneratorAsset extends PointGeneratorAsset
 ## Methods
 
 - @Nonnull @Override public PointProvider build(SeedBox parentSeed)
+
+Also in this package: MeshPointGeneratorAsset, PointGeneratorAsset
+
+Complete API:
+  public PointProvider build(SeedBox parentSeed)
+
+Fields:
+public static final BuilderCodec<NoPointGeneratorAsset> CODEC

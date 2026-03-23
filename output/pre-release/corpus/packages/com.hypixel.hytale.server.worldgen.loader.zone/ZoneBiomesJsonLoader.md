@@ -31,3 +31,12 @@ public class ZoneBiomesJsonLoader extends JsonLoader<SeedStringResource, IWeight
 ## Inner Types
 
 - `ZoneBiomesJsonLoader.Constants`
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, UniqueZoneEntryJsonLoader, ZoneColorMappingJsonLoader, ZoneCustomBiomesJsonLoader, ZoneJsonLoader, ZonePatternProviderJsonLoader, ZoneRequirementJsonLoader
+
+Complete API:
+  public IWeightedMap<TileBiome> load()
+  protected TileBiome loadBiome(BiomeFileContext biomeContext)
+
+Fields:
+protected final ZoneFileContext zoneContext

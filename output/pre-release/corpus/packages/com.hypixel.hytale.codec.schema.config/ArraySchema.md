@@ -70,3 +70,25 @@ public int hashCode()
 ## See Also
 
 - Schema -- base class
+
+Also in this package: ArrayOrNull, BooleanOrSchema, BooleanSchema, CommonAsset, DoubleOrSchema, HytaleMetadata, InheritSettings, IntegerOrSchema, IntegerSchema, ItemOrItems, NullSchema, NumberSchema, ObjectSchema, Schema, SchemaTypeField, StringOrBlank, StringSchema
+
+Complete API:
+  public Object getItems()
+  public void setItem(Schema items)
+  public void setItems(Schema items)
+  public Integer getMinItems()
+  public void setMinItems(Integer minItems)
+  public Integer getMaxItems()
+  public void setMaxItems(Integer maxItems)
+  public boolean getUniqueItems()
+  public void setUniqueItems(boolean uniqueItems)
+  public boolean equals(Object o)
+  public int hashCode()
+
+Fields:
+public static final BuilderCodec<ArraySchema> CODEC
+private Object items
+private Integer minItems
+private Integer maxItems
+private Boolean uniqueItems

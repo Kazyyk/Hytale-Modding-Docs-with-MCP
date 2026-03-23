@@ -15,3 +15,12 @@ public class ThreadUtil
 ## Inner Types
 
 - `ThreadUtil.ThreadWatcher`
+
+Also in this package: ThreadWatcher
+
+Complete API:
+  public static void forceTimeHighResolution()
+  public static void createKeepAliveThread(Semaphore alive)
+  public static ExecutorService newCachedThreadPool(int maximumPoolSize, ThreadFactory threadFactory)
+  public static ThreadFactory daemon(String name)
+  public static ThreadFactory daemonCounted(String name)

@@ -23,3 +23,14 @@ public class FieldFunctionAssignmentsAsset extends AssignmentsAsset
 ## Inner Types
 
 - `FieldFunctionAssignmentsAsset.DelimiterAsset`
+
+Also in this package: Argument, AssignmentsAsset, ConstantAssignmentsAsset, DelimiterAsset, DelimiterAsset, ImportedAssignmentsAsset, SandwichAssignmentsAsset, WeightedAssets, WeightedAssignmentsAsset
+
+Complete API:
+  public Assignments build(AssignmentsAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<FieldFunctionAssignmentsAsset> CODEC
+private FieldFunctionAssignmentsAsset.DelimiterAsset[] delimiterAssets
+private DensityAsset densityAsset

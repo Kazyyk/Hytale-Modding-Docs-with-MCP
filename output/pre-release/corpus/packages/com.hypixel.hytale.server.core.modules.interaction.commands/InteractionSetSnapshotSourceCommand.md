@@ -13,3 +13,12 @@ Server command extending `CommandBase`.
 ## Methods
 
 - executeSync(@Nonnull CommandContext context) | void | protected method.
+
+Also in this package: InteractionClearCommand, InteractionCommand, InteractionRunCommand, InteractionRunSpecificCommand, InteractionSnapshotSourceCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private static final EnumArgumentType<SelectInteraction.SnapshotSource> SNAPSHOT_SOURCE_ARG_TYPE
+private final RequiredArg<SelectInteraction.SnapshotSource> snapshotSourceArg

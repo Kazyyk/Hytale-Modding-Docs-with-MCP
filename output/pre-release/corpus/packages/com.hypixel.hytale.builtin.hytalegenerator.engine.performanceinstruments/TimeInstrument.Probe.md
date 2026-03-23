@@ -32,3 +32,22 @@ A named nanosecond timer that supports hierarchical child probes. Measures elaps
 - @Nonnull public TimeInstrument.Probe createProbe(@Nonnull String name)
 - public boolean isCompatibleForAddition(@Nonnull TimeInstrument.Probe other)
 - public void add(@Nonnull TimeInstrument.Probe probe)
+
+Also in this package: MemInstrument, Report, State, TimeInstrument
+
+Complete API:
+  public TimeInstrument.Probe start()
+  public TimeInstrument.Probe stop()
+  public long getTotalTime_ns()
+  public String getName()
+  public List<TimeInstrument.Probe> getProbes()
+  public TimeInstrument.Probe createProbe(String name)
+  public boolean isCompatibleForAddition(TimeInstrument.Probe other)
+  public void add(TimeInstrument.Probe probe)
+
+Fields:
+private final String name
+private long startTime
+private long totalTime_ns
+private TimeInstrument.Probe.State state
+private List<TimeInstrument.Probe> probes

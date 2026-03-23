@@ -19,3 +19,11 @@ Enumerates PrefabRowSplitMode values: `BY_ALL_SUBFOLDERS`, `BY_SPECIFIED_FOLDER`
 ## Methods
 
 - public String getLocalizationString()
+
+Also in this package: PrefabAlignment, PrefabRootDirectory, PrefabStackingAxis, WorldGenType
+
+Complete API:
+  public String getLocalizationString()
+
+Fields:
+private final String localizationString

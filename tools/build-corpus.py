@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Transforms raw documentation markdown into an optimized corpus for AI Search.
+Transforms raw documentation markdown into an enriched corpus for AI Search.
 
 Reads from output/{branch}/docs/ and writes to output/{branch}/corpus/.
-The corpus format strips
-frontmatter noise, flattens tables, resolves links, and removes formatting
-overhead to maximize embedding signal per chunk.
-
-Index pages (index.md) are excluded entirely — they're navigation tables
-that fail AI Search vectorization and contain no unique semantic content.
+The corpus format:
+  - Strips frontmatter noise, flattens tables, resolves links
+  - Enriches every file with contextual data from class-index.json:
+    subclasses, implementors, sibling types, full method/field signatures
+  - Ensures even stub types have enough content for vectorization
+  - Excludes index pages (navigation tables with no unique semantic content)
 
 Usage:
     python3 tools/build-corpus.py [branch]
@@ -16,6 +16,7 @@ Usage:
     branch: stable (default) or pre-release
 """
 
+import json
 import os
 import re
 import sys
@@ -31,6 +32,124 @@ def resolve_paths(branch: str) -> tuple[Path, Path]:
         PROJECT_ROOT / "output" / branch / "docs",
         PROJECT_ROOT / "output" / branch / "corpus",
     )
+
+
+def load_class_index(branch: str) -> dict:
+    """Load class-index.json and build lookup structures."""
+    # Try branch-specific first, fall back to root artifacts
+    branch_path = PROJECT_ROOT / "artifacts" / branch / "class-index.json"
+    root_path = PROJECT_ROOT / "artifacts" / "class-index.json"
+    path = branch_path if branch_path.exists() else root_path
+
+    if not path.exists():
+        print(f"  WARNING: class-index.json not found, skipping enrichment")
+        return {}
+
+    data = json.loads(path.read_text(encoding="utf-8"))
+    classes = data.get("classes", [])
+
+    # Build FQCN -> entry lookup
+    by_fqcn = {}
+    # Build package -> [entries] lookup
+    by_package = {}
+    # Build reverse references
+    extended_by = {}  # superclass name -> [child FQCNs]
+    implemented_by = {}  # interface name -> [implementor FQCNs]
+
+    for c in classes:
+        fqcn = c["fqcn"]
+        by_fqcn[fqcn] = c
+        pkg = c.get("package", "")
+        by_package.setdefault(pkg, []).append(c)
+
+        sc = c.get("superclass")
+        if sc:
+            extended_by.setdefault(sc, []).append(fqcn)
+        for iface in c.get("interfaces", []):
+            implemented_by.setdefault(iface, []).append(fqcn)
+
+    return {
+        "by_fqcn": by_fqcn,
+        "by_package": by_package,
+        "extended_by": extended_by,
+        "implemented_by": implemented_by,
+    }
+
+
+def build_enrichment(fqcn: str, index: dict) -> str:
+    """Build enrichment text for a type from the class index."""
+    if not index:
+        return ""
+
+    by_fqcn = index["by_fqcn"]
+    by_package = index["by_package"]
+    extended_by = index["extended_by"]
+    implemented_by = index["implemented_by"]
+
+    entry = by_fqcn.get(fqcn)
+    if not entry:
+        return ""
+
+    sections = []
+    name = entry["name"]
+
+    # Subclasses
+    subclasses = extended_by.get(name, [])
+    if subclasses:
+        names = sorted(f.rsplit(".", 1)[-1] for f in subclasses)
+        sections.append(f"Known subclasses: {', '.join(names)}")
+
+    # Implementors
+    implementors = implemented_by.get(name, [])
+    if implementors:
+        names = sorted(f.rsplit(".", 1)[-1] for f in implementors)
+        sections.append(f"Known implementors: {', '.join(names)}")
+
+    # Sibling types in same package
+    pkg = entry.get("package", "")
+    siblings = by_package.get(pkg, [])
+    if len(siblings) > 1:
+        sibling_names = sorted(
+            c["name"] for c in siblings if c["fqcn"] != fqcn
+        )
+        if sibling_names:
+            # Cap at 20 to avoid huge lists in large packages
+            display = sibling_names[:20]
+            suffix = f" (and {len(sibling_names) - 20} more)" if len(sibling_names) > 20 else ""
+            sections.append(f"Also in this package: {', '.join(display)}{suffix}")
+
+    # Supplement method signatures from class-index if the doc page is sparse.
+    # We always include the full method list from the index as a "Complete API"
+    # section — this ensures even stub pages have searchable method signatures.
+    methods = entry.get("methods", [])
+    if methods:
+        method_lines = []
+        for m in methods:
+            mods = " ".join(m.get("modifiers", []))
+            ret = m.get("return_type", "void")
+            mname = m["name"]
+            params = ", ".join(
+                f"{p['type']} {p['name']}" for p in m.get("parameters", [])
+            )
+            sig = f"{mods} {ret} {mname}({params})".strip()
+            method_lines.append(f"  {sig}")
+        sections.append("Complete API:\n" + "\n".join(method_lines))
+
+    # Fields from class-index
+    fields = entry.get("fields", [])
+    if fields:
+        field_lines = []
+        for f in fields:
+            fmods = " ".join(f.get("modifiers", []))
+            ftype = f.get("type", "")
+            fname = f["name"]
+            field_lines.append(f"  {fmods} {ftype} {fname}".strip())
+        sections.append("Fields:\n" + "\n".join(field_lines))
+
+    if not sections:
+        return ""
+
+    return "\n\n" + "\n\n".join(sections) + "\n"
 
 
 def parse_frontmatter(content: str) -> tuple[dict, str]:
@@ -175,8 +294,8 @@ def collapse_blank_lines(text: str) -> str:
     return re.sub(r"\n{4,}", "\n\n\n", text)
 
 
-def transform_type_page(content: str) -> str:
-    """Transform a single type documentation page into corpus format."""
+def transform_type_page(content: str, index: dict) -> str:
+    """Transform a single type documentation page into enriched corpus format."""
     meta, body = parse_frontmatter(content)
     if not meta:
         return content  # Not a standard doc page, pass through
@@ -188,7 +307,11 @@ def transform_type_page(content: str) -> str:
     body = strip_code_fences(body)
     body = collapse_blank_lines(body)
 
-    return header + "\n" + body.strip() + "\n"
+    # Enrich with class-index data
+    fqcn = meta.get("fqcn", "")
+    enrichment = build_enrichment(fqcn, index)
+
+    return header + "\n" + body.strip() + enrichment
 
 
 def main():
@@ -202,6 +325,13 @@ def main():
     if not source_dir.exists():
         print(f"ERROR: Source directory not found: {source_dir}")
         sys.exit(1)
+
+    # Load class index for enrichment
+    print(f"Loading class index for {branch}...")
+    index = load_class_index(branch)
+    if index:
+        print(f"  Loaded {len(index['by_fqcn'])} types, {len(index['by_package'])} packages")
+        print(f"  {len(index['extended_by'])} types with subclasses, {len(index['implemented_by'])} with implementors")
 
     # Collect all .md files
     all_files = []
@@ -220,7 +350,7 @@ def main():
 
             all_files.append(rel)
 
-    print(f"Building corpus for {branch}")
+    print(f"\nBuilding corpus for {branch}")
     print(f"  Source: {source_dir}")
     print(f"  Target: {target_dir}")
     print(f"  Type pages: {len(all_files)}")
@@ -240,7 +370,7 @@ def main():
         content = src.read_text(encoding="utf-8")
         total_source_bytes += len(content.encode("utf-8"))
 
-        transformed = transform_type_page(content)
+        transformed = transform_type_page(content, index)
         total_corpus_bytes += len(transformed.encode("utf-8"))
 
         # Incremental: only write if changed
@@ -274,12 +404,15 @@ def main():
                 if not any(dp.iterdir()):
                     dp.rmdir()
 
-    reduction = (1 - total_corpus_bytes / total_source_bytes) * 100 if total_source_bytes else 0
     print(f"\nResults:")
     print(f"  Written: {written}, Unchanged: {unchanged}, Removed stale: {removed}")
     print(f"  Source size:  {total_source_bytes:,} bytes")
     print(f"  Corpus size:  {total_corpus_bytes:,} bytes")
-    print(f"  Reduction:    {reduction:.1f}%")
+    change = ((total_corpus_bytes / total_source_bytes) - 1) * 100 if total_source_bytes else 0
+    if change >= 0:
+        print(f"  Enrichment:   +{change:.1f}%")
+    else:
+        print(f"  Reduction:    {-change:.1f}%")
 
 
 if __name__ == "__main__":

@@ -28,3 +28,13 @@ Type discriminator for builder tool argument values.
 
 - getValue() | int | Returns the integer value of this constant
 - fromValue(int) | BuilderToolArgType | Returns the constant for the given value, throws `ProtocolException` if invalid
+
+Also in this package: Axis, BrushAxis, BrushOrigin, BrushShape, BuilderToolAction, BuilderToolArg, BuilderToolArgGroup, BuilderToolArgUpdate, BuilderToolBlockArg, BuilderToolBoolArg, BuilderToolBrushAxisArg, BuilderToolBrushData, BuilderToolBrushOriginArg, BuilderToolBrushShapeArg, BuilderToolEntityAction, BuilderToolExtrudeAction, BuilderToolFloatArg, BuilderToolGeneralAction, BuilderToolHideAnchors, BuilderToolIntArg (and 26 more)
+
+Complete API:
+  public int getValue()
+  public static BuilderToolArgType fromValue(int value)
+
+Fields:
+public static final BuilderToolArgType[] VALUES
+private final int value

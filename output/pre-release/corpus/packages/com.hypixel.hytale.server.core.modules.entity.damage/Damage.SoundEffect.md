@@ -33,3 +33,12 @@ Sets the sound event asset index.
 
 - Damage -- the damage event that carries sound effects via meta store
 - DamageSystems.ApplySoundEffects -- system that plays these sounds
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  public void setSoundEventIndex(int soundEventIndex)
+  public int getSoundEventIndex()
+
+Fields:
+private int soundEventIndex

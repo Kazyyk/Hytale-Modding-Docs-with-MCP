@@ -7,3 +7,10 @@ public interface OverridableChunkAccessor<X extends BlockAccessor> extends Chunk
 ## Methods
 
 - void overwrite(X var1)
+
+Known implementors: LocalCachedChunkAccessor
+
+Also in this package: BlockAccessor, ChunkAccessor, EmptyBlockAccessor, IChunkAccessorSync, LocalCachedChunkAccessor, TestBlockFunction
+
+Complete API:
+  void overwrite(X var1)

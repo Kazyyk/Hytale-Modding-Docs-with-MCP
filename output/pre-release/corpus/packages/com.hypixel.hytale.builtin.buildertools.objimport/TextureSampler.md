@@ -18,3 +18,15 @@ Utility for loading and sampling textures during OBJ import. Maintains an in-mem
 
 - MeshVoxelizer
 - ObjImportPage
+
+Also in this package: MeshRotation, MeshVoxelizer, MtlMaterial, MtlParser, ObjImportCommand, ObjImportPage, ObjMesh, ObjParseException, ObjParser, Origin, PageData, VoxelResult, WeightedBlock
+
+Complete API:
+  public static BufferedImage loadTexture(Path path)
+  public static int[] sampleAt(BufferedImage texture, float u, float v)
+  public static int sampleAlphaAt(BufferedImage texture, float u, float v)
+  public static void clearCache()
+  public static int[] getAverageColor(Path path)
+
+Fields:
+private static final Map<Path,BufferedImage> textureCache

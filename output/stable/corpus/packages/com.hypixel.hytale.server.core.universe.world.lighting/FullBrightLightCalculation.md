@@ -31,3 +31,16 @@ public class FullBrightLightCalculation implements LightCalculation
 - CalculationResult
 - ChunkLightingManager
 - LightCalculation
+
+Also in this package: CalculationResult, ChunkLightingManager, FloodLightCalculation, LightCalculation
+
+Complete API:
+  public void init(WorldChunk worldChunk)
+  public CalculationResult calculateLight(Vector3i chunkPosition)
+  public boolean invalidateLightAtBlock(WorldChunk worldChunk, int blockX, int blockY, int blockZ, BlockType blockType, int oldHeight, int newHeight)
+  public boolean invalidateLightInChunkSections(WorldChunk worldChunk, int sectionIndexFrom, int sectionIndexTo)
+  public void setFullBright(WorldChunk worldChunk, int chunkY)
+
+Fields:
+private final ChunkLightingManager chunkLightingManager
+private LightCalculation delegate

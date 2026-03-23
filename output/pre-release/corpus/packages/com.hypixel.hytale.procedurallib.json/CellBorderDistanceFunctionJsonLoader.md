@@ -11,3 +11,13 @@ Loads border distance function configurations. Wraps a `CellDistanceFunction` wi
 - `load()`
 - `loadPointEvaluator()`
 - `loadDensity()`
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public BorderDistanceFunction load()
+  protected PointEvaluator loadPointEvaluator()
+  protected IDoubleCondition loadDensity()
+
+Fields:
+protected final CellDistanceFunction distanceFunction

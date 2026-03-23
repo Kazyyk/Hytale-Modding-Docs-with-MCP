@@ -31,3 +31,19 @@ No-op. Wish movement is consumed by KnockbackPredictionSystems.CaptureKnockbackI
 
 - PlayerInput -- parent component
 - KnockbackPredictionSystems -- systems that consume wish movement
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem (and 33 more)
+
+Complete API:
+  public double getX()
+  public void setX(double x)
+  public double getY()
+  public void setY(double y)
+  public double getZ()
+  public void setZ(double z)
+  public void apply(CommandBuffer<EntityStore> commandBuffer, ArchetypeChunk<EntityStore> archetypeChunk, int index)
+
+Fields:
+private double x
+private double y
+private double z

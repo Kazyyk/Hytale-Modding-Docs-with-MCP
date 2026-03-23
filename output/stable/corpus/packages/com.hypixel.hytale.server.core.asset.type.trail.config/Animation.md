@@ -18,3 +18,17 @@ Class in the config subsystem.
 - getFrameRange() | Range | public method.
 - getFrameLifeSpan() | int | public method.
 - toString() | String | public method.
+
+Also in this package: Edge, Trail
+
+Complete API:
+  public Vector2i getFrameSize()
+  public Range getFrameRange()
+  public int getFrameLifeSpan()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<Animation> CODEC
+private Vector2i frameSize
+private Range frameRange
+private int frameLifeSpan

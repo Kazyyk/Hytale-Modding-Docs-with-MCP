@@ -11,3 +11,8 @@ Generates init, update, and remove network packets for `Trail` assets.
 - generateInitPacket(DefaultAssetMap<String, Trail> assetMap, Map<String, Trail> assets) | ToClientPacket | Instance method.
 - generateUpdatePacket(Map<String, Trail> loadedAssets) | ToClientPacket | Instance method.
 - generateRemovePacket(Set<String> removed) | ToClientPacket | Instance method.
+
+Complete API:
+  public ToClientPacket generateInitPacket(DefaultAssetMap<String,Trail> assetMap, Map<String,Trail> assets)
+  public ToClientPacket generateUpdatePacket(Map<String,Trail> loadedAssets)
+  public ToClientPacket generateRemovePacket(Set<String> removed)

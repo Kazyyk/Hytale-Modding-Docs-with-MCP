@@ -13,3 +13,12 @@ Server command extending `CommandBase`.
 ## Methods
 
 - executeSync(@Nonnull CommandContext context) | void | protected method.
+
+Also in this package: FieldcraftCategoryPacketGenerator, ItemCategoryPacketGenerator, ResourceTypePacketGenerator
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final RequiredArg<String> itemDroplistArg
+private final OptionalArg<Integer> countArg

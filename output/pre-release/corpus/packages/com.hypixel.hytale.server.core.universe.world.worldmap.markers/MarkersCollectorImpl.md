@@ -26,3 +26,20 @@ Implementation of `MarkersCollector`.
 - add(MapMarker marker) | void | public method.
 - addIgnoreViewDistance(MapMarker marker) | void | public method.
 - getPlayerMapFilter() | Predicate<PlayerRef> | public method.
+
+Also in this package: MapMarkerBuilder, MapMarkerTracker, MarkersCollector
+
+Complete API:
+  public int getChunkViewRadius()
+  public int getPlayerChunkX()
+  public int getPlayerChunkZ()
+  public boolean isInViewDistance(double x, double z)
+  public void add(MapMarker marker)
+  public void addIgnoreViewDistance(MapMarker marker)
+  public Predicate<PlayerRef> getPlayerMapFilter()
+
+Fields:
+private final MapMarkerTracker tracker
+private final int chunkViewRadius
+private final int playerChunkX
+private final int playerChunkZ

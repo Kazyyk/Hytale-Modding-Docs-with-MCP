@@ -26,3 +26,11 @@ Loads individual water entries with fluid/block type, min/max height suppliers, 
 *interface*
 
 JSON key constants: `Entries`, `Block`, `Fluid`, `Min`, `MinNoise`, `Max`, `MaxNoise`, `NoiseMask`.
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CoverContainerEntryJsonLoader, CoverContainerJsonLoader, DefaultEnvironmentContainerEntryLoader, DefaultTintContainerEntryJsonLoader, DynamicLayerEntryJsonLoader, DynamicLayerJsonLoader, EnvironmentContainerEntryJsonLoader, EnvironmentContainerJsonLoader, FadeContainerJsonLoader, LayerContainerJsonLoader, LayerEntryJsonLoader, PrefabContainerEntryJsonLoader (and 8 more)
+
+Complete API:
+  public WaterContainer load()
+
+Fields:
+private final BiomeFileContext biomeContext

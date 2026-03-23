@@ -34,3 +34,13 @@ Creates a deep copy of this resource. Returns `null` if the resource cannot be c
 - IResourceStorage -- persistence interface for loading/saving resources
 - Component -- the per-entity equivalent
 - Store -- holds resource instances and provides access via `getResource()`
+
+Known implementors: AStarNodePoolProviderSimple, AmbienceResource, Blackboard, BlockCounter, BlockMapMarkersResource, BlockStateInfoNeedRebuild, ChunkStorage, ChunkSuppressionQueue, CombatDataPool, Data, Data, Data, Data, FloodFillEntryPoolProviderSimple, IndexedStorageCache, InstanceDataResource, KillTrackerResource, LocalSpawnState, PortalWorld, PrefabEditSession, QueueResource, QueueResource, QueueResource, QueueResource, QueueResource, RandomTick, ReputationDataResource, RoleChangeQueue, SaveDataResource, SnapshotWorldInfo, SortBufferProviderResource, SpatialResource, SpawnSuppressionController, SprintStaminaRegenDelay, TimeResource, WeatherResource, WorldMarkersResource, WorldPathData, WorldSomnolence, WorldSpawnData, WorldTimeResource
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery (and 8 more)
+
+Complete API:
+  Resource<ECS_TYPE> clone()
+
+Fields:
+Resource[] EMPTY_ARRAY

@@ -36,3 +36,11 @@ Converts a map of `DamageCause` to relative damage values into an array of `Dama
 - Damage -- the damage events produced by this calculator
 - DamageCause -- damage type keys in the relative damage map
 - DamageModule -- registers the SequenceModifier system
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  public static Damage[] queueDamageCalculator(World world, Object2FloatMap<DamageCause> relativeDamage, Ref<EntityStore> ref, CommandBuffer<EntityStore> commandBuffer, Damage.Source source, ItemStack itemInHand)
+
+Fields:
+public static MetaKey<DamageCalculatorSystems.DamageSequence> DAMAGE_SEQUENCE

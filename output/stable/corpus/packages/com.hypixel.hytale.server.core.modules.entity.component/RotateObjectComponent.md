@@ -16,3 +16,15 @@ An `EntityStore` component.
 - @Override public Component<EntityStore> clone()
 - public void setRotationSpeed(float rotationSpeed)
 - public float getRotationSpeed()
+
+Also in this package: ActiveAnimationComponent, AudioComponent, BoundingBox, CollisionResultComponent, DisplayNameComponent, DynamicLight, EntityScaleComponent, FromPrefab, FromWorldGen, HeadRotation, HiddenFromAdventurePlayers, Intangible, Interactable, Invulnerable, ModelComponent, MovementAudioComponent, NPCMarkerComponent, NewSpawnComponent, PersistentDynamicLight, PersistentModel (and 7 more)
+
+Complete API:
+  public static ComponentType<EntityStore,RotateObjectComponent> getComponentType()
+  public Component<EntityStore> clone()
+  public void setRotationSpeed(float rotationSpeed)
+  public float getRotationSpeed()
+
+Fields:
+public static final BuilderCodec<RotateObjectComponent> CODEC
+private float rotationSpeed

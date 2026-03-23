@@ -34,3 +34,15 @@ On entity removed: No-op.
 - `Player` -- the player ECS component
 - `CollisionResultComponent` -- ECS component storing collision detection results
 - `CollisionResult` -- collision data with default player settings
+
+Also in this package: Add, AdventurePlayerSystem, AnimationEntityTrackerUpdate, ApplyRandomSkin, AssignNetworkIdToProps, AudioSystems, Capture, ClearFromPrefabMarker, ClearFromWorldGenMarker, ClearMarker, DynamicLightTracker, EnsurePropsPrefabCopyable, EntityInteractableSystems, EntitySpatialSystem, EntitySystems, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerUpdate (and 40 more)
+
+Complete API:
+  public void onEntityAdd(Holder<EntityStore> holder, AddReason reason, Store<EntityStore> store)
+  public void onEntityRemoved(Holder<EntityStore> holder, RemoveReason reason, Store<EntityStore> store)
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final Query<EntityStore> query
+private final ComponentType<EntityStore,CollisionResultComponent> collisionResultComponentType
+private final ComponentType<EntityStore,Player> playerComponentType

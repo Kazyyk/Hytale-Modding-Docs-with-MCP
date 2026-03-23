@@ -18,3 +18,16 @@ public class BedsPlugin extends JavaPlugin
 - public ComponentType<EntityStore,PlayerSomnolence> getPlayerSomnolenceComponentType()
 - public ComponentType<EntityStore,SleepTracker> getSleepTrackerComponentType()
 - public ResourceType<EntityStore,WorldSomnolence> getWorldSomnolenceResourceType()
+
+Complete API:
+  public static BedsPlugin getInstance()
+  protected void setup()
+  public ComponentType<EntityStore,PlayerSomnolence> getPlayerSomnolenceComponentType()
+  public ComponentType<EntityStore,SleepTracker> getSleepTrackerComponentType()
+  public ResourceType<EntityStore,WorldSomnolence> getWorldSomnolenceResourceType()
+
+Fields:
+private static BedsPlugin instance
+private ComponentType<EntityStore,PlayerSomnolence> playerSomnolenceComponentType
+private ComponentType<EntityStore,SleepTracker> sleepTrackerComponentType
+private ResourceType<EntityStore,WorldSomnolence> worldSomnolenceResourceType

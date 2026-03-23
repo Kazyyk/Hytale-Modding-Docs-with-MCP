@@ -23,3 +23,17 @@ A piecewise function that blends between two `Double2DoubleFunction` instances o
 
 - public double get(double x)
 - public double transitionCurve(double ratio)
+
+Also in this package: Calculator, Interpolation, NodeFunction, Normalizer
+
+Complete API:
+  public double get(double x)
+  public double transitionCurve(double ratio)
+
+Fields:
+private final Double2DoubleFunction functionA
+private final Double2DoubleFunction functionB
+private final double positionA
+private final double positionB
+private final double distance
+private final double smoothTransition

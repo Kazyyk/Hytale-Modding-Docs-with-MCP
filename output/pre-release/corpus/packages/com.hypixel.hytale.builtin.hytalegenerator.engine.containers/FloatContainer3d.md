@@ -23,3 +23,15 @@ A bounded 3D container of float values backed by a flat array. Returns a configu
 - @Nonnull public Bounds3i getBounds_voxelGrid()
 - public void set(@Nonnull Vector3i position_voxelGrid, float value)
 - public void moveMinTo(@Nonnull Vector3i min_voxelGrid)
+
+Complete API:
+  public float get(Vector3i position_voxelGrid)
+  public Bounds3i getBounds_voxelGrid()
+  public void set(Vector3i position_voxelGrid, float value)
+  public void moveMinTo(Vector3i min_voxelGrid)
+
+Fields:
+private final Bounds3i bounds_voxelGrid
+private final Vector3i size_voxelGrid
+private final float[] data
+private final float outOfBoundsValue

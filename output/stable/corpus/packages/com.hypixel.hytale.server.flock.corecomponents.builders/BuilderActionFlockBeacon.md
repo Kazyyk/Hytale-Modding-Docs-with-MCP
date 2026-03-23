@@ -27,3 +27,25 @@ NPC behavior action builder for ActionFlockBeacon functionality.
 - public double getExpirationTime()
 - public boolean isSendToSelf()
 - public boolean isSendToLeaderOnly()
+
+Also in this package: BuilderActionFlockJoin, BuilderActionFlockLeave, BuilderActionFlockSetTarget, BuilderActionFlockState, BuilderBodyMotionFlock, BuilderEntityFilterFlock, BuilderSensorFlockCombatDamage, BuilderSensorFlockLeader, BuilderSensorInflictedDamage
+
+Complete API:
+  public ActionFlockBeacon build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public void registerTags(Set<String> tags)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionFlockBeacon readConfig(JsonElement data)
+  public String getMessage(BuilderSupport builderSupport)
+  public int getSendTargetSlot(BuilderSupport support)
+  public double getExpirationTime()
+  public boolean isSendToSelf()
+  public boolean isSendToLeaderOnly()
+
+Fields:
+protected final StringHolder message
+protected String sendTargetSlot
+protected double expirationTime
+protected boolean sendToSelf
+protected boolean sendToLeaderOnly

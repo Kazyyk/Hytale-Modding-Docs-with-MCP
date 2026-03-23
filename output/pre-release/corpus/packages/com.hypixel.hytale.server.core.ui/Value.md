@@ -22,3 +22,17 @@ public class Value<T>
 - public String getValueName()
 - @Nonnull public static <T> Value<T> ref(String document, String value)
 - @Nonnull public static <T> Value<T> of(T value)
+
+Also in this package: Anchor, Area, DropdownEntryInfo, ItemGridSlot, LocalizableString, LocalizableStringCodec, PatchStyle, ValueCodec
+
+Complete API:
+  public T getValue()
+  public String getDocumentPath()
+  public String getValueName()
+  public static Value<T> ref(String document, String value)
+  public static Value<T> of(T value)
+
+Fields:
+private T value
+private String documentPath
+private String valueName

@@ -30,3 +30,70 @@ ECS component for spawn marker entities. Tracks the marker's spawn state includi
 ## Serialized Fields (CODEC)
 
 `SpawnMarker` (String), `RespawnTime` (double), `SpawnCount` (int), `GameTimeRespawn` (Duration), `SpawnAfter` (Instant), `NPCReferences` (InvalidatablePersistentRef[]), `PersistedFlock` (StoredFlock), `SpawnPosition` (Vector3d)
+
+Also in this package: AddedFromWorldGen, CacheMarker, EnsureNetworkSendable, EntityAdded, EntityAddedFromExternal, FailReason, LegacyEntityMigration, SpawnMarkerSystems, Ticking
+
+Complete API:
+  public static ComponentType<EntityStore,SpawnMarkerEntity> getComponentType()
+  public SpawnMarker getCachedMarker()
+  public void setCachedMarker(SpawnMarker marker)
+  public int getSpawnCount()
+  public void setSpawnCount(int spawnCount)
+  public void setRespawnCounter(double respawnCounter)
+  public void setSpawnAfter(Instant spawnAfter)
+  public Instant getSpawnAfter()
+  public void setGameTimeRespawn(Duration gameTimeRespawn)
+  public Duration pollGameTimeRespawn()
+  public boolean tickRespawnTimer(float dt)
+  public Set<UUID> getSuppressedBy()
+  public void setStoredFlock(StoredFlock storedFlock)
+  public StoredFlock getStoredFlock()
+  public double getTimeToDeactivation()
+  public void setTimeToDeactivation(double timeToDeactivation)
+  public boolean tickTimeToDeactivation(float dt)
+  public boolean tickSpawnLostTimeout(float dt)
+  public Vector3d getSpawnPosition()
+  public InvalidatablePersistentRef[] getNpcReferences()
+  public void setNpcReferences(InvalidatablePersistentRef[] npcReferences)
+  public List<Pair<Ref<EntityStore>,NPCEntity>> getTempStorageList()
+  public void setTempStorageList(List<Pair<Ref<EntityStore>,NPCEntity>> tempStorageList)
+  public boolean isDespawnStarted()
+  public void setDespawnStarted(boolean despawnStarted)
+  public void refreshTimeout()
+  public boolean spawnNPC(Ref<EntityStore> ref, SpawnMarker marker, Store<EntityStore> store)
+  private void fail(Ref<EntityStore> self, UUID uuid, String role, Vector3d position, Store<EntityStore> store, SpawnMarkerEntity.FailReason reason)
+  public void setSpawnMarker(SpawnMarker marker)
+  public int decrementAndGetSpawnCount()
+  public String getSpawnMarkerId()
+  public boolean isManualTrigger()
+  public boolean trigger(Ref<EntityStore> markerRef, Store<EntityStore> store)
+  public void suppress(UUID suppressor)
+  public void releaseSuppression(UUID suppressor)
+  public void clearAllSuppressions()
+  public Component<EntityStore> clone()
+  public Component<EntityStore> cloneSerializable()
+  public String toString()
+  public static Model getModel(SpawnMarker marker)
+
+Fields:
+private static final double SPAWN_LOST_TIMEOUT
+private static final InvalidatablePersistentRef[] EMPTY_REFERENCES
+public static final ArrayCodec<InvalidatablePersistentRef> NPC_REFERENCES_CODEC
+public static final BuilderCodec<SpawnMarkerEntity> CODEC
+private static final int MAX_FAILED_SPAWNS
+private String spawnMarkerId
+private SpawnMarker cachedMarker
+private double respawnCounter
+private Duration gameTimeRespawn
+private Instant spawnAfter
+private int spawnCount
+private Set<UUID> suppressedBy
+private int failedSpawns
+private final SpawningContext context
+private final Vector3d spawnPosition
+private InvalidatablePersistentRef[] npcReferences
+private StoredFlock storedFlock
+private List<Pair<Ref<EntityStore>,NPCEntity>> tempStorageList
+private double timeToDeactivation
+private boolean despawnStarted
+private double spawnLostTimeoutCounter

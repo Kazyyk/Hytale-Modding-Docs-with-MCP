@@ -24,3 +24,12 @@ Copy constructor that wraps an existing registration with new lifecycle callback
 public Class<? extends BlockState> getBlockStateClass()
 
 Returns the `BlockState` subclass this registration represents.
+
+Also in this package: BlockState, BlockStateModule, BlockStateRegistry, ItemContainerStateRefSystem, LegacyBlockStateHolderSystem, LegacyBlockStateRefSystem, LegacyLateInitBlockStateSystem, LegacyLoadPacketBlockStateSystem, LegacyTickingBlockStateSystem, LegacyUnloadPacketBlockStateSystem
+
+Complete API:
+  public Class<? extends BlockState> getBlockStateClass()
+  public String toString()
+
+Fields:
+private final Class<? extends BlockState> blockStateClass

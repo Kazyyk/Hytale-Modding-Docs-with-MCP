@@ -80,3 +80,29 @@ public boolean isDisallowParameterProviders()
 - Feature -- the feature enum
 - Builder -- `getEvaluatorHelper()` returns this type
 - BuilderValidationHelper -- carries this helper
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public boolean isDisallowParameterProviders()
+  public void add(ProviderEvaluator evaluator)
+  public boolean canAddProvider()
+  public FeatureEvaluatorHelper lock()
+  public void setContainsReference()
+  public void addProviderReferenceValidator(BiConsumer<BuilderManager,ExecutionContext> referenceValidator)
+  public void addComponentRequirementValidator(BiConsumer<FeatureEvaluatorHelper,ExecutionContext> validator)
+  public List<ProviderEvaluator> getProviders()
+  public boolean requiresProviderReferenceEvaluation()
+  public boolean belongsToFeatureRequiringComponent()
+  public void validateProviderReferences(BuilderManager manager, ExecutionContext context)
+  public void validateComponentRequirements(FeatureEvaluatorHelper providers, ExecutionContext context)
+  public void disallowParameterProviders()
+
+Fields:
+private List<ProviderEvaluator> evaluators
+private List<BiConsumer<BuilderManager,ExecutionContext>> providerReferenceValidators
+private List<BiConsumer<FeatureEvaluatorHelper,ExecutionContext>> componentRequirementValidators
+private boolean locked
+private boolean containsProviderReference
+private boolean isFeatureRequiringComponent
+private boolean disallowParameterProviders

@@ -32,3 +32,18 @@ Chunk-store ticking system that executes block tick procedures on all ticking bl
 
 - ChunkBlockTickSystem -- enclosing class containing `PreTick` and this `Ticking` system
 - BlockTickPlugin -- the plugin that registers this system
+
+Also in this package: ChunkBlockTickSystem, MergeWaitingBlocksSystem, PreTick
+
+Complete API:
+  public Query<ChunkStore> getQuery()
+  public Set<Dependency<ChunkStore>> getDependencies()
+  public void tick(float dt, int index, ArchetypeChunk<ChunkStore> archetypeChunk, Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer)
+  protected static void tick(Ref<ChunkStore> ref, BlockChunk blockChunkComponent, WorldChunk worldChunk)
+  protected static BlockTickStrategy tickProcedure(World world, WorldChunk chunk, int blockX, int blockY, int blockZ, int blockId)
+
+Fields:
+private static final ComponentType<ChunkStore,WorldChunk> COMPONENT_TYPE_WORLD_CHUNK
+private static final ComponentType<ChunkStore,BlockChunk> COMPONENT_TYPE_BLOCK_CHUNK
+private static final Query<ChunkStore> QUERY
+private static final Set<Dependency<ChunkStore>> DEPENDENCIES

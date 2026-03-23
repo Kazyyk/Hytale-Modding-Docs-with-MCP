@@ -28,3 +28,13 @@ Registers the `add`, `remove`, and `clear` sub-commands.
 - AddSubCommand | Adds a value to the set.
 - ClearSubCommand | Clears all values from the set.
 - RemoveSubCommand | Removes a value from the set.
+
+Also in this package: AddSubCommand, ClearSubCommand, RemoveSubCommand, ResetSubCommand, ResetSubCommand, SetSubCommand, SetSubCommand, SetTickingCommand, WorldSettingsBox2DCommand, WorldSettingsCommand, WorldSettingsSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private final String display
+private final Function<World,Set<T>> getter
+private final BiConsumer<World,Set<T>> setter

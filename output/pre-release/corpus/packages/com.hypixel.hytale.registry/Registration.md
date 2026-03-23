@@ -15,3 +15,17 @@ public class Registration
 - public void unregister()
 - public boolean isRegistered()
 - @Nonnull @Override public String toString()
+
+Known subclasses: ClientFeatureRegistration, CommandRegistration, EntityRegistration, EventRegistration, TaskRegistration
+
+Also in this package: RegistrationWrapFunction, Registry
+
+Complete API:
+  public void unregister()
+  public boolean isRegistered()
+  public String toString()
+
+Fields:
+protected final BooleanSupplier isEnabled
+protected final Runnable unregister
+private boolean registered

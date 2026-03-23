@@ -28,3 +28,11 @@ Registers as sub-command `"give"` with translation key `"server.commands.npc.giv
 - NPCGiveCommand.GiveNothingCommand -- clears the NPC's held item
 - NPCWorldCommandBase -- base class
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, NPCEntity npc, World world, Store<EntityStore> store, Ref<EntityStore> ref)
+
+Fields:
+private final RequiredArg<Item> itemArg

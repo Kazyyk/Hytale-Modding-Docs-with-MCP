@@ -9,3 +9,11 @@ Subcommand `/voice fullvolumedistance <blocks>` that sets the distance at which 
 ## See Also
 
 - VoiceCommand
+
+Also in this package: VoiceCommand, VoiceEnabledCommand, VoiceMaxDistanceCommand, VoiceMuteCommand, VoiceMutedListCommand, VoiceStatusCommand, VoiceUnmuteCommand
+
+Complete API:
+  protected CompletableFuture<Void> execute(CommandContext context)
+
+Fields:
+private final RequiredArg<Float> distanceArg

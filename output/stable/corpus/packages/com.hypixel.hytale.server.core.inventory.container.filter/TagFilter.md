@@ -20,3 +20,11 @@ Creates a filter for the given tag index.
 public boolean test(@Nullable Item item)
 
 Returns `true` if the item is `null` or its expanded tag indexes contain the configured tag index.
+
+Also in this package: ArmorSlotAddFilter, FilterActionType, FilterType, ItemSlotFilter, NoDuplicateFilter, ResourceFilter, SlotFilter
+
+Complete API:
+  public boolean test(Item item)
+
+Fields:
+private final int tagIndex

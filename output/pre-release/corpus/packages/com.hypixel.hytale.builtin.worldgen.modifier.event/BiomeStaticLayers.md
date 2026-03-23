@@ -12,3 +12,8 @@ ModifyEvent record for biome static layer entries.
 @Nonnull BiomeFileContext file,
         @Nonnull List<LayerContainer.StaticLayer> entries,
         @Nonnull ModifyEvent.ContentLoader<LayerContainer.StaticLayer> loader
+
+Also in this package: BiomeCovers, BiomeDynamicLayers, BiomeEnvironments, BiomeFluids, BiomePrefabs, BiomeTints, CaveCovers, CavePrefabs, CaveTypes, ContentLoader, EventType, ModifyEvent, ModifyEvents, SeedGenerator
+
+Complete API:
+  public EventType type()

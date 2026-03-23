@@ -14,3 +14,14 @@ public class SoundPlay3DCommand extends AbstractTargetPlayerCommand
 ## Methods
 
 - @Override protected void execute(CommandContext context, Ref<EntityStore> sourceRef, Ref<EntityStore> ref, PlayerRef playerRef, World world, Store<EntityStore> store)
+
+Also in this package: SoundCommand, SoundPlay2DCommand
+
+Complete API:
+  protected void execute(CommandContext context, Ref<EntityStore> sourceRef, Ref<EntityStore> ref, PlayerRef playerRef, World world, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<SoundEvent> soundEventArg
+private final DefaultArg<SoundCategory> categoryArg
+private final RequiredArg<RelativeVector3i> positionArg
+private final FlagArg allFlag

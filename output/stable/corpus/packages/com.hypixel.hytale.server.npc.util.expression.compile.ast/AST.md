@@ -30,3 +30,29 @@ Abstract base class in the `ast` package.
 - throw new IllegalStateException("AST: Cannot return number")
 - @Nonnull public ValueType returnType()
 - public ValueType genCode(@Nonnull List<ExecutionContext.Instruction> list, Scope scope)
+
+Known subclasses: ASTOperand, ASTOperator
+
+Also in this package: ASTOperand, ASTOperandBoolean, ASTOperandBooleanArray, ASTOperandEmptyArray, ASTOperandIdentifier, ASTOperandNumber, ASTOperandNumberArray, ASTOperandString, ASTOperandStringArray, ASTOperator, ASTOperatorBinary, ASTOperatorFunctionCall, ASTOperatorTuple, ASTOperatorUnary
+
+Complete API:
+  public AST getParent()
+  public void setParent(AST parent)
+  public ValueType getValueType()
+  public Token getToken()
+  public int getTokenPosition()
+  public Function<Scope,ExecutionContext.Instruction> getCodeGen()
+  public abstract boolean isConstant()
+  public ExecutionContext.Operand asOperand()
+  public String getString()
+  public boolean getBoolean()
+  public double getNumber()
+  public ValueType returnType()
+  public ValueType genCode(List<ExecutionContext.Instruction> list, Scope scope)
+
+Fields:
+private final ValueType valueType
+private final Token token
+private final int tokenPosition
+private AST parent
+protected Function<Scope,ExecutionContext.Instruction> codeGen

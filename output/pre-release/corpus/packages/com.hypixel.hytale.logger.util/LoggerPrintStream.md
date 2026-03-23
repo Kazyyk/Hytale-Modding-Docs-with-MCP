@@ -15,3 +15,17 @@ Utility type in the `util` subsystem.
 
 - write(int b) | void | Instance method.
 - write(byte[] buf, int off, int len) | void | Instance method.
+
+Also in this package: GithubMessageUtil
+
+Complete API:
+  public void write(int b)
+  public void write(byte[] buf, int off, int len)
+  public HytaleLogger getLogger()
+  public Level getLevel()
+
+Fields:
+private final HytaleLogger logger
+private final Level level
+private final ByteArrayOutputStream bufferedOutput
+private int last

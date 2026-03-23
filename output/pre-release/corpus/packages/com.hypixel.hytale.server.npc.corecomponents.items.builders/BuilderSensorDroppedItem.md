@@ -26,3 +26,24 @@ NPC behavior sensor builder for SensorDroppedItem functionality.
 - public boolean getHasLineOfSight(@Nonnull BuilderSupport support)
 - @Nullable public String[] getItems(@Nonnull BuilderSupport support)
 - @Nonnull public EnumSet<Attitude> getAttitudes(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionDropItem, BuilderActionInventory, BuilderActionPickUpItem
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public Sensor build(BuilderSupport builderSupport)
+  public Builder<Sensor> readConfig(JsonElement data)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public double getRange(BuilderSupport support)
+  public float getViewSectorRadians(BuilderSupport builderSupport)
+  public boolean getHasLineOfSight(BuilderSupport support)
+  public String[] getItems(BuilderSupport support)
+  public EnumSet<Attitude> getAttitudes(BuilderSupport support)
+
+Fields:
+protected final DoubleHolder range
+protected final FloatHolder viewSector
+protected final BooleanHolder hasLineOfSight
+protected final AssetArrayHolder items
+protected final EnumSetHolder<ItemAttitudeGroup.Sentiment> attitudes

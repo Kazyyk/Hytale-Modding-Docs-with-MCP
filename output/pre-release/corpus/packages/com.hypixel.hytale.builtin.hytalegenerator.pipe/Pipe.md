@@ -20,3 +20,13 @@ Provides functional callback interfaces for the world-generation pipeline with C
 
 - public static <Input> Pipe.One<Input> getEmptyOne()
 - public static <InputA, InputB> Pipe.Two<InputA, InputB> getEmptyTwo()
+
+Also in this package: Control, One, Two
+
+Complete API:
+  public static Pipe.One<Input> getEmptyOne()
+  public static Pipe.Two<InputA,InputB> getEmptyTwo()
+
+Fields:
+public static final Pipe.One<?> EMPTY_ONE
+public static final Pipe.Two<?,?> EMPTY_TWO

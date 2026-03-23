@@ -26,3 +26,8 @@ ECS systems for NPC combat action evaluation, including tick processing, basic a
 - public void tick(float dt, int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer)
 - public void onEntityAdd(@Nonnull Holder<EntityStore> holder, @Nonnull AddReason reason, @Nonnull Store<EntityStore> store)
 - public void onEntityRemoved(@Nonnull Holder<EntityStore> holder, @Nonnull RemoveReason reason, @Nonnull Store<EntityStore> store)
+
+Also in this package: CombatConstructionData, EvaluatorTick, NPCCombatActionEvaluatorPlugin, OnAdded, Positioning
+
+Fields:
+private static final HytaleLogger LOGGER

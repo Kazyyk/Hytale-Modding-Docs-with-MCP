@@ -37,3 +37,17 @@ Creates a fallback instance for unknown asset IDs. Used as the replace-on-remove
 
 - FlockAsset -- abstract base class
 - WeightedSizeFlockAsset -- alternative implementation
+
+Also in this package: FlockAsset, WeightedSizeFlockAsset
+
+Complete API:
+  public int[] getSize()
+  public int getMinFlockSize()
+  public int pickFlockSize()
+  public static RangeSizeFlockAsset getUnknownFor(String id)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<RangeSizeFlockAsset> CODEC
+private static final int[] DEFAULT_SIZE
+protected int[] size

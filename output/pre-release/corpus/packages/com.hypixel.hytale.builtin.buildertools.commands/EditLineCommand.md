@@ -18,3 +18,20 @@ start (RelativeVector3i), end (RelativeVector3i), material (String), width (Inte
 ## Execution
 
 All builder tool commands validate that the player is in creative mode via `PrototypePlayerBuilderToolSettings.isOkayToDoCommandsOnSelection()` before executing. Operations are queued via `BuilderToolsPlugin.addToQueue()` for sequential execution on the world thread.
+
+Also in this package: ClearBlocksCommand, ClearEditHistory, ClearEntitiesCommand, ContractSelectionCommand, CopyCommand, CopyRegionCommand, CutCommand, CutRegionCommand, DeselectCommand, EnvironmentCommand, ExpandCommand, ExtendFaceBasicCommand, ExtendFaceCommand, ExtendFaceWithRegionCommand, FillCommand, FlipCommand, FlipWithDirectionCommand, GlobalMaskClearCommand, GlobalMaskCommand, GlobalMaskSetCommand (and 42 more)
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+
+Fields:
+private final RequiredArg<RelativeVector3i> startArg
+private final RequiredArg<RelativeVector3i> endArg
+private final RequiredArg<String> materialArg
+private final DefaultArg<Integer> widthArg
+private final DefaultArg<Integer> heightArg
+private final DefaultArg<Integer> wallThicknessArg
+private final DefaultArg<String> shapeArg
+private final DefaultArg<String> originArg
+private final DefaultArg<Integer> spacingArg
+private final DefaultArg<Integer> densityArg

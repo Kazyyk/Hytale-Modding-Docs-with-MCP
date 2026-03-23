@@ -11,3 +11,5 @@ Enumeration of OAuth flow outcomes.
 - UNKNOWN | Flow has not completed.
 - SUCCESS | Flow completed successfully with tokens.
 - FAILED | Flow failed.
+
+Also in this package: DeviceAuthResponse, OAuthBrowserFlow, OAuthClient, OAuthDeviceFlow, OAuthFlow, TokenResponse

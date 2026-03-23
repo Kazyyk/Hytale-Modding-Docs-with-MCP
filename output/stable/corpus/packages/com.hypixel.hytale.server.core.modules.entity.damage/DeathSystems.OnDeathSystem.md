@@ -30,3 +30,12 @@ No-op default. Called when the component is removed (respawn).
 - DeathSystems -- parent class
 - DeathComponent -- the component tracked
 - RespawnSystems.OnRespawnSystem -- similar base that reacts to removal
+
+Known subclasses: ClearEntityEffects, ClearHealth, ClearInteractions, DeathAnimation, DiedInPortalSystem, DismountOnMountDeath, DismountOnPlayerDeath, DropDeathItems, DropPlayerDeathItems, EntityDeath, EntityViewSystem, KillFeed, KillTrackerSystem, NPCKillsEntitySystem, OnDeathSystem, PlayerDeath, PlayerDeathMarker, PlayerDeathScreen, PlayerDropItemsConfig, PlayerKilledPlayer, RunDeathInteractions
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public ComponentType<EntityStore,DeathComponent> componentType()
+  public void onComponentSet(Ref<EntityStore> ref, DeathComponent oldComponent, DeathComponent newComponent, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentRemoved(Ref<EntityStore> ref, DeathComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)

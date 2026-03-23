@@ -22,3 +22,12 @@ During a smooth operation, the kernel iterates over a 3x3x3 neighborhood around 
 
 - BuilderToolsPlugin.BuilderState -- enclosing class
 - BuilderToolsPlugin.BuilderState.BlocksSampleData -- companion class for general block sampling
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem (and 2 more)
+
+Fields:
+public float solidStrength
+public int solidBlock
+public int solidBlockCount
+public int fillerBlock
+public int fillerBlockCount

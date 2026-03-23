@@ -20,3 +20,16 @@ Concrete implementation extending `Thread`.
 
 - run() | void | public method.
 - getSocket() | MulticastSocket | public method.
+
+Also in this package: LANDiscoveryCommand, LANDiscoveryPlugin
+
+Complete API:
+  public void run()
+  public MulticastSocket getSocket()
+
+Fields:
+private static final byte[] REPLY_HEADER
+private static final byte[] REQUEST_HEADER
+public static final int LAN_DISCOVERY_PORT
+private final HytaleLogger LOGGER
+private MulticastSocket socket

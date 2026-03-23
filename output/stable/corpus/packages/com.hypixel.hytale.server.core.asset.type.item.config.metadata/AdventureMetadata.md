@@ -14,3 +14,13 @@ Data class serialized via `BuilderCodec`.
 
 - isCursed() | boolean | Boolean accessor.
 - setCursed(boolean cursed) | void | Mutator method.
+
+Complete API:
+  public boolean isCursed()
+  public void setCursed(boolean cursed)
+
+Fields:
+public static final String KEY
+public static final BuilderCodec<AdventureMetadata> CODEC
+public static final KeyedCodec<AdventureMetadata> KEYED_CODEC
+private boolean cursed

@@ -17,3 +17,18 @@ public class LayerEntryCodec
 - @Nonnull public String getMaterial()
 - public boolean isUseToolArg()
 - public boolean isSkip()
+
+Also in this package: BoolDoublePairCodec, IntegerPair, IntegerStringPair, PairCodec, ProtocolCodecs, ShapeCodecs, WeightedMapCodec
+
+Complete API:
+  public Integer getDepth()
+  public String getMaterial()
+  public boolean isUseToolArg()
+  public boolean isSkip()
+
+Fields:
+public static final BuilderCodec<LayerEntryCodec> CODEC
+private Integer depth
+private String material
+private boolean useToolArg
+private boolean skip

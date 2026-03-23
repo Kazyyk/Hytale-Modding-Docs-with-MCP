@@ -17,3 +17,8 @@ Registers as sub-command `"blockevents"` with translation key `"server.commands.
 
 - NPCBlackboardCommand -- parent command collection
 - NPCBlackboardCommand.EntityEventsCommand -- similar view for entity events
+
+Also in this package: ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand, NPCDumpCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)

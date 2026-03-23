@@ -67,3 +67,14 @@ Dispatches a damage event to the specified entity via a `CommandBuffer`.
 - DamageEventSystem -- abstract base for most inner systems
 - DamageModule -- registers all these systems
 - DeathSystems -- handles death after damage kills an entity
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public static void executeDamage(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, Damage damage)
+  public static void executeDamage(int index, ArchetypeChunk<EntityStore> chunk, CommandBuffer<EntityStore> commandBuffer, Damage damage)
+  public static void executeDamage(Ref<EntityStore> ref, CommandBuffer<EntityStore> commandBuffer, Damage damage)
+
+Fields:
+public static final float DEFAULT_DAMAGE_DELAY
+private static final Query<EntityStore> NPCS_QUERY

@@ -20,3 +20,43 @@ Validates common asset references during asset loading. Checks that referenced a
 
 - public void accept(@Nullable String asset, @Nonnull ValidationResults results)
 - @Override public void updateSchema(SchemaContext context, @Nonnull Schema target)
+
+Also in this package: AddCommonAssetResult, BlockyAnimation, BlockyAnimationCache, ChannelValidator, CommonAsset, CommonAssetModule, CommonAssetMonitorHandler, CommonAssetRegistry, HytaleFileTypes, OggVorbisInfo, OggVorbisInfoCache, PackAsset, PlayerCommonAssets, ResourceCommonAsset, SoundFileValidators
+
+Complete API:
+  public void accept(String asset, ValidationResults results)
+  public void updateSchema(SchemaContext context, Schema target)
+
+Fields:
+public static final CommonAssetValidator TEXTURE_ITEM
+public static final CommonAssetValidator TEXTURE_CHARACTER
+public static final CommonAssetValidator TEXTURE_CHARACTER_ATTACHMENT
+public static final CommonAssetValidator TEXTURE_TRAIL
+public static final CommonAssetValidator TEXTURE_SKY
+public static final CommonAssetValidator TEXTURE_PARTICLES
+public static final CommonAssetValidator TEXTURE_ITEM_QUALITY
+public static final CommonAssetValidator ICON_RESOURCE
+public static final CommonAssetValidator ICON_ITEM
+public static final CommonAssetValidator ICON_ITEM_CATEGORIES
+public static final CommonAssetValidator ICON_CRAFTING
+public static final CommonAssetValidator ICON_ENTITY_STAT
+public static final CommonAssetValidator ICON_MODEL
+public static final CommonAssetValidator ICON_EMOTE
+public static final CommonAssetValidator UI_RETICLE_PART
+public static final ArrayValidator<String> UI_RETICLE_PARTS_ARRAY
+public static final CommonAssetValidator UI_SCREEN_EFFECT
+public static final CommonAssetValidator UI_CRAFTING_DIAGRAM
+public static final CommonAssetValidator MODEL_ITEM
+public static final CommonAssetValidator MODEL_CHARACTER
+public static final CommonAssetValidator MODEL_CHARACTER_ATTACHMENT
+public static final CommonAssetValidator PREFAB_LIST
+public static final CommonAssetValidator BLOCK_LIST
+public static final CommonAssetValidator ANIMATION_ITEM_CHARACTER
+public static final CommonAssetValidator ANIMATION_ITEM_BLOCK
+public static final CommonAssetValidator ANIMATION_CHARACTER
+public static final CommonAssetValidator ANIMATION_EMOTE
+public static final CommonAssetValidator MUSIC
+public static final CommonAssetValidator SOUNDS
+private final String[] requiredRoots
+private final String requiredExtension
+private final boolean isUIAsset

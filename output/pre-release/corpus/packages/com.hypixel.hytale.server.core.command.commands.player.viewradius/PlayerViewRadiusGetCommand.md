@@ -7,3 +7,8 @@ public class PlayerViewRadiusGetCommand extends AbstractTargetPlayerCommand
 ## Methods
 
 - @Override protected void execute(CommandContext context, Ref<EntityStore> sourceRef, Ref<EntityStore> ref, PlayerRef playerRef, World world, Store<EntityStore> store)
+
+Also in this package: PlayerViewRadiusSetCommand, PlayerViewRadiusSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, Ref<EntityStore> sourceRef, Ref<EntityStore> ref, PlayerRef playerRef, World world, Store<EntityStore> store)

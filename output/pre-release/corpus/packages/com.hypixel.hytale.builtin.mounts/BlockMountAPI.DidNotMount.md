@@ -20,3 +20,5 @@ Enum of failure reasons returned by BlockMountAPI.mountOnBlock() when a mount at
 
 - BlockMountAPI -- enclosing class
 - BlockMountAPI.BlockMountResult -- sealed parent interface
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)

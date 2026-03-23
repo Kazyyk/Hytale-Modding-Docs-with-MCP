@@ -84,3 +84,48 @@ public static enum Type { START, HIT_GROUND, MOVE, BLOCKED_GROUND, HIT_WALL, BLO
 - DROP | false | false | Dropping down
 - BLOCKED_DROP | true | false | Blocked during drop
 - END | false | true | Probe end point
+
+Also in this package: AppliedVelocity, AscentAnimationType, BuilderMotionControllerMapUtil, DescentAnimationType, MotionControllerBase, MotionControllerDive, MotionControllerFly, MotionControllerWalk, Segment, Type
+
+Complete API:
+  public void setSaveSegments(boolean saveSegments)
+  public boolean isAvoidingBlockDamage()
+  public void setAvoidingBlockDamage(boolean avoid)
+  public boolean isRelaxedMoveConstraints()
+  public void setRelaxedMoveConstraints(boolean relaxedMoveConstraints)
+  public ProbeMoveData setPosition(Vector3d position)
+  public ProbeMoveData setDirection(Vector3d direction)
+  public ProbeMoveData setTargetPosition(Vector3d targetPosition)
+  public boolean canAdvance(Ref<EntityStore> ref, MotionController motionController, double threshold, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean canAdvanceAbs(Ref<EntityStore> ref, MotionController motionController, double requiredDistance, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean canMoveTo(Ref<EntityStore> ref, MotionController motionController, double maxDistance, double maxDistanceY, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean canMoveTo(Ref<EntityStore> ref, MotionController motionController, double maxDistance, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean computePosition(double distance, Vector3d result)
+  public boolean startProbing()
+  public void addStartSegment(Vector3d position, boolean onGround)
+  public void addEndSegment(Vector3d position, boolean onGround, double distance)
+  public void addBlockedGroundSegment(Vector3d position, double distance, Vector3d normal, int blockId)
+  public void addHitGroundSegment(Vector3d position, double distance, Vector3d normal, int blockId)
+  public void addHitWallSegment(Vector3d position, boolean onGround, double distance, Vector3d normal, int blockId)
+  public void addMoveSegment(Vector3d position, boolean onGround, double distance)
+  public void addClimbSegment(Vector3d position, double distance, int blockId)
+  public void addHitEdgeSegment(Vector3d position, double distance)
+  public void addDropSegment(Vector3d position, double distance)
+  public void addBlockedDropSegment(Vector3d position, double distance)
+  public void changeSegmentToBlockedWall()
+  public void changeSegmentToBlockedEdge()
+  public double getLastDistance()
+  protected ProbeMoveData.Segment newSegment()
+
+Fields:
+public final Vector3d probePosition
+public final Vector3d probeDirection
+public final Vector3d initialPosition
+public final Vector3d targetPosition
+public final Vector3d directionComponentSelector
+public boolean isAvoidingBlockDamage
+public boolean isRelaxedMoveConstraints
+public boolean onGround
+public boolean isSavingSegments
+public int segmentCount
+public ProbeMoveData.Segment[] segments

@@ -18,3 +18,20 @@ public class BasicChanceBlockGrowthProcedure extends TickProcedure
 - protected boolean runChance()
 - protected boolean executeToBlock(World world, int worldX, int worldY, int worldZ, String to)
 - @Nonnull @Override public String toString()
+
+Known subclasses: SplitChanceBlockGrowthProcedure
+
+Also in this package: SplitChanceBlockGrowthProcedure
+
+Complete API:
+  public BlockTickStrategy onTick(World world, WorldChunk wc, int worldX, int worldY, int worldZ, int blockId)
+  protected boolean runChance()
+  protected boolean executeToBlock(World world, int worldX, int worldY, int worldZ, String to)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<BasicChanceBlockGrowthProcedure> CODEC
+protected int chanceMin
+protected int chance
+protected String to
+protected boolean nextTicking

@@ -15,3 +15,17 @@ Builder for constructing ordered sequences of interaction operations. Supports l
 - addOperation(@Nonnull Operation operation) | void | Appends an operation to the sequence.
 - addOperation(@Nonnull Operation operation, Label... labels) | void | Appends an operation wrapped with associated labels.
 - build() | Operation[] | Builds and returns the finalized operation array.
+
+Also in this package: JumpOperation, Label, LabelOperation, NestedOperation, Operation
+
+Complete API:
+  public Label createLabel()
+  public Label createUnresolvedLabel()
+  public void resolveLabel(Label label)
+  public void jump(Label target)
+  public void addOperation(Operation operation)
+  public void addOperation(Operation operation, Label labels)
+  public Operation[] build()
+
+Fields:
+private final List<Operation> operationList

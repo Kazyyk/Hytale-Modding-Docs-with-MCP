@@ -15,3 +15,13 @@ Loads grid noise configurations. Creates `GridNoise` with per-axis thickness val
 ## Related Types
 
 - GridNoiseJsonLoader.Constants -- axis thickness keys and defaults
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public NoiseFunction load()
+  protected double loadDefaultThickness()
+  protected double loadThicknessX(double defaultThickness)
+  protected double loadThicknessY(double defaultThickness)
+  protected double loadThicknessZ(double defaultThickness)
+  protected double loadThickness(String key, double defaultThickness)

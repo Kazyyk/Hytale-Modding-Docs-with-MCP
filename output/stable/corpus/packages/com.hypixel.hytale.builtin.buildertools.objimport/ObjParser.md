@@ -38,3 +38,11 @@ Checked exception for OBJ parsing errors.
 
 - MeshVoxelizer
 - MtlParser
+
+Also in this package: MeshRotation, MeshVoxelizer, MtlMaterial, MtlParser, ObjImportCommand, ObjImportPage, ObjMesh, ObjParseException, Origin, PageData, TextureSampler, VoxelResult, WeightedBlock
+
+Complete API:
+  public static ObjParser.ObjMesh parse(Path path)
+  private static void parseVertex(String[] parts, List<float[]> vertices, int lineNum)
+  private static void parseUvCoordinate(String[] parts, List<float[]> uvCoordinates, int lineNum)
+  private static void parseFace(String[] parts, List<int[]> faces, List<int[]> faceUvIndices, int uvCount, int lineNum)

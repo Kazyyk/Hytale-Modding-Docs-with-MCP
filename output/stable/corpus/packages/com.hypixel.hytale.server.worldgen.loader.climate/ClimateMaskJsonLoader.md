@@ -15,3 +15,13 @@ JSON loader that deserializes configuration data from JSON files.
 - @Nonnull protected UniqueClimateGenerator loadUniqueClimateGenerator()
 - protected static JsonObject loadMaskFileJson(Path file)
 - throw new Error("Failed to load Mask.json", var2)
+
+Also in this package: ClimateColorJsonLoader, ClimateGraphJsonLoader, ClimateGridJsonLoader, ClimateNoiseJsonLoader, ClimatePointJsonLoader, ClimateRuleJsonLoader, ClimateTypeJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, ContinentThresholdsJsonLoader, UniqueClimateGeneratorJsonLoader, UniqueClimateJsonLoader
+
+Complete API:
+  public ClimateMaskProvider load()
+  protected ICoordinateRandomizer loadRandomizer()
+  protected ClimateNoise loadClimateNoise()
+  protected ClimateGraph loadClimateGraph()
+  protected UniqueClimateGenerator loadUniqueClimateGenerator()
+  protected static JsonObject loadMaskFileJson(Path file)

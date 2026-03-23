@@ -10,3 +10,14 @@ An ECS holder system that ensures every player entity has a `MovementManager` co
 
 - PlayerMovementManagerSystems -- parent container class
 - PlayerMovementManagerSystems.PostAssignmentSystem -- resets defaults after assignment
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem, PlayerAddedSystem (and 33 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onEntityAdd(Holder<EntityStore> holder, AddReason reason, Store<EntityStore> store)
+  public void onEntityRemoved(Holder<EntityStore> holder, RemoveReason reason, Store<EntityStore> store)
+
+Fields:
+private static final ComponentType<EntityStore,MovementManager> MOVEMENT_MANAGER_COMPONENT_TYPE
+private static final Query<EntityStore> QUERY

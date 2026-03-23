@@ -19,3 +19,14 @@ public class DeployableProjectileComponent implements Component<EntityStore>
 - @Override public Component<EntityStore> clone()
 - @Nonnull public Vector3d getPreviousTickPosition()
 - public void setPreviousTickPosition(@Nonnull Vector3d pos)
+
+Also in this package: DeployableComponent, DeployableFlag, DeployableOwnerComponent, DeployableProjectileShooterComponent
+
+Complete API:
+  public static ComponentType<EntityStore,DeployableProjectileComponent> getComponentType()
+  public Component<EntityStore> clone()
+  public Vector3d getPreviousTickPosition()
+  public void setPreviousTickPosition(Vector3d pos)
+
+Fields:
+protected Vector3d previousTickPosition

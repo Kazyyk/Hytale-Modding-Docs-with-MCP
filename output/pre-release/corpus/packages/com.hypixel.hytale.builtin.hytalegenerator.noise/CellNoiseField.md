@@ -26,3 +26,19 @@ Cellular (Voronoi/Worley) noise field implementation backed by FastNoiseLite. Su
 - @Override public double valueAt(double x, double y, double z)
 - @Override public double valueAt(double x, double z)
 - @Override public double valueAt(double x)
+
+Also in this package: Builder, CellularDistanceFunction, CellularReturnType, DomainWarpType, FastNoiseLite, FractalType, Grad, NoiseField, NoiseType, RotationType3D, Simplex, SimplexNoiseField, TransformType3D, Vector2, Vector3
+
+Complete API:
+  public double valueAt(double x, double y, double z, double w)
+  public double valueAt(double x, double y, double z)
+  public double valueAt(double x, double z)
+  public double valueAt(double x)
+
+Fields:
+private FastNoiseLite cellNoise
+private int seed
+private boolean doDomainWarp
+private double scaleX
+private double scaleY
+private double scaleZ

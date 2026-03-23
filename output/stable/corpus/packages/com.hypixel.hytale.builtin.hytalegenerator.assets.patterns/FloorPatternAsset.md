@@ -8,3 +8,14 @@ public class FloorPatternAsset extends PatternAsset
 
 - public Pattern build(@Nonnull PatternAsset.Argument argument)
 - public void cleanUp()
+
+Also in this package: AndPatternAsset, Argument, BlockSetPatternAsset, CeilingPatternAsset, ConstantPatternAsset, CuboidPatternAsset, DelimiterAsset, DensityPatternAsset, GapPatternAsset, ImportedPatternAsset, MaterialPatternAsset, NotPatternAsset, OffsetPatternAsset, OrPatternAsset, PatternAsset, SurfacePatternAsset, WallPatternAsset
+
+Complete API:
+  public Pattern build(PatternAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<FloorPatternAsset> CODEC
+private PatternAsset floor
+private PatternAsset origin

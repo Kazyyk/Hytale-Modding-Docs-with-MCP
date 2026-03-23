@@ -33,3 +33,22 @@ A PixelBuffer implementation using a tri-state storage strategy: EMPTY (no data)
 - private void ensureContents()
 - private void switchFromSingleValueToArray()
 - private static int index(@Nonnull Vector3i position)
+
+Also in this package: ArrayContents, ArrayContents, Buffer, CountedArrayContents, CountedPixelBuffer, EntityBuffer, PixelBuffer, State, State, State, VoxelBuffer
+
+Complete API:
+  public T getPixelContent(Vector3i position)
+  public void setPixelContent(Vector3i position, T value)
+  public Class<T> getPixelType()
+  public void copyFrom(SimplePixelBuffer<T> sourceBuffer)
+  public MemInstrument.Report getMemoryUsage()
+  private void ensureContents()
+  private void switchFromSingleValueToArray()
+  private static int index(Vector3i position)
+
+Fields:
+private static final Bounds3i bounds
+private final Class<T> pixelType
+private SimplePixelBuffer.State state
+private SimplePixelBuffer.ArrayContents<T> arrayContents
+private T singleValue

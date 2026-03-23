@@ -16,3 +16,11 @@ Provides ConstantNoiseProperty functionality within the util subsystem.
 ## Methods
 
 - private ConstantNoiseProperty()
+
+Also in this package: ArrayUtli, BlockArray, BlockFluidEntry, ChunkThreadPoolExecutor, ChunkWorker, ChunkWorkerThreadFactory, Entry, LogUtil, NoiseBlockArray, ObjectPool, ResolvedBlockArray
+
+Fields:
+private static final ConstantNoise DEFAULT_ZERO_NOISE
+public static final NoiseProperty DEFAULT_ZERO
+private static final ConstantNoise DEFAULT_ONE_NOISE
+public static final NoiseProperty DEFAULT_ONE

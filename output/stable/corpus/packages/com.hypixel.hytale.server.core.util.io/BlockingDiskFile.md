@@ -22,3 +22,19 @@ Class in the io subsystem.
 - syncLoad() | void | public method.
 - syncSave() | void | public method.
 - toLocalFile() | File | protected method.
+
+Known subclasses: HytaleBanProvider, HytalePermissionsProvider, HytaleWhitelistProvider
+
+Also in this package: ByteBufUtil, FileUtil
+
+Complete API:
+  protected abstract void read(BufferedReader var1)
+  protected abstract void write(BufferedWriter var1)
+  protected abstract void create(BufferedWriter var1)
+  public void syncLoad()
+  public void syncSave()
+  protected File toLocalFile()
+
+Fields:
+protected final ReadWriteLock fileLock
+protected final Path path

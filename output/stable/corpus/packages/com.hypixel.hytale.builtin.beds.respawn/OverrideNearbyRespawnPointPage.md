@@ -17,3 +17,16 @@ public class OverrideNearbyRespawnPointPage extends RespawnPointPage
 - public OverrideNearbyRespawnPointPage( @Nonnull PlayerRef playerRef, @Nonnull InteractionType interactionType, @Nonnull Vector3i respawnPointPosition, @Nonnull RespawnBlock respawnPointToAdd, @Nonnull PlayerRespawnPointData[] nearbyRespawnPoints, int radiusLimitRespawnPoint )
 - public void build( @Nonnull Ref<EntityStore> ref, @Nonnull UICommandBuilder commandBuilder, @Nonnull UIEventBuilder eventBuilder, @Nonnull Store<EntityStore> store )
 - public void handleDataEvent(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull RespawnPointPage.RespawnPointEventData data)
+
+Also in this package: RespawnPointEventData, RespawnPointPage, SelectOverrideRespawnPointPage, SetNameRespawnPointPage
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, RespawnPointPage.RespawnPointEventData data)
+
+Fields:
+private static final String PAGE_OVERRIDE_NEARBY_SPAWN_POINT_PAGE
+private final Vector3i respawnPointPosition
+private final RespawnBlock respawnPointToAdd
+private final PlayerRespawnPointData[] nearbyRespawnPoints
+private final int radiusLimitRespawnPoint

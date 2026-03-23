@@ -13,3 +13,23 @@ Abstract base class for all block-targeted interactions. Provides the `UseLatest
 ## Related Types
 
 - Parent hierarchy types are in package `com.hypixel.hytale.server.core.modules.interaction.interaction.config`
+
+Known subclasses: AddItemInteraction, BedInteraction, BlockConditionInteraction, BlockConditionInteraction, BreakBlockInteraction, BreakBlockInteraction, CanBreakRespawnPointInteraction, ChangeBlockInteraction, ChangeBlockInteraction, ChangeFarmingStageInteraction, ChangeStateInteraction, ChangeStateInteraction, CycleBlockGroupInteraction, DestroyConditionInteraction, DoorInteraction, EnterPortalInteraction, FertilizeSoilInteraction, HarvestCropInteraction, LaunchPadInteraction, OpenBenchPageInteraction, OpenContainerInteraction, OpenProcessingBenchInteraction, PickBlockInteraction, PickBlockInteraction, PlaceFluidInteraction, ReturnPortalInteraction, SeatingInteraction, SpawnMinecartInteraction, SpawnNPCInteraction, TeleportConfigInstanceInteraction, TeleporterInteraction, UseBlockInteraction, UseBlockInteraction, UseCaptureCrateInteraction, UseCoopInteraction, UseWateringCanInteraction
+
+Also in this package: AddItemInteraction, AngledWielding, ApplyForceInteraction, BlockConditionInteraction, BlockIdMatcher, BlockMatcher, BreakBlockInteraction, ChainingInteraction, ChainingTag, ChangeBlockInteraction, ChangeStateInteraction, ChargingInteraction, ChargingTag, CooldownConditionInteraction, CostType, CycleBlockGroupInteraction, Data, DestroyBlockInteraction, ExplodeInteraction, FirstClickInteraction (and 13 more)
+
+Complete API:
+  public WaitForDataFrom getWaitForDataFrom()
+  protected void tick0(boolean firstRun, float time, InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected abstract void interactWithBlock(World var1, CommandBuffer<EntityStore> var2, InteractionType var3, InteractionContext var4, ItemStack var5, Vector3i var6, CooldownHandler var7)
+  protected void simulateTick0(boolean firstRun, float time, InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected abstract void simulateInteractWithBlock(InteractionType var1, InteractionContext var2, ItemStack var3, World var4, Vector3i var5)
+  protected void computeCurrentBlockSyncData(InteractionContext context)
+  protected com.hypixel.hytale.protocol.Interaction generatePacket()
+  protected void configurePacket(com.hypixel.hytale.protocol.Interaction packet)
+  public boolean needsRemoteSync()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SimpleBlockInteraction> CODEC
+private boolean useLatestTarget

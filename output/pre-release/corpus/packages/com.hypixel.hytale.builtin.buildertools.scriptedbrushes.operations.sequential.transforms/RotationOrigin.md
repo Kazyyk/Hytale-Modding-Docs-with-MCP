@@ -5,3 +5,5 @@ Type: enum | Package: com.hypixel.hytale.builtin.buildertools.scriptedbrushes.op
 public static enum RotationOrigin
 
 Enum defining the pivot point for `RotateOperation`. Values: `OffsetCenter` (brush offset position), `ClickCenter` (original click position), `Player` (player world position).
+
+Also in this package: RotateOperation

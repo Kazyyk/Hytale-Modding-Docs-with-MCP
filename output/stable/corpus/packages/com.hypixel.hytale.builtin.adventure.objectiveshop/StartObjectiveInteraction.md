@@ -14,3 +14,14 @@ public class StartObjectiveInteraction extends ChoiceInteraction
 - public String getObjectiveId()
 - @Override public void run(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
 - @Nonnull @Override public String toString()
+
+Also in this package: CanStartObjectiveRequirement, ObjectiveShopPlugin
+
+Complete API:
+  public String getObjectiveId()
+  public void run(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<StartObjectiveInteraction> CODEC
+protected String objectiveId

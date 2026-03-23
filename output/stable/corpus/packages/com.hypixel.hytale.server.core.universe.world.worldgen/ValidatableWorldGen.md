@@ -9,3 +9,10 @@ Interface for world generators that support validation.
 ## Methods
 
 - boolean validate()
+
+Known implementors: ChunkGenerator
+
+Also in this package: EntityWrapperEntry, GeneratedBlockChunk, GeneratedBlockStateChunk, GeneratedChunk, GeneratedChunkSection, GeneratedEntityChunk, IBenchmarkableWorldGen, IWorldGen, IWorldGenBenchmark, WorldGenLoadException, WorldGenTimingsCollector
+
+Complete API:
+  boolean validate()

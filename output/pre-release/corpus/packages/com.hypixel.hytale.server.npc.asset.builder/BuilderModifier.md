@@ -89,3 +89,32 @@ Generates the JSON Schema for the modifier block.
 - BuilderParameters -- the parameter scope being overridden
 - StatePair -- exported state pairs
 - StateMappingHelper -- state index management
+
+Known subclasses: EmptyBuilderModifier
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  public String getCombatConfig()
+  public Map<String,String> getInteractionVars()
+  public boolean isEmpty()
+  public int exportedStateCount()
+  public void applyComponentStateMap(BuilderSupport support)
+  public void popComponentStateMap(BuilderSupport support)
+  public Scope createScope(BuilderSupport builderSupport, BuilderParameters builderParameters, Scope globalScope)
+  public Scope createScope(ExecutionContext executionContext, BuilderParameters builderParameters, Scope globalScope)
+  public static BuilderModifier fromJSON(JsonObject jsonObject, BuilderParameters builderParameters, StateMappingHelper helper, ExtraInfo extraInfo)
+  public static void readModifierObject(JsonObject jsonObject, BuilderParameters builderParameters, StringHolder holder, Consumer<StringHolder> referenceConsumer, Consumer<BuilderModifier> builderModifierConsumer, StateMappingHelper helper, ExtraInfo extraInfo)
+  public static Schema toSchema(SchemaContext context)
+
+Fields:
+public static final String KEY_MODIFY
+public static final String KEY_EXPORT_STATES
+public static final String KEY_INTERFACE_PARAMETERS
+public static final String KEY_COMBAT_CONFIG
+public static final String KEY_INTERACTION_VARS
+private final Object2ObjectMap<String,BuilderModifier.ExpressionHolder> builderExpressionMap
+private final StatePair[] exportedStateIndexes
+private final StateMappingHelper stateHelper
+private final String combatConfig
+private final Map<String,String> interactionVars

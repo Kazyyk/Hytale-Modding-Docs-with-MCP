@@ -18,3 +18,12 @@ Console command handling WarpRemove operations.
 
 - public WarpRemoveCommand()
 - @Override protected void executeSync(@Nonnull CommandContext context)
+
+Also in this package: WarpCommand, WarpGoCommand, WarpGoVariantCommand, WarpListCommand, WarpReloadCommand, WarpSetCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_TELEPORT_WARP_NOT_LOADED
+private final RequiredArg<String> nameArg

@@ -18,3 +18,17 @@ Class in the portalworld subsystem.
 - getMessage() | Message | public method.
 - getColor() | Color | public method.
 - toString() | String | public method.
+
+Also in this package: PortalDescription, PortalSpawn, PortalType
+
+Complete API:
+  public String getTranslationKey()
+  public Message getMessage()
+  public Color getColor()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<PillTag> CODEC
+public static final PillTag[] EMPTY_LIST
+private String translationKey
+private Color color

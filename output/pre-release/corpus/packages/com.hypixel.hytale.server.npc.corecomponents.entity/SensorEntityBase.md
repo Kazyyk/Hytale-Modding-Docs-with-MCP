@@ -85,3 +85,54 @@ public abstract class SensorEntityBase extends SensorWithEntityFilters
 ## Related Types
 
 - SensorEntity
+
+Known subclasses: SensorEntity, SensorPlayer
+
+Also in this package: ActionBeacon, ActionIgnoreForAvoidance, ActionNotify, ActionOverrideAttitude, ActionReleaseTarget, ActionSetMarkedTarget, ActionSetStat, HeadMotionWatch, SensorBeacon, SensorCount, SensorEntity, SensorKill, SensorPlayer, SensorSelf, SensorTarget
+
+Complete API:
+  public boolean matches(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public void done()
+  public InfoProvider getSensorInfo()
+  public void registerWithSupport(Role role)
+  public void motionControllerChanged(Ref<EntityStore> ref, NPCEntity npcComponent, MotionController motionController, ComponentAccessor<EntityStore> componentAccessor)
+  public void loaded(Role role)
+  public void spawned(Role role)
+  public void unloaded(Role role)
+  public void removed(Role role)
+  public void teleported(Role role, World from, World to)
+  protected void initialisePrioritiser()
+  protected abstract boolean isGetPlayers()
+  protected abstract boolean isGetNPCs()
+  protected boolean isExcludingOwnType()
+  protected Ref<EntityStore> filterLockedEntity(Ref<EntityStore> ref, Vector3d position, Role role, Store<EntityStore> store)
+  protected boolean filterEntityWithRange(Ref<EntityStore> ref, Ref<EntityStore> targetRef, Vector3d position, Role role, Store<EntityStore> store)
+  protected boolean filterEntity(Ref<EntityStore> ref, Ref<EntityStore> targetRef, Role role, Store<EntityStore> store)
+  protected boolean filterPrioritisedPlayer(Ref<EntityStore> ref, Ref<EntityStore> targetRef, Role role, Store<EntityStore> store)
+  protected boolean filterPrioritisedNPC(Ref<EntityStore> ref, Ref<EntityStore> targetRef, Role role, Store<EntityStore> store)
+  protected boolean filterPrioritisedEntity(Ref<EntityStore> ref, Ref<EntityStore> targetRef, Role role, Store<EntityStore> store, IEntityByPriorityFilter entityPrioritiser)
+  private void recordEntityVisData(Ref<EntityStore> targetRef, Role role, boolean matched)
+  protected Ref<EntityStore> findPlayerOrEntity(Ref<EntityStore> ref, Vector3d position, Role role, Store<EntityStore> store)
+
+Fields:
+private static final HytaleLogger LOGGER
+protected static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE
+protected static final ComponentType<EntityStore,NPCEntity> NPC_COMPONENT_TYPE
+protected static final ComponentType<EntityStore,Player> PLAYER_COMPONENT_TYPE
+protected static final ComponentType<EntityStore,DeathComponent> DEATH_COMPONENT_TYPE
+protected final double range
+protected final double minRange
+protected final boolean useProjectedDistance
+protected final boolean lockOnTarget
+protected final boolean autoUnlockTarget
+protected final boolean onlyLockedTarget
+protected final int lockedTargetSlot
+protected final int ignoredTargetSlot
+protected final ISensorEntityPrioritiser prioritiser
+protected IEntityByPriorityFilter npcPrioritiser
+protected IEntityByPriorityFilter playerPrioritiser
+protected final ISensorEntityCollector collector
+protected int ownRole
+protected final EntityPositionProvider positionProvider
+protected int currentVisSensorColorIndex
+protected final float visViewAngle

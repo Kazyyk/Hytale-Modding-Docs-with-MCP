@@ -31,3 +31,27 @@ ECS component storing an entity's core physics parameters: mass, drag coefficien
 - isInvertedGravity() | boolean | Returns whether gravity is inverted.
 - getDefault() | PhysicsValues | Static. Returns a new instance with default values.
 - clone() | Component<EntityStore> | Returns a copy of this component.
+
+Also in this package: Instruction, Velocity
+
+Complete API:
+  public static ComponentType<EntityStore,PhysicsValues> getComponentType()
+  public void replaceValues(PhysicsValues other)
+  public void resetToDefault()
+  public void scale(float scale)
+  public double getMass()
+  public double getDragCoefficient()
+  public boolean isInvertedGravity()
+  public static PhysicsValues getDefault()
+  public String toString()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final Double ZERO
+public static final BuilderCodec<PhysicsValues> CODEC
+private static final double DEFAULT_MASS
+private static final double DEFAULT_DRAG_COEFFICIENT
+private static final boolean DEFAULT_INVERTED_GRAVITY
+protected double mass
+protected double dragCoefficient
+protected boolean invertedGravity

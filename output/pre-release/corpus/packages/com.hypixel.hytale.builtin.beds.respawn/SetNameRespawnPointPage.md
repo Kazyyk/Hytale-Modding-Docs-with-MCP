@@ -14,3 +14,13 @@ public class SetNameRespawnPointPage extends RespawnPointPage
 - public SetNameRespawnPointPage( @Nonnull PlayerRef playerRef, @Nonnull InteractionType interactionType, @Nonnull Vector3i respawnBlockPosition, @Nonnull RespawnBlock respawnBlock )
 - public void build( @Nonnull Ref<EntityStore> ref, @Nonnull UICommandBuilder commandBuilder, @Nonnull UIEventBuilder eventBuilder, @Nonnull Store<EntityStore> store )
 - public void handleDataEvent(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull RespawnPointPage.RespawnPointEventData data)
+
+Also in this package: OverrideNearbyRespawnPointPage, RespawnPointEventData, RespawnPointPage, SelectOverrideRespawnPointPage
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, RespawnPointPage.RespawnPointEventData data)
+
+Fields:
+private final Vector3i respawnBlockPosition
+private final RespawnBlock respawnBlock

@@ -12,3 +12,10 @@ Abstract base for browser-based OAuth authorization code flow with PKCE. Subclas
 public abstract void onFlowInfo(String var1)
 
 Called with the authorization URL that the user should visit to complete authentication.
+
+Known subclasses: AuthFlow
+
+Also in this package: DeviceAuthResponse, OAuthClient, OAuthDeviceFlow, OAuthFlow, OAuthResult, TokenResponse
+
+Complete API:
+  public abstract void onFlowInfo(String var1)

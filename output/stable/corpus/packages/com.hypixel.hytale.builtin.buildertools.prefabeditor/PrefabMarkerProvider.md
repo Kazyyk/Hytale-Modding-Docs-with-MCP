@@ -17,3 +17,11 @@ Singleton marker provider that adds world map markers for all loaded prefabs in 
 ## See Also
 
 - PrefabEditSession
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabAnchor, PrefabDirtySystems, PrefabEditSession, PrefabEditSessionManager, PrefabEditingMetadata, PrefabEditorCreationContext, PrefabEditorCreationSettings, PrefabLoadingState, PrefabSelectionInteraction, PrefabSetAnchorInteraction, Tri
+
+Complete API:
+  public void update(World world, Player player, MarkersCollector collector)
+
+Fields:
+public static final PrefabMarkerProvider INSTANCE

@@ -22,3 +22,17 @@ Concrete implementation extending `FlockAsset`.
 - getMinFlockSize() | int | public method.
 - pickFlockSize() | int | public method.
 - toString() | String | public method.
+
+Also in this package: FlockAsset, RangeSizeFlockAsset
+
+Complete API:
+  public int getMinSize()
+  public double[] getSizeWeights()
+  public int getMinFlockSize()
+  public int pickFlockSize()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<WeightedSizeFlockAsset> CODEC
+protected int minSize
+protected double[] sizeWeights

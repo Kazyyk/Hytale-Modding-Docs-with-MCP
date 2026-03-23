@@ -21,3 +21,21 @@ public class BoolIntPair implements Comparable
 - @Nonnull @Override public String toString()
 - @Nonnull public String toString(String format)
 - @Nonnull public static BoolIntPair of(boolean left, int right)
+
+Also in this package: BoolDoublePair
+
+Complete API:
+  public final boolean getKey()
+  public boolean getLeft()
+  public final int getValue()
+  public int getRight()
+  public int compareTo(BoolIntPair other)
+  public int hashCode()
+  public boolean equals(Object o)
+  public String toString()
+  public String toString(String format)
+  public static BoolIntPair of(boolean left, int right)
+
+Fields:
+private final boolean left
+private final int right

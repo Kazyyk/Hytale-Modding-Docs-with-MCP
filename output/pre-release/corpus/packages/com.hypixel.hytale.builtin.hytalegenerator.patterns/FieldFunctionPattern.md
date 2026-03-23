@@ -21,3 +21,15 @@ Pattern that matches when a `Density` field value at the evaluated position fall
 - @Override public boolean matches(@Nonnull Pattern.Context context)
 - @NonNullDecl @Override public Bounds3i getBounds_voxelGrid()
 - public void addDelimiter(double min, double max)
+
+Also in this package: AndPattern, ConstantPattern, Context, CuboidPattern, Facing, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, Pattern, RotatorPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public Bounds3i getBounds_voxelGrid()
+  public void addDelimiter(double min, double max)
+
+Fields:
+private final Density field
+private final List<RangeDouble> delimiters
+private final Density.Context rDensityContext

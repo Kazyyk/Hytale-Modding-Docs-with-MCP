@@ -35,3 +35,19 @@ Entry point for the NPC expression evaluator. An `Expression` instance owns a `C
 - ExecutionContext -- the stack VM that runs compiled instructions
 - Scope -- provides variable bindings and functions
 - ValueType -- result type discriminant
+
+Also in this package: ExecutionContext, Function, Instruction, Operand, Scope, StdLib, StdScope, Symbol, SymbolBoolean, SymbolBooleanArray, SymbolFunction, SymbolNumber, SymbolNumberArray, SymbolString, SymbolStringArray, ValueType
+
+Complete API:
+  public ValueType compile(String expression, Scope scope, List<ExecutionContext.Instruction> instructions, boolean fullResolve)
+  public ValueType compile(String expression, Scope compileScope, List<ExecutionContext.Instruction> instructions)
+  public ExecutionContext execute(List<ExecutionContext.Instruction> instructions, Scope scope)
+  public ExecutionContext execute(ExecutionContext.Instruction[] instructions, Scope scope)
+  public ExecutionContext evaluate(String expression, Scope scope)
+  public static ValueType compileStatic(String expression, Scope scope, List<ExecutionContext.Instruction> instructions)
+  public static Lexer<Token> getLexerInstance()
+
+Fields:
+private static final Lexer<Token> lexer
+private final ExecutionContext executionContext
+private final CompileContext compileContext

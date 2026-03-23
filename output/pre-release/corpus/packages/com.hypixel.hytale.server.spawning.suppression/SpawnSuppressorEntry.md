@@ -20,3 +20,14 @@ Class in the suppression subsystem.
 
 - getPosition() | Vector3d | public method.
 - getSuppressionId() | String | public method.
+
+Also in this package: Span, SuppressionSpanHelper
+
+Complete API:
+  public Vector3d getPosition()
+  public String getSuppressionId()
+
+Fields:
+public static final BuilderCodec<SpawnSuppressorEntry> CODEC
+private String suppressionId
+private Vector3d position

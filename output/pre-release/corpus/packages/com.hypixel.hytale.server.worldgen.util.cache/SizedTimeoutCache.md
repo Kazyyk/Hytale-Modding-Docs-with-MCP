@@ -53,3 +53,23 @@ public class SizedTimeoutCache<K, V> implements Cache<K, V>
 - CleanupFutureAction
 - CleanupRunnable
 - TimeoutCache
+
+Also in this package: Bucket, Cache, CacheEntry, CacheEntry, CacheEntry, CleanupFutureAction, CleanupRunnable, ConcurrentSizedTimeoutCache, TimeoutCache
+
+Complete API:
+  public void cleanup()
+  private void reduceLength(int targetSize)
+  public void shutdown()
+  public V get(K key)
+  public void put(K key, V value)
+  public V getWithReusedKey(K reusedKey, Function<K,K> keyPool)
+
+Fields:
+private final ArrayDeque<SizedTimeoutCache.CacheEntry<K,V>> pool
+private final Object2ObjectLinkedOpenHashMap<K,SizedTimeoutCache.CacheEntry<K,V>> map
+private final long timeout
+private final int maxSize
+private final Function<K,V> func
+private final BiConsumer<K,V> destroyer
+private final ScheduledFuture<?> future
+private final Cleanable cleanable

@@ -14,3 +14,14 @@ public abstract class CustomUIHud
 - public void update(boolean clear, UICommandBuilder commandBuilder)
 - @Nonnull public PlayerRef getPlayerRef()
 - protected abstract void build(UICommandBuilder var1)
+
+Also in this package: HudManager
+
+Complete API:
+  public void show()
+  public void update(boolean clear, UICommandBuilder commandBuilder)
+  public PlayerRef getPlayerRef()
+  protected abstract void build(UICommandBuilder var1)
+
+Fields:
+private final PlayerRef playerRef

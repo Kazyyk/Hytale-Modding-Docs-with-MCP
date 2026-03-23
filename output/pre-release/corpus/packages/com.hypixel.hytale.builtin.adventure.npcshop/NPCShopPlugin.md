@@ -7,3 +7,6 @@ public class NPCShopPlugin extends JavaPlugin
 Server plugin that initializes the NPCShop system and registers related features.
 
 ## Accessors
+
+Complete API:
+  protected void setup()

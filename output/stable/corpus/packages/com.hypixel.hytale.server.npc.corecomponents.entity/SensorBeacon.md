@@ -28,3 +28,17 @@ public class SensorBeacon extends SensorBase
 
 - public boolean matches(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, double dt, @Nonnull Store<EntityStore> store)
 - public InfoProvider getSensorInfo()
+
+Also in this package: ActionBeacon, ActionIgnoreForAvoidance, ActionNotify, ActionOverrideAttitude, ActionReleaseTarget, ActionSetMarkedTarget, ActionSetStat, HeadMotionWatch, SensorCount, SensorEntity, SensorEntityBase, SensorKill, SensorPlayer, SensorSelf, SensorTarget
+
+Complete API:
+  public boolean matches(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public InfoProvider getSensorInfo()
+
+Fields:
+protected static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE
+protected final int messageIndex
+protected final double range
+protected final int targetSlot
+protected final boolean consume
+private final EntityPositionProvider positionProvider

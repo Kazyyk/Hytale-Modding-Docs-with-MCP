@@ -17,3 +17,13 @@ public class SensorAnimation extends SensorBase
 
 - @Override public boolean matches(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, double dt, @Nonnull Store<EntityStore> store)
 - @Override public InfoProvider getSensorInfo()
+
+Also in this package: ActionAppearance, ActionDisplayName, ActionModelAttachment, ActionPlayAnimation, ActionPlaySound, ActionSpawnParticles
+
+Complete API:
+  public boolean matches(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public InfoProvider getSensorInfo()
+
+Fields:
+protected final NPCAnimationSlot slot
+protected final String animationId

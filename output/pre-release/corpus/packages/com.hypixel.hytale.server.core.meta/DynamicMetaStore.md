@@ -24,3 +24,20 @@ Extends `AbstractMetaStore` to provide DynamicMetaStore functionality.
 - @Override public void forEachMetaObject(@Nonnull IMetaStore.MetaEntryConsumer consumer)
 - @Nonnull public DynamicMetaStore<K> clone(K parent)
 - public void copyFrom(@Nonnull DynamicMetaStore<K> other)
+
+Also in this package: AbstractMetaStore, ArrayMetaStore, IMetaRegistry, IMetaStore, IMetaStoreImpl, MetaEntryConsumer, MetaEntryConsumer, MetaKey, MetaRegistry, MetaRegistryEntry, PersistentMetaKey
+
+Complete API:
+  protected T get0(MetaKey<T> key)
+  public T getMetaObject(MetaKey<T> key)
+  public T getIfPresentMetaObject(MetaKey<T> key)
+  public T putMetaObject(MetaKey<T> key, T obj)
+  public T removeMetaObject(MetaKey<T> key)
+  public T removeSerializedMetaObject(MetaKey<T> key)
+  public boolean hasMetaObject(MetaKey<?> key)
+  public void forEachMetaObject(IMetaStore.MetaEntryConsumer consumer)
+  public DynamicMetaStore<K> clone(K parent)
+  public void copyFrom(DynamicMetaStore<K> other)
+
+Fields:
+private final Int2ObjectMap<Object> map

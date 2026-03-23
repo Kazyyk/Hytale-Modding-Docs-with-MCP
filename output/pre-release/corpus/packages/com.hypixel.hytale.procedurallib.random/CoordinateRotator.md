@@ -41,3 +41,37 @@ Implements `ICoordinateRandomizer` to provide CoordinateRotator functionality.
 - @Nonnull @Override public String toString()
 - public static double[] createRotationMatrix(double pitch, double yaw)
 - private static double dot(double x1, double y1, double z1, double x2, double y2, double z2)
+
+Known subclasses: CoordinateOriginRotator
+
+Also in this package: AmplitudeNoiseProperty, CoordinateOriginRotator, CoordinateRandomizer, EmptyCoordinateRandomizer, ICoordinateRandomizer, RotatedCoordinateRandomizer
+
+Complete API:
+  public double rotateX(double x, double y)
+  public double rotateY(double x, double y)
+  public double rotateX(double x, double y, double z)
+  public double rotateY(double x, double y, double z)
+  public double rotateZ(double x, double y, double z)
+  public double randomDoubleX(int seed, double x, double y)
+  public double randomDoubleY(int seed, double x, double y)
+  public double randomDoubleX(int seed, double x, double y, double z)
+  public double randomDoubleY(int seed, double x, double y, double z)
+  public double randomDoubleZ(int seed, double x, double y, double z)
+  public String toString()
+  public static double[] createRotationMatrix(double pitch, double yaw)
+  private static double dot(double x1, double y1, double z1, double x2, double y2, double z2)
+
+Fields:
+public static final CoordinateRotator NONE
+public static final int X0
+public static final int Y0
+public static final int Z0
+public static final int X1
+public static final int Y1
+public static final int Z1
+public static final int X2
+public static final int Y2
+public static final int Z2
+protected final double pitch
+protected final double yaw
+protected final double[] matrix

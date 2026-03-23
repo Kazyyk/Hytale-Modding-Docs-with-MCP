@@ -18,3 +18,5 @@ All operations run asynchronously. Commit messages include the executing player'
 
 - GitCommand -- parent command collection
 - UpdateAssetsCommand -- equivalent commands for assets
+
+Also in this package: GitCommand, UpdateAssetsCommand, UpdateAssetsGitCommand, UpdateAssetsPullCommand, UpdateAssetsResetCommand, UpdateAssetsStatusCommand, UpdatePrefabsAllCommand, UpdatePrefabsCommitCommand, UpdatePrefabsGitCommand, UpdatePrefabsPullCommand, UpdatePrefabsPushCommand, UpdatePrefabsStatusCommand

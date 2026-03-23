@@ -18,3 +18,16 @@ NPC behavior motion builder for BodyMotionAimCharge functionality.
 - @Nonnull @Override public BuilderDescriptorState getBuilderDescriptorState()
 - @Nonnull public BuilderBodyMotionAimCharge readConfig(@Nonnull JsonElement data)
 - public double getRelativeTurnSpeed(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionApplyEntityEffect, BuilderActionAttack, BuilderHeadMotionAim, BuilderSensorDamage, BuilderSensorIsBackingAway
+
+Complete API:
+  public BodyMotion build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderBodyMotionAimCharge readConfig(JsonElement data)
+  public double getRelativeTurnSpeed(BuilderSupport support)
+
+Fields:
+protected final DoubleHolder relativeTurnSpeed

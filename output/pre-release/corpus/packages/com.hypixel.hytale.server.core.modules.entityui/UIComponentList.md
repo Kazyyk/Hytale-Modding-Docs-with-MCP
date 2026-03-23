@@ -15,3 +15,16 @@ public class UIComponentList implements Component<EntityStore>
 - public void update()
 - public int[] getComponentIds()
 - @Override @Nonnull public Component<EntityStore> clone()
+
+Also in this package: EntityUIModule, Remove, Setup, UIComponentSystems, Update
+
+Complete API:
+  public static ComponentType<EntityStore,UIComponentList> getComponentType()
+  public void update()
+  public int[] getComponentIds()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<UIComponentList> CODEC
+protected String[] components
+protected int[] componentIds

@@ -50,3 +50,20 @@ public class ZonePatternProviderJsonLoader extends JsonLoader<SeedStringResource
 - UniqueZoneEntryJsonLoader
 - ZoneColorMappingJsonLoader
 - ZoneRequirementJsonLoader
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, UniqueZoneEntryJsonLoader, ZoneBiomesJsonLoader, ZoneColorMappingJsonLoader, ZoneCustomBiomesJsonLoader, ZoneJsonLoader, ZoneRequirementJsonLoader
+
+Complete API:
+  public void setZones(Zone[] zones)
+  public ZonePatternProvider load()
+  protected IPointGenerator loadGridGenerator()
+  protected ZoneColorMapping loadColorMapping()
+  public Set<String> loadZoneRequirement()
+  protected void ensureMaskIntegrity(ZoneColorMapping zoneColorMapping)
+  protected Zone.UniqueCandidate[] loadUniqueZoneCandidates()
+  protected static void validateMapping(ClimateType parent, ClimateType type, ClimateColor color, ZoneColorMapping mapping, String prefix)
+
+Fields:
+protected final MaskProvider maskProvider
+protected Zone[] zones
+protected Map<String,Zone> zoneLookup

@@ -45,3 +45,15 @@ No-op for simulation.
 
 - `Projectile` -- the projectile asset providing configuration and ballistic data
 - `ProjectileComponent` -- assembles and shoots projectile entities
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, ModifyInventoryInteraction, OpenContainerInteraction (and 11 more)
+
+Complete API:
+  public String getProjectileId()
+  public BallisticData getBallisticData()
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected void simulateFirstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+
+Fields:
+public static final BuilderCodec<LaunchProjectileInteraction> CODEC
+protected String projectileId

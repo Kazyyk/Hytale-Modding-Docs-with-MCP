@@ -12,3 +12,11 @@ NPC behavior sensor builder for SensorIsBackingAway functionality.
 - @Nonnull @Override public String getShortDescription()
 - @Nonnull @Override public String getLongDescription()
 - @Nonnull @Override public BuilderDescriptorState getBuilderDescriptorState()
+
+Also in this package: BuilderActionApplyEntityEffect, BuilderActionAttack, BuilderBodyMotionAimCharge, BuilderHeadMotionAim, BuilderSensorDamage
+
+Complete API:
+  public SensorIsBackingAway build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()

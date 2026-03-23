@@ -21,3 +21,11 @@ Registers as sub-command `"presets"` with translation key `"server.commands.npc.
 
 - NPCDebugCommand -- parent command collection
 - NPCDebugCommand.DefaultsCommand -- applies the default preset
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected CompletableFuture<Void> execute(CommandContext context)
+
+Fields:
+private final OptionalArg<String> presetArg

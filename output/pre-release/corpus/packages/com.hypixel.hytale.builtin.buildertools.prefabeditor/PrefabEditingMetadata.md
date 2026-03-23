@@ -46,3 +46,41 @@ public PrefabEditingMetadata(@Nonnull Path prefabPath, @Nonnull Vector3i minPoin
 
 - PrefabEditSession
 - PrefabAnchor
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabAnchor, PrefabDirtySystems, PrefabEditSession, PrefabEditSessionManager, PrefabEditorCreationContext, PrefabEditorCreationSettings, PrefabLoadingState, PrefabMarkerProvider, PrefabSelectionInteraction, Tri
+
+Complete API:
+  private void createAnchorEntityAt(Vector3i position, World world)
+  public void setPrefabPath(Path prefabPath)
+  public void setAnchorPoint(Vector3i newEntityPosition, World world)
+  public void recreateAnchorEntity(World world)
+  public void sendAnchorHighlightingPacket(PacketHandler displayTo)
+  public boolean isLocationWithinPrefabBoundingBox(Vector3i location)
+  void setMinPoint(Vector3i minPoint)
+  void setMaxPoint(Vector3i maxPoint)
+  public Vector3i getAnchorPoint()
+  public Vector3i getPastePosition()
+  public Vector3i getOriginalFileAnchor()
+  public Path getPrefabPath()
+  public Vector3i getMinPoint()
+  public Vector3i getMaxPoint()
+  public UUID getAnchorEntityUuid()
+  public Vector3i getAnchorEntityPosition()
+  public UUID getUuid()
+  public boolean isDirty()
+  public void setDirty(boolean dirty)
+  public boolean isReadOnly()
+
+Fields:
+private static final float PREFAB_ANCHOR_ENTITY_SCALE
+public static final BuilderCodec<PrefabEditingMetadata> CODEC
+private UUID uuid
+private Path prefabPath
+private Vector3i minPoint
+private Vector3i maxPoint
+private Vector3i anchorPoint
+private Vector3i pastePosition
+private UUID anchorEntityUuid
+private Vector3i anchorEntityPosition
+private Vector3i originalFileAnchor
+private boolean dirty

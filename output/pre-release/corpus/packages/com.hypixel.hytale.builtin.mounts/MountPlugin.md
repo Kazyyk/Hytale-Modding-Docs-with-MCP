@@ -67,3 +67,26 @@ Sends a `DismountNPC` packet to the player client and resets the player's `Movem
 - NPCMountSystems -- NPC-specific mount ECS systems
 - MountCommand -- `/mount` command collection
 - MountGamePacketHandler -- dismount packet handler
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public static MountPlugin getInstance()
+  public ComponentType<EntityStore,NPCMountComponent> getMountComponentType()
+  public ComponentType<EntityStore,MountedComponent> getMountedComponentType()
+  public ComponentType<EntityStore,MountedByComponent> getMountedByComponentType()
+  public ComponentType<EntityStore,MinecartComponent> getMinecartComponentType()
+  protected void setup()
+  public ComponentType<ChunkStore,BlockMountComponent> getBlockMountComponentType()
+  public static void checkDismountNpc(ComponentAccessor<EntityStore> store, Ref<EntityStore> ref, Player playerComponent)
+  private static void dismountNpc(ComponentAccessor<EntityStore> store, Ref<EntityStore> playerRef, int mountEntityId)
+  private static void resetOriginalMountRole(Ref<EntityStore> entityReference, ComponentAccessor<EntityStore> store, NPCMountComponent mountComponent)
+  public static void resetOriginalPlayerMovementSettings(Ref<EntityStore> ref, ComponentAccessor<EntityStore> store)
+
+Fields:
+private static MountPlugin instance
+private ComponentType<ChunkStore,BlockMountComponent> blockMountComponentType
+private ComponentType<EntityStore,NPCMountComponent> mountComponentType
+private ComponentType<EntityStore,MountedComponent> mountedComponentType
+private ComponentType<EntityStore,MountedByComponent> mountedByComponentType
+private ComponentType<EntityStore,MinecartComponent> minecartComponentType

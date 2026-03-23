@@ -9,3 +9,9 @@ Static lookup table containing 256 pre-computed `DoubleArray.Double2` vectors us
 ## Constants
 
 - public static final DoubleArray.Double2[] CELL_2D
+
+Also in this package: Bounds2d, BranchNoise, CellFunction, CellMode, CellNoise, ConstantNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GeneralNoise, GridNoise, HexMeshNoise, InterpolationFunction, InterpolationMode, MeshNoise, OldSimplexNoise, PerlinNoise (and 6 more)
+
+Fields:
+public static final DoubleArray.Double2[] CELL_2D
+public static final DoubleArray.Double3[] CELL_3D

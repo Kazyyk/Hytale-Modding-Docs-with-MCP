@@ -11,3 +11,11 @@ public class TimerFragmentCommand extends PortalWorldCommandBase
 ## Methods
 
 - @Override protected void execute(CommandContext context, World world, PortalWorld portalWorld, Store<EntityStore> store)
+
+Also in this package: FragmentCommands, PortalWorldCommandBase
+
+Complete API:
+  protected void execute(CommandContext context, World world, PortalWorld portalWorld, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<Integer> remainingSecondsArg

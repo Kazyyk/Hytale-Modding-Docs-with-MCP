@@ -19,3 +19,17 @@ public class ProjectileInteraction extends SimpleInstantInteraction implements B
 - @Override protected void simulateFirstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
 - @Nonnull @Override protected Interaction generatePacket()
 - @Override protected void configurePacket(Interaction packet)
+
+Complete API:
+  public ProjectileConfig getConfig()
+  public BallisticData getBallisticData()
+  public WaitForDataFrom getWaitForDataFrom()
+  public boolean needsRemoteSync()
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected void simulateFirstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected Interaction generatePacket()
+  protected void configurePacket(Interaction packet)
+
+Fields:
+public static final BuilderCodec<ProjectileInteraction> CODEC
+protected String config

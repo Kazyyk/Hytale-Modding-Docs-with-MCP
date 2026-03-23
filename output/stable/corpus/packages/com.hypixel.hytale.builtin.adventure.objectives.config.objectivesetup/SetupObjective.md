@@ -14,3 +14,14 @@ public class SetupObjective extends ObjectiveTypeSetup
 - @Override public String getObjectiveIdToStart()
 - @Nullable @Override public Objective setup(Set<UUID> playerUUIDs, UUID worldUUID, UUID markerUUID, Store<EntityStore> store)
 - @Nonnull @Override public String toString()
+
+Also in this package: ObjectiveTypeSetup, SetupObjectiveLine
+
+Complete API:
+  public String getObjectiveIdToStart()
+  public Objective setup(Set<UUID> playerUUIDs, UUID worldUUID, UUID markerUUID, Store<EntityStore> store)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SetupObjective> CODEC
+protected String objectiveId

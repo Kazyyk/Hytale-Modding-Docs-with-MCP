@@ -58,3 +58,18 @@ Returns the slot for the given type and set, creating a new one if it does not e
 
 - BuilderSupport -- owns block and entity event slot mappers
 - SlotMapper -- simpler name-to-slot mapper
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 28 more)
+
+Complete API:
+  public Map<EventType,IntSet> getEventSets()
+  public Map<EventType,Int2IntMap> getEventSlotMappings()
+  public Int2DoubleMap getEventSlotRanges()
+  public int getEventSlotCount()
+  public int getEventSlot(EventType type, int set, double maxRange)
+
+Fields:
+private final Map<EventType,IntSet> eventSets
+private final Map<EventType,Int2IntMap> eventSlotMappings
+private final Int2DoubleMap eventSlotRanges
+private int nextEventSlot

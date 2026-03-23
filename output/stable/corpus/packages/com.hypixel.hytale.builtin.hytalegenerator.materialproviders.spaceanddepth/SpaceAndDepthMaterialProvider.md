@@ -27,3 +27,14 @@ public class SpaceAndDepthMaterialProvider<V> extends MaterialProvider<V>
 - `SpaceAndDepthMaterialProvider.Condition`
 - `SpaceAndDepthMaterialProvider.Layer`
 - `SpaceAndDepthMaterialProvider.LayerContextType`
+
+Also in this package: Condition, Layer, LayerContextType
+
+Complete API:
+  public V getVoxelTypeAt(MaterialProvider.Context context)
+
+Fields:
+private final SpaceAndDepthMaterialProvider.LayerContextType layerContextType
+private final SpaceAndDepthMaterialProvider.Layer<V>[] layers
+private final SpaceAndDepthMaterialProvider.Condition condition
+private final int maxDistance

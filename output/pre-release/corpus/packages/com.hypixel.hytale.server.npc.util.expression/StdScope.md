@@ -63,3 +63,78 @@ Seven protected static inner classes form the symbol hierarchy: `Symbol` (base w
 - Scope -- interface this class implements
 - StdLib -- singleton subclass providing built-in functions
 - ValueType -- type discriminant used by symbols
+
+Known subclasses: StdLib
+
+Also in this package: ExecutionContext, Expression, Function, Instruction, Operand, Scope, StdLib, Symbol, SymbolBoolean, SymbolBooleanArray, SymbolFunction, SymbolNumber, SymbolNumberArray, SymbolString, SymbolStringArray, ValueType
+
+Complete API:
+  public static StdScope copyOf(StdScope other)
+  public StdScope merge(StdScope other)
+  public static StdScope mergeScopes(StdScope first, StdScope second)
+  protected void mergeSymbols(StdScope other)
+  protected void add(String name, StdScope.Symbol symbol)
+  public void addConst(String name, String value)
+  public void addConst(String name, double value)
+  public void addConst(String name, boolean value)
+  public void addConst(String name, String[] value)
+  public void addConst(String name, double[] value)
+  public void addConst(String name, boolean[] value)
+  public void addConstEmptyArray(String name)
+  public void addVar(String name, String value)
+  public void addVar(String name, double value)
+  public void addVar(String name, boolean value)
+  public void addVar(String name, String[] value)
+  public void addVar(String name, double[] value)
+  public void addVar(String name, boolean[] value)
+  public void addInvariant(String name, Scope.Function function, ValueType returnType, ValueType argumentTypes)
+  public void addVariant(String name, Scope.Function function, ValueType returnType, ValueType argumentTypes)
+  public void addSupplier(String name, Supplier<String> value)
+  public void addSupplier(String name, DoubleSupplier value)
+  public void addSupplier(String name, BooleanSupplier value)
+  public void addStringArraySupplier(String name, Supplier<String[]> value)
+  public void addDoubleArraySupplier(String name, Supplier<double[]> value)
+  public void addBooleanArraySupplier(String name, Supplier<boolean[]> value)
+  protected StdScope.Symbol get(String name)
+  protected StdScope.Symbol get(String name, ValueType valueType)
+  protected void replace(String name, StdScope.Symbol symbol)
+  public void changeValue(String name, String value)
+  public void changeValue(String name, double value)
+  public void changeValue(String name, boolean value)
+  public void changeValue(String name, String[] value)
+  public void changeValue(String name, double[] value)
+  public void changeValue(String name, boolean[] value)
+  public void changeValueToEmptyArray(String name)
+  public Supplier<String> getStringSupplier(String name)
+  public DoubleSupplier getNumberSupplier(String name)
+  public BooleanSupplier getBooleanSupplier(String name)
+  public Supplier<String[]> getStringArraySupplier(String name)
+  public Supplier<double[]> getNumberArraySupplier(String name)
+  public Supplier<boolean[]> getBooleanArraySupplier(String name)
+  public Scope.Function getFunction(String name)
+  public boolean isConstant(String name)
+  public ValueType getType(String name)
+
+Fields:
+protected static final StdScope.SymbolStringArray VAR_EMPTY_STRING_ARRAY
+protected static final StdScope.SymbolNumberArray VAR_EMPTY_NUMBER_ARRAY
+protected static final StdScope.SymbolBooleanArray VAR_EMPTY_BOOLEAN_ARRAY
+protected static final StdScope.SymbolStringArray VAR_NULL_STRING_ARRAY
+protected static final StdScope.SymbolNumberArray VAR_NULL_NUMBER_ARRAY
+protected static final StdScope.SymbolBooleanArray VAR_NULL_BOOLEAN_ARRAY
+protected static final StdScope.SymbolString VAR_NULL_STRING
+protected static final StdScope.SymbolString VAR_EMPTY_STRING
+protected static final StdScope.SymbolBoolean VAR_BOOLEAN_TRUE
+protected static final StdScope.SymbolBoolean VAR_BOOLEAN_FALSE
+protected static final StdScope.SymbolStringArray CONST_EMPTY_STRING_ARRAY
+protected static final StdScope.SymbolNumberArray CONST_EMPTY_NUMBER_ARRAY
+protected static final StdScope.SymbolBooleanArray CONST_EMPTY_BOOLEAN_ARRAY
+protected static final StdScope.SymbolStringArray CONST_NULL_STRING_ARRAY
+protected static final StdScope.SymbolNumberArray CONST_NULL_NUMBER_ARRAY
+protected static final StdScope.SymbolBooleanArray CONST_NULL_BOOLEAN_ARRAY
+protected static final StdScope.SymbolString CONST_NULL_STRING
+protected static final StdScope.SymbolString CONST_EMPTY_STRING
+protected static final StdScope.SymbolBoolean CONST_BOOLEAN_TRUE
+protected static final StdScope.SymbolBoolean CONST_BOOLEAN_FALSE
+protected Scope parent
+protected Map<String,StdScope.Symbol> symbolTable

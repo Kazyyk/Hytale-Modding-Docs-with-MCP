@@ -29,3 +29,11 @@ Retrieves the model argument and calls `npc.setAppearance(ref, model, store)`.
 
 - NPCWorldCommandBase -- base class providing NPC target resolution
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand, NPCDumpCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, NPCEntity npc, World world, Store<EntityStore> store, Ref<EntityStore> ref)
+
+Fields:
+private final RequiredArg<ModelAsset> modelArg

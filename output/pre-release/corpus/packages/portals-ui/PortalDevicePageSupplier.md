@@ -11,3 +11,13 @@ Supplies the appropriate portal device UI page based on the current state of the
 ## Methods
 
 - tryCreate(Ref<EntityStore>, ComponentAccessor<EntityStore>, PlayerRef, InteractionContext) | CustomUIPage | Determines the portal device state and returns the appropriate UI page. Returns null if the block is misconfigured.
+
+Also in this package: CanSpawnPortal, Data, Data, Error, Error, InstanceKeyNotFound, Material, PortalDeviceActivePage, PortalDeviceSummonPage, PortalIsOpen, PortalSpawnFinder, PortalTypeNotFound, State, State
+
+Complete API:
+  public CustomUIPage tryCreate(Ref<EntityStore> ref, ComponentAccessor<EntityStore> store, PlayerRef playerRef, InteractionContext context)
+  private static boolean isPortalWorldValid(World world)
+
+Fields:
+public static final BuilderCodec<PortalDevicePageSupplier> CODEC
+private PortalDeviceConfig config

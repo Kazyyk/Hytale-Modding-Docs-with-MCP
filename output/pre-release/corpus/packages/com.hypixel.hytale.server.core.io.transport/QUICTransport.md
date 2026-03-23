@@ -30,3 +30,19 @@ public class QUICTransport implements Transport
 ## Inner Types
 
 - `QUICTransport.QuicChannelInboundHandlerAdapter`
+
+Also in this package: QuicChannelInboundHandlerAdapter, TCPTransport, Transport, TransportType
+
+Complete API:
+  public TransportType getType()
+  public ChannelFuture bind(InetSocketAddress address)
+  public void shutdown()
+
+Fields:
+private static final HytaleLogger LOGGER
+public static final AttributeKey<X509Certificate> CLIENT_CERTIFICATE_ATTR
+public static final AttributeKey<QuicApplicationErrorCode> ALPN_REJECT_ERROR_CODE_ATTR
+public static final AttributeKey<String> SNI_HOSTNAME_ATTR
+private final EventLoopGroup workerGroup
+private final Bootstrap bootstrapIpv4
+private final Bootstrap bootstrapIpv6

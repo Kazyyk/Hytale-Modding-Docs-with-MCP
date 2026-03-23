@@ -17,3 +17,13 @@ public class BlockBulkFindHereCommand extends AbstractPlayerCommand
 ## Methods
 
 - @Override protected void execute(@Nonnull CommandContext context, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world)
+
+Also in this package: BlockBulkCommand, BlockBulkFindCommand, BlockBulkReplaceCommand
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+
+Fields:
+private final FlagArg printNameArg
+private final RequiredArg<String> blockTypeArg
+private final DefaultArg<Integer> radiusArg

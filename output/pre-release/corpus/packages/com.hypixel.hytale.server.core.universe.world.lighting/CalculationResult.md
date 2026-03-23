@@ -16,3 +16,5 @@ public enum CalculationResult
 - NOT_LOADED, 
     DONE,
     INVALIDATED,` | `WAITING_FOR_NEIGHBOUR` |
+
+Also in this package: ChunkLightingManager, FloodLightCalculation, FullBrightLightCalculation, LightCalculation

@@ -12,3 +12,13 @@ public class ConstantAssignmentsAsset extends AssignmentsAsset
 
 - @Override @Nonnull public Assignments build(@Nonnull AssignmentsAsset.Argument argument)
 - @Override public void cleanUp()
+
+Also in this package: Argument, AssignmentsAsset, DelimiterAsset, DelimiterAsset, FieldFunctionAssignmentsAsset, ImportedAssignmentsAsset, SandwichAssignmentsAsset, WeightedAssets, WeightedAssignmentsAsset
+
+Complete API:
+  public Assignments build(AssignmentsAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<ConstantAssignmentsAsset> CODEC
+private PropAsset propAsset

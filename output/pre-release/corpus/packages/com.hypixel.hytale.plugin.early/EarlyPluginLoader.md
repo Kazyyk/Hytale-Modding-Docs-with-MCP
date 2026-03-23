@@ -23,3 +23,19 @@ Class in the early subsystem.
 - hasTransformers() | boolean | static public method.
 - getTransformers() | List<ClassTransformer> | static public method.
 - getPluginClassLoader() | URLClassLoader | static public method.
+
+Also in this package: ClassTransformer, TransformingClassLoader
+
+Complete API:
+  public static void loadEarlyPlugins(String[] args)
+  private static List<Path> parseEarlyPluginPaths(String[] args)
+  private static boolean hasFlag(String[] args, String flag)
+  private static void collectPluginJars(Path path, List<URL> urls)
+  public static boolean hasTransformers()
+  public static List<ClassTransformer> getTransformers()
+  public static URLClassLoader getPluginClassLoader()
+
+Fields:
+public static final Path EARLY_PLUGINS_PATH
+private static final List<ClassTransformer> transformers
+private static URLClassLoader pluginClassLoader

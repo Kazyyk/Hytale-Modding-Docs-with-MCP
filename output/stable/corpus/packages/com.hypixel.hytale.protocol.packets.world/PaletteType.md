@@ -17,3 +17,13 @@ Palette encoding type for chunk data serialization. Determines the bit width of 
 
 - public int getValue()
 - public static PaletteType fromValue(int value)
+
+Also in this package: ClearEditorTimeOverride, PlaySoundEvent2D, PlaySoundEvent3D, PlaySoundEventEntity, RotationAxis, RotationDirection, ServerSetBlock, ServerSetBlocks, ServerSetFluid, ServerSetFluids, ServerSetPaused, SetBlockCmd, SetChunk, SetChunkEnvironments, SetChunkHeightmap, SetChunkTintmap, SetFluidCmd, SetFluids, SetPaused, SleepClock (and 14 more)
+
+Complete API:
+  public int getValue()
+  public static PaletteType fromValue(int value)
+
+Fields:
+public static final PaletteType[] VALUES
+private final int value

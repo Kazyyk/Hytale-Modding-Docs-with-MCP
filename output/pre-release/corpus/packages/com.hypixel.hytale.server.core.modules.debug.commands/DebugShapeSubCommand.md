@@ -14,3 +14,8 @@ Command collection registering all debug shape subcommands: sphere, cube, cylind
 
 - Extends `AbstractCommandCollection`
 - Registers shape commands below
+
+Also in this package: DebugCommand, DebugShapeArrowCommand, DebugShapeClearCommand, DebugShapeConeCommand, DebugShapeCubeCommand, DebugShapeCylinderCommand, DebugShapeShowForceCommand, DebugShapeSphereCommand
+
+Complete API:
+  static int buildFlags(CommandContext context, FlagArg fadeFlag, FlagArg noWireframeFlag, FlagArg noSolidFlag)

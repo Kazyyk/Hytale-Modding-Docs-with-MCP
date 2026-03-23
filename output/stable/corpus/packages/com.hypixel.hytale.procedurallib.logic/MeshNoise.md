@@ -26,3 +26,17 @@ public MeshNoise(IIntCondition density, double thickness, double jitterX, double
 
 - public double get(int seed, int offsetSeed, double x, double y)
 - public double get(int seed, int offsetSeed, double x, double y, double z)
+
+Also in this package: Bounds2d, BranchNoise, CellFunction, CellMode, CellNoise, CellularNoise, ConstantNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GeneralNoise, GridNoise, HexMeshNoise, InterpolationFunction, InterpolationMode, OldSimplexNoise, PerlinNoise (and 6 more)
+
+Complete API:
+  public double get(int seed, int offsetSeed, double x, double y)
+  public double get(int seed, int offsetSeed, double x, double y, double z)
+
+Fields:
+public static final Vector2i[] ADJACENT_CELLS
+private final IIntCondition density
+private final double thickness
+private final double thicknessSquared
+private final double jitterX
+private final double jitterY

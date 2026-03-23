@@ -8,3 +8,11 @@ public interface EntityContainer
 
 - void addEntity(@Nonnull EntityPlacementData var1)
 - boolean isInsideBuffer(int var1, int var2, int var3)
+
+Known implementors: NEntityBufferView
+
+Also in this package: NEntityBufferView, NPixelBufferView, NVoxelBufferView
+
+Complete API:
+  void addEntity(EntityPlacementData var1)
+  boolean isInsideBuffer(int var1, int var2, int var3)

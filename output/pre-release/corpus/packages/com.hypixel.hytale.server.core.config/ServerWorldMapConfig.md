@@ -30,3 +30,16 @@ Returns `512`.
 - WorldMapConfig -- abstract base class
 - WorldWorldMapConfig -- per-world variant
 - `HytaleServerConfig` -- owns this config
+
+Also in this package: AutoApplyMode, BackupConfig, ModConfig, RateLimitConfig, UpdateConfig, WorldMapConfig, WorldWorldMapConfig
+
+Complete API:
+  public void setHytaleServerConfig(HytaleServerConfig hytaleServerConfig)
+  public int getDefaultViewRadiusMin()
+  public int getDefaultViewRadiusMax()
+  public void setViewRadiusMin(int viewRadiusMin)
+  public void setViewRadiusMax(int viewRadiusMax)
+
+Fields:
+public static final Codec<ServerWorldMapConfig> CODEC
+private transient HytaleServerConfig hytaleServerConfig

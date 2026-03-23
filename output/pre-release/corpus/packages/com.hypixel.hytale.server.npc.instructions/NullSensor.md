@@ -16,3 +16,17 @@ public class NullSensor implements Sensor
 - @Override public void setContext(IAnnotatedComponent parent, int index)
 - @Override @Nullable public IAnnotatedComponent getParent()
 - @Override public int getIndex()
+
+Also in this package: Action, ActionList, BodyMotion, HeadMotion, Instruction, InstructionHolder, InstructionRandomized, Motion, RoleStateChange, Sensor
+
+Complete API:
+  public boolean matches(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public InfoProvider getSensorInfo()
+  public boolean processDelay(float dt)
+  public void clearOnce()
+  public void setOnce()
+  public boolean isTriggered()
+  public void getInfo(Role role, ComponentInfo holder)
+  public void setContext(IAnnotatedComponent parent, int index)
+  public IAnnotatedComponent getParent()
+  public int getIndex()

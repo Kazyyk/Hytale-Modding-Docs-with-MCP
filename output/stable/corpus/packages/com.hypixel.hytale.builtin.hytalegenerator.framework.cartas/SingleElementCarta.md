@@ -19,3 +19,13 @@ Concrete implementation extending `BiCarta<R>`.
 - of(@Nonnull R element) | SingleElementCarta<R> | static public method.
 - apply(int x, int z, @Nonnull WorkerIndexer.Id id) | R | public method.
 - allPossibleValues() | List<R> | public method.
+
+Also in this package: Builder, ImageCarta, LayeredCarta
+
+Complete API:
+  public static SingleElementCarta<R> of(R element)
+  public R apply(int x, int z, WorkerIndexer.Id id)
+  public List<R> allPossibleValues()
+
+Fields:
+private R element

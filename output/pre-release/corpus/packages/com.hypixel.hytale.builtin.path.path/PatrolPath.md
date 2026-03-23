@@ -36,3 +36,35 @@ Implementation of `IPrefabPath`.
 - compact(int worldGenId) | void | public method.
 - length() | int | public method.
 - get(int index) | IPrefabPathWaypoint | public method.
+
+Also in this package: IPrefabPath, TransientPath, TransientPathDefinition
+
+Complete API:
+  public UUID getId()
+  public String getName()
+  public List<IPrefabPathWaypoint> getPathWaypoints()
+  public short registerNewWaypoint(IPrefabPathWaypoint waypoint, int worldGenId)
+  public void registerNewWaypointAt(int index, IPrefabPathWaypoint waypoint, int worldGenId)
+  public void addLoadedWaypoint(IPrefabPathWaypoint waypoint, int pathLength, int index, int worldGenId)
+  public void removeWaypoint(int index, int worldGenId)
+  public void unloadWaypoint(int index)
+  public boolean hasLoadedWaypoints()
+  public boolean isFullyLoaded()
+  public int loadedWaypointCount()
+  public int getWorldGenId()
+  public Vector3d getNearestWaypointPosition(Vector3d origin, ComponentAccessor<EntityStore> componentAccessor)
+  public void mergeInto(IPrefabPath target, int worldGenId, ComponentAccessor<EntityStore> componentAccessor)
+  public void compact(int worldGenId)
+  public int length()
+  public IPrefabPathWaypoint get(int index)
+
+Fields:
+private final UUID id
+private final String name
+private final int worldgenId
+private final Int2ObjectConcurrentHashMap<IPrefabPathWaypoint> waypoints
+private final AtomicInteger length
+private final AtomicInteger loadedCount
+private final AtomicBoolean pathChanged
+private final ReentrantReadWriteLock listLock
+private List<IPrefabPathWaypoint> waypointList

@@ -11,3 +11,11 @@ public class MemoriesUnlockCommand extends AbstractWorldCommand
 ## Methods
 
 - @Override protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Also in this package: MemoriesCapacityCommand, MemoriesClearCommand, MemoriesCommand, MemoriesLevelCommand, MemoriesSetCountCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_MEMORIES_UNLOCK_ALL_SUCCESS

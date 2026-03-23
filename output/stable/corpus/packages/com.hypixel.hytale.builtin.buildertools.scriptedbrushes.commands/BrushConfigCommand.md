@@ -9,3 +9,5 @@ Console command handling BrushConfig operations.
 ## Methods
 
 - public BrushConfigCommand()
+
+Also in this package: BrushConfigClearCommand, BrushConfigDebugStepCommand, BrushConfigExitCommand, BrushConfigListCommand, BrushConfigLoadCommand, LoadByNameCommand

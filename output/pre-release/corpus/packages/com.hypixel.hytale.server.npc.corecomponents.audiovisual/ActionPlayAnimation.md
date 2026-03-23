@@ -17,3 +17,15 @@ public class ActionPlayAnimation extends ActionBase
 
 - @Override public boolean execute(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store)
 - protected void setAnimationId(String animationId)
+
+Known subclasses: ActionCompleteTask
+
+Also in this package: ActionAppearance, ActionDisplayName, ActionModelAttachment, ActionPlaySound, ActionSpawnParticles, SensorAnimation
+
+Complete API:
+  public boolean execute(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Store<EntityStore> store)
+  protected void setAnimationId(String animationId)
+
+Fields:
+protected final NPCAnimationSlot slot
+protected String animationId

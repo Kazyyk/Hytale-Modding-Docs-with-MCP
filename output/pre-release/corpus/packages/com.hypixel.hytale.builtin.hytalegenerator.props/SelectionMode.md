@@ -11,3 +11,5 @@ Enum defining how OrienterProp selects among valid rotations: ALL_VALID, FIRST_V
 - `ALL_VALID`
 - `FIRST_VALID`
 - `RANDOM_VALID`
+
+Also in this package: Block, Context, CuboidProp, DensityProp, DensitySelectorProp, EmptyProp, IntersectingColumnPredicate, LocatorProp, ManualProp, MaskProp, OffsetProp, OrienterProp, PickedScanResult, PondFillerProp, PrefabProp, Prop, QueueProp, StaticRotatorProp, UnionProp, WeightedProp

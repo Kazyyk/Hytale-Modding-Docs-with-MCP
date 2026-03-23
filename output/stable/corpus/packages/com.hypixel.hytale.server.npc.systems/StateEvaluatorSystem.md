@@ -50,3 +50,19 @@ Returns `EntityTickingSystem.maybeUseParallel(archetypeChunkSize, taskCount)`.
 
 - RoleSystems -- the behavior pipeline that depends on state evaluation
 - PositionCacheSystems -- `initialisePositionCache` sets up the evaluator
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 48 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public Query<EntityStore> getQuery()
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final HytaleLogger LOGGER
+private final ComponentType<EntityStore,StateEvaluator> stateEvaluatorComponent
+private final ComponentType<EntityStore,NPCEntity> npcComponentType
+private final ComponentType<EntityStore,UUIDComponent> uuidComponentType
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

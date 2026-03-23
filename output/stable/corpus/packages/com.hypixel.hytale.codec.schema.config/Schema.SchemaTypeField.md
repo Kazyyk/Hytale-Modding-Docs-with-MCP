@@ -49,3 +49,21 @@ public int hashCode()
 ## See Also
 
 - Schema -- parent class
+
+Also in this package: ArrayOrNull, ArraySchema, BooleanOrSchema, BooleanSchema, CommonAsset, DoubleOrSchema, HytaleMetadata, InheritSettings, IntegerOrSchema, IntegerSchema, ItemOrItems, NullSchema, NumberSchema, ObjectSchema, Schema, StringOrBlank, StringSchema
+
+Complete API:
+  public String getProperty()
+  public String getDefaultValue()
+  public String[] getValues()
+  public String getParentPropertyKey()
+  public void setParentPropertyKey(String parentPropertyKey)
+  public boolean equals(Object o)
+  public int hashCode()
+
+Fields:
+public static final BuilderCodec<Schema.SchemaTypeField> CODEC
+private String property
+private String defaultValue
+private String[] values
+private String parentPropertyKey

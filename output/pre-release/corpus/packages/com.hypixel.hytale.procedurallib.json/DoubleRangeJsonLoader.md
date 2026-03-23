@@ -15,3 +15,14 @@ Loads double range configurations. Supports constant (single value), normal (min
 
 - DoubleRangeJsonLoader.Constants -- KEY_MIN, KEY_MAX, KEY_THRESHOLDS, KEY_VALUES
 - DoubleRangeJsonLoader.DoubleToDoubleFunction -- functional interface for value transformation
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public IDoubleRange load()
+  protected IDoubleRange loadThreshold()
+
+Fields:
+protected final double default1
+protected final double default2
+protected final DoubleRangeJsonLoader.DoubleToDoubleFunction function

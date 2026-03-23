@@ -25,3 +25,19 @@ Identifies a world generation profile by its world structure name, seed, and wor
 - @Override public int hashCode()
 - public ChunkRequest.GeneratorProfile clone()
 - @Nonnull @Override public String toString()
+
+Also in this package: Arguments, Builder, ChunkGenerator, ChunkRequest, FallbackGenerator, StagedChunkGenerator
+
+Complete API:
+  public String worldStructureName()
+  public int seed()
+  public void setSeed(int seed)
+  public boolean equals(Object o)
+  public int hashCode()
+  public ChunkRequest.GeneratorProfile clone()
+  public String toString()
+
+Fields:
+private final String worldStructureName
+private int seed
+private int worldCounter

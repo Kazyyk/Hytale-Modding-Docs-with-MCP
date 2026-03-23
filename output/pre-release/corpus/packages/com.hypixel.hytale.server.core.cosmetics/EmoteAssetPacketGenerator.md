@@ -28,3 +28,10 @@ Generates an `UpdateEmotes` packet with `UpdateType.Remove` for deleted emotes.
 
 - EmoteAsset -- the emote asset this generates packets for
 - `AssetPacketGenerator` -- abstract base class
+
+Also in this package: BodyType, CosmeticAssetValidator, CosmeticRegistry, CosmeticType, CosmeticsModule, Emote, EmoteAsset, HaircutType, HeadAccessoryType, InvalidSkinException, PlayerSkin, PlayerSkinGradient, PlayerSkinGradientSet, PlayerSkinPart, PlayerSkinPartId, PlayerSkinPartTexture, PlayerSkinPartType, PlayerSkinTintColor, Variant
+
+Complete API:
+  public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,EmoteAsset> assetMap, Map<String,EmoteAsset> assets)
+  public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,EmoteAsset> assetMap, Map<String,EmoteAsset> loadedAssets, AssetUpdateQuery query)
+  public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,EmoteAsset> assetMap, Set<String> removedAssets, AssetUpdateQuery query)

@@ -15,3 +15,5 @@ Success result returned by BlockMountAPI.mountOnBlock() when an entity is succes
 
 - BlockMountAPI -- enclosing class
 - BlockMountAPI.BlockMountResult -- sealed parent interface
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)

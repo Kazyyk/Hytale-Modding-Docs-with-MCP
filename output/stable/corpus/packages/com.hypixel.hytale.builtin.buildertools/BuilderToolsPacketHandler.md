@@ -175,3 +175,41 @@ Converts a protocol `BlockPosition` to a `Vector3i`.
 - BuilderToolsPlugin.BuilderState -- per-player state that most handlers operate on
 - PrototypePlayerBuilderToolSettings -- per-player settings for transformation mode and brush state
 - EditOperation -- tracks block changes for brush operations
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  private static boolean hasPermission(PlayerRef playerRef)
+  private static boolean hasPermission(PlayerRef playerRef, String additionalPermission)
+  public void registerHandlers()
+  public void handleBuilderToolSetTransformationModeState(BuilderToolSetTransformationModeState packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolArgUpdate(BuilderToolArgUpdate packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleLoadHotbar(LoadHotbar packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleSaveHotbar(SaveHotbar packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolEntityAction(BuilderToolEntityAction packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolGeneralAction(BuilderToolGeneralAction packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolSelectionUpdate(BuilderToolSelectionUpdate packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolSelectionToolAskForClipboard(BuilderToolSelectionToolAskForClipboard packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  private void handleBuilderToolSelectionTransform(BuilderToolSelectionTransform packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolExtrudeAction(BuilderToolExtrudeAction packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolStackArea(BuilderToolStackArea packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public Vector3i fromBlockPosition(BlockPosition position)
+  public void handleBuilderToolRotateClipboard(BuilderToolRotateClipboard packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolPasteClipboard(BuilderToolPasteClipboard packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolLineAction(BuilderToolLineAction packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolOnUseInteraction(BuilderToolOnUseInteraction packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolSetEntityTransform(BuilderToolSetEntityTransform packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handlePrefabUnselectPrefab(PrefabUnselectPrefab packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolSetEntityScale(BuilderToolSetEntityScale packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolSetEntityPickupEnabled(BuilderToolSetEntityPickupEnabled packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolSetEntityLight(BuilderToolSetEntityLight packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolSetNPCDebug(BuilderToolSetNPCDebug packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void handleBuilderToolSetEntityCollision(BuilderToolSetEntityCollision packet, PlayerRef playerRef, Ref<EntityStore> ref, World world, Store<EntityStore> store)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final String BUILDER_TOOL_ID_EXTRUDE
+private static final String BUILDER_TOOL_ID_SELECTION
+private static final String BUILDER_TOOL_ID_LINE
+private static final Message MESSAGE_BUILDER_TOOLS_USAGE_DENIED
+private final IPacketHandler packetHandler

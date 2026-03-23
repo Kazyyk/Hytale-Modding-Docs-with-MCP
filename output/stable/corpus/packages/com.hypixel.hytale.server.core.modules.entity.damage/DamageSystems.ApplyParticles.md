@@ -11,3 +11,16 @@ Spawns impact particles when a damage event carries `IMPACT_PARTICLES` metadata.
 - DamageSystems -- parent class
 - Damage.Particles -- the particle data read from the meta store
 - DamageEventSystem -- base class
+
+Also in this package: ApplyDamage, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool, DamageCalculatorSystems (and 49 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void handle(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, Damage damage)
+  public SystemGroup<EntityStore> getGroup()
+
+Fields:
+private static final ResourceType<EntityStore,SpatialResource<Ref<EntityStore>,EntityStore>> PLAYER_SPATIAL_RESOURCE_TYPE
+private static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE
+private static final ComponentType<EntityStore,NetworkId> NETWORK_ID_COMPONENT_TYPE
+private static final Query<EntityStore> QUERY

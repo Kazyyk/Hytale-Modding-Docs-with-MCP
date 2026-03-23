@@ -30,3 +30,11 @@ Returns the `Ref<EntityStore>` pointing to the projectile entity.
 - Damage -- the damage event
 - Damage.EntitySource -- parent class for entity-originated damage
 - Damage.Source -- root interface
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public Ref<EntityStore> getProjectile()
+
+Fields:
+protected final Ref<EntityStore> projectile

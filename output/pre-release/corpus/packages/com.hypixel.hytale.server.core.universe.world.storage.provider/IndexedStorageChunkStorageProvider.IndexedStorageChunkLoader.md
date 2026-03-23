@@ -17,3 +17,16 @@ public IndexedStorageChunkLoader(@Nonnull Store<ChunkStore> store, @Nonnull Inde
 - getIndexes() | LongSet | Returns all chunk indexes available in the cache.
 - close() | void | Closes the cache if this loader owns it.
 - toMetricResults() | MetricResults | Returns cache metrics (suppressed if a saver exists for the same cache).
+
+Also in this package: BackupChunkLoader, CacheEntryMetricData, DefaultChunkStorageProvider, EmptyChunkLoader, EmptyChunkSaver, EmptyChunkStorageProvider, IChunkStorageProvider, IndexedStorageCache, IndexedStorageChunkSaver, IndexedStorageChunkStorageProvider, Loader, MigrationChunkLoader, MigrationChunkStorageProvider, MigrationData, RocksDbChunkStorageProvider, RocksDbResource, Saver
+
+Complete API:
+  public void close()
+  public CompletableFuture<ByteBuffer> loadBuffer(int x, int z)
+  public LongSet getIndexes()
+  public MetricResults toMetricResults()
+
+Fields:
+private final IndexedStorageChunkStorageProvider.IndexedStorageCache cache
+private final boolean flushOnWrite
+private final boolean ownsCache

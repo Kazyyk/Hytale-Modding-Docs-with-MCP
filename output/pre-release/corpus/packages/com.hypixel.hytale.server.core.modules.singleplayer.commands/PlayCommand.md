@@ -9,3 +9,5 @@ Abstract base for related commands.
 ## Constructors
 
 - PlayCommand(@Nonnull SingleplayerModule singleplayerModule) | Creates a new PlayCommand instance.
+
+Also in this package: PlayCommandBase, PlayFriendCommand, PlayLanCommand, PlayOnlineCommand

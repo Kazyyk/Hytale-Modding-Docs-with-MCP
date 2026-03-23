@@ -9,3 +9,5 @@ Wraps a memory size in bytes. Asserts that the size is non-negative on construct
 ## Components
 
 - long size_bytes
+
+Also in this package: MemInstrument, Probe, State, TimeInstrument

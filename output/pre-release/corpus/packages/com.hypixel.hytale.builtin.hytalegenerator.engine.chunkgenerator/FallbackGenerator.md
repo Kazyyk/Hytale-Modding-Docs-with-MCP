@@ -14,3 +14,12 @@ A ChunkGenerator that produces empty chunks with no blocks, block states, or ent
 
 - @Nullable @Override public GeneratedChunk generate(@Nonnull ChunkRequest.Arguments arguments)
 - @Override public PositionProvider getSpawnPositions()
+
+Also in this package: Arguments, Builder, ChunkGenerator, ChunkRequest, GeneratorProfile, StagedChunkGenerator
+
+Complete API:
+  public GeneratedChunk generate(ChunkRequest.Arguments arguments)
+  public PositionProvider getSpawnPositions()
+
+Fields:
+public static final FallbackGenerator INSTANCE

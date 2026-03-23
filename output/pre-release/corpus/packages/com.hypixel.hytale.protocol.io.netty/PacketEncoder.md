@@ -9,3 +9,8 @@ Concrete implementation extending `MessageToByteEncoder<Packet>`.
 ## Methods
 
 - encode(@Nonnull ChannelHandlerContext ctx, @Nonnull Packet packet, @Nonnull ByteBuf out) | void | protected method.
+
+Also in this package: PacketDecoder, ProtocolUtil
+
+Complete API:
+  protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out)

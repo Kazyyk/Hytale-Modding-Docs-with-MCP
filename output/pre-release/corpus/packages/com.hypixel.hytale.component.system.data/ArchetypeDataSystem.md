@@ -9,3 +9,10 @@ Abstract base for ECS systems that query archetype chunks and produce typed resu
 ## Methods
 
 - fetch(ArchetypeChunk<ECS_TYPE> var1, Store<ECS_TYPE> var2, CommandBuffer<ECS_TYPE> var3, Q var4, List<R> var5) | void | Abstract. Processes an archetype chunk with the given query, appending results to the list.
+
+Known subclasses: EntityDataSystem
+
+Also in this package: EntityDataSystem, SystemTaskData
+
+Complete API:
+  public abstract void fetch(ArchetypeChunk<ECS_TYPE> var1, Store<ECS_TYPE> var2, CommandBuffer<ECS_TYPE> var3, Q var4, List<R> var5)

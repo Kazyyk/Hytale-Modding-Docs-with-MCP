@@ -20,3 +20,11 @@ Record holding a string-to-string map of UI event data. Used by UIEventBuilder t
 - append(String key, @Nonnull T enumValue) | EventData | Adds an enum's name as the value.
 - put(String key, String value) | EventData | Puts a key-value pair into the map.
 - of(@Nonnull String key, @Nonnull String value) | EventData | Static. Creates an `EventData` with a single entry.
+
+Also in this package: UICommandBuilder, UIEventBuilder
+
+Complete API:
+  public EventData append(String key, String value)
+  public EventData append(String key, T enumValue)
+  public EventData put(String key, String value)
+  public static EventData of(String key, String value)

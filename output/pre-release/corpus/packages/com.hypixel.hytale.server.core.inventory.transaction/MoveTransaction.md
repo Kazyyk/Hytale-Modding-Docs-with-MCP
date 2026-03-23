@@ -25,3 +25,24 @@ public class MoveTransaction<T extends Transaction> implements Transaction
 - public MoveTransaction<T> toParent(ItemContainer parent, short start, ItemContainer container)
 - public MoveTransaction<T> fromParent(ItemContainer parent, short start, @Nonnull ItemContainer container)
 - public String toString()
+
+Also in this package: ActionType, ClearTransaction, ItemStackSlotTransaction, ItemStackTransaction, ListTransaction, MaterialSlotTransaction, MaterialTransaction, MoveType, ResourceSlotTransaction, ResourceTransaction, SlotTransaction, TagSlotTransaction, TagTransaction, Transaction
+
+Complete API:
+  public boolean succeeded()
+  public SlotTransaction getRemoveTransaction()
+  public MoveType getMoveType()
+  public ItemContainer getOtherContainer()
+  public T getAddTransaction()
+  public MoveTransaction<T> toInverted(ItemContainer itemContainer)
+  public boolean wasSlotModified(short slot)
+  public MoveTransaction<T> toParent(ItemContainer parent, short start, ItemContainer container)
+  public MoveTransaction<T> fromParent(ItemContainer parent, short start, ItemContainer container)
+  public String toString()
+
+Fields:
+private final boolean succeeded
+private final SlotTransaction removeTransaction
+private final MoveType moveType
+private final ItemContainer otherContainer
+private final T addTransaction

@@ -41,3 +41,13 @@ For `ROTATE` actions, special handling removes entities from the previous rotati
 
 - BuilderToolsPlugin.Action -- the action enum
 - BuilderToolsPlugin.BuilderState -- stores entries in undo/redo queues
+
+Also in this package: Action, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  public BuilderToolsPlugin.Action getAction()
+  public BuilderToolsPlugin.ActionEntry restore(Ref<EntityStore> ref, Player player, World world, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+private final BuilderToolsPlugin.Action action
+private final List<SelectionSnapshot<?>> snapshots

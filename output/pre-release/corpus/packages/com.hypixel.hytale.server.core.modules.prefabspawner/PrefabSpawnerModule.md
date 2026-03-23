@@ -17,3 +17,15 @@ Core plugin module that manages prefab spawner blocks. Registers the `PrefabSpaw
 ## Inner Types
 
 - PrefabSpawnerModule.MigratePrefabSpawn -- migration system for legacy data
+
+Also in this package: MigratePrefabSpawn, PrefabSpawnerBlock, PrefabSpawnerSettingsPage, PrefabSpawnerSettingsPageEventData
+
+Complete API:
+  public static PrefabSpawnerModule get()
+  protected void setup()
+  public ComponentType<ChunkStore,PrefabSpawnerBlock> getPrefabSpawnerBlockType()
+
+Fields:
+public static final PluginManifest MANIFEST
+private static PrefabSpawnerModule INSTANCE
+private ComponentType<ChunkStore,PrefabSpawnerBlock> prefabSpawnerBlockType

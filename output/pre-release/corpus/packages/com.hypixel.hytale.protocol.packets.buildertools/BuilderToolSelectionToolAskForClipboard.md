@@ -20,3 +20,26 @@ Requests the server to send the current clipboard data. Contains no fields.
 - validateStructure(ByteBuf, int) | ValidationResult | Validates buffer structure without full deserialization
 - getId() | int | Returns the packet ID (`410`)
 - getChannel() | NetworkChannel | Returns `NetworkChannel.Default
+
+Also in this package: Axis, BrushAxis, BrushOrigin, BrushShape, BuilderToolAction, BuilderToolArg, BuilderToolArgType, BuilderToolArgUpdate, BuilderToolBlockArg, BuilderToolBoolArg, BuilderToolBrushAxisArg, BuilderToolBrushOriginArg, BuilderToolBrushShapeArg, BuilderToolEntityAction, BuilderToolExtrudeAction, BuilderToolFloatArg, BuilderToolGeneralAction, BuilderToolHideAnchors, BuilderToolIntArg, BuilderToolLaserPointer (and 28 more)
+
+Complete API:
+  public int getId()
+  public NetworkChannel getChannel()
+  public static BuilderToolSelectionToolAskForClipboard deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public BuilderToolSelectionToolAskForClipboard clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int PACKET_ID
+public static final boolean IS_COMPRESSED
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE

@@ -10,3 +10,9 @@ Utility type in the `npc` subsystem.
 
 - getNPCTypeId | String
 - getNPCTypeIndex | int
+
+Known implementors: NPCEntity
+
+Complete API:
+  String getNPCTypeId()
+  int getNPCTypeIndex()

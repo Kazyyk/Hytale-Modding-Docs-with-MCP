@@ -18,3 +18,16 @@ NPC behavior tree builder for an action node. Configures execution logic.
 - getBuilderDescriptorState() | BuilderDescriptorState | public method.
 - readConfig(@Nonnull JsonElement data) | BuilderActionParentState | public method.
 - getStatePair(@Nonnull BuilderSupport support) | StatePair | public method.
+
+Also in this package: BuilderActionState, BuilderActionToggleStateEvaluator, BuilderSensorIsBusy, BuilderSensorState
+
+Complete API:
+  public ActionParentState build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionParentState readConfig(JsonElement data)
+  public StatePair getStatePair(BuilderSupport support)
+
+Fields:
+protected String state

@@ -16,3 +16,5 @@ All operations run asynchronously via `CompletableFuture`. Output is streamed li
 
 - GitCommand -- parent command collection
 - UpdatePrefabsCommand -- equivalent commands for prefabs
+
+Also in this package: GitCommand, UpdateAssetsGitCommand, UpdateAssetsPullCommand, UpdateAssetsResetCommand, UpdateAssetsStatusCommand, UpdatePrefabsAllCommand, UpdatePrefabsCommand, UpdatePrefabsCommitCommand, UpdatePrefabsGitCommand, UpdatePrefabsPullCommand, UpdatePrefabsPushCommand, UpdatePrefabsStatusCommand

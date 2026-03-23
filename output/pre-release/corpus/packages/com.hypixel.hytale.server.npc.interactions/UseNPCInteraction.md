@@ -19,3 +19,14 @@ public class UseNPCInteraction extends SimpleInstantInteraction
 - protected UseNPCInteraction()
 - protected final void firstRun(@Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler)
 - public String toString()
+
+Also in this package: ContextualUseNPCInteraction, NPCInteractionSimulationHandler, SpawnData, SpawnNPCInteraction, WeightedNPCSpawn
+
+Complete API:
+  protected final void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<UseNPCInteraction> CODEC
+public static final String DEFAULT_ID
+public static final RootInteraction DEFAULT_ROOT

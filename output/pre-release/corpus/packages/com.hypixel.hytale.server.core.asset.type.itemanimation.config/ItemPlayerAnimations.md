@@ -32,3 +32,29 @@ Class in the config subsystem.
 - getCamera() | CameraSettings | public method.
 - toPacket() | com.hypixel.hytale.protocol.ItemPlayerAnimations | public method.
 - toString() | String | public method.
+
+Complete API:
+  public static AssetStore<String,ItemPlayerAnimations,DefaultAssetMap<String,ItemPlayerAnimations>> getAssetStore()
+  public static DefaultAssetMap<String,ItemPlayerAnimations> getAssetMap()
+  public String getId()
+  public Map<String,ItemAnimation> getAnimations()
+  public WiggleWeights getWiggleWeights()
+  public CameraSettings getCamera()
+  public com.hypixel.hytale.protocol.ItemPlayerAnimations toPacket()
+  public String toString()
+
+Fields:
+public static final String DEFAULT_ID
+public static final BuilderCodec<WiggleWeights> WIGGLE_WEIGHTS_CODEC
+public static final AssetBuilderCodec<String,ItemPlayerAnimations> CODEC
+public static final Codec<String> CHILD_CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,ItemPlayerAnimations,DefaultAssetMap<String,ItemPlayerAnimations>> ASSET_STORE
+protected AssetExtraInfo.Data data
+protected String id
+protected Map<String,ItemAnimation> animations
+protected WiggleWeights wiggleWeights
+protected CameraSettings camera
+protected ItemPullbackConfig pullbackConfig
+protected boolean useFirstPersonOverrides
+private SoftReference<com.hypixel.hytale.protocol.ItemPlayerAnimations> cachedPacket

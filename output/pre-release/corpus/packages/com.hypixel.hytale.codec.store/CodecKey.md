@@ -14,3 +14,14 @@ public class CodecKey<T>
 - @Override public boolean equals(Object o)
 - @Override public int hashCode()
 - @Nonnull @Override public String toString()
+
+Also in this package: CodecStore, StoredCodec
+
+Complete API:
+  public String getId()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+private final String id

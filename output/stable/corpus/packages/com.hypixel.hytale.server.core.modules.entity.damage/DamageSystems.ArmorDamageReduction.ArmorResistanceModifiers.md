@@ -16,3 +16,10 @@ Accumulates flat and multiplicative damage resistance modifiers from armor piece
 
 - DamageSystems.ArmorDamageReduction -- parent class that creates and populates these modifiers
 - DamageCause -- used for inheritance chain traversal
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool, DamageCalculatorSystems (and 49 more)
+
+Fields:
+public int flatModifier
+public float multiplierModifier
+public DamageCause inheritedParentId

@@ -7,3 +7,8 @@ public record ArgWrapper<W extends WrappedArg<BasicType>, BasicType>( @Nonnull A
 ## Methods
 
 - public W wrapArg(@Nonnull Argument<?, BasicType> argument)
+
+Also in this package: AbstractOptionalArg, Argument, DefaultArg, DefaultValueArgument, FlagArg, OptionalArg, RequiredArg, WrappedArg
+
+Complete API:
+  public W wrapArg(Argument<?,BasicType> argument)

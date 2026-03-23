@@ -40,3 +40,5 @@ Removes FlockMembership when a player switches to a non-Adventure game mode.
 
 - Flock -- the component these systems operate on
 - FlockPlugin -- registers these systems
+
+Also in this package: EntityDeath, EntityRef, EntityRemoved, FilterPlayerFlockDamageSystem, Flock, FlockDeathSystems, FlockDebugSystem, FlockMembership, FlockMembershipSystems, FlockPlugin, FlockRemovedStatus, NPCAddedFromWorldGen, OnDamageDealt, OnDamageReceived, PersistentFlockData, PlayerChangeGameModeEventSystem, PlayerDeath, PrefabPasteEventSystem, RefChange, StoredFlock (and 2 more)

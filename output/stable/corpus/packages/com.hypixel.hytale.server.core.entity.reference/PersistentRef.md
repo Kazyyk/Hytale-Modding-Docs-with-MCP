@@ -20,3 +20,22 @@ public class PersistentRef
 - public boolean isValid()
 - @Nullable public Ref<EntityStore> getEntity(ComponentAccessor<EntityStore> componentAccessor)
 - protected boolean validateEntityReference(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+
+Known subclasses: InvalidatablePersistentRef
+
+Also in this package: InvalidatablePersistentRef, PersistentRefCount
+
+Complete API:
+  public UUID getUuid()
+  public void setUuid(UUID uuid)
+  public void setEntity(Ref<EntityStore> ref, UUID uuid)
+  public void setEntity(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public void clear()
+  public boolean isValid()
+  public Ref<EntityStore> getEntity(ComponentAccessor<EntityStore> componentAccessor)
+  protected boolean validateEntityReference(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<PersistentRef> CODEC
+protected UUID uuid
+protected Ref<EntityStore> reference

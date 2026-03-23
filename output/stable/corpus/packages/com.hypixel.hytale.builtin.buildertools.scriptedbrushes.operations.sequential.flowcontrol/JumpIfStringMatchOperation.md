@@ -14,3 +14,14 @@ public class JumpIfStringMatchOperation extends SequenceBrushOperation
 
 - public JumpIfStringMatchOperation()
 - public void modifyBrushConfig( @Nonnull Ref<EntityStore> ref, @Nonnull BrushConfig brushConfig, @Nonnull BrushConfigCommandExecutor brushConfigCommandExecutor, @Nonnull ComponentAccessor<EntityStore> componentAccessor )
+
+Also in this package: BrushConfigIntegerComparison, ClickType, ComparisonType, ExitOperation, JumpIfBlockTypeOperation, JumpIfClickType, JumpIfCompareOperation, JumpIfToolArgOperation, JumpToIndexOperation, JumpToRandomIndex
+
+Complete API:
+  public void modifyBrushConfig(Ref<EntityStore> ref, BrushConfig brushConfig, BrushConfigCommandExecutor brushConfigCommandExecutor, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<JumpIfStringMatchOperation> CODEC
+public String indexVariableNameArg
+public String sideOneArg
+public String sideTwoArg

@@ -14,3 +14,13 @@ Loads float range configurations. Mirrors `DoubleRangeJsonLoader` but uses `floa
 
 - FloatRangeJsonLoader.Constants -- KEY_MIN, KEY_MAX
 - FloatRangeJsonLoader.FloatToFloatFunction -- functional interface for value transformation
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public IFloatRange load()
+
+Fields:
+protected final float default1
+protected final float default2
+protected final FloatRangeJsonLoader.FloatToFloatFunction function

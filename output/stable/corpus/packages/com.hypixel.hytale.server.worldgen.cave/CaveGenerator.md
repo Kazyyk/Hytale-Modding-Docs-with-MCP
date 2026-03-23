@@ -26,3 +26,28 @@ Generates cave structures by recursively creating and linking cave nodes based o
 - protected void generatePrefab(int seed, @Nonnull ChunkGenerator chunkGenerator, @Nullable CaveNode parent, @Nonnull CaveNode caveNode, @Nonnull CavePrefabContainer.CavePrefabEntry entry, @Nonnull Random random)
 - protected boolean isMatchingBiome(int seed, @Nonnull ChunkGenerator chunkGenerator, @Nonnull IIntCondition condition, int x, int z)
 - protected int getBiomeMaskResult(int seed, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Int2FlagsCondition mask, @Nonnull Vector3d vec)
+
+Also in this package: Cave, CaveBiomeMaskFlags, CaveBlockPriorityModifier, CaveNodeChildEntry, CaveNodeCoverEntry, CaveNodeCoverType, CaveNodeType, CavePrefabPlacement, CaveType, CaveYawMode, Defaults, Entry, FluidLevel, OrientationModifier, PrefabPlacementFunction
+
+Complete API:
+  public CaveType[] getCaveTypes()
+  public Cave generate(int seed, ChunkGenerator chunkGenerator, CaveType caveType, int x, int y, int z)
+  protected Cave newCave(CaveType caveType)
+  protected void startCave(int seed, ChunkGenerator chunkGenerator, Cave cave, Vector3d origin, Random random)
+  protected void continueNode(int seed, ChunkGenerator chunkGenerator, Cave cave, CaveNode parent, int depth, Random random)
+  protected int getChildrenCount(CaveNodeType type, Random random)
+  protected CaveNodeType.CaveNodeChildEntry[] getChildEntriesRandomized(CaveNodeType type, Random random)
+  protected int getRepeatCounter(CaveNodeType.CaveNodeChildEntry entry, Random random)
+  protected PrefabRotation getRotation(CaveNode caveNode)
+  protected Vector3d getChildOrigin(CaveNode parentNode, PrefabRotation parentRotation, CaveNodeType.CaveNodeChildEntry childEntry)
+  protected float getChildYaw(CaveNode parentNode, PrefabRotation parentRotation, CaveNodeType.CaveNodeChildEntry childEntry, Random random)
+  protected boolean shouldGenerateChild(CaveNodeType.CaveNodeChildEntry entry, Random random)
+  protected boolean isMatchingHeight(int seed, Vector3d vec, ICoordinateCondition condition)
+  protected int getNextDepth(CaveNodeType.CaveNodeChildEntry entry, int depth, Random random)
+  protected void generatePrefabs(int seed, ChunkGenerator chunkGenerator, CaveNode parent, CaveNode node)
+  protected void generatePrefab(int seed, ChunkGenerator chunkGenerator, CaveNode parent, CaveNode caveNode, CavePrefabContainer.CavePrefabEntry entry, Random random)
+  protected boolean isMatchingBiome(int seed, ChunkGenerator chunkGenerator, IIntCondition condition, int x, int z)
+  protected int getBiomeMaskResult(int seed, ChunkGenerator chunkGenerator, Int2FlagsCondition mask, Vector3d vec)
+
+Fields:
+private final CaveType[] caveTypes

@@ -10,3 +10,8 @@ Server command implementation.
 
 - super("list", "server.commands.instances.edit.list.desc")
 - @Override public CompletableFuture<Void> executeAsync(@Nonnull CommandContext context)
+
+Also in this package: InstanceEditCopyCommand, InstanceEditLoadCommand, InstanceEditNewCommand, InstanceExitCommand, InstanceExitOtherCommand, InstanceMigrateCommand, InstanceSpawnCommand, InstancesCommand, InstancesEditCommand
+
+Complete API:
+  public CompletableFuture<Void> executeAsync(CommandContext context)

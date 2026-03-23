@@ -42,3 +42,23 @@ public static enum CellMode
 - DIRECTION | Directional cell function using angle and line-side distance (2D only).
 
 - CellNoise.CellFunction getFunction()
+
+Known subclasses: LoadedCellNoise
+
+Also in this package: Bounds2d, BranchNoise, CellFunction, CellMode, CellularNoise, ConstantNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GeneralNoise, GridNoise, HexMeshNoise, InterpolationFunction, InterpolationMode, MeshNoise, OldSimplexNoise, PerlinNoise (and 6 more)
+
+Complete API:
+  public CellDistanceFunction getDistanceFunction()
+  public CellNoise.CellFunction getCellFunction()
+  public NoiseProperty getNoiseLookup()
+  public double get(int seed, int offsetSeed, double x, double y)
+  public double get(int seed, int offsetSeed, double x, double y, double z)
+  protected ResultBuffer.ResultBuffer2d localBuffer2d()
+  protected ResultBuffer.ResultBuffer3d localBuffer3d()
+  public String toString()
+
+Fields:
+protected final CellDistanceFunction distanceFunction
+protected final PointEvaluator pointEvaluator
+protected final CellNoise.CellFunction cellFunction
+protected final NoiseProperty noiseLookup

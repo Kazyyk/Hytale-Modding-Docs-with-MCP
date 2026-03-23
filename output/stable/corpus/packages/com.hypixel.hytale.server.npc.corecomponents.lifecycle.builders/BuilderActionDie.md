@@ -12,3 +12,11 @@ NPC behavior action builder for ActionDie functionality.
 - @Nonnull @Override public String getShortDescription()
 - @Nonnull @Override public String getLongDescription()
 - @Nonnull @Override public BuilderDescriptorState getBuilderDescriptorState()
+
+Also in this package: BuilderActionDelayDespawn, BuilderActionDespawn, BuilderActionRemove, BuilderActionRole, BuilderActionSpawn, BuilderSensorAge
+
+Complete API:
+  public ActionDie build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()

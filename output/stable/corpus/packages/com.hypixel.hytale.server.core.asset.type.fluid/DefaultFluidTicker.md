@@ -40,3 +40,21 @@ Defines what happens when two fluids collide: `BlockToPlace` (the block to creat
 
 - FluidTicker -- base class
 - Fluid -- owns this ticker
+
+Also in this package: Accessor, AliveStatus, CachedAccessor, ConversionResult, FiniteFluidTicker, FireFluidTicker, FlammabilityConfig, Fluid, FluidCollisionConfig, FluidTicker, FluidTypePacketGenerator, SpreadOutcome
+
+Complete API:
+  protected BlockTickStrategy spread(World world, long tick, FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, Fluid fluid, int fluidId, byte fluidLevel, int worldX, int worldY, int worldZ)
+  private static boolean executeCollision(World world, FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, DefaultFluidTicker.FluidCollisionConfig config, int blockX, int blockY, int blockZ)
+  public boolean isSelfFluid(int selfFluidId, int otherFluidId)
+  private int getSpreadFluidId(int fluidId)
+  public Int2ObjectMap<DefaultFluidTicker.FluidCollisionConfig> getCollisionMap()
+
+Fields:
+public static final BuilderCodec<DefaultFluidTicker> CODEC
+private static final int MAX_DROP_DISTANCE
+public static final DefaultFluidTicker INSTANCE
+private String spreadFluid
+private int spreadFluidId
+private Map<String,DefaultFluidTicker.FluidCollisionConfig> rawCollisionMap
+private transient Int2ObjectMap<DefaultFluidTicker.FluidCollisionConfig> collisionMap

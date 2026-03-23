@@ -33,3 +33,15 @@ public class TileBiome extends Biome
 - public double getWeight()
 - public double getSizeModifier()
 - @Nonnull @Override public String toString()
+
+Also in this package: Biome, BiomeInterpolation, BiomePatternGenerator, CustomBiome, CustomBiomeGenerator, EmptyInt2IntMap
+
+Complete API:
+  public double getWeight()
+  public double getSizeModifier()
+  public String toString()
+
+Fields:
+public static final TileBiome[] EMPTY_ARRAY
+protected final double weight
+protected final double sizeModifier

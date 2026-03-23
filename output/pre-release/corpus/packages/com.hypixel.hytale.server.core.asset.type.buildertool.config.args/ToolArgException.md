@@ -15,3 +15,11 @@ Exception thrown on ToolArg errors.
 - public ToolArgException(@Nonnull Message translationMessage)
 - public ToolArgException(@Nonnull Message translationMessage, Throwable cause)
 - @Nonnull public Message getTranslationMessage()
+
+Also in this package: BlockArg, BoolArg, BrushAxisArg, BrushOriginArg, BrushRotationArg, BrushShapeArg, FloatArg, IntArg, MaskArg, OptionArg, StringArg, ToolArg
+
+Complete API:
+  public Message getTranslationMessage()
+
+Fields:
+private final Message translationMessage

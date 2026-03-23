@@ -24,3 +24,24 @@ public class SchemaContext
 - @Nonnull public Map<String,Schema> getOtherDefinitions()
 - private String resolveName(NamedSchema namedSchema)
 - @Nonnull private String resolveName(BuilderCodec<?> codec)
+
+Also in this package: NamedSchema, SchemaConvertable
+
+Complete API:
+  public void addFileReference(String fileName, SchemaConvertable<?> codec)
+  public Schema getFileReference(SchemaConvertable<?> codec)
+  public Schema refDefinition(SchemaConvertable<?> codec)
+  public Schema refDefinition(SchemaConvertable<T> convertable, T def)
+  public Schema getRawDefinition(BuilderCodec<?> codec)
+  public Schema getRawDefinition(NamedSchema namedSchema)
+  public Map<String,Schema> getDefinitions()
+  public Map<String,Schema> getOtherDefinitions()
+  private String resolveName(NamedSchema namedSchema)
+  private String resolveName(BuilderCodec<?> codec)
+
+Fields:
+private final Map<String,Schema> definitions
+private final Map<String,Schema> otherDefinitions
+private final Map<Object,String> nameMap
+private final Object2IntMap<String> nameCollisionCount
+private final Map<SchemaConvertable<?>,String> fileReferences

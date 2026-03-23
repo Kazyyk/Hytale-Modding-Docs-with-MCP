@@ -13,3 +13,10 @@ Declared as a static inner class of FarmingSystems. Registered by FarmingPlugin 
 - void` / `Query onEntityAdd(...)
 - void` / `Query onEntityRemoved(...)
 - void` / `Query getQuery(...)
+
+Also in this package: CoopResidentEntitySystem, CoopResidentTicking, FarmingPlugin, FarmingSystems, FarmingUtil, OnCoopAdded, OnFarmBlockAdded, OnSoilAdded, Ticking
+
+Complete API:
+  public void onEntityAdd(Holder<ChunkStore> holder, AddReason reason, Store<ChunkStore> store)
+  public void onEntityRemoved(Holder<ChunkStore> holder, RemoveReason reason, Store<ChunkStore> store)
+  public Query<ChunkStore> getQuery()

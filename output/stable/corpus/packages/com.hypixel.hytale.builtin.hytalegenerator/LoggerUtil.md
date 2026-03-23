@@ -16,3 +16,14 @@ Logging utilities for the HytaleGenerator system including exception formatting 
 - public static void logException(@Nonnull String contextDescription, @Nonnull Throwable e)
 - public static void logException(@Nonnull String contextDescription, @Nonnull Throwable e, @Nonnull Logger logger)
 - public static String nsToMsDecimal(long ns)
+
+Also in this package: ArrayUtil, BiOperation3i, BlockMask, FutureUtils, Indexer, MaterialSet, NakedOperation3i, Operation3i, PropField, Registry, Retriever, ReusableList, VectorUtil
+
+Complete API:
+  public static Logger getLogger()
+  public static void logException(String contextDescription, Throwable e)
+  public static void logException(String contextDescription, Throwable e, Logger logger)
+  public static String nsToMsDecimal(long ns)
+
+Fields:
+public static final String HYTALE_GENERATOR_NAME

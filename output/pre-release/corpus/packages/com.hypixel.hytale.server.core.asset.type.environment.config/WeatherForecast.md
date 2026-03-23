@@ -25,3 +25,19 @@ Implementation of `IWeightedElement`.
 - processConfig() | void | protected method.
 - toString() | String | public method.
 - getWeight() | double | public method.
+
+Also in this package: Environment
+
+Complete API:
+  public String getWeatherId()
+  public int getWeatherIndex()
+  protected void processConfig()
+  public String toString()
+  public double getWeight()
+
+Fields:
+public static final BuilderCodec<WeatherForecast> CODEC
+public static final WeatherForecast[] EMPTY_ARRAY
+protected String weatherId
+protected transient int weatherIndex
+protected double weight

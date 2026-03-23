@@ -15,3 +15,11 @@ public class POIMarkerProvider implements WorldMapManager.MarkerProvider
 ## Methods
 
 - @Override public void update(@Nonnull World world, @Nonnull Player player, @Nonnull MarkersCollector collector)
+
+Also in this package: DeathMarkerProvider, OtherPlayersMarkerProvider, PersonalMarkersProvider, RespawnMarkerProvider, SharedMarkersProvider, SpawnMarkerProvider
+
+Complete API:
+  public void update(World world, Player player, MarkersCollector collector)
+
+Fields:
+public static final POIMarkerProvider INSTANCE

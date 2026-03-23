@@ -28,3 +28,28 @@ Refreshes OAuth tokens using the given refresh token. Returns `null` on failure.
 
 - TokenResponse -- OAuth token endpoint response
 - DeviceAuthResponse -- device authorization endpoint response
+
+Also in this package: DeviceAuthResponse, OAuthBrowserFlow, OAuthDeviceFlow, OAuthFlow, OAuthResult, TokenResponse
+
+Complete API:
+  public Runnable startFlow(OAuthBrowserFlow flow)
+  public Runnable startFlow(OAuthDeviceFlow flow)
+  public OAuthClient.TokenResponse refreshTokens(String refreshToken)
+  private String buildAuthUrl(String state, String codeChallenge, String redirectUri)
+  private OAuthClient.TokenResponse exchangeCodeForTokens(String code, String codeVerifier, String redirectUri)
+  private OAuthClient.DeviceAuthResponse requestDeviceAuthorization()
+  private OAuthClient.TokenResponse pollDeviceToken(String deviceCode)
+  private String generateRandomString(int length)
+  private String generateCodeChallenge(String verifier)
+  private String extractParam(String query, String name)
+  private String encodeStateWithPort(String state, int port)
+  private OAuthClient.TokenResponse parseTokenResponse(String json)
+  private OAuthClient.DeviceAuthResponse parseDeviceAuthResponse(String json)
+  private static String getJsonString(JsonObject obj, String key)
+  private static int getJsonInt(JsonObject obj, String key, int defaultValue)
+  private static String buildHtmlPage(boolean success, String title, String heading, String message, String errorDetail)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final SecureRandom RANDOM
+private final HttpClient httpClient

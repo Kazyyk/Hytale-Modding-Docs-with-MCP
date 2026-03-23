@@ -33,3 +33,13 @@ Serialized as a single byte (`0`--`4`). The static `VALUES` array is used for O(
 ## Related Types
 
 - BlockType
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 378 more)
+
+Complete API:
+  public int getValue()
+  public static DrawType fromValue(int value)
+
+Fields:
+public static final DrawType[] VALUES
+private final int value

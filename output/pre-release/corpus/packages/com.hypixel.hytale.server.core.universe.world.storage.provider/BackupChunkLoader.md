@@ -18,3 +18,16 @@ public BackupChunkLoader(ChunkStore store, List<Path> backups) throws IOExceptio
 - loadHolder(int x, int z) | CompletableFuture<Holder<ChunkStore>> | Attempts to load a chunk from each backup in order, falling through on failure.
 - getIndexes() | LongSet | Returns an empty set (backup loader does not enumerate available chunks).
 - close() | void | Closes all loaders, filesystems, and deletes temporary directories.
+
+Also in this package: CacheEntryMetricData, DefaultChunkStorageProvider, EmptyChunkLoader, EmptyChunkSaver, EmptyChunkStorageProvider, IChunkStorageProvider, IndexedStorageCache, IndexedStorageChunkLoader, IndexedStorageChunkSaver, IndexedStorageChunkStorageProvider, Loader, MigrationChunkLoader, MigrationChunkStorageProvider, MigrationData, RocksDbChunkStorageProvider, RocksDbResource, Saver
+
+Complete API:
+  public CompletableFuture<Holder<ChunkStore>> loadHolder(int x, int z)
+  private CompletableFuture<Holder<ChunkStore>> loadChunkNext(Iterator<IChunkLoader> iterator, int x, int z)
+  public LongSet getIndexes()
+  public void close()
+
+Fields:
+private final List<IChunkLoader> loaders
+private final List<FileSystem> fileSystems
+private final List<Path> tempDirs

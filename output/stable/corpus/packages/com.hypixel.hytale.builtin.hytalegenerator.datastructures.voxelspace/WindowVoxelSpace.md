@@ -39,3 +39,39 @@ public class WindowVoxelSpace<T> implements VoxelSpace<T>
 - @Override public int sizeY()
 - @Override public int sizeZ()
 - @Override @Nonnull public String toString()
+
+Also in this package: BatchTransfer, BooleanVoxelSpace, NullSpace, VoxelConsumer, VoxelCoordinate, VoxelSpace, VoxelSpaceUtil
+
+Complete API:
+  public WindowVoxelSpace<T> setWindow(int minX, int minY, int minZ, int maxX, int maxY, int maxZ)
+  public VoxelSpace<T> getWrappedSchematic()
+  public boolean set(T content, int x, int y, int z)
+  public boolean set(T content, Vector3i position)
+  public void set(T content)
+  public void setOrigin(int x, int y, int z)
+  public T getContent(int x, int y, int z)
+  public T getContent(Vector3i position)
+  public boolean replace(T replacement, int x, int y, int z, Predicate<T> mask)
+  public void pasteFrom(VoxelSpace<T> source)
+  public int getOriginX()
+  public int getOriginY()
+  public int getOriginZ()
+  public String getName()
+  public boolean isInsideSpace(int x, int y, int z)
+  public boolean isInsideSpace(Vector3i position)
+  public void forEach(VoxelConsumer<? super T> action)
+  public int minX()
+  public int maxX()
+  public int minY()
+  public int maxY()
+  public int minZ()
+  public int maxZ()
+  public int sizeX()
+  public int sizeY()
+  public int sizeZ()
+  public String toString()
+
+Fields:
+private final VoxelSpace<T> wrappedVoxelSpace
+private final VoxelCoordinate min
+private final VoxelCoordinate max

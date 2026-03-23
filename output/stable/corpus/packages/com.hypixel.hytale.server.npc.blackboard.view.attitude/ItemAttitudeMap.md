@@ -16,3 +16,13 @@ Provides ItemAttitudeMap functionality within the attitude subsystem.
 - @Nullable public Attitude getAttitude(@Nonnull NPCEntity parent, @Nullable ItemStack item)
 - public int getAttitudeGroupCount()
 - public void updateAttitudeGroup(int id, @Nonnull ItemAttitudeGroup group)
+
+Also in this package: AttitudeMap, AttitudeView, Builder, Builder, IAttitudeProvider
+
+Complete API:
+  public Attitude getAttitude(NPCEntity parent, ItemStack item)
+  public int getAttitudeGroupCount()
+  public void updateAttitudeGroup(int id, ItemAttitudeGroup group)
+
+Fields:
+private final Map<String,Attitude>[] map

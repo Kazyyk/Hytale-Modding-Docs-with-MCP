@@ -18,3 +18,18 @@ Abstract base class extending `Condition` that provides shared logic for SimpleC
 - @Override public int getSimplicity()
 - protected abstract boolean evaluate(int var1, ArchetypeChunk<EntityStore> var2, Ref<EntityStore> var3, CommandBuffer<EntityStore> var4, EvaluationContext var5)
 - @Nonnull @Override public String toString()
+
+Known subclasses: HasTargetCondition, IsInStateCondition, LineOfSightCondition, SelfHasEffectCondition, TargetHasEffectCondition, TargetMovementStateCondition
+
+Also in this package: AlwaysTrueCondition, Condition, CurveCondition, ScaledCurveCondition
+
+Complete API:
+  public double calculateUtility(int selfIndex, ArchetypeChunk<EntityStore> archetypeChunk, Ref<EntityStore> target, CommandBuffer<EntityStore> commandBuffer, EvaluationContext context)
+  public int getSimplicity()
+  protected abstract boolean evaluate(int var1, ArchetypeChunk<EntityStore> var2, Ref<EntityStore> var3, CommandBuffer<EntityStore> var4, EvaluationContext var5)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SimpleCondition> ABSTRACT_CODEC
+protected double falseValue
+protected double trueValue

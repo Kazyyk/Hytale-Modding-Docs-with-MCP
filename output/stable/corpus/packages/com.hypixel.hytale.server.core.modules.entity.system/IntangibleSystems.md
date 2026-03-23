@@ -50,3 +50,5 @@ Store-scoped resource holding a concurrent set of entity references that need in
 - `Intangible` -- the marker ECS component being tracked
 - `EntityTrackerSystems.Visible` -- visibility tracking component
 - `EntityModule` -- registers these systems and provides the resource type
+
+Also in this package: Add, AdventurePlayerSystem, AnimationEntityTrackerUpdate, ApplyRandomSkin, AssignNetworkIdToProps, AudioSystems, Capture, ClearFromPrefabMarker, ClearFromWorldGenMarker, ClearMarker, DynamicLightTracker, EnsurePropsPrefabCopyable, EntityInteractableSystems, EntitySpatialSystem, EntitySystems, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerUpdate (and 40 more)

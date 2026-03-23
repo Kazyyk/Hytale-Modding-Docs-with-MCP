@@ -18,3 +18,8 @@ Determines how base damage values are scaled in DamageCalculator.
 ## See Also
 
 - DamageCalculator
+
+Also in this package: DamageCalculator, DamageClass, DamageEffects, DirectionalKnockback, ForceKnockback, Knockback, PointKnockback, TargetEntityEffect
+
+Fields:
+public static final EnumCodec<DamageCalculator.Type> CODEC

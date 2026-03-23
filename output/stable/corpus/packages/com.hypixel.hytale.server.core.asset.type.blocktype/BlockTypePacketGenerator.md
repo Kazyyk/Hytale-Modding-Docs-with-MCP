@@ -17,3 +17,10 @@ Generates `UpdateBlockTypes` network packets for synchronizing block type assets
 - `BlockType` -- the asset type this generator serializes
 - `UpdateBlockTypes` -- the packet type produced
 - `BlockTypeAssetMap` -- provides string-to-integer key mapping
+
+Also in this package: BlockGroupPacketGenerator
+
+Complete API:
+  public ToClientPacket generateInitPacket(BlockTypeAssetMap<String,BlockType> assetMap, Map<String,BlockType> assets)
+  public ToClientPacket generateUpdatePacket(BlockTypeAssetMap<String,BlockType> assetMap, Map<String,BlockType> loadedAssets, AssetUpdateQuery query)
+  public ToClientPacket generateRemovePacket(BlockTypeAssetMap<String,BlockType> assetMap, Set<String> removed, AssetUpdateQuery query)

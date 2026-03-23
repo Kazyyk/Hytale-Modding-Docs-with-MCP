@@ -11,3 +11,12 @@ public class ImportedAssignmentsAsset extends AssignmentsAsset
 ## Methods
 
 - @Override public Assignments build(@Nonnull AssignmentsAsset.Argument argument)
+
+Also in this package: Argument, AssignmentsAsset, ConstantAssignmentsAsset, DelimiterAsset, DelimiterAsset, FieldFunctionAssignmentsAsset, SandwichAssignmentsAsset, WeightedAssets, WeightedAssignmentsAsset
+
+Complete API:
+  public Assignments build(AssignmentsAsset.Argument argument)
+
+Fields:
+public static final BuilderCodec<ImportedAssignmentsAsset> CODEC
+private String name
