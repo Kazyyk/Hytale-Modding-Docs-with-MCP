@@ -172,13 +172,20 @@ Exit code 0 = pass, 1 = issues found.
 - **Phase 2 CLI:** `tools/classify.sh [branch]` — Classifies types into
   API surface vs internal (metadata only — does not gate generation).
   Reads/writes from `artifacts/{branch}/` if branch is provided.
+- **Phase 1.5 CLI:** `python3 tools/diff-plan.py <prev-index> <curr-index>
+  <output-dir>` — Diffs two class-index.json files and produces
+  `changeset.json` (added/removed/modified types) and
+  `regeneration-plan.json` (types needing doc regeneration with reasons).
+  Includes affected types that reference modified types.
+- **Incremental orchestrator:** `tools/incremental-run.sh <branch>
+  <base-index>` — Runs Phase 1.5, Phase 2, copies base docs, and cleans
+  up removed types. Prepares everything for Phase 3-4 agent work.
 - **Phases 3-4:** LLM agent work. See `spec/generator-spec.md` for
   exploration heuristics and output templates.
 - **Incremental cleanup:** `python3 tools/cleanup-removed.py <old-index>
-  <new-index> <docs-root>` — After an incremental run, deletes pages for
-  removed types, fixes broken links in index files, and cleans up empty
-  package directories. Run this after copying the previous docs and before
-  generating new/modified pages.
+  <new-index> <docs-root>` — Deletes pages for removed types, fixes
+  broken links in index files, and cleans up empty package directories.
+  Called automatically by `incremental-run.sh`.
 - **Phase 4.2 CLI:** `tools/validate.sh` — Cross-references docs against
   decompiled source. Catches accessor mismatches, store type errors, stale
   claims, and placeholders.
