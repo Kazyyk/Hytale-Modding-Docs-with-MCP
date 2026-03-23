@@ -1,0 +1,16 @@
+# MaterialSetAsset
+
+Type: class | Package: com.hypixel.hytale.builtin.hytalegenerator.assets.blockset | Implements: JsonAssetWithMap, DefaultAssetMap, MaterialSetAsset>>, Cleanable
+
+public class MaterialSetAsset implements JsonAssetWithMap<String, DefaultAssetMap<String, MaterialSetAsset>>, Cleanable
+
+Asset configuration loaded from JSON data packs.
+
+## Accessors
+
+- getId() | String | Accessor method.
+
+## Methods
+
+- build(MaterialCache materialCache) | MaterialSet | Instance method.
+- cleanUp() | void | Instance method.

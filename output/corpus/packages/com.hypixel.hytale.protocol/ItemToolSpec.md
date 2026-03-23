@@ -1,0 +1,50 @@
+# ItemToolSpec
+
+Type: class | Package: com.hypixel.hytale.protocol
+
+public class ItemToolSpec
+
+Defines a single tool specialization with its gather type capability.
+
+## Fields
+
+- String gatherType
+- float power
+- int quality
+
+## Serialization Layout
+
+- NULLABLE_BIT_FIELD_SIZE | 1
+- FIXED_BLOCK_SIZE | 9
+- VARIABLE_FIELD_COUNT | 1
+- VARIABLE_BLOCK_START | 9
+- MAX_SIZE | 16,384,014
+
+Binary layout: 1 null-bit byte + 9 bytes of fixed fields + 1 variable-length field (4-byte offset slots). All multi-byte primitives use little-endian encoding.
+
+## Methods
+
+
+@Nonnull
+public static ItemToolSpec deserialize(@Nonnull ByteBuf buf, int offset)
+
+Deserializes a `ItemToolSpec` from the given buffer at the specified offset.
+
+
+public static int computeBytesConsumed(@Nonnull ByteBuf buf, int offset)
+
+Returns the total number of bytes consumed by this `ItemToolSpec` starting at the given offset.
+
+
+public void serialize(@Nonnull ByteBuf buf)
+
+Serializes this `ItemToolSpec` into the given buffer.
+
+
+public int computeSize()
+
+Returns the serialized size in bytes.
+
+## Related Types
+
+- ItemTool

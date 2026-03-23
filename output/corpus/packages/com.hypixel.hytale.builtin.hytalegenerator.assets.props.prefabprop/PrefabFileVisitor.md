@@ -1,0 +1,16 @@
+# PrefabFileVisitor
+
+Type: class | Package: com.hypixel.hytale.builtin.hytalegenerator.assets.props.prefabprop | Extends: SimpleFileVisitor<Path>
+
+public class PrefabFileVisitor extends SimpleFileVisitor<Path>
+
+Extends `SimpleFileVisitor` to provide PrefabFileVisitor functionality.
+
+## Fields
+
+- @Nonnull private final List<PrefabBuffer> prefabBuffers
+
+## Methods
+
+- public PrefabFileVisitor(@Nonnull List<PrefabBuffer> prefabBuffers)
+- @Nonnull public FileVisitResult visitFile(@Nonnull Path file, @Nonnull BasicFileAttributes attrs)

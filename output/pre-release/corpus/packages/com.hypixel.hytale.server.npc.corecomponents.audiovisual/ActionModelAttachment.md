@@ -1,0 +1,19 @@
+# ActionModelAttachment
+
+Type: class | Package: com.hypixel.hytale.server.npc.corecomponents.audiovisual | Extends: ActionBase
+
+public class ActionModelAttachment extends ActionBase
+
+## Fields
+
+- @Nonnull protected final String slot
+- @Nonnull protected final String attachment
+
+## Constructors
+
+- public ActionModelAttachment(@Nonnull BuilderActionModelAttachment builder, @Nonnull BuilderSupport support)
+
+## Methods
+
+- @Override public boolean execute(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store)
+- private static void setModelAttachment(@Nonnull Ref<EntityStore> ref, @Nonnull String slot, @Nullable String attachment, @Nonnull ComponentAccessor<EntityStore> componentAccessor)

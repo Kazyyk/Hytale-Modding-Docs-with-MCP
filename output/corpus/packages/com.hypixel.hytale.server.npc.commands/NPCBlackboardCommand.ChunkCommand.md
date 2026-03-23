@@ -1,0 +1,23 @@
+# NPCBlackboardCommand.ChunkCommand
+
+Type: class | Package: com.hypixel.hytale.server.npc.commands | Extends: AbstractWorldCommand
+
+public static class NPCBlackboardCommand.ChunkCommand extends AbstractWorldCommand
+
+Inner class of NPCBlackboardCommand. Shows detailed blackboard data for a specific chunk section, including regional blackboard coordinates, searched block sets, and all block position entries grouped by block set.
+
+## Arguments
+
+- position | RelativeIntPosition | yes | Block position used to determine the chunk
+
+## Constructor
+
+
+public ChunkCommand()
+
+Registers as sub-command `"chunk"` with translation key `"server.commands.npc.blackboard.chunk.desc"`.
+
+## Related Types
+
+- NPCBlackboardCommand -- parent command collection
+- NPCBlackboardCommand.ChunksCommand -- lists all chunks

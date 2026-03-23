@@ -1,0 +1,9 @@
+# DebugCommand
+
+Type: class | Package: com.hypixel.hytale.server.core.modules.debug.commands | Extends: AbstractCommandCollection
+
+public class DebugCommand extends AbstractCommandCollection
+
+## Constructors
+
+- public DebugCommand()

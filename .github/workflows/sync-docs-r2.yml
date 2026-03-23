@@ -1,19 +1,20 @@
-# Syncs documentation to R2 buckets for Cloudflare AI Search indexing.
-# Each job only runs when its respective docs directory changes.
+# Syncs optimized corpus to R2 buckets for Cloudflare AI Search indexing.
+# Uses output/corpus/ (built by tools/build-corpus.py) instead of raw docs.
+# Each job only runs when its respective corpus directory changes.
 #
 # Required GitHub secrets:
 #   R2_ACCOUNT_ID       - Cloudflare account ID
 #   R2_ACCESS_KEY_ID    - R2 API token access key
 #   R2_SECRET_ACCESS_KEY - R2 API token secret key
 
-name: Sync docs to R2
+name: Sync corpus to R2
 
 on:
   push:
     branches: [main]
     paths:
-      - "output/docs/**"
-      - "output/pre-release/docs/**"
+      - "output/corpus/**"
+      - "output/pre-release/corpus/**"
   workflow_dispatch:
     inputs:
       branch:
@@ -31,42 +32,40 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'workflow_dispatch' && (github.event.inputs.branch == 'stable' || github.event.inputs.branch == 'both') ||
-      github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'output/docs/')
+      github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'output/corpus/')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Sync stable to R2
+      - name: Sync stable corpus to R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
         run: |
-          aws s3 sync output/docs/ s3://hydex-corpus-stable/ \
+          aws s3 sync output/corpus/ s3://hydex-corpus-stable/ \
             --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
             --delete \
             --size-only \
-            --exclude ".gitkeep" \
-            --exclude "*.json"
+            --exclude ".gitkeep"
 
   sync-pre-release:
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'workflow_dispatch' && (github.event.inputs.branch == 'pre-release' || github.event.inputs.branch == 'both') ||
-      github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'output/pre-release/')
+      github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'output/pre-release/corpus/')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Sync pre-release to R2
+      - name: Sync pre-release corpus to R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
         run: |
-          aws s3 sync output/pre-release/docs/ s3://hydex-corpus-pre/ \
+          aws s3 sync output/pre-release/corpus/ s3://hydex-corpus-pre/ \
             --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
             --delete \
             --size-only \
-            --exclude ".gitkeep" \
-            --exclude "*.json"
+            --exclude ".gitkeep"

@@ -1,0 +1,19 @@
+# OffsetPositionProvider
+
+Type: class | Package: com.hypixel.hytale.builtin.hytalegenerator.positionproviders | Extends: PositionProvider
+
+public class OffsetPositionProvider extends PositionProvider
+
+Provider supplying OffsetPosition values based on context.
+
+## Fields
+
+- @Nonnull private final Vector3i offset3i
+- @Nonnull private final Vector3d offset3d
+- @Nonnull private final PositionProvider positionProvider
+
+## Methods
+
+- public OffsetPositionProvider(@Nonnull Vector3i offset, @Nonnull PositionProvider positionProvider)
+- public OffsetPositionProvider(@Nonnull Vector3d offset, @Nonnull PositionProvider positionProvider)
+- @Override public void positionsIn(@Nonnull PositionProvider.Context context)

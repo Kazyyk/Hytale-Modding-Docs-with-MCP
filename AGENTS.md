@@ -156,6 +156,8 @@ Exit code 0 = pass, 1 = issues found.
   Committed to git for debuggability.
 - `output/docs/` — Stable generated documentation.
 - `output/pre-release/docs/` — Pre-release generated documentation.
+- `output/corpus/` — Stable corpus optimized for AI Search (built by build-corpus.py).
+- `output/pre-release/corpus/` — Pre-release corpus optimized for AI Search.
 - `spec/` — This spec and related design documents.
 - `site/stable/` — Starlight site for hydex.dev.
 - `site/pre-release/` — Starlight site for pre.hydex.dev.
@@ -189,3 +191,7 @@ Exit code 0 = pass, 1 = issues found.
 - **Phase 4.2 CLI:** `tools/validate.sh` — Cross-references docs against
   decompiled source. Catches accessor mismatches, store type errors, stale
   claims, and placeholders.
+- **Corpus builder:** `python3 tools/build-corpus.py [branch]` — Transforms
+  raw docs into an optimized corpus for AI Search vectorization. Strips
+  frontmatter noise, flattens tables, resolves links, excludes index pages.
+  Writes to `output/corpus/` (stable) or `output/{branch}/corpus/`.

@@ -1,0 +1,16 @@
+# FileListProvider
+
+Type: interface | Package: com.hypixel.hytale.server.core.ui.browser
+
+@FunctionalInterface
+public interface FileListProvider
+
+Functional interface for providing custom file listings to the server file browser. Implementations return a list of file entries for a given directory path and search query.
+
+## Methods
+
+- public List<FileListProvider.FileEntry> getFiles(@Nonnull Path var1, @Nonnull String var2)
+
+## Inner Types
+
+- FileListProvider.FileEntry -- record describing a file or directory entry

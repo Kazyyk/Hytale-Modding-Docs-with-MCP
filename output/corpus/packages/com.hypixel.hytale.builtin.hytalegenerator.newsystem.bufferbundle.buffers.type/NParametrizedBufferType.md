@@ -1,0 +1,12 @@
+# NParametrizedBufferType
+
+Type: class | Package: com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.type | Extends: NBufferType
+
+public class NParametrizedBufferType extends NBufferType
+
+Utility type in the `type` subsystem.
+
+## Accessors
+
+- isValidType(Class bufferClass, Class parameterClass) | boolean | Boolean accessor.
+- isValid(NBuffer buffer) | boolean | Boolean accessor.

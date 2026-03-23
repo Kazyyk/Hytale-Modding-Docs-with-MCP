@@ -1,0 +1,17 @@
+# UpwardSpaceMaterialProvider
+
+Type: class | Package: com.hypixel.hytale.builtin.hytalegenerator.materialproviders | Extends: MaterialProvider<V>
+
+public class UpwardSpaceMaterialProvider<V> extends MaterialProvider<V>
+
+Provider supplying UpwardSpaceMaterial values based on context.
+
+## Fields
+
+- @Nonnull private final MaterialProvider<V> materialProvider
+- private final int space
+
+## Methods
+
+- public UpwardSpaceMaterialProvider(@Nonnull MaterialProvider<V> materialProvider, int space)
+- @Nullable @Override public V getVoxelTypeAt(@Nonnull MaterialProvider.Context context)

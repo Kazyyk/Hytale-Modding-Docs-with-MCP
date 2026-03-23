@@ -1,0 +1,29 @@
+# ParticleScaleRatioConstraint
+
+Type: enum | Package: com.hypixel.hytale.protocol
+
+public enum ParticleScaleRatioConstraint
+
+Enum with 3 constants used in the protocol serialization layer.
+
+## Constants
+
+- OneToOne | 0 | Scale ratio locked at 1:1.
+- Preserved | 1 | Original aspect ratio is preserved.
+- None | 2 | No scale ratio constraint.
+
+## Methods
+
+
+public int getValue()
+
+Returns the integer wire value for this `ParticleScaleRatioConstraint` constant.
+
+
+public static ParticleScaleRatioConstraint fromValue(int value)
+
+Returns the `ParticleScaleRatioConstraint` constant for the given wire value. Throws `ProtocolException` if the value is out of range.
+
+## Serialization
+
+Serialized as a single byte (`0`--`2`). The static `VALUES` array is used for O(1) lookup by ordinal.

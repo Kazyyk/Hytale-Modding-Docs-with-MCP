@@ -1,0 +1,29 @@
+# ArrayMetaStore
+
+Type: class | Package: com.hypixel.hytale.server.core.meta | Extends: AbstractMetaStore<K>
+
+public class ArrayMetaStore<K> extends AbstractMetaStore<K>
+
+Extends `AbstractMetaStore` to provide ArrayMetaStore functionality.
+
+## Constants
+
+- private static final Object NO_ENTRY
+
+## Fields
+
+- private Object[] array
+
+## Methods
+
+- public ArrayMetaStore(K parent, IMetaRegistry<K> registry)
+- public ArrayMetaStore(K parent, IMetaRegistry<K> registry, boolean bypassEncodedCache)
+- @Override protected <T> T get0(@Nonnull MetaKey<T> key)
+- @Override public <T> T getMetaObject(@Nonnull MetaKey<T> key)
+- @Nullable @Override public <T> T getIfPresentMetaObject(@Nonnull MetaKey<T> key)
+- @Nullable @Override public <T> T putMetaObject(@Nonnull MetaKey<T> key, T obj)
+- @Nullable @Override public <T> T removeMetaObject(@Nonnull MetaKey<T> key)
+- @Nullable @Override public <T> T removeSerializedMetaObject(@Nonnull MetaKey<T> key)
+- @Override public boolean hasMetaObject(@Nonnull MetaKey<?> key)
+- @Override public void forEachMetaObject(@Nonnull IMetaStore.MetaEntryConsumer consumer)
+- private <T> void resizeArray(T obj, int id)

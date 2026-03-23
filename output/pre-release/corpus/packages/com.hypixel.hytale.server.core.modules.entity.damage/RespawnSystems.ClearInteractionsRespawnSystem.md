@@ -1,0 +1,13 @@
+# RespawnSystems.ClearInteractionsRespawnSystem
+
+Type: class | Package: com.hypixel.hytale.server.core.modules.entity.damage | Extends: RespawnSystems.OnRespawnSystem
+
+public static class RespawnSystems.ClearInteractionsRespawnSystem extends RespawnSystems.OnRespawnSystem
+
+Clears the entity's `InteractionManager` on respawn, cancelling any active interaction chains. Requires the entity to have an `InteractionManager` component.
+
+## Related Types
+
+- RespawnSystems -- parent class
+- DeathSystems.ClearInteractions -- similar system on death
+- RespawnSystems.OnRespawnSystem -- base class
