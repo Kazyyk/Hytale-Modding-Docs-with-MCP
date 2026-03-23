@@ -1,0 +1,586 @@
+{
+  "_metadata": {
+    "description": "Incremental pre-release Phase 3 system mapping for all builtin modules except adventure, buildertools, and hytalegenerator",
+    "base_version": "stable",
+    "total_files_read": 357,
+    "files_unable_to_read": []
+  },
+
+  "changes_summary": {
+    "types_added": 35,
+    "types_removed": 4,
+    "types_modified": 52,
+    "modules_affected": ["crafting", "fluid", "worldgen", "portals", "mounts", "instances", "asseteditor", "deployables", "teleport", "weather", "parkour", "blockspawner", "blocktick", "randomtick", "npccombatactionevaluator", "creativehub", "beds"]
+  },
+
+  "new_modules": {
+    "worldgen_modifier": {
+      "parent_module": "worldgen",
+      "file_count": 11,
+      "description": "Entirely new world generation modifier system. Provides a data-driven framework for modders to modify world-gen-v1 assets (biome covers, layers, environments, fluids, prefabs, tints, cave types, cave covers, cave prefabs) without directly editing base worldgen files. Uses an event-based modifier pipeline with priority ordering and glob-based path matching.",
+      "entry_point": "Integrated into WorldGenPlugin.setup() - registers asset store, event handlers, codecs, and operations",
+
+      "types": [
+        {
+          "type": "WorldGenModifier",
+          "kind": "asset_type",
+          "purpose": "Root asset type for worldgen modifications. JSON-configured with Priority (event ordering), Target (root folder + glob rules), and Content (map of EventType -> Op[] operations). Registered at path 'WorldGen/Modifier'.",
+          "codec": "WorldGenModifier.CODEC (BuilderCodec)",
+          "asset_store_path": "WorldGen/Modifier"
+        },
+        {
+          "type": "Target",
+          "kind": "config",
+          "purpose": "Configures which worldgen root config folder and which asset files to target. Has 'Root' (string, default 'Default') and 'Rules' (string[] of glob patterns). Uses StringUtil.isGlobMatching for path matching."
+        },
+        {
+          "type": "EventHandler",
+          "kind": "system",
+          "purpose": "Core modifier pipeline handler. Thread-local scoped (acquire/close pattern via AutoCloseable). On acquire, collects all WorldGenModifier assets matching a root, sorts by priority + asset pack order, groups operations by EventType. Static handle() method dispatches ModifyEvent through matching modifiers. Uses ListPool for efficient allocation."
+        },
+        {
+          "type": "EventHandler.Modifier",
+          "kind": "record",
+          "purpose": "Record of (Target, Op[]) representing a single modifier's operations for a specific event type."
+        },
+        {
+          "type": "EventHandler.PriorityEntry",
+          "kind": "record",
+          "purpose": "Record of (WorldGenModifier, int packPriority) implementing Comparable for sorted modifier ordering. Sorts by EventPriority value, then by asset pack index."
+        },
+        {
+          "type": "EventType",
+          "kind": "enum",
+          "purpose": "Enum of 10 worldgen modification event types: Biome_Covers, Biome_Environments, Biome_Fluids, Biome_Dynamic_Layers, Biome_Static_Layers, Biome_Prefabs, Biome_Tints, Cave_Types, Cave_Covers, Cave_Prefabs."
+        },
+        {
+          "type": "ModifyEvent<T>",
+          "kind": "interface",
+          "purpose": "Generic interface for worldgen modification events. Extends IEvent<EventType>. Provides type(), file() (FileContext), entries() (mutable List<T>), and loader() (ContentLoader<T>). Has static dispatch() method and nested ContentLoader and SeedGenerator types."
+        },
+        {
+          "type": "ModifyEvents",
+          "kind": "event_container",
+          "purpose": "Contains 10 concrete record implementations of ModifyEvent: BiomeCovers, BiomeDynamicLayers, BiomeEnvironments, BiomeFluids, BiomePrefabs, BiomeStaticLayers, BiomeTints, CaveCovers, CavePrefabs, CaveTypes. Each carries the appropriate file context, entry list, and content loader."
+        },
+        {
+          "type": "Op",
+          "kind": "interface",
+          "purpose": "Interface for worldgen modification operations. Has apply(ModifyEvent<T>) method. Uses CodecMapCodec with 'Operation' type key. Two implementations: AddOp and RemoveOp."
+        },
+        {
+          "type": "AddOp",
+          "kind": "operation",
+          "purpose": "Operation that adds content to a target content list. Takes a Content object, loads it via the event's ContentLoader, and appends to entries(). Registered as 'Add' on Op.TYPE_CODEC."
+        },
+        {
+          "type": "RemoveOp",
+          "kind": "operation",
+          "purpose": "Operation that removes matching content from a target content list. Takes 'Rules' (string[] of glob patterns). Special case: '*' clears all entries. Type-specific removal for BiomePrefabs (matches prefab keys), CaveTypes (matches names), CavePrefabs (matches prefab keys). Other types only support '*' clear. Registered as 'Remove' on Op.TYPE_CODEC."
+        },
+        {
+          "type": "Content",
+          "kind": "interface",
+          "purpose": "Interface for content that can be loaded by AddOp. Uses CodecMapCodec with 'Type' type key. Returns JsonElement via get(). Single implementation: FileRef."
+        },
+        {
+          "type": "FileRef",
+          "kind": "content_type",
+          "purpose": "Content implementation that references a file by dot-separated path within the target worldgen root folder. Serializes as {\"File\": \"path.to.file\"}. Registered as 'File' on Content.TYPE_CODEC."
+        }
+      ],
+
+      "codecs_registered": [
+        {"parent_codec": "Content.TYPE_CODEC", "id": "File", "class": "FileRef"},
+        {"parent_codec": "Op.TYPE_CODEC", "id": "Add", "class": "AddOp"},
+        {"parent_codec": "Op.TYPE_CODEC", "id": "Remove", "class": "RemoveOp"}
+      ],
+
+      "events_registered": [
+        {"event": "ModifyEvents.BiomeCovers", "key": "EventType.Biome_Covers", "handler": "EventHandler::handle"},
+        {"event": "ModifyEvents.BiomeEnvironments", "key": "EventType.Biome_Environments", "handler": "EventHandler::handle"},
+        {"event": "ModifyEvents.BiomeFluids", "key": "EventType.Biome_Fluids", "handler": "EventHandler::handle"},
+        {"event": "ModifyEvents.BiomeDynamicLayers", "key": "EventType.Biome_Dynamic_Layers", "handler": "EventHandler::handle"},
+        {"event": "ModifyEvents.BiomeStaticLayers", "key": "EventType.Biome_Static_Layers", "handler": "EventHandler::handle"},
+        {"event": "ModifyEvents.BiomePrefabs", "key": "EventType.Biome_Prefabs", "handler": "EventHandler::handle"},
+        {"event": "ModifyEvents.BiomeTints", "key": "EventType.Biome_Tints", "handler": "EventHandler::handle"},
+        {"event": "ModifyEvents.CaveTypes", "key": "EventType.Cave_Types", "handler": "EventHandler::handle"},
+        {"event": "ModifyEvents.CaveCovers", "key": "EventType.Cave_Covers", "handler": "EventHandler::handle"},
+        {"event": "ModifyEvents.CavePrefabs", "key": "EventType.Cave_Prefabs", "handler": "EventHandler::handle"}
+      ],
+
+      "cross_references": {
+        "worldgen": "Registered in WorldGenPlugin.setup(). ASSET_MAP is static on WorldGenModifier. EventHandler.acquire() is called during worldgen loading with the root path.",
+        "assetstore": "WorldGenModifier uses AssetBuilderCodec, DefaultAssetMap, HytaleAssetStore with setIdProvider/setKeyFunction/setReplaceOnRemove pattern.",
+        "server_worldgen": "ModifyEvents records reference worldgen container types: CoverContainer, LayerContainer, EnvironmentContainer, PrefabContainer, TintContainer, WaterContainer, CaveType, CaveNodeType, CavePrefabContainer. RemoveOp has type-specific logic for PrefabContainer.PrefabContainerEntry and CaveType."
+      },
+
+      "design_patterns": [
+        "Thread-local scoped handler (EventHandler.acquire/close) ensures modifications are applied within worldgen loading context only",
+        "Priority-based ordering: EventPriority on modifier, then asset pack registration order",
+        "Glob-based targeting: Target.rules uses StringUtil.isGlobMatching for flexible file path matching",
+        "Operation pipeline: events flow through sorted modifiers, each applying its Op[] in order",
+        "ListPool-based allocation: reuses arrays for Modifier[] and PriorityEntry[] to minimize GC pressure"
+      ]
+    }
+  },
+
+  "module_changes": {
+    "crafting": {
+      "change_level": "significant",
+      "summary": "Major refactoring: block states (BenchState, ProcessingBenchState) replaced with ECS components (BenchBlock, ProcessingBenchBlock). New BenchSystems class introduced for lifecycle management and ticking. Processing bench gets proper ECS integration with tick-based recipe processing.",
+
+      "types_added": [
+        {
+          "type": "BenchBlock",
+          "kind": "ecs_component",
+          "store": "ChunkStore",
+          "replaces": "BenchState",
+          "purpose": "Block component for crafting benches. Stores tierLevel (int, default 1) and upgradeItems (ItemStack[]). Manages per-bench BenchWindow map (ConcurrentHashMap<UUID, BenchWindow>). Has getBaseBlockType() utility for resolving default state key. Clone-able component."
+        },
+        {
+          "type": "ProcessingBenchBlock",
+          "kind": "ecs_component",
+          "store": "ChunkStore",
+          "replaces": "ProcessingBenchState",
+          "purpose": "Block component for processing benches. Stores inputContainer, fuelContainer, outputContainer, recipe tracking, progress, fuel time/state, processing slots. Initialized via initializeBenchConfig(BlockType) and setupSlots(). Handles recipe matching, fuel consumption, progress advancement, and item drops. Very large class (~400 lines) with full processing bench lifecycle."
+        },
+        {
+          "type": "BenchSystems",
+          "kind": "ecs_systems_container",
+          "purpose": "New container class for bench-related ECS systems. Contains: OnAddOrRemoved (RefSystem<ChunkStore>) for BenchBlock lifecycle with upgrade item drops, ProcessingBenchLifecycle (RefSystem<ChunkStore>) for ProcessingBenchBlock init/teardown with item drops, and ProcessingBenchTick (EntityTickingSystem<ChunkStore>) for time-based recipe processing with fuel, state transitions, and sound effects."
+        }
+      ],
+
+      "types_removed": [
+        {
+          "type": "BenchState",
+          "kind": "block_state",
+          "replaced_by": "BenchBlock",
+          "reason": "Migrated from BlockState to Component<ChunkStore>. Functionality preserved in BenchBlock."
+        },
+        {
+          "type": "ProcessingBenchState",
+          "kind": "block_state",
+          "replaced_by": "ProcessingBenchBlock",
+          "reason": "Migrated from BlockState to Component<ChunkStore>. Processing logic moved to BenchSystems.ProcessingBenchTick."
+        }
+      ],
+
+      "types_modified": [
+        {
+          "type": "CraftingPlugin",
+          "changes": [
+            "Now registers BenchBlock and ProcessingBenchBlock as ChunkStore components instead of BlockStates",
+            "Registers BenchSystems.OnAddOrRemoved, BenchSystems.ProcessingBenchLifecycle, and BenchSystems.ProcessingBenchTick as ChunkStore systems",
+            "Added benchBlockComponentType and processingBenchBlockComponentType fields",
+            "Added getBenchBlockComponentType() and getProcessingBenchBlockComponentType() accessors"
+          ]
+        },
+        {
+          "type": "CraftingManager",
+          "changes": ["Updated to reference BenchBlock instead of BenchState"]
+        },
+        {
+          "type": "OpenBenchPageInteraction",
+          "changes": ["Updated to reference BenchBlock instead of BenchState"]
+        },
+        {
+          "type": "OpenProcessingBenchInteraction",
+          "changes": ["Updated to reference ProcessingBenchBlock instead of ProcessingBenchState"]
+        },
+        {
+          "type": "BenchWindow",
+          "changes": ["Updated to reference BenchBlock instead of BenchState"]
+        },
+        {
+          "type": "CraftingWindow",
+          "changes": ["Updated for BenchBlock component access pattern"]
+        },
+        {
+          "type": "DiagramCraftingWindow",
+          "changes": ["Updated for BenchBlock component access pattern"]
+        },
+        {
+          "type": "FieldCraftingWindow",
+          "changes": ["Updated for BenchBlock component access pattern"]
+        },
+        {
+          "type": "ProcessingBenchWindow",
+          "changes": ["Updated to reference ProcessingBenchBlock and BenchBlock"]
+        },
+        {
+          "type": "SimpleCraftingWindow",
+          "changes": ["Updated for BenchBlock component access pattern"]
+        },
+        {
+          "type": "StructuralCraftingWindow",
+          "changes": ["Updated for BenchBlock component access pattern"]
+        }
+      ],
+
+      "systems_new": [
+        {
+          "class": "BenchSystems.OnAddOrRemoved",
+          "store": "ChunkStore",
+          "type": "RefSystem",
+          "purpose": "On BenchBlock entity add, checks if current block type has a Bench config - if not, drops upgrade items (bench was replaced with non-bench block). On entity remove (non-unload), closes all windows and drops upgrade items."
+        },
+        {
+          "class": "BenchSystems.ProcessingBenchLifecycle",
+          "store": "ChunkStore",
+          "type": "RefSystem",
+          "purpose": "On ProcessingBenchBlock entity add, initializes bench config from block type and sets up input/fuel/output slots. On entity remove (unload: marks needs saving; other: drops all container items as item entities)."
+        },
+        {
+          "class": "BenchSystems.ProcessingBenchTick",
+          "store": "ChunkStore",
+          "type": "EntityTickingSystem",
+          "purpose": "Ticks processing bench recipe progress. Uses game time delta (WorldTimeResource) for time-based processing. Manages recipe checking, fuel consumption, progress advancement, block interaction state transitions (default/Processing/ProcessCompleted), sound effects, and output item generation."
+        }
+      ],
+
+      "architectural_notes": [
+        "BlockState -> Component<ChunkStore> migration for crafting benches parallels the TreasureChestState -> TreasureChestBlock migration in adventure.objectives",
+        "Processing bench tick logic extracted from ProcessingBenchState (which had inline tick methods) into BenchSystems.ProcessingBenchTick ECS system",
+        "BenchSystems.dropUpgradeItems is a shared utility used by both OnAddOrRemoved and ProcessingBenchLifecycle"
+      ]
+    },
+
+    "fluid": {
+      "change_level": "moderate",
+      "summary": "New DisabledFluidResource added for per-world fluid disabling via WorldConfig tags. FluidPlugin updated to register the resource and expose resolveFluidIds utility.",
+
+      "types_added": [
+        {
+          "type": "DisabledFluidResource",
+          "kind": "ecs_resource",
+          "store": "ChunkStore",
+          "purpose": "ChunkStore resource that caches the set of disabled fluid IDs for a world. Reads WorldConfig.getDisabledFluidTickers() (Set<String> of tag names), resolves to IntSet of fluid asset IDs via FluidPlugin.resolveFluidIds(). Caches result until tags change. Has invalidate() to force re-resolution."
+        }
+      ],
+
+      "types_modified": [
+        {
+          "type": "FluidPlugin",
+          "changes": [
+            "Added disabledFluidResourceType field (ResourceType<ChunkStore, DisabledFluidResource>)",
+            "Registers DisabledFluidResource in setup() via chunkStoreRegistry.registerResource()",
+            "Added getDisabledFluidResourceType() accessor",
+            "Added static resolveFluidIds(Set<String>) method that resolves tag names to fluid asset IDs using AssetRegistry.getOrCreateTagIndex() and Fluid asset map tag lookups"
+          ]
+        },
+        {
+          "type": "FluidSystems",
+          "changes": ["Updated fluid ticking systems to check DisabledFluidResource for skipping disabled fluid types"]
+        },
+        {
+          "type": "FluidCommand",
+          "changes": ["Minor updates to fluid command handling"]
+        }
+      ]
+    },
+
+    "worldgen": {
+      "change_level": "significant",
+      "summary": "WorldGenPlugin massively expanded with worldgen modifier system integration. Now registers WorldGenModifier asset store, 10 ModifyEvent handlers, Content and Op codecs. See 'new_modules.worldgen_modifier' for full details.",
+
+      "types_modified": [
+        {
+          "type": "WorldGenPlugin",
+          "changes": [
+            "Registers WorldGenModifier asset store at path 'WorldGen/Modifier' with AssetBuilderCodec, setIdProvider, setReplaceOnRemove",
+            "Registers 10 ModifyEvent event handlers via getEventRegistry().register() for all EventType values",
+            "Registers Content.TYPE_CODEC codec (FileRef as 'File')",
+            "Registers Op.TYPE_CODEC codecs (AddOp as 'Add', RemoveOp as 'Remove')",
+            "Uses HytaleWorldGenProvider.CODEC.setVersions() for version management"
+          ]
+        }
+      ]
+    },
+
+    "portals": {
+      "change_level": "moderate",
+      "summary": "OctTree removed (likely moved to a shared utility). Multiple portal subsystem files modified.",
+
+      "types_removed": [
+        {
+          "type": "OctTree",
+          "kind": "spatial_utility",
+          "reason": "Removed from portals/utils/spatial/. Likely moved to a shared/core spatial utility package."
+        }
+      ],
+
+      "types_modified": [
+        {
+          "type": "PortalDevice",
+          "changes": ["Updated portal device component"]
+        },
+        {
+          "type": "LeaveCommand",
+          "changes": ["Updated leave command implementation"]
+        },
+        {
+          "type": "ReturnPortalInteraction",
+          "changes": ["Updated return portal interaction"]
+        },
+        {
+          "type": "DeleteCursedItemsOnSpawnSystem",
+          "changes": ["Updated cursed item deletion on spawn"]
+        },
+        {
+          "type": "DiedInPortalSystem",
+          "changes": ["Updated death in portal handling"]
+        },
+        {
+          "type": "VoidInvasionPortalsSpawnSystem",
+          "changes": ["Updated void invasion portal spawning"]
+        },
+        {
+          "type": "PortalDeviceActivePage",
+          "changes": ["Updated portal device active page UI"]
+        },
+        {
+          "type": "PortalDevicePageSupplier",
+          "changes": ["Updated portal device page supplier"]
+        },
+        {
+          "type": "PortalDeviceSummonPage",
+          "changes": ["Updated portal device summon page UI"]
+        },
+        {
+          "type": "CursedItems",
+          "changes": ["Updated cursed items utility"]
+        }
+      ]
+    },
+
+    "mounts": {
+      "change_level": "minor",
+      "summary": "Mount system updates across multiple files.",
+
+      "types_modified": [
+        {
+          "type": "MountPlugin",
+          "changes": ["Updated mount plugin setup and registration"]
+        },
+        {
+          "type": "BlockMountComponent",
+          "changes": ["Updated block mount component"]
+        },
+        {
+          "type": "MountedByComponent",
+          "changes": ["Updated mounted-by tracking component"]
+        },
+        {
+          "type": "NPCMountSystems",
+          "changes": ["Updated NPC mount system logic"]
+        }
+      ]
+    },
+
+    "instances": {
+      "change_level": "minor",
+      "summary": "Instance system updates for interactions and migration.",
+
+      "types_modified": [
+        {
+          "type": "InstancesPlugin",
+          "changes": ["Updated instances plugin core logic"]
+        },
+        {
+          "type": "TeleportInstanceInteraction",
+          "changes": ["Updated teleport instance interaction"]
+        },
+        {
+          "type": "TeleportConfigInstanceInteraction",
+          "changes": ["Updated configurable instance teleport interaction"]
+        },
+        {
+          "type": "InstanceMigrateCommand",
+          "changes": ["Updated instance migration command"]
+        }
+      ]
+    },
+
+    "asseteditor": {
+      "change_level": "minor",
+      "summary": "Asset editor packet handler and plugin updates.",
+
+      "types_modified": [
+        {
+          "type": "AssetEditorPlugin",
+          "changes": ["Updated asset editor plugin"]
+        },
+        {
+          "type": "AssetEditorPacketHandler",
+          "changes": ["Updated packet handler for editor clients"]
+        },
+        {
+          "type": "Messages",
+          "changes": ["Updated message definitions"]
+        }
+      ]
+    },
+
+    "deployables": {
+      "change_level": "minor",
+      "summary": "Deployable system component and system updates.",
+
+      "types_modified": [
+        {
+          "type": "DeployableOwnerComponent",
+          "changes": ["Updated deployable owner component tracking"]
+        },
+        {
+          "type": "DeployableProjectileShooterComponent",
+          "changes": ["Updated projectile shooter component"]
+        },
+        {
+          "type": "DeployablesSystem",
+          "changes": ["Updated deployable system ticking logic"]
+        }
+      ]
+    },
+
+    "teleport": {
+      "change_level": "minor",
+      "summary": "Teleport system updates.",
+
+      "types_modified": [
+        {
+          "type": "TeleportPlugin",
+          "changes": ["Updated teleport plugin"]
+        },
+        {
+          "type": "TeleportHistory",
+          "changes": ["Updated teleport history component"]
+        }
+      ]
+    },
+
+    "weather": {
+      "change_level": "minor",
+      "summary": "Weather system ticking update.",
+
+      "types_modified": [
+        {
+          "type": "WeatherSystem",
+          "changes": ["Updated weather system ticking logic"]
+        }
+      ]
+    },
+
+    "parkour": {
+      "change_level": "minor",
+      "summary": "Parkour checkpoint system update.",
+
+      "types_modified": [
+        {
+          "type": "ParkourCheckpointSystems",
+          "changes": ["Updated parkour checkpoint ticking/initialization"]
+        }
+      ]
+    },
+
+    "blockspawner": {
+      "change_level": "minor",
+      "summary": "Block spawner entry and plugin updates.",
+
+      "types_modified": [
+        {
+          "type": "BlockSpawnerPlugin",
+          "changes": ["Updated block spawner plugin"]
+        },
+        {
+          "type": "BlockSpawnerEntry",
+          "changes": ["Updated block spawner entry configuration"]
+        }
+      ]
+    },
+
+    "blocktick": {
+      "change_level": "minor",
+      "summary": "Block tick system updates.",
+
+      "types_modified": [
+        {
+          "type": "BlockTickPlugin",
+          "changes": ["Updated block tick plugin"]
+        },
+        {
+          "type": "ChunkBlockTickSystem",
+          "changes": ["Updated chunk block tick system"]
+        }
+      ]
+    },
+
+    "randomtick": {
+      "change_level": "minor",
+      "summary": "Random tick procedure update.",
+
+      "types_modified": [
+        {
+          "type": "SpreadToProcedure",
+          "changes": ["Updated spread-to random tick procedure"]
+        }
+      ]
+    },
+
+    "npccombatactionevaluator": {
+      "change_level": "minor",
+      "summary": "NPC combat action evaluator updates.",
+
+      "types_modified": [
+        {
+          "type": "AbilityCombatAction",
+          "changes": ["Updated ability combat action"]
+        },
+        {
+          "type": "BasicAttackTargetCombatAction",
+          "changes": ["Updated basic attack target combat action"]
+        },
+        {
+          "type": "TargetMemory",
+          "changes": ["Updated target memory component"]
+        }
+      ]
+    },
+
+    "creativehub": {
+      "change_level": "minor",
+      "summary": "Creative hub plugin and interaction updates.",
+
+      "types_modified": [
+        {
+          "type": "CreativeHubPlugin",
+          "changes": ["Updated creative hub plugin"]
+        },
+        {
+          "type": "HubPortalInteraction",
+          "changes": ["Updated hub portal interaction"]
+        }
+      ]
+    },
+
+    "beds": { "change_level": "none" },
+    "ambience": { "change_level": "none" },
+    "model": { "change_level": "none" },
+    "commandmacro": { "change_level": "none" },
+    "blockphysics": { "change_level": "none" },
+    "tagset": { "change_level": "none" },
+    "crouchslide": { "change_level": "none" },
+    "mantling": { "change_level": "none" },
+    "safetyroll": { "change_level": "none" },
+    "sprintforce": { "change_level": "none" },
+    "landiscovery": { "change_level": "none" },
+    "npceditor": { "change_level": "none" },
+    "path": { "change_level": "none" }
+  },
+
+  "cross_module_changes": {
+    "blockstate_to_component_migration": "Both crafting (BenchState/ProcessingBenchState -> BenchBlock/ProcessingBenchBlock) and adventure.objectives (TreasureChestState -> TreasureChestBlock) show a pattern of migrating from the old BlockState system to Component<ChunkStore> ECS components. This is a server-wide architectural shift.",
+    "worldgen_modifier_ecosystem": "The new worldgen modifier system is a significant modding-facing feature: allows data-driven modification of biome covers, layers, environments, fluids, prefabs, tints, and cave configurations via Add/Remove operations with glob-based targeting.",
+    "disabled_fluid_system": "New DisabledFluidResource in fluid module + WorldConfig.getDisabledFluidTickers() enables per-world fluid type disabling via tags."
+  }
+}

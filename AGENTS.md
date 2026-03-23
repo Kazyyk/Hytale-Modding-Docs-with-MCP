@@ -122,17 +122,18 @@ Exit code 0 = pass, 1 = issues found.
 
 ### Link rules (apply during Phase 4 AND Phase 4.1)
 
-- Every `.md` link must resolve to a file in `output/docs/`. If the file
-  doesn't exist, use inline code (`` `TypeName` ``) instead of a link.
-- Relative paths must be correct for the file's directory. A file in
-  `api/commands/` linking to a class in `api/classes/` must use
-  `../classes/Foo.md`, not `Foo.md`.
-- Internal types (not in `surface.json`) are NEVER linked. Use inline code.
+- Every `.md` link must resolve to a file in the output docs. If the
+  target file doesn't exist yet (batch generation in progress), use
+  inline code (`` `TypeName` ``) instead of a link.
+- Relative paths must be correct for the file's directory. Files in the
+  same package link as `[Foo](Foo.md)`. Files in different packages link
+  as `[Foo](../com.hypixel.hytale.other.package/Foo.md)`.
+- Standard library types (java.*, javax.*, org.slf4j.*) are never linked —
+  use inline code.
 - When generating a new page, check whether existing pages already reference
   it and ensure bidirectional links are consistent.
-- Do not curate "key types" lists by hand. Derive the generation set from
-  `surface.json` cross-referenced with types actually referenced by existing
-  generated pages.
+- Do not curate "key types" lists by hand. The generation set is ALL types
+  in class-index.json.
 
 ## Quality Rules
 
@@ -150,22 +151,34 @@ Exit code 0 = pass, 1 = issues found.
 
 ## File Locations
 
-- `input/` — Place the HytaleServer.jar here.
-- `artifacts/` — Intermediate pipeline outputs. Committed to git for
-  debuggability.
-- `output/docs/` — Final generated documentation. This becomes the
-  static site content and RAG source.
+- `input/{branch}/` — Place the HytaleServer.jar for each branch here.
+- `artifacts/{branch}/` — Intermediate pipeline outputs per branch.
+  Committed to git for debuggability.
+- `output/docs/` — Stable generated documentation.
+- `output/pre-release/docs/` — Pre-release generated documentation.
 - `spec/` — This spec and related design documents.
+- `site/stable/` — Starlight site for hydex.dev.
+- `site/pre-release/` — Starlight site for pre.hydex.dev.
+- `mcp/stable/` — MCP worker for mcp.hydex.dev.
+- `mcp/pre-release/` — MCP worker for mcp.pre.hydex.dev.
+- `legacy/` — Pre-v2 artifacts and old docs for reference.
 
 ## Tooling
 
-- **Phase 1 CLI:** `tools/run.sh input/HytaleServer.jar` — Decompiles JAR and
+- **Phase 1 CLI:** `tools/run.sh <jar> [branch]` — Decompiles JAR and
   produces class-index.json. Java + Gradle project using Vineflower 1.11.2
-  and JavaParser 3.28.0.
-- **Phase 2 CLI:** `tools/classify.sh` — Classifies types into API surface
-  vs internal.
+  and JavaParser 3.28.0. If branch is provided (stable, pre-release),
+  outputs go to `artifacts/{branch}/`.
+- **Phase 2 CLI:** `tools/classify.sh [branch]` — Classifies types into
+  API surface vs internal (metadata only — does not gate generation).
+  Reads/writes from `artifacts/{branch}/` if branch is provided.
 - **Phases 3-4:** LLM agent work. See `spec/generator-spec.md` for
   exploration heuristics and output templates.
+- **Incremental cleanup:** `python3 tools/cleanup-removed.py <old-index>
+  <new-index> <docs-root>` — After an incremental run, deletes pages for
+  removed types, fixes broken links in index files, and cleans up empty
+  package directories. Run this after copying the previous docs and before
+  generating new/modified pages.
 - **Phase 4.2 CLI:** `tools/validate.sh` — Cross-references docs against
   decompiled source. Catches accessor mismatches, store type errors, stale
   claims, and placeholders.

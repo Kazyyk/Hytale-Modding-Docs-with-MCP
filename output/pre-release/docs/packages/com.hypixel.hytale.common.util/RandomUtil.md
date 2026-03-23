@@ -1,0 +1,23 @@
+---
+title: "RandomUtil"
+kind: "class"
+package: "com.hypixel.hytale.common.util"
+fqcn: "com.hypixel.hytale.common.util.RandomUtil"
+api_surface: false
+extends: null
+implements: []
+generator_version: "2.0.0"
+generated_at: "2026-03-21T05:44:26Z"
+tags:
+  - "util"
+  - "class"
+  - "internal"
+---
+
+**Package:** `com.hypixel.hytale.common.util`
+
+```java
+public class RandomUtil
+```
+
+Random number utilities: weighted selection, range generation, float/double random values.

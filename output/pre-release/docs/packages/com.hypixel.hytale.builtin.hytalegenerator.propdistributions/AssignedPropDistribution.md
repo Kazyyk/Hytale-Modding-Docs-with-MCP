@@ -1,0 +1,21 @@
+---
+title: "AssignedPropDistribution"
+kind: "class"
+package: "com.hypixel.hytale.builtin.hytalegenerator.propdistributions"
+fqcn: "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.AssignedPropDistribution"
+api_surface: false
+extends: "PropDistribution"
+generator_version: "2.0.0"
+generated_at: "2026-03-22T21:11:59Z"
+tags:
+  - "worldgen"
+  - "prop-distribution"
+---
+
+**Package:** `com.hypixel.hytale.builtin.hytalegenerator.propdistributions`
+
+```java
+public class AssignedPropDistribution extends PropDistribution
+```
+
+A prop distribution that wraps another distribution, replacing empty props with props determined by an `Assignments` lookup based on position.

@@ -1,0 +1,541 @@
+{
+  "version": "1.0.0-pre",
+  "generated_at": "2026-03-22T00:00:00Z",
+  "domain": "builtin_buildertools",
+  "base_version": "stable",
+  "overview": "Incremental buildertools mapping for the pre-release JAR. Major themes: (1) brush parameter system overhaul — BrushData removed, brush parameters moved to tool args with builtin_ prefix; (2) revolve tool operation added; (3) scripted brush rotation operations added; (4) tint operation significantly enhanced with blend mode, color picking, and opacity; (5) prefab editor gains asset pack awareness and back navigation; (6) clipboard now carries entity data; (7) replace command refactored into subcommands; (8) undo grouping support added. Files read: 198 buildertools .java files in pre-release.",
+  "confidence": "high",
+  "files_read": 198,
+
+  "added_types": {
+    "commands": [
+      {
+        "name": "PrefabEditBackCommand",
+        "file": "prefabeditor/commands/PrefabEditBackCommand.java",
+        "extends": "AbstractAsyncPlayerCommand",
+        "alias": "back",
+        "description": "New command for navigating back from prefab edit session to the previous world. If player is in the edit world, teleports to the world they arrived from (using stored per-world last position). If player is outside the edit world, sends them to the edit world instead. Handles cases where the previous world no longer exists by falling back to default world spawn."
+      }
+    ],
+    "tool_operations": [
+      {
+        "name": "RevolveOperation",
+        "file": "tooloperations/RevolveOperation.java",
+        "extends": "ToolOperation",
+        "description": "New revolve/radial copy tool operation. Copies a selection radially around a center point (player position or target block). Supports configurable copy count, distance override, entity copying, and three sampling modes.",
+        "tool_args": {
+          "aSampling": "Sampling mode: 'neighbor' (default, fills gaps using neighbor block matching), 'reverse' (uses BlockSelection.rotateArbitrary), 'none' (disabled)",
+          "bCount": "Number of copies around the circle (default 6)",
+          "cFullRevolve": "Boolean. When true, auto-calculates copy count from radius to achieve seamless coverage (10-2000 range, density=12 per radius unit), disables neighbor sampling",
+          "dCenter": "Center point: 'player' (player position) or 'target' (clicked block, default)",
+          "eUseDistance": "Boolean. When true, overrides radial distance from center",
+          "eCopyEntities": "Boolean. When true, copies entities within selection (max 1000 total)",
+          "fDistance": "Custom radial distance (default 20, only when eUseDistance=true)"
+        },
+        "constants": {
+          "REVOLVE_COPY_LIMIT": 1000000,
+          "MAX_ENTITIES": 1000,
+          "MIN_COPY_FULL": 10,
+          "MAX_COPY_FULL": 2000,
+          "REVOLVE_DENSITY": 12,
+          "DISTANCE_TO_NEXT_BLOCK": 0.33
+        },
+        "inner_enum": {
+          "Sampling": ["Neighbor", "Reverse", "Disabled"]
+        },
+        "features": [
+          "Radial block rotation with snapped 90-degree yaw increments",
+          "Neighbor sampling: fills gaps by checking 8 XZ neighbor offsets and placing fractional-offset copies",
+          "Reverse sampling: uses BlockSelection.rotateArbitrary for continuous rotation",
+          "Entity rotation: clones entities with rotated position and orientation, assigns new UUIDs",
+          "Block rotation preservation via RotationTuple yaw composition",
+          "Fluid support alongside block rotation",
+          "Mask-aware block selection"
+        ]
+      }
+    ],
+    "scripted_brush_operations": [
+      {
+        "name": "ClearRotationOperation",
+        "file": "scriptedbrushes/operations/sequential/ClearRotationOperation.java",
+        "extends": "SequenceBrushOperation",
+        "id": "clearrotation",
+        "description": "New scripted brush operation that resets brush rotation transform to identity. Calls brushConfig.resetTransform() and resets transform origin to current offset origin. Registered as 'clearrotation' in BrushOperation.OPERATION_CODEC."
+      },
+      {
+        "name": "RotateOperation",
+        "file": "scriptedbrushes/operations/sequential/transforms/RotateOperation.java",
+        "extends": "SequenceBrushOperation",
+        "id": "rotation",
+        "description": "New scripted brush operation that applies rotation to the brush shape. Configurable via CODEC with RotationAxis (BrushAxis enum), RotationAngle (protocol Rotation enum: None/90/180/270), and RotationOrigin. Registered as 'rotation' in BrushOperation.OPERATION_CODEC.",
+        "codec_fields": ["RotationAxis (BrushAxis)", "RotationAngle (Rotation)", "RotationOrigin (RotateOperation.RotationOrigin)"],
+        "inner_enum": {
+          "RotationOrigin": ["OffsetCenter", "and possibly others"]
+        }
+      }
+    ],
+    "ui": [
+      {
+        "name": "PrefabEditorLoadOptionsPage",
+        "file": "prefabeditor/ui/PrefabEditorLoadOptionsPage.java",
+        "extends": "InteractiveCustomUIPage",
+        "description": "New UI page shown when a player has an existing prefab edit session and tries to load. Offers three options: LoadExisting (rejoin existing session), CreateNew (exit current session and open load settings), or Cancel. Uses Pages/PrefabEditorLoadOptions.ui template.",
+        "inner_types": {
+          "Action": "Enum: LoadExisting, Cancel, CreateNew",
+          "PageData": "CODEC-based data class with action field"
+        }
+      }
+    ]
+  },
+
+  "removed_types": [
+    {
+      "name": "PrefabSetAnchorInteraction",
+      "file_was": "prefabeditor/PrefabSetAnchorInteraction.java",
+      "reason": "Interaction replaced by dedicated PrefabSetAnchor packet (id=426, ToServer). The CODEC registration for 'PrefabSetAnchorInteraction' is removed from BuilderToolsPlugin.setup()."
+    }
+  ],
+
+  "modified_types": {
+    "core": [
+      {
+        "name": "BuilderToolsPlugin",
+        "file": "BuilderToolsPlugin.java",
+        "diff_lines": 1376,
+        "changes": [
+          {
+            "category": "brush_parameter_overhaul",
+            "description": "Brush parameters (width, height, thickness, shape, density, spacing, capped, material) previously read from BrushData are now read from tool args with 'builtin_' prefix (e.g., 'builtin_Width', 'builtin_Height'). BrushData class removed entirely."
+          },
+          {
+            "category": "asset_pack_resolution",
+            "description": "New static method resolveTargetPack(explicitPackName, prefabPath, playerComponent, context) for resolving which AssetPack to save prefabs to. Checks explicit name first, then source pack of prefab path, then user's lastSavePack preference, then base asset pack. Returns null with error message if all options fail or are immutable."
+          },
+          {
+            "category": "event_registrations",
+            "description": "Added PlayerReadyEvent handler that re-sends selection to client when a player reconnects with existing state. Added LoadedAssetsEvent and RemovedAssetsEvent handlers for Item class that invalidate ScriptedBrushAsset brush-to-item cache."
+          },
+          {
+            "category": "interaction_registration",
+            "description": "PrefabSetAnchorInteraction CODEC registration removed. PrefabSpawnerState page registration changed to PrefabSpawnerBlock with registerBlockEntityCustomPage (was registerBlockCustomPage)."
+          },
+          {
+            "category": "brush_operation_registration",
+            "description": "Two new scripted brush operations registered: 'rotation' (RotateOperation) and 'clearrotation' (ClearRotationOperation)."
+          },
+          {
+            "category": "builder_tool_arg_handling",
+            "description": "BuilderToolData replaced by BuilderTool. Tool arg update now calls builderToolData.updateArgMetadata(itemStack, id, value) instead of tool.updateArgMetadata(itemStack, group, id, value) — group parameter removed."
+          },
+          {
+            "category": "clipboard_limits",
+            "description": "New constants: MAX_CLIPBOARD_BLOCK_COUNT = 4000000, CLIPBOARD_PRE_LIMIT_FACTOR = 1.65. Clipboard operations now enforce block count limits."
+          },
+          {
+            "category": "block_entity_simplification",
+            "description": "Block entity creation for block changes simplified. BlockState/BlockStateModule logic removed; only blockEntity clone path retained."
+          },
+          {
+            "category": "action_type_enum",
+            "description": "ActionType enum modified (visible in diff but truncated). Some action types likely added or restructured."
+          }
+        ]
+      },
+      {
+        "name": "BuilderToolsPacketHandler",
+        "file": "BuilderToolsPacketHandler.java",
+        "diff_lines": 362,
+        "changes": [
+          "Added handling for PrefabSetAnchor packet (replaces interaction-based anchor setting)",
+          "Added handling for BuilderToolResetClipboardRotation packet",
+          "Added handling for ClipboardEntityChange in clipboard reply packets",
+          "Removed LoadHotbar/SaveHotbar imports (hotbar operations changed)",
+          "Removed BrushData/BuilderTool direct references",
+          "Added NotificationStyle import for user feedback"
+        ]
+      },
+      {
+        "name": "BuilderToolsSystems",
+        "file": "BuilderToolsSystems.java",
+        "diff_lines": 17,
+        "changes": [
+          "Added system dependency framework imports (Dependency, Order, SystemDependency)",
+          "EnsureBuilderTools system now declares dependency: AFTER PlayerSystems.PlayerInitSystem",
+          "Tool initialization logic changed — no longer iterates BuilderTool.getItems() directly; simplified"
+        ]
+      },
+      {
+        "name": "BuilderToolsUserData",
+        "file": "BuilderToolsUserData.java",
+        "diff_lines": 33,
+        "changes": [
+          "Added 'lastSavePack' field (String?, persisted via CODEC as 'LastSavePack')",
+          "New getter/setter: getLastSavePack(), setLastSavePack(String)",
+          "Tracks which asset pack the user last saved to, used by resolveTargetPack for default selection",
+          "toString() method removed"
+        ]
+      }
+    ],
+    "tool_operations": [
+      {
+        "name": "ToolOperation",
+        "file": "tooloperations/ToolOperation.java",
+        "diff_lines": 283,
+        "changes": [
+          "Major brush parameter source change: all brush parameters now read from tool args map with 'builtin_' prefix instead of BrushData struct",
+          "New fields: density (int), spacing (int), currentCenterX/Y/Z (int) for tracking brush center",
+          "Transform field made non-final (was final)",
+          "Added NEWLINES_PATTERN and LOGGER",
+          "getTransform() now takes args instead of BrushData.Values",
+          "combineMasks() now takes args instead of BrushData.Values",
+          "getPattern() signature changed to use BlockPattern directly instead of BrushData.Values"
+        ]
+      },
+      {
+        "name": "TintOperation",
+        "file": "tooloperations/TintOperation.java",
+        "diff_lines": 158,
+        "changes": [
+          "Significantly enhanced. New fields: opacity (double), blendMode (boolean), colorBuffer (int[][]), isHoldingAltModeDown, packedPlacedTintPositions (LongOpenHashSet), SAMPLE_DISTANCE constant",
+          "Primary click now activates blend mode (tint blending with existing colors via EditOperation.setTint with opacity)",
+          "Alt-click in blend mode performs color picking: samples tint at target, updates tool arg 'bTintColor' on held item, sends feedback",
+          "Color buffer for spatial tint tracking added"
+        ]
+      },
+      {
+        "name": "PaintOperation",
+        "file": "tooloperations/PaintOperation.java",
+        "diff_lines": 22,
+        "changes": ["Minor adjustments, likely related to ToolOperation base class changes"]
+      },
+      {
+        "name": "SculptOperation",
+        "file": "tooloperations/SculptOperation.java",
+        "diff_lines": 12,
+        "changes": ["Minor adjustments"]
+      },
+      {
+        "name": "ScatterOperation",
+        "file": "tooloperations/ScatterOperation.java",
+        "diff_lines": 6,
+        "changes": ["Minor adjustments"]
+      },
+      {
+        "name": "NoiseOperation",
+        "file": "tooloperations/NoiseOperation.java",
+        "diff_lines": 7,
+        "changes": ["Minor adjustments"]
+      },
+      {
+        "name": "LaserPointerOperation",
+        "file": "tooloperations/LaserPointerOperation.java",
+        "diff_lines": 10,
+        "changes": ["Minor adjustments"]
+      }
+    ],
+    "edit_infrastructure": [
+      {
+        "name": "EditOperation",
+        "file": "EditOperation.java",
+        "diff_lines": 74,
+        "changes": [
+          "Added World reference field",
+          "New methods: setTint(x, z, color, opacity) for opacity-blended tinting using MathUtil.lerp per RGB channel",
+          "New method: getTint(x, z) reads tint from world chunk data",
+          "New methods: removeEntity(ref, holder), trackSpawnedEntity(ref), trackMovedEntity(ref, accessor) for entity tracking in edit operations",
+          "Entity snapshot support: spawnedEntityRefs and movedEntitySnapshots lists for undo/redo of entity changes"
+        ]
+      },
+      {
+        "name": "PrototypePlayerBuilderToolSettings",
+        "file": "PrototypePlayerBuilderToolSettings.java",
+        "diff_lines": 24,
+        "changes": ["Minor field adjustments related to clipboard entity changes integration"]
+      }
+    ],
+    "commands": [
+      {
+        "name": "ReplaceCommand",
+        "file": "commands/ReplaceCommand.java",
+        "diff_lines": 284,
+        "changes": [
+          "Refactored into subcommand architecture. Main replace command now does simple block replace (executeBlockReplace)",
+          "Added inner subcommands: ReplaceSwapCommand (substring swap), ReplaceRegexCommand (regex-based replace) — previously handled by flags --substringSwap and --regex which are now removed",
+          "Replace from-value now uses BlockMask instead of raw string matching",
+          "Invalid block type detection added with error feedback"
+        ]
+      },
+      {
+        "name": "PrefabCommand",
+        "file": "commands/PrefabCommand.java",
+        "diff_lines": 53,
+        "changes": ["Moderate changes, likely related to asset pack resolution for prefab save/load"]
+      },
+      {
+        "name": "ClearEntitiesCommand",
+        "file": "commands/ClearEntitiesCommand.java",
+        "diff_lines": 16,
+        "changes": ["Minor adjustments"]
+      },
+      {
+        "name": "PrefabEditCommand",
+        "file": "prefabeditor/commands/PrefabEditCommand.java",
+        "diff_lines": 2,
+        "changes": ["Trivial change, likely adding PrefabEditBackCommand as subcommand"]
+      },
+      {
+        "name": "PrefabEditLoadCommand",
+        "file": "prefabeditor/commands/PrefabEditLoadCommand.java",
+        "diff_lines": 24,
+        "changes": ["Now shows PrefabEditorLoadOptionsPage when player already has an active session, instead of silently overriding"]
+      },
+      {
+        "name": "PrefabEditSaveCommand",
+        "file": "prefabeditor/commands/PrefabEditSaveCommand.java",
+        "diff_lines": 242,
+        "changes": ["Major refactoring for asset pack awareness. Save now uses resolveTargetPack, stores lastSavePack preference in BuilderToolsUserData"]
+      },
+      {
+        "name": "PrefabEditSaveAsCommand",
+        "file": "prefabeditor/commands/PrefabEditSaveAsCommand.java",
+        "diff_lines": 125,
+        "changes": ["Refactored for asset pack targeting. Save-as now requires explicit pack resolution"]
+      },
+      {
+        "name": "PrefabEditKillEntitiesCommand",
+        "file": "prefabeditor/commands/PrefabEditKillEntitiesCommand.java",
+        "diff_lines": 15,
+        "changes": ["Minor adjustments"]
+      },
+      {
+        "name": "PrefabEditSaveUICommand",
+        "file": "prefabeditor/commands/PrefabEditSaveUICommand.java",
+        "diff_lines": 6,
+        "changes": ["Minor adjustments"]
+      }
+    ],
+    "prefab_editor": [
+      {
+        "name": "PrefabEditSessionManager",
+        "file": "prefabeditor/PrefabEditSessionManager.java",
+        "diff_lines": 159,
+        "changes": [
+          "Asset pack awareness added to session management",
+          "Load/save operations now route through pack-aware APIs",
+          "Session creation and world management adjusted"
+        ]
+      },
+      {
+        "name": "PrefabEditSession",
+        "file": "prefabeditor/PrefabEditSession.java",
+        "diff_lines": 10,
+        "changes": ["Minor field adjustments"]
+      },
+      {
+        "name": "PrefabEditingMetadata",
+        "file": "prefabeditor/PrefabEditingMetadata.java",
+        "diff_lines": 18,
+        "changes": ["Minor metadata field adjustments"]
+      },
+      {
+        "name": "PrefabEditorCreationSettings",
+        "file": "prefabeditor/PrefabEditorCreationSettings.java",
+        "diff_lines": 23,
+        "changes": ["Asset pack related settings additions"]
+      },
+      {
+        "name": "PrefabSaver",
+        "file": "prefabeditor/saving/PrefabSaver.java",
+        "diff_lines": 29,
+        "changes": ["Asset pack integration for save destination"]
+      },
+      {
+        "name": "PrefabEditorLoadSettingsPage",
+        "file": "prefabeditor/ui/PrefabEditorLoadSettingsPage.java",
+        "diff_lines": 645,
+        "changes": ["Major UI overhaul for load settings, likely including pack selection"]
+      },
+      {
+        "name": "PrefabEditorSaveSettingsPage",
+        "file": "prefabeditor/ui/PrefabEditorSaveSettingsPage.java",
+        "diff_lines": 704,
+        "changes": ["Major UI overhaul for save settings, likely including pack selection and immutability checks"]
+      },
+      {
+        "name": "PrefabEditorExitConfirmPage",
+        "file": "prefabeditor/ui/PrefabEditorExitConfirmPage.java",
+        "diff_lines": 13,
+        "changes": ["Minor adjustments"]
+      },
+      {
+        "name": "RecursivePrefabLoader",
+        "file": "utils/RecursivePrefabLoader.java",
+        "diff_lines": 14,
+        "changes": ["Minor adjustments to prefab loading"]
+      }
+    ],
+    "prefab_list": [
+      {
+        "name": "PrefabPage",
+        "file": "prefablist/PrefabPage.java",
+        "diff_lines": 4,
+        "changes": ["Trivial adjustment"]
+      },
+      {
+        "name": "PrefabSavePage",
+        "file": "prefablist/PrefabSavePage.java",
+        "diff_lines": 191,
+        "changes": ["Significant changes for asset pack aware saving UI"]
+      }
+    ],
+    "scripted_brushes": [
+      {
+        "name": "ScriptedBrushAsset",
+        "file": "scriptedbrushes/ScriptedBrushAsset.java",
+        "diff_lines": 43,
+        "changes": [
+          "Added invalidateBrushToItemCache() static method (called on LoadedAssetsEvent/RemovedAssetsEvent for Item class)",
+          "Brush-to-item cache invalidation ensures scripted brushes reference up-to-date item definitions"
+        ]
+      },
+      {
+        "name": "BrushConfig",
+        "file": "scriptedbrushes/BrushConfig.java",
+        "diff_lines": 40,
+        "changes": [
+          "Added resetTransform() and setTransformOrigin() methods (used by ClearRotationOperation)",
+          "Transform management adjustments for rotation operation support"
+        ]
+      },
+      {
+        "name": "BrushConfigCommandExecutor",
+        "file": "scriptedbrushes/BrushConfigCommandExecutor.java",
+        "diff_lines": 19,
+        "changes": ["Minor adjustments"]
+      },
+      {
+        "name": "BrushConfigEditStore",
+        "file": "scriptedbrushes/BrushConfigEditStore.java",
+        "diff_lines": 79,
+        "changes": ["Moderate refactoring of edit store flush/layer management"]
+      },
+      {
+        "name": "BrushConfigLoadCommand",
+        "file": "scriptedbrushes/commands/BrushConfigLoadCommand.java",
+        "diff_lines": 25,
+        "changes": ["Adjustments for brush loading"]
+      },
+      {
+        "name": "BrushConfigClearCommand",
+        "file": "scriptedbrushes/commands/BrushConfigClearCommand.java",
+        "diff_lines": 2,
+        "changes": ["Trivial"]
+      },
+      {
+        "name": "BrushOperation",
+        "file": "scriptedbrushes/operations/system/BrushOperation.java",
+        "diff_lines": 7,
+        "changes": ["OPERATION_CODEC registry updated to include RotateOperation and ClearRotationOperation"]
+      },
+      {
+        "name": "PastePrefabOperation",
+        "file": "scriptedbrushes/operations/sequential/PastePrefabOperation.java",
+        "diff_lines": 57,
+        "changes": ["Moderate changes, likely related to edit operation entity tracking"]
+      },
+      {
+        "name": "ScriptedBrushPage",
+        "file": "scriptedbrushes/ui/ScriptedBrushPage.java",
+        "diff_lines": 163,
+        "changes": ["Significant UI changes for scripted brush page"]
+      }
+    ],
+    "import_tools": [
+      {
+        "name": "ImageImportPage",
+        "file": "imageimport/ImageImportPage.java",
+        "diff_lines": 63,
+        "changes": ["Moderate UI adjustments"]
+      },
+      {
+        "name": "ObjImportPage",
+        "file": "objimport/ObjImportPage.java",
+        "diff_lines": 83,
+        "changes": ["Moderate UI adjustments"]
+      }
+    ],
+    "utilities": [
+      {
+        "name": "Material",
+        "file": "utils/Material.java",
+        "diff_lines": 70,
+        "changes": ["Material.full() factory now includes fluid data alongside block data. New fluid() factory method. getBlockId()/getFluidId() accessors added."]
+      },
+      {
+        "name": "PasteToolUtil",
+        "file": "utils/PasteToolUtil.java",
+        "diff_lines": 23,
+        "changes": ["Minor adjustments to paste utility"]
+      }
+    ]
+  },
+
+  "system_changes_summary": {
+    "brush_parameter_system": {
+      "description": "Complete overhaul of how brush parameters are communicated between client and server. The dedicated BrushData struct and BuilderToolBrushData packet type are removed. Instead, brush parameters are encoded as standard tool args with 'builtin_' prefix in the tool arg map.",
+      "old_approach": "BrushData.Values read from BuilderToolBrushData packet field on BuilderToolState",
+      "new_approach": "Individual tool args: builtin_Width, builtin_Height, builtin_Thickness, builtin_Capped, builtin_Shape, builtin_Density, builtin_Spacing, builtin_Material read from args.tool() map",
+      "affected_classes": ["ToolOperation (base)", "All subclasses", "BuilderToolState (packet)", "BuilderToolArg", "BuilderToolArgUpdate"]
+    },
+    "undo_grouping": {
+      "description": "New ability to group multiple brush operations into a single undo step via BuilderToolOnUseInteraction.undoGroupSize field.",
+      "packet_change": "BuilderToolOnUseInteraction gained undoGroupSize int field"
+    },
+    "clipboard_entity_support": {
+      "description": "Clipboard operations (selection transform reply) now include entity data via ClipboardEntityChange array. This enables entity previews during transform operations.",
+      "packet_change": "BuilderToolSelectionToolReplyWithClipboard gained entityChanges field"
+    },
+    "prefab_asset_pack_awareness": {
+      "description": "Prefab editor system now tracks and resolves asset packs for save/load operations. Users get a 'lastSavePack' preference persisted in BuilderToolsUserData. Save commands check pack immutability. New PrefabEditorLoadOptionsPage handles session conflicts.",
+      "affected_classes": ["BuilderToolsPlugin (resolveTargetPack)", "BuilderToolsUserData (lastSavePack)", "PrefabEditSaveCommand", "PrefabEditSaveAsCommand", "PrefabEditorLoadSettingsPage", "PrefabEditorSaveSettingsPage", "PrefabSavePage", "PrefabSaver"]
+    },
+    "tint_operation_enhancement": {
+      "description": "TintOperation gained blend mode (primary click blends tint with opacity), alt-click color picking (samples existing tint and updates tool arg), and spatial tracking via color buffer.",
+      "new_capabilities": ["Opacity-based tint blending", "Color picking from world", "Spatial tint position tracking"]
+    },
+    "replace_command_refactor": {
+      "description": "ReplaceCommand refactored from flag-based (--substringSwap, --regex) to subcommand-based architecture. Main command does simple block replace; ReplaceSwapCommand handles substring swap; ReplaceRegexCommand handles regex. From-value now uses BlockMask for type-safe matching.",
+      "old_interface": "/replace [from] <to> [--substringSwap] [--regex]",
+      "new_interface": "/replace [from] <to> | /replace swap <from> <to> | /replace regex <from> <to>"
+    },
+    "scripted_brush_rotation": {
+      "description": "Two new scripted brush operations enable rotation control within brush scripts: 'rotation' (apply axis/angle rotation to brush shape) and 'clearrotation' (reset rotation to identity). BrushConfig gains resetTransform() and setTransformOrigin() methods.",
+      "new_operations": ["rotation (RotateOperation)", "clearrotation (ClearRotationOperation)"]
+    }
+  },
+
+  "cross_references": {
+    "to_protocol": [
+      "BuilderToolState (protocol packet) restructured: removed brushData, args changed from Map to array",
+      "BuilderToolArg (protocol packet) gains id field, field order shifted",
+      "BuilderToolArgUpdate (protocol packet) loses group field",
+      "BuilderToolOnUseInteraction (protocol packet) gains undoGroupSize",
+      "BuilderToolSelectionToolReplyWithClipboard (protocol packet) gains entityChanges",
+      "BuilderToolSelectionTransform (protocol packet) Quatf -> Quaternionfc",
+      "New packets: BuilderToolResetClipboardRotation, PrefabSetAnchor, ClipboardEntityChange",
+      "New enum: RotationFace",
+      "Removed packets: BuilderToolArgGroup, BuilderToolBrushData"
+    ],
+    "to_assetstore": [
+      "BuilderToolsPlugin now imports AssetPack, LoadedAssetsEvent, RemovedAssetsEvent",
+      "AssetModule.getAssetPack() and getBaseAssetPack() used for pack resolution",
+      "PrefabStore.findAssetPackForPrefabPath() used in resolveTargetPack"
+    ],
+    "to_server_core": [
+      "PrefabSpawnerState replaced by PrefabSpawnerBlock for block entity pages",
+      "BlockState/BlockStateModule removed from block entity creation path",
+      "BuilderTool replaces BuilderToolData for tool management",
+      "PlayerReadyEvent now used for selection state restoration"
+    ]
+  }
+}

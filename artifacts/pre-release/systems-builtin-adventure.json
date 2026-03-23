@@ -1,0 +1,282 @@
+{
+  "module": "com.hypixel.hytale.builtin.adventure",
+  "generated_at": "2026-03-22T00:00:00Z",
+  "base_version": "stable",
+  "total_files_read": 228,
+  "overview": "Incremental pre-release update to the adventure module. Key changes: objectives subsystem gets new treasure chest interactions (open container, destroy condition), inventory-change-aware task system replaces event-based inventory tracking, TreasureChestState renamed to TreasureChestBlock (component migration), and GatherObjectiveTask now uses InventoryChangeAware interface. Minor changes across farming, memories, and other sub-modules.",
+
+  "changes_summary": {
+    "types_added": 5,
+    "types_removed": 1,
+    "types_modified": 25,
+    "sub_modules_affected": ["objectives", "npcobjectives", "farming", "memories", "stash", "teleporter"]
+  },
+
+  "sub_module_changes": {
+    "objectives": {
+      "change_level": "significant",
+      "summary": "Major refactoring of treasure chest system and inventory tracking. TreasureChestState renamed to TreasureChestBlock (ChunkStore component). New ObjectiveInventoryChangeSystem replaces LivingEntityInventoryChangeEvent listener for tracking item drops and gather tasks. New interaction types for treasure containers.",
+
+      "types_added": [
+        {
+          "type": "TreasureChestBlock",
+          "kind": "ecs_component",
+          "store": "ChunkStore",
+          "replaces": "TreasureChestState",
+          "purpose": "Renamed from TreasureChestState. Block component tracking treasure chest state: objectiveUUID, chestUUID, opened flag. Now adds canDestroy() method gating destruction on opened state."
+        },
+        {
+          "type": "DestroyTreasureConditionInteraction",
+          "kind": "interaction",
+          "extends": "SimpleBlockInteraction",
+          "purpose": "Server-side condition interaction that checks if a treasure block can be destroyed. Returns Finished if canDestroy() is true (chest is opened), Failed otherwise. Prevents players from breaking unopened treasure chests."
+        },
+        {
+          "type": "OpenTreasureContainerInteraction",
+          "kind": "interaction",
+          "extends": "SimpleBlockInteraction",
+          "purpose": "Opens the item container of a treasure chest block. Combines TreasureChestBlock canOpen() check with ContainerBlockWindow creation, plays open/close sounds, manages block interaction states ('OpenWindow'/'CloseWindow'), and calls treasureBlock.onOpen() to fire TreasureChestOpeningEvent."
+        },
+        {
+          "type": "ObjectiveInventoryChangeSystem",
+          "kind": "ecs_system",
+          "store": "EntityStore",
+          "extends": "EntityEventSystem<EntityStore, InventoryChangeEvent>",
+          "purpose": "New system that listens for InventoryChangeEvent on Player entities. Replaces the previous LivingEntityInventoryChangeEvent event listener approach. Handles two responsibilities: (1) removes players from objectives when they drop objective items (removeOnItemDrop flag), and (2) notifies InventoryChangeAware tasks of inventory changes for count-based tracking."
+        },
+        {
+          "type": "InventoryChangeAware",
+          "kind": "interface",
+          "purpose": "Interface for objective tasks that need to react to player inventory changes. Defines onInventoryChange(Objective, Ref<EntityStore>, Store<EntityStore>, InventoryChangeEvent). Implemented by GatherObjectiveTask."
+        }
+      ],
+
+      "types_removed": [
+        {
+          "type": "TreasureChestState",
+          "kind": "block_state",
+          "replaced_by": "TreasureChestBlock",
+          "reason": "Renamed to TreasureChestBlock. Was previously registered as a BlockState; now registered as a Component<ChunkStore>. Functionally identical fields (objectiveUUID, chestUUID, opened) plus new canDestroy() method."
+        }
+      ],
+
+      "types_modified": [
+        {
+          "type": "ObjectivePlugin",
+          "changes": [
+            "Imports DestroyTreasureConditionInteraction and OpenTreasureContainerInteraction (new codec registrations)",
+            "Imports ObjectiveInventoryChangeSystem (new ECS system registration)",
+            "Imports InventoryChangeAware interface",
+            "treasureChestComponentType field now typed as ComponentType<ChunkStore, TreasureChestBlock> (was TreasureChestState)",
+            "No longer listens to LivingEntityInventoryChangeEvent directly - replaced by ObjectiveInventoryChangeSystem"
+          ]
+        },
+        {
+          "type": "GatherObjectiveTask",
+          "changes": [
+            "Now implements InventoryChangeAware interface",
+            "Added onInventoryChange() method that counts objective items across all active player inventories and updates task completion",
+            "Moved inventory counting logic from event-based approach to InventoryChangeAware callback pattern"
+          ]
+        },
+        {
+          "type": "TreasureMapObjectiveTask",
+          "changes": [
+            "References TreasureChestBlock instead of TreasureChestState throughout",
+            "spawnChestBlock() checks for TreasureChestBlock.getComponentType() instead of TreasureChestState"
+          ]
+        },
+        {
+          "type": "SpawnTreasureChestTransactionRecord",
+          "changes": [
+            "References TreasureChestBlock instead of TreasureChestState in revert() method"
+          ]
+        },
+        {
+          "type": "ClearObjectiveItemsCompletion",
+          "changes": [
+            "Uses InventoryComponent.getCombined() with InventoryComponent.HOTBAR_FIRST constant instead of direct inventory access - standardized inventory access pattern"
+          ]
+        },
+        {
+          "type": "GiveItemsCompletion",
+          "changes": [
+            "Uses InventoryComponent.getCombined() with InventoryComponent.HOTBAR_FIRST constant",
+            "Reads showItemPickupNotifications from GameplayConfig to conditionally show item pickup notifications"
+          ]
+        },
+        {
+          "type": "ObjectiveTaskMarker",
+          "changes": [
+            "toProto() now returns MapMarker with null for last two parameters instead of explicit empty values"
+          ]
+        },
+        {
+          "type": "ObjectiveLocationMarkerSystems.TickingSystem",
+          "changes": [
+            "Query now uses Archetype.of() instead of Query.and() for ObjectiveLocationMarker + TransformComponent + UUIDComponent",
+            "Added uuidComponentType field and constructor parameter"
+          ]
+        },
+        {
+          "type": "ReachLocationMarkerSystems",
+          "changes": [
+            "Added static LOGGER field (HytaleLogger.forEnclosingClass())",
+            "Added THREAD_LOCAL_TEMP_UUIDS for reusable HashSet allocation in ticking",
+            "Ticking system now uses thread-local temp set for previous player tracking instead of per-tick allocation"
+          ]
+        },
+        {
+          "type": "ReachLocationTask",
+          "changes": [
+            "getClosestMarker logic now uses getFirst() (List) instead of indexed get(0)",
+            "Minor refactoring in setup0() for marker entity lookup"
+          ]
+        }
+      ],
+
+      "codecs_registered_new": [
+        {"parent_codec": "Interaction.CODEC", "id": "DestroyTreasureCondition", "class": "DestroyTreasureConditionInteraction"},
+        {"parent_codec": "Interaction.CODEC", "id": "OpenTreasureContainer", "class": "OpenTreasureContainerInteraction"}
+      ],
+
+      "events_listened_changes": {
+        "removed": ["LivingEntityInventoryChangeEvent - replaced by ObjectiveInventoryChangeSystem (EntityEventSystem<EntityStore, InventoryChangeEvent>)"],
+        "added": ["InventoryChangeEvent (via ObjectiveInventoryChangeSystem EntityEventSystem)"]
+      },
+
+      "architectural_notes": [
+        "Shift from event bus listener to ECS EntityEventSystem for inventory change handling - better integration with ECS tick pipeline",
+        "TreasureChestState -> TreasureChestBlock rename signals migration from BlockState to Component<ChunkStore> architecture",
+        "New canDestroy() method on TreasureChestBlock enables interaction-level destruction gating (DestroyTreasureConditionInteraction)",
+        "OpenTreasureContainerInteraction separates container opening from treasure chest logic - previously handled in a single block state interaction"
+      ]
+    },
+
+    "npcobjectives": {
+      "change_level": "minor",
+      "summary": "KillSpawnMarkerObjectiveTask updated with minor refactoring.",
+
+      "types_modified": [
+        {
+          "type": "KillSpawnMarkerObjectiveTask",
+          "changes": [
+            "Uses static component type constants (SPAWN_MARKER_COMPONENT_TYPE, TRANSFORM_COMPONENT_TYPE) instead of inline getComponentType() calls",
+            "Minor code style improvements"
+          ]
+        }
+      ]
+    },
+
+    "farming": {
+      "change_level": "moderate",
+      "summary": "Multiple interaction and system modifications across farming. Growth modifier changes, coop and capture interaction updates, farming stage data changes.",
+
+      "types_modified": [
+        {
+          "type": "FarmingSystems",
+          "changes": ["Minor refactoring across ticking and system methods"]
+        },
+        {
+          "type": "FarmingUtil",
+          "changes": ["Updated utility methods for farming operations"]
+        },
+        {
+          "type": "LightLevelGrowthModifierAsset",
+          "changes": ["Modified light level growth modifier calculation"]
+        },
+        {
+          "type": "PrefabFarmingStageData",
+          "changes": ["Updated prefab farming stage handling"]
+        },
+        {
+          "type": "ChangeFarmingStageInteraction",
+          "changes": ["Updated farming stage change interaction"]
+        },
+        {
+          "type": "UseCaptureCrateInteraction",
+          "changes": ["Updated capture crate interaction logic"]
+        },
+        {
+          "type": "UseCoopInteraction",
+          "changes": ["Updated coop interaction handling"]
+        },
+        {
+          "type": "UseWateringCanInteraction",
+          "changes": ["Updated watering can interaction"]
+        },
+        {
+          "type": "CoopBlock",
+          "changes": ["Updated coop block component state management"]
+        }
+      ]
+    },
+
+    "memories": {
+      "change_level": "minor",
+      "summary": "MemoriesGameplayConfig and related types updated.",
+
+      "types_modified": [
+        {
+          "type": "MemoriesGameplayConfig",
+          "changes": [
+            "Added memoriesCatchSoundEventId field with SoundEvent validator",
+            "Now has 7 configurable fields: memoriesAmountPerLevel, memoriesRecordParticles, memoriesCatchItemId, memoriesCatchEntityParticle, memoriesCatchParticleViewDistance, memoriesRestoreSoundEventId, memoriesCatchSoundEventId"
+          ]
+        },
+        {
+          "type": "NPCMemory.GatherMemoriesSystem",
+          "changes": ["Minor implementation changes in proximity-based memory collection"]
+        },
+        {
+          "type": "MemoriesPage",
+          "changes": ["Updated memories collection UI page"]
+        }
+      ]
+    },
+
+    "stash": {
+      "change_level": "minor",
+      "summary": "StashPlugin refactored to use BlockModule.BlockStateInfo more directly.",
+
+      "types_modified": [
+        {
+          "type": "StashPlugin",
+          "changes": [
+            "stash() method signature changed: now takes BlockModule.BlockStateInfo instead of boolean isCreative",
+            "Uses position hashing (HashUtil.hash) from world coordinates for deterministic random stash placement",
+            "Uses ShortArrayList with shuffle for randomized slot assignment instead of sequential filling",
+            "Returns ListTransaction<ItemStackTransaction> instead of void, enabling transaction tracking"
+          ]
+        }
+      ]
+    },
+
+    "teleporter": {
+      "change_level": "minor",
+      "summary": "TeleporterInteraction updated with improved block state handling.",
+
+      "types_modified": [
+        {
+          "type": "TeleporterInteraction",
+          "changes": [
+            "Added ClearOutXZ and ClearOutY configurable fields with validators (greaterThanOrEqual(0.0))",
+            "Uses appendInherited pattern for Particle, ClearOutXZ, ClearOutY fields",
+            "UsedTeleporter now constructed with worldUuid, position, clearoutXZ, clearoutY parameters",
+            "Added invalid teleporter state reset: when teleporter is invalid, resets block to 'default' state"
+          ]
+        }
+      ]
+    },
+
+    "camera": { "change_level": "none" },
+    "reputation": { "change_level": "none" },
+    "npcreputation": { "change_level": "none" },
+    "shop": { "change_level": "none" },
+    "npcshop": { "change_level": "none" },
+    "objectivereputation": { "change_level": "none" },
+    "objectiveshop": { "change_level": "none" },
+    "shopreputation": { "change_level": "none" },
+    "worldlocationcondition": { "change_level": "none" }
+  }
+}

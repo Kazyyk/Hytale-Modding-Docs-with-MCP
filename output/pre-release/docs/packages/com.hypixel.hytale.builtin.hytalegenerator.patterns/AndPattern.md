@@ -1,0 +1,48 @@
+---
+title: "AndPattern"
+kind: "class"
+package: "com.hypixel.hytale.builtin.hytalegenerator.patterns"
+fqcn: "com.hypixel.hytale.builtin.hytalegenerator.patterns.AndPattern"
+api_surface: false
+extends: "Pattern"
+implements: []
+generator_version: "2.0.0"
+generated_at: "2026-03-21T12:00:00Z"
+tags:
+  - "builtin"
+  - "hytalegenerator"
+  - "patterns"
+  - "class"
+---
+
+**Package:** `com.hypixel.hytale.builtin.hytalegenerator.patterns`
+
+```java
+public class AndPattern extends Pattern
+```
+
+## Fields
+
+| Modifier | Type | Name |
+|---|---|---|
+| `private final` | `Pattern[]` | `patterns` |
+| `private final` | `SpaceSize` | `readSpaceSize` |
+| `` | `SpaceSize` | `spaceAcc` |
+| `` | `Pattern` | `pattern` |
+
+## Constructors
+
+| Modifier | Signature |
+|---|---|
+| `public` | `AndPattern(@Nonnull List<Pattern> patterns)` |
+
+## Methods
+
+| Modifier | Return Type | Signature |
+|---|---|---|
+| `public` | `boolean` | `matches(@Nonnull Pattern.Context context)` |
+| `public` | `SpaceSize` | `readSpace()` |
+
+## Related Types
+
+- [Pattern](Pattern.md)

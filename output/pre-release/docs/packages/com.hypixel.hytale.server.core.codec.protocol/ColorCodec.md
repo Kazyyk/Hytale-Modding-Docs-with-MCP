@@ -1,0 +1,32 @@
+---
+title: "ColorCodec"
+kind: "class"
+package: "com.hypixel.hytale.server.core.codec.protocol"
+fqcn: "com.hypixel.hytale.server.core.codec.protocol.ColorCodec"
+api_surface: false
+extends: null
+implements: ["Codec"]
+generator_version: "2.0.0"
+generated_at: "2026-03-21T12:00:00Z"
+tags:
+  - "server"
+  - "core"
+  - "codec"
+  - "protocol"
+  - "class"
+---
+
+**Package:** `com.hypixel.hytale.server.core.codec.protocol`
+
+```java
+public class ColorCodec implements Codec
+```
+
+## Methods
+
+| Modifier | Return Type | Signature |
+|---|---|---|
+| `@Nonnull public` | `BsonValue` | `encode(Color color, ExtraInfo extraInfo)` |
+| `@Nonnull public` | `Color` | `decode(BsonValue bsonValue, ExtraInfo extraInfo)` |
+| `@Nonnull public` | `Color` | `decodeJson(RawJsonReader reader, ExtraInfo extraInfo) throws IOException` |
+| `@Nonnull @Override public` | `Schema` | `toSchema(SchemaContext context)` |

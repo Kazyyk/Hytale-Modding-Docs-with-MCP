@@ -1,0 +1,817 @@
+{
+  "version": "2.0.0",
+  "generated_at": "2026-03-22T12:00:00Z",
+  "domain": "worldgen_builtin_prerelease",
+  "source_branch": "pre-release",
+  "total_files_read": 568,
+  "overview": "The pre-release builtin hytalegenerator subsystem (~568 types across 70+ sub-packages under com.hypixel.hytale.builtin.hytalegenerator) is a major refactor of the stable worldgen builtin. The high-level architecture is preserved — a JavaPlugin entry point (HytaleGenerator), a staged chunk generation pipeline (StagedChunkGenerator), a density function graph, and a comprehensive JSON asset system — but the internals have been substantially reorganized. Key changes: (1) The 'newsystem' namespace has been promoted to 'engine' — the N-prefix is dropped from all types (NStagedChunkGenerator -> StagedChunkGenerator, NStage -> Stage, etc.). (2) The prop system has been redesigned with a new single-method Prop.generate() API replacing the old scan()+place() two-phase protocol. Old props (BoxProp, ClusterProp, ColumnProp, etc.) are moved to props/deprecated/. New prop types include LocatorProp, ManualProp, MaskProp, OrienterProp, StaticRotatorProp, DensitySelectorProp, CuboidProp (distinct from old BoxProp). (3) A new 'pipe' package provides Control/Pipe flow-control primitives used by the new prop/scanner/position-provider APIs. (4) A new 'rng' package (Rng, RngField) replaces the old SeedGenerator/CoPrimeGenerator with faster bitwise noise hashing. (5) PropField is replaced by PropRuntime which pairs a runtime index with a PropDistribution. (6) The 'assignments' package is now a top-level package (was nested under propdistributions). (7) Position providers gain new types: Jitter2d/3d, SquareGrid2d/3d, TriangularGrid2d, ClustersPositionProvider, ScalerPositionProvider, EmptyPositionProvider. Old Mesh2D/3D move to deprecated/. (8) Scanners are redesigned: new types DirectScanner, LinearScanner, RadialScanner, QueueScanner, RandomScanner, EmptyScanner replace old OriginScanner, ColumnLinearScanner, AreaScanner (moved to deprecated/). (9) The 'propdistributions' package replaces the old 'propdistributions' (Assignments-based) with PropDistribution hierarchy featuring AssignedPropDistribution, PositionsPropDistribution, UnionPropDistribution. (10) New voxelspace types: MaskVoxelSpace, RotationVoxelSpace. (11) New engine types: EntityFunnel interface with RotationEntityFunnel, FloatContainer3d. (12) Patterns gain ConstantPattern and RotatorPattern. (13) BiCarta is now @Deprecated, moved to worldstructure package. (14) The biome system drops BiomeType/SimpleBiomeType parallel hierarchy and the getBiomeName() method from Biome interface.",
+  "confidence": "high",
+  "delta_from_stable": {
+    "added_count": 220,
+    "removed_count": 211,
+    "modified_count": 35,
+    "summary": "Major architectural refactor: 'newsystem' promoted to 'engine', prop system redesigned with single-method API, new pipe/rng packages, position providers and scanners overhauled with new types and deprecations."
+  },
+  "subsections": {
+    "plugin_entry": {
+      "overview": "The HytaleGenerator class remains the JavaPlugin entry point. Key changes: (1) imports reference 'engine' package instead of 'newsystem'. (2) Stage pipeline building uses non-N-prefixed types (StagedChunkGenerator, Stage, BiomeStage, etc.). (3) PropRuntime replaces PropField for runtime index tracking. (4) PositionProvider.generate() API replaces old positionsIn() pattern. (5) PositionProvider.Context now uses Pipe-based flow control.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.plugin.HytaleGenerator",
+          "role": "JavaPlugin entry point. Manages AssetManager, executor pools, generator caching. createStagedChunkGenerator() builds the full StagedChunkGenerator pipeline from assets using PropRuntime instead of PropField. submitChunkRequest() dispatches generation to a single-threaded mainExecutor with semaphore protection. Falls back to FallbackGenerator on errors.",
+          "key_methods": [
+            "setup() - registers HandleProvider as IWorldGenProvider, registers ViewportCommand, listens for RemoveWorldEvent",
+            "start() - loads executors from SettingsAsset, registers asset reload listener",
+            "createStagedChunkGenerator() - builds StagedChunkGenerator from WorldStructureAsset and SettingsAsset. Iterates PropRuntime indices from all biomes.",
+            "submitChunkRequest() - async chunk generation with semaphore and fallback error handling",
+            "getSpawnPositions() - delegates to WorldStructureAsset's spawn position provider using new PositionProvider.Context with Pipe"
+          ],
+          "changes_from_stable": [
+            "RENAMED: NStagedChunkGenerator -> StagedChunkGenerator",
+            "RENAMED: NStage -> Stage, NBiomeStage -> BiomeStage, etc.",
+            "CHANGED: PropField replaced by PropRuntime for runtime index tracking",
+            "CHANGED: PositionProvider API uses generate(Context) with Pipe-based control instead of positionsIn()"
+          ],
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.plugin.HandleProvider",
+          "role": "IWorldGenProvider implementation registered under codec key 'HytaleGenerator'. Unchanged from stable.",
+          "json_schema": {
+            "WorldStructure": "string (required) - name of the WorldStructureAsset to use",
+            "SeedOverride": "string (optional) - if set, overrides the world seed with hash of this string"
+          },
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.plugin.Handle",
+          "role": "IWorldGen implementation. Bridges server worldgen interface to HytaleGenerator.submitChunkRequest(). Now also implements getDefaultSpawnProvider().",
+          "changes_from_stable": ["ADDED: getDefaultSpawnProvider() method (delegates to IWorldGen.super)", "ADDED: getTimings() returns null (WorldGenTimingsCollector support)"],
+          "confidence": "high"
+        }
+      ],
+      "registration_flow": "HytaleGenerator.setup() -> IWorldGenProvider.CODEC.register('HytaleGenerator', HandleProvider.class, codec) -> server creates HandleProvider from world JSON config -> HandleProvider.getGenerator() returns Handle -> Handle.generate() calls HytaleGenerator.submitChunkRequest()",
+      "events_used": ["RemoveWorldEvent - cleanup generator cache when world is removed"],
+      "commands_registered": ["ViewportCommand - allows refreshing chunks in a specified viewport bounds"],
+      "confidence": "high"
+    },
+    "engine": {
+      "overview": "The 'engine' package (~29 types, renamed from 'newsystem') implements the staged chunk generation pipeline. The N-prefix is dropped from all types. Architecture is preserved: StagedChunkGenerator processes chunks through a sequence of Stage instances operating on a shared BufferBundle. New additions include EntityFunnel interface for entity placement abstraction, FloatContainer3d for 3D float data, and RotationEntityFunnel for rotated entity placement.",
+      "architecture": "StagedChunkGenerator implements ChunkGenerator interface. For each chunk: (1) creates buffer accesses for all stages, (2) iterates stages sequentially, (3) within each stage, splits buffer tile positions across workers for parallel execution, (4) after all stages, transfers results from buffers to GeneratedChunk (materials, tints, environments, entities, block states) in parallel. Buffer tiles are 8x8x8 voxels. World height is 320 blocks = 40 buffer tiles vertically. Chunks are 32x32 = 4x4 buffer tiles horizontally.",
+      "changes_from_stable": [
+        "RENAMED: 'newsystem' package -> 'engine' package",
+        "RENAMED: All N-prefixed types lose the N prefix (NStagedChunkGenerator -> StagedChunkGenerator, NStage -> Stage, NBufferBundle -> BufferBundle, NVoxelBuffer -> VoxelBuffer, etc.)",
+        "RENAMED: NViewport -> Viewport (moved to root package)",
+        "RENAMED: NBufferType -> BufferType, NParametrizedBufferType -> ParametrizedBufferType (moved to engine/bufferbundle/buffers/type/)",
+        "ADDED: engine/entityfunnel/ package with EntityFunnel interface and RotationEntityFunnel",
+        "ADDED: engine/containers/FloatContainer3d - 3D float array with bounds checking",
+        "REMOVED: NTestTerrainStage, NTestPropStage (test/debug stages removed)",
+        "CHANGED: Stage.run(Context) is the main execution method (unchanged semantics)",
+        "CHANGED: Buffer types reorganized under engine/bufferbundle/buffers/ and engine/bufferbundle/buffers/type/"
+      ],
+      "types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.StagedChunkGenerator",
+          "role": "Core generator (renamed from NStagedChunkGenerator). Implements ChunkGenerator. Manages stage pipeline, buffer bundle, worker executor, timing instrumentation. Builder pattern for construction. generate() runs all stages then transfers results to GeneratedChunk. Constants: WORLD_MIN_Y_BUFFER_GRID=0, WORLD_MAX_Y_BUFFER_GRID=40, WORLD_HEIGHT_BUFFER_GRID=40.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.ChunkGenerator",
+          "role": "Interface: generate(ChunkRequest.Arguments) -> GeneratedChunk, getSpawnPositions() -> PositionProvider.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.ChunkRequest",
+          "role": "Record containing GeneratorProfile and Arguments. Profile now has setSeed() method (mutable seed).",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.FallbackGenerator",
+          "role": "Singleton ChunkGenerator that produces empty chunks. Now uses EmptyPositionProvider.INSTANCE for spawn positions.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.TerrainDensityProvider",
+          "role": "Interface for providing terrain density values at positions. Unchanged from stable.",
+          "confidence": "high"
+        }
+      ],
+      "stages": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.Stage",
+          "role": "Interface for generation stages (renamed from NStage). Defines: run(Context), getName(), getOutputTypes() -> List<BufferType>, getInputTypesAndBounds_bufferGrid() -> Map<BufferType, Bounds3i>.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.BiomeStage",
+          "role": "First stage (renamed from NBiomeStage). Reads WorldStructure's BiCarta<Integer> biome map to resolve biome IDs.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.BiomeDistanceStage",
+          "role": "Second stage (renamed from NBiomeDistanceStage). Computes distance-to-biome-edge.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.TerrainStage",
+          "role": "Third stage (renamed from NTerrainStage). Evaluates biome terrain density functions. Uses biome interpolation.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.PropStage",
+          "role": "Fourth+ stage (renamed from NPropStage). Places props via PropDistribution pipeline. Uses new Prop.generate() single-method API instead of old scan()+place() two-phase. Iterates PropRuntime instances for each biome at the current runtime index.",
+          "changes_from_stable": ["CHANGED: Uses PropRuntime instead of PropField", "CHANGED: PropDistribution pipeline replaces direct Assignments.propAt() -> Prop.scan() -> Prop.place()"],
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.TintStage",
+          "role": "Penultimate stage (renamed from NTintStage). Evaluates biome TintProvider.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.EnvironmentStage",
+          "role": "Final stage (renamed from NEnvironmentStage). Evaluates biome EnvironmentProvider.",
+          "confidence": "high"
+        }
+      ],
+      "buffer_system": {
+        "overview": "BufferBundle (renamed from NBufferBundle) manages a pool of typed Buffer instances organized in a 3D grid. Types reorganized under engine/bufferbundle/.",
+        "buffer_types": [
+          {"type": "VoxelBuffer", "description": "3D buffer storing values at each voxel within an 8x8x8 tile (renamed from NVoxelBuffer)."},
+          {"type": "PixelBuffer", "description": "2D buffer storing values per horizontal position (renamed from NPixelBuffer)."},
+          {"type": "CountedPixelBuffer", "description": "PixelBuffer that tracks multiple values with weights per pixel (renamed from NCountedPixelBuffer)."},
+          {"type": "SimplePixelBuffer", "description": "PixelBuffer storing a single value per pixel (renamed from NSimplePixelBuffer)."},
+          {"type": "EntityBuffer", "description": "Buffer for entity spawn data (renamed from NEntityBuffer)."}
+        ],
+        "buffer_type_metadata": [
+          {"type": "BufferType", "description": "Named buffer type with unique index (renamed from NBufferType)."},
+          {"type": "ParametrizedBufferType", "description": "Extended BufferType with content class tracking (renamed from NParametrizedBufferType)."}
+        ]
+      },
+      "views": [
+        {"type": "VoxelBufferView", "role": "VoxelSpace<T> adapter over buffer access (renamed from NVoxelBufferView)."},
+        {"type": "PixelBufferView", "role": "VoxelSpace<T> adapter for 2D pixel buffers (renamed from NPixelBufferView)."},
+        {"type": "EntityBufferView", "role": "Read-only view over entity buffers (renamed from NEntityBufferView)."}
+      ],
+      "new_types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.entityfunnel.EntityFunnel",
+          "role": "NEW. Interface for abstracting entity placement. addEntity(EntityPlacementData), getBounds(). NULL static singleton does nothing. Used by Prop.Context to decouple entity writing from direct buffer access.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.entityfunnel.RotationEntityFunnel",
+          "role": "NEW. EntityFunnel that applies rotation to entity positions and transforms before delegating to a source EntityFunnel. Used by StaticRotatorProp for rotated prefab entity placement.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.engine.containers.FloatContainer3d",
+          "role": "NEW. 3D float array with bounds checking, indexed by YXZ order. moveMinTo() for repositioning. Used for terrain density caching.",
+          "confidence": "high"
+        }
+      ],
+      "performance": [
+        {"type": "TimeInstrument", "role": "Hierarchical timing profiler. Unchanged."},
+        {"type": "MemInstrument", "role": "Interface for memory reporting. Unchanged."}
+      ],
+      "confidence": "high"
+    },
+    "pipe": {
+      "overview": "NEW package. Provides flow-control primitives used throughout the redesigned prop/scanner/position-provider systems. The pipe pattern replaces the old consumer-based iteration with explicit stop control.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.pipe.Control",
+          "role": "NEW. Flow control object with a boolean 'stop' field. When set to true, the current iteration stops. reset() clears the flag.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.pipe.Pipe",
+          "role": "NEW. Container for functional interfaces. Pipe.One<Input> accepts (Input, Control). Pipe.Two<InputA, InputB> accepts (InputA, InputB, Control). EMPTY_ONE and EMPTY_TWO static no-op instances. Used by PositionProvider, PropDistribution, and Scanner for stoppable iteration.",
+          "confidence": "high"
+        }
+      ],
+      "confidence": "high"
+    },
+    "rng": {
+      "overview": "NEW package (partially). SeedBox existed in stable but was in a different location. Rng and RngField are new, providing fast bitwise deterministic noise hashing to replace the old CoPrimeGenerator/SeedGenerator approach.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.rng.Rng",
+          "role": "NEW. Static bitwise noise hashing. getRandomInt(seed, key) uses bit manipulation (BIT_NOISE_0/1/2 constants). mix(seed, a, b) and mix(seed, a, b, c) combine coordinates with prime multipliers. splitMixLong/splitMixInteger for additional mixing. rotateLeft() bit utility.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.rng.RngField",
+          "role": "NEW. Seed-keyed spatial noise field. get(x,y,z) and get(x,y) use Rng.mix(). Also supports double inputs via Float.floatToRawIntBits(). Replaces old SeedGenerator for position-deterministic random selection.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.rng.SeedBox",
+          "role": "Moved from root package to rng/. Hierarchical seed container using string keys. Unchanged API.",
+          "confidence": "high"
+        }
+      ],
+      "confidence": "high"
+    },
+    "prop_system": {
+      "overview": "The prop system has been fundamentally redesigned. The old two-phase scan()+place() protocol is replaced by a single generate(Context) method returning boolean (success). Old prop types (BoxProp, ClusterProp, ColumnProp, etc.) are moved to props/deprecated/. New prop types provide cleaner abstractions. Prop.Context now includes separate materialReadSpace and materialWriteSpace (was single materialSpace in stable), plus EntityFunnel for entity placement. ScanResult is eliminated from the new API.",
+      "changes_from_stable": [
+        "CHANGED: Prop.scan()+Prop.place() replaced by Prop.generate(Context) -> boolean",
+        "CHANGED: Prop.Context gains separate materialReadSpace/materialWriteSpace (was single VoxelSpace<Material>)",
+        "CHANGED: Prop.Context uses EntityFunnel instead of EntityContainer",
+        "CHANGED: Prop.Context drops workerId (no longer needed)",
+        "REMOVED: ScanResult interface and all implementations from main API (moved to deprecated)",
+        "REMOVED: getContextDependency() replaced by getReadBounds_voxelGrid()/getWriteBounds_voxelGrid()",
+        "DEPRECATED: BoxProp, ClusterProp, ColumnProp, DensityProp(old), PondFillerProp(old) -> moved to props/deprecated/",
+        "DEPRECATED: All directionality types -> moved to props/deprecated/directionality/",
+        "DEPRECATED: PrefabProp(old), PrefabMoldingConfiguration, MoldingDirection -> moved to props/deprecated/prefab/"
+      ],
+      "new_prop_types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.Prop",
+          "role": "Abstract base. generate(Context) -> boolean. getReadBounds_voxelGrid() and getWriteBounds_voxelGrid() return Bounds3i. Context holds position, materialReadSpace, materialWriteSpace (separate read/write), EntityFunnel, distanceToBiomeEdge. Copy constructor and assign() for context cloning.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.EmptyProp",
+          "role": "NEW. Singleton no-op prop. INSTANCE always returns true from generate(). Zero bounds.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.CuboidProp",
+          "role": "NEW. Places a solid cuboid of material within configured bounds. Uses MaterialProvider for per-voxel material selection with depth metrics. Replaces old BoxProp with cleaner API.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.DensityProp",
+          "role": "REDESIGNED. Evaluates density function across bounding range, computes solidity buffer, then calculates depth/space metrics per column for material selection. Uses separate solidityBuffer with expanded Y bounds for boundary detection. Much cleaner implementation than stable version.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.DensitySelectorProp",
+          "role": "NEW. Selects child prop based on density function value at position. Uses DelimiterDouble<Prop> list with range matching. Like SelectorDensity but for props.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.LocatorProp",
+          "role": "NEW. Scans for valid positions using Scanner+Pattern, then places a child prop at each found position up to placementCap. Uses Pipe flow control for stoppable scanning. Replaces the old scan-then-place workflow with a unified approach.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.ManualProp",
+          "role": "NEW. Places a fixed list of Block records (position offset + material) relative to the origin. Used for hand-crafted small structures.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.MaskProp",
+          "role": "NEW. Wraps a child prop with a BlockMask filter via MaskVoxelSpace. Only allows writes that pass the mask's canPlace/canReplace checks.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.OrienterProp",
+          "role": "NEW. Tests multiple rotation variants via RotatorPattern, selects a valid rotation (first match, all valid, or random), then generates the appropriately-rotated child prop. SelectionMode enum controls selection strategy. Uses Scanner for position finding.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.StaticRotatorProp",
+          "role": "NEW. Applies a fixed rotation to a child prop using RotationVoxelSpace for material transforms and RotationEntityFunnel for entity transforms. Rotation-aware bounds calculation.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.PrefabProp",
+          "role": "REDESIGNED. Still places PrefabBuffer structures, but uses the new generate() API. Uses EntityFunnel for entity placement.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.PondFillerProp",
+          "role": "REDESIGNED. Flood-fill pond generator using new Prop API.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.QueueProp",
+          "role": "Tries child props in sequence; uses the first one that returns true. Unchanged concept, new API.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.UnionProp",
+          "role": "Generates all child props. Unchanged concept, new API.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.WeightedProp",
+          "role": "Randomly selects one child prop using RngField (replaces old SeedGenerator). New API.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.props.OffsetProp",
+          "role": "Delegates to child prop with position offset. New API.",
+          "confidence": "high"
+        }
+      ],
+      "deprecated_types": {
+        "overview": "Old prop types moved to props/deprecated/ with full original implementation preserved for backward compatibility.",
+        "types": [
+          "props/deprecated/BoxProp.java",
+          "props/deprecated/ClusterProp.java",
+          "props/deprecated/ColumnProp.java",
+          "props/deprecated/DensityProp.java",
+          "props/deprecated/ScanResult.java",
+          "props/deprecated/PositionScanResult.java",
+          "props/deprecated/PositionListScanResult.java",
+          "props/deprecated/directionality/Directionality.java",
+          "props/deprecated/directionality/OrthogonalDirection.java",
+          "props/deprecated/directionality/PatternDirectionality.java",
+          "props/deprecated/directionality/RandomDirectionality.java",
+          "props/deprecated/directionality/StaticDirectionality.java",
+          "props/deprecated/directionality/RotatedPosition.java",
+          "props/deprecated/directionality/RotatedPositionsScanResult.java",
+          "props/deprecated/filler/PondFillerProp.java",
+          "props/deprecated/filler/FillerPropScanResult.java",
+          "props/deprecated/prefab/PrefabProp.java",
+          "props/deprecated/prefab/PrefabMoldingConfiguration.java",
+          "props/deprecated/prefab/MoldingDirection.java",
+          "props/deprecated/prefab/PrefabPropUtil.java"
+        ]
+      },
+      "confidence": "high"
+    },
+    "prop_distribution_system": {
+      "overview": "NEW pipeline layer. PropDistribution replaces the old direct Assignments -> Prop flow. PropDistribution.generate(Context) uses Pipe.Two<Vector3d, Prop> for stoppable iteration that yields (position, prop) pairs. This separates position generation from prop assignment more cleanly.",
+      "types": [
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.PropDistribution",
+          "role": "NEW abstract base. generate(Context) produces (position, prop) pairs via Pipe.Two. Context holds: bounds (Bounds3d), pipe (Pipe.Two<Vector3d, Prop>), distanceFromBiomeEdge.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.ConstantPropDistribution",
+          "role": "NEW. Always yields the same Prop at positions from a child PropDistribution.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.NoPropDistribution",
+          "role": "NEW. No-op PropDistribution that yields nothing.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.AssignedPropDistribution",
+          "role": "NEW. Wraps a child PropDistribution and overrides the prop assignment using an Assignments instance. The isOverrideAllProps flag controls whether existing non-empty props are replaced.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.PositionsPropDistribution",
+          "role": "NEW. Generates positions from a PositionProvider and pairs each with EmptyProp. The downstream AssignedPropDistribution then assigns actual props.",
+          "confidence": "high"
+        },
+        {
+          "type": "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.UnionPropDistribution",
+          "role": "NEW. Concatenates output from multiple child PropDistributions.",
+          "confidence": "high"
+        }
+      ],
+      "confidence": "high"
+    },
+    "assignments": {
+      "overview": "Promoted to top-level package (was nested). Assignments.propAt() unchanged in concept. WeightedAssignments now uses RngField instead of old SeedGenerator. Package is now com.hypixel.hytale.builtin.hytalegenerator.assignments.",
+      "types": [
+        {"type": "Assignments", "role": "Abstract base. propAt(Vector3d, WorkerIndexer.Id, double) -> Prop. getAllPossibleProps(). noPropDistribution() returns EmptyProp.INSTANCE."},
+        {"type": "ConstantAssignments", "role": "Always returns the same Prop."},
+        {"type": "FieldFunctionAssignments", "role": "Evaluates density function, selects child Assignments by range. Unchanged concept."},
+        {"type": "SandwichAssignments", "role": "Selects by Y position range. Unchanged concept."},
+        {"type": "WeightedAssignments", "role": "CHANGED: Now uses RngField for position-seeded random instead of SeedGenerator. Uses FastRandom."}
+      ],
+      "confidence": "high"
+    },
+    "position_providers": {
+      "overview": "Significantly expanded. PositionProvider.positionsIn() replaced by generate(Context) with Pipe-based flow control. New types: Jitter2d/3dPositionProvider (replace Mesh2D/3D), SquareGrid2d/3dPositionProvider, TriangularGrid2dPositionProvider, ClustersPositionProvider, ScalerPositionProvider, EmptyPositionProvider. Old Mesh2D/3D moved to deprecated/.",
+      "changes_from_stable": [
+        "CHANGED: PositionProvider.positionsIn() -> generate(Context) with Pipe.One<Vector3d> and Control",
+        "CHANGED: Context gains Bounds3d bounds, Pipe.One<Vector3d> pipe, Vector3d anchor",
+        "ADDED: Jitter2dPositionProvider - replaces Mesh2DPositionProvider",
+        "ADDED: Jitter3dPositionProvider - replaces Mesh3DPositionProvider",
+        "ADDED: SquareGrid2dPositionProvider - regular square grid positions on XZ plane",
+        "ADDED: SquareGrid3dPositionProvider - regular square grid positions in 3D",
+        "ADDED: TriangularGrid2dPositionProvider - triangular grid positions on XZ plane",
+        "ADDED: ClustersPositionProvider - generates clustered position groups",
+        "ADDED: ScalerPositionProvider - scales child provider positions by a factor",
+        "ADDED: EmptyPositionProvider - singleton no-op (INSTANCE field)",
+        "DEPRECATED: Mesh2DPositionProvider -> positionproviders/deprecated/",
+        "DEPRECATED: Mesh3DPositionProvider -> positionproviders/deprecated/",
+        "REMOVED: SpherePositionProvider (may be subsumed into other types)"
+      ],
+      "types": [
+        {"type": "PositionProvider", "role": "Abstract base. generate(Context) uses Pipe-based iteration."},
+        {"type": "EmptyPositionProvider", "role": "NEW. Singleton no-op. INSTANCE field."},
+        {"type": "Jitter2dPositionProvider", "role": "NEW. Generates jittered 2D positions using JitterPointField. Replaces Mesh2DPositionProvider."},
+        {"type": "Jitter3dPositionProvider", "role": "NEW. Generates jittered 3D positions. Replaces Mesh3DPositionProvider."},
+        {"type": "SquareGrid2dPositionProvider", "role": "NEW. Regular square grid on XZ plane."},
+        {"type": "SquareGrid3dPositionProvider", "role": "NEW. Regular square grid in 3D."},
+        {"type": "TriangularGrid2dPositionProvider", "role": "NEW. Triangular/hexagonal grid on XZ plane for more natural distribution."},
+        {"type": "ClustersPositionProvider", "role": "NEW. Generates groups of positions clustered around center points."},
+        {"type": "ScalerPositionProvider", "role": "NEW. Scales child provider's generated positions by a factor."},
+        {"type": "AnchorPositionProvider", "role": "Offsets query bounds by anchor. Uses Pipe flow control."},
+        {"type": "BaseHeightPositionProvider", "role": "Adds baseHeight to Y coordinates. Uses Pipe."},
+        {"type": "BoundPositionProvider", "role": "Overrides context bounds."},
+        {"type": "FieldFunctionOccurrencePositionProvider", "role": "Probabilistic position filter via density function."},
+        {"type": "FieldFunctionPositionProvider", "role": "Filters by density value range."},
+        {"type": "SimpleHorizontalPositionProvider", "role": "Filters by Y range."},
+        {"type": "ListPositionProvider", "role": "Fixed position list."},
+        {"type": "OffsetPositionProvider", "role": "Shifts positions by offset."},
+        {"type": "UnionPositionProvider", "role": "Concatenates multiple providers."},
+        {"type": "CachedPositionProvider", "role": "Caches positions in spatial sections."}
+      ],
+      "confidence": "high"
+    },
+    "scanners": {
+      "overview": "Redesigned. Scanner now uses Pipe-based flow control (scan returns via Pipe.One<Vector3i> instead of List<Vector3i>). New types: DirectScanner, LinearScanner, RadialScanner, QueueScanner, RandomScanner, EmptyScanner. Old types moved to deprecated/.",
+      "changes_from_stable": [
+        "CHANGED: Scanner.scan() now uses Pipe.One<Vector3i> with Control for stoppable iteration",
+        "ADDED: DirectScanner - tests a single position (replaces OriginScanner concept)",
+        "ADDED: LinearScanner - scans a vertical column linearly (replaces ColumnLinearScanner)",
+        "ADDED: RadialScanner - scans in a radial pattern from origin (replaces AreaScanner)",
+        "ADDED: QueueScanner - tries multiple scanners in sequence",
+        "ADDED: RandomScanner - random position selection from scan results",
+        "ADDED: EmptyScanner - no-op scanner",
+        "DEPRECATED: ColumnLinearScanner -> scanners/deprecated/",
+        "DEPRECATED: ColumnRandomScanner -> scanners/deprecated/",
+        "DEPRECATED: AreaScanner -> scanners/deprecated/"
+      ],
+      "types": [
+        {"type": "Scanner", "role": "Abstract base. scan(Context) uses Pipe.One<Vector3i>."},
+        {"type": "DirectScanner", "role": "NEW. Tests the origin position against pattern."},
+        {"type": "LinearScanner", "role": "NEW. Scans a vertical column linearly."},
+        {"type": "RadialScanner", "role": "NEW. Scans outward in a radial pattern."},
+        {"type": "QueueScanner", "role": "NEW. Tries multiple child scanners in sequence."},
+        {"type": "RandomScanner", "role": "NEW. Random subset of valid positions."},
+        {"type": "EmptyScanner", "role": "NEW. No-op scanner."}
+      ],
+      "confidence": "high"
+    },
+    "patterns": {
+      "overview": "Patterns package gains two new types. Pattern API updated to use getBounds_voxelGrid() (renamed from readSpace() -> SpaceSize).",
+      "changes_from_stable": [
+        "CHANGED: Pattern.readSpace() -> getBounds_voxelGrid() returning Bounds3i (was SpaceSize)",
+        "ADDED: ConstantPattern - singleton true/false patterns (INSTANCE_TRUE, INSTANCE_FALSE)",
+        "ADDED: RotatorPattern - evaluates a child pattern with rotated voxel space access via RotationVoxelSpace",
+        "REMOVED: GapPattern (complex cave gap detection removed)",
+        "UNCHANGED: AndPattern, OrPattern, NotPattern, CuboidPattern, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, OffsetPattern, SurfacePattern, WallPattern"
+      ],
+      "types": [
+        {"type": "Pattern", "role": "Abstract base. matches(Context) -> boolean. getBounds_voxelGrid() -> Bounds3i."},
+        {"type": "ConstantPattern", "role": "NEW. Singleton patterns: INSTANCE_TRUE (always true), INSTANCE_FALSE (always false)."},
+        {"type": "RotatorPattern", "role": "NEW. Evaluates child pattern with rotated material space via RotationVoxelSpace. Used by OrienterProp for rotation testing."},
+        {"type": "AndPattern", "role": "All children must match."},
+        {"type": "OrPattern", "role": "At least one child must match."},
+        {"type": "NotPattern", "role": "Inverts child."},
+        {"type": "CuboidPattern", "role": "Tests cuboid volume."},
+        {"type": "FieldFunctionPattern", "role": "Density-based boolean evaluation."},
+        {"type": "MaterialPattern", "role": "Block/fluid ID matching."},
+        {"type": "MaterialSetPattern", "role": "Material set membership."},
+        {"type": "OffsetPattern", "role": "Offset child position."},
+        {"type": "SurfacePattern", "role": "Surface detection."},
+        {"type": "WallPattern", "role": "Wall detection."}
+      ],
+      "confidence": "high"
+    },
+    "voxelspace": {
+      "overview": "VoxelSpace gains two new implementations for the redesigned prop system.",
+      "changes_from_stable": [
+        "ADDED: MaskVoxelSpace - wraps a source VoxelSpace<Material> with a BlockMask filter. set() only writes if mask.canReplace(). Used by MaskProp.",
+        "ADDED: RotationVoxelSpace - wraps a source VoxelSpace with coordinate rotation. Rotates positions before accessing source. Used by OrienterProp and StaticRotatorProp.",
+        "REMOVED: BooleanVoxelSpace (optimized boolean voxel space removed)",
+        "REMOVED: VoxelConsumer, VoxelCoordinate (simplified types removed)",
+        "UNCHANGED: ArrayVoxelSpace, NullSpace, WindowVoxelSpace, VoxelSpaceUtil"
+      ],
+      "types": [
+        {"type": "VoxelSpace<T>", "role": "Interface. Unchanged core API."},
+        {"type": "ArrayVoxelSpace<T>", "role": "Standard flat-array implementation."},
+        {"type": "MaskVoxelSpace", "role": "NEW. BlockMask-filtered write adapter over VoxelSpace<Material>."},
+        {"type": "RotationVoxelSpace", "role": "NEW. Rotation-transforming adapter over VoxelSpace<Material>. Uses RotationTuple and MaterialCache for block rotation."},
+        {"type": "NullSpace<T>", "role": "No-op VoxelSpace. instance() singleton."},
+        {"type": "WindowVoxelSpace<T>", "role": "Sub-region view adapter."},
+        {"type": "VoxelSpaceUtil", "role": "Static utilities."}
+      ],
+      "confidence": "high"
+    },
+    "density": {
+      "overview": "The density system (~77 types under density/) is largely unchanged. The package structure is reorganized: density nodes moved to density/nodes/ instead of being flat in density/. Position-based density types are under density/nodes/positions/. Same ~77 node types. No new density node types added, no types removed.",
+      "changes_from_stable": [
+        "REORGANIZED: Flat density/ package split into density/ (base Density class) and density/nodes/ (all concrete implementations)",
+        "REORGANIZED: Positions types moved to density/nodes/positions/ with sub-packages distancefunctions/ and returntypes/",
+        "CHANGED: Density.Context gains assign(Prop.Context) method for context bridging from prop system",
+        "UNCHANGED: All 77 density node types preserved with same semantics"
+      ],
+      "confidence": "high"
+    },
+    "assets": {
+      "overview": "The asset system (~267 types under assets/) is expanded with new asset types matching the new runtime types. Key additions: new position provider assets (Jitter2d/3d, SquareGrid2d/3d, TriangularGrid2d, Clusters, Scaler, Empty), new prop assets (Cuboid, DensitySelector, Locator, Manual, Mask, Orienter, RandomRotator, StaticRotator, Empty), new scanner assets (Direct, Linear, Radial, Queue, Random), new prop distribution assets (Assigned, Constant, Imported, NoDistribution, Positions, Union), and RotatorPatternAsset. SettingsAsset unchanged.",
+      "asset_types": [
+        {
+          "category": "positionproviders",
+          "new_types": ["Jitter2dPositionProviderAsset", "Jitter3dPositionProviderAsset", "SquareGrid2dPositionProviderAsset", "SquareGrid3dPositionProviderAsset", "TriangularGrid2dPositionProviderAsset", "ClustersPositionProviderAsset", "ScalerPositionProviderAsset", "EmptyPositionProviderAsset"],
+          "deprecated_types": ["Mesh2DPositionProviderAsset (kept but deprecated)", "Mesh3DPositionProviderAsset (kept but deprecated)"],
+          "retained_types": ["AnchorPositionProviderAsset", "BaseHeightPositionProviderAsset", "BoundPositionProviderAsset", "CachedPositionProviderAsset", "FieldFunctionOccurrencePositionProviderAsset", "FieldFunctionPositionProviderAsset", "FrameworkPositionProviderAsset", "ImportedPositionProviderAsset", "ListPositionProviderAsset", "OffsetPositionProviderAsset", "SimpleHorizontalPositionProviderAsset", "UnionPositionProviderAsset"]
+        },
+        {
+          "category": "props",
+          "new_types": ["CuboidPropAsset", "DensitySelectorPropAsset", "EmptyPropAsset", "LocatorPropAsset", "ManualPropAsset", "MaskPropAsset", "OrienterPropAsset", "RandomRotatorPropAsset", "StaticRotatorPropAsset"],
+          "deprecated_types": ["BoxPropAsset (kept for legacy)", "ClusterPropAsset (kept for legacy)", "ColumnPropAsset (kept for legacy)"],
+          "retained_types": ["DensityPropAsset", "ImportedPropAsset", "OffsetPropAsset", "PondFillerPropAsset", "PrefabPropAsset", "QueuePropAsset", "UnionPropAsset", "WeightedPropAsset"]
+        },
+        {
+          "category": "scanners",
+          "new_types": ["DirectScannerAsset", "LinearScannerAsset", "RadialScannerAsset", "QueueScannerAsset", "RandomScannerAsset"],
+          "deprecated_types": ["AreaScannerAsset (kept for legacy)", "ColumnLinearScannerAsset (kept for legacy)", "ColumnRandomScannerAsset (kept for legacy)"],
+          "retained_types": ["ImportedScannerAsset"]
+        },
+        {
+          "category": "propdistribution",
+          "new_types": ["AssignedPropDistributionAsset", "ConstantPropDistributionAsset", "ImportedPropDistributionAsset", "NoPropDistributionAsset", "PositionsPropDistributionAsset", "UnionPropDistributionAsset"],
+          "role": "NEW category. Asset wrappers for PropDistribution runtime types."
+        },
+        {
+          "category": "patterns",
+          "new_types": ["ConstantPatternAsset", "RotatorPatternAsset"],
+          "retained_types": ["All existing pattern assets unchanged"]
+        },
+        {
+          "category": "density",
+          "changes": "No new density asset types. Same ~78 types. Package structure reorganized but all types preserved.",
+          "retained_types_count": 78
+        },
+        {
+          "category": "other",
+          "changes": "Curves, material providers, biomes, terrains, bounds, delimiters, environment providers, tint providers, vector providers, world structures, framework, noise generators, point generators, block mask, block set, interpolation, material, settings — all unchanged in type count and structure."
+        }
+      ],
+      "settings_asset_schema": {
+        "StatsCheckpoints": "Integer[] - chunk counts at which to log performance stats",
+        "CustomConcurrency": "int (>= -1, default -1) - number of worker threads",
+        "BufferCapacityFactor": "double (>= 0.0, default 0.3) - multiplier for buffer pool sizing",
+        "TargetViewDistance": "double (>= 0.0, default 512.0) - expected view distance",
+        "TargetPlayerCount": "double (>= 0.0, default 3.0) - expected player count"
+      },
+      "asset_loading_pattern": "AssetManager registers all asset types via AssetRegistry during construction, now with additional PropDistribution, PositionProvider, and Prop asset maps. Each asset type has a static CODEC that handles JSON deserialization.",
+      "confidence": "high"
+    },
+    "biome_system": {
+      "overview": "Simplified compared to stable. BiomeType/SimpleBiomeType parallel hierarchy removed. getBiomeName() removed from Biome interface. PropsSource now uses PropRuntime instead of PropField.",
+      "changes_from_stable": [
+        "REMOVED: BiomeType interface (parallel hierarchy eliminated)",
+        "REMOVED: SimpleBiomeType class",
+        "REMOVED: Biome.getBiomeName() method",
+        "CHANGED: PropsSource.getPropFields() -> getPropRuntimes() returning List<PropRuntime>",
+        "ADDED: PropsSource.getRuntimesWithIndex(int, Consumer<PropRuntime>) for filtered access"
+      ],
+      "types": [
+        {"type": "Biome", "role": "Interface extending MaterialSource, PropsSource, EnvironmentSource, TintSource. Defines getTerrainDensity()."},
+        {"type": "SimpleBiome", "role": "Primary Biome implementation. Holds terrainDensity, materialProvider, List<PropRuntime>, environmentProvider, tintProvider, biomeName."},
+        {"type": "MaterialSource", "role": "Interface: getMaterialProvider() -> MaterialProvider<Material>."},
+        {"type": "PropsSource", "role": "CHANGED: getRuntimesWithIndex(int, Consumer<PropRuntime>), getPropRuntimes() -> List<PropRuntime>."},
+        {"type": "EnvironmentSource", "role": "Interface: getEnvironmentProvider()."},
+        {"type": "TintSource", "role": "Interface: getTintProvider()."}
+      ],
+      "confidence": "high"
+    },
+    "PropRuntime": {
+      "overview": "NEW type replacing PropField. PropRuntime pairs a runtime index (int) with a PropDistribution (instead of PositionProvider + Assignments). This is the key integration point between the biome system and the new prop pipeline.",
+      "type": "com.hypixel.hytale.builtin.hytalegenerator.PropRuntime",
+      "role": "Holds a PropDistribution and a runtime index. getRuntimeIndex() returns the execution order for PropStage sequencing. getPropDistribution() returns the PropDistribution for position+prop generation.",
+      "replaces": "PropField (which held PositionProvider + Assignments + runtime index)",
+      "confidence": "high"
+    },
+    "material_system": {
+      "overview": "Unchanged from stable. Material, SolidMaterial, FluidMaterial, MaterialCache preserved with same API.",
+      "confidence": "high"
+    },
+    "material_providers": {
+      "overview": "Unchanged from stable. All 15+ provider types preserved. SpaceAndDepthMaterialProvider, conditions, layers all unchanged.",
+      "changes_from_stable": [
+        "REMOVED: AllStoneMaterialProvider (test provider removed)",
+        "REMOVED: GrassTopMaterialProvider (test provider removed)",
+        "All other types unchanged"
+      ],
+      "confidence": "high"
+    },
+    "noise_fields": {
+      "overview": "Relocated from fields/ to noise/. FastNoiseLite, SimplexNoiseField, CellNoiseField, Simplex, NoiseField, PointField, JitterPointField, PointProvider all preserved. Package path changed from fields/ to noise/ and noise/pointprovider/.",
+      "changes_from_stable": ["REORGANIZED: fields/ -> noise/, fields/noise/ -> noise/, fields/points/ -> noise/pointprovider/"],
+      "confidence": "high"
+    },
+    "math_utilities": {
+      "overview": "Reduced. Calculator, Interpolation, InterpolatedCurve, NodeFunction, Normalizer retained. CoPrimeGenerator, SeedGenerator, Combiner, Splitter, Stepinizer, MultipliedIteration, Probability, RegionGrid, BitConverter REMOVED (replaced by rng package or unused).",
+      "changes_from_stable": [
+        "REMOVED: CoPrimeGenerator (replaced by Rng bitwise hashing)",
+        "REMOVED: SeedGenerator (replaced by RngField)",
+        "REMOVED: Combiner, Splitter, Stepinizer, MultipliedIteration, Probability, RegionGrid, BitConverter",
+        "RETAINED: Calculator, Interpolation, InterpolatedCurve, NodeFunction, Normalizer"
+      ],
+      "confidence": "high"
+    },
+    "framework": {
+      "overview": "Framework types (functional interfaces, Cartas, Shaders) are no longer a separate package. BiCarta moved to worldstructure/ and marked @Deprecated. TriCarta, ImageCarta, LayeredCarta, SingleElementCarta, functional interfaces (BiDouble2DoubleFunction, TriDoubleFunction, etc.), Shader hierarchy — all REMOVED from the pre-release. SimpleNoiseCarta moved to cartas/ package.",
+      "changes_from_stable": [
+        "REMOVED: TriCarta, ImageCarta, LayeredCarta, SingleElementCarta",
+        "REMOVED: BiDouble2DoubleFunction, TriDoubleFunction, QuadDoubleFunction, QuintoDoubleFunction, TriFunction",
+        "REMOVED: Shader, SimpleShader, WeighedShader, MaskShader, RelationalShader",
+        "DEPRECATED: BiCarta moved to worldstructure/ package, marked @Deprecated",
+        "RETAINED: SimpleNoiseCarta in cartas/ package"
+      ],
+      "confidence": "high"
+    },
+    "data_structures": {
+      "overview": "Simplified. WeightedMap and ReusableList remain as root-level types. BiCoordinateCache, HashedBiCoordinateCache, WrappedBiCoordinateCache, WrappedBiCoordinateDoubleCache, TieredList, CollectionFactory, Compressor — all REMOVED.",
+      "changes_from_stable": [
+        "REMOVED: BiCoordinateCache hierarchy (all 3 types)",
+        "REMOVED: TieredList, CollectionFactory, Compressor",
+        "REMOVED: BooleanVoxelSpace, VoxelConsumer, VoxelCoordinate",
+        "RETAINED: WeightedMap (root package)",
+        "RETAINED: ReusableList (root package)"
+      ],
+      "confidence": "high"
+    },
+    "worldstructure": {
+      "overview": "WorldStructure unchanged. BiCarta moved here from framework and marked @Deprecated.",
+      "types": [
+        {"type": "WorldStructure", "role": "Immutable runtime world config. Unchanged fields: biomeMap, biomeRegistry, biomeTransitionDistance, maxBiomeEdgeDistance, spawnPositions."},
+        {"type": "BiCarta<R>", "role": "MOVED+DEPRECATED. Abstract 2D spatial map. Marked @Deprecated."}
+      ],
+      "confidence": "high"
+    },
+    "root_package_utilities": {
+      "overview": "Root-level utilities updated. Viewport moved from newsystem to root. EntityPlacementData, BlockMask, MaterialSet, ArrayUtil, VectorUtil, FutureUtils, LoggerUtil, GridUtils, Registry, ReusableList, WeightedMap all retained.",
+      "changes_from_stable": [
+        "MOVED: Viewport from newsystem/ to root package",
+        "MOVED: GridUtils from newsystem/ to root package",
+        "REMOVED: Indexer (3D coordinate to 1D index converter, functionality merged into GridUtils)",
+        "REMOVED: ContextDependency (conveyor dependency tracking removed)",
+        "REMOVED: BackwardIntIterator, ForwardIntIterator, IntIterators (iterator utilities removed)",
+        "REMOVED: Bounds3d (decimal bounds removed — only Bounds3i retained)",
+        "REMOVED: SpaceSize (@Deprecated type fully removed)",
+        "RETAINED: ArrayUtil, BlockMask, EntityPlacementData, FutureUtils, GridUtils, LoggerUtil, MaterialSet, Registry, ReusableList, VectorUtil, Viewport, WeightedMap"
+      ],
+      "confidence": "high"
+    },
+    "bounds": {
+      "overview": "Simplified to only Bounds3i. Bounds3d and SpaceSize removed.",
+      "changes_from_stable": [
+        "REMOVED: Bounds3d (decimal bounds removed)",
+        "REMOVED: SpaceSize (deprecated type fully removed)",
+        "RETAINED: Bounds3i with expanded API (applyRotationAroundVoxel, undoRotationAroundVoxel, encompass, ZERO static constant)"
+      ],
+      "confidence": "high"
+    },
+    "delimiters": {
+      "overview": "Unchanged. RangeDouble, RangeInt, DelimiterDouble, DelimiterInt all retained.",
+      "confidence": "high"
+    },
+    "environmentproviders": {
+      "overview": "Unchanged. EnvironmentProvider, ConstantEnvironmentProvider, DensityDelimitedEnvironmentProvider retained.",
+      "confidence": "high"
+    },
+    "tintproviders": {
+      "overview": "Unchanged. TintProvider, ConstantTintProvider, DensityDelimitedTintProvider, NoTintProvider retained.",
+      "confidence": "high"
+    },
+    "vectorproviders": {
+      "overview": "Unchanged. VectorProvider, ConstantVectorProvider, DensityGradientVectorProvider, CacheVectorProvider retained.",
+      "confidence": "high"
+    },
+    "rangemaps": {
+      "overview": "Unchanged. DoubleRange, DoubleRangeMap retained.",
+      "confidence": "high"
+    },
+    "referencebundle": {
+      "overview": "Simplified. Only ReferenceBundle remains. Reference base class and BaseHeightReference removed.",
+      "changes_from_stable": [
+        "REMOVED: Reference (empty base class)",
+        "REMOVED: BaseHeightReference",
+        "RETAINED: ReferenceBundle"
+      ],
+      "confidence": "high"
+    },
+    "workerindexer": {
+      "overview": "Unchanged. WorkerIndexer with Id, Data, Session inner classes retained.",
+      "confidence": "high"
+    }
+  },
+  "cross_references": {
+    "server_worldgen_interfaces": {
+      "IWorldGenProvider": "HandleProvider implements IWorldGenProvider, registered via IWorldGenProvider.CODEC.register('HytaleGenerator', ...) in HytaleGenerator.setup()",
+      "IWorldGen": "Handle implements IWorldGen. Now also implements getDefaultSpawnProvider() and getTimings().",
+      "GeneratedChunk": "StagedChunkGenerator produces GeneratedChunk with GeneratedBlockChunk, GeneratedBlockStateChunk, GeneratedEntityChunk, and section Holders."
+    },
+    "ecs_components": {
+      "ChunkStore": "Used via Holder<ChunkStore> in SolidMaterial for block state management.",
+      "FluidSection": "StagedChunkGenerator.transferMaterials() writes fluid data to FluidSection per chunk section.",
+      "BlockPhysics": "StagedChunkGenerator.setSupport() uses BlockPhysics for block physics state.",
+      "EnvironmentChunk": "StagedChunkGenerator.transferEnvironments() writes environment IDs via EnvironmentChunk.BulkWriter.",
+      "EntityStore": "EntityPlacementData.entityHolder (Holder<EntityStore>) spawns entities. Used by EntityFunnel.",
+      "TransformComponent": "RotationEntityFunnel accesses TransformComponent for entity position/rotation transforms."
+    },
+    "events": {
+      "RemoveWorldEvent": "HytaleGenerator listens globally and removes cached generators when worlds are removed.",
+      "LoadedAssetsEvent": "AssetManager uses this to trigger asset loading and reload callbacks."
+    },
+    "commands": {
+      "ViewportCommand": "Registered by HytaleGenerator. Now references BuilderToolsPlugin for block selection."
+    },
+    "new_dependency_buildertools": "ViewportCommand now imports com.hypixel.hytale.builtin.buildertools.BuilderToolsPlugin for block selection access (new cross-plugin dependency).",
+    "prop_pipeline_flow": "PropStage -> Biome.getRuntimesWithIndex() -> PropRuntime.getPropDistribution() -> PropDistribution.generate() yields (position, prop) pairs -> Prop.generate(Context) writes to materialWriteSpace + EntityFunnel",
+    "relationship_to_server_worldgen": "Unchanged relationship. The builtin hytalegenerator remains the active world generation implementation replacing the old server.worldgen pipeline."
+  },
+  "removed_types_summary": {
+    "overview": "~211 types removed from the public API. Most are either moved to deprecated sub-packages, removed math/framework utilities, or eliminated parallel hierarchies.",
+    "categories": {
+      "promoted_to_deprecated": [
+        "props/BoxProp -> props/deprecated/BoxProp",
+        "props/ClusterProp -> props/deprecated/ClusterProp",
+        "props/ColumnProp -> props/deprecated/ColumnProp",
+        "props/DensityProp (old version) -> props/deprecated/DensityProp",
+        "props/directionality/* -> props/deprecated/directionality/*",
+        "props/filler/* -> props/deprecated/filler/*",
+        "props/prefab/* -> props/deprecated/prefab/*",
+        "props/ScanResult + implementations -> props/deprecated/",
+        "scanners/ColumnLinearScanner -> scanners/deprecated/",
+        "scanners/ColumnRandomScanner -> scanners/deprecated/",
+        "scanners/AreaScanner -> scanners/deprecated/",
+        "positionproviders/Mesh2DPositionProvider -> positionproviders/deprecated/",
+        "positionproviders/Mesh3DPositionProvider -> positionproviders/deprecated/"
+      ],
+      "framework_elimination": [
+        "BiDouble2DoubleFunction", "TriDoubleFunction", "QuadDoubleFunction", "QuintoDoubleFunction", "TriFunction",
+        "Shader", "SimpleShader", "WeighedShader", "MaskShader", "RelationalShader",
+        "TriCarta", "ImageCarta", "LayeredCarta", "SingleElementCarta",
+        "CoPrimeGenerator", "SeedGenerator", "Combiner", "Splitter", "Stepinizer",
+        "MultipliedIteration", "Probability", "RegionGrid", "BitConverter"
+      ],
+      "biome_parallel_hierarchy": ["BiomeType", "SimpleBiomeType", "BiomeMap", "SimpleBiomeMap"],
+      "data_structures": [
+        "BiCoordinateCache", "HashedBiCoordinateCache", "WrappedBiCoordinateCache", "WrappedBiCoordinateDoubleCache",
+        "TieredList", "CollectionFactory", "Compressor",
+        "BooleanVoxelSpace", "VoxelConsumer", "VoxelCoordinate"
+      ],
+      "spatial_types": ["Bounds3d", "SpaceSize"],
+      "iterators": ["BackwardIntIterator", "ForwardIntIterator", "IntIterators"],
+      "other": ["ContextDependency", "Indexer", "AllStoneMaterialProvider", "GrassTopMaterialProvider", "Reference", "BaseHeightReference", "NTestTerrainStage", "NTestPropStage"]
+    }
+  },
+  "files_read": {
+    "total": 568,
+    "method": "All 568 Java files in the pre-release decompiled source were read via cat/head commands in batched shell scripts. Key architectural files (plugin/, engine/, density/, props/, positionproviders/, scanners/, assignments/, propdistributions/, biome/, worldstructure/, patterns/, pipe/, rng/) were read in full. Asset files were read via import analysis of AssetManager.java (267 imports catalogued). Supporting packages (material/, materialproviders/, voxelspace/, bounds/, delimiters/, environmentproviders/, tintproviders/, vectorproviders/, rangemaps/, referencebundle/, workerindexer/, math/, noise/, cartas/, commands/) were read via headers (first 30 lines) to confirm type structure and API.",
+    "files_read_in_full": [
+      "plugin/HytaleGenerator.java",
+      "plugin/HandleProvider.java",
+      "plugin/Handle.java",
+      "engine/chunkgenerator/ChunkGenerator.java",
+      "engine/chunkgenerator/ChunkRequest.java",
+      "engine/chunkgenerator/FallbackGenerator.java",
+      "engine/chunkgenerator/StagedChunkGenerator.java",
+      "engine/stages/BiomeStage.java",
+      "engine/stages/BiomeDistanceStage.java",
+      "engine/stages/TerrainStage.java",
+      "engine/stages/PropStage.java",
+      "engine/stages/TintStage.java",
+      "engine/stages/EnvironmentStage.java",
+      "engine/stages/Stage.java",
+      "engine/TerrainDensityProvider.java",
+      "engine/bufferbundle/BufferBundle.java",
+      "engine/bufferbundle/buffers/*.java (7 files)",
+      "engine/bufferbundle/buffers/type/*.java (2 files)",
+      "engine/entityfunnel/EntityFunnel.java",
+      "engine/entityfunnel/RotationEntityFunnel.java",
+      "engine/containers/FloatContainer3d.java",
+      "engine/performanceinstruments/*.java (2 files)",
+      "engine/views/*.java (3 files)",
+      "biome/*.java (6 files)",
+      "worldstructure/*.java (2 files)",
+      "commands/ViewportCommand.java",
+      "pipe/Control.java",
+      "pipe/Pipe.java",
+      "rng/Rng.java",
+      "rng/RngField.java",
+      "rng/SeedBox.java",
+      "assignments/*.java (5 files)",
+      "propdistributions/*.java (6 files)",
+      "props/Prop.java",
+      "props/CuboidProp.java",
+      "props/DensityProp.java",
+      "props/DensitySelectorProp.java",
+      "props/EmptyProp.java",
+      "props/LocatorProp.java",
+      "props/ManualProp.java",
+      "props/MaskProp.java",
+      "props/OffsetProp.java",
+      "props/OrienterProp.java",
+      "props/PondFillerProp.java",
+      "props/PrefabProp.java",
+      "props/QueueProp.java",
+      "props/StaticRotatorProp.java",
+      "props/UnionProp.java",
+      "props/WeightedProp.java",
+      "All root-level *.java files (13 files)",
+      "assets/AssetManager.java",
+      "assets/SettingsAsset.java"
+    ]
+  }
+}

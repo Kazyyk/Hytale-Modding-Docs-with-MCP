@@ -1,0 +1,381 @@
+{
+  "version": "1.0.0-pre",
+  "generated_at": "2026-03-22T00:00:00Z",
+  "domain": "worldgen_server",
+  "baseline": "stable",
+  "overview": "Pre-release incremental update to the worldgen server subsystem. Major themes: (1) modding support via ModifyEvent dispatch hooks in all container and cave loaders, enabling runtime modification of biome covers, layers, prefabs, tints, environments, water, cave types, and cave prefabs; (2) ListPool-based array construction replacing fixed-size array pre-allocation for safer, more flexible JSON loading; (3) new CaveFileContext for hierarchical cave configuration referencing across zones; (4) FileContext type hierarchy refactored with RootContext sentinel, content path computation, and proper generic bounds; (5) chunk generation boundary checking to prevent out-of-bounds generation near coordinate limits; (6) cave shape geometry validation via bounds-based hasGeometry(); (7) cross-zone cave node type referencing.",
+  "confidence": "high",
+  "change_summary": {
+    "added_types": 4,
+    "removed_types": 0,
+    "modified_types": 27,
+    "total_files_read": 39
+  },
+  "subsections": {
+    "new_types": {
+      "overview": "4 new types added to the worldgen server subsystem.",
+      "types": [
+        {
+          "name": "ListPool",
+          "package": "util",
+          "kind": "class",
+          "status": "ADDED",
+          "purpose": "Thread-safe pooled list allocator for temporary array construction during JSON loading. Uses ConcurrentLinkedQueue with configurable capacity (default 10). Inner class Resource<T> extends ObjectArrayList and implements AutoCloseable for try-with-resources usage. toArray() returns typed array using the pool's empty array prototype. Used by all container loaders and cave loaders to replace fixed-size array pre-allocation.",
+          "key_methods": ["acquire(): Resource<T>", "acquire(int capacity): Resource<T>", "release(Resource<T>)"],
+          "inner_types": ["Resource<T> extends ObjectArrayList<T> implements AutoCloseable"]
+        },
+        {
+          "name": "CaveFileContext",
+          "package": "loader.context",
+          "kind": "class extends FileContext<ZoneFileContext>",
+          "status": "ADDED",
+          "purpose": "New file context type for cave configuration hierarchies. Resolves cave paths relative to the parent ZoneFileContext's Cave/ subdirectory. Supports both name-based and explicit path construction. Used by CaveTypesJsonLoader and CavePrefabContainerJsonLoader to provide modding event context for cave modifications.",
+          "constructors": ["CaveFileContext(String name, ZoneFileContext parentContext)", "CaveFileContext(String name, Path relativePath, ZoneFileContext parentContext)"]
+        },
+        {
+          "name": "FileContext.RootContext",
+          "package": "loader.context (inner class)",
+          "kind": "static class extends FileContext<RootContext>",
+          "status": "ADDED",
+          "purpose": "Sentinel root context replacing null parentContext. Singleton INSTANCE with id=-1, name='.', filepath=Paths.get('.'). FileLoadingContext now extends FileContext<RootContext> instead of self-referencing. Enables safe traversal up the context hierarchy without null checks."
+        },
+        {
+          "name": "FileContext.Registry",
+          "package": "loader.context (inner class)",
+          "kind": "static class implements Iterable<Entry<String, T>>",
+          "status": "ADDED",
+          "purpose": "Generic named registry backed by Object2ObjectLinkedOpenHashMap. Provides register(), get(), contains(), size(). Error messages reference Constants.ERROR_MISSING_ENTRY and ERROR_DUPLICATE_ENTRY. Used within the file context system for named lookups."
+        }
+      ]
+    },
+    "modding_event_system": {
+      "overview": "All container and cave JSON loaders now dispatch ModifyEvent hooks after loading their entries, allowing registered event handlers to add, remove, or modify worldgen elements at load time. This is the foundation for a modding API on biome/cave configuration. Events use a SeedGenerator for deterministic seed assignment to mod-added entries. An EventHandler is acquired in ChunkGeneratorJsonLoader and released after loading completes.",
+      "changed_types": [
+        {
+          "name": "ChunkGeneratorJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "try-with-resources now also acquires EventHandler via EventHandler.acquire(config.path())",
+            "FileContextLoader constructor now takes name parameter",
+            "FileLoadingContext created with name from config"
+          ]
+        },
+        {
+          "name": "CoverContainerJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor now takes BiomeFileContext parameter",
+            "Uses ListPool.Resource<CoverContainerEntry> with try-with-resources instead of fixed array",
+            "Dispatches ModifyEvents.BiomeCovers after loading entries",
+            "ModifyEvent.SeedGenerator for deterministic mod entry seeds"
+          ]
+        },
+        {
+          "name": "EnvironmentContainerJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor now takes BiomeFileContext parameter",
+            "Uses ListPool with EnvironmentContainer.ENTRY_POOL",
+            "mustGetArray() replaces manual has()/get() pattern",
+            "Dispatches ModifyEvents.BiomeEnvironments"
+          ]
+        },
+        {
+          "name": "LayerContainerJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor now takes BiomeFileContext parameter",
+            "Uses ListPool for both static and dynamic layers",
+            "mustGetArray() replaces manual has()/get() pattern",
+            "Dispatches ModifyEvents.BiomeStaticLayers and ModifyEvents.BiomeDynamicLayers"
+          ]
+        },
+        {
+          "name": "PrefabContainerJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor now takes BiomeFileContext instead of FileLoadingContext",
+            "fileContext derived from biomeContext.getParentContext().getParentContext()",
+            "Uses ListPool with PrefabContainer.ENTRY_POOL",
+            "mustGetArray() replaces manual has()/get() pattern",
+            "Dispatches ModifyEvents.BiomePrefabs"
+          ]
+        },
+        {
+          "name": "TintContainerJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor now takes BiomeFileContext parameter",
+            "Uses ListPool with TintContainer.ENTRY_POOL",
+            "mustGetArray() replaces manual has()/get() pattern",
+            "Dispatches ModifyEvents.BiomeTints",
+            "Returns ObjectArrayList instead of Collections.emptyList()"
+          ]
+        },
+        {
+          "name": "WaterContainerJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor now takes BiomeFileContext parameter",
+            "Uses ListPool with WaterContainer.ENTRY_POOL",
+            "Dispatches ModifyEvents.BiomeWater"
+          ]
+        },
+        {
+          "name": "CaveTypesJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Creates CaveFileContext('Caves', zoneContext) in constructor",
+            "Uses ListPool with CaveType.ENTRY_POOL",
+            "loadCaveType() refactored: takes JsonObject, extracts Name internally (was external loadName())",
+            "loadName() method removed",
+            "Dispatches ModifyEvents.CaveTypes"
+          ]
+        },
+        {
+          "name": "CavePrefabContainerJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor now takes CaveFileContext instead of ZoneFileContext",
+            "Uses ListPool with CavePrefabContainer.ENTRY_POOL",
+            "mustGetArray() replaces manual has()/get() pattern",
+            "Child entry loader uses context.getParentContext() for zone context",
+            "Dispatches ModifyEvents.CavePrefabs"
+          ]
+        },
+        {
+          "name": "BiomeJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "All container loader constructors now pass biomeContext parameter",
+            "CoverContainerJsonLoader, LayerContainerJsonLoader, PrefabContainerJsonLoader, TintContainerJsonLoader, EnvironmentContainerJsonLoader, WaterContainerJsonLoader all receive BiomeFileContext"
+          ]
+        }
+      ]
+    },
+    "list_pool_integration": {
+      "overview": "All worldgen container types now have static ListPool fields for pooled array construction during JSON loading. This replaces the pattern of pre-allocating fixed-size arrays from JSON array lengths.",
+      "changed_types": [
+        {
+          "name": "CoverContainer",
+          "status": "MODIFIED",
+          "changes": [
+            "New static ENTY_POOL: ListPool<CoverContainerEntry> with capacity 10"
+          ]
+        },
+        {
+          "name": "EnvironmentContainer",
+          "status": "MODIFIED",
+          "changes": [
+            "New static ENTRY_POOL: ListPool<EnvironmentContainerEntry> with capacity 10"
+          ]
+        },
+        {
+          "name": "LayerContainer",
+          "status": "MODIFIED",
+          "changes": [
+            "New static STATIC_POOL: ListPool<StaticLayer> with capacity 10",
+            "New static DYNAMIC_POOL: ListPool<DynamicLayer> with capacity 10"
+          ]
+        },
+        {
+          "name": "PrefabContainer",
+          "status": "MODIFIED",
+          "changes": [
+            "New static ENTRY_POOL: ListPool<PrefabContainerEntry> with capacity 10"
+          ]
+        },
+        {
+          "name": "TintContainer",
+          "status": "MODIFIED",
+          "changes": [
+            "New static ENTRY_POOL: ListPool<TintContainerEntry> with capacity 10"
+          ]
+        },
+        {
+          "name": "WaterContainer",
+          "status": "MODIFIED",
+          "changes": [
+            "New static ENTRY_POOL: ListPool<Entry> with capacity 10"
+          ]
+        },
+        {
+          "name": "CaveNodeType",
+          "status": "MODIFIED",
+          "changes": [
+            "New static COVER_POOL: ListPool<CaveNodeCoverEntry> with capacity 10",
+            "New static CHILD_POOL: ListPool<CaveNodeChildEntry> with capacity 10"
+          ]
+        },
+        {
+          "name": "CaveType",
+          "status": "MODIFIED",
+          "changes": [
+            "New static ENTRY_POOL: ListPool<CaveType> with capacity 10"
+          ]
+        },
+        {
+          "name": "CavePrefabContainer",
+          "status": "MODIFIED",
+          "changes": [
+            "New static ENTRY_POOL: ListPool<CavePrefabEntry> with capacity 10"
+          ]
+        }
+      ]
+    },
+    "file_context_refactoring": {
+      "overview": "The FileContext hierarchy has been significantly refactored to support content path computation, proper root traversal, and type-safe parent context references.",
+      "changed_types": [
+        {
+          "name": "FileContext",
+          "status": "MODIFIED",
+          "changes": [
+            "Generic signature changed from FileContext<T> to FileContext<T extends FileContext<?>>",
+            "Fields name, filepath, parentContext now @Nonnull annotated",
+            "New transient fields: rootPath, contentPath (lazy-computed)",
+            "New methods: getRootPath() -> String, getContentPath() -> String, getRoot() -> FileContext<?>",
+            "toContentPath() static helper builds dot-separated content path from filepath relative to root",
+            "New inner class: RootContext (singleton sentinel)",
+            "New inner class: Registry<T> (named registry with Object2ObjectLinkedOpenHashMap backing)",
+            "New inner interface: Constants (ERROR_MISSING_ENTRY, ERROR_DUPLICATE_ENTRY)"
+          ]
+        },
+        {
+          "name": "FileLoadingContext",
+          "status": "MODIFIED",
+          "changes": [
+            "Now extends FileContext<FileContext.RootContext> instead of FileContext<FileLoadingContext>",
+            "Constructor takes name parameter: FileLoadingContext(String name, Path filepath)",
+            "Uses FileContext.RootContext.INSTANCE as parent instead of null",
+            "Removed self-referencing getParentContext() override"
+          ]
+        },
+        {
+          "name": "FileContextLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "New name field, passed to FileLoadingContext constructor"
+          ]
+        },
+        {
+          "name": "BiomeFileContext",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor parameters now @Nonnull annotated"
+          ]
+        },
+        {
+          "name": "ZoneFileContext",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor parameters now @Nonnull annotated"
+          ]
+        }
+      ]
+    },
+    "chunk_generation_bounds": {
+      "overview": "ChunkGenerator now computes and enforces generatable area bounds based on the largest feature extents (cave sizes + prefab sizes) to prevent out-of-bounds generation near coordinate limits.",
+      "changed_types": [
+        {
+          "name": "ChunkGenerator",
+          "status": "MODIFIED",
+          "changes": [
+            "New constants: CHUNK_BOUNDS_PADDING = 16, NO_CHUNK (pre-computed null CompletableFuture)",
+            "New fields: minChunkCoord, maxChunkCoord (computed from coordinate limits minus feature extents)",
+            "Constructor computes getLargestFeatureChunkExtents() across all zones' cave types and biome prefab entries",
+            "generate() returns NO_CHUNK for out-of-bounds chunks instead of scheduling async work",
+            "New method: isChunkOutsideGeneratableArea(int x, int z)",
+            "New static method: getLargestFeatureChunkExtents(ZonePatternProvider, padding) scans all cave maximumSize and prefab maxSize values"
+          ]
+        }
+      ]
+    },
+    "cave_system_changes": {
+      "overview": "Cave shape geometry validation improved, cross-zone cave type referencing added, and cave node type loading refactored for modding support.",
+      "changed_types": [
+        {
+          "name": "CaveNodeShape",
+          "status": "MODIFIED",
+          "changes": [
+            "hasGeometry() changed from always-true to bounds-based: returns this.getBounds().isValid()",
+            "This delegates to IChunkBounds/IWorldBounds.isValid() which checks high > low for all axes"
+          ]
+        },
+        {
+          "name": "DistortedShape",
+          "status": "MODIFIED",
+          "changes": [
+            "Removed hasGeometry() method (was checking high > low bounds per axis)",
+            "Geometry validation now handled by CaveNodeShape via IWorldBounds.isValid()"
+          ]
+        },
+        {
+          "name": "DistortedCaveNodeShape",
+          "status": "MODIFIED",
+          "changes": [
+            "Removed hasGeometry() override that delegated to shape.hasGeometry()",
+            "Now inherits CaveNodeShape.hasGeometry() which uses getBounds().isValid()"
+          ]
+        },
+        {
+          "name": "CaveGenerator",
+          "status": "MODIFIED",
+          "changes": [
+            "New assertion: 'Cannot generate cave-prefab inside an invalid shape' before prefab placement"
+          ]
+        },
+        {
+          "name": "CaveTypeJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Cross-zone cave node type referencing: strings starting with 'Zones.' are resolved by parsing the zone name from the path, looking up the ZoneFileContext, and loading from that zone's Cave/ folder",
+            "CaveNodeTypeStorage now created per-resolution instead of once upfront"
+          ]
+        },
+        {
+          "name": "CaveNodeTypeJsonLoader",
+          "status": "MODIFIED",
+          "changes": [
+            "Children loading refactored: array children now use loop-based ListPool accumulation instead of fixed array pre-allocation",
+            "Single-child JSON object case handled within same code path",
+            "Uses ListPool via CaveNodeType.CHILD_POOL"
+          ]
+        }
+      ]
+    },
+    "bounds_validation": {
+      "overview": "IChunkBounds and IWorldBounds interfaces now include validity checking and safer random offset computation.",
+      "changed_types": [
+        {
+          "name": "IChunkBounds",
+          "status": "MODIFIED",
+          "changes": [
+            "New default method: isValid() returns highX > lowX && highZ > lowZ",
+            "getRandomXOffset/getRandomZOffset now delegate to new static getRandomOffset(min, max, random)",
+            "getRandomOffset() includes assertion that max > min, returns min as fallback if max <= min"
+          ]
+        },
+        {
+          "name": "IWorldBounds",
+          "status": "MODIFIED",
+          "changes": [
+            "getRandomYOffset() now delegates to IChunkBounds.getRandomOffset()",
+            "New isValid() override: extends IChunkBounds.isValid() with highY > lowY check"
+          ]
+        }
+      ]
+    },
+    "other_changes": {
+      "overview": "Miscellaneous changes.",
+      "changed_types": [
+        {
+          "name": "WorldGenPrefabSupplier",
+          "status": "MODIFIED",
+          "changes": [
+            "New getPrefabKey() accessor returning the prefab path key string"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,524 @@
+{
+  "version": "1.0.0-pre",
+  "generated_at": "2026-03-22T00:00:00Z",
+  "domain": "protocol",
+  "base_version": "stable (build 20, CRC -1356075132)",
+  "pre_release_version": "pre-release (build 51, CRC 1080406952)",
+  "overview": "Incremental protocol mapping for the pre-release JAR. Protocol version remains 2 but build number jumped from 20 to 51. Total registered packets increased from 268 to 280 (+12). Struct count 339->343 (+4). Enum count 137->142 (+5). Major additions: voice chat system (new 'voice' sub-package + Voice network channel), emote system, stream negotiation, connection packet split (Disconnect -> ClientDisconnect + ServerDisconnect), and enriched item/block definitions. Files read: 785 protocol .java files in pre-release.",
+  "confidence": "high",
+  "files_read": 785,
+
+  "protocol_settings_delta": {
+    "PROTOCOL_CRC": {"stable": -1356075132, "preRelease": 1080406952},
+    "PROTOCOL_BUILD_NUMBER": {"stable": 20, "preRelease": 51},
+    "PACKET_COUNT": {"stable": 268, "preRelease": 280},
+    "STRUCT_COUNT": {"stable": 339, "preRelease": 343},
+    "ENUM_COUNT": {"stable": 137, "preRelease": 142},
+    "PROTOCOL_VERSION": "unchanged at 2",
+    "MAX_PACKET_SIZE": "unchanged at 1677721600"
+  },
+
+  "added_types": {
+    "root_package": [
+      {
+        "name": "ConditionalBlockSound",
+        "kind": "data_type",
+        "fields": ["int soundEventIndex", "int ambienceFXIndex"],
+        "fixed_size": 8,
+        "description": "New fixed-size struct linking a sound event to an ambience FX condition. Used in the new BlockType.conditionalSounds array field."
+      },
+      {
+        "name": "DebugFlags",
+        "kind": "enum",
+        "values": ["Fade(0)", "NoWireframe(1)", "NoSolid(2)"],
+        "description": "New enum for debug rendering flags controlling fade, wireframe, and solid rendering modes."
+      },
+      {
+        "name": "FormattedMessageImage",
+        "kind": "data_type",
+        "fields": ["String filePath", "int width", "int height"],
+        "fixed_size": 8,
+        "variable_fields": 1,
+        "description": "New struct for embedding images in formatted messages. Contains file path and dimensions."
+      },
+      {
+        "name": "ItemHudUI",
+        "kind": "data_type",
+        "fields": ["String? path", "ItemHudUIType type"],
+        "nullable_fields": 1,
+        "description": "New struct defining HUD UI elements attached to items. Can reference a UI definition by path."
+      },
+      {
+        "name": "ItemHudUIType",
+        "kind": "enum",
+        "values": ["Hud(0)", "Legend(1)"],
+        "description": "New enum distinguishing between HUD overlay and legend UI types for items."
+      },
+      {
+        "name": "ProtocolEmote",
+        "kind": "data_type",
+        "fields": ["String? id", "String? name", "String? animation", "String? icon", "boolean isLooping"],
+        "nullable_fields": 4,
+        "description": "New struct defining an emote: identity, display name, animation reference, icon, and looping flag. Carried in UpdateEmotes packet."
+      },
+      {
+        "name": "SubCategoryDefinition",
+        "kind": "data_type",
+        "fields": ["String? id", "String? name", "String? description", "int order"],
+        "nullable_fields": 3,
+        "description": "New struct for item sub-category definitions with id, display name, description, and sort order. Referenced by the new ItemBase.subCategory field and ItemCategory changes."
+      }
+    ],
+    "packets": {
+      "voice": {
+        "description": "Entirely new sub-package for voice chat. Four types, three are packets. Uses new Voice NetworkChannel.",
+        "types": [
+          {
+            "name": "VoiceData",
+            "id": 450,
+            "direction": "ToServer",
+            "channel": "Voice",
+            "compressed": false,
+            "fields": ["short sequenceNumber", "int timestamp", "byte[] opusData"],
+            "max_size": 523,
+            "description": "Client sends Opus-encoded voice audio data to server. Max 512 bytes of opus data per frame."
+          },
+          {
+            "name": "RelayedVoiceData",
+            "id": 451,
+            "direction": "ToClient",
+            "channel": "Default",
+            "compressed": false,
+            "fields": ["UUID speakerId", "int entityId", "short sequenceNumber", "int timestamp", "Position? speakerPosition", "boolean speakerIsUnderwater", "byte[] opusData"],
+            "max_size": 569,
+            "description": "Server relays voice data from a speaker to nearby listeners. Includes 3D position for spatial audio and underwater flag for audio effects."
+          },
+          {
+            "name": "VoiceConfig",
+            "id": 452,
+            "direction": "ToClient",
+            "channel": "Default",
+            "compressed": false,
+            "fields": ["boolean voiceEnabled", "VoiceCodec codec", "int sampleRate", "byte channels", "float maxHearingDistance", "float referenceDistance", "boolean supportsVoiceStream", "byte maxPacketsPerSecond"],
+            "max_size": 17,
+            "description": "Server configures voice chat parameters: codec, sample rate, spatial audio distances, and rate limiting."
+          },
+          {
+            "name": "VoiceCodec",
+            "kind": "enum",
+            "values": ["Opus(0)"],
+            "description": "Codec enum for voice chat. Currently only Opus."
+          }
+        ]
+      },
+      "stream": {
+        "description": "Entirely new sub-package for QUIC stream negotiation. Three types.",
+        "types": [
+          {
+            "name": "StreamOpen",
+            "id": 460,
+            "direction": "ToServer",
+            "channel": "Default",
+            "compressed": false,
+            "fields": ["StreamType type"],
+            "description": "Client requests opening a new QUIC stream of the given type."
+          },
+          {
+            "name": "StreamOpenResponse",
+            "id": 461,
+            "direction": "ToClient",
+            "channel": "Default",
+            "compressed": false,
+            "fields": ["StreamType type", "boolean accepted", "String? rejectionReason"],
+            "description": "Server responds to stream open request with accept/reject and optional rejection reason."
+          },
+          {
+            "name": "StreamType",
+            "kind": "enum",
+            "values": ["Game(0)", "Voice(1)"],
+            "description": "Logical stream types: Game (default) or Voice (requires stream negotiation)."
+          }
+        ]
+      },
+      "connection": {
+        "description": "Connection packet restructuring: single Disconnect split into direction-specific packets with richer types.",
+        "types": [
+          {
+            "name": "ClientDisconnect",
+            "id": 1,
+            "direction": "ToServer",
+            "compressed": false,
+            "fields": ["ClientDisconnectReason reason", "DisconnectType type"],
+            "description": "Client-to-server disconnect. Replaces the 'Both' direction Disconnect(id=1). Now includes structured ClientDisconnectReason."
+          },
+          {
+            "name": "ServerDisconnect",
+            "id": 2,
+            "direction": "ToClient",
+            "compressed": false,
+            "fields": ["FormattedMessage? reason", "DisconnectType type"],
+            "description": "Server-to-client disconnect. Replaces old Disconnect for ToClient direction. Uses FormattedMessage instead of plain String for rich-text disconnect messages."
+          },
+          {
+            "name": "ClientDisconnectReason",
+            "kind": "enum",
+            "values": ["PlayerLeave(0)", "PlayerAbort(1)", "UserLeave(2)", "Crash(3)"],
+            "description": "New enum distinguishing client disconnect causes: normal leave, abort, user-initiated leave, or crash."
+          },
+          {
+            "name": "QuicApplicationErrorCode",
+            "kind": "enum",
+            "values": ["NoError(0)", "RateLimited(1)", "AuthFailed(2)", "InvalidVersion(3)", "Timeout(4)", "ClientOutdated(5)", "ServerOutdated(6)"],
+            "description": "New protocol-level enum for QUIC application error codes. Previously these were int constants in ProtocolUtil; now formally part of the protocol schema."
+          }
+        ]
+      },
+      "entities": [
+        {
+          "name": "PlayEmote",
+          "id": 167,
+          "direction": "ToServer",
+          "compressed": false,
+          "fields": ["String? emoteId"],
+          "description": "Client requests playing an emote by ID. Part of the new emote system."
+        }
+      ],
+      "assets": [
+        {
+          "name": "UpdateEmotes",
+          "id": 86,
+          "direction": "ToClient",
+          "compressed": true,
+          "fields": ["UpdateType type", "int maxId", "Map<Integer, ProtocolEmote>? emotes"],
+          "description": "Server sends emote definitions to client. Uses Init/AddOrUpdate/Remove update type pattern like other asset packets."
+        }
+      ],
+      "asseteditor": [
+        {
+          "name": "AssetEditorModsDirectories",
+          "id": 356,
+          "direction": "ToClient",
+          "compressed": false,
+          "fields": ["String[]? directories"],
+          "description": "New packet sending mod directory listings to the asset editor client."
+        }
+      ],
+      "buildertools": [
+        {
+          "name": "BuilderToolResetClipboardRotation",
+          "id": 427,
+          "direction": "ToServer",
+          "compressed": false,
+          "fields": [],
+          "description": "Empty packet. Client requests clipboard rotation reset."
+        },
+        {
+          "name": "ClipboardEntityChange",
+          "kind": "data_type",
+          "fields": ["float x", "float y", "float z", "int blockId", "Model? model", "String? itemId", "Direction? bodyOrientation", "Direction? lookOrientation", "float scale"],
+          "fixed_size": 45,
+          "description": "New struct describing an entity change in clipboard operations. Carries position, block/model/item context, orientation, and scale."
+        },
+        {
+          "name": "PrefabSetAnchor",
+          "id": 426,
+          "direction": "ToServer",
+          "compressed": false,
+          "fields": ["int x", "int y", "int z"],
+          "description": "Client sends prefab anchor position. Previously handled via an Interaction; now a dedicated packet."
+        },
+        {
+          "name": "RotationFace",
+          "kind": "enum",
+          "values": ["Up(0)", "Down(1)", "North(2)", "South(3)", "East(4)", "West(5)", "Camera(6)"],
+          "description": "New enum for rotation face directions, including Camera-relative."
+        }
+      ],
+      "world": [
+        {
+          "name": "PlaySoundEventLocalPlayer",
+          "id": 362,
+          "direction": "ToClient",
+          "compressed": false,
+          "fields": ["int localSoundEventIndex", "int worldSoundEventIndex", "SoundCategory category", "float volumeModifier", "float pitchModifier"],
+          "fixed_size": 17,
+          "description": "New packet for playing a sound event attached to the local player. Includes both local and world sound event indices plus volume/pitch modifiers."
+        }
+      ]
+    }
+  },
+
+  "removed_types": {
+    "root_package": [
+      {
+        "name": "Equipment",
+        "reason": "Fields (armorIds, rightHandItemId, leftHandItemId) were already carried by EquipmentUpdate component update. Standalone type removed as redundant."
+      },
+      {
+        "name": "ItemBuilderToolData",
+        "reason": "Replaced by BuilderToolState from the buildertools packets package. ItemBase.builderToolData field now references BuilderToolState directly."
+      },
+      {
+        "name": "Nameplate",
+        "reason": "Simple wrapper with single 'text' field. Likely inlined into NameplateUpdate directly."
+      },
+      {
+        "name": "SortType",
+        "reason": "Enum (Name/Type/Rarity) removed. Sorting may now be handled client-side or through a different mechanism."
+      }
+    ],
+    "packets": {
+      "connection": [
+        {
+          "name": "Disconnect",
+          "id_was": 1,
+          "reason": "Split into ClientDisconnect (id=1, ToServer) and ServerDisconnect (id=2, ToClient) for direction-specific semantics and richer payloads."
+        }
+      ],
+      "auth": [
+        {
+          "name": "Status",
+          "id_was": 10,
+          "reason": "Server status/query packet removed. May be handled via a different mechanism (e.g., out-of-band QUIC query)."
+        }
+      ],
+      "buildertools": [
+        {
+          "name": "BuilderToolArgGroup",
+          "reason": "Enum removed. BuilderToolArgUpdate no longer has a 'group' field; tool arg updates are now ungrouped."
+        },
+        {
+          "name": "BuilderToolBrushData",
+          "reason": "Data type removed. BuilderToolState no longer contains a separate brushData struct; brush parameters moved to tool args (builtin_Width, builtin_Height, etc.)."
+        }
+      ]
+    }
+  },
+
+  "modified_types": {
+    "root_package": [
+      {
+        "name": "NetworkChannel",
+        "change": "added_enum_value",
+        "detail": "Added Voice(3) channel. Now 4 channels: Default(0), Chunks(1), WorldMap(2), Voice(3). Voice channel dedicated to VoiceData packets.",
+        "breaking": true
+      },
+      {
+        "name": "SoundCategory",
+        "change": "added_enum_value",
+        "detail": "Added Voice(4). Now 5 values: Music(0), Ambient(1), SFX(2), UI(3), Voice(4).",
+        "breaking": false
+      },
+      {
+        "name": "AmbienceFXSoundPlay3D",
+        "change": "added_enum_value_and_renumbered",
+        "detail": "Added LocationNameRandom(2); No shifted from 2 to 3. Values: Random(0), LocationName(1), LocationNameRandom(2), No(3).",
+        "breaking": true
+      },
+      {
+        "name": "FormattedMessage",
+        "change": "added_field",
+        "detail": "Added nullable 'FormattedMessageImage image' field. VARIABLE_FIELD_COUNT 7->8, VARIABLE_BLOCK_START 34->38. Enables embedding images in chat/UI messages.",
+        "breaking": true
+      },
+      {
+        "name": "BlockType",
+        "change": "added_field",
+        "detail": "Added nullable 'ConditionalBlockSound[] conditionalSounds' array field. VARIABLE_FIELD_COUNT 24->25, VARIABLE_BLOCK_START 260->264. Allows blocks to play sounds conditionally based on ambience FX state.",
+        "breaking": true
+      },
+      {
+        "name": "ItemBase",
+        "change": "multiple_field_changes",
+        "detail": "Major changes: (1) builderToolData type changed from ItemBuilderToolData to BuilderToolState; (2) 'animation' field removed (String); (3) new 'subCategory' field (String?); (4) new 'hudUI' field (ItemHudUI[]?). NULLABLE_BIT_FIELD_SIZE 4->5, FIXED_BLOCK_SIZE 147->148, VARIABLE_FIELD_COUNT 26->28, VARIABLE_BLOCK_START 251->260.",
+        "breaking": true
+      },
+      {
+        "name": "ItemCategory",
+        "change": "structural_change",
+        "detail": "Significant restructuring (202 diff lines). Likely related to SubCategoryDefinition integration.",
+        "breaking": true
+      },
+      {
+        "name": "ItemLibrary",
+        "change": "minor",
+        "detail": "Small adjustment (6 diff lines), likely offset recalculation due to ItemBase changes.",
+        "breaking": false
+      },
+      {
+        "name": "MovementStates",
+        "change": "added_field",
+        "detail": "Added 'boolean fallingFar' field. FIXED_BLOCK_SIZE 22->23. Inserted after 'falling' in serialization order, shifting all subsequent field offsets.",
+        "breaking": true
+      },
+      {
+        "name": "MovementStatesUpdate",
+        "change": "follows_movementstates",
+        "detail": "Updated to match MovementStates layout changes (carries MovementStates inline).",
+        "breaking": true
+      },
+      {
+        "name": "SoundEvent",
+        "change": "added_field",
+        "detail": "Added 'float spatialBlend' field. FIXED_BLOCK_SIZE 34->38. Controls 2D/3D audio spatialization blend.",
+        "breaking": true
+      },
+      {
+        "name": "ProjectileConfig",
+        "change": "added_field",
+        "detail": "Added 'int launchWorldSoundEventIndex' field. FIXED_BLOCK_SIZE 163->167. Separate sound event for projectile launch (world-audible) vs in-flight sound.",
+        "breaking": true
+      },
+      {
+        "name": "AmbienceFX",
+        "change": "minor_field_change",
+        "detail": "Small structural adjustment (14 diff lines).",
+        "breaking": false
+      },
+      {
+        "name": "AmbienceFXSound",
+        "change": "structural_change",
+        "detail": "Moderate changes (49 diff lines). Likely related to AmbienceFXSoundPlay3D enum renumbering.",
+        "breaking": true
+      },
+      {
+        "name": "PacketRegistry",
+        "change": "registration_update",
+        "detail": "Updated to register all new packets (280 total). Reflects all added/removed/renumbered packets. 257 diff lines.",
+        "breaking": true
+      },
+      {
+        "name": "ProtocolSettings",
+        "change": "version_bump",
+        "detail": "CRC, build number, packet/struct/enum counts all updated. See protocol_settings_delta.",
+        "breaking": true
+      }
+    ],
+    "packets": {
+      "connection": [
+        {
+          "name": "Ping",
+          "change": "renumbered",
+          "detail": "PACKET_ID changed from 2 to 3. Due to Disconnect split: ClientDisconnect takes id 1, ServerDisconnect takes id 2, pushing Ping to 3.",
+          "breaking": true
+        },
+        {
+          "name": "Pong",
+          "change": "likely_renumbered",
+          "detail": "Expected to be renumbered correspondingly (was id 3, likely now 4).",
+          "breaking": true
+        }
+      ],
+      "buildertools": [
+        {
+          "name": "BuilderToolArg",
+          "change": "added_field_and_restructured",
+          "detail": "Added nullable 'String id' field. VARIABLE_FIELD_COUNT 4->5. Field ordering shifted: id is now the first variable field, pushing stringArg and blockArg to later offsets. Args now have explicit IDs rather than being keyed by map.",
+          "breaking": true
+        },
+        {
+          "name": "BuilderToolArgUpdate",
+          "change": "removed_group_field",
+          "detail": "Removed 'BuilderToolArgGroup group' field. FIXED_BLOCK_SIZE 14->13. Tool arg updates are no longer grouped; args identified by id/slot alone.",
+          "breaking": true
+        },
+        {
+          "name": "BuilderToolOnUseInteraction",
+          "change": "added_field",
+          "detail": "Added 'int undoGroupSize' field. FIXED_BLOCK_SIZE 57->61. Allows client to request grouping multiple brush operations into a single undo step.",
+          "breaking": true
+        },
+        {
+          "name": "BuilderToolSelectionToolReplyWithClipboard",
+          "change": "added_entity_changes",
+          "detail": "Added nullable 'ClipboardEntityChange[] entityChanges' array. VARIABLE_FIELD_COUNT 2->3. Clipboard reply now includes entity data for transform preview.",
+          "breaking": true
+        },
+        {
+          "name": "BuilderToolSelectionTransform",
+          "change": "quaternion_type_change",
+          "detail": "Rotation field type changed from custom Quatf to org.joml.Quaternionfc. Serialization now uses PacketIO.readQuaternionf/writeQuaternionf. Wire format likely unchanged (same 4 floats).",
+          "breaking": false
+        },
+        {
+          "name": "BuilderToolState",
+          "change": "removed_brush_data_restructured_args",
+          "detail": "Removed 'BuilderToolBrushData brushData' field. 'Map<String, BuilderToolArg> args' changed to 'BuilderToolArg[] args' (array instead of map; args now carry their own id). VARIABLE_FIELD_COUNT 3->2.",
+          "breaking": true
+        }
+      ]
+    }
+  },
+
+  "new_subsystems": {
+    "voice_chat": {
+      "description": "Complete voice chat subsystem added. Uses Opus codec for audio encoding. Spatial audio with 3D positioning (maxHearingDistance, referenceDistance). Server-authoritative configuration via VoiceConfig packet. Stream negotiation via new 'stream' sub-package (StreamOpen/StreamOpenResponse). Dedicated Voice(3) NetworkChannel and Voice(4) SoundCategory.",
+      "packet_flow": [
+        "1. Server sends VoiceConfig to enable/configure voice chat parameters",
+        "2. Client sends StreamOpen(Voice) to request voice stream",
+        "3. Server replies with StreamOpenResponse (accept/reject)",
+        "4. Client sends VoiceData on Voice channel (sequenced, timestamped, Opus-encoded)",
+        "5. Server relays as RelayedVoiceData on Default channel with speaker 3D position"
+      ],
+      "audio_properties": {
+        "codec": "Opus",
+        "max_opus_data_size": 512,
+        "spatial_audio": true,
+        "underwater_effect": true,
+        "rate_limiting": "maxPacketsPerSecond field in VoiceConfig"
+      }
+    },
+    "emote_system": {
+      "description": "New emote system allowing players to perform emote animations. Emote definitions (ProtocolEmote) are sent from server via UpdateEmotes packet. Client triggers emotes via PlayEmote packet.",
+      "packet_flow": [
+        "1. Server sends UpdateEmotes(Init) with full emote map during setup",
+        "2. Server can incrementally update via UpdateEmotes(AddOrUpdate/Remove)",
+        "3. Client sends PlayEmote(emoteId) to trigger an emote"
+      ],
+      "emote_properties": ["id", "name", "animation reference", "icon", "isLooping"]
+    },
+    "stream_negotiation": {
+      "description": "New QUIC stream negotiation protocol. Before using specialized channels (e.g., Voice), clients must request stream creation and receive server approval. StreamType enum currently defines Game and Voice.",
+      "types": ["StreamOpen (ToServer)", "StreamOpenResponse (ToClient)", "StreamType (enum)"]
+    }
+  },
+
+  "connection_protocol_changes": {
+    "disconnect_split": {
+      "description": "The bidirectional Disconnect packet (id=1) has been split into direction-specific packets with richer type information.",
+      "old": "Disconnect(id=1, Both) with fields [String reason, DisconnectType type]",
+      "new": [
+        "ClientDisconnect(id=1, ToServer) with fields [ClientDisconnectReason reason, DisconnectType type]",
+        "ServerDisconnect(id=2, ToClient) with fields [FormattedMessage? reason, DisconnectType type]"
+      ],
+      "implications": [
+        "Client disconnects now carry structured reason (PlayerLeave/PlayerAbort/UserLeave/Crash) instead of free-text",
+        "Server disconnects use FormattedMessage for rich-text disconnect messages with formatting",
+        "Ping/Pong packet IDs shifted due to the split (Ping: 2->3, Pong: 3->4)"
+      ]
+    },
+    "status_removal": {
+      "description": "Status packet (id=10) removed from auth sub-package. Server status queries may now use a different mechanism."
+    },
+    "quic_error_codes": {
+      "description": "QUIC application error codes (previously int constants in ProtocolUtil) now formalized as QuicApplicationErrorCode enum in the protocol schema."
+    }
+  },
+
+  "cross_references": {
+    "voice_to_protocol_root": [
+      "VoiceData uses Voice NetworkChannel (new value 3)",
+      "VoiceConfig references VoiceCodec enum and Voice SoundCategory",
+      "RelayedVoiceData references Position (spatial audio)"
+    ],
+    "emote_to_protocol_root": [
+      "UpdateEmotes carries Map<Integer, ProtocolEmote> using UpdateType enum",
+      "PlayEmote references emotes by string ID"
+    ],
+    "builder_tools_to_protocol_root": [
+      "ItemBase.builderToolData now references BuilderToolState (from packets.buildertools)",
+      "ItemBase gains hudUI (ItemHudUI[]) and subCategory fields",
+      "BlockType gains conditionalSounds (ConditionalBlockSound[]) field"
+    ]
+  }
+}

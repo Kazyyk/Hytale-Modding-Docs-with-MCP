@@ -1,13 +1,10 @@
-# Syncs output/docs/ to an R2 bucket for Cloudflare AI Search indexing.
-# Triggers on pushes to main that modify the docs directory.
+# Syncs documentation to R2 buckets for Cloudflare AI Search indexing.
+# Triggers on pushes to main that modify the docs directories.
 #
 # Required GitHub secrets:
 #   R2_ACCOUNT_ID       - Cloudflare account ID
 #   R2_ACCESS_KEY_ID    - R2 API token access key
 #   R2_SECRET_ACCESS_KEY - R2 API token secret key
-#
-# The R2 bucket name is set below. Create the bucket first in the
-# Cloudflare dashboard before running this workflow.
 
 name: Sync docs to R2
 
@@ -16,27 +13,42 @@ on:
     branches: [main]
     paths:
       - "output/docs/**"
+      - "output/pre-release/docs/**"
   workflow_dispatch: # Allow manual trigger
 
-env:
-  R2_BUCKET: hydex-corpus-stable
-
 jobs:
-  sync:
+  sync-stable:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Sync to R2
+      - name: Sync stable to R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
         run: |
-          aws s3 sync output/docs/ s3://${{ env.R2_BUCKET }}/ \
+          aws s3 sync output/docs/ s3://hydex-corpus-stable/ \
             --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
             --delete \
             --exclude ".gitkeep" \
-            --exclude "*.json" \
-            --exclude "progress.json"
+            --exclude "*.json"
+
+  sync-pre-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync pre-release to R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+        run: |
+          aws s3 sync output/pre-release/docs/ s3://hydex-corpus-pre/ \
+            --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
+            --delete \
+            --exclude ".gitkeep" \
+            --exclude "*.json"
