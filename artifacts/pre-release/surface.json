@@ -1,15 +1,15 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-03-22T20:21:07.705341Z",
+  "generated_at": "2026-03-23T18:00:09.673935Z",
   "total_api_types": 809,
   "seed_types": [
-    "com.hypixel.hytale.server.core.plugin.JavaPluginInit",
     "com.hypixel.hytale.common.plugin.PluginIdentifier",
     "com.hypixel.hytale.server.core.plugin.PluginState",
     "com.hypixel.hytale.server.core.plugin.PluginManager",
     "com.hypixel.hytale.server.core.plugin.JavaPlugin",
     "com.hypixel.hytale.server.core.plugin.PluginBase",
     "com.hypixel.hytale.common.plugin.PluginManifest",
+    "com.hypixel.hytale.server.core.plugin.JavaPluginInit",
     "com.hypixel.hytale.server.core.command.system.CommandRegistry",
     "com.hypixel.hytale.server.core.plugin.registry.AssetRegistry",
     "com.hypixel.hytale.server.core.plugin.registry.CodecMapRegistry",
@@ -105,12 +105,6 @@
   ],
   "types": [
     {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.JavaPluginInit",
-      "inclusion_reason": "seed:tier1",
-      "expansion_path": [],
-      "category": "plugin"
-    },
-    {
       "fqcn": "com.hypixel.hytale.common.plugin.PluginIdentifier",
       "inclusion_reason": "seed:tier1",
       "expansion_path": [],
@@ -142,6 +136,12 @@
     },
     {
       "fqcn": "com.hypixel.hytale.common.plugin.PluginManifest",
+      "inclusion_reason": "seed:tier1",
+      "expansion_path": [],
+      "category": "plugin"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.JavaPluginInit",
       "inclusion_reason": "seed:tier1",
       "expansion_path": [],
       "category": "plugin"
@@ -699,22 +699,6 @@
       "category": "event"
     },
     {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginInit",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.JavaPluginInit"
-      ],
-      "category": "plugin"
-    },
-    {
-      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginClassLoader",
-      "inclusion_reason": "expansion",
-      "expansion_path": [
-        "com.hypixel.hytale.server.core.plugin.JavaPluginInit"
-      ],
-      "category": "plugin"
-    },
-    {
       "fqcn": "com.hypixel.hytale.server.core.plugin.PluginManager.PluginBridgeClassLoader",
       "inclusion_reason": "expansion",
       "expansion_path": [
@@ -761,6 +745,14 @@
         "com.hypixel.hytale.server.core.plugin.PluginManager"
       ],
       "category": "metrics"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginClassLoader",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.JavaPlugin"
+      ],
+      "category": "plugin"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.plugin.PluginType",
@@ -857,6 +849,14 @@
         "com.hypixel.hytale.common.plugin.PluginManifest"
       ],
       "category": "codec"
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginInit",
+      "inclusion_reason": "expansion",
+      "expansion_path": [
+        "com.hypixel.hytale.server.core.plugin.JavaPluginInit"
+      ],
+      "category": "plugin"
     },
     {
       "fqcn": "com.hypixel.hytale.server.core.command.system.CommandRegistration",

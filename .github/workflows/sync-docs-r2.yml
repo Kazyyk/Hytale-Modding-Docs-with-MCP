@@ -1,5 +1,5 @@
 # Syncs optimized corpus to R2 buckets for Cloudflare AI Search indexing.
-# Uses output/corpus/ (built by tools/build-corpus.py) instead of raw docs.
+# Uses output/{branch}/corpus/ (built by tools/build-corpus.py) instead of raw docs.
 # Each job only runs when its respective corpus directory changes.
 #
 # Required GitHub secrets:
@@ -13,7 +13,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "output/corpus/**"
+      - "output/stable/corpus/**"
       - "output/pre-release/corpus/**"
   workflow_dispatch:
     inputs:
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'workflow_dispatch' && (github.event.inputs.branch == 'stable' || github.event.inputs.branch == 'both') ||
-      github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'output/corpus/')
+      github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'output/stable/corpus/')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
         run: |
-          aws s3 sync output/corpus/ s3://hydex-corpus-stable/ \
+          aws s3 sync output/stable/corpus/ s3://hydex-corpus-stable/ \
             --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
             --delete \
             --size-only \

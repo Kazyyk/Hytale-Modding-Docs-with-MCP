@@ -4,10 +4,10 @@ Astro Starlight documentation site for the auto-generated Hytale API reference.
 
 ## How It Works
 
-The generated markdown in `output/docs/` is the source of truth. At build time, a sync script copies those files into Starlight's `src/content/docs/` directory and patches the landing page with Starlight's splash template.
+The generated markdown in `output/stable/docs/` is the source of truth. At build time, a sync script copies those files into Starlight's `src/content/docs/` directory and patches the landing page with Starlight's splash template.
 
 ```
-output/docs/  →  scripts/sync-docs.mjs  →  src/content/docs/  →  astro build  →  dist/
+output/stable/docs/  →  scripts/sync-docs.mjs  →  src/content/docs/  →  astro build  →  dist/
 ```
 
 ## Local Development
@@ -43,7 +43,7 @@ site/
 ├── astro.config.mjs          # Starlight config (sidebar, theme, metadata)
 ├── src/
 │   ├── content.config.ts     # Extended frontmatter schema for Hytale docs
-│   ├── content/docs/         # Synced from output/docs/ (gitignored)
+│   ├── content/docs/         # Synced from output/stable/docs/ (gitignored)
 │   └── styles/custom.css     # Hytale-themed color overrides
 ├── scripts/
 │   └── sync-docs.mjs         # Copies + patches docs at build time

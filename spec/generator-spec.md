@@ -282,9 +282,9 @@ full-depth pages with the same template and quality standards.
 
 **Inputs:** All artifacts from Phases 1–3.
 
-**Outputs:** `output/docs/` — The markdown tree that becomes both the static
+**Outputs:** `output/{branch}/docs/` — The markdown tree that becomes both the static
 site content and the RAG corpus. Pages are organized by Java package under
-`output/docs/packages/` (see Section 3.1).
+`output/{branch}/docs/packages/` (see Section 3.1).
 
 **LLM involvement:** Heavy. With ~7,000 types to document, generation is
 parallelized across sub-agents partitioned by package. Each agent receives
@@ -341,7 +341,7 @@ curated subset. Package index pages are generated for each package directory.
 to a file that exists in the output set, and generate any missing pages.
 
 **Inputs:**
-- `output/docs/` — The full generated markdown tree from Phase 4.
+- `output/{branch}/docs/` — The full generated markdown tree from Phase 4.
 - `artifacts/surface.json` — API surface classification from Phase 2.
 - `artifacts/systems.json` — System mappings from Phase 3.
 - `artifacts/decompiled/` — Decompiled source for generating gap-fill pages.
@@ -349,12 +349,12 @@ to a file that exists in the output set, and generate any missing pages.
 **Outputs:**
 - `artifacts/link-audit.json` — Structured report of all link targets, their
   resolution status, and any corrective actions taken.
-- Additional files written to `output/docs/` for any gap-filled types.
-- Updated `output/docs/progress.json` with gap-fill entries.
+- Additional files written to `output/{branch}/docs/` for any gap-filled types.
+- Updated `output/{branch}/docs/progress.json` with gap-fill entries.
 
 **Process:**
 
-1. **Scan.** Walk every `.md` file in `output/docs/`. For each markdown link
+1. **Scan.** Walk every `.md` file in `output/{branch}/docs/`. For each markdown link
    targeting a `.md` file, resolve the relative path to a normalized absolute
    path within the output tree.
 
@@ -367,7 +367,7 @@ to a file that exists in the output set, and generate any missing pages.
 
 3. **Generate.** For each must-generate type, produce a documentation page
    following the same templates and quality rules as Phase 4. Write it to the
-   appropriate location in `output/docs/packages/`.
+   appropriate location in `output/{branch}/docs/packages/`.
 
 4. **Fix wrong-path links.** For each link that targets the correct filename
    but in the wrong directory, correct the relative path in the source `.md`
@@ -401,7 +401,7 @@ prominence and search ranking — it does not affect file placement. API surface
 types and internal types coexist in the same package directories.
 
 ```
-output/docs/
+output/{branch}/docs/
 ├── index.md                          # Landing page / overview
 ├── meta.json                         # Build metadata (JAR hash, version, timestamp)
 │
@@ -962,7 +962,7 @@ This classification is metadata — it does not gate generation.
 1. Load all artifacts.
 2. For every type in `artifacts/class-index.json`, generate a markdown
    file following the templates in Section 3 of the spec.
-3. Write output to `output/docs/packages/{package}/` where `{package}`
+3. Write output to `output/{branch}/docs/packages/{package}/` where `{package}`
    is the dotted Java package name.
 4. For structural content (signatures, fields, hierarchies): template
    directly from the structured artifacts. Do not rephrase or reformat
@@ -977,7 +977,7 @@ This classification is metadata — it does not gate generation.
 
 ### Link rules (apply during Phase 4 AND Phase 4.1)
 
-- Every `.md` link must resolve to a file in `output/docs/`. If the
+- Every `.md` link must resolve to a file in `output/{branch}/docs/`. If the
   target file doesn't exist yet (batch generation in progress), use
   inline code (`` `TypeName` ``) instead of a link.
 - Relative paths must be correct for the file's directory. Files in the
@@ -1009,7 +1009,7 @@ This classification is metadata — it does not gate generation.
 - `input/` — Place the HytaleServer.jar here.
 - `artifacts/` — Intermediate pipeline outputs. Committed to git for
   debuggability.
-- `output/docs/` — Final generated documentation. This becomes the
+- `output/{branch}/docs/` — Final generated documentation. This becomes the
   static site content and RAG source.
 - `spec/` — This spec and related design documents.
 ```

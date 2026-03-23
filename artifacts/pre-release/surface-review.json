@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-03-22T20:21:07.705341Z",
+  "generated_at": "2026-03-23T18:00:09.673935Z",
   "borderline_cases": [
     {
       "fqcn": "com.hypixel.hytale.builtin.worldgen.modifier.event.EventType",

@@ -2,8 +2,8 @@
 """
 Transforms raw documentation markdown into an optimized corpus for AI Search.
 
-Reads from output/docs/ (or output/{branch}/docs/) and writes to
-output/corpus/ (or output/{branch}/corpus/). The corpus format strips
+Reads from output/{branch}/docs/ and writes to output/{branch}/corpus/.
+The corpus format strips
 frontmatter noise, flattens tables, resolves links, and removes formatting
 overhead to maximize embedding signal per chunk.
 
@@ -27,13 +27,10 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 def resolve_paths(branch: str) -> tuple[Path, Path]:
     """Return (source_docs, target_corpus) paths for the given branch."""
-    if branch == "stable":
-        return PROJECT_ROOT / "output" / "docs", PROJECT_ROOT / "output" / "corpus"
-    else:
-        return (
-            PROJECT_ROOT / "output" / branch / "docs",
-            PROJECT_ROOT / "output" / branch / "corpus",
-        )
+    return (
+        PROJECT_ROOT / "output" / branch / "docs",
+        PROJECT_ROOT / "output" / branch / "corpus",
+    )
 
 
 def parse_frontmatter(content: str) -> tuple[dict, str]:

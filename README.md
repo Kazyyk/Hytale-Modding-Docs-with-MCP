@@ -24,8 +24,8 @@ HytaleServer.jar
 └─────────────────┬───────────────────────────┘
                   │
                   ▼
-           output/docs/
-           65 markdown files
+       output/{branch}/docs/
+        6,400+ markdown files
           ┌───────┴───────┐
           ▼               ▼
    Starlight Site    R2 Bucket
@@ -67,7 +67,7 @@ Every file includes structured frontmatter (kind, FQCN, package, API surface, re
 
 ## Documentation Site
 
-Built with [Astro Starlight](https://starlight.astro.build/) and deployed to [Cloudflare Pages](https://pages.cloudflare.com). The site syncs from `output/docs/` at build time via a script that copies files and patches the landing page with Starlight's splash template.
+Built with [Astro Starlight](https://starlight.astro.build/) and deployed to [Cloudflare Pages](https://pages.cloudflare.com). The site syncs from `output/{branch}/docs/` at build time via a script that copies files and patches the landing page with Starlight's splash template.
 
 Deployed automatically on push via Cloudflare Pages git integration.
 
@@ -102,7 +102,7 @@ See `mcp/README.md` for setup, deployment, and design decisions.
 
 ## CI/CD
 
-A GitHub Action (`.github/workflows/sync-docs-r2.yml`) syncs `output/docs/` to the R2 bucket on push to `main`, excluding JSON metadata files. AI Search re-indexes automatically when the bucket changes.
+A GitHub Action (`.github/workflows/sync-docs-r2.yml`) syncs `output/{branch}/corpus/` to the R2 bucket on push to `main`. AI Search re-indexes automatically when the bucket changes.
 
 ## Project Structure
 
@@ -125,7 +125,10 @@ hydex/
 │   ├── systems.json           # Phase 3: mapped systems
 │   └── cross-refs.json        # Phase 3: cross-references
 ├── output/
-│   └── docs/                  # Phase 4: generated documentation (65 files)
+│   ├── stable/docs/           # Phase 4: generated documentation (stable)
+│   ├── stable/corpus/         # Optimized corpus for AI Search (stable)
+│   ├── pre-release/docs/      # Phase 4: generated documentation (pre-release)
+│   └── pre-release/corpus/    # Optimized corpus for AI Search (pre-release)
 ├── tools/                     # Phase 1-2 CLI tools (Java + Gradle)
 │   ├── run.sh                 # Phase 1 entry point
 │   ├── classify.sh            # Phase 2 entry point
