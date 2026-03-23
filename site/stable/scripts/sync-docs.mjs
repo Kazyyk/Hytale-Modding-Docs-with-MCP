@@ -195,7 +195,7 @@ const files = walkFiles(SOURCE_DIR);
 const fileSet = new Set(files);
 // Also build a rewritten file set for dangling link detection against the dest paths
 const rewrittenFileSet = new Set(files.map(f => rewritePackagePath(f)));
-console.log(`Syncing ${files.length} markdown files from output/docs/ → site/src/content/docs/`);
+console.log(`Syncing ${files.length} markdown files from output/docs/ → site/stable/src/content/docs/`);
 
 let synced = 0;
 let linksRewritten = 0;
