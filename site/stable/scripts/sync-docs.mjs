@@ -1,5 +1,5 @@
 /**
- * Syncs generated markdown from output/docs/ into the Starlight content directory.
+ * Syncs generated markdown from output/stable/docs/ into the Starlight content directory.
  *
  * - Copies all .md files preserving directory structure
  * - Rewrites internal .md links to Starlight-compatible clean URLs
@@ -20,7 +20,7 @@ import { readdirSync, statSync } from "node:fs";
 const STRICT = process.argv.includes("--strict");
 
 const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "../../..");
-const SOURCE_DIR = join(PROJECT_ROOT, "output/docs");
+const SOURCE_DIR = join(PROJECT_ROOT, "output/stable/docs");
 const TARGET_DIR = join(PROJECT_ROOT, "site/stable/src/content/docs");
 
 function walkFiles(dir, base = dir) {
@@ -184,7 +184,7 @@ const files = walkFiles(SOURCE_DIR);
 const fileSet = new Set(files);
 // Also build a rewritten file set for dangling link detection against the dest paths
 const rewrittenFileSet = new Set(files.map(f => rewritePackagePath(f)));
-console.log(`Syncing ${files.length} markdown files from output/docs/ → site/stable/src/content/docs/`);
+console.log(`Syncing ${files.length} markdown files from output/stable/docs/ → site/stable/src/content/docs/`);
 
 let synced = 0;
 let skipped = 0;

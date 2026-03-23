@@ -1,0 +1,2525 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-03-23T18:00:05.490461+00:00",
+  "previous_jar_hash": "sha256:4dc38055618aa4447fbdcbdbce458f7eefb1850728e8fc4da7a645f02ff8f46e",
+  "current_jar_hash": "sha256:f38284dbcc322a5a90bc7f63850adbf2489bff8cd8b27b2ac86b8f2cc5c9b7f6",
+  "previous_types": 7016,
+  "current_types": 7148,
+  "added": [
+    "com.hypixel.hytale.builtin.adventure.objectives.blockstates.TreasureChestBlock",
+    "com.hypixel.hytale.builtin.adventure.objectives.interactions.DestroyTreasureConditionInteraction",
+    "com.hypixel.hytale.builtin.adventure.objectives.interactions.OpenTreasureContainerInteraction",
+    "com.hypixel.hytale.builtin.adventure.objectives.systems.ObjectiveInventoryChangeSystem",
+    "com.hypixel.hytale.builtin.adventure.objectives.task.InventoryChangeAware",
+    "com.hypixel.hytale.builtin.blocktick.BlockTickPlugin.Preprocessor",
+    "com.hypixel.hytale.builtin.buildertools.commands.ReplaceCommand.ReplaceRegexCommand",
+    "com.hypixel.hytale.builtin.buildertools.commands.ReplaceCommand.ReplaceSwapCommand",
+    "com.hypixel.hytale.builtin.buildertools.prefabeditor.commands.PrefabEditBackCommand",
+    "com.hypixel.hytale.builtin.buildertools.prefabeditor.ui.PrefabEditorLoadOptionsPage",
+    "com.hypixel.hytale.builtin.buildertools.prefabeditor.ui.PrefabEditorLoadOptionsPage.Action",
+    "com.hypixel.hytale.builtin.buildertools.prefabeditor.ui.PrefabEditorLoadOptionsPage.PageData",
+    "com.hypixel.hytale.builtin.buildertools.scriptedbrushes.operations.sequential.ClearRotationOperation",
+    "com.hypixel.hytale.builtin.buildertools.scriptedbrushes.operations.sequential.transforms.RotateOperation",
+    "com.hypixel.hytale.builtin.buildertools.scriptedbrushes.operations.sequential.transforms.RotateOperation.RotationOrigin",
+    "com.hypixel.hytale.builtin.buildertools.tooloperations.RevolveOperation",
+    "com.hypixel.hytale.builtin.buildertools.tooloperations.RevolveOperation.Sampling",
+    "com.hypixel.hytale.builtin.crafting.CraftingPlugin.MigrateCrafting",
+    "com.hypixel.hytale.builtin.crafting.component.BenchBlock",
+    "com.hypixel.hytale.builtin.crafting.component.ProcessingBenchBlock",
+    "com.hypixel.hytale.builtin.crafting.system.BenchSystems",
+    "com.hypixel.hytale.builtin.crafting.system.BenchSystems.OnAddOrRemoved",
+    "com.hypixel.hytale.builtin.crafting.system.BenchSystems.ProcessingBenchLifecycle",
+    "com.hypixel.hytale.builtin.crafting.system.BenchSystems.ProcessingBenchTick",
+    "com.hypixel.hytale.builtin.fluid.DisabledFluidResource",
+    "com.hypixel.hytale.builtin.hytalegenerator.EntityPlacementData",
+    "com.hypixel.hytale.builtin.hytalegenerator.GridUtils",
+    "com.hypixel.hytale.builtin.hytalegenerator.PropRuntime",
+    "com.hypixel.hytale.builtin.hytalegenerator.Viewport",
+    "com.hypixel.hytale.builtin.hytalegenerator.WeightedMap",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.AssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.AssignmentsAsset.Argument",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.ConstantAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.FieldFunctionAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.FieldFunctionAssignmentsAsset.DelimiterAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.ImportedAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.SandwichAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.SandwichAssignmentsAsset.DelimiterAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.WeightedAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.assignments.WeightedAssignmentsAsset.WeightedAssets",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.patterns.RotatorPatternAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.ClustersPositionProviderAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.EmptyPositionProviderAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.Jitter2dPositionProviderAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.Jitter3dPositionProviderAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.ScalerPositionProviderAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.SquareGrid2dPositionProviderAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.SquareGrid3dPositionProviderAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.TriangularGrid2dPositionProviderAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propdistribution.AssignedPropDistributionAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propdistribution.ConstantPropDistributionAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propdistribution.ImportedPropDistributionAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propdistribution.NoPropDistributionAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propdistribution.PositionsPropDistributionAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propdistribution.PropDistributionAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propdistribution.PropDistributionAsset.Argument",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propdistribution.UnionPropDistributionAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propruntime.PropRuntimeAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.ClusterPropAsset.WeightedEntryAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.CuboidPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.DensitySelectorPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.DensitySelectorPropAsset.DelimiterAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.EmptyPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.LocatorPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.ManualPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.ManualPropAsset.BlockAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.MaskPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.OrienterPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.RandomRotatorPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.StaticRotatorPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.scanners.DirectScannerAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.scanners.LinearScannerAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.scanners.QueueScannerAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.scanners.RadialScannerAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.scanners.RandomScannerAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assignments.Assignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.assignments.ConstantAssignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.assignments.FieldFunctionAssignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.assignments.FieldFunctionAssignments.FieldDelimiter",
+    "com.hypixel.hytale.builtin.hytalegenerator.assignments.SandwichAssignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.assignments.SandwichAssignments.VerticalDelimiter",
+    "com.hypixel.hytale.builtin.hytalegenerator.assignments.WeightedAssignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.TerrainDensityProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.BufferBundle",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.BufferBundle.Access",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.BufferBundle.Access.View",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.BufferBundle.Grid",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.BufferBundle.Grid.TrackedBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.BufferBundle.MemoryReport",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.BufferBundle.MemoryReport.GridEntry",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.BufferBundle.Tracker",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.Buffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.CountedPixelBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.CountedPixelBuffer.CountedArrayContents",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.CountedPixelBuffer.State",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.EntityBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.PixelBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.SimplePixelBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.SimplePixelBuffer.ArrayContents",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.SimplePixelBuffer.State",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.VoxelBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.VoxelBuffer.ArrayContents",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.VoxelBuffer.State",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.type.BufferType",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.bufferbundle.buffers.type.ParametrizedBufferType",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.ChunkGenerator",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.ChunkRequest",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.ChunkRequest.Arguments",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.ChunkRequest.GeneratorProfile",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.FallbackGenerator",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.StagedChunkGenerator",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.chunkgenerator.StagedChunkGenerator.Builder",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.containers.FloatContainer3d",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.entityfunnel.EntityFunnel",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.entityfunnel.RotationEntityFunnel",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.performanceinstruments.MemInstrument",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.performanceinstruments.MemInstrument.Report",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.performanceinstruments.TimeInstrument",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.performanceinstruments.TimeInstrument.Probe",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.performanceinstruments.TimeInstrument.Probe.State",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.BiomeDistanceStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.BiomeDistanceStage.BiomeDistanceCounter",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.BiomeDistanceStage.BiomeDistanceEntries",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.BiomeDistanceStage.BiomeDistanceEntry",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.BiomeStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.EnvironmentStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.PropStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.Stage",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.Stage.Context",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.TerrainStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.TerrainStage.BiomeWeights",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.TerrainStage.BiomeWeights.Entry",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.TerrainStage.ColumnData",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.stages.TintStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.views.EntityBufferView",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.views.PixelBufferView",
+    "com.hypixel.hytale.builtin.hytalegenerator.engine.views.VoxelBufferView",
+    "com.hypixel.hytale.builtin.hytalegenerator.math.Calculator",
+    "com.hypixel.hytale.builtin.hytalegenerator.math.InterpolatedCurve",
+    "com.hypixel.hytale.builtin.hytalegenerator.math.Interpolation",
+    "com.hypixel.hytale.builtin.hytalegenerator.math.NodeFunction",
+    "com.hypixel.hytale.builtin.hytalegenerator.math.Normalizer",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.CellNoiseField",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite.CellularDistanceFunction",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite.CellularReturnType",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite.DomainWarpType",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite.FractalType",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite.NoiseType",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite.RotationType3D",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite.TransformType3D",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite.Vector2",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.FastNoiseLite.Vector3",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.NoiseField",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.Simplex",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.Simplex.Grad",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.SimplexNoiseField",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.SimplexNoiseField.Builder",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.pointprovider.JitterPointField",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.pointprovider.PointField",
+    "com.hypixel.hytale.builtin.hytalegenerator.noise.pointprovider.PointProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.patterns.ConstantPattern",
+    "com.hypixel.hytale.builtin.hytalegenerator.patterns.RotatorPattern",
+    "com.hypixel.hytale.builtin.hytalegenerator.pipe.Control",
+    "com.hypixel.hytale.builtin.hytalegenerator.pipe.Pipe",
+    "com.hypixel.hytale.builtin.hytalegenerator.pipe.Pipe.One",
+    "com.hypixel.hytale.builtin.hytalegenerator.pipe.Pipe.Two",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.ClustersPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.EmptyPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.Jitter2dPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.Jitter3dPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.ScalerPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.SquareGrid2dPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.SquareGrid3dPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.TriangularGrid2dPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.deprecated.Mesh2DPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.deprecated.Mesh3DPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.AssignedPropDistribution",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.ConstantPropDistribution",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.NoPropDistribution",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.PositionsPropDistribution",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.PropDistribution",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.PropDistribution.Context",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.UnionPropDistribution",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.CuboidProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.DensitySelectorProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.EmptyProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.LocatorProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.ManualProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.ManualProp.Block",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.MaskProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.OrienterProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.OrienterProp.SelectionMode",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.PondFillerProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.PrefabProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.PrefabProp.IntersectingColumnPredicate",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.StaticRotatorProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.BoxProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.ClusterProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.ColumnProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.DensityProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.PositionListScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.PositionScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.ScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.directionality.Directionality",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.directionality.OrthogonalDirection",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.directionality.PatternDirectionality",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.directionality.RandomDirectionality",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.directionality.RotatedPosition",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.directionality.RotatedPositionsScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.directionality.StaticDirectionality",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.filler.FillerPropScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.filler.PondFillerProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.prefab.MoldingDirection",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.prefab.PrefabMoldingConfiguration",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.prefab.PrefabProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.deprecated.prefab.PrefabPropUtil",
+    "com.hypixel.hytale.builtin.hytalegenerator.rng.Rng",
+    "com.hypixel.hytale.builtin.hytalegenerator.rng.RngField",
+    "com.hypixel.hytale.builtin.hytalegenerator.rng.SeedBox",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.DirectScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.EmptyScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.LinearScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.QueueScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.RadialScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.RandomScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.deprecated.AreaScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.deprecated.AreaScanner.ScanShape",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.deprecated.AreaScanner.Verticality",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.deprecated.ColumnLinearScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.deprecated.ColumnRandomScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.deprecated.ColumnRandomScanner.Strategy",
+    "com.hypixel.hytale.builtin.hytalegenerator.voxelspace.ArrayVoxelSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.voxelspace.MaskVoxelSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.voxelspace.NullSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.voxelspace.RotationVoxelSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.voxelspace.VoxelSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.voxelspace.VoxelSpaceUtil",
+    "com.hypixel.hytale.builtin.hytalegenerator.voxelspace.VoxelSpaceUtil.BatchTransfer",
+    "com.hypixel.hytale.builtin.hytalegenerator.voxelspace.WindowVoxelSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.workerindexer.WorkerIndexer",
+    "com.hypixel.hytale.builtin.hytalegenerator.workerindexer.WorkerIndexer.Data",
+    "com.hypixel.hytale.builtin.hytalegenerator.workerindexer.WorkerIndexer.Id",
+    "com.hypixel.hytale.builtin.hytalegenerator.workerindexer.WorkerIndexer.Session",
+    "com.hypixel.hytale.builtin.hytalegenerator.worldstructure.BiCarta",
+    "com.hypixel.hytale.builtin.portals.systems.voidevent.VoidInvasionPortalsSpawnSystem.VoidInvasionData",
+    "com.hypixel.hytale.builtin.worldgen.modifier.EventHandler",
+    "com.hypixel.hytale.builtin.worldgen.modifier.EventHandler.Modifier",
+    "com.hypixel.hytale.builtin.worldgen.modifier.EventHandler.PriorityEntry",
+    "com.hypixel.hytale.builtin.worldgen.modifier.Target",
+    "com.hypixel.hytale.builtin.worldgen.modifier.WorldGenModifier",
+    "com.hypixel.hytale.builtin.worldgen.modifier.content.Content",
+    "com.hypixel.hytale.builtin.worldgen.modifier.content.FileRef",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.EventType",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvent",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvent.ContentLoader",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvent.SeedGenerator",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.BiomeCovers",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.BiomeDynamicLayers",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.BiomeEnvironments",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.BiomeFluids",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.BiomePrefabs",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.BiomeStaticLayers",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.BiomeTints",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.CaveCovers",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.CavePrefabs",
+    "com.hypixel.hytale.builtin.worldgen.modifier.event.ModifyEvents.CaveTypes",
+    "com.hypixel.hytale.builtin.worldgen.modifier.op.AddOp",
+    "com.hypixel.hytale.builtin.worldgen.modifier.op.Op",
+    "com.hypixel.hytale.builtin.worldgen.modifier.op.RemoveOp",
+    "com.hypixel.hytale.component.event.EntityHolderEventType",
+    "com.hypixel.hytale.component.system.EntityHolderEventSystem",
+    "com.hypixel.hytale.function.consumer.BiIntConsumer",
+    "com.hypixel.hytale.protocol.ConditionalBlockSound",
+    "com.hypixel.hytale.protocol.DebugFlags",
+    "com.hypixel.hytale.protocol.FormattedMessageImage",
+    "com.hypixel.hytale.protocol.ItemHudUI",
+    "com.hypixel.hytale.protocol.ItemHudUIType",
+    "com.hypixel.hytale.protocol.ProtocolEmote",
+    "com.hypixel.hytale.protocol.SubCategoryDefinition",
+    "com.hypixel.hytale.protocol.packets.asseteditor.AssetEditorModsDirectories",
+    "com.hypixel.hytale.protocol.packets.assets.UpdateEmotes",
+    "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolResetClipboardRotation",
+    "com.hypixel.hytale.protocol.packets.buildertools.ClipboardEntityChange",
+    "com.hypixel.hytale.protocol.packets.buildertools.PrefabSetAnchor",
+    "com.hypixel.hytale.protocol.packets.buildertools.RotationFace",
+    "com.hypixel.hytale.protocol.packets.connection.ClientDisconnect",
+    "com.hypixel.hytale.protocol.packets.connection.ClientDisconnectReason",
+    "com.hypixel.hytale.protocol.packets.connection.QuicApplicationErrorCode",
+    "com.hypixel.hytale.protocol.packets.connection.ServerDisconnect",
+    "com.hypixel.hytale.protocol.packets.entities.PlayEmote",
+    "com.hypixel.hytale.protocol.packets.stream.StreamOpen",
+    "com.hypixel.hytale.protocol.packets.stream.StreamOpenResponse",
+    "com.hypixel.hytale.protocol.packets.stream.StreamType",
+    "com.hypixel.hytale.protocol.packets.voice.RelayedVoiceData",
+    "com.hypixel.hytale.protocol.packets.voice.VoiceCodec",
+    "com.hypixel.hytale.protocol.packets.voice.VoiceConfig",
+    "com.hypixel.hytale.protocol.packets.voice.VoiceData",
+    "com.hypixel.hytale.protocol.packets.world.PlaySoundEventLocalPlayer",
+    "com.hypixel.hytale.server.core.Options.RecoveryMode",
+    "com.hypixel.hytale.server.core.asset.type.blocktype.config.ConditionalBlockSound",
+    "com.hypixel.hytale.server.core.asset.type.item.config.ItemCategory.SubCategoryDefinition",
+    "com.hypixel.hytale.server.core.asset.type.item.config.ItemHudUI",
+    "com.hypixel.hytale.server.core.asset.type.portalworld.PortalSpawnConfig",
+    "com.hypixel.hytale.server.core.asset.type.responsecurve.config.SwitchResponseCurve",
+    "com.hypixel.hytale.server.core.auth.HttpResponseException",
+    "com.hypixel.hytale.server.core.command.commands.utility.worldmap.WorldMapCommand.QuantizeCommand",
+    "com.hypixel.hytale.server.core.config.ServerWorldMapConfig",
+    "com.hypixel.hytale.server.core.config.WorldMapConfig",
+    "com.hypixel.hytale.server.core.config.WorldWorldMapConfig",
+    "com.hypixel.hytale.server.core.cosmetics.EmoteAsset",
+    "com.hypixel.hytale.server.core.cosmetics.EmoteAssetPacketGenerator",
+    "com.hypixel.hytale.server.core.event.events.player.RemovedPlayerFromWorldEvent",
+    "com.hypixel.hytale.server.core.inventory.InventoryChangeEvent",
+    "com.hypixel.hytale.server.core.inventory.InventoryComponent",
+    "com.hypixel.hytale.server.core.inventory.InventoryComponent.Armor",
+    "com.hypixel.hytale.server.core.inventory.InventoryComponent.Backpack",
+    "com.hypixel.hytale.server.core.inventory.InventoryComponent.Combined",
+    "com.hypixel.hytale.server.core.inventory.InventoryComponent.Hotbar",
+    "com.hypixel.hytale.server.core.inventory.InventoryComponent.Storage",
+    "com.hypixel.hytale.server.core.inventory.InventoryComponent.Tool",
+    "com.hypixel.hytale.server.core.inventory.InventoryComponent.Utility",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.ArmorChangeEventSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.BackpackChangeEventSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.HotbarChangeEventSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.InventoryChangeEventSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.LegacyArmorChangeStatSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.LegacyHotbarChangeStatSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.LegacyUtilityChangeStatSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.PlayerInventoryChangeEventSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.StorageChangeEventSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.ToolChangeEventSystem",
+    "com.hypixel.hytale.server.core.inventory.InventorySystems.UtilityChangeEventSystem",
+    "com.hypixel.hytale.server.core.inventory.container.FetchedItemContainer",
+    "com.hypixel.hytale.server.core.io.netty.HytaleChannelInitializer.AuxiliaryStreamExceptionHandler",
+    "com.hypixel.hytale.server.core.io.stream.PendingStreamHandler",
+    "com.hypixel.hytale.server.core.io.stream.StreamManager",
+    "com.hypixel.hytale.server.core.io.stream.StreamManager.StreamHandlerFactory",
+    "com.hypixel.hytale.server.core.io.stream.StreamManager.StreamRegistration",
+    "com.hypixel.hytale.server.core.modules.block.BlockEntity",
+    "com.hypixel.hytale.server.core.modules.block.BlockModule.BlockEntityPreprocessor",
+    "com.hypixel.hytale.server.core.modules.block.BlockModule.ItemContainerStateRefSystem",
+    "com.hypixel.hytale.server.core.modules.block.BlockModule.MigrateItemContainer",
+    "com.hypixel.hytale.server.core.modules.block.BlockReplaceEvent",
+    "com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock",
+    "com.hypixel.hytale.server.core.modules.block.system.ItemContainerBlockSpatialSystem",
+    "com.hypixel.hytale.server.core.modules.block.system.ItemContainerSystems",
+    "com.hypixel.hytale.server.core.modules.block.system.ItemContainerSystems.OnAddedOrRemoved",
+    "com.hypixel.hytale.server.core.modules.block.system.ItemContainerSystems.OnReplaced",
+    "com.hypixel.hytale.server.core.modules.block.system.ItemContainerSystems.OnReplacedHolder",
+    "com.hypixel.hytale.server.core.modules.entity.component.CachedStatsComponent",
+    "com.hypixel.hytale.server.core.modules.entity.condition.AliveCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.ChargingCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.CheckPlayerGameModeCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.Condition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.EntityStatBoundCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.EnvironmentCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.GlidingCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.HasEffectCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.InFluidCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.IsPlayerCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.LogicCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.LogicCondition.Operator",
+    "com.hypixel.hytale.server.core.modules.entity.condition.NoDamageTakenCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.OutOfCombatCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.RegenHealthCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.SprintingCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.StatCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.StatCondition.StatComparisonType",
+    "com.hypixel.hytale.server.core.modules.entity.condition.SuffocatingCondition",
+    "com.hypixel.hytale.server.core.modules.entity.condition.WieldingCondition",
+    "com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems.StopVoiceOnDeath",
+    "com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems.TickCorpseRemoval",
+    "com.hypixel.hytale.server.core.modules.entity.damage.RespawnSystems.ReenableVoiceOnRespawn",
+    "com.hypixel.hytale.server.core.modules.entity.player.PlayerSystems.PlayerInitSystem",
+    "com.hypixel.hytale.server.core.modules.interaction.interaction.config.none.simple.CommandInteraction",
+    "com.hypixel.hytale.server.core.modules.prefabspawner.PrefabSpawnerBlock",
+    "com.hypixel.hytale.server.core.modules.prefabspawner.PrefabSpawnerBlock.PrefabSpawnerSettingsPage",
+    "com.hypixel.hytale.server.core.modules.prefabspawner.PrefabSpawnerBlock.PrefabSpawnerSettingsPageEventData",
+    "com.hypixel.hytale.server.core.modules.prefabspawner.PrefabSpawnerModule.MigratePrefabSpawn",
+    "com.hypixel.hytale.server.core.modules.voice.VoiceModule",
+    "com.hypixel.hytale.server.core.modules.voice.VoiceModule.PositionSnapshot",
+    "com.hypixel.hytale.server.core.modules.voice.VoiceModuleConfig",
+    "com.hypixel.hytale.server.core.modules.voice.VoicePacketHandler",
+    "com.hypixel.hytale.server.core.modules.voice.VoicePlayerState",
+    "com.hypixel.hytale.server.core.modules.voice.VoiceRouter",
+    "com.hypixel.hytale.server.core.modules.voice.VoiceRouter.ListenerCandidate",
+    "com.hypixel.hytale.server.core.modules.voice.VoiceStreamHandler",
+    "com.hypixel.hytale.server.core.modules.voice.commands.VoiceCommand",
+    "com.hypixel.hytale.server.core.modules.voice.commands.VoiceCommand.VoiceEnabledCommand",
+    "com.hypixel.hytale.server.core.modules.voice.commands.VoiceCommand.VoiceFullVolumeDistanceCommand",
+    "com.hypixel.hytale.server.core.modules.voice.commands.VoiceCommand.VoiceMaxDistanceCommand",
+    "com.hypixel.hytale.server.core.modules.voice.commands.VoiceCommand.VoiceMuteCommand",
+    "com.hypixel.hytale.server.core.modules.voice.commands.VoiceCommand.VoiceMutedListCommand",
+    "com.hypixel.hytale.server.core.modules.voice.commands.VoiceCommand.VoiceStatusCommand",
+    "com.hypixel.hytale.server.core.modules.voice.commands.VoiceCommand.VoiceUnmuteCommand",
+    "com.hypixel.hytale.server.core.prefab.selection.standard.BlockSelection.TintIterator",
+    "com.hypixel.hytale.server.core.schema.SchemaGenerator",
+    "com.hypixel.hytale.server.core.schema.SchemaGenerator.AssetSchemaRegistration",
+    "com.hypixel.hytale.server.core.schema.SchemaGenerator.ConfigRegistration",
+    "com.hypixel.hytale.server.core.schema.SchemaGenerator.GenerationResult",
+    "com.hypixel.hytale.server.core.schema.SchemaGenerator.VsCodeEntry",
+    "com.hypixel.hytale.server.core.ui.browser.AssetPackSaveBrowser",
+    "com.hypixel.hytale.server.core.ui.browser.AssetPackSaveBrowser.ActionResult",
+    "com.hypixel.hytale.server.core.ui.browser.AssetPackSaveBrowser.CreatePackResult",
+    "com.hypixel.hytale.server.core.ui.browser.AssetPackSaveBrowser.ModsDirectory",
+    "com.hypixel.hytale.server.core.ui.browser.AssetPackSaveBrowser.PackEntry",
+    "com.hypixel.hytale.server.core.ui.browser.AssetPackSaveBrowser.PendingPack",
+    "com.hypixel.hytale.server.core.ui.browser.AssetPackSaveBrowserConfig",
+    "com.hypixel.hytale.server.core.ui.browser.AssetPackSaveBrowserEventData",
+    "com.hypixel.hytale.server.core.universe.world.chunk.BlockOperations",
+    "com.hypixel.hytale.server.core.universe.world.chunk.section.palette.PaletteSetProvider",
+    "com.hypixel.hytale.server.core.universe.world.commands.WorldSettingsCommand.WorldSettingsSetCommand",
+    "com.hypixel.hytale.server.core.universe.world.commands.WorldSettingsCommand.WorldSettingsSetCommand.AddSubCommand",
+    "com.hypixel.hytale.server.core.universe.world.commands.WorldSettingsCommand.WorldSettingsSetCommand.ClearSubCommand",
+    "com.hypixel.hytale.server.core.universe.world.commands.WorldSettingsCommand.WorldSettingsSetCommand.RemoveSubCommand",
+    "com.hypixel.hytale.server.core.universe.world.storage.provider.BackupChunkLoader",
+    "com.hypixel.hytale.server.core.update.command.UpdateSetupCommand",
+    "com.hypixel.hytale.server.core.util.FillerBlockUtil.ChangeReason",
+    "com.hypixel.hytale.server.npc.asset.builder.FeatureOverride",
+    "com.hypixel.hytale.server.npc.commands.NPCDescriptorsCommand",
+    "com.hypixel.hytale.server.npc.corecomponents.entity.filters.EntityFilterEntityEffect",
+    "com.hypixel.hytale.server.npc.corecomponents.entity.filters.builders.BuilderEntityFilterEntityEffect",
+    "com.hypixel.hytale.server.npc.decisionmaker.core.conditions.SelfHasEffectCondition",
+    "com.hypixel.hytale.server.npc.decisionmaker.core.conditions.TargetHasEffectCondition",
+    "com.hypixel.hytale.server.npc.role.Role.SeparationMode",
+    "com.hypixel.hytale.server.npc.role.support.DebugSupport.PathWaypointVisData",
+    "com.hypixel.hytale.server.npc.systems.NPCSystems.OnNPCAdded",
+    "com.hypixel.hytale.server.npc.util.VisHelper",
+    "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlock",
+    "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlock.Data",
+    "com.hypixel.hytale.server.worldgen.loader.context.CaveFileContext",
+    "com.hypixel.hytale.server.worldgen.loader.context.FileContext.RootContext",
+    "com.hypixel.hytale.server.worldgen.util.ListPool",
+    "com.hypixel.hytale.server.worldgen.util.ListPool.Resource"
+  ],
+  "removed": [
+    "com.hypixel.hytale.builtin.adventure.objectives.blockstates.TreasureChestState",
+    "com.hypixel.hytale.builtin.buildertools.prefabeditor.PrefabSetAnchorInteraction",
+    "com.hypixel.hytale.builtin.buildertools.scriptedbrushes.ui.ScriptedBrushPage.ScriptedBrushListProvider",
+    "com.hypixel.hytale.builtin.crafting.state.BenchState",
+    "com.hypixel.hytale.builtin.crafting.state.ProcessingBenchState",
+    "com.hypixel.hytale.builtin.hytalegenerator.Indexer",
+    "com.hypixel.hytale.builtin.hytalegenerator.PropField",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.patterns.GapPatternAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.SpherePositionProviderAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.AssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.AssignmentsAsset.Argument",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.ConstantAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.FieldFunctionAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.FieldFunctionAssignmentsAsset.DelimiterAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.ImportedAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.SandwichAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.SandwichAssignmentsAsset.DelimiterAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.WeightedAssignmentsAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propassignments.WeightedAssignmentsAsset.WeightedAssets",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.ClusterPropAsset.WeightedPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.props.NoPropAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.propstageiterations.PropRuntimeAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.scanners.OriginScannerAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.worldstructures.mapcontentfield.BaseHeightContentFieldAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.assets.worldstructures.mapcontentfield.ContentFieldAsset",
+    "com.hypixel.hytale.builtin.hytalegenerator.biome.BiomeType",
+    "com.hypixel.hytale.builtin.hytalegenerator.biome.SimpleBiomeType",
+    "com.hypixel.hytale.builtin.hytalegenerator.biomemap.BiomeMap",
+    "com.hypixel.hytale.builtin.hytalegenerator.biomemap.SimpleBiomeMap",
+    "com.hypixel.hytale.builtin.hytalegenerator.bounds.SpaceSize",
+    "com.hypixel.hytale.builtin.hytalegenerator.chunkgenerator.ChunkGenerator",
+    "com.hypixel.hytale.builtin.hytalegenerator.chunkgenerator.ChunkRequest",
+    "com.hypixel.hytale.builtin.hytalegenerator.chunkgenerator.ChunkRequest.Arguments",
+    "com.hypixel.hytale.builtin.hytalegenerator.chunkgenerator.ChunkRequest.GeneratorProfile",
+    "com.hypixel.hytale.builtin.hytalegenerator.chunkgenerator.FallbackGenerator",
+    "com.hypixel.hytale.builtin.hytalegenerator.conveyor.stagedconveyor.ContextDependency",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.CollectionFactory",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.TieredList",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.WeightedMap",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.bicoordinatecache.BiCoordinateCache",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.bicoordinatecache.HashedBiCoordinateCache",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.bicoordinatecache.WrappedBiCoordinateCache",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.bicoordinatecache.WrappedBiCoordinateDoubleCache",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.compression.Compressor",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.compression.Compressor.CompressedArray",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.compression.Compressor.Run",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.voxelspace.BooleanVoxelSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.voxelspace.NullSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.voxelspace.VoxelConsumer",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.voxelspace.VoxelCoordinate",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.voxelspace.VoxelSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.voxelspace.VoxelSpaceUtil",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.voxelspace.VoxelSpaceUtil.BatchTransfer",
+    "com.hypixel.hytale.builtin.hytalegenerator.datastructures.voxelspace.WindowVoxelSpace",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.CellularDistanceFunction",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.CellularReturnType",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.DomainWarpType",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.FractalType",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.NoiseType",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.RotationType3D",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.TransformType3D",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.Vector2",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.Vector3",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.CellNoiseField",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.NoiseField",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.Simplex",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.Simplex.Grad",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.SimplexNoiseField",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.noise.SimplexNoiseField.Builder",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.points.JitterPointField",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.points.PointField",
+    "com.hypixel.hytale.builtin.hytalegenerator.fields.points.PointProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.cartas.ImageCarta",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.cartas.ImageCarta.Builder",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.cartas.LayeredCarta",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.cartas.SingleElementCarta",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.interfaces.functions.BiCarta",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.interfaces.functions.BiDouble2DoubleFunction",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.interfaces.functions.QuadDoubleFunction",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.interfaces.functions.QuintoDoubleFunction",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.interfaces.functions.TriCarta",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.interfaces.functions.TriDoubleFunction",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.interfaces.functions.TriFunction",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.BitConverter",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Calculator",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.CoPrimeGenerator",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Combiner",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Combiner.IntersectionPolicy",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Combiner.Layer",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.InterpolatedCurve",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Interpolation",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.MultipliedIteration",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.NodeFunction",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Normalizer",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Probability",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.RegionGrid",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.SeedGenerator",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Splitter",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Splitter.Area",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Splitter.Range",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.math.Stepinizer",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.shaders.MaskShader",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.shaders.MaskShader.Builder",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.shaders.RelationalShader",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.shaders.Shader",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.shaders.SimpleShader",
+    "com.hypixel.hytale.builtin.hytalegenerator.framework.shaders.WeighedShader",
+    "com.hypixel.hytale.builtin.hytalegenerator.iterators.BackwardIntIterator",
+    "com.hypixel.hytale.builtin.hytalegenerator.iterators.ForwardIntIterator",
+    "com.hypixel.hytale.builtin.hytalegenerator.iterators.IntIterators",
+    "com.hypixel.hytale.builtin.hytalegenerator.materialproviders.AllStoneMaterialProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.materialproviders.GrassTopMaterialProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.GridUtils",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.NStagedChunkGenerator",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.NStagedChunkGenerator.Builder",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.NViewport",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.TerrainDensityProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.NBufferBundle",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.NBufferBundle.Access",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.NBufferBundle.Access.View",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.NBufferBundle.Grid",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.NBufferBundle.Grid.TrackedBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.NBufferBundle.MemoryReport",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.NBufferBundle.MemoryReport.GridEntry",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.NBufferBundle.Tracker",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NCountedPixelBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NCountedPixelBuffer.CountedArrayContents",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NCountedPixelBuffer.State",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NEntityBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NPixelBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NSimplePixelBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NSimplePixelBuffer.ArrayContents",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NSimplePixelBuffer.State",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NVoxelBuffer",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NVoxelBuffer.ArrayContents",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.NVoxelBuffer.State",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.type.NBufferType",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.bufferbundle.buffers.type.NParametrizedBufferType",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.containers.FloatContainer3d",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.performanceinstruments.MemInstrument",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.performanceinstruments.MemInstrument.Report",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.performanceinstruments.TimeInstrument",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.performanceinstruments.TimeInstrument.Probe",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.performanceinstruments.TimeInstrument.Probe.State",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NBiomeDistanceStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NBiomeDistanceStage.BiomeDistanceCounter",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NBiomeDistanceStage.BiomeDistanceEntries",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NBiomeDistanceStage.BiomeDistanceEntry",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NBiomeStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NEnvironmentStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NPropStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NStage.Context",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTerrainStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTerrainStage.BiomeWeights",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTerrainStage.BiomeWeights.Entry",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTerrainStage.ColumnData",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTestPropStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTestTerrainStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.stages.NTintStage",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.views.EntityContainer",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.views.NEntityBufferView",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.views.NPixelBufferView",
+    "com.hypixel.hytale.builtin.hytalegenerator.newsystem.views.NVoxelBufferView",
+    "com.hypixel.hytale.builtin.hytalegenerator.patterns.CeilingPattern",
+    "com.hypixel.hytale.builtin.hytalegenerator.patterns.FieldFunctionPattern.Delimiter",
+    "com.hypixel.hytale.builtin.hytalegenerator.patterns.GapPattern",
+    "com.hypixel.hytale.builtin.hytalegenerator.patterns.GapPattern.PositionedPattern",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.Mesh2DPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.Mesh3DPositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.SpherePositionProvider",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.Assignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.ConstantAssignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.FieldFunctionAssignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.FieldFunctionAssignments.FieldDelimiter",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.SandwichAssignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.SandwichAssignments.VerticalDelimiter",
+    "com.hypixel.hytale.builtin.hytalegenerator.propdistributions.WeightedAssignments",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.BoxProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.ClusterProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.ColumnProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.PositionListScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.PositionScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.QueueProp.QueueScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.ScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.UnionProp.ChainedScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.directionality.Directionality",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.directionality.OrthogonalDirection",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.directionality.PatternDirectionality",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.directionality.RandomDirectionality",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.directionality.RotatedPosition",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.directionality.RotatedPositionsScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.directionality.StaticDirectionality",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.entity.EntityPlacementData",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.filler.FillerPropScanResult",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.filler.PondFillerProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.prefab.MoldingDirection",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.prefab.PrefabMoldingConfiguration",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.prefab.PrefabProp",
+    "com.hypixel.hytale.builtin.hytalegenerator.props.prefab.PropPrefabUtil",
+    "com.hypixel.hytale.builtin.hytalegenerator.referencebundle.BaseHeightReference",
+    "com.hypixel.hytale.builtin.hytalegenerator.referencebundle.Reference",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.AreaScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.AreaScanner.ScanShape",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.AreaScanner.Verticality",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.ColumnLinearScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.ColumnRandomScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.ColumnRandomScanner.Strategy",
+    "com.hypixel.hytale.builtin.hytalegenerator.scanners.OriginScanner",
+    "com.hypixel.hytale.builtin.hytalegenerator.seed.SeedBox",
+    "com.hypixel.hytale.builtin.hytalegenerator.threadindexer.WorkerIndexer",
+    "com.hypixel.hytale.builtin.hytalegenerator.threadindexer.WorkerIndexer.Data",
+    "com.hypixel.hytale.builtin.hytalegenerator.threadindexer.WorkerIndexer.Id",
+    "com.hypixel.hytale.builtin.hytalegenerator.threadindexer.WorkerIndexer.Session",
+    "com.hypixel.hytale.builtin.portals.utils.spatial.OctTree",
+    "com.hypixel.hytale.builtin.portals.utils.spatial.OctTree.Node",
+    "com.hypixel.hytale.math.Mat4f",
+    "com.hypixel.hytale.math.Quatf",
+    "com.hypixel.hytale.math.Vec2f",
+    "com.hypixel.hytale.math.Vec3f",
+    "com.hypixel.hytale.math.Vec4f",
+    "com.hypixel.hytale.protocol.Equipment",
+    "com.hypixel.hytale.protocol.ItemBuilderToolData",
+    "com.hypixel.hytale.protocol.Nameplate",
+    "com.hypixel.hytale.protocol.SortType",
+    "com.hypixel.hytale.protocol.packets.asseteditor.AssetEditorEnableAssetPack",
+    "com.hypixel.hytale.protocol.packets.auth.Status",
+    "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolArgGroup",
+    "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolBrushData",
+    "com.hypixel.hytale.protocol.packets.connection.Disconnect",
+    "com.hypixel.hytale.server.core.asset.GenerateSchemaEvent",
+    "com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData",
+    "com.hypixel.hytale.server.core.asset.type.buildertool.config.BrushData.Values",
+    "com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderToolData",
+    "com.hypixel.hytale.server.core.asset.type.gameplay.SleepConfig",
+    "com.hypixel.hytale.server.core.asset.type.portalworld.PortalSpawn",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.GitCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdateAssetsCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdateAssetsCommand.UpdateAssetsGitCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdateAssetsCommand.UpdateAssetsPullCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdateAssetsCommand.UpdateAssetsResetCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdateAssetsCommand.UpdateAssetsStatusCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdatePrefabsCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdatePrefabsCommand.UpdatePrefabsAllCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdatePrefabsCommand.UpdatePrefabsCommitCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdatePrefabsCommand.UpdatePrefabsGitCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdatePrefabsCommand.UpdatePrefabsPullCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdatePrefabsCommand.UpdatePrefabsPushCommand",
+    "com.hypixel.hytale.server.core.command.commands.utility.git.UpdatePrefabsCommand.UpdatePrefabsStatusCommand",
+    "com.hypixel.hytale.server.core.event.events.entity.LivingEntityInventoryChangeEvent",
+    "com.hypixel.hytale.server.core.modules.LegacyModule.LegacyBlockStateChunk",
+    "com.hypixel.hytale.server.core.modules.LegacyModule.MigrateLegacyBlockStateChunkSystem",
+    "com.hypixel.hytale.server.core.modules.block.system.ItemContainerStateSpatialSystem",
+    "com.hypixel.hytale.server.core.modules.entity.player.PlayerSystems.EnsureEffectControllerSystem",
+    "com.hypixel.hytale.server.core.modules.entity.player.PlayerSystems.EnsurePlayerInput",
+    "com.hypixel.hytale.server.core.modules.entity.player.PlayerSystems.EnsureUniqueItemUsagesSystem",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.AliveCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.ChargingCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.Condition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.EntityStatBoundCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.EnvironmentCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.GlidingCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.LogicCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.LogicCondition.Operator",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.NoDamageTakenCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.OutOfCombatCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.PlayerCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.RegenHealthCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.SprintingCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.StatCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.StatCondition.StatComparisonType",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.SuffocatingCondition",
+    "com.hypixel.hytale.server.core.modules.entitystats.asset.condition.WieldingCondition",
+    "com.hypixel.hytale.server.core.modules.interaction.interaction.config.server.DestroyConditionInteraction",
+    "com.hypixel.hytale.server.core.modules.interaction.interaction.config.server.OpenCustomUIInteraction.BlockCustomPageSupplier",
+    "com.hypixel.hytale.server.core.modules.prefabspawner.PrefabSpawnerState",
+    "com.hypixel.hytale.server.core.modules.prefabspawner.PrefabSpawnerState.PrefabSpawnerSettingsPage",
+    "com.hypixel.hytale.server.core.modules.prefabspawner.PrefabSpawnerState.PrefabSpawnerSettingsPageEventData",
+    "com.hypixel.hytale.server.core.universe.world.chunk.state.TickableBlockState",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockState",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule.ItemContainerStateRefSystem",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule.LegacyBlockStateHolderSystem",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule.LegacyBlockStateRefSystem",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule.LegacyLateInitBlockStateSystem",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule.LegacyLoadPacketBlockStateSystem",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule.LegacyTickingBlockStateSystem",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule.LegacyUnloadPacketBlockStateSystem",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateRegistration",
+    "com.hypixel.hytale.server.core.universe.world.meta.BlockStateRegistry",
+    "com.hypixel.hytale.server.core.universe.world.meta.state.BreakValidatedBlockState",
+    "com.hypixel.hytale.server.core.universe.world.meta.state.DestroyableBlockState",
+    "com.hypixel.hytale.server.core.universe.world.meta.state.ItemContainerBlockState",
+    "com.hypixel.hytale.server.core.universe.world.meta.state.ItemContainerState",
+    "com.hypixel.hytale.server.core.universe.world.meta.state.ItemContainerState.ItemContainerStateData",
+    "com.hypixel.hytale.server.core.universe.world.meta.state.MarkerBlockState",
+    "com.hypixel.hytale.server.core.universe.world.meta.state.PlacedByBlockState",
+    "com.hypixel.hytale.server.core.universe.world.meta.state.SendableBlockState",
+    "com.hypixel.hytale.server.core.universe.world.worldmap.markers.providers.PerWorldDataMarkerProvider",
+    "com.hypixel.hytale.server.core.universe.world.worldmap.markers.providers.PlayerIconMarkerProvider",
+    "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockState",
+    "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockState.Data",
+    "com.hypixel.hytale.server.worldgen.util.bounds.IChunkBounds"
+  ],
+  "modified": [
+    {
+      "fqcn": "com.hypixel.hytale.builtin.adventure.farming.interactions.UseWateringCanInteraction",
+      "changes": [
+        "fields 3\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.adventure.memories.MemoriesGameplayConfig",
+      "changes": [
+        "methods 6\u21928",
+        "fields 7\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.adventure.objectives.ObjectivePlugin",
+      "changes": [
+        "fields 11\u219212"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.adventure.objectives.task.GatherObjectiveTask",
+      "changes": [
+        "methods 4\u21925",
+        "implements changed"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.adventure.stash.StashPlugin.StashSystem",
+      "changes": [
+        "methods 4\u21923",
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.asseteditor.AssetEditorPlugin",
+      "changes": [
+        "methods 61\u219262"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.asseteditor.Messages",
+      "changes": [
+        "fields 43\u219244"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.blocktick.system.ChunkBlockTickSystem.Ticking",
+      "changes": [
+        "fields 2\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.BuilderToolsPacketHandler",
+      "changes": [
+        "methods 26\u219228"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.BuilderToolsPlugin",
+      "changes": [
+        "methods 36\u219239",
+        "fields 23\u219227"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.BuilderToolsPlugin.Action",
+      "changes": [
+        "methods 0\u21921",
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.BuilderToolsPlugin.BuilderState",
+      "changes": [
+        "methods 104\u2192103",
+        "fields 18\u219224"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.BuilderToolsSystems.EnsureBuilderTools",
+      "changes": [
+        "methods 3\u21924",
+        "fields 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.BuilderToolsUserData",
+      "changes": [
+        "methods 8\u219210",
+        "fields 5\u21927"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.EditOperation",
+      "changes": [
+        "methods 10\u219217",
+        "fields 6\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.PrototypePlayerBuilderToolSettings",
+      "changes": [
+        "methods 35\u219239",
+        "fields 17\u219219"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.commands.PrefabCommand.PrefabSaveCommand",
+      "changes": [
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.commands.PrefabCommand.PrefabSaveDirectCommand",
+      "changes": [
+        "fields 6\u21927"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.commands.ReplaceCommand",
+      "changes": [
+        "fields 3\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.commands.ReplaceCommand.ReplaceFromToCommand",
+      "changes": [
+        "fields 4\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.PrefabEditSession",
+      "changes": [
+        "methods 19\u219221"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.PrefabEditSessionManager",
+      "changes": [
+        "methods 33\u219235"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.PrefabEditorCreationSettings",
+      "changes": [
+        "methods 29\u219230"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.commands.PrefabEditSaveAsCommand",
+      "changes": [
+        "fields 7\u21928"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.commands.PrefabEditSaveCommand",
+      "changes": [
+        "fields 7\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.commands.PrefabEditSaveUICommand",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.ui.PrefabEditorLoadSettingsPage",
+      "changes": [
+        "fields 17\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.ui.PrefabEditorLoadSettingsPage.PageData",
+      "changes": [
+        "fields 40\u219241"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.ui.PrefabEditorSaveSettingsPage",
+      "changes": [
+        "methods 5\u21926",
+        "fields 9\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefabeditor.ui.PrefabEditorSaveSettingsPage.PageData",
+      "changes": [
+        "fields 16\u219217"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefablist.PrefabSavePage",
+      "changes": [
+        "fields 1\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.prefablist.PrefabSavePage.PageData",
+      "changes": [
+        "fields 16\u219217"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.scriptedbrushes.BrushConfig",
+      "changes": [
+        "methods 45\u219251",
+        "fields 22\u219224"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.scriptedbrushes.BrushConfigCommandExecutor",
+      "changes": [
+        "fields 17\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.scriptedbrushes.BrushConfigEditStore",
+      "changes": [
+        "methods 13\u219215"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.scriptedbrushes.ScriptedBrushAsset",
+      "changes": [
+        "methods 5\u21928",
+        "fields 5\u21927"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.tooloperations.LaserPointerOperation",
+      "changes": [
+        "methods 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.tooloperations.NoiseOperation",
+      "changes": [
+        "fields 1\u21920"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.tooloperations.ScatterOperation",
+      "changes": [
+        "fields 2\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.tooloperations.SculptOperation",
+      "changes": [
+        "fields 5\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.tooloperations.TintOperation",
+      "changes": [
+        "methods 3\u21922",
+        "fields 1\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.tooloperations.ToolOperation",
+      "changes": [
+        "methods 22\u219223",
+        "fields 27\u219234"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.buildertools.utils.Material",
+      "changes": [
+        "methods 16\u219221",
+        "fields 5\u21928"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.crafting.CraftingPlugin",
+      "changes": [
+        "methods 18\u219220",
+        "fields 4\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.crafting.component.CraftingManager",
+      "changes": [
+        "methods 35\u219236"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.crafting.window.BenchWindow",
+      "changes": [
+        "methods 12\u219213"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.crafting.window.ProcessingBenchWindow",
+      "changes": [
+        "methods 15\u219214",
+        "fields 8\u219210"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.fluid.FluidPlugin",
+      "changes": [
+        "methods 3\u21926",
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.VectorUtil",
+      "changes": [
+        "methods 31\u219232"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.AssetManager",
+      "changes": [
+        "methods 11\u219214",
+        "fields 8\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.density.YSampledDensityAsset",
+      "changes": [
+        "fields 3\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.positionproviders.OffsetPositionProviderAsset",
+      "changes": [
+        "fields 5\u21927"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.props.DensityPropAsset",
+      "changes": [
+        "fields 7\u219212"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.assets.props.PondFillerPropAsset",
+      "changes": [
+        "fields 7\u219212"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.biome.Biome",
+      "changes": [
+        "methods 2\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.biome.SimpleBiome",
+      "changes": [
+        "methods 8\u21927"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.bounds.Bounds3d",
+      "changes": [
+        "methods 18\u219225",
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.bounds.Bounds3i",
+      "changes": [
+        "methods 19\u219226",
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.density.Density.Context",
+      "changes": [
+        "methods 5\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.density.nodes.YSampledDensity",
+      "changes": [
+        "fields 13\u219214"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.material.MaterialCache",
+      "changes": [
+        "methods 8\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.materialproviders.WeightedMaterialProvider",
+      "changes": [
+        "fields 3\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.patterns.FieldFunctionPattern",
+      "changes": [
+        "fields 4\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.patterns.NotPattern",
+      "changes": [
+        "fields 2\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.patterns.Pattern",
+      "changes": [
+        "methods 4\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.patterns.Pattern.Context",
+      "changes": [
+        "methods 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.AnchorPositionProvider",
+      "changes": [
+        "fields 2\u21928"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.BaseHeightPositionProvider",
+      "changes": [
+        "fields 4\u21928"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.BoundPositionProvider",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.FieldFunctionOccurrencePositionProvider",
+      "changes": [
+        "fields 4\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.FieldFunctionPositionProvider",
+      "changes": [
+        "fields 3\u21927"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.ListPositionProvider",
+      "changes": [
+        "methods 3\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.OffsetPositionProvider",
+      "changes": [
+        "fields 3\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.PositionProvider",
+      "changes": [
+        "methods 2\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.PositionProvider.Context",
+      "changes": [
+        "methods 1\u21922",
+        "fields 5\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.positionproviders.SimpleHorizontalPositionProvider",
+      "changes": [
+        "fields 2\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.props.DensityProp",
+      "changes": [
+        "methods 6\u21923",
+        "fields 10\u219213"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.props.OffsetProp",
+      "changes": [
+        "methods 5\u21923",
+        "fields 5\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.props.Prop",
+      "changes": [
+        "methods 6\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.props.Prop.Context",
+      "changes": [
+        "methods 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.props.QueueProp",
+      "changes": [
+        "methods 5\u21923",
+        "fields 4\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.props.UnionProp",
+      "changes": [
+        "methods 5\u21923",
+        "fields 4\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.hytalegenerator.props.WeightedProp",
+      "changes": [
+        "methods 5\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.instances.InstancesPlugin",
+      "changes": [
+        "methods 26\u219225"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.portals.components.PortalDevice",
+      "changes": [
+        "methods 8\u219210",
+        "fields 4\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.portals.utils.CursedItems",
+      "changes": [
+        "methods 3\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.builtin.teleport.components.TeleportHistory",
+      "changes": [
+        "fields 5\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.common.collection.BucketItemPool",
+      "changes": [
+        "fields 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.common.util.StringUtil",
+      "changes": [
+        "methods 21\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.CommandBuffer",
+      "changes": [
+        "methods 34\u219236"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.ComponentAccessor",
+      "changes": [
+        "methods 17\u219219"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.ComponentRegistry",
+      "changes": [
+        "methods 78\u219282",
+        "fields 55\u219256"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.Holder",
+      "changes": [
+        "methods 23\u219224"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.component.Store",
+      "changes": [
+        "methods 91\u219295"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.math.util.ChunkUtil",
+      "changes": [
+        "methods 35\u219238",
+        "fields 20\u219222"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.math.vector.Vector3d",
+      "changes": [
+        "methods 66\u219267"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.procedurallib.json.JsonLoader",
+      "changes": [
+        "fields 4\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.AmbienceFXSound",
+      "changes": [
+        "fields 11\u219212"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.BlockType",
+      "changes": [
+        "fields 56\u219257"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.FormattedMessage",
+      "changes": [
+        "fields 17\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.ItemBase",
+      "changes": [
+        "fields 50\u219252"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.ItemCategory",
+      "changes": [
+        "fields 11\u219212"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.MovementStates",
+      "changes": [
+        "fields 27\u219228"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.ProjectileConfig",
+      "changes": [
+        "fields 13\u219214"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.SoundEvent",
+      "changes": [
+        "fields 16\u219217"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.io.PacketIO",
+      "changes": [
+        "methods 27\u219237",
+        "fields 4\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.io.netty.ProtocolUtil",
+      "changes": [
+        "methods 6\u21928",
+        "fields 10\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.asseteditor.AssetEditorCreateAssetPack",
+      "changes": [
+        "fields 9\u219210"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolArg",
+      "changes": [
+        "fields 18\u219219"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolArgUpdate",
+      "changes": [
+        "fields 13\u219212"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolOnUseInteraction",
+      "changes": [
+        "fields 25\u219226"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolSelectionToolReplyWithClipboard",
+      "changes": [
+        "fields 9\u219210"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.buildertools.BuilderToolState",
+      "changes": [
+        "fields 9\u21928"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.EditorBlocksChange",
+      "changes": [
+        "fields 12\u219214"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.interface_.ServerInfo",
+      "changes": [
+        "fields 10\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.inventory.UpdatePlayerInventory",
+      "changes": [
+        "fields 15\u219213"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.player.ClientPlaceBlock",
+      "changes": [
+        "fields 10\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.window.SortItemsAction",
+      "changes": [
+        "fields 6\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.MapImage",
+      "changes": [
+        "fields 8\u219210"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.protocol.packets.worldmap.MapMarker",
+      "changes": [
+        "fields 12\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.Constants",
+      "changes": [
+        "methods 4\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.HytaleServerConfig",
+      "changes": [
+        "methods 43\u219246",
+        "fields 27\u219228"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.Options",
+      "changes": [
+        "fields 44\u219247"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.ShutdownReason",
+      "changes": [
+        "methods 4\u21926",
+        "fields 13\u219214"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.AssetModule",
+      "changes": [
+        "methods 20\u219221"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.AssetRegistryLoader",
+      "changes": [
+        "methods 8\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.common.CommonAssetValidator",
+      "changes": [
+        "fields 30\u219232"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.ambiencefx.config.AmbienceFXSound",
+      "changes": [
+        "methods 10\u219211",
+        "fields 11\u219212"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockFlipType",
+      "changes": [
+        "methods 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType",
+      "changes": [
+        "fields 112\u2192113"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.Rotation",
+      "changes": [
+        "methods 35\u219242"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple",
+      "changes": [
+        "methods 6\u219223"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.blocktype.config.StateData",
+      "changes": [
+        "methods 8\u21927",
+        "fields 7\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.buildertool.config.BuilderTool",
+      "changes": [
+        "methods 15\u219214",
+        "fields 14\u219237"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.buildertool.config.args.ToolArg",
+      "changes": [
+        "methods 7\u21928",
+        "fields 4\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.entityeffect.config.EntityEffect",
+      "changes": [
+        "methods 26\u219227",
+        "fields 35\u219236"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.environment.config.Environment",
+      "changes": [
+        "methods 15\u219216",
+        "fields 17\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.fluid.FireFluidTicker.FlammabilityConfig",
+      "changes": [
+        "methods 6\u21927",
+        "fields 10\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.item.config.Item",
+      "changes": [
+        "methods 60\u219261",
+        "fields 67\u219269"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.item.config.ItemCategory",
+      "changes": [
+        "methods 10\u219211",
+        "fields 12\u219213"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.portalworld.PortalType",
+      "changes": [
+        "methods 10\u219211",
+        "fields 10\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent",
+      "changes": [
+        "methods 18\u219219",
+        "fields 21\u219223"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.auth.AuthConfig",
+      "changes": [
+        "methods 1\u21922",
+        "fields 19\u219221"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.auth.JWTValidator",
+      "changes": [
+        "methods 12\u219217",
+        "fields 13\u219215"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.auth.ServerAuthManager",
+      "changes": [
+        "methods 48\u219249",
+        "fields 20\u219222"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.blocktype.BlockTypeModule",
+      "changes": [
+        "methods 11\u219210"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.commands.player.SudoCommand",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.ConvertPrefabsCommand",
+      "changes": [
+        "fields 13\u219214"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.commands.utility.NotifyCommand",
+      "changes": [
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.AbbreviationMap.AbbreviationMapBuilder",
+      "changes": [
+        "methods 3\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.AbstractCommand",
+      "changes": [
+        "methods 53\u219254",
+        "fields 28\u219229"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.ParserContext",
+      "changes": [
+        "methods 15\u219217",
+        "fields 14\u219213"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes",
+      "changes": [
+        "fields 52\u219253"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.command.system.arguments.types.ArgumentType",
+      "changes": [
+        "methods 9\u219210"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.console.command.SayCommand",
+      "changes": [
+        "fields 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.cosmetics.CosmeticRegistry",
+      "changes": [
+        "methods 25\u219226",
+        "fields 25\u219226"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.entity.ItemUtils",
+      "changes": [
+        "methods 4\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.entity.LivingEntity",
+      "changes": [
+        "methods 18\u219212",
+        "fields 7\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.entity.effect.EffectControllerComponent",
+      "changes": [
+        "methods 25\u219227"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.entity.entities.Player",
+      "changes": [
+        "methods 63\u219258"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.event.events.player.AddPlayerToWorldEvent",
+      "changes": [
+        "methods 5\u21927",
+        "fields 3\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.inventory.Inventory",
+      "changes": [
+        "methods 62\u219253",
+        "fields 46\u219232",
+        "implements changed"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.inventory.container.DelegateItemContainer",
+      "changes": [
+        "methods 24\u219228"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.inventory.container.EmptyItemContainer",
+      "changes": [
+        "methods 21\u219225"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.inventory.container.ItemContainer",
+      "changes": [
+        "methods 133\u2192137"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer",
+      "changes": [
+        "methods 28\u219232"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer",
+      "changes": [
+        "methods 26\u219230"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.inventory.container.SortType",
+      "changes": [
+        "methods 4\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.io.PacketHandler",
+      "changes": [
+        "methods 49\u219253",
+        "fields 17\u219220"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.io.PacketHandler.DisconnectReason",
+      "changes": [
+        "methods 5\u21927"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.io.handlers.game.GamePacketHandler",
+      "changes": [
+        "methods 35\u219236",
+        "fields 4\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.io.netty.HytaleChannelInitializer",
+      "changes": [
+        "methods 3\u21924",
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.io.netty.HytaleChannelInitializer.ExceptionHandler",
+      "changes": [
+        "fields 2\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.block.BlockModule",
+      "changes": [
+        "methods 13\u219215",
+        "fields 9\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.debug.DebugUtils",
+      "changes": [
+        "methods 28\u219232",
+        "fields 20\u219224"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.debug.commands.DebugShapeArrowCommand",
+      "changes": [
+        "fields 1\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.debug.commands.DebugShapeConeCommand",
+      "changes": [
+        "fields 1\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.debug.commands.DebugShapeCubeCommand",
+      "changes": [
+        "fields 1\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.debug.commands.DebugShapeCylinderCommand",
+      "changes": [
+        "fields 1\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.debug.commands.DebugShapeSphereCommand",
+      "changes": [
+        "fields 1\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.debug.commands.DebugShapeSubCommand",
+      "changes": [
+        "methods 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.entity.EntityModule",
+      "changes": [
+        "methods 90\u219298",
+        "fields 86\u219294"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems.CorpseRemoval",
+      "changes": [
+        "methods 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.entity.damage.DeferredCorpseRemoval",
+      "changes": [
+        "methods 3\u21925",
+        "fields 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.entity.livingentity.LivingEntityEffectSystem",
+      "changes": [
+        "fields 3\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap",
+      "changes": [
+        "methods 41\u219242",
+        "fields 10\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.server.OpenContainerInteraction",
+      "changes": [
+        "fields 1\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.interaction.interaction.config.server.OpenCustomUIInteraction",
+      "changes": [
+        "methods 7\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.modules.prefabspawner.PrefabSpawnerModule",
+      "changes": [
+        "methods 1\u21923",
+        "fields 1\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.plugin.PluginBase",
+      "changes": [
+        "methods 34\u219233",
+        "fields 21\u219220"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.prefab.PrefabStore",
+      "changes": [
+        "methods 28\u219231"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.prefab.config.SelectionPrefabSerializer",
+      "changes": [
+        "methods 5\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.prefab.selection.mask.BlockFilter",
+      "changes": [
+        "methods 17\u219218",
+        "fields 10\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.prefab.selection.mask.BlockFilter.BlocksAndFluids",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.prefab.selection.mask.BlockMask",
+      "changes": [
+        "methods 13\u219214"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.prefab.selection.mask.BlockPattern",
+      "changes": [
+        "methods 12\u219213",
+        "fields 13\u219214"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.prefab.selection.standard.BlockSelection",
+      "changes": [
+        "methods 87\u219296",
+        "fields 17\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.Universe",
+      "changes": [
+        "methods 50\u219254"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.SoundUtil",
+      "changes": [
+        "methods 22\u219224"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.WorldConfig",
+      "changes": [
+        "methods 73\u219278",
+        "fields 43\u219245"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.WorldMapTracker",
+      "changes": [
+        "fields 27\u219226"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.WorldNotificationHandler",
+      "changes": [
+        "methods 15\u219213"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.accessor.BlockAccessor",
+      "changes": [
+        "methods 40\u219237"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.accessor.EmptyBlockAccessor",
+      "changes": [
+        "methods 20\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.accessor.IChunkAccessorSync",
+      "changes": [
+        "methods 21\u219220"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.BlockRotationUtil",
+      "changes": [
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk",
+      "changes": [
+        "methods 56\u219253"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.palette.BitFieldArr",
+      "changes": [
+        "methods 8\u21927",
+        "fields 6\u21925"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection",
+      "changes": [
+        "methods 57\u219260"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.section.palette.AbstractByteSectionPalette",
+      "changes": [
+        "methods 21\u219223"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.section.palette.AbstractShortSectionPalette",
+      "changes": [
+        "methods 20\u219222"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.section.palette.EmptySectionPalette",
+      "changes": [
+        "methods 18\u219219"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.chunk.section.palette.ISectionPalette",
+      "changes": [
+        "methods 19\u219221"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.lighting.ChunkLightingManager",
+      "changes": [
+        "methods 19\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.lighting.FloodLightCalculation",
+      "changes": [
+        "methods 24\u219225"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.ChunkStore",
+      "changes": [
+        "methods 28\u219233"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.DefaultChunkStorageProvider",
+      "changes": [
+        "methods 6\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.IChunkStorageProvider",
+      "changes": [
+        "methods 6\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.IndexedStorageChunkStorageProvider",
+      "changes": [
+        "methods 7\u219210"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.storage.provider.IndexedStorageChunkStorageProvider.IndexedStorageChunkLoader",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager",
+      "changes": [
+        "methods 27\u219228"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapSettings",
+      "changes": [
+        "methods 5\u21928"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.markers.MapMarkerBuilder",
+      "changes": [
+        "fields 7\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.universe.world.worldmap.provider.chunk.ImageBuilder",
+      "changes": [
+        "methods 10\u219221",
+        "fields 17\u219225"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.util.FillerBlockUtil",
+      "changes": [
+        "methods 9\u219216"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.core.util.MessageUtil",
+      "changes": [
+        "methods 31\u219233"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.NPCPlugin",
+      "changes": [
+        "methods 79\u219278"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.asset.builder.BuilderBase",
+      "changes": [
+        "methods 256\u2192258"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.blackboard.view.blocktype.BlockPositionEntryGenerator",
+      "changes": [
+        "fields 2\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase",
+      "changes": [
+        "fields 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.corecomponents.entity.prioritisers.SensorEntityPrioritiserAttitude",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.corecomponents.entity.prioritisers.SensorEntityPrioritiserAttitude.AttitudePrioritiser",
+      "changes": [
+        "fields 3\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionFind",
+      "changes": [
+        "methods 15\u219217"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionFindBase",
+      "changes": [
+        "methods 38\u219241",
+        "fields 37\u219240",
+        "implements changed"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionFindWithTarget",
+      "changes": [
+        "methods 15\u219217",
+        "fields 21\u219222"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.corecomponents.movement.BodyMotionMaintainDistance",
+      "changes": [
+        "methods 3\u21925",
+        "fields 29\u219231"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.entities.NPCEntity",
+      "changes": [
+        "methods 84\u219282"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.instructions.BodyMotion",
+      "changes": [
+        "methods 1\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.movement.GroupSteeringAccumulator",
+      "changes": [
+        "methods 12\u219213",
+        "fields 16\u219217"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.movement.Steering",
+      "changes": [
+        "methods 41\u219252",
+        "fields 13\u219216"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.movement.controllers.MotionControllerBase",
+      "changes": [
+        "methods 105\u2192106"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.movement.controllers.MotionControllerWalk",
+      "changes": [
+        "methods 66\u219267"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.role.Role",
+      "changes": [
+        "methods 105\u2192121",
+        "fields 89\u2192110"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.role.SpawnEffect",
+      "changes": [
+        "methods 4\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.role.builders.BuilderRole",
+      "changes": [
+        "methods 94\u2192110",
+        "fields 79\u219295"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.role.support.DebugSupport",
+      "changes": [
+        "methods 28\u219234",
+        "fields 16\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.systems.AvoidanceSystem",
+      "changes": [
+        "methods 6\u21924",
+        "fields 11\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.systems.NPCDamageSystems.DropDeathItems",
+      "changes": [
+        "methods 2\u21923",
+        "fields 1\u21922",
+        "extends OnDeathSystem\u2192EntityTickingSystem"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.systems.RoleSystems.RoleDebugSystem",
+      "changes": [
+        "methods 8\u21929",
+        "fields 11\u219217"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.util.InventoryHelper",
+      "changes": [
+        "methods 31\u219232"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.npc.util.NPCPhysicsMath",
+      "changes": [
+        "methods 83\u219286"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.spawning.SpawningPlugin",
+      "changes": [
+        "methods 48\u219249",
+        "fields 32\u219233"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.spawning.blockstates.SpawnMarkerBlockStateSystems.TickHeartbeat",
+      "changes": [
+        "fields 1\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.cave.CaveNodeType",
+      "changes": [
+        "fields 11\u219213"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.cave.CaveType",
+      "changes": [
+        "fields 19\u219220"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.cave.prefab.CavePrefabContainer",
+      "changes": [
+        "fields 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.cave.shape.DistortedCaveNodeShape",
+      "changes": [
+        "methods 12\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.cave.shape.distorted.DistortedShape",
+      "changes": [
+        "methods 12\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.chunk.ChunkGenerator",
+      "changes": [
+        "methods 34\u219236",
+        "fields 14\u219218"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.container.CoverContainer",
+      "changes": [
+        "fields 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.container.EnvironmentContainer",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.container.LayerContainer",
+      "changes": [
+        "fields 4\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.container.PrefabContainer",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.container.TintContainer",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.container.WaterContainer",
+      "changes": [
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.WorldGenPrefabSupplier",
+      "changes": [
+        "methods 10\u219211"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.cave.CaveGeneratorJsonLoader.Constants",
+      "changes": [
+        "fields 3\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.cave.CaveNodeTypeJsonLoader",
+      "changes": [
+        "fields 3\u21924"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.cave.CaveTypesJsonLoader",
+      "changes": [
+        "methods 3\u21922",
+        "fields 2\u21923"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.container.CoverContainerJsonLoader",
+      "changes": [
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.container.EnvironmentContainerJsonLoader",
+      "changes": [
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.container.LayerContainerJsonLoader",
+      "changes": [
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.container.PrefabContainerJsonLoader",
+      "changes": [
+        "fields 1\u21922"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.container.TintContainerJsonLoader",
+      "changes": [
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.container.WaterContainerJsonLoader",
+      "changes": [
+        "methods 2\u21921",
+        "fields 0\u21921"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.context.FileContext",
+      "changes": [
+        "methods 4\u21928",
+        "fields 4\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.context.FileContextLoader",
+      "changes": [
+        "fields 7\u21928"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.loader.context.FileLoadingContext",
+      "changes": [
+        "methods 10\u21929"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.server.worldgen.util.bounds.IWorldBounds",
+      "changes": [
+        "methods 5\u21926"
+      ]
+    },
+    {
+      "fqcn": "com.hypixel.hytale.storage.IndexedStorageFile",
+      "changes": [
+        "methods 42\u219244"
+      ]
+    }
+  ]
+}

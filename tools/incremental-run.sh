@@ -74,11 +74,8 @@ echo ""
 
 # Step 3: Copy base docs if output doesn't exist
 BRANCH_DOCS="$PROJECT_ROOT/output/$BRANCH/docs"
-if [ "$BRANCH" = "stable" ]; then
-    BRANCH_DOCS="$PROJECT_ROOT/output/docs"
-fi
 
-BASE_DOCS="$PROJECT_ROOT/output/docs"
+BASE_DOCS="$PROJECT_ROOT/output/stable/docs"
 if [ ! -d "$BRANCH_DOCS/packages" ]; then
     echo "--- Copying base docs ---"
     mkdir -p "$BRANCH_DOCS"

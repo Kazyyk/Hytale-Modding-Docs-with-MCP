@@ -56,20 +56,20 @@ Run phases in order. Each phase reads from `artifacts/` and writes to
    State what the code does, not what you think it might do. If you
    cannot determine purpose from the code, say so explicitly.
 5. Generate index files for each directory.
-6. Write output to `output/docs/`.
+6. Write output to `output/stable/docs/`.
 
 ### Phase 4.1: Validate Links & Gap-Fill
 
 Run this after Phase 4 completes, before deploying. It is safe to re-run.
 
 1. **Scan all generated docs for link targets.**
-   Walk every `.md` file in `output/docs/`. For each markdown link targeting
+   Walk every `.md` file in `output/stable/docs/`. For each markdown link targeting
    a `.md` file (regex: `\[...\](...\.md...)`), resolve the relative path
    against the file's directory to get a normalized path within the output
    tree.
 
 2. **Build the file set.**
-   Collect all `.md` files in `output/docs/` into a set of normalized paths.
+   Collect all `.md` files in `output/stable/docs/` into a set of normalized paths.
 
 3. **Identify violations.** For each link target not in the file set:
    - **Wrong path?** Check if a file with the same basename exists elsewhere
@@ -88,8 +88,8 @@ Run this after Phase 4 completes, before deploying. It is safe to re-run.
    - Load the decompiled source from `artifacts/decompiled/`.
    - Load any relevant context from `artifacts/systems.json`.
    - Generate the page following the standard class/interface/enum template.
-   - Write to the correct location in `output/docs/`.
-   - Add the file to `output/docs/progress.json`.
+   - Write to the correct location in `output/stable/docs/`.
+   - Add the file to `output/stable/docs/progress.json`.
 
 5. **Write the audit report** to `artifacts/link-audit.json` (schema in the
    spec addendum). This documents every violation found and the action taken.
@@ -154,9 +154,9 @@ Exit code 0 = pass, 1 = issues found.
 - `input/{branch}/` — Place the HytaleServer.jar for each branch here.
 - `artifacts/{branch}/` — Intermediate pipeline outputs per branch.
   Committed to git for debuggability.
-- `output/docs/` — Stable generated documentation.
+- `output/stable/docs/` — Stable generated documentation.
 - `output/pre-release/docs/` — Pre-release generated documentation.
-- `output/corpus/` — Stable corpus optimized for AI Search (built by build-corpus.py).
+- `output/stable/corpus/` — Stable corpus optimized for AI Search (built by build-corpus.py).
 - `output/pre-release/corpus/` — Pre-release corpus optimized for AI Search.
 - `spec/` — This spec and related design documents.
 - `site/stable/` — Starlight site for hydex.dev.
@@ -194,4 +194,4 @@ Exit code 0 = pass, 1 = issues found.
 - **Corpus builder:** `python3 tools/build-corpus.py [branch]` — Transforms
   raw docs into an optimized corpus for AI Search vectorization. Strips
   frontmatter noise, flattens tables, resolves links, excludes index pages.
-  Writes to `output/corpus/` (stable) or `output/{branch}/corpus/`.
+  Writes to `output/{branch}/corpus/`.

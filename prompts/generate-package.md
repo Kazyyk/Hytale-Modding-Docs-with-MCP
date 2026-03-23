@@ -10,11 +10,11 @@ You will be given:
 3. Access to `artifacts/class-index.json` for structured type data
 4. Access to `artifacts/surface.json` to determine API surface status (metadata only — all types get pages)
 5. Access to `artifacts/systems.json` for event dispatch sites, ECS relationships, command mappings
-6. Access to existing docs in `output/docs/` as reference for quality and cross-linking
+6. Access to existing docs in `output/stable/docs/` as reference for quality and cross-linking
 
 ## Output Location
 
-Write all generated pages to `output/docs/packages/{package}/` where `{package}` is the dotted Java package name (e.g., `output/docs/packages/com.hypixel.hytale.plugin/`).
+Write all generated pages to `output/stable/docs/packages/{package}/` where `{package}` is the dotted Java package name (e.g., `output/stable/docs/packages/com.hypixel.hytale.plugin/`).
 
 For inner classes, use the format `OuterClass.InnerClass.md` within the outer class's package directory.
 
@@ -80,8 +80,8 @@ For each FQCN:
 3. Check surface.json to determine api_surface value for frontmatter
 4. Check if any existing docs reference this type (for backlink awareness)
 5. Generate the markdown page following the template above
-6. Write to `output/docs/packages/{package}/TypeName.md`
+6. Write to `output/stable/docs/packages/{package}/TypeName.md`
 
 ## Reference
 
-Study existing generated pages in `output/docs/` as the quality standard. Match their depth, structure, and accuracy.
+Study existing generated pages in `output/stable/docs/` as the quality standard. Match their depth, structure, and accuracy.

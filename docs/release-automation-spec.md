@@ -244,7 +244,7 @@ named after Java packages. There is no separate `api/` directory — the
 `api_surface` frontmatter field drives navigation prominence instead.
 
 ```
-output/docs/{branch}/
+output/{branch}/docs/
 ├── index.md                          # Landing page
 ├── packages/                         # All types, by Java package
 │   ├── com.hypixel.hytale.plugin/
@@ -426,7 +426,7 @@ previous artifacts to diff against). Subsequent runs use the incremental path.
 After each successful pipeline run, the orchestrator:
 
 1. Copies `artifacts/decompiled/` to `artifacts/decompiled-prev/`
-2. Commits updated `artifacts/` and `output/docs/` to git
+2. Commits updated `artifacts/` and `output/{branch}/docs/` to git
 3. Tags the commit with the version identifier
 
 The `decompiled-prev/` directory is gitignored (too large to commit) but
