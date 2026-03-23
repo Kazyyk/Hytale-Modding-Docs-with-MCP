@@ -1,0 +1,30 @@
+# InventoryActionType
+
+Type: enum | Package: com.hypixel.hytale.protocol
+
+public enum InventoryActionType
+
+Identifies batch inventory operations.
+
+## Constants
+
+- TakeAll | 0
+- PutAll | 1
+- QuickStack | 2
+- Sort | 3
+
+## Methods
+
+
+public int getValue()
+
+Returns the integer wire value for this `InventoryActionType` constant.
+
+
+public static InventoryActionType fromValue(int value)
+
+Returns the `InventoryActionType` constant for the given wire value. Throws `ProtocolException` if the value is out of range.
+
+## Serialization
+
+Serialized as a single byte (`0`--`3`). The static `VALUES` array is used for O(1) lookup by ordinal.

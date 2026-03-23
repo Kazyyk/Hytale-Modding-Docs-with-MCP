@@ -1,0 +1,19 @@
+# StructuralCraftingBench
+
+Type: class | Package: com.hypixel.hytale.server.core.asset.type.blocktype.config.bench | Extends: Bench
+
+public class StructuralCraftingBench extends Bench
+
+Bench subclass for structural block crafting with pattern-based recipes.
+
+## Constants
+
+- BuilderCodec<StructuralCraftingBench> CODEC
+
+## Key Methods
+
+- public boolean isHeaderCategory(@Nonnull String category)
+- public int getCategoryIndex(@Nonnull String category)
+- public boolean shouldAllowBlockGroupCycling()
+- public boolean shouldAlwaysShowInventoryHints()
+- public String toString()

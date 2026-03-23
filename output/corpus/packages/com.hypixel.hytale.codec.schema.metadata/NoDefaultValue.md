@@ -1,0 +1,11 @@
+# NoDefaultValue
+
+Type: class | Package: com.hypixel.hytale.codec.schema.metadata | Implements: Metadata
+
+public class NoDefaultValue implements Metadata
+
+Utility type in the `metadata` subsystem.
+
+## Methods
+
+- modify(Schema schema) | void | Instance method.
