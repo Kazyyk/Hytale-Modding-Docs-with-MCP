@@ -23,3 +23,12 @@ An informational UI page shown when accessing the memories system. Displays the 
 
 - MemoriesUnlockedPage.PageAction -- enum with a single `DiscoverMemories` action
 - MemoriesUnlockedPage.PageEventData -- codec-backed event data carrying the action
+
+Also in this package: MemoriesPage, MemoriesPageSupplier, MemoriesUnlockedPageSuplier, PageAction, PageAction, PageEventData, PageEventData
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, MemoriesUnlockedPage.PageEventData data)
+
+Fields:
+private final BlockPosition blockPosition

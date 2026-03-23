@@ -28,3 +28,30 @@ public class WindowManager
 - public void validateWindows(@Nonnull Ref<EntityStore> ref, @Nonnull ComponentAccessor<EntityStore> componentAccessor)
 - public static <W extends Window> void closeAndRemoveAll(@Nonnull Map<UUID, W> windows)
 - @Override @Nonnull public String toString()
+
+Also in this package: BlockWindow, ContainerBlockWindow, ContainerWindow, ItemContainerWindow, ItemStackContainerWindow, MaterialContainerWindow, MaterialExtraResourcesSection, ValidatedWindow, Window, WindowCloseEvent
+
+Complete API:
+  public void init(PlayerRef playerRef)
+  public UpdateWindow clientOpenWindow(Ref<EntityStore> ref, Window window, Store<EntityStore> store)
+  public OpenWindow openWindow(Ref<EntityStore> ref, Window window, Store<EntityStore> store)
+  public List<OpenWindow> openWindows(Ref<EntityStore> ref, Store<EntityStore> store, Window windows)
+  public void setWindow(int id, Window window)
+  private void setWindow0(int id, Window window)
+  public Window getWindow(int id)
+  public List<Window> getWindows()
+  public void updateWindow(Window window)
+  public Window closeWindow(Ref<EntityStore> ref, int id, ComponentAccessor<EntityStore> componentAccessor)
+  public void closeAllWindows(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public void markWindowChanged(int id)
+  public void updateWindows()
+  public void validateWindows(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public static void closeAndRemoveAll(Map<UUID,W> windows)
+  public String toString()
+
+Fields:
+private static final HytaleLogger LOGGER
+private final AtomicInteger windowId
+private final Int2ObjectConcurrentHashMap<Window> windows
+private final Int2ObjectConcurrentHashMap<EventRegistration<?,?>> windowChangeEvents
+private PlayerRef playerRef

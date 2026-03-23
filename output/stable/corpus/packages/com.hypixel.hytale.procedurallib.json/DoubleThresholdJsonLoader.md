@@ -13,3 +13,11 @@ Loads double threshold configurations. Produces `DefaultDoubleThresholdCondition
 ## Related Types
 
 - DoubleThresholdJsonLoader.Constants -- error messages
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public IDoubleThreshold load()
+
+Fields:
+protected final boolean defaultValue

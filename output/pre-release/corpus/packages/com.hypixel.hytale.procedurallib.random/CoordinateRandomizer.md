@@ -30,3 +30,22 @@ Implements `ICoordinateRandomizer` to provide CoordinateRandomizer functionality
 | `@Override public` | `double` | `randomDoubleY(int seed, double x, double y, double z)` |
 | `@Override public` | `double` | `randomDoubleZ(int seed, double x, double y, double z)` |
 | `@Nonnull @Override public` | `String` | `toString()` |
+
+Also in this package: AmplitudeNoiseProperty, CoordinateOriginRotator, CoordinateRotator, EmptyCoordinateRandomizer, ICoordinateRandomizer, RotatedCoordinateRandomizer
+
+Complete API:
+  public CoordinateRandomizer.AmplitudeNoiseProperty[] getXNoise()
+  public CoordinateRandomizer.AmplitudeNoiseProperty[] getYNoise()
+  public CoordinateRandomizer.AmplitudeNoiseProperty[] getZNoise()
+  public double randomDoubleX(int seed, double x, double y)
+  public double randomDoubleY(int seed, double x, double y)
+  public double randomDoubleX(int seed, double x, double y, double z)
+  public double randomDoubleY(int seed, double x, double y, double z)
+  public double randomDoubleZ(int seed, double x, double y, double z)
+  public String toString()
+
+Fields:
+public static final ICoordinateRandomizer EMPTY_RANDOMIZER
+protected final CoordinateRandomizer.AmplitudeNoiseProperty[] xNoise
+protected final CoordinateRandomizer.AmplitudeNoiseProperty[] yNoise
+protected final CoordinateRandomizer.AmplitudeNoiseProperty[] zNoise

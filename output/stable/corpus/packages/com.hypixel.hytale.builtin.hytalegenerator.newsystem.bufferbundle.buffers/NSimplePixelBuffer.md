@@ -28,3 +28,22 @@ A buffer used in the world generation pipeline for storing voxel or pixel data.
 - `EMPTY`
 - `SINGLE_VALUE`
 - `ARRAY`
+
+Also in this package: ArrayContents, ArrayContents, CountedArrayContents, NBuffer, NCountedPixelBuffer, NEntityBuffer, NPixelBuffer, NVoxelBuffer, State, State, State
+
+Complete API:
+  public T getPixelContent(Vector3i position)
+  public void setPixelContent(Vector3i position, T value)
+  public Class<T> getPixelType()
+  public void copyFrom(NSimplePixelBuffer<T> sourceBuffer)
+  public MemInstrument.Report getMemoryUsage()
+  private void ensureContents()
+  private void switchFromSingleValueToArray()
+  private static int index(Vector3i position)
+
+Fields:
+private static final Bounds3i bounds
+private final Class<T> pixelType
+private NSimplePixelBuffer.State state
+private NSimplePixelBuffer.ArrayContents<T> arrayContents
+private T singleValue

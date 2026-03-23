@@ -17,3 +17,13 @@ Concrete implementation extending `SequenceBrushOperation`.
 ## Methods
 
 - preExecutionModifyBrushConfig(@Nonnull BrushConfigCommandExecutor brushConfigCommandExecutor, int operationIndex) | void | public method.
+
+Also in this package: LoadBrushConfigOperation, LoadOperationsFromAssetOperation, PersistentDataOperation, SaveBrushConfigOperation
+
+Complete API:
+  public void preExecutionModifyBrushConfig(BrushConfigCommandExecutor brushConfigCommandExecutor, int operationIndex)
+  public void modifyBrushConfig(Ref<EntityStore> ref, BrushConfig brushConfig, BrushConfigCommandExecutor brushConfigCommandExecutor, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<SaveIndexOperation> CODEC
+public String variableNameArg

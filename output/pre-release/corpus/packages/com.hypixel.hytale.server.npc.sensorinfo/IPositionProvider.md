@@ -15,3 +15,16 @@ Interface defining: `hasPosition()`, `providePosition()`, `getX()`, `getY()`....
 - getZ() | double | package-private method.
 - getTarget() | Ref<EntityStore> | package-private method.
 - clear() | void | package-private method.
+
+Known implementors: PositionProvider
+
+Also in this package: CachedPositionProvider, EntityPositionProvider, ExtraInfoProvider, IPathProvider, InfoProvider, InfoProviderBase, PathProvider, PositionProvider, ValueWrappedInfoProvider, WrappedInfoProvider
+
+Complete API:
+  boolean hasPosition()
+  boolean providePosition(Vector3d var1)
+  double getX()
+  double getY()
+  double getZ()
+  Ref<EntityStore> getTarget()
+  void clear()

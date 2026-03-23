@@ -9,3 +9,9 @@ Implements the `/say` server command.
 ## Methods
 
 - executeSync(CommandContext context) | void | Instance method.
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private static final Color SAY_COMMAND_COLOR

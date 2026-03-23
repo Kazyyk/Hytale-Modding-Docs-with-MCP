@@ -13,3 +13,15 @@ state (String)
 ## Key Methods
 
 - public void apply(@Nonnull ComponentAccessor<ChunkStore> commandBuffer, @Nonnull Ref<ChunkStore> sectionRef, @Nonnull Ref<ChunkStore> blockRef, int x, int y, int z, @Nullable FarmingStageData previousStage)
+
+Also in this package: BlockTypeFarmingStageData, PrefabFarmingStageData, PrefabStage
+
+Complete API:
+  public String getState()
+  public void apply(ComponentAccessor<ChunkStore> commandBuffer, Ref<ChunkStore> sectionRef, Ref<ChunkStore> blockRef, int x, int y, int z, FarmingStageData previousStage)
+  public String toString()
+
+Fields:
+private static final HytaleLogger LOGGER
+public static final BuilderCodec<BlockStateFarmingStageData> CODEC
+protected String state

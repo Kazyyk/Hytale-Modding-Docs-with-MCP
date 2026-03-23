@@ -23,3 +23,15 @@ public class SensorEntity extends SensorEntityBase
 ## Related Types
 
 - SensorEntityBase
+
+Also in this package: ActionBeacon, ActionIgnoreForAvoidance, ActionNotify, ActionOverrideAttitude, ActionReleaseTarget, ActionSetMarkedTarget, ActionSetStat, HeadMotionWatch, SensorBeacon, SensorCount, SensorEntityBase, SensorKill, SensorPlayer, SensorSelf, SensorTarget
+
+Complete API:
+  public boolean isGetPlayers()
+  public boolean isGetNPCs()
+  public boolean isExcludingOwnType()
+
+Fields:
+protected final boolean getPlayers
+protected final boolean getNPCs
+protected final boolean excludeOwnType

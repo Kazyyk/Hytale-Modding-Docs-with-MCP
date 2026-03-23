@@ -32,3 +32,14 @@ Gets the `Player` component, calculates new backpack capacity, calls `Inventory.
 
 @Override
 public String toString()
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction (and 13 more)
+
+Complete API:
+  public WaitForDataFrom getWaitForDataFrom()
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<IncreaseBackpackCapacityInteraction> CODEC
+private short capacity

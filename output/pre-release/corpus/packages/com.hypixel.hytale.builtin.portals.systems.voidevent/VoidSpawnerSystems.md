@@ -14,3 +14,8 @@ Container for systems managing void spawner entity lifecycle. The `Instantiate` 
 public static class VoidSpawnerSystems.Instantiate extends RefSystem<EntityStore>
 
 Reference system creating spawn beacons from configured IDs when a void spawner entity is added.
+
+Also in this package: Instantiate, StartVoidEventInFragmentSystem, VoidEventRefSystem, VoidEventStagesSystem, VoidInvasionData, VoidInvasionPortalsSpawnSystem
+
+Fields:
+private static final Query<EntityStore> QUERY

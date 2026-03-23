@@ -7,3 +7,8 @@ public class WhoCommand extends AbstractAsyncCommand
 ## Methods
 
 - @Nonnull @Override protected CompletableFuture<Void> executeAsync(CommandContext context)
+
+Also in this package: KickCommand, MaxPlayersCommand, StopCommand
+
+Complete API:
+  protected CompletableFuture<Void> executeAsync(CommandContext context)

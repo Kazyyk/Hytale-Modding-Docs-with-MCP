@@ -46,3 +46,23 @@ public class AssetFileSystem implements FileIOSystem
 ## Inner Types
 
 - `AssetFileSystem.Resource`
+
+Also in this package: ChunkGeneratorJsonLoader, Constants, Constants, MaskProviderJsonLoader, PrefabPathCollector, Resource, WorldGenPrefabLoader, WorldGenPrefabSupplier, ZonesJsonLoader
+
+Complete API:
+  public Path baseRoot()
+  public FileIOSystem.PathArray roots()
+  public AssetPath resolve(Path path)
+  public T load(AssetPath path, AssetLoader<T> loader)
+  public void close()
+  public List<AssetPack> packs()
+  public static List<AssetPack> getAssetPacks(WorldGenConfig config, Predicate<Path> filter)
+  public static Path[] getAssetRoots(List<AssetPack> packs)
+
+Fields:
+private static final Strategy<Path> PATH_STRATEGY
+private final Path root
+private final FileIOSystem.PathArray packRoots
+private final List<AssetPack> packs
+private final Object2ObjectMap<Path,AssetPath> files
+private final Object2ObjectMap<AssetPath,AssetFileSystem.Resource<?>> resources

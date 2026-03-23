@@ -20,3 +20,13 @@ public class PlayerGroupEvent extends PlayerPermissionChangeEvent
 
 - `PlayerGroupEvent.Added`
 - `PlayerGroupEvent.Removed`
+
+Known subclasses: Added, Removed
+
+Also in this package: Added, Added, GroupAdded, GroupPermissionChangeEvent, GroupRemoved, PermissionsAdded, PermissionsRemoved, PlayerPermissionChangeEvent, Removed, Removed
+
+Complete API:
+  public String getGroupName()
+
+Fields:
+private final String groupName

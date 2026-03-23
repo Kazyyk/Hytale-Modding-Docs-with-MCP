@@ -16,3 +16,5 @@ Container class for all ECS systems related to entity stat processing. These sys
 - EntityTrackerRemove | RefChangeSystem<EntityStore> | EntityStore | Queues stat removal packets when the `EntityStatMap` component is removed.
 - ClearChanges | EntityTickingSystem<EntityStore> | EntityStore | Clears pending stat update buffers after entity tracker processing.
 - StatModifyingSystem | interface | EntityStore | Marker interface for systems that modify entity stats. Used for dependency ordering.
+
+Also in this package: Changes, ClearChanges, EntityStatMap, EntityStatValue, EntityStatsModule, EntityTrackerRemove, EntityTrackerUpdate, PlayerRegenerateStatsSystem, Predictable, Recalculate, Regenerate, RegeneratingValue, Setup, StatModifyingSystem

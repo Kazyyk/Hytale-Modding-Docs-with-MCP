@@ -18,3 +18,17 @@ public class BooleanHolder extends ValueHolder
 - public boolean rawGet(ExecutionContext executionContext)
 - public void addRelationValidator(BiConsumer<ExecutionContext, Boolean> validator)
 - protected void validateRelations(ExecutionContext executionContext, boolean value)
+
+Also in this package: ArrayHolder, AssetArrayHolder, AssetHolder, BooleanArrayHolder, DeferEvaluateAssetHolder, DoubleHolder, DoubleHolderBase, EnumArrayHolder, EnumHolder, EnumSetHolder, FloatHolder, IntHolder, NumberArrayHolder, StringArrayHolder, StringHolder, StringHolderBase, TemporalArrayHolder, ValueHolder
+
+Complete API:
+  public void readJSON(JsonElement requiredJsonElement, String name, BuilderParameters builderParameters)
+  public void validate(ExecutionContext context)
+  public void readJSON(JsonElement optionalJsonElement, boolean defaultValue, String name, BuilderParameters builderParameters)
+  public boolean get(ExecutionContext executionContext)
+  public boolean rawGet(ExecutionContext executionContext)
+  public void addRelationValidator(BiConsumer<ExecutionContext,Boolean> validator)
+  protected void validateRelations(ExecutionContext executionContext, boolean value)
+
+Fields:
+protected List<BiConsumer<ExecutionContext,Boolean>> relationValidators

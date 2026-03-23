@@ -10,3 +10,5 @@ Dispatches inventory change events for the armor section. Instantiates with `Inv
 
 - Part of InventorySystems
 - Operates on InventoryComponent subclasses
+
+Also in this package: Armor, Backpack, BackpackChangeEventSystem, Combined, Hotbar, HotbarChangeEventSystem, Inventory, InventoryChangeEvent, InventoryChangeEventSystem, InventoryComponent, InventorySystems, ItemContext, ItemPickupType, ItemStack, LegacyArmorChangeStatSystem, LegacyHotbarChangeStatSystem, LegacyUtilityChangeStatSystem, MaterialQuantity, Metadata, PlayerInventoryChangeEventSystem (and 7 more)

@@ -36,3 +36,13 @@ Returns the list of all created reference objects.
 
 - SlotMapper -- parent class
 - BuilderSupport -- uses this for timer allocation
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public T getReference(String name)
+  public List<T> getReferenceList()
+
+Fields:
+private final List<T> list
+private final Supplier<T> slotSupplier

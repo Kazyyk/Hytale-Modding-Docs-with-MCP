@@ -14,3 +14,12 @@ JSON loader that deserializes configuration data from JSON files.
 - protected double loadIslandThreshold()
 - protected double loadBeachSize()
 - protected double loadShallowOceanSize()
+
+Also in this package: ClimateColorJsonLoader, ClimateGraphJsonLoader, ClimateGridJsonLoader, ClimateMaskJsonLoader, ClimateNoiseJsonLoader, ClimatePointJsonLoader, ClimateRuleJsonLoader, ClimateTypeJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, UniqueClimateGeneratorJsonLoader, UniqueClimateJsonLoader
+
+Complete API:
+  public ClimateNoise.Thresholds load()
+  protected double loadLandThreshold()
+  protected double loadIslandThreshold()
+  protected double loadBeachSize()
+  protected double loadShallowOceanSize()

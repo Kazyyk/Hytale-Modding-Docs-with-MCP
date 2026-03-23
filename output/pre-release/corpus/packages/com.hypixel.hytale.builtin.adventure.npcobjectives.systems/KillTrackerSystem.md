@@ -13,3 +13,13 @@ public class KillTrackerSystem extends OnDeathSystem
 
 - @Nonnull @Override public Query<EntityStore> getQuery()
 - public void onComponentAdded(Ref<EntityStore> ref, DeathComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Also in this package: SpawnBeaconCheckRemovalSystem
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onComponentAdded(Ref<EntityStore> ref, DeathComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,NPCEntity> npcEntityComponentType
+private final ResourceType<EntityStore,KillTrackerResource> killTrackerResourceType

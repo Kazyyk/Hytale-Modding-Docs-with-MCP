@@ -10,3 +10,13 @@ ECS event dispatched through the entity component system.
 
 - getPrefabId() | int | Accessor method.
 - getHolder() | Holder<EntityStore> | Accessor method.
+
+Also in this package: PrefabPasteEvent
+
+Complete API:
+  public int getPrefabId()
+  public Holder<EntityStore> getHolder()
+
+Fields:
+private final int prefabId
+private final Holder<EntityStore> holder

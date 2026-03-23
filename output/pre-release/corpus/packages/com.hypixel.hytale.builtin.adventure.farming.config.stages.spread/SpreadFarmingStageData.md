@@ -45,3 +45,21 @@ public class SpreadFarmingStageData extends FarmingStageData
 ## Related Types
 
 - SpreadGrowthBehaviour
+
+Also in this package: BlockTypeWeight, DirectionalGrowthBehaviour, SpreadGrowthBehaviour, VerticalDirection
+
+Complete API:
+  public IntRange getExecutions()
+  public IntRange getSpreadDecayPercent()
+  public SpreadGrowthBehaviour[] getSpreadGrowthBehaviours()
+  public boolean implementsShouldStop()
+  public boolean shouldStop(ComponentAccessor<ChunkStore> commandBuffer, Ref<ChunkStore> sectionRef, Ref<ChunkStore> blockRef, int x, int y, int z)
+  public void apply(ComponentAccessor<ChunkStore> commandBuffer, Ref<ChunkStore> sectionRef, Ref<ChunkStore> blockRef, int x, int y, int z, FarmingStageData previousStage)
+  public void remove(ComponentAccessor<ChunkStore> commandBuffer, Ref<ChunkStore> sectionRef, Ref<ChunkStore> blockRef, int x, int y, int z)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<SpreadFarmingStageData> CODEC
+protected IntRange executions
+protected IntRange spreadDecayPercent
+protected SpreadGrowthBehaviour[] spreadGrowthBehaviours

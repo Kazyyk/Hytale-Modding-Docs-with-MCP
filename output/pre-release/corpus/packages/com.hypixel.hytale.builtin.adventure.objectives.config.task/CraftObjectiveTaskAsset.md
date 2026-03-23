@@ -25,3 +25,15 @@ public class CraftObjectiveTaskAsset extends CountObjectiveTaskAsset
 
 - CountObjectiveTaskAsset
 - ObjectiveTaskAsset
+
+Also in this package: BlockTagOrItemIdField, ChestConfig, CountObjectiveTaskAsset, DialogOptions, GatherObjectiveTaskAsset, ObjectiveTaskAsset, ReachLocationTaskAsset, TaskScope, TaskSet, TreasureMapObjectiveTaskAsset, UseBlockObjectiveTaskAsset, UseEntityObjectiveTaskAsset
+
+Complete API:
+  public ObjectiveTaskAsset.TaskScope getTaskScope()
+  public String getItemId()
+  protected boolean matchesAsset0(ObjectiveTaskAsset task)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<CraftObjectiveTaskAsset> CODEC
+protected String itemId

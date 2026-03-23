@@ -18,3 +18,14 @@ public final class NearestBlockUtil
 - public DoubleUnaryOperator getX()
 - public DoubleUnaryOperator getY()
 - public DoubleUnaryOperator getZ()
+
+Also in this package: ChunkUtil, FastRandom, HashUtil, Icecore, IterationElement, MathUtil, NumberUtil, Riven, TrigMathUtil
+
+Complete API:
+  public static Vector3i findNearestBlock(Vector3d position, BiPredicate<Vector3i,T> validBlock, T t)
+  public static Vector3i findNearestBlock(NearestBlockUtil.IterationElement[] elements, Vector3d position, BiPredicate<Vector3i,T> validBlock, T t)
+  public static Vector3i findNearestBlock(double x, double y, double z, BiPredicate<Vector3i,T> validBlock, T t)
+  public static Vector3i findNearestBlock(NearestBlockUtil.IterationElement[] elements, double x, double y, double z, BiPredicate<Vector3i,T> validBlock, T t)
+
+Fields:
+public static final NearestBlockUtil.IterationElement[] DEFAULT_ELEMENTS

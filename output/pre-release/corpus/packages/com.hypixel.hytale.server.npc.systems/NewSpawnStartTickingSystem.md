@@ -44,3 +44,15 @@ Returns the resource type from `NPCPlugin`.
 
 - RoleBuilderSystem -- calls `queueNewSpawn` during role construction
 - StepCleanupSystem -- runs before this system
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 49 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public void tick(float dt, int systemIndex, Store<EntityStore> store)
+  public static void queueNewSpawn(Ref<EntityStore> reference, Store<EntityStore> store)
+
+Fields:
+private final ResourceType<EntityStore,NewSpawnStartTickingSystem.QueueResource> queueResourceType
+private final ComponentType<EntityStore,NonTicking<EntityStore>> nonTickingComponentType
+private final Set<Dependency<EntityStore>> dependencies

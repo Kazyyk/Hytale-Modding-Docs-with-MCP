@@ -66,3 +66,17 @@ Returns a new empty `MountedByComponent`. Passengers are not copied.
 - MountedComponent -- the component on passenger entities
 - MountSystems.TrackedMounted -- system maintaining this component
 - MountSystems.RemoveMountedBy -- dismounts passengers on mount removal
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public static ComponentType<EntityStore,MountedByComponent> getComponentType()
+  public void removeInvalid()
+  public List<Ref<EntityStore>> getPassengers()
+  public void addPassenger(Ref<EntityStore> passenger)
+  public void removePassenger(Ref<EntityStore> ref)
+  public MountedByComponent withPassenger(Ref<EntityStore> passenger)
+  public Component<EntityStore> clone()
+
+Fields:
+private final List<Ref<EntityStore>> passengers

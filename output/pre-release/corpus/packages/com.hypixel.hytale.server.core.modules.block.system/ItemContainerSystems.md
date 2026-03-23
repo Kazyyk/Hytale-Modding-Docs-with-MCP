@@ -11,3 +11,5 @@ Container for ECS systems managing `ItemContainerBlock` lifecycle events. Handle
 - ItemContainerSystems.OnAddedOrRemoved | RefSystem<ChunkStore> | Adjusts capacity and drops items on add/remove
 - ItemContainerSystems.OnReplaced | EntityEventSystem<ChunkStore, BlockReplaceEvent> | Migrates items from old to new block entity
 - ItemContainerSystems.OnReplacedHolder | EntityHolderEventSystem<ChunkStore, BlockReplaceEvent> | Migrates items from old holder to new block entity
+
+Also in this package: ItemContainerBlockSpatialSystem, OnAddedOrRemoved, OnReplaced, OnReplacedHolder

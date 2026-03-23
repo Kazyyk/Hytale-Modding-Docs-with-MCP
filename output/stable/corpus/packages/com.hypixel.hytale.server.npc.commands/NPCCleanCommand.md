@@ -19,3 +19,8 @@ Registers as sub-command `"clean"` with translation key `"server.commands.npc.cl
 
 - NPCCommand -- parent command collection
 - NPCAllCommand -- spawns all NPC roles (inverse operation)
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDumpCommand, NPCFreezeCommand (and 28 more)
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)

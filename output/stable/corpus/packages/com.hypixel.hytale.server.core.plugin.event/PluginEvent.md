@@ -9,3 +9,14 @@ Server lifecycle event.
 ## Accessors
 
 - getPlugin() | PluginBase | Accessor method.
+
+Known subclasses: PluginSetupEvent
+
+Also in this package: PluginSetupEvent
+
+Complete API:
+  public PluginBase getPlugin()
+  public String toString()
+
+Fields:
+private final PluginBase plugin

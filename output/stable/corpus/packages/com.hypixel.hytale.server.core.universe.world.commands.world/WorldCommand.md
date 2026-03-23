@@ -9,3 +9,5 @@ Console command handling World operations.
 ## Methods
 
 - public WorldCommand()
+
+Also in this package: CompactCommand, WorldAddCommand, WorldListCommand, WorldLoadCommand, WorldPruneCommand, WorldRemoveCommand, WorldRocksDbCommand, WorldSaveCommand, WorldSetDefaultCommand

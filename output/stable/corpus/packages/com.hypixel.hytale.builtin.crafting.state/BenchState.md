@@ -27,3 +27,28 @@ Block state that stores per-block-position data in the world.
 - @Nonnull public String getTierStateName()
 - @Override public void onDestroy()
 - @Nonnull public Map<UUID, BenchWindow> getWindows()
+
+Known subclasses: ProcessingBenchState
+
+Also in this package: ProcessingBenchState
+
+Complete API:
+  public int getTierLevel()
+  public boolean initialize(BlockType blockType)
+  public void addUpgradeItems(List<ItemStack> consumed)
+  private void dropUpgradeItems()
+  public Bench getBench()
+  public void setTierLevel(int newTierLevel)
+  public BenchUpgradeRequirement getNextLevelUpgradeMaterials()
+  protected void onTierLevelChange()
+  public BlockType getBaseBlockType()
+  public String getTierStateName()
+  public void onDestroy()
+  public Map<UUID,BenchWindow> getWindows()
+
+Fields:
+public static BuilderCodec<BenchState> CODEC
+private int tierLevel
+protected ItemStack[] upgradeItems
+protected Bench bench
+protected final Map<UUID,BenchWindow> windows

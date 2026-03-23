@@ -24,3 +24,20 @@ Server module providing modules functionality.
 - getChunkSectionMigrationSystem() | SystemType<ChunkStore, ChunkSectionMigrationSystem> | public method.
 - register(String id, Function<Path, Migration> migration) | void | public method.
 - runMigrations() | void | public method.
+
+Also in this package: ChunkColumnMigrationSystem, ChunkSectionMigrationSystem, EntityMigration, Migration
+
+Complete API:
+  public static MigrationModule get()
+  protected void setup()
+  public SystemType<ChunkStore,ChunkColumnMigrationSystem> getChunkColumnMigrationSystem()
+  public SystemType<ChunkStore,ChunkSectionMigrationSystem> getChunkSectionMigrationSystem()
+  public void register(String id, Function<Path,Migration> migration)
+  public void runMigrations()
+
+Fields:
+public static final PluginManifest MANIFEST
+protected static MigrationModule instance
+private final Map<String,Function<Path,Migration>> migrationCtors
+private SystemType<ChunkStore,ChunkColumnMigrationSystem> chunkColumnMigrationSystem
+private SystemType<ChunkStore,ChunkSectionMigrationSystem> chunkSectionMigrationSystem

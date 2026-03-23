@@ -29,3 +29,23 @@ Point field that generates jittered grid points using `FastNoiseLite` hash-based
 - @Override public void points3d(@Nonnull Vector3d min, @Nonnull Vector3d max, @Nonnull Consumer<Vector3d> pointsOut)
 - @Override public void points2d(@Nonnull Vector2d min, @Nonnull Vector2d max, @Nonnull Consumer<Vector2d> pointsOut)
 - @Override public void points1d(double min, double max, @Nonnull Consumer<Double> pointsOut)
+
+Also in this package: PointField, PointProvider
+
+Complete API:
+  public PointField setScale(double scaleX, double scaleY, double scaleZ, double scaleW)
+  public void points3i(Vector3i min, Vector3i max, Consumer<Vector3i> pointsOut)
+  public void points2i(Vector2i min, Vector2i max, Consumer<Vector2i> pointsOut)
+  public void points1i(int min, int max, Consumer<Integer> pointsOut)
+  public void points3d(Vector3d min, Vector3d max, Consumer<Vector3d> pointsOut)
+  public void points2d(Vector2d min, Vector2d max, Consumer<Vector2d> pointsOut)
+  public void points1d(double min, double max, Consumer<Double> pointsOut)
+
+Fields:
+private final FastNoiseLite noise
+private final int seed
+private final double jitter
+private final Vector3d scaleDown3d
+private final Vector3d scaleUp3d
+private final Vector2d scaleDown2d
+private final Vector2d scaleUp2d

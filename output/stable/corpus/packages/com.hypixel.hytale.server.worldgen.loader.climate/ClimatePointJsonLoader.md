@@ -13,3 +13,11 @@ JSON loader that deserializes configuration data from JSON files.
 - protected double loadTemperature()
 - protected double loadIntensity()
 - protected double loadModifier()
+
+Also in this package: ClimateColorJsonLoader, ClimateGraphJsonLoader, ClimateGridJsonLoader, ClimateMaskJsonLoader, ClimateNoiseJsonLoader, ClimateRuleJsonLoader, ClimateTypeJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, ContinentThresholdsJsonLoader, UniqueClimateGeneratorJsonLoader, UniqueClimateJsonLoader
+
+Complete API:
+  public ClimatePoint load()
+  protected double loadTemperature()
+  protected double loadIntensity()
+  protected double loadModifier()

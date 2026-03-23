@@ -20,3 +20,18 @@ NPC behavior sensor builder for SensorInflictedDamage functionality.
 - @Nonnull @Override public Builder<Sensor> readConfig(@Nonnull JsonElement data)
 - public boolean isFriendlyFire()
 - public SensorInflictedDamage.Target getTarget()
+
+Also in this package: BuilderActionFlockBeacon, BuilderActionFlockJoin, BuilderActionFlockLeave, BuilderActionFlockSetTarget, BuilderActionFlockState, BuilderBodyMotionFlock, BuilderEntityFilterFlock, BuilderSensorFlockCombatDamage, BuilderSensorFlockLeader
+
+Complete API:
+  public SensorInflictedDamage build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Sensor> readConfig(JsonElement data)
+  public boolean isFriendlyFire()
+  public SensorInflictedDamage.Target getTarget()
+
+Fields:
+protected SensorInflictedDamage.Target target
+protected boolean friendlyFire

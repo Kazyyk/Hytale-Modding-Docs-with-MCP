@@ -18,3 +18,8 @@ Logical operators for combining conditions within a `LogicCondition`.
 ## Relationships
 
 - Inner enum of LogicCondition
+
+Also in this package: AliveCondition, ChargingCondition, CheckPlayerGameModeCondition, Condition, EntityStatBoundCondition, EnvironmentCondition, GlidingCondition, HasEffectCondition, InFluidCondition, IsPlayerCondition, LogicCondition, NoDamageTakenCondition, OutOfCombatCondition, RegenHealthCondition, SprintingCondition, StatComparisonType, StatCondition, SuffocatingCondition, WieldingCondition
+
+Complete API:
+  public abstract boolean eval(ComponentAccessor<EntityStore> var1, Ref<EntityStore> var2, Instant var3, Condition[] var4)

@@ -25,3 +25,12 @@ Loads individual unique prefab generators with name, category, weighted prefab m
 *interface*
 
 JSON key constants: `Entries`, `Config`, `Prefab`, `Weights`, `Name`.
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CoverContainerEntryJsonLoader, CoverContainerJsonLoader, DefaultEnvironmentContainerEntryLoader, DefaultTintContainerEntryJsonLoader, DynamicLayerEntryJsonLoader, DynamicLayerJsonLoader, EnvironmentContainerEntryJsonLoader, EnvironmentContainerJsonLoader, FadeContainerJsonLoader, LayerContainerJsonLoader, LayerEntryJsonLoader, PrefabContainerEntryJsonLoader (and 8 more)
+
+Complete API:
+  public UniquePrefabContainer load()
+
+Fields:
+public static final UniquePrefabGenerator[] EMPTY_GENERATORS
+protected final ZoneFileContext zoneContext

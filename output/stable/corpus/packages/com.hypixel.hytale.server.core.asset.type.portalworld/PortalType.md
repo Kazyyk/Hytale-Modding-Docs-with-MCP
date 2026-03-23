@@ -28,3 +28,29 @@ Implementation of `JsonAssetWithMap<String, DefaultAssetMap<String, PortalType>>
 - getGameplayConfigId() | String | public method.
 - isVoidInvasionEnabled() | boolean | public method.
 - getGameplayConfig() | GameplayConfig | public method.
+
+Also in this package: PillTag, PortalDescription, PortalSpawn
+
+Complete API:
+  public static AssetStore<String,PortalType,DefaultAssetMap<String,PortalType>> getAssetStore()
+  public static DefaultAssetMap<String,PortalType> getAssetMap()
+  public String getId()
+  public String getInstanceId()
+  public Message getDisplayName()
+  public PortalDescription getDescription()
+  public Set<String> getCursedItems()
+  public String getGameplayConfigId()
+  public boolean isVoidInvasionEnabled()
+  public GameplayConfig getGameplayConfig()
+
+Fields:
+public static final AssetBuilderCodec<String,PortalType> CODEC
+private static AssetStore<String,PortalType,DefaultAssetMap<String,PortalType>> ASSET_STORE
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private AssetExtraInfo.Data data
+private String id
+private String instanceId
+private PortalDescription description
+private String gameplayConfig
+private boolean voidInvasionEnabled
+private Set<String> cursedItems

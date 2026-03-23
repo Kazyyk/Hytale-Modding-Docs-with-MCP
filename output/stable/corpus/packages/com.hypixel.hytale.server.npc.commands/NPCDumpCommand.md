@@ -23,3 +23,13 @@ Registers as sub-command `"dump"` with translation key `"server.commands.npc.dum
 
 - NPCWorldCommandBase -- base class providing NPC target resolution
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCFreezeCommand (and 28 more)
+
+Complete API:
+  protected void execute(CommandContext context, NPCEntity npc, World world, Store<EntityStore> store, Ref<EntityStore> ref)
+  private static void dumpComponent(Role role, IAnnotatedComponent component, int index, int nestingDepth, List<ComponentInfo> infoList)
+  private static void dumpComponentsAsJson(Role role, IAnnotatedComponent component, int index, int nestingDepth, JsonElement parent)
+
+Fields:
+private final FlagArg jsonArg

@@ -29,3 +29,13 @@ public class UseBlockObjectiveTask extends CountObjectiveTask
 
 - CountObjectiveTask
 - ObjectiveTask
+
+Also in this package: CountObjectiveTask, CraftObjectiveTask, GatherObjectiveTask, ObjectiveTask, ObjectiveTaskRef, ReachLocationTask, TreasureMapObjectiveTask, UseEntityObjectiveTask
+
+Complete API:
+  public UseBlockObjectiveTaskAsset getAsset()
+  protected TransactionRecord[] setup0(Objective objective, World world, Store<EntityStore> store)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<UseBlockObjectiveTask> CODEC

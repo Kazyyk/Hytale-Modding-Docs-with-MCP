@@ -16,3 +16,16 @@ public class RoleExistsValidator extends AssetValidator
 - @Override @Nonnull public String getAssetName()
 - public static RoleExistsValidator required()
 - @Nonnull public static RoleExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Also in this package: AttitudeGroupExistsValidator, BeaconSpawnExistsValidator, BlockSetExistsValidator, CombatInteractionValidator, EntityEffectExistsValidator, EntityStatExistsValidator, EnvironmentExistsValidator, FlockAssetExistsValidator, ItemAttitudeGroupExistsValidator, ItemDropListExistsValidator, ItemExistsValidator, ManualSpawnMarkerExistsValidator, ModelExistsValidator, ParticleSystemExistsValidator, RootInteractionValidator, SoundEventExistsValidator, WeatherExistsValidator
+
+Complete API:
+  public String getDomain()
+  public boolean test(String role)
+  public String errorMessage(String role, String attributeName)
+  public String getAssetName()
+  public static RoleExistsValidator required()
+  public static RoleExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Fields:
+private static final RoleExistsValidator DEFAULT_INSTANCE

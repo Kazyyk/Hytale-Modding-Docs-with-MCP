@@ -14,3 +14,13 @@ Plugin registry for registering entries into a `MapKeyMapCodec`. Maps a class, s
 
 - register(@Nonnull Class<T> tClass, @Nonnull String id, @Nonnull Codec<T> codec) | MapKeyMapRegistry<V> | Registers a class-ID-codec triple with an unregister callback.
 - shutdown() | void | No-op shutdown hook.
+
+Also in this package: AssetRegistry, Assets, CodecMapRegistry, IRegistry
+
+Complete API:
+  public MapKeyMapRegistry<V> register(Class<T> tClass, String id, Codec<T> codec)
+  public void shutdown()
+
+Fields:
+protected final MapKeyMapCodec<V> mapCodec
+protected final List<BooleanConsumer> unregister

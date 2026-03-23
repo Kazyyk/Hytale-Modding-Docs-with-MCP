@@ -33,3 +33,18 @@ Returns `false` -- this system does not run in parallel.
 
 - ComputeVelocitySystem -- computes velocity consumed by this system
 - SteppableTickingSystem -- base class
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 49 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public void steppedTick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final ComponentType<EntityStore,NPCEntity> npcComponentType
+private final ComponentType<EntityStore,Velocity> velocityComponentType
+private final ComponentType<EntityStore,MovementStatesComponent> movementStatesComponentType
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

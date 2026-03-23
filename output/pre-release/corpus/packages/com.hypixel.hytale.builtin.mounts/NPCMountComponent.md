@@ -50,3 +50,25 @@ Returns a copy with all fields duplicated.
 - NPCMountSystems -- systems reacting to this component
 - ActionMount -- NPC action that creates this component
 - MountPlugin -- registers this component type
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public static ComponentType<EntityStore,NPCMountComponent> getComponentType()
+  public int getOriginalRoleIndex()
+  public void setOriginalRoleIndex(int originalRoleIndex)
+  public PlayerRef getOwnerPlayerRef()
+  public void setOwnerPlayerRef(PlayerRef ownerPlayerRef)
+  public float getAnchorX()
+  public float getAnchorY()
+  public float getAnchorZ()
+  public void setAnchor(float x, float y, float z)
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<NPCMountComponent> CODEC
+private int originalRoleIndex
+private PlayerRef ownerPlayerRef
+private float anchorX
+private float anchorY
+private float anchorZ

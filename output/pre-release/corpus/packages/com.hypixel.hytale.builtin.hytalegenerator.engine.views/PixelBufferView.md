@@ -28,3 +28,22 @@ Provides a `VoxelSpace<T>` view over 2D pixel buffers within a `BufferBundle.Acc
 - @Nullable @Override public T get(@Nonnull Vector3i position_voxelGrid)
 - @Nonnull private PixelBuffer<T> getBuffer(@Nonnull Vector3i position_voxelGrid)
 - @Override public Bounds3i getBounds()
+
+Also in this package: EntityBufferView, VoxelBufferView
+
+Complete API:
+  public void set(T content, int x, int y, int z)
+  public void set(T value, Vector3i position_voxelGrid)
+  public void setAll(T content)
+  public T get(int x, int y, int z)
+  public T get(Vector3i position_voxelGrid)
+  private PixelBuffer<T> getBuffer(Vector3i position_voxelGrid)
+  public Bounds3i getBounds()
+
+Fields:
+public static final int Y_LEVEL_BUFFER_GRID
+public static final int Y_LEVEL_VOXEL_GRID
+private final Class<T> voxelType
+private final BufferBundle.Access.View bufferAccess
+private final Bounds3i bounds_voxelGrid
+private final Vector3i size_voxelGrid

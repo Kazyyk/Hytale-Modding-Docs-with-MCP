@@ -14,3 +14,12 @@ Extends `BuilderSensorWithEntityFilters`.
 - @Override public String getLongDescription()
 - @Override public Builder<Sensor> readConfig(@Nonnull JsonElement data)
 - @Override public BuilderDescriptorState getBuilderDescriptorState()
+
+Also in this package: BuilderActionBeacon, BuilderActionIgnoreForAvoidance, BuilderActionNotify, BuilderActionOverrideAttitude, BuilderActionReleaseTarget, BuilderActionSetMarkedTarget, BuilderActionSetStat, BuilderHeadMotionWatch, BuilderSensorBeacon, BuilderSensorCount, BuilderSensorEntity, BuilderSensorEntityBase, BuilderSensorKill, BuilderSensorPlayer, BuilderSensorTarget
+
+Complete API:
+  public SensorSelf build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public Builder<Sensor> readConfig(JsonElement data)
+  public BuilderDescriptorState getBuilderDescriptorState()

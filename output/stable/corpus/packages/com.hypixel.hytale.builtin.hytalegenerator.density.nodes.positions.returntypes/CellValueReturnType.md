@@ -21,3 +21,13 @@ Extends `ReturnType` to provide CellValueReturnType functionality.
         @Nullable Vector3d closestPoint0,
         Vector3d closestPoint1,
         @Nonnull Density.Context context)` |
+
+Also in this package: CurveReturnType, DensityReturnType, Distance2AddReturnType, Distance2DivReturnType, Distance2MulReturnType, Distance2ReturnType, Distance2SubReturnType, DistanceReturnType, Entry, ReturnType, Vector3dComparator
+
+Complete API:
+  public double get(double distance0, double distance1, Vector3d samplePosition, Vector3d closestPoint0, Vector3d closestPoint1, Density.Context context)
+
+Fields:
+private final Density sampleField
+private final double defaultValue
+private final Density.Context rChildContext

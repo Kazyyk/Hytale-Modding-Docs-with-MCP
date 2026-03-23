@@ -89,3 +89,19 @@ Evaluates the cellular noise at a 1D coordinate. The coordinate is divided by `s
 - NoiseField -- abstract base class
 - FastNoiseLite -- underlying noise library with cellular noise support
 - SimplexNoiseField -- alternative noise field using simplex noise
+
+Also in this package: Builder, Grad, NoiseField, Simplex, SimplexNoiseField
+
+Complete API:
+  public double valueAt(double x, double y, double z, double w)
+  public double valueAt(double x, double y, double z)
+  public double valueAt(double x, double z)
+  public double valueAt(double x)
+
+Fields:
+private FastNoiseLite cellNoise
+private int seed
+private boolean doDomainWarp
+private double scaleX
+private double scaleY
+private double scaleZ

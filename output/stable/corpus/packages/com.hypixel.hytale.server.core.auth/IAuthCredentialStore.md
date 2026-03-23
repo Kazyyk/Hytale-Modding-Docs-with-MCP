@@ -30,3 +30,14 @@ Clears all stored credentials and profile data.
 ## Inner Types
 
 - OAuthTokens -- record holding token data
+
+Known implementors: DefaultAuthCredentialStore, EncryptedAuthCredentialStore
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthConfigGenerated, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse, LauncherDataResponse, MemoryAuthCredentialStoreProvider (and 8 more)
+
+Complete API:
+  void setTokens(IAuthCredentialStore.OAuthTokens var1)
+  IAuthCredentialStore.OAuthTokens getTokens()
+  void setProfile(UUID var1)
+  UUID getProfile()
+  void clear()

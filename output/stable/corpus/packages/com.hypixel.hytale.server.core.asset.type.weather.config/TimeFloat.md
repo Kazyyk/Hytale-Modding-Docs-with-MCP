@@ -16,3 +16,15 @@ public class TimeFloat
 - public float getHour()
 - public float getValue()
 - public String toString()
+
+Also in this package: Cloud, DayTexture, FogOptions, TimeColor, TimeColorAlpha, Weather
+
+Complete API:
+  public float getHour()
+  public float getValue()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<TimeFloat> CODEC
+protected float hour
+protected float value

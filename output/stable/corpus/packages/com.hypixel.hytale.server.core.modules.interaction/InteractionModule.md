@@ -72,3 +72,31 @@ The `setup()` method registers over 50 interaction types with the `Interaction.C
 ## Registered Knockback Types
 
 `Directional`, `Point`, `Force`.
+
+Also in this package: BlockHarvestUtils, BlockInteractionUtils, BlockPlaceUtils, IInteractionSimulationHandler, InteractionSimulationHandler, Interactions
+
+Complete API:
+  public static InteractionModule get()
+  protected void setup()
+  private static void handledLoadedRootInteractions(LoadedAssetsEvent<String,RootInteraction,?> event)
+  private static void handledLoadedInteractions(LoadedAssetsEvent<String,Interaction,?> event)
+  private static void handledRemovedInteractions(RemovedAssetsEvent<String,Interaction,?> event)
+  public void doMouseInteraction(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, MouseInteraction packet, Player playerComponent, PlayerRef playerRefComponent)
+  public ComponentType<EntityStore,ChainingInteraction.Data> getChainingDataComponent()
+  public ComponentType<EntityStore,Interactions> getInteractionsComponentType()
+  public ComponentType<EntityStore,InteractionManager> getInteractionManagerComponent()
+  public ComponentType<ChunkStore,PlacedByInteractionComponent> getPlacedByComponentType()
+  public ResourceType<ChunkStore,BlockCounter> getBlockCounterResourceType()
+  public ComponentType<ChunkStore,TrackedPlacement> getTrackedPlacementComponentType()
+
+Fields:
+public static final PluginManifest MANIFEST
+public static final EnumCodec<InteractionType> INTERACTION_TYPE_CODEC
+public static final SetCodec<InteractionType,EnumSet<InteractionType>> INTERACTION_TYPE_SET_CODEC
+private static InteractionModule instance
+private ComponentType<EntityStore,InteractionManager> interactionManagerComponent
+private ComponentType<EntityStore,ChainingInteraction.Data> chainingDataComponent
+private ComponentType<EntityStore,Interactions> interactionsComponentType
+private ComponentType<ChunkStore,PlacedByInteractionComponent> placedByComponentType
+private ResourceType<ChunkStore,BlockCounter> blockCounterResourceType
+private ComponentType<ChunkStore,TrackedPlacement> trackedPlacementComponentType

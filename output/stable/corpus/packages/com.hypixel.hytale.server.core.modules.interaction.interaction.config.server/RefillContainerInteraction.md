@@ -41,3 +41,17 @@ public String toString()
 
 - `Fluid` -- fluid asset used for matching and transformation
 - `BlockIterator` -- performs the ray-cast through blocks
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction (and 13 more)
+
+Complete API:
+  protected int[] getAllowedFluidIds()
+  protected Int2ObjectMap<String> getFluidToState()
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<RefillContainerInteraction> CODEC
+protected Map<String,RefillContainerInteraction.RefillState> refillStateMap
+protected int[] allowedFluidIds
+protected Int2ObjectMap<String> fluidToState

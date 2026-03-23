@@ -18,3 +18,18 @@ ECS component stored in `EntityStore`. Serialized via `BuilderCodec`.
 
 - recordMemory(Memory memory) | boolean | Instance method.
 - takeMemories(Set<Memory> outMemories) | boolean | Instance method.
+
+Complete API:
+  public static ComponentType<EntityStore,PlayerMemories> getComponentType()
+  public Component<EntityStore> clone()
+  public int getMemoriesCapacity()
+  public void setMemoriesCapacity(int memoriesCapacity)
+  public boolean recordMemory(Memory memory)
+  public boolean hasMemories()
+  public boolean takeMemories(Set<Memory> outMemories)
+  public Set<Memory> getRecordedMemories()
+
+Fields:
+public static final BuilderCodec<PlayerMemories> CODEC
+private final Set<Memory> memories
+private int memoriesCapacity

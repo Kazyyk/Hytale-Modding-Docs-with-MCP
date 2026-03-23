@@ -12,3 +12,12 @@ public class SpawnMarkerReference extends SpawnReference
 
 - public static ComponentType<EntityStore,SpawnMarkerReference> getComponentType()
 - @Nonnull @Override public Component<EntityStore> clone()
+
+Also in this package: FailedSpawnComponent, SortBufferProviderResource, SpawnBeaconReference, SpawnReference, StepComponent, Timers
+
+Complete API:
+  public static ComponentType<EntityStore,SpawnMarkerReference> getComponentType()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<SpawnMarkerReference> CODEC

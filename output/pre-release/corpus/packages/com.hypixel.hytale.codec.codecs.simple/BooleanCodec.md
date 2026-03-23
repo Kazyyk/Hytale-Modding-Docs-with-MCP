@@ -11,3 +11,12 @@ public class BooleanCodec implements Codec<Boolean>, RawJsonCodec<Boolean>, Prim
 - @Nonnull public Boolean decodeJson(@Nonnull RawJsonReader reader, ExtraInfo extraInfo)
 - @Nonnull @Override public Schema toSchema(@Nonnull SchemaContext context)
 - @Nonnull public Schema toSchema(@Nonnull SchemaContext context, @Nullable Boolean def)
+
+Also in this package: ByteCodec, DoubleCodec, FloatCodec, IntegerCodec, LongCodec, ShortCodec, StringCodec
+
+Complete API:
+  public Boolean decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Boolean t, ExtraInfo extraInfo)
+  public Boolean decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+  public Schema toSchema(SchemaContext context, Boolean def)

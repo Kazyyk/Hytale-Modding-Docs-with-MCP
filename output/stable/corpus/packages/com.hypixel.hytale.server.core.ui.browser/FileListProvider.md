@@ -14,3 +14,10 @@ Functional interface for providing custom file listings to the server file brows
 ## Inner Types
 
 - FileListProvider.FileEntry -- record describing a file or directory entry
+
+Known implementors: AssetPrefabFileProvider, ScriptedBrushListProvider
+
+Also in this package: AssetPackSearchResult, Builder, FileBrowserConfig, FileBrowserEventData, FileEntry, RootEntry, ServerFileBrowser
+
+Complete API:
+  List<FileListProvider.FileEntry> getFiles(Path var1, String var2)

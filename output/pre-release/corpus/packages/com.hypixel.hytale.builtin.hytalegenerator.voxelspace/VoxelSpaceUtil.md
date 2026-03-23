@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.builtin.hytalegenerator.voxelspace | E
 public class VoxelSpaceUtil
 
 Utility class for VoxelSpace operations. Contains the `BatchTransfer` inner class for bulk copying between voxel spaces.
+
+Also in this package: ArrayVoxelSpace, BatchTransfer, MaskVoxelSpace, NullSpace, RotationVoxelSpace, VoxelSpace, WindowVoxelSpace

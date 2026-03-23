@@ -11,3 +11,7 @@ Lifecycle state for a TimeInstrument.Probe.
 - NOT_STARTED
 - STARTED
 - COMPLETED
+
+Known implementors: CanSpawnPortal, Error, Error, InstanceKeyNotFound, PortalIsOpen, PortalTypeNotFound
+
+Also in this package: MemInstrument, Probe, Report, TimeInstrument

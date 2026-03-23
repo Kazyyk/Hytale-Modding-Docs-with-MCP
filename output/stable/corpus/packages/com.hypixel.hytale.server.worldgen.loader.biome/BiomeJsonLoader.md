@@ -21,3 +21,26 @@ Also defines a `Constants` inner interface with all JSON key names and error mes
 - @Nullable protected NoiseProperty loadHeightmapNoise()
 - protected int loadColor()
 - @Nullable protected BiomeInterpolation loadInterpolation()
+
+Known subclasses: CustomBiomeJsonLoader, TileBiomeJsonLoader
+
+Also in this package: BiomeInterpolationJsonLoader, BiomeMaskJsonLoader, BiomePatternGeneratorJsonLoader, BiomePatternGeneratorSizeModifierProvider, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CustomBiomeGeneratorJsonLoader, CustomBiomeJsonLoader, ISizeModifierProvider, LoadedPointGeneratorDistanceFunction, TileBiomeJsonLoader
+
+Complete API:
+  protected IHeightThresholdInterpreter loadTerrainHeightThreshold()
+  protected CoverContainer loadCoverContainer()
+  protected FadeContainer loadFadeContainer()
+  protected LayerContainer loadLayerContainers()
+  protected PrefabContainer loadPrefabContainer()
+  protected TintContainer loadTintContainer()
+  protected EnvironmentContainer loadEnvironmentContainer()
+  protected WaterContainer loadWaterContainer()
+  protected NoiseProperty loadHeightmapNoise()
+  protected int loadColor()
+  protected BiomeInterpolation loadInterpolation()
+  protected static int getColor(String string)
+
+Fields:
+private static final Pattern COLOR_PREFIX_PATTERN
+protected final BiomeFileContext biomeContext
+protected final FileLoadingContext fileContext

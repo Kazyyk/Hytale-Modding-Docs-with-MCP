@@ -22,3 +22,22 @@ Sub-model attachment defining a model path, texture path, gradient set/ID, and a
 - public String getGradientSet()
 - public double getWeight()
 - @Nonnull public com.hypixel.hytale.protocol.ModelAttachment toPacket()
+
+Also in this package: Animation, AnimationSet, DetailBox, Model, ModelAsset, ModelParticle, ModelReference
+
+Complete API:
+  public String getModel()
+  public String getTexture()
+  public String getGradientId()
+  public String getGradientSet()
+  public double getWeight()
+  public com.hypixel.hytale.protocol.ModelAttachment toPacket()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ModelAttachment> CODEC
+protected String model
+protected String texture
+protected String gradientSet
+protected String gradientId
+protected double weight

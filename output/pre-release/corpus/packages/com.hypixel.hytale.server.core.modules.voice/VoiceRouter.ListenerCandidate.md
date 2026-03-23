@@ -9,3 +9,5 @@ Internal record used during voice routing to track candidate listeners sorted by
 ## See Also
 
 - VoiceRouter
+
+Also in this package: PositionSnapshot, VoiceModule, VoiceModuleConfig, VoicePacketHandler, VoicePlayerState, VoiceRouter, VoiceStreamHandler

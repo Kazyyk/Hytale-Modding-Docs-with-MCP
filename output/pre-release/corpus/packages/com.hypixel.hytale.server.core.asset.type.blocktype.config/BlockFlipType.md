@@ -23,3 +23,9 @@ Computes the new yaw Rotation after flipping along the given axis.
 
 - Rotation -- rotation enum used for yaw/pitch/roll
 - RotationTuple -- uses this during flip operations
+
+Also in this package: BlockBreakingDropType, BlockFace, BlockFaceSupport, BlockGathering, BlockMigration, BlockMovementSettings, BlockPlacementSettings, BlockPreviewVisibility, BlockSupportsRequiredForType, BlockToolData, BlockType, BlockTypeTextures, ConditionalBlockSound, CustomModelTexture, FaceConnectionType, HarvestingDropType, Match, MergedBlockFaces, PhysicsDropType, RequiredBlockFaceSupport (and 8 more)
+
+Complete API:
+  public Rotation flipYaw(Rotation rotation, Axis axis)
+  private Rotation flipComponent(Rotation rotation, Axis axis, Axis ownAxis, Axis negateAxis, Axis alignment)

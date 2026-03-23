@@ -33,3 +33,31 @@ Class in the permissions subsystem.
 
 - fromCommand(@Nonnull String name) | String | static public method.
 - fromCommand(@Nonnull String name, @Nonnull String subCommand) | String | static public method.
+
+Also in this package: PermissionHolder, PermissionsModule
+
+Complete API:
+  public static String fromCommand(String name)
+  public static String fromCommand(String name, String subCommand)
+
+Fields:
+public static final String NAMESPACE
+public static final String COMMAND_BASE
+public static final String ASSET_EDITOR
+public static final String ASSET_EDITOR_PACKS_CREATE
+public static final String ASSET_EDITOR_PACKS_EDIT
+public static final String ASSET_EDITOR_PACKS_DELETE
+public static final String BUILDER_TOOLS_EDITOR
+public static final String EDITOR_BRUSH_USE
+public static final String EDITOR_BRUSH_CONFIG
+public static final String EDITOR_PREFAB_USE
+public static final String EDITOR_PREFAB_MANAGE
+public static final String EDITOR_SELECTION_USE
+public static final String EDITOR_SELECTION_CLIPBOARD
+public static final String EDITOR_SELECTION_MODIFY
+public static final String EDITOR_HISTORY
+public static final String FLY_CAM
+public static final String WORLD_MAP_COORDINATE_TELEPORT
+public static final String WORLD_MAP_MARKER_TELEPORT
+public static final String UPDATE_NOTIFY
+public static final String MODS_OUTDATED_NOTIFY

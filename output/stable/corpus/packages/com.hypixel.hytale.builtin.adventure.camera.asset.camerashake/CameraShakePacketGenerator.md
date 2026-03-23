@@ -10,3 +10,11 @@ public class CameraShakePacketGenerator extends SimpleAssetPacketGenerator
 - @Nonnull protected ToClientPacket generateUpdatePacket(IndexedAssetMap<String,CameraShake> assetMap, Map<String,CameraShake> loadedAssets)
 - @Nonnull protected ToClientPacket generateRemovePacket(IndexedAssetMap<String,CameraShake> assetMap, Set<String> removed)
 - @Nonnull protected static ToClientPacket toCachedPacket(UpdateType type, IndexedAssetMap<String,CameraShake> assetMap, Map<String,CameraShake> assets)
+
+Also in this package: CameraShake
+
+Complete API:
+  public ToClientPacket generateInitPacket(IndexedAssetMap<String,CameraShake> assetMap, Map<String,CameraShake> assets)
+  protected ToClientPacket generateUpdatePacket(IndexedAssetMap<String,CameraShake> assetMap, Map<String,CameraShake> loadedAssets)
+  protected ToClientPacket generateRemovePacket(IndexedAssetMap<String,CameraShake> assetMap, Set<String> removed)
+  protected static ToClientPacket toCachedPacket(UpdateType type, IndexedAssetMap<String,CameraShake> assetMap, Map<String,CameraShake> assets)

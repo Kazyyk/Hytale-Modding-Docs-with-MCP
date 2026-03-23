@@ -10,3 +10,12 @@ Defines a color gradient applied to a player skin region.
 
 - public String getTexture()
 - public String toString()
+
+Also in this package: BodyType, CosmeticAssetValidator, CosmeticRegistry, CosmeticType, CosmeticsModule, Emote, HaircutType, HeadAccessoryType, InvalidSkinException, PlayerSkin, PlayerSkinGradientSet, PlayerSkinPart, PlayerSkinPartId, PlayerSkinPartTexture, PlayerSkinPartType, PlayerSkinTintColor, Variant
+
+Complete API:
+  public String getTexture()
+  public String toString()
+
+Fields:
+private String texture

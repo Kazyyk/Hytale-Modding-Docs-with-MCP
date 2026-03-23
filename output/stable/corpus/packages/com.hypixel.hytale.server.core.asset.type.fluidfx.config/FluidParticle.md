@@ -24,3 +24,19 @@ public class FluidParticle implements NetworkSerializable<com.hypixel.hytale.pro
 - public float getScale()
 - @Nonnull public com.hypixel.hytale.protocol.FluidParticle toPacket()
 - @Nonnull @Override public String toString()
+
+Also in this package: FluidFX
+
+Complete API:
+  public String getSystemId()
+  public Color getColor()
+  public float getScale()
+  public com.hypixel.hytale.protocol.FluidParticle toPacket()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<FluidParticle> CODEC
+protected String systemId
+protected Color color
+protected float scale
+private SoftReference<com.hypixel.hytale.protocol.FluidParticle> cachedPacket

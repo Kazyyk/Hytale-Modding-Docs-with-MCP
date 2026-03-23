@@ -12,3 +12,11 @@ public abstract class EnvironmentProvider
 ## Inner Types
 
 - `EnvironmentProvider.Context`
+
+Known subclasses: ConstantEnvironmentProvider, DensityDelimitedEnvironmentProvider
+
+Also in this package: ConstantEnvironmentProvider, Context, DensityDelimitedEnvironmentProvider
+
+Complete API:
+  public abstract int getValue(EnvironmentProvider.Context var1)
+  public static EnvironmentProvider noEnvironmentProvider()

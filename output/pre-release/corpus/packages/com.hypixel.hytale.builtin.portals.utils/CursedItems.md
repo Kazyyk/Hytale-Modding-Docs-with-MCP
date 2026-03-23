@@ -11,3 +11,9 @@ Utility type in the `utils` subsystem.
 - uncurseAll(ItemContainer itemContainer) | boolean | Static utility method.
 - deleteAll(Player player) | void | Static utility method.
 - deleteAll(ItemContainer itemContainer) | void | Static utility method.
+
+Also in this package: BlockTypeUtils
+
+Complete API:
+  public static boolean uncurseAll(ItemContainer itemContainer)
+  public static void deleteAll(ItemContainer itemContainer)

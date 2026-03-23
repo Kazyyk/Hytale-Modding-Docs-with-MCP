@@ -34,3 +34,31 @@ public class CraftingPlugin extends JavaPlugin
 - public Query<EntityStore> getQuery()
 - public void onEntityAdded( @Nonnull Ref<EntityStore> ref, @Nonnull AddReason reason, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer )
 - public void onEntityRemove( @Nonnull Ref<EntityStore> ref, @Nonnull RemoveReason reason, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer )
+
+Also in this package: BenchRecipeRegistry, PlayerAddedSystem
+
+Complete API:
+  public static Set<String> getAvailableRecipesForCategory(String benchId, String benchCategoryId)
+  public static boolean isValidCraftingMaterialForBench(BenchState benchState, ItemStack itemStack)
+  public static boolean isValidUpgradeMaterialForBench(BenchState benchState, ItemStack itemStack)
+  protected void setup()
+  private static void onItemAssetLoad(LoadedAssetsEvent<String,Item,DefaultAssetMap<String,Item>> event)
+  private static void onItemAssetRemove(RemovedAssetsEvent<String,Item,DefaultAssetMap<String,Item>> event)
+  private static void onRecipeLoad(LoadedAssetsEvent<String,CraftingRecipe,DefaultAssetMap<String,CraftingRecipe>> event)
+  private static void onRecipeRemove(RemovedAssetsEvent<String,CraftingRecipe,DefaultAssetMap<String,CraftingRecipe>> event)
+  private static void computeBenchRecipeRegistries()
+  public static List<CraftingRecipe> getBenchRecipes(Bench bench)
+  public static List<CraftingRecipe> getBenchRecipes(BenchType benchType, String name)
+  public static List<CraftingRecipe> getBenchRecipes(BenchType benchType, String benchId, String category)
+  private static boolean hasCategory(CraftingRecipe recipe, String category)
+  public static boolean learnRecipe(Ref<EntityStore> ref, String recipeId, ComponentAccessor<EntityStore> componentAccessor)
+  public static boolean forgetRecipe(Ref<EntityStore> ref, String itemId, ComponentAccessor<EntityStore> componentAccessor)
+  public static void sendKnownRecipes(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public ComponentType<EntityStore,CraftingManager> getCraftingManagerComponentType()
+  public static CraftingPlugin get()
+
+Fields:
+private static CraftingPlugin instance
+private static final Map<String,BenchRecipeRegistry> registries
+private static final Map<String,String[]> itemGeneratedRecipes
+private ComponentType<EntityStore,CraftingManager> craftingManagerComponentType

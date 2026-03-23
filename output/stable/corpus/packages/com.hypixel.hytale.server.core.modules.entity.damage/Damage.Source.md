@@ -21,3 +21,10 @@ Returns a localized death message for the kill feed. The default implementation 
 - Damage.CommandSource -- command-originated damage
 - Damage.EnvironmentSource -- environment-originated damage
 - DamageCause -- asset used in the default death message
+
+Known implementors: ActiveEntityEffect, CommandSource, EntitySource, EnvironmentSource
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  default Message getDeathMessage(Damage info, Ref<EntityStore> targetRef, ComponentAccessor<EntityStore> componentAccessor)

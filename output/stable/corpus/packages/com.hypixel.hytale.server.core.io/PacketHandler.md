@@ -149,3 +149,77 @@ Tracks the reason for disconnection, either server-initiated (string message) or
 public static class PingInfo
 
 Tracks per-connection ping metrics for a given `PongType` (Raw, Direct, Tick). Maintains a thread-safe queue of sent ping IDs and timestamps, computing round-trip latency via `HistoricMetric` across 1-second, 1-minute, and 5-minute windows.
+
+Known subclasses: GenericConnectionPacketHandler, GenericPacketHandler, InitialPacketHandler
+
+Also in this package: DisconnectReason, NetworkSerializable, NetworkSerializer, NetworkSerializers, PacketStatsEntry, PacketStatsRecorderImpl, PingInfo, ProtocolVersion, ServerManager, SizeRecord
+
+Complete API:
+  public Channel getChannel()
+  public void setCompressionEnabled(boolean compressionEnabled)
+  public boolean isCompressionEnabled()
+  public abstract String getIdentifier()
+  public ProtocolVersion getProtocolVersion()
+  public final void registered(PacketHandler oldHandler)
+  protected void registered0(PacketHandler oldHandler)
+  public final void unregistered(PacketHandler newHandler)
+  protected void unregistered0(PacketHandler newHandler)
+  public void handle(ToServerPacket packet)
+  public abstract void accept(ToServerPacket var1)
+  public void logCloseMessage()
+  public void closed(ChannelHandlerContext ctx)
+  public void setQueuePackets(boolean queuePackets)
+  public void tryFlush()
+  public void write(ToClientPacket packets)
+  public void write(ToClientPacket[] packets, ToClientPacket finalPacket)
+  public void write(ToClientPacket packet)
+  public void writeNoCache(ToClientPacket packet)
+  public void writePacket(ToClientPacket packet, boolean cache)
+  private void handleOutboundAndCachePackets(ToClientPacket[] packets, ToClientPacket[] cachedPackets)
+  private ToClientPacket handleOutboundAndCachePacket(ToClientPacket packet)
+  public void disconnect(String message)
+  protected void disconnect0(String message)
+  public PacketStatsRecorder getPacketStatsRecorder()
+  public PacketHandler.PingInfo getPingInfo(PongType pongType)
+  public long getOperationTimeoutThreshold()
+  public void tickPing(float dt)
+  public void sendPing()
+  public void handlePong(Pong packet)
+  protected void initStage(String stage, Duration timeout, BooleanSupplier condition)
+  protected void enterStage(String stage, Duration timeout, BooleanSupplier condition)
+  protected void enterStage(String stage, Duration timeout)
+  protected void continueStage(String stage, Duration timeout, BooleanSupplier condition)
+  private void setStageTimeout(String stageId, Duration timeout, BooleanSupplier meets)
+  private void updatePacketTimeout(Duration timeout)
+  protected void clearTimeout()
+  public PlayerAuthentication getAuth()
+  public boolean stillActive()
+  public int getQueuedPacketsCount()
+  public boolean isLocalConnection()
+  public boolean isLANConnection()
+  public String getSniHostname()
+  public PacketHandler.DisconnectReason getDisconnectReason()
+  public void setClientReadyForChunksFuture(CompletableFuture<Void> clientReadyFuture)
+  public CompletableFuture<Void> getClientReadyForChunksFuture()
+  public Channel getChannel(NetworkChannel networkChannel)
+  public void setChannel(NetworkChannel networkChannel, Channel channel)
+  public static void logConnectionTimings(Channel channel, String message, Level level)
+
+Fields:
+public static final int MAX_PACKET_ID
+public static final Map<NetworkChannel,QuicStreamPriority> DEFAULT_STREAM_PRIORITIES
+private static final HytaleLogger LOGIN_TIMING_LOGGER
+private static final AttributeKey<Long> LOGIN_START_ATTRIBUTE_KEY
+protected final Channel[] channels
+protected final ProtocolVersion protocolVersion
+protected PlayerAuthentication auth
+protected boolean queuePackets
+protected final AtomicInteger queuedPackets
+protected final SecureRandom pingIdRandom
+protected final PacketHandler.PingInfo[] pingInfo
+private float pingTimer
+protected boolean registered
+private ScheduledFuture<?> timeoutTask
+protected Throwable clientReadyForChunksFutureStack
+protected CompletableFuture<Void> clientReadyForChunksFuture
+protected final PacketHandler.DisconnectReason disconnectReason

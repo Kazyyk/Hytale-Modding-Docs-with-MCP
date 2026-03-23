@@ -19,3 +19,18 @@ public class Cloud implements NetworkSerializable<com.hypixel.hytale.protocol.Cl
 - public TimeColorAlpha[] getColors()
 - public TimeFloat[] getSpeeds()
 - public String toString()
+
+Also in this package: DayTexture, FogOptions, TimeColor, TimeColorAlpha, TimeFloat, Weather
+
+Complete API:
+  public com.hypixel.hytale.protocol.Cloud toPacket()
+  public String getTexture()
+  public TimeColorAlpha[] getColors()
+  public TimeFloat[] getSpeeds()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<Cloud> CODEC
+protected String texture
+protected TimeColorAlpha[] colors
+protected TimeFloat[] speeds

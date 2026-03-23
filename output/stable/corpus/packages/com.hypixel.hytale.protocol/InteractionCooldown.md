@@ -52,3 +52,28 @@ Returns the serialized size in bytes.
 
 - CooldownConditionInteraction
 - IncrementCooldownInteraction
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 378 more)
+
+Complete API:
+  public static InteractionCooldown deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public InteractionCooldown clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public String cooldownId
+public float cooldown
+public boolean clickBypass
+public float[] chargeTimes
+public boolean skipCooldownReset
+public boolean interruptRecharge

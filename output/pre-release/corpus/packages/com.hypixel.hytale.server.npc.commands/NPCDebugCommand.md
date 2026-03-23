@@ -33,3 +33,11 @@ Registers as sub-command `"debug"` with translation key `"server.commands.npc.de
 - NPCDebugCommand.ClearCommand
 - NPCDebugCommand.PresetsCommand
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDescriptorsCommand, NPCDumpCommand (and 29 more)
+
+Complete API:
+  private static void modifyFlags(CommandContext context, NPCEntity npc, Ref<EntityStore> ref, EnumSet<RoleDebugFlags> flags, BiFunction<EnumSet<RoleDebugFlags>,EnumSet<RoleDebugFlags>,EnumSet<RoleDebugFlags>> flagsModifier, Store<EntityStore> store)
+  private static void safeSetRoleDebugFlags(NPCEntity npc, Ref<EntityStore> ref, EnumSet<RoleDebugFlags> flags, Store<EntityStore> store)
+  private static void printNewFlags(NPCEntity npc, CommandContext context, EnumSet<RoleDebugFlags> newFlags)
+  private static StringBuilder getListOfFlags(EnumSet<RoleDebugFlags> flags)

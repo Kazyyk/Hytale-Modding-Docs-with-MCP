@@ -51,3 +51,19 @@ public class UseEntityObjectiveTaskAsset extends CountObjectiveTaskAsset
 
 - CountObjectiveTaskAsset
 - ObjectiveTaskAsset
+
+Also in this package: BlockTagOrItemIdField, ChestConfig, CountObjectiveTaskAsset, CraftObjectiveTaskAsset, DialogOptions, GatherObjectiveTaskAsset, ObjectiveTaskAsset, ReachLocationTaskAsset, TaskScope, TaskSet, TreasureMapObjectiveTaskAsset, UseBlockObjectiveTaskAsset
+
+Complete API:
+  public ObjectiveTaskAsset.TaskScope getTaskScope()
+  public String getTaskId()
+  public String getAnimationIdToPlay()
+  public UseEntityObjectiveTaskAsset.DialogOptions getDialogOptions()
+  protected boolean matchesAsset0(ObjectiveTaskAsset task)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<UseEntityObjectiveTaskAsset> CODEC
+protected String taskId
+protected String animationIdToPlay
+protected UseEntityObjectiveTaskAsset.DialogOptions dialogOptions

@@ -22,3 +22,20 @@ NPC behavior action builder for ActionRole functionality.
 - public String getRole(@Nonnull BuilderSupport support)
 - public boolean getChangeAppearance(@Nonnull BuilderSupport support)
 - public String getState(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionDelayDespawn, BuilderActionDespawn, BuilderActionDie, BuilderActionRemove, BuilderActionSpawn, BuilderSensorAge
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public Action build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Action> readConfig(JsonElement data)
+  public String getRole(BuilderSupport support)
+  public boolean getChangeAppearance(BuilderSupport support)
+  public String getState(BuilderSupport support)
+
+Fields:
+protected final DeferEvaluateAssetHolder role
+protected final BooleanHolder changeAppearance
+protected final StringHolder state

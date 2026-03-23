@@ -9,3 +9,5 @@ Abstract base for related commands.
 ## Constructors
 
 - ReputationCommand() | Creates a new ReputationCommand instance.
+
+Also in this package: ReputationAddCommand, ReputationRankCommand, ReputationSetCommand, ReputationValueCommand

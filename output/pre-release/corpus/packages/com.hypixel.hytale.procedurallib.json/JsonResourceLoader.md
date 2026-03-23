@@ -23,3 +23,14 @@ public JsonResourceLoader(@Nonnull Class<T> type, @Nonnull Predicate<JsonElement
 ## Related Types
 
 - JsonLoader -- uses `JsonResourceLoader` instances as static constants
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public Class<T> type()
+  public T load(InputStream in)
+
+Fields:
+private final Class<T> type
+private final Predicate<JsonElement> predicate
+private final Function<JsonElement,T> mapper

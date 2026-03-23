@@ -30,3 +30,22 @@ Class in the bounds subsystem.
 - merge(@Nonnull SpaceSize a, @Nonnull SpaceSize b) | SpaceSize | static public method.
 - stack(@Nonnull SpaceSize a, @Nonnull SpaceSize b) | SpaceSize | static public method.
 - empty() | SpaceSize | static public method.
+
+Also in this package: Bounds3d, Bounds3i
+
+Complete API:
+  public SpaceSize moveBy(Vector3i delta)
+  public Vector3i getMinInclusive()
+  public Vector3i getMaxExclusive()
+  public Vector3i getMaxInclusive()
+  public Vector3i getRange()
+  public Bounds3i toBounds3i()
+  public SpaceSize clone()
+  public static SpaceSize merge(SpaceSize a, SpaceSize b)
+  public static SpaceSize stack(SpaceSize a, SpaceSize b)
+  public static SpaceSize empty()
+
+Fields:
+private final Vector3i minInclusive
+private final Vector3i maxExclusive
+private final Vector3i maxInclusive

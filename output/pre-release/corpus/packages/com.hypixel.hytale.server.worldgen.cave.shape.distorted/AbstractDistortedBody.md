@@ -60,3 +60,23 @@ public abstract class AbstractDistortedBody extends AbstractDistortedShape
 - AbstractDistortedShape
 - DistortedShape
 - ShapeDistortion
+
+Known subclasses: DistortedEllipsoidShape
+
+Also in this package: AbstractDistortedExtrusion, AbstractDistortedShape, DistortedCylinderShape, DistortedEllipsoidShape, DistortedPipeShape, DistortedShape, DistortedShapes, Factory, Factory, Factory, Factory, Factory, ShapeDistortion
+
+Complete API:
+  protected abstract double getHeight(int var1, double var2, double var4, double var6, double var8, CaveType var10, ShapeDistortion var11)
+  public Vector3d getStart()
+  public Vector3d getEnd()
+  public double getHeightAtProjection(int caveSeed, double x, double z, double t, double centerY, CaveType caveType, ShapeDistortion distortion)
+  public double getFloor(double x, double z, double centerY, double height)
+  public double getCeiling(double x, double z, double centerY, double height)
+  private static double maxX(CoordinateRotator rotation, double radiusX, double radiusY, double radiusZ)
+  private static double maxY(CoordinateRotator rotation, double radiusX, double radiusY, double radiusZ)
+  private static double maxZ(CoordinateRotator rotation, double radiusX, double radiusY, double radiusZ)
+
+Fields:
+protected final Vector3d o
+protected final Vector3d v
+protected final CoordinateRotator rotation

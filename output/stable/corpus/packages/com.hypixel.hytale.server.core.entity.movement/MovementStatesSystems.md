@@ -28,3 +28,5 @@ public class MovementStatesSystems
 - public void tick( float dt, int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer )
 - private static void queueUpdatesFor( @Nonnull Ref<EntityStore> ref, @Nonnull Map<Ref<EntityStore>, EntityTrackerSystems.EntityViewer> visibleTo, @Nonnull MovementStatesComponent movementStatesComponent )
 - public static void copyMovementStatesFrom(@Nonnull MovementStates from, @Nonnull MovementStates to)
+
+Also in this package: AddSystem, MovementStatesComponent, PlayerInitSystem, TickingSystem

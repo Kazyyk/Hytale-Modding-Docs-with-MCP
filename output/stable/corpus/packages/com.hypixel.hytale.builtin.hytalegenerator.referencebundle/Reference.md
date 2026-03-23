@@ -5,3 +5,7 @@ Type: class | Package: com.hypixel.hytale.builtin.hytalegenerator.referencebundl
 public class Reference
 
 Utility type in the `referencebundle` subsystem.
+
+Known subclasses: BaseHeightReference
+
+Also in this package: BaseHeightReference, ReferenceBundle

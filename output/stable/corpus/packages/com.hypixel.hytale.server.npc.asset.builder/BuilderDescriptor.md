@@ -56,3 +56,22 @@ Adds a feature provider evaluator.
 - BuilderAttributeDescriptor -- individual attribute metadata
 - BuilderDescriptorState -- lifecycle state enum
 - Builder -- `getDescriptor()` returns this type
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 28 more)
+
+Complete API:
+  public BuilderAttributeDescriptor addAttribute(BuilderAttributeDescriptor attributeDescriptor)
+  public BuilderAttributeDescriptor addAttribute(String name, String type, BuilderDescriptorState state, String shortDescription, String longDescription)
+  public void addValidator(Validator validator)
+  public void addProviderEvaluator(ProviderEvaluator providerEvaluator)
+
+Fields:
+private final String name
+private final String category
+private final BuilderDescriptorState state
+private final String shortDescription
+private final String longDescription
+private final List<BuilderAttributeDescriptor> attributes
+private final List<Validator> validators
+private final List<ProviderEvaluator> providerEvaluators
+private final Set<String> tags

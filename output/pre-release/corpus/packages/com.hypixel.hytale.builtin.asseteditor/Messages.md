@@ -52,3 +52,51 @@ Constants class holding all localization `Message` instances used by the asset e
 - INVALID_ASSET_TYPE | server.assetEditor.messages.invalidAssetType | Unknown asset type
 - REQUEST_CHILD_IDS_ASSET_TYPE_MISSING | server.assetEditor.messages.requestChildIds.assetTypeMissing | Asset type not specified
 - INVALID_TARGET_DIRECTORY | server.assetEditor.messages.invalidTargetDirectory | Target directory invalid
+
+Also in this package: AssetEditorGamePacketHandler, AssetEditorPacketHandler, AssetEditorPlugin, AssetPath, AssetSpecificFunctionality, AssetToDiscard, AssetTree, AssetTypeRegistry, DiscardResult, EditorClient, InitState, PlayerPreviewData, UndoRedoManager
+
+Fields:
+public static final Message USAGE_DENIED
+public static final Message INVALID_FILE_NAME
+public static final Message DIRECTORY_OUTSIDE_ASSET_TYPE_ROOT
+public static final Message UNKNOWN_ASSET_PACK
+public static final Message ASSETS_READ_ONLY
+public static final Message UPDATE_DOESNT_EXIST
+public static final Message CREATE_ASSET_FAILED
+public static final Message UPDATE_FAILED
+public static final Message PACK_OUTSIDE_DIRECTORY
+public static final Message PACK_ALREADY_EXISTS_AT_PATH
+public static final Message PACK_CREATED
+public static final Message PACK_CREATION_FAILED
+public static final Message UNKNOWN_ASSET_INDEX
+public static final Message DIRECTORY_OUTSIDE_ROOT
+public static final Message INVALID_ASSET_TYPE
+public static final Message UNDO_EMPTY
+public static final Message UNDO_FAILED
+public static final Message REDO_EMPTY
+public static final Message REDO_FAILED
+public static final Message FETCH_ASSET_DOESNT_EXIST
+public static final Message FETCH_ASSET_FAILED
+public static final Message REQUEST_CHILD_IDS_ASSET_TYPE_MISSING
+public static final Message DELETE_ASSET_ALREADY_DELETED
+public static final Message FAILED_TO_DELETE_ASSET
+public static final Message RENAME_ASSET_ALREADY_EXISTS
+public static final Message RENAME_ASSET_DOESNT_EXIST
+public static final Message RENAME_ASSET_FAILED
+public static final Message CREATE_DIRECTORY_ALREADY_EXISTS
+public static final Message DELETE_DIRECTORY_NOT_EMPTY
+public static final Message DELETE_DIRECTORY_FAILED
+public static final Message RENAME_DIRECTORY_UNSUPPORTED
+public static final Message CREATE_DIRECTORY_NO_DATA_SOURCE
+public static final Message CREATE_DIRECTORY_NO_PATH
+public static final Message PARENT_DIRECTORY_MISSING
+public static final Message FAILED_TO_CREATE_DIRECTORY
+public static final Message CREATE_ASSET_ID_ALREADY_EXISTS
+public static final Message MANIFEST_NOT_FOUND
+public static final Message INVALID_VERSION_FORMAT
+public static final Message MANIFEST_SAVED
+public static final Message MANIFEST_SAVE_FAILED
+public static final Message PACK_NAME_REQUIRED
+public static final Message PACK_GROUP_REQUIRED
+public static final Message PACK_ALREADY_EXISTS
+public static final Message INVALID_TARGET_DIRECTORY

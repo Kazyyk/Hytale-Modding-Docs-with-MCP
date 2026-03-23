@@ -21,3 +21,17 @@ public class DistortedCaveNodeShapeGeneratorJsonLoader extends CaveNodeShapeGene
 ## Inner Types
 
 - `DistortedCaveNodeShapeGeneratorJsonLoader.Constants`
+
+Also in this package: CaveNodeShapeGeneratorJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CylinderCaveNodeShapeGeneratorJsonLoader, EllipsoidCaveNodeShapeGeneratorJsonLoader, EmptyLineCaveNodeShapeGeneratorJsonLoader, PipeCaveNodeShapeGeneratorJsonLoader, PrefabCaveNodeShapeGeneratorJsonLoader, ShapeDistortionJsonLoader
+
+Complete API:
+  public CaveNodeShapeEnum.CaveNodeShapeGenerator load()
+  private DistortedShape.Factory loadShape()
+  private IDoubleRange loadWidth()
+  private IDoubleRange loadHeight()
+  private IDoubleRange loadMidWidth()
+  private IDoubleRange loadMidHeight()
+  private IDoubleRange loadLength()
+  private boolean loadInheritParentRadius()
+  private ShapeDistortion loadShapeDistortion()
+  private GeneralNoise.InterpolationFunction loadInterpolation()

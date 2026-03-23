@@ -28,3 +28,11 @@ Converts from the protocol packet representation.
 ## Methods
 
 - AssetPath toPacket() | Converts to the protocol packet representation with Unix-style path separators
+
+Also in this package: AssetEditorGamePacketHandler, AssetEditorPacketHandler, AssetEditorPlugin, AssetSpecificFunctionality, AssetToDiscard, AssetTree, AssetTypeRegistry, DiscardResult, EditorClient, InitState, Messages, PlayerPreviewData, UndoRedoManager
+
+Complete API:
+  public com.hypixel.hytale.protocol.packets.asseteditor.AssetPath toPacket()
+
+Fields:
+public static final AssetPath EMPTY_PATH

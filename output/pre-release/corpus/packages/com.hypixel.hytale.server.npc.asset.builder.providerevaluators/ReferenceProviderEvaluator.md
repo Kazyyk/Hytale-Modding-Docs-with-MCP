@@ -15,3 +15,15 @@ public class ReferenceProviderEvaluator implements FeatureProviderEvaluator, Par
 - @Override public boolean provides(EnumSet<Feature> feature)
 - @Override public boolean hasParameter(String parameter, ParameterType type)
 - @Override public void resolveReferences(BuilderManager manager)
+
+Also in this package: FeatureProviderEvaluator, ParameterProviderEvaluator, ParameterType, ProviderEvaluator, ProviderEvaluatorTypeRegistry, UnconditionalFeatureProviderEvaluator, UnconditionalParameterProviderEvaluator
+
+Complete API:
+  public boolean provides(EnumSet<Feature> feature)
+  public boolean hasParameter(String parameter, ParameterType type)
+  public void resolveReferences(BuilderManager manager)
+
+Fields:
+private final int referenceIndex
+private final Class<?> classType
+private FeatureEvaluatorHelper resolvedProviderSet

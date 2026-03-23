@@ -44,3 +44,28 @@ public void validate()
 
 - ComponentRegistry -- registers system types and provides accessors for built-in types
 - SystemGroup -- groups systems for dependency ordering
+
+Known subclasses: EventSystemType
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery (and 8 more)
+
+Complete API:
+  public ComponentRegistry<ECS_TYPE> getRegistry()
+  public Class<? super T> getTypeClass()
+  public boolean isType(ISystem<ECS_TYPE> system)
+  public int getIndex()
+  public void validateRegistry(ComponentRegistry<ECS_TYPE> registry)
+  public void validate()
+  protected void invalidate()
+  protected boolean isValid()
+  public int compareTo(SystemType<ECS_TYPE,?> o)
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final SystemType[] EMPTY_ARRAY
+private final ComponentRegistry<ECS_TYPE> registry
+private final Class<? super T> tClass
+private final int index
+private boolean invalidated

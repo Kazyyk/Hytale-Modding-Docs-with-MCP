@@ -14,3 +14,12 @@ public class GeneratorChunkWorldMap extends ChunkWorldMap
 
 - @Nonnull @Override public CompletableFuture<Map<String,MapMarker>> generatePointsOfInterest(World world)
 - @Nonnull @Override public WorldMapSettings getWorldMapSettings()
+
+Complete API:
+  public CompletableFuture<Map<String,MapMarker>> generatePointsOfInterest(World world)
+  public WorldMapSettings getWorldMapSettings()
+
+Fields:
+private static final WorldMap EMPTY
+private final ChunkGenerator generator
+private final Executor executor

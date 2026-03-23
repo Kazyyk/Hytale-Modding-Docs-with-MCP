@@ -14,3 +14,14 @@ public class GenericVelocityInstructionSystem extends EntityTickingSystem
 - @Override public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
 - @Nonnull @Override public Set<Dependency<EntityStore>> getDependencies()
 - @Nonnull @Override public Query<EntityStore> getQuery()
+
+Also in this package: AddSystem, IVelocityModifyingSystem, PhysicsValuesAddSystem, VelocitySystems
+
+Complete API:
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public Set<Dependency<EntityStore>> getDependencies()
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

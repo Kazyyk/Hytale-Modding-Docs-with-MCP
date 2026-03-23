@@ -9,3 +9,8 @@ public class AmbienceFXPacketGenerator extends SimpleAssetPacketGenerator
 - @Nonnull public ToClientPacket generateInitPacket(IndexedAssetMap<String,AmbienceFX> assetMap, Map<String,AmbienceFX> assets)
 - @Nonnull public ToClientPacket generateUpdatePacket(IndexedAssetMap<String,AmbienceFX> assetMap, Map<String,AmbienceFX> loadedAssets)
 - @Nonnull public ToClientPacket generateRemovePacket(IndexedAssetMap<String,AmbienceFX> assetMap, Set<String> removed)
+
+Complete API:
+  public ToClientPacket generateInitPacket(IndexedAssetMap<String,AmbienceFX> assetMap, Map<String,AmbienceFX> assets)
+  public ToClientPacket generateUpdatePacket(IndexedAssetMap<String,AmbienceFX> assetMap, Map<String,AmbienceFX> loadedAssets)
+  public ToClientPacket generateRemovePacket(IndexedAssetMap<String,AmbienceFX> assetMap, Set<String> removed)

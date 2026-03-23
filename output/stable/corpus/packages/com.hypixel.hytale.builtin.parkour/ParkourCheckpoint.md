@@ -15,3 +15,14 @@ An `EntityStore` component.
 - public static ComponentType<EntityStore, ParkourCheckpoint> getComponentType()
 - public int getIndex()
 - @Override public Component<EntityStore> clone()
+
+Also in this package: EnsureNetworkSendable, Init, ParkourCheckpointSystems, ParkourCommand, ParkourPlugin, Ticking
+
+Complete API:
+  public static ComponentType<EntityStore,ParkourCheckpoint> getComponentType()
+  public int getIndex()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<ParkourCheckpoint> CODEC
+protected int index

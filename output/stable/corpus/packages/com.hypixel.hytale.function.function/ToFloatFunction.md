@@ -10,3 +10,8 @@ Functional interface defining `applyAsFloat` that returns `float`.
 ## Abstract Methods
 
 - applyAsFloat | float | T var1
+
+Also in this package: BiDoubleToDoubleFunction, BiIntToDoubleFunction, BiLongToDoubleFunction, BiToFloatFunction, QuadBoolFunction, TriBoolFunction, TriFunction, TriIntObjectDoubleToByteFunction, TriToIntFunction
+
+Complete API:
+  float applyAsFloat(T var1)

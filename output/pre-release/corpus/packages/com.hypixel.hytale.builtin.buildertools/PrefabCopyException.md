@@ -17,3 +17,5 @@ Creates a new `PrefabCopyException` with the specified error message. Delegates 
 
 - BuilderToolsPlugin -- the plugin where prefab copy operations originate
 - BuilderToolsPlugin.BuilderState -- performs copy/cut operations that may throw this exception
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)

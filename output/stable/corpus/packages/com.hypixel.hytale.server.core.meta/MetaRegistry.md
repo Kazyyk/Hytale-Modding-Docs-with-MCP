@@ -18,3 +18,16 @@ Implements `IMetaRegistry` to provide MetaRegistry functionality.
 - @Override public <T> T newMetaObject(@Nonnull MetaKey<T> key, K parent)
 - @Override public void forEachMetaEntry(@Nonnull IMetaStore<K> store, @Nonnull final IMetaRegistry.MetaEntryConsumer consumer)
 - @Nullable @Override public PersistentMetaKey<?> getMetaKeyForCodecKey(String codecKey)
+
+Also in this package: AbstractMetaStore, ArrayMetaStore, DynamicMetaStore, IMetaRegistry, IMetaStore, IMetaStoreImpl, MetaEntryConsumer, MetaEntryConsumer, MetaKey, MetaRegistryEntry, PersistentMetaKey
+
+Complete API:
+  public MetaKey<T> registerMetaObject(Function<K,T> function, boolean persistent, String keyName, Codec<T> codec)
+  public T newMetaObject(MetaKey<T> key, K parent)
+  public void forEachMetaEntry(IMetaStore<K> store, IMetaRegistry.MetaEntryConsumer consumer)
+  public PersistentMetaKey<?> getMetaKeyForCodecKey(String codecKey)
+
+Fields:
+private final Map<String,MetaRegistry.MetaRegistryEntry> parameterMapping
+private final List<MetaRegistry.MetaRegistryEntry> suppliers
+private final ReentrantReadWriteLock lock

@@ -59,3 +59,23 @@ Internally converts between RGB and CIE Lab color space using standard illuminan
 
 - BuilderToolsPlugin -- owns the singleton `BlockColorIndex` instance, accessible via `getBlockColorIndex()`
 - `BlockType` -- source of block draw type, opacity, and particle color data
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  private void ensureInitialized()
+  private boolean isSolidCube(BlockType blockType)
+  public int findClosestBlock(int r, int g, int b)
+  public int findDarkerVariant(int blockId, float darkenAmount)
+  public int getBlockColor(int blockId)
+  public int findBlockForLerpedColor(int rA, int gA, int bA, int rB, int gB, int bB, float t)
+  public boolean isEmpty()
+  private BlockColorIndex.BlockColorEntry findEntry(int blockId)
+  private static double colorDistanceLab(double l1, double a1, double b1, double l2, double a2, double b2)
+  private static double[] rgbToLab(int r, int g, int b)
+  private static int[] labToRgb(double labL, double labA, double labB)
+
+Fields:
+private static final HytaleLogger LOGGER
+private final List<BlockColorIndex.BlockColorEntry> entries
+private boolean initialized

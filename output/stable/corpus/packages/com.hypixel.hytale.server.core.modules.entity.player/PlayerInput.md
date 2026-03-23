@@ -60,3 +60,17 @@ Returns a copy with a cloned input queue.
 - PlayerSystems.ProcessPlayerInput -- system that drains and applies the queue
 - PlayerSystems.EnsurePlayerInput -- system that ensures this component exists
 - KnockbackPredictionSystems.CaptureKnockbackInput -- consumes input during knockback
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public static ComponentType<EntityStore,PlayerInput> getComponentType()
+  public void queue(PlayerInput.InputUpdate inputUpdate)
+  public List<PlayerInput.InputUpdate> getMovementUpdateQueue()
+  public int getMountId()
+  public void setMountId(int mountId)
+  public Component<EntityStore> clone()
+
+Fields:
+private final List<PlayerInput.InputUpdate> inputUpdateQueue
+private int mountId

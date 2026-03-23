@@ -10,3 +10,8 @@ ModifyEvent record for cave type entries.
 
 
 @Nonnull CaveFileContext file, @Nonnull List<CaveType> entries, @Nonnull ModifyEvent.ContentLoader<CaveType> loader
+
+Also in this package: BiomeCovers, BiomeDynamicLayers, BiomeEnvironments, BiomeFluids, BiomePrefabs, BiomeStaticLayers, BiomeTints, CaveCovers, CavePrefabs, ContentLoader, EventType, ModifyEvent, ModifyEvents, SeedGenerator
+
+Complete API:
+  public EventType type()

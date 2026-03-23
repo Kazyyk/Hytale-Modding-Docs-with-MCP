@@ -14,3 +14,15 @@ Interface defining: `add()`, `addIgnoreViewDistance()`, `getPlayerMapFilter()`, 
 - isInViewDistance(Transform transform) | boolean | package-private method.
 - isInViewDistance(Vector3d position) | boolean | package-private method.
 - isInViewDistance(double var1, double var3) | boolean | package-private method.
+
+Known implementors: MarkersCollectorImpl
+
+Also in this package: MapMarkerBuilder, MapMarkerTracker, MarkersCollectorImpl
+
+Complete API:
+  void add(MapMarker var1)
+  void addIgnoreViewDistance(MapMarker var1)
+  Predicate<PlayerRef> getPlayerMapFilter()
+  default boolean isInViewDistance(Transform transform)
+  default boolean isInViewDistance(Vector3d position)
+  boolean isInViewDistance(double var1, double var3)

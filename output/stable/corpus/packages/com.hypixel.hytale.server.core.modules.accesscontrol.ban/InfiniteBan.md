@@ -10,3 +10,11 @@ public class InfiniteBan extends AbstractBan
 - @Override public boolean isInEffect()
 - @Nonnull @Override public String getType()
 - @Nonnull @Override public CompletableFuture<Optional<String>> getDisconnectReason(UUID uuid)
+
+Also in this package: AbstractBan, Ban, BanParser, TimedBan
+
+Complete API:
+  public static InfiniteBan fromJsonObject(JsonObject object)
+  public boolean isInEffect()
+  public String getType()
+  public CompletableFuture<Optional<String>> getDisconnectReason(UUID uuid)

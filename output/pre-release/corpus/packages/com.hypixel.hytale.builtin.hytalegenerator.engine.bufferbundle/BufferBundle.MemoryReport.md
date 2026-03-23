@@ -17,3 +17,11 @@ Collects per-grid memory usage entries and formats them into a human-readable re
 ## Methods
 
 - @Nonnull @Override public String toString()
+
+Also in this package: Access, BufferBundle, Grid, GridEntry, TrackedBuffer, Tracker, View
+
+Complete API:
+  public String toString()
+
+Fields:
+public final List<BufferBundle.MemoryReport.GridEntry> gridEntries

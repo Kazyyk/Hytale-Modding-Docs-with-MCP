@@ -29,3 +29,20 @@ Class in the netty subsystem.
 - closeApplicationConnection(@Nonnull Channel channel, int errorCode) | void | static public method.
 - closeApplicationConnection(@Nonnull Channel channel, int errorCode, @Nonnull String reason) | void | static public method.
 - closeApplicationOnComplete(ChannelFuture future) | void | static private method.
+
+Also in this package: PacketDecoder, PacketEncoder
+
+Complete API:
+  public static void closeConnection(Channel channel)
+  public static void closeConnection(Channel channel, QuicTransportError error)
+  public static void closeApplicationConnection(Channel channel)
+  public static void closeApplicationConnection(Channel channel, QuicApplicationErrorCode errorCode)
+  private static void closeApplicationConnection(Channel channel, int errorCode)
+  public static void closeApplicationConnection(Channel channel, QuicApplicationErrorCode errorCode, String reason)
+  private static void closeApplicationConnection(Channel channel, int errorCode, String reason)
+  private static void closeApplicationOnComplete(ChannelFuture future)
+
+Fields:
+public static final AttributeKey<NetworkChannel> STREAM_CHANNEL_KEY
+public static final AttributeKey<Duration> PACKET_TIMEOUT_KEY
+public static final ChannelFutureListener CLOSE_ON_COMPLETE

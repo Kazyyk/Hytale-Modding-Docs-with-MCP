@@ -10,3 +10,5 @@ A root directory entry for the file browser, pairing a localizable display name 
 
 - public RootEntry(@Nonnull String displayName, @Nonnull Path path)
 - public RootEntry(@Nonnull LocalizableString displayName, @Nonnull Path path)
+
+Also in this package: AssetPackSearchResult, Builder, FileBrowserConfig, FileBrowserEventData, FileEntry, FileListProvider, ServerFileBrowser

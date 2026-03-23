@@ -15,3 +15,14 @@ Initialization data for `JavaPlugin` instances. Extends `PluginInit` with the JA
 - @Nonnull public Path getFile()
 - @Nonnull public PluginClassLoader getClassLoader()
 - @Override public boolean isInServerClassPath()
+
+Also in this package: JavaPlugin, MissingPluginDependencyException, PluginBase, PluginBridgeClassLoader, PluginClassLoader, PluginInit, PluginListPageManager, PluginManager, PluginState, PluginType, SessionSettings
+
+Complete API:
+  public Path getFile()
+  public PluginClassLoader getClassLoader()
+  public boolean isInServerClassPath()
+
+Fields:
+private final Path file
+private final PluginClassLoader classLoader

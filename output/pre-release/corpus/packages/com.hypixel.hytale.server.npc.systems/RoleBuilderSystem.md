@@ -47,3 +47,20 @@ On failure, calls the internal `fail()` method which strips all components and a
 - FailedSpawnSystem -- handles failed role construction
 - RoleChangeSystem -- handles runtime role changes
 - RoleSystems -- behavior tick pipeline
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 49 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public Query<EntityStore> getQuery()
+  public void onEntityAdd(Holder<EntityStore> holder, AddReason reason, Store<EntityStore> store)
+  public void onEntityRemoved(Holder<EntityStore> holder, RemoveReason reason, Store<EntityStore> store)
+  private void fail(Holder<EntityStore> holder)
+
+Fields:
+private final ComponentType<EntityStore,NPCEntity> npcComponentType
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final ComponentType<EntityStore,ModelComponent> modelComponentType
+private final ComponentType<EntityStore,PersistentModel> persistentModelComponentType
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

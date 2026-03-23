@@ -18,3 +18,18 @@ public class HashedBiCoordinateCache<T> implements BiCoordinateCache
 - @Override public void flush()
 - @Override public int size()
 - @Nonnull @Override public String toString()
+
+Also in this package: BiCoordinateCache, WrappedBiCoordinateCache, WrappedBiCoordinateDoubleCache
+
+Complete API:
+  public static long hash(int x, int z)
+  public T get(int x, int z)
+  public boolean isCached(int x, int z)
+  public T save(int x, int z, T value)
+  public void flush(int x, int z)
+  public void flush()
+  public int size()
+  public String toString()
+
+Fields:
+private final ConcurrentHashMap<Long,T> values

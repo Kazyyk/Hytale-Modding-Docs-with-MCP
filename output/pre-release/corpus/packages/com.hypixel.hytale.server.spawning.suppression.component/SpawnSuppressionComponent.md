@@ -21,3 +21,15 @@ Implementation of `Component<EntityStore>`.
 - getSpawnSuppression() | String | public method.
 - setSpawnSuppression(String spawnSuppression) | void | public method.
 - clone() | Component<EntityStore> | public method.
+
+Also in this package: ChunkSuppressionEntry, ChunkSuppressionQueue, SpawnSuppressionController, SuppressionSpan
+
+Complete API:
+  public static ComponentType<EntityStore,SpawnSuppressionComponent> getComponentType()
+  public String getSpawnSuppression()
+  public void setSpawnSuppression(String spawnSuppression)
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<SpawnSuppressionComponent> CODEC
+private String spawnSuppression

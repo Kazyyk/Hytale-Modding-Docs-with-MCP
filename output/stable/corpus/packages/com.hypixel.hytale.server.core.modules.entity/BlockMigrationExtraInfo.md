@@ -25,3 +25,11 @@ Returns the block identifier migration function. Given an old block type key, re
 - `ExtraInfo` -- base class providing the version field
 - EntityModule -- the module that manages entity serialization/deserialization
 - BlockEntitySystems -- systems that process block entities which may require migration
+
+Also in this package: AllLegacyEntityTypesQuery, AllLegacyLivingEntityTypesQuery, BlockEntitySetupSystem, BlockEntitySystems, BlockEntityTrackerSystem, DespawnComponent, DespawnSystem, EntityModule, EntityRegistration, EntityRegistry, HiddenFromPlayerMigrationSystem, LegacyEntityHolderSystem, LegacyEntityRefSystem, LegacyProjectileSystems, LegacyTransformSystem, LegacyUUIDSystem, LegacyUUIDUpdateSystem, MigrationSystem, OnAddHolderSystem, OnAddRefSystem (and 4 more)
+
+Complete API:
+  public Function<String,String> getBlockMigration()
+
+Fields:
+private final Function<String,String> blockMigration

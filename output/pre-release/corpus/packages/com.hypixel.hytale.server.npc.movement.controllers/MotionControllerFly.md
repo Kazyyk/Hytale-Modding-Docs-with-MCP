@@ -71,3 +71,81 @@ When the NPC cannot act (dead, on ground, etc.), it switches to `DROPPING` motio
 - void setDesiredAltitudeOverride(double[]) | Overrides the min/max altitude bounds
 - double getDampingDeceleration() | Returns `forceVelocityDamping * 20.0
 - double getMinSpeedAfterForceSquared() | Threshold below which force velocity is zeroed
+
+Also in this package: AppliedVelocity, AscentAnimationType, BuilderMotionControllerMapUtil, DescentAnimationType, MotionControllerBase, MotionControllerDive, MotionControllerWalk, ProbeMoveData, Segment, Type
+
+Complete API:
+  public String getType()
+  protected double computeMove(Ref<EntityStore> ref, Role role, Steering steering, double dt, Vector3d translation, ComponentAccessor<EntityStore> componentAccessor)
+  private void setDirectionFromTranslation(Steering steering, Vector3d translation)
+  public double probeMove(Ref<EntityStore> ref, ProbeMoveData probeMoveData, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean isFastMotionKind(double speed)
+  public MotionController.VerticalRange getDesiredVerticalRange(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public double getWanderVerticalMovementRatio()
+  protected double doMove(Ref<EntityStore> ref, Vector3d position, Vector3d translation, PositionProbeAir moveProbe, ProbeMoveData probeMoveData, ComponentAccessor<EntityStore> componentAccessor)
+  protected double executeMove(Ref<EntityStore> ref, Role role, double dt, Vector3d translation, ComponentAccessor<EntityStore> componentAccessor)
+  public void constrainRotations(Role role, TransformComponent transform)
+  public double getCurrentMaxBodyRotationSpeed()
+  protected void dampForceVelocity(Vector3d forceVelocity, double forceVelocityDamping, double interval, ComponentAccessor<EntityStore> componentAccessor)
+  protected boolean shouldDampenAppliedVelocitiesY()
+  protected boolean shouldAlwaysUseGroundResistance()
+  public void spawned()
+  public boolean canAct(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean inAir()
+  public boolean onGround()
+  public boolean inWater()
+  public double getCurrentSpeed()
+  public double getCurrentTurnRadius()
+  public float getMaxClimbAngle()
+  public float getMaxSinkAngle()
+  public double getMaximumSpeed()
+  public boolean is2D()
+  public boolean canRestAtPlace()
+  public double getDesiredAltitudeWeight()
+  public double getHeightOverGround()
+  public boolean isHorizontalIdle(double speed)
+  public boolean estimateVelocity(Steering steering, Vector3d velocityOut)
+  public void clearOverrides()
+  public void setDesiredAltitudeOverride(double[] desiredAltitudeOverride)
+  public void takeOff(Ref<EntityStore> ref, double speed, ComponentAccessor<EntityStore> componentAccessor)
+  public double getMinSpeedAfterForceSquared()
+  public double getDampingDeceleration()
+  protected double computeMaxSpeedFromPitch(double pitch)
+
+Fields:
+public static final String TYPE
+public static final double DAMPING_FACTOR
+public static final int COLLISION_MATERIALS_PASSIVE
+public static final int COLLISION_MATERIALS_ACTIVE
+protected final double minAirSpeed
+protected final double maxClimbSpeed
+protected final double maxSinkSpeed
+protected final double maxFallSpeed
+protected final double maxSinkSpeedFluid
+protected final float maxClimbAngle
+protected final float maxSinkAngle
+protected final double acceleration
+protected final double deceleration
+protected final double sinkRatio
+protected final double desiredAltitudeWeight
+protected final float maxTurnSpeed
+protected final float maxRollAngle
+protected final float maxRollSpeed
+protected final float rollDamping
+protected final double fastFlyThreshold
+protected final double minHeightOverGround
+protected final double maxHeightOverGround
+protected final boolean autoLevel
+protected final double sinMaxClimbAngle
+protected final double sinMaxSinkAngle
+protected final MotionController.VerticalRange verticalRange
+protected final PositionProbeAir moveProbe
+protected final PositionProbeAir probeMoveProbe
+protected int lastVerticalPositionX
+protected int lastVerticalPositionZ
+protected final Vector3d lastVelocity
+protected double lastSpeed
+protected float lastRoll
+protected double currentRelativeSpeed
+protected double minSpeedAfterForceSquared
+protected double[] desiredAltitudeOverride

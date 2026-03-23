@@ -17,3 +17,14 @@ public final class UserMarkerValidator
 - public record CanRemove()
 - public record CanSpawn(Player player, UserMapMarkersStore markersStore)
 - public record Fail(Message errorMsg)
+
+Also in this package: CanRemove, CanSpawn, Fail, PlaceResult, RemoveResult, UserMapMarker, UserMapMarkersStore
+
+Complete API:
+  public static UserMarkerValidator.PlaceResult validatePlacing(Ref<EntityStore> ref, CreateUserMarker packet)
+  public static UserMarkerValidator.RemoveResult validateRemove(Ref<EntityStore> ref, UserMapMarker marker)
+  private static boolean isPlayerTooFarFromMarker(Ref<EntityStore> ref, double markerX, double markerZ)
+  private static double getMaxRemovalDistanceSquared(Player player)
+
+Fields:
+private static final int NAME_LENGTH_LIMIT

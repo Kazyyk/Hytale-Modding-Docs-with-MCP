@@ -31,3 +31,26 @@ public abstract class TintProviderAsset implements Cleanable, JsonAssetWithMap<S
 ## Inner Types
 
 - `TintProviderAsset.Argument`
+
+Known subclasses: ConstantTintProviderAsset, DensityDelimitedTintProviderAsset
+
+Also in this package: Argument, ConstantTintProviderAsset, DelimiterAsset, DensityDelimitedTintProviderAsset
+
+Complete API:
+  public abstract TintProvider build(TintProviderAsset.Argument var1)
+  public static TintProviderAsset getFallbackAsset()
+  public boolean isSkipped()
+  public static TintProviderAsset getExportedAsset(String name)
+  public String getId()
+  public void cleanUp()
+
+Fields:
+public static final AssetCodecMapCodec<String,TintProviderAsset> CODEC
+private static final Map<String,TintProviderAsset> exportedNodes
+public static final Codec<String> CHILD_ASSET_CODEC
+public static final Codec<String[]> CHILD_ASSET_CODEC_ARRAY
+public static final BuilderCodec<TintProviderAsset> ABSTRACT_CODEC
+private String id
+private AssetExtraInfo.Data data
+private boolean skip
+private String exportName

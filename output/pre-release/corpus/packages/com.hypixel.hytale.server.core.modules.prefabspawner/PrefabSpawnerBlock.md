@@ -25,3 +25,32 @@ Component attached to chunk store block entities that configures prefab spawning
 
 - PrefabSpawnerBlock.PrefabSpawnerSettingsPage -- custom UI page for editing spawner settings
 - PrefabSpawnerBlock.PrefabSpawnerSettingsPageEventData -- event data for the settings page
+
+Also in this package: MigratePrefabSpawn, PrefabSpawnerModule, PrefabSpawnerSettingsPage, PrefabSpawnerSettingsPageEventData
+
+Complete API:
+  public static ComponentType<ChunkStore,PrefabSpawnerBlock> getComponentType()
+  public String getPrefabPath()
+  public void setPrefabPath(String prefabPath)
+  public boolean isFitHeightmap()
+  public void setFitHeightmap(boolean fitHeightmap)
+  public boolean isInheritSeed()
+  public void setInheritSeed(boolean inheritSeed)
+  public boolean isInheritHeightCondition()
+  public void setInheritHeightCondition(boolean inheritHeightCondition)
+  public PrefabWeights getPrefabWeights()
+  public void setPrefabWeights(PrefabWeights prefabWeights)
+  private PrefabWeights getPrefabWeightsNullable()
+  public Component<ChunkStore> clone()
+
+Fields:
+public static final KeyedCodec<Boolean> FIT_HEIGHTMAP_CODEC
+public static final KeyedCodec<Boolean> INHERIT_SEED_CODEC
+public static final KeyedCodec<Boolean> INHERIT_HEIGHT_CONDITION_CODEC
+public static final KeyedCodec<PrefabWeights> PREFAB_WEIGHTS_CODEC
+public static final BuilderCodec<PrefabSpawnerBlock> CODEC
+private String prefabPath
+private boolean fitHeightmap
+private boolean inheritSeed
+private boolean inheritHeightCondition
+private PrefabWeights prefabWeights

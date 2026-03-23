@@ -26,3 +26,9 @@ Parsed material data.
 
 - ObjParser
 - ObjImportPage
+
+Also in this package: MeshRotation, MeshVoxelizer, MtlMaterial, ObjImportCommand, ObjImportPage, ObjMesh, ObjParseException, ObjParser, Origin, PageData, TextureSampler, VoxelResult, WeightedBlock
+
+Complete API:
+  public static Map<String,MtlParser.MtlMaterial> parse(Path path)
+  private static float[] parseColor(String colorStr)

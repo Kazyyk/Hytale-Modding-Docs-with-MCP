@@ -9,3 +9,12 @@ public interface ChunkAccessor<WorldChunk extends BlockAccessor> extends IChunkA
 - int getFluidId(int x, int y, int z)
 - boolean performBlockUpdate(int x, int y, int z)
 - boolean performBlockUpdate(int x, int y, int z, boolean allowPartialLoad)
+
+Known implementors: OverridableChunkAccessor, World
+
+Also in this package: BlockAccessor, EmptyBlockAccessor, IChunkAccessorSync, LocalCachedChunkAccessor, OverridableChunkAccessor, TestBlockFunction
+
+Complete API:
+  default int getFluidId(int x, int y, int z)
+  default boolean performBlockUpdate(int x, int y, int z)
+  default boolean performBlockUpdate(int x, int y, int z, boolean allowPartialLoad)

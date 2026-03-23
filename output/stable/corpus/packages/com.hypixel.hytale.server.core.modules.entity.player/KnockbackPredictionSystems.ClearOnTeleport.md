@@ -10,3 +10,16 @@ An ECS component-change system that removes the `KnockbackSimulation` component 
 
 - KnockbackPredictionSystems -- parent container class
 - KnockbackSimulation -- component removed by this system
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation (and 35 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public ComponentType<EntityStore,Teleport> componentType()
+  public void onComponentAdded(Ref<EntityStore> ref, Teleport component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentSet(Ref<EntityStore> ref, Teleport oldComponent, Teleport newComponent, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentRemoved(Ref<EntityStore> ref, Teleport component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final ComponentType<EntityStore,Teleport> TELEPORT_COMPONENT_TYPE
+private static final ComponentType<EntityStore,KnockbackSimulation> KNOCKBACK_SIMULATION_COMPONENT_TYPE

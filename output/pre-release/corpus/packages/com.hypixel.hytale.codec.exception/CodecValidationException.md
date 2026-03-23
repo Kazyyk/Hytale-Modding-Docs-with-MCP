@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.codec.exception | Extends: CodecExcept
 public class CodecValidationException extends CodecException
 
 Exception extending `CodecException`.
+
+Also in this package: CodecException

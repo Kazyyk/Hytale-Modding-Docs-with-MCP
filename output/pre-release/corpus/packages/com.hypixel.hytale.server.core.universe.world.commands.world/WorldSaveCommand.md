@@ -23,3 +23,17 @@ Console command handling WorldSave operations.
 - @Nonnull @Override protected CompletableFuture<Void> executeAsync(@Nonnull CommandContext context)
 - @Nonnull private CompletableFuture<Void> saveAllWorlds(@Nonnull CommandContext context)
 - @Nonnull private static CompletableFuture<Void> saveWorld(@Nonnull World world)
+
+Also in this package: CompactCommand, WorldAddCommand, WorldCommand, WorldListCommand, WorldLoadCommand, WorldPruneCommand, WorldRemoveCommand, WorldRocksDbCommand, WorldSetDefaultCommand
+
+Complete API:
+  protected CompletableFuture<Void> executeAsync(CommandContext context)
+  private CompletableFuture<Void> saveAllWorlds(CommandContext context)
+  private static CompletableFuture<Void> saveWorld(World world)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_WORLD_SAVE_NO_WORLD_SPECIFIED
+private static final Message MESSAGE_COMMANDS_WORLD_SAVE_SAVING_ALL
+private static final Message MESSAGE_COMMANDS_WORLD_SAVE_SAVING_ALL_DONE
+private final OptionalArg<World> worldArg
+private final FlagArg saveAllFlag

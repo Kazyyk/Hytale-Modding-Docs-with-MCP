@@ -12,3 +12,8 @@ ModifyEvent record for biome dynamic layer entries.
 @Nonnull BiomeFileContext file,
         @Nonnull List<LayerContainer.DynamicLayer> entries,
         @Nonnull ModifyEvent.ContentLoader<LayerContainer.DynamicLayer> loader
+
+Also in this package: BiomeCovers, BiomeEnvironments, BiomeFluids, BiomePrefabs, BiomeStaticLayers, BiomeTints, CaveCovers, CavePrefabs, CaveTypes, ContentLoader, EventType, ModifyEvent, ModifyEvents, SeedGenerator
+
+Complete API:
+  public EventType type()

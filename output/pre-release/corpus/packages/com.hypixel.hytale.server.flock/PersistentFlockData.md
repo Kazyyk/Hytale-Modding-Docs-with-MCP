@@ -41,3 +41,19 @@ public void decreaseSize()
 - Flock -- holds this data at runtime
 - FlockAsset -- provides max grow size and blocked roles
 - FlockMembershipSystems -- reads this data for join validation
+
+Also in this package: EntityDeath, EntityRef, EntityRemoved, FilterPlayerFlockDamageSystem, Flock, FlockDeathSystems, FlockDebugSystem, FlockMembership, FlockMembershipSystems, FlockPlugin, FlockRemovedStatus, FlockSystems, NPCAddedFromWorldGen, OnDamageDealt, OnDamageReceived, PlayerChangeGameModeEventSystem, PlayerDeath, PrefabPasteEventSystem, RefChange, StoredFlock (and 2 more)
+
+Complete API:
+  public static ComponentType<EntityStore,PersistentFlockData> getComponentType()
+  public int getMaxGrowSize()
+  public boolean isFlockAllowedRole(String role)
+  public void increaseSize()
+  public void decreaseSize()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<PersistentFlockData> CODEC
+private int maxGrowSize
+private String[] flockAllowedRoles
+private int size

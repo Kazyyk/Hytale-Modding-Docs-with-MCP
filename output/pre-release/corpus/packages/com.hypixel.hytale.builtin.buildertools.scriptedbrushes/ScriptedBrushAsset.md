@@ -26,3 +26,24 @@ public List<BrushOperation> getOperations()
 public void loadIntoExecutor(@Nonnull BrushConfigCommandExecutor executor)
 
 Clears the executor's operations and populates it with this asset's operations, recursively resolving `LoadOperationsFromAssetOperation` references.
+
+Also in this package: BCExecutionStatus, BrushConfig, BrushConfigChunkAccessor, BrushConfigCommandExecutor, BrushConfigEditStore, DataGettingFlags, DataSettingFlags, DebugOutputTarget, HistoryMask
+
+Complete API:
+  public static DefaultAssetMap<String,ScriptedBrushAsset> getAssetMap()
+  public static ScriptedBrushAsset get(String id)
+  public static String getEditorToolItemId(String brushId)
+  static Map<String,String> rebuildBrushToItemCache()
+  public static void invalidateBrushToItemCache()
+  public String getId()
+  public List<BrushOperation> getOperations()
+  public void loadIntoExecutor(BrushConfigCommandExecutor executor)
+
+Fields:
+public static final AssetBuilderCodec<String,ScriptedBrushAsset> CODEC
+private static DefaultAssetMap<String,ScriptedBrushAsset> ASSET_MAP
+public static final String DEFAULT_EDITOR_TOOL_ID
+private static volatile Map<String,String> brushToItemCache
+protected AssetExtraInfo.Data data
+protected String id
+protected List<BrushOperation> operations

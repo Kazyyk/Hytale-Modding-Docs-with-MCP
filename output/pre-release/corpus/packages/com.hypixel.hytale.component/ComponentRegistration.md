@@ -24,3 +24,5 @@ Immutable record holding all metadata for a registered component type. Created i
 
 - ComponentType -- the typed handle for accessing the component
 - ResourceRegistration -- the equivalent record for resources
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)

@@ -31,3 +31,32 @@ Fluent builder for constructing sequences of `CustomUICommand` packets sent to t
 - set(String selector, @Nonnull T[] data) | UICommandBuilder | Sets an array value using registered codecs.
 - set(String selector, @Nonnull List<T> data) | UICommandBuilder | Sets a list value using registered codecs.
 - getCommands() | CustomUICommand[] | Returns the built command array.
+
+Also in this package: EventData, UIEventBuilder
+
+Complete API:
+  public UICommandBuilder clear(String selector)
+  public UICommandBuilder remove(String selector)
+  public UICommandBuilder append(String documentPath)
+  public UICommandBuilder append(String selector, String documentPath)
+  public UICommandBuilder appendInline(String selector, String document)
+  public UICommandBuilder insertBefore(String selector, String documentPath)
+  public UICommandBuilder insertBeforeInline(String selector, String document)
+  private UICommandBuilder setBsonValue(String selector, BsonValue bsonValue)
+  public UICommandBuilder set(String selector, Value<T> ref)
+  public UICommandBuilder setNull(String selector)
+  public UICommandBuilder set(String selector, String str)
+  public UICommandBuilder set(String selector, Message message)
+  public UICommandBuilder set(String selector, boolean b)
+  public UICommandBuilder set(String selector, float n)
+  public UICommandBuilder set(String selector, int n)
+  public UICommandBuilder set(String selector, double n)
+  public UICommandBuilder setObject(String selector, Object data)
+  public UICommandBuilder set(String selector, T[] data)
+  public UICommandBuilder set(String selector, List<T> data)
+  public CustomUICommand[] getCommands()
+
+Fields:
+private static final Map<Class,Codec> CODEC_MAP
+public static final CustomUICommand[] EMPTY_COMMAND_ARRAY
+private final List<CustomUICommand> commands

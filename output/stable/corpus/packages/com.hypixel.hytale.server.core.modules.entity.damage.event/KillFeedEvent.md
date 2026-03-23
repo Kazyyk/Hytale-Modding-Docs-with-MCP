@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.server.core.modules.entity.damage.even
 public class KillFeedEvent
 
 Event type.
+
+Also in this package: DecedentMessage, Display, KillerMessage

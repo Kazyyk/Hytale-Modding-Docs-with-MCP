@@ -12,3 +12,13 @@ public static enum Operation implements Supplier<String>
 
 - private Operation(String description)
 - public String get()
+
+Known implementors: Interaction, JumpOperation, LabelOperation
+
+Also in this package: ActionDropItem, ActionInventory, ActionPickUpItem, SensorDroppedItem, StorageTarget
+
+Complete API:
+  public String get()
+
+Fields:
+private final String description

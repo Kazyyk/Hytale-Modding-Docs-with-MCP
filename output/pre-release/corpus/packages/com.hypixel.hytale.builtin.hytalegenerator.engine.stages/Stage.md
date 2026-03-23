@@ -16,3 +16,13 @@ Defines a single step in the staged chunk generation pipeline. Each stage declar
 - @Nonnull Map<BufferType, Bounds3i> getInputTypesAndBounds_bufferGrid()
 - @Nonnull List<BufferType> getOutputTypes()
 - @Nonnull String getName()
+
+Known implementors: BiomeDistanceStage, BiomeStage, EnvironmentStage, PropStage, TerrainStage, TintStage
+
+Also in this package: BiomeDistanceCounter, BiomeDistanceEntries, BiomeDistanceEntry, BiomeDistanceStage, BiomeStage, BiomeWeights, ColumnData, Context, Entry, EnvironmentStage, PropStage, TerrainStage, TintStage
+
+Complete API:
+  void run(Stage.Context var1)
+  Map<BufferType,Bounds3i> getInputTypesAndBounds_bufferGrid()
+  List<BufferType> getOutputTypes()
+  String getName()

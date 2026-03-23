@@ -51,3 +51,47 @@ public AssetEditorPacketHandler(Channel channel, ProtocolVersion protocolVersion
 ## Lifecycle
 
 On construction, `init()` calls `registerHandlers()` and then `AssetEditorPlugin.get().handleInitializeClient(editorClient)`. On channel close, `closed()` notifies the plugin via `handleEditorClientDisconnected()`.
+
+Also in this package: AssetEditorGamePacketHandler, AssetEditorPlugin, AssetPath, AssetSpecificFunctionality, AssetToDiscard, AssetTree, AssetTypeRegistry, DiscardResult, EditorClient, InitState, Messages, PlayerPreviewData, UndoRedoManager
+
+Complete API:
+  private void init()
+  public EditorClient getEditorClient()
+  public String getIdentifier()
+  public void closed(ChannelHandlerContext ctx)
+  public void registerHandlers()
+  public void handle(AssetEditorSubscribeModifiedAssetsChanges packet)
+  public void handle(AssetEditorUndoChanges packet)
+  public void handle(AssetEditorRedoChanges packet)
+  public void handle(AssetEditorFetchLastModifiedAssets packet)
+  public void handle(AssetEditorExportAssets packet)
+  public void handle(AssetEditorCreateAsset packet)
+  public void handle(AssetEditorFetchAsset packet)
+  public void handle(AssetEditorFetchJsonAssetWithParents packet)
+  public void handle(AssetEditorRequestChildrenList packet)
+  public void handle(AssetEditorUpdateAsset packet)
+  public void handle(AssetEditorUpdateJsonAsset packet)
+  public void handle(AssetEditorFetchAutoCompleteData packet)
+  public void handle(AssetEditorRenameAsset packet)
+  public void handle(AssetEditorDeleteAsset packet)
+  public void handle(AssetEditorActivateButton packet)
+  public void handle(AssetEditorRequestDataset packet)
+  public void handle(AssetEditorSelectAsset packet)
+  public void handle(AssetEditorCreateDirectory packet)
+  public void handle(AssetEditorDeleteDirectory packet)
+  public void handle(AssetEditorRenameDirectory packet)
+  public void handle(UpdateLanguage packet)
+  public void handle(AssetEditorSetGameTime packet)
+  public void handle(AssetEditorUpdateWeatherPreviewLock packet)
+  public void handle(AssetEditorUpdateAssetPack packet)
+  public void handle(AssetEditorDeleteAssetPack packet)
+  public void handle(AssetEditorCreateAssetPack packet)
+  public void handle(ClientDisconnect packet)
+  private boolean lacksPermission(int token)
+  private boolean lacksPermission()
+  private boolean lacksPermission(String permissionId)
+  private boolean lacksPermission(int token, String permissionId)
+
+Fields:
+private static final HytaleLogger LOGGER
+private final EditorClient editorClient

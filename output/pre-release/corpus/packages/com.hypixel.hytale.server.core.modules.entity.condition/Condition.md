@@ -40,3 +40,21 @@ Abstract base class for data-driven entity conditions used in stat regeneration,
 - StatCondition | Stat value meets comparison threshold
 - SuffocatingCondition | Entity head position is in non-breathable material
 - WieldingCondition | Entity is wielding something
+
+Known subclasses: AliveCondition, AlwaysTrueCondition, ChargingCondition, CheckPlayerGameModeCondition, CurveCondition, EntityStatBoundCondition, EnvironmentCondition, GlidingCondition, HasEffectCondition, InFluidCondition, IsPlayerCondition, LogicCondition, NoDamageTakenCondition, OutOfCombatCondition, RandomiserCondition, RegenHealthCondition, ScaledCurveCondition, SimpleCondition, SprintingCondition, SuffocatingCondition, WieldingCondition
+
+Known implementors: AlwaysTrueCondition, AndCondition, EqualsCondition, GreaterThanCondition, NotCondition, OrCondition, SmallerThanCondition
+
+Also in this package: AliveCondition, ChargingCondition, CheckPlayerGameModeCondition, EntityStatBoundCondition, EnvironmentCondition, GlidingCondition, HasEffectCondition, InFluidCondition, IsPlayerCondition, LogicCondition, NoDamageTakenCondition, Operator, OutOfCombatCondition, RegenHealthCondition, SprintingCondition, StatComparisonType, StatCondition, SuffocatingCondition, WieldingCondition
+
+Complete API:
+  public boolean eval(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref, Instant currentTime)
+  public abstract boolean eval0(ComponentAccessor<EntityStore> var1, Ref<EntityStore> var2, Instant var3)
+  public static boolean allConditionsMet(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref, Instant currentTime, EntityStatType.Regenerating regenerating)
+  public static boolean allConditionsMet(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref, Instant currentTime, Condition[] conditions)
+  public String toString()
+
+Fields:
+public static final CodecMapCodec<Condition> CODEC
+protected static final BuilderCodec<Condition> BASE_CODEC
+protected boolean inverse

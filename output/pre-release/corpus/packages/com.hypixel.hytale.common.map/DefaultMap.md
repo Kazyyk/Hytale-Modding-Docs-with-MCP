@@ -46,3 +46,42 @@ public class DefaultMap<K, V> implements Map<K, V>
 - public V compute(K key, @Nonnull BiFunction<? super K, ? super V, ? extends V> remappingFunction)
 - public V merge(K key, @Nonnull V value, @Nonnull BiFunction<? super V, ? super V, ? extends V> remappingFunction)
 - public String toString()
+
+Also in this package: Builder, IWeightedElement, IWeightedMap, SeedCoordinateFunction, SingletonWeightedMap, WeightedMap
+
+Complete API:
+  public V getDefaultValue()
+  public void setDefaultValue(V defaultValue)
+  public Map<K,V> getDelegate()
+  public int size()
+  public boolean isEmpty()
+  public boolean containsKey(Object key)
+  public boolean containsValue(Object value)
+  public V get(Object key)
+  public V put(K key, V value)
+  public V remove(Object key)
+  public void putAll(Map<? extends K,? extends V> m)
+  public void clear()
+  public Set<K> keySet()
+  public Collection<V> values()
+  public Set<Entry<K,V>> entrySet()
+  public boolean equals(Object o)
+  public int hashCode()
+  public V getOrDefault(Object key, V defaultValue)
+  public void forEach(BiConsumer<? super K,? super V> action)
+  public void replaceAll(BiFunction<? super K,? super V,? extends V> function)
+  public V putIfAbsent(K key, V value)
+  public boolean remove(Object key, Object value)
+  public boolean replace(K key, V oldValue, V newValue)
+  public V replace(K key, V value)
+  public V computeIfAbsent(K key, Function<? super K,? extends V> mappingFunction)
+  public V computeIfPresent(K key, BiFunction<? super K,? super V,? extends V> remappingFunction)
+  public V compute(K key, BiFunction<? super K,? super V,? extends V> remappingFunction)
+  public V merge(K key, V value, BiFunction<? super V,? super V,? extends V> remappingFunction)
+  public String toString()
+
+Fields:
+private final Map<K,V> delegate
+private final boolean allowReplacing
+private final boolean replaceNullWithDefault
+private V defaultValue

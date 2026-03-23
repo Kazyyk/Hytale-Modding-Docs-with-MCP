@@ -156,3 +156,46 @@ Creates a shallow copy of this component.
 - DeathSystems -- systems triggered by this component's addition
 - RespawnSystems -- systems triggered by this component's removal
 - DamageModule -- registers this component type
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public static ComponentType<EntityStore,DeathComponent> getComponentType()
+  public DamageCause getDeathCause()
+  public Message getDeathMessage()
+  public void setDeathMessage(Message deathMessage)
+  public boolean isShowDeathMenu()
+  public void setShowDeathMenu(boolean showDeathMenu)
+  public ItemStack[] getItemsLostOnDeath()
+  public void setItemsLostOnDeath(List<ItemStack> itemsLostOnDeath)
+  public double getItemsAmountLossPercentage()
+  public void setItemsAmountLossPercentage(double itemsAmountLossPercentage)
+  public double getItemsDurabilityLossPercentage()
+  public void setItemsDurabilityLossPercentage(double itemsDurabilityLossPercentage)
+  public boolean displayDataOnDeathScreen()
+  public void setDisplayDataOnDeathScreen(boolean displayDataOnDeathScreen)
+  public Damage getDeathInfo()
+  public DeathConfig.ItemsLossMode getItemsLossMode()
+  public void setItemsLossMode(DeathConfig.ItemsLossMode itemsLossMode)
+  public DeathItemLoss getDeathItemLoss()
+  public InteractionChain getInteractionChain()
+  public void setInteractionChain(InteractionChain interactionChain)
+  public Component<EntityStore> clone()
+  public static void tryAddComponent(CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> ref, Damage damage)
+  public static void tryAddComponent(Store<EntityStore> store, Ref<EntityStore> ref, Damage damage)
+  public static CompletableFuture<Void> respawn(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref)
+
+Fields:
+public static final HytaleLogger LOGGER
+public static final BuilderCodec<DeathComponent> CODEC
+private String deathCause
+private Message deathMessage
+private boolean showDeathMenu
+private ItemStack[] itemsLostOnDeath
+private double itemsAmountLossPercentage
+private double itemsDurabilityLossPercentage
+private boolean displayDataOnDeathScreen
+private transient Damage deathInfo
+private transient DeathConfig.ItemsLossMode itemsLossMode
+private transient InteractionChain interactionChain
+private transient CompletableFuture<Void> respawnFuture

@@ -38,3 +38,13 @@ No-op implementation. The component is not removed on entity removal.
 - BuilderToolsUserData -- the component this system ensures
 - BuilderToolsSystems.EnsureBuilderTools -- companion system that ensures builder tool items
 - BuilderToolsPlugin -- registers this system during setup
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onEntityAdd(Holder<EntityStore> holder, AddReason reason, Store<EntityStore> store)
+  public void onEntityRemoved(Holder<EntityStore> holder, RemoveReason reason, Store<EntityStore> store)
+
+Fields:
+private static final Query<EntityStore> QUERY

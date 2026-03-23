@@ -23,3 +23,20 @@ An `EntityStore` component storing ValueStore-related data on entities.
 - public double readDouble(int slot)
 - public void storeDouble(int slot, double value)
 - @Nonnull @Override public Component<EntityStore> clone()
+
+Also in this package: Builder, Type, UseType, ValueStoreValidator, ValueUsage
+
+Complete API:
+  public static ComponentType<EntityStore,ValueStore> getComponentType()
+  public String readString(int slot)
+  public void storeString(int slot, String value)
+  public int readInt(int slot)
+  public void storeInt(int slot, int value)
+  public double readDouble(int slot)
+  public void storeDouble(int slot, double value)
+  public Component<EntityStore> clone()
+
+Fields:
+private final String[] stringValues
+private final int[] intValues
+private final double[] doubleValues

@@ -42,3 +42,13 @@ Creates a copy with the current remaining time.
 
 - DeathSystems.CorpseRemoval -- ticking system that checks this timer
 - DamageModule -- registers this component type
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public static ComponentType<EntityStore,DeferredCorpseRemoval> getComponentType()
+  public boolean tick(float dt)
+  public Component<EntityStore> clone()
+
+Fields:
+protected double timeRemaining

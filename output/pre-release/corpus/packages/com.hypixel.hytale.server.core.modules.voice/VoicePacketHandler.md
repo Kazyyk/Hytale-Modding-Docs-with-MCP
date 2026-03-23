@@ -9,3 +9,14 @@ Sub-packet handler that rejects voice data received on the game stream. Voice da
 ## Methods
 
 - void registerHandlers()
+
+Also in this package: ListenerCandidate, PositionSnapshot, VoiceModule, VoiceModuleConfig, VoicePlayerState, VoiceRouter, VoiceStreamHandler
+
+Complete API:
+  public void registerHandlers()
+  private void handleVoiceData(VoiceData packet)
+
+Fields:
+private final HytaleLogger logger
+private final IPacketHandler parent
+private boolean loggedGameStreamRejection

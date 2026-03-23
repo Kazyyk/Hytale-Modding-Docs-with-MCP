@@ -29,3 +29,16 @@ Calculates aggregate resistance modifiers from an armor inventory and active ent
 - DamageSystems -- parent class
 - DamageCause -- damage type used as map key for resistances
 - DamageEventSystem -- base class
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool, DamageCalculatorSystems (and 49 more)
+
+Complete API:
+  public SystemGroup<EntityStore> getGroup()
+  public Query<EntityStore> getQuery()
+  public void handle(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, Damage damage)
+  public static Map<DamageCause,DamageSystems.ArmorDamageReduction.ArmorResistanceModifiers> getResistanceModifiers(World world, ItemContainer inventory, boolean canApplyItemStackPenalties, EffectControllerComponent effectControllerComponent)
+  private static void calculateResistanceEntryModifications(Entry<DamageCause,StaticModifier[]> entry, World world, Map<DamageCause,DamageSystems.ArmorDamageReduction.ArmorResistanceModifiers> result, boolean canApplyItemStackPenalties, boolean itemStackIsBroken, double flatResistance)
+  private static void addResistanceModifiersFromEntityEffects(Map<DamageCause,DamageSystems.ArmorDamageReduction.ArmorResistanceModifiers> resistanceModifiers, EffectControllerComponent effectControllerComponent)
+
+Fields:
+private static final Query<EntityStore> QUERY

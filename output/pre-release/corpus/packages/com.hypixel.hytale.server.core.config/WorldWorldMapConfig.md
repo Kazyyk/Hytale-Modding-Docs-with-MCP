@@ -34,3 +34,19 @@ Returns `32`.
 
 - WorldMapConfig -- abstract base class
 - ServerWorldMapConfig -- server-level variant
+
+Also in this package: AutoApplyMode, BackupConfig, ModConfig, RateLimitConfig, ServerWorldMapConfig, UpdateConfig, WorldMapConfig
+
+Complete API:
+  public int getDefaultViewRadiusMin()
+  public int getDefaultViewRadiusMax()
+
+Fields:
+public static final int DEFAULT_VIEW_RADIUS_MIN
+public static final int DEFAULT_VIEW_RADIUS_MAX
+public static final float DEFAULT_IMAGE_SCALE
+public static final float DEFAULT_VIEW_RADIUS_MULTIPLIER
+public static final float DEFAULT_SCALE
+public static final float DEFAULT_MIN_SCALE
+public static final float DEFAULT_MAX_SCALE
+public static final Codec<WorldWorldMapConfig> CODEC

@@ -23,3 +23,13 @@ public class MaterialSetPattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: AndPattern, ConstantPattern, Context, CuboidPattern, Facing, FieldFunctionPattern, MaterialPattern, NotPattern, OffsetPattern, OrPattern, Pattern, RotatorPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public Bounds3i getBounds_voxelGrid()
+
+Fields:
+private static final Bounds3i BOUNDS_VOXEL_GRID
+private final MaterialSet materialSet

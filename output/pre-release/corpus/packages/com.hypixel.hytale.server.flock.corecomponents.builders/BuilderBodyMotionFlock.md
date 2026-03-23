@@ -13,3 +13,12 @@ NPC behavior motion builder for BodyMotionFlock functionality.
 - @Nonnull @Override public String getLongDescription()
 - @Nonnull @Override public BuilderDescriptorState getBuilderDescriptorState()
 - @Nonnull @Override public Builder<BodyMotion> readConfig(JsonElement data)
+
+Also in this package: BuilderActionFlockBeacon, BuilderActionFlockJoin, BuilderActionFlockLeave, BuilderActionFlockSetTarget, BuilderActionFlockState, BuilderEntityFilterFlock, BuilderSensorFlockCombatDamage, BuilderSensorFlockLeader, BuilderSensorInflictedDamage
+
+Complete API:
+  public BodyMotionFlock build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<BodyMotion> readConfig(JsonElement data)

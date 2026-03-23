@@ -29,3 +29,24 @@ public class FileContextLoader
 ## Inner Types
 
 - `FileContextLoader.Constants`
+
+Also in this package: BiomeFileContext, Constants, Constants, Constants, Constants, FileContext, FileLoadingContext, Registry, Type, ZoneFileContext
+
+Complete API:
+  public FileLoadingContext load()
+  protected static void loadPrefabCategories(Path folder, FileLoadingContext context)
+  protected static ZoneFileContext loadZoneContext(String name, Path folder, FileLoadingContext context)
+  protected static AssetPath getDisabledFilePath(AssetPath path)
+  protected static boolean isValidZoneFile(AssetPath path)
+  protected static boolean isValidBiomeFile(AssetPath path)
+  protected static void validateZones(FileLoadingContext context, Set<String> zoneRequirement)
+  private static String parseName(AssetPath path, BiomeFileContext.Type type)
+
+Fields:
+private static final Comparator<AssetPath> ZONES_ORDER
+private static final Comparator<AssetPath> BIOME_ORDER
+private static final UnaryOperator<AssetPath> DISABLED_FILE
+private static final Predicate<AssetPath> ZONE_FILE_MATCHER
+private static final Predicate<AssetPath> BIOME_FILE_MATCHER
+private final Path dataFolder
+private final Set<String> zoneRequirement

@@ -25,3 +25,15 @@ public class VoidWorldGenProvider implements IWorldGenProvider
 - public WorldGenTimingsCollector getTimings()
 - public Transform[] getSpawnPoints(int seed)
 - public CompletableFuture<GeneratedChunk> generate(int seed, long index, int cx, int cz, LongPredicate stillNeeded)
+
+Also in this package: DummyWorldGen, DummyWorldGenProvider, FlatWorldGen, FlatWorldGenProvider, IWorldGenProvider, Layer, VoidWorldGen
+
+Complete API:
+  public IWorldGen getGenerator()
+  public String toString()
+
+Fields:
+public static final String ID
+public static final BuilderCodec<VoidWorldGenProvider> CODEC
+private Color tint
+private String environment

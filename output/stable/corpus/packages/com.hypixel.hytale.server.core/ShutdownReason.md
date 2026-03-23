@@ -25,3 +25,26 @@ Represents the reason for a server shutdown, pairing an exit code with an option
 - public int getExitCode()
 - public String getMessage()
 - @Nonnull public ShutdownReason withMessage(String message)
+
+Also in this package: AuthMode, AuthModeConverter, Constants, Defaults, HytaleServer, HytaleServerConfig, LevelValueConverter, MaybeBoolCodec, Message, Module, NameMatching, Options, ParamValueCodec, PathConverter, PathType, SocketAddressValueConverter, StringToPathMapConverter, TimeoutProfile, UUIDConverter
+
+Complete API:
+  public int getExitCode()
+  public String getMessage()
+  public ShutdownReason withMessage(String message)
+  public String toString()
+
+Fields:
+public static final ShutdownReason SIGINT
+public static final ShutdownReason SHUTDOWN
+public static final ShutdownReason CRASH
+public static final ShutdownReason AUTH_FAILED
+public static final ShutdownReason WORLD_GEN
+public static final ShutdownReason CLIENT_GONE
+public static final ShutdownReason MISSING_REQUIRED_PLUGIN
+public static final ShutdownReason VALIDATE_ERROR
+public static final ShutdownReason MISSING_ASSETS
+public static final ShutdownReason UPDATE
+public static final ShutdownReason MOD_ERROR
+private final int exitCode
+private final String message

@@ -11,3 +11,8 @@ Generates init, update, and remove network packets for `BlockBreakingDecal` asse
 - generateInitPacket(DefaultAssetMap<String, BlockBreakingDecal> assetMap, Map<String, BlockBreakingDecal> assets) | ToClientPacket | Instance method.
 - generateUpdatePacket(Map<String, BlockBreakingDecal> loadedAssets) | ToClientPacket | Instance method.
 - generateRemovePacket(Set<String> removed) | ToClientPacket | Instance method.
+
+Complete API:
+  public ToClientPacket generateInitPacket(DefaultAssetMap<String,BlockBreakingDecal> assetMap, Map<String,BlockBreakingDecal> assets)
+  public ToClientPacket generateUpdatePacket(Map<String,BlockBreakingDecal> loadedAssets)
+  public ToClientPacket generateRemovePacket(Set<String> removed)

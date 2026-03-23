@@ -13,3 +13,11 @@ Destroys the target block at the position specified in the interaction context. 
 ## Related Types
 
 - Parent hierarchy types are in package `com.hypixel.hytale.server.core.modules.interaction.interaction.config`
+
+Also in this package: AddItemInteraction, AngledWielding, ApplyForceInteraction, BlockConditionInteraction, BlockIdMatcher, BlockMatcher, BreakBlockInteraction, ChainingInteraction, ChainingTag, ChangeBlockInteraction, ChangeStateInteraction, ChargingInteraction, ChargingTag, CooldownConditionInteraction, CostType, CycleBlockGroupInteraction, Data, ExplodeInteraction, FirstClickInteraction, Force (and 13 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+
+Fields:
+public static final BuilderCodec<DestroyBlockInteraction> CODEC

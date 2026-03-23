@@ -12,3 +12,13 @@ public class AndPatternAsset extends PatternAsset
 
 - public Pattern build(@Nonnull PatternAsset.Argument argument)
 - public void cleanUp()
+
+Also in this package: Argument, BlockSetPatternAsset, CeilingPatternAsset, ConstantPatternAsset, CuboidPatternAsset, DelimiterAsset, DensityPatternAsset, FloorPatternAsset, ImportedPatternAsset, MaterialPatternAsset, NotPatternAsset, OffsetPatternAsset, OrPatternAsset, PatternAsset, RotatorPatternAsset, SurfacePatternAsset, WallPatternAsset
+
+Complete API:
+  public Pattern build(PatternAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<AndPatternAsset> CODEC
+private PatternAsset[] patternAssets

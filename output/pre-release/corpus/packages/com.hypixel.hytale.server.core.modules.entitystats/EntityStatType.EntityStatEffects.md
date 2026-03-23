@@ -21,3 +21,22 @@ Configures effects triggered when an entity stat reaches its minimum or maximum 
 - getInteractions() | String | Returns the interaction chain identifier.
 - triggerAtZero() | boolean | Whether to trigger at zero crossing.
 - toPacket() | EntityStatEffects` (protocol) | Converts to network packet format.
+
+Also in this package: DefaultEntityStatTypes, EntityStatType, EntityStatTypePacketGenerator, RegenType, Regenerating
+
+Complete API:
+  public String getSoundEventId()
+  public int getSoundEventIndex()
+  public ModelParticle[] getParticles()
+  public String getInteractions()
+  public boolean triggerAtZero()
+  public com.hypixel.hytale.protocol.EntityStatEffects toPacket()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<EntityStatType.EntityStatEffects> CODEC
+private boolean triggerAtZero
+private String soundEventId
+private int soundEventIndex
+private ModelParticle[] particles
+private String interactions

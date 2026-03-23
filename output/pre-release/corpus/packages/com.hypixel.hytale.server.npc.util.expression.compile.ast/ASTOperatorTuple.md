@@ -16,3 +16,9 @@ Extends `ASTOperator`.
 - > new ASTOperandStringArray(token, tokenPosition, operandStack, firstArgument, argumentCount)
 - > new ASTOperandBooleanArray(token, tokenPosition, operandStack, firstArgument, argumentCount)
 - > throw new IllegalStateException("Unexpected array type when creating constant array: " + arrayType)
+
+Also in this package: AST, ASTOperand, ASTOperandBoolean, ASTOperandBooleanArray, ASTOperandEmptyArray, ASTOperandIdentifier, ASTOperandNumber, ASTOperandNumberArray, ASTOperandString, ASTOperandStringArray, ASTOperator, ASTOperatorBinary, ASTOperatorFunctionCall, ASTOperatorUnary
+
+Complete API:
+  public boolean isConstant()
+  public static void fromParsedTuple(Parser.ParsedToken openingToken, int argumentCount, CompileContext compileContext)

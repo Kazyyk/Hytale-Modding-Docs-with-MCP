@@ -16,3 +16,9 @@ Enumerates FlagOperator values: `A`, `O`, `X`.
 
 - public abstract int apply(int var1, int var2)
 - @Override public int applyAsInt(int left, int right)
+
+Also in this package: CompositeInt2Flags, ConstantInt2Flags, FlagCondition, Int2FlagsCondition
+
+Complete API:
+  public abstract int apply(int var1, int var2)
+  public int applyAsInt(int left, int right)

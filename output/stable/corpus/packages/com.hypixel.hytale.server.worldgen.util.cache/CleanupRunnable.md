@@ -21,3 +21,12 @@ public class CleanupRunnable<K, V> implements Runnable
 ## Related Types
 
 - Cache
+
+Also in this package: Bucket, Cache, CacheEntry, CacheEntry, CacheEntry, CleanupFutureAction, ConcurrentSizedTimeoutCache, SizedTimeoutCache, TimeoutCache
+
+Complete API:
+  public void run()
+
+Fields:
+private static final HytaleLogger LOGGER
+private final WeakReference<Cache<K,V>> reference

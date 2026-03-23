@@ -20,3 +20,19 @@ Noise property that generates a linear gradient along a specified axis.
 - protected static double getAbsAngle(double dx, double dy)
 - protected static double getMagnitude(double dx, double dy, double invNormalize)
 - protected static float convertRange(float angle)
+
+Also in this package: BlendNoiseProperty, CurveNoiseProperty, DistortedNoiseProperty, Entry, Formula, FractalFunction, FractalMode, FractalNoiseProperty, GradientMode, InvertNoiseProperty, MaxNoiseProperty, MinNoiseProperty, MultiplyNoiseProperty, NoiseFormula, NoiseFormulaProperty, NoiseProperty, NoisePropertyType, NormalizeNoiseProperty, OffsetNoiseProperty, PowerCurve (and 4 more)
+
+Complete API:
+  public double get(int seed, double x, double y)
+  public double get(int seed, double x, double y, double z)
+  protected static double getAngle(double dx, double dy)
+  protected static double getAbsAngle(double dx, double dy)
+  protected static double getMagnitude(double dx, double dy, double invNormalize)
+  protected static float convertRange(float angle)
+
+Fields:
+protected final NoiseProperty noise
+protected final GradientNoiseProperty.GradientMode mode
+protected final double distance
+protected final double invNormalize

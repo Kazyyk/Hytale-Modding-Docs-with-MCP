@@ -10,3 +10,13 @@ Data class serialized via `BuilderCodec`.
 
 - getTargetMemoryDuration() | float | Accessor method.
 - getEvaluatorConfig() | CombatActionEvaluatorConfig | Accessor method.
+
+Complete API:
+  public float getTargetMemoryDuration()
+  public CombatActionEvaluatorConfig getEvaluatorConfig()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<CombatBalanceAsset> CODEC
+protected float targetMemoryDuration
+protected CombatActionEvaluatorConfig evaluatorConfig

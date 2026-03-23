@@ -7,3 +7,5 @@ public record CanSpawn(Player player, UserMapMarkersStore markersStore) implemen
 ## Methods
 
 - public record CanSpawn(Player player, UserMapMarkersStore markersStore)
+
+Also in this package: CanRemove, Fail, PlaceResult, RemoveResult, UserMapMarker, UserMapMarkersStore, UserMarkerValidator

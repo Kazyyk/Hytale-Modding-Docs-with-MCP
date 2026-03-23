@@ -28,3 +28,16 @@ public class MaskProviderJsonLoader extends JsonLoader<SeedStringResource, MaskP
 - protected FuzzyZoom loadFuzzyZoom(@Nonnull BufferedImage mask)
 - return new FuzzyZoom(new CoordinateRandomizerJsonLoader<>(this.seed, this.dataFolder, this.json)
 - new PixelProvider(mask)
+
+Also in this package: AssetFileSystem, ChunkGeneratorJsonLoader, Constants, Constants, PrefabPathCollector, Resource, WorldGenPrefabLoader, WorldGenPrefabSupplier, ZonesJsonLoader
+
+Complete API:
+  public MaskProvider load()
+  public static BufferedImage loadImage(Path file)
+  protected FuzzyZoom loadFuzzyZoom(BufferedImage mask)
+
+Fields:
+public static final AssetLoader<BufferedImage> IMAGE_LOADER
+protected final Path file
+protected final Vector2i zoomSize
+protected final Vector2i worldOffset

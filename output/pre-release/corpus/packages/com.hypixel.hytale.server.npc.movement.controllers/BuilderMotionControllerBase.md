@@ -28,3 +28,30 @@ Abstract base builder for all motion controller JSON configurations. Reads the s
 - float getMaxHeadRotationSpeed(BuilderSupport) | Evaluates head rotation speed and converts to radians
 - boolean isEnabled(ExecutionContext) | Always returns `true
 - String getIdentifier() | Returns the builder's key name from `NPCPlugin.getBuilderInfo()
+
+Known subclasses: BuilderMotionControllerDive, BuilderMotionControllerFly, BuilderMotionControllerWalk
+
+Also in this package: BuilderMotionControllerDive, BuilderMotionControllerFly, BuilderMotionControllerMap, BuilderMotionControllerWalk
+
+Complete API:
+  public Builder<MotionController> readCommonConfig(JsonElement data)
+  public final boolean isEnabled(ExecutionContext context)
+  public String getIdentifier()
+  public boolean validate(String configName, NPCLoadTimeValidationHelper validationHelper, ExecutionContext context, Scope globalScope, List<String> errors)
+  public float getEpsilonAngle()
+  public double getEpsilonSpeed()
+  public double getForceVelocityDamping()
+  public double getMaxHorizontalSpeed(BuilderSupport builderSupport)
+  public float getMaxHeadRotationSpeed(BuilderSupport support)
+  public double getFastHorizontalThreshold(BuilderSupport builderSupport)
+  public double getFastHorizontalThresholdRange()
+  public abstract Class<? extends MotionController> getClassType()
+
+Fields:
+protected float epsilonAngle
+protected double epsilonSpeed
+protected double forceVelocityDamping
+protected final DoubleHolder maxHorizontalSpeed
+protected final DoubleHolder fastHorizontalThreshold
+protected double fastHorizontalThresholdRange
+protected final FloatHolder maxHeadRotationSpeed

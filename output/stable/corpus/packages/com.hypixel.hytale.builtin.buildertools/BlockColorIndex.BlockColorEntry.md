@@ -24,3 +24,5 @@ This record has `private` visibility and is only accessible within BlockColorInd
 ## Related Types
 
 - BlockColorIndex -- enclosing class that creates and queries these entries
+
+Also in this package: Action, ActionEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)

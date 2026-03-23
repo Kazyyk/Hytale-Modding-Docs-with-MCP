@@ -13,3 +13,11 @@ Loads double condition configurations. Produces `DefaultDoubleCondition`, `Singl
 ## Related Types
 
 - DoubleConditionJsonLoader.Constants -- error messages
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public IDoubleCondition load()
+
+Fields:
+protected final Boolean defaultValue

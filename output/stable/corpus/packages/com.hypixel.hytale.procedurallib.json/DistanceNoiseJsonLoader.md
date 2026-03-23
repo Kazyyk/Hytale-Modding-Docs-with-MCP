@@ -18,3 +18,12 @@ Loads distance-based noise configurations. Creates `DistanceNoise` instances wit
 
 - DistanceNoiseJsonLoader.LoadedDistanceNoise -- inner class with SeedResource buffer delegation
 - DistanceNoiseJsonLoader.Constants -- defaults (DEFAULT_MEASUREMENT = CENTRE_DISTANCE, DEFAULT_DISTANCE_2_MODE = SUB)
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public NoiseFunction load()
+  protected CellDistanceFunction loadCellDistanceFunction()
+  protected PointEvaluator loadPointEvaluator()
+  protected MeasurementMode loadMeasurementMode()
+  protected DistanceNoise.Distance2Function loadDistance2Function()

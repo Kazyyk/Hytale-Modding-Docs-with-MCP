@@ -19,3 +19,16 @@ Implements `IntConsumer` to provide IntConditionBuilder functionality.
 - public void accept(int value)
 - public boolean add(int value)
 - public IIntCondition buildOrDefault(IIntCondition defaultCondition)
+
+Also in this package: BlockMaskCondition, FilteredBlockFluidCondition, HashSetBlockFluidCondition, HashSetIntCondition, Mask, MaskEntry, RandomCoordinateCondition
+
+Complete API:
+  public void accept(int value)
+  public boolean add(int value)
+  public IIntCondition buildOrDefault(IIntCondition defaultCondition)
+
+Fields:
+private final Supplier<IntSet> setSupplier
+private final int nullValue
+private int first
+private IntSet set

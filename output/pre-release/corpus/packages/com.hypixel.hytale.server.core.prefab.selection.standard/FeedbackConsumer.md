@@ -31,3 +31,11 @@ Called during placement with:
 - BlockSelection -- the placement methods that invoke this callback
 - `CommandSender` -- the command sender passed to the callback
 - `ComponentAccessor` -- entity store accessor passed to the callback
+
+Also in this package: BlockComparingIterator, BlockHolder, BlockIterator, BlockSelection, FallbackMode, FluidHolder, FluidIterator, TintIterator
+
+Complete API:
+  void accept(String var1, int var2, int var3, CommandSender var4, ComponentAccessor<EntityStore> var5)
+
+Fields:
+FeedbackConsumer DEFAULT

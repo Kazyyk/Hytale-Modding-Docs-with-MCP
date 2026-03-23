@@ -57,3 +57,17 @@ Returns the `BlockSection` at the given chunk section coordinates, or `null` if 
 
 - BuilderToolsPlugin -- enclosing class
 - BuilderToolsPlugin.BuilderState -- uses this accessor for editing operations
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  public static BuilderToolsPlugin.CachedAccessor of(ComponentAccessor<ChunkStore> accessor, int cx, int cy, int cz, int radius)
+  public FluidSection getFluidSection(int cx, int cy, int cz)
+  public BlockPhysics getBlockPhysics(int cx, int cy, int cz)
+  public BlockSection getBlockSection(int cx, int cy, int cz)
+
+Fields:
+private static final ThreadLocal<BuilderToolsPlugin.CachedAccessor> THREAD_LOCAL
+private static final int FLUID_COMPONENT
+private static final int PHYSICS_COMPONENT
+private static final int BLOCKS_COMPONENT

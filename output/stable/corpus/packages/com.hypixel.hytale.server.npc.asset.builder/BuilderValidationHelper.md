@@ -26,3 +26,25 @@ public BuilderValidationHelper(String name, FeatureEvaluatorHelper featureEvalua
 
 - BuilderBase -- uses this during `preReadConfig`
 - BuilderObjectReferenceHelper -- passes this to child builders
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 28 more)
+
+Complete API:
+  public String getName()
+  public FeatureEvaluatorHelper getFeatureEvaluatorHelper()
+  public InternalReferenceResolver getInternalReferenceResolver()
+  public StateMappingHelper getStateMappingHelper()
+  public InstructionContextHelper getInstructionContextHelper()
+  public ExtraInfo getExtraInfo()
+  public List<String> getReadErrors()
+  public List<Evaluator<?>> getEvaluators()
+
+Fields:
+private final String name
+private final FeatureEvaluatorHelper featureEvaluatorHelper
+private final InternalReferenceResolver internalReferenceResolver
+private final StateMappingHelper stateMappingHelper
+private final InstructionContextHelper instructionContextHelper
+private final ExtraInfo extraInfo
+private final List<Evaluator<?>> evaluators
+private final List<String> readErrors

@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.server.core.modules.projectile.system
 public class PredictedProjectileSystems
 
 ECS system handling PredictedProjectiles tick processing.
+
+Also in this package: EntityTrackerUpdate, StandardPhysicsTickSystem

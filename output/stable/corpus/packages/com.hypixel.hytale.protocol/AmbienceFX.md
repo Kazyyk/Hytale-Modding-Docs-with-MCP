@@ -58,3 +58,31 @@ Returns the serialized size in bytes.
 - AmbienceFXMusic
 - AmbienceFXAmbientBed
 - AmbienceFXSoundEffect
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot, ApplicationEffects (and 378 more)
+
+Complete API:
+  public static AmbienceFX deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public AmbienceFX clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public String id
+public AmbienceFXConditions conditions
+public AmbienceFXSound[] sounds
+public AmbienceFXMusic music
+public AmbienceFXAmbientBed ambientBed
+public AmbienceFXSoundEffect soundEffect
+public int priority
+public int[] blockedAmbienceFxIndices
+public int audioCategoryIndex

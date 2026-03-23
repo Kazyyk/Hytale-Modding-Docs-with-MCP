@@ -23,3 +23,13 @@ public abstract class Scanner
 ## Inner Types
 
 - `Scanner.Context`
+
+Known subclasses: AreaScanner, ColumnLinearScanner, ColumnRandomScanner, OriginScanner
+
+Also in this package: AreaScanner, ColumnLinearScanner, ColumnRandomScanner, Context, OriginScanner, ScanShape, Strategy, Verticality
+
+Complete API:
+  public abstract List<Vector3i> scan(Scanner.Context var1)
+  public abstract SpaceSize scanSpace()
+  public SpaceSize readSpaceWith(Pattern pattern)
+  public static Scanner noScanner()

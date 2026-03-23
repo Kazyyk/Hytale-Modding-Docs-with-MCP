@@ -122,3 +122,48 @@ Codec-serializable reference to a player's personal map marker, supporting remov
 public static class ImageEntry
 
 Cache entry wrapping a `MapImage` with an atomic keep-alive counter for eviction.
+
+Also in this package: IWorldMap, ImageEntry, MarkerAndItsStore, MarkerProvider, MarkerReference, PlayerMarkerReference, WorldMapLoadException, WorldMapSettings
+
+Complete API:
+  public IWorldMap getGenerator()
+  public void setGenerator(IWorldMap generator)
+  protected boolean isIdle()
+  protected void tick(float dt)
+  protected void onShutdown()
+  public void unloadImages()
+  public boolean isWorldMapEnabled()
+  public static boolean isWorldMapImageVisibleToAnyPlayer(List<Player> players, long imageIndex, WorldMapSettings settings)
+  public World getWorld()
+  public WorldMapSettings getWorldMapSettings()
+  public Map<String,WorldMapManager.MarkerProvider> getMarkerProviders()
+  public void addMarkerProvider(String key, WorldMapManager.MarkerProvider provider)
+  public Map<String,MapMarker> getPointsOfInterest()
+  public MapImage getImageIfInMemory(int x, int z)
+  public MapImage getImageIfInMemory(long index)
+  public CompletableFuture<MapImage> getImageAsync(int x, int z)
+  public CompletableFuture<MapImage> getImageAsync(long index)
+  public void generate()
+  public void sendSettings()
+  public boolean shouldTick()
+  public void updateTickingState(boolean before)
+  public void handleUserCreateMarker(PlayerRef playerRef, CreateUserMarker packet)
+  public void handleUserRemoveMarker(PlayerRef playerRef, RemoveMapMarker packet)
+  private WorldMapManager.MarkerAndItsStore findUserMapMarker(String markerId, Player player, World world)
+  public void clearImages()
+  public void clearImagesInChunks(LongSet chunkIndices)
+  public static void sendSettingsToAllWorlds()
+
+Fields:
+private static final int IMAGE_KEEP_ALIVE
+private static final float DEFAULT_UNLOAD_DELAY
+private final HytaleLogger logger
+private final World world
+private final Long2ObjectConcurrentHashMap<WorldMapManager.ImageEntry> images
+private final Long2ObjectConcurrentHashMap<CompletableFuture<MapImage>> generating
+private final Map<String,WorldMapManager.MarkerProvider> markerProviders
+private final Map<String,MapMarker> pointsOfInterest
+private WorldMapSettings worldMapSettings
+private IWorldMap generator
+private CompletableFuture<Void> generatorLoaded
+private float unloadDelay

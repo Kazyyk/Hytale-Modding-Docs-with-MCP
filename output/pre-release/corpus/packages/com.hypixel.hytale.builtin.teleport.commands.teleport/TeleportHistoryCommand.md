@@ -19,3 +19,11 @@ public class TeleportHistoryCommand extends AbstractPlayerCommand
 ## Methods
 
 - protected void execute(@Nonnull CommandContext context, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world)
+
+Also in this package: SpawnCommand, SpawnOtherCommand, SpawnSetCommand, SpawnSetDefaultCommand, TeleportAllCommand, TeleportBackCommand, TeleportCommand, TeleportForwardCommand, TeleportHomeCommand, TeleportTopCommand, TeleportWorldCommand
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_TELEPORT_HISTORY_EMPTY

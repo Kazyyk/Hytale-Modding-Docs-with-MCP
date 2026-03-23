@@ -10,3 +10,11 @@ Defines the contract for chunk generation in the Hytale world generator. Impleme
 
 - @Nullable GeneratedChunk generate(@Nonnull ChunkRequest.Arguments var1)
 - @Nonnull PositionProvider getSpawnPositions()
+
+Known implementors: FallbackGenerator, StagedChunkGenerator
+
+Also in this package: Arguments, Builder, ChunkRequest, FallbackGenerator, GeneratorProfile, StagedChunkGenerator
+
+Complete API:
+  GeneratedChunk generate(ChunkRequest.Arguments var1)
+  PositionProvider getSpawnPositions()

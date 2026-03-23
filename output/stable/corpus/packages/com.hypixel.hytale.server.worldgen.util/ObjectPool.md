@@ -18,3 +18,15 @@ Implements `Function` to provide ObjectPool functionality.
 - public <K extends T> void recycle(@Nonnull K v)
 - public int size()
 - public T apply(T cachedKey)
+
+Also in this package: ArrayUtli, BlockArray, BlockFluidEntry, ChunkThreadPoolExecutor, ChunkWorker, ChunkWorkerThreadFactory, ConstantNoiseProperty, Entry, LogUtil, NoiseBlockArray, ResolvedBlockArray
+
+Complete API:
+  public T acquire()
+  public void recycle(K v)
+  public int size()
+  public T apply(T cachedKey)
+
+Fields:
+private final BlockingQueue<T> items
+private final Supplier<T> supplier

@@ -10,3 +10,16 @@ An ECS ticking system that calls `ChunkTracker.tick()` each frame for entities w
 
 - PlayerChunkTrackerSystems -- parent container class
 - ChunkTracker -- component ticked by this system
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final ComponentType<EntityStore,ChunkTracker> CHUNK_TRACKER_COMPONENT_TYPE
+private static final ComponentType<EntityStore,Player> PLAYER_COMPONENT_TYPE
+private static final ComponentType<EntityStore,PlayerRef> PLAYER_REF_COMPONENT_TYPE
+private static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE

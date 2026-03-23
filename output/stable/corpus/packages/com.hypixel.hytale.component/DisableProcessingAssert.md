@@ -10,3 +10,7 @@ A deprecated marker interface. When a `RefSystem` implements this interface, the
 ## Related Types
 
 - Store -- checks for this interface during entity lifecycle callbacks
+
+Known implementors: FixFillerBlocksSystem, LegacyBlockStateHolderSystem, LegacyBlockStateRefSystem, LegacyLateInitBlockStateSystem, LegacyTickingBlockStateSystem, LivingEntityEffectSystem, Ticking, Ticking, TickingSystem
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)

@@ -14,3 +14,12 @@ Concrete implementation extending `PositionProvider`.
 
 - setIsFromCache(boolean status) | void | public method.
 - isFromCache() | boolean | public method.
+
+Also in this package: EntityPositionProvider, ExtraInfoProvider, IPathProvider, IPositionProvider, InfoProvider, InfoProviderBase, PathProvider, PositionProvider, ValueWrappedInfoProvider, WrappedInfoProvider
+
+Complete API:
+  public void setIsFromCache(boolean status)
+  public boolean isFromCache()
+
+Fields:
+private boolean fromCache

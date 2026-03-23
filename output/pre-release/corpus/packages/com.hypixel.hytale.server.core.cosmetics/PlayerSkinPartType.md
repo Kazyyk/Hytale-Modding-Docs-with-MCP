@@ -24,3 +24,5 @@ Enumeration of player skin part types (head, body, arms, legs, etc.).
 - `EarAccessory`
 - `SkinFeature`
 - `Gloves`
+
+Also in this package: BodyType, CosmeticAssetValidator, CosmeticRegistry, CosmeticType, CosmeticsModule, Emote, EmoteAsset, EmoteAssetPacketGenerator, HaircutType, HeadAccessoryType, InvalidSkinException, PlayerSkin, PlayerSkinGradient, PlayerSkinGradientSet, PlayerSkinPart, PlayerSkinPartId, PlayerSkinPartTexture, PlayerSkinTintColor, Variant

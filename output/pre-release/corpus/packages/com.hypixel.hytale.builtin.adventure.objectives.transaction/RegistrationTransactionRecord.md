@@ -23,3 +23,17 @@ Concrete implementation extending `TransactionRecord`.
 - toString() | String | public method.
 - wrap(@Nonnull EventRegistry registry) | TransactionRecord[] | static public method.
 - append(@Nonnull TransactionRecord[] arr, @Nonnull EventRegistry registry) | TransactionRecord[] | static public method.
+
+Also in this package: SpawnEntityTransactionRecord, SpawnTreasureChestTransactionRecord, TransactionRecord, TransactionStatus, TransactionUtil, UseEntityTransactionRecord, WorldTransactionRecord
+
+Complete API:
+  public void revert()
+  public void complete()
+  public void unload()
+  public boolean shouldBeSerialized()
+  public String toString()
+  public static TransactionRecord[] wrap(EventRegistry registry)
+  public static TransactionRecord[] append(TransactionRecord[] arr, EventRegistry registry)
+
+Fields:
+protected BooleanConsumer registration

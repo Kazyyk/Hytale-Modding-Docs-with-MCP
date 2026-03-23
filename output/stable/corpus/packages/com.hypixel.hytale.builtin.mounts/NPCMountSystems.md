@@ -18,3 +18,5 @@ Container class for NPC-specific mount ECS systems. All systems are declared as 
 - MountSystems -- entity-mount systems
 - NPCMountComponent -- the NPC mount component
 - MountPlugin -- registers all systems
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)

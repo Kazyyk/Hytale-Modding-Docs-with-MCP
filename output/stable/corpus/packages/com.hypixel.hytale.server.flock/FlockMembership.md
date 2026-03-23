@@ -68,3 +68,28 @@ Returns `true` for `LEADER` and `INTERIM_LEADER`.
 - Flock -- the flock entity component this membership points to
 - FlockMembershipSystems -- processes join/leave/damage logic
 - FlockPlugin -- registers this component type
+
+Also in this package: EntityDeath, EntityRef, EntityRemoved, FilterPlayerFlockDamageSystem, Flock, FlockDeathSystems, FlockDebugSystem, FlockMembershipSystems, FlockPlugin, FlockRemovedStatus, FlockSystems, NPCAddedFromWorldGen, OnDamageDealt, OnDamageReceived, PersistentFlockData, PlayerChangeGameModeEventSystem, PlayerDeath, PrefabPasteEventSystem, RefChange, StoredFlock (and 2 more)
+
+Complete API:
+  public static ComponentType<EntityStore,FlockMembership> getComponentType()
+  public UUID getFlockId()
+  public void setFlockId(UUID flockId)
+  public Ref<EntityStore> getFlockRef()
+  public void setFlockRef(Ref<EntityStore> flockRef)
+  public void setMembershipType(FlockMembership.Type membershipType)
+  public FlockMembership.Type getMembershipType()
+  public void unload()
+  public void registerAsDebugListener(DebugSupport debugSupport, Flock flock)
+  public void unregisterAsDebugListener(DebugSupport debugSupport, Flock flock)
+  public void onDebugFlagsChanged(EnumSet<RoleDebugFlags> newFlags)
+  public Component<EntityStore> clone()
+
+Fields:
+public static final int VERSION
+public static final BuilderCodec<FlockMembership> CODEC
+private UUID flockId
+private FlockMembership.Type membershipType
+private Ref<EntityStore> flockRef
+private transient boolean wasVisFlock
+private transient boolean listenerRegistered

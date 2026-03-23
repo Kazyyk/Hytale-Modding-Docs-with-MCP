@@ -8,3 +8,8 @@ public class NotifyCommand extends CommandBase
 
 - public NotifyCommand()
 - protected void executeSync(@Nonnull CommandContext context)
+
+Also in this package: BackupCommand, ConvertPrefabsCommand, EventTitleCommand, StashCommand, UIGalleryCommand, ValidateCPBCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)

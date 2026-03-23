@@ -19,3 +19,14 @@ If the entity already has a `DeathComponent`, cancels the damage. Otherwise roun
 - Damage -- the event processed
 - DeathComponent -- added when an entity dies
 - DamageEventSystem -- base class
+
+Also in this package: ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool, DamageCalculatorSystems (and 52 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public Set<Dependency<EntityStore>> getDependencies()
+  public void handle(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, Damage damage)
+
+Fields:
+private static final Query<EntityStore> QUERY
+private static final Set<Dependency<EntityStore>> DEPENDENCIES

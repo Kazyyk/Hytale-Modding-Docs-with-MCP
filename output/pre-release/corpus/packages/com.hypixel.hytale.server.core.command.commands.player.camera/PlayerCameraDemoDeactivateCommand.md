@@ -20,3 +20,11 @@ public class PlayerCameraDemoDeactivateCommand extends AbstractTargetPlayerComma
         @Nonnull PlayerRef playerRef,
         @Nonnull World world,
         @Nonnull Store<EntityStore> store)` |
+
+Also in this package: CameraDemo, PlayerCameraDemoActivateCommand, PlayerCameraDemoSubCommand, PlayerCameraResetCommand, PlayerCameraSideScrollerCommand, PlayerCameraSubCommand, PlayerCameraTopdownCommand
+
+Complete API:
+  protected void execute(CommandContext context, Ref<EntityStore> sourceRef, Ref<EntityStore> ref, PlayerRef playerRef, World world, Store<EntityStore> store)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_CAMERA_DEMO_DISABLED

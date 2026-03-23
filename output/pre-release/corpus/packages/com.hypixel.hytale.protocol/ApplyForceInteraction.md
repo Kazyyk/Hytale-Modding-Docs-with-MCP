@@ -61,3 +61,36 @@ Returns the serialized size in bytes.
 - AppliedForce
 - ApplyForceState
 - Interaction
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 381 more)
+
+Complete API:
+  public static ApplyForceInteraction deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public int serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public ApplyForceInteraction clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public VelocityConfig velocityConfig
+public ChangeVelocityType changeVelocityType
+public AppliedForce[] forces
+public float duration
+public FloatRange verticalClamp
+public boolean waitForGround
+public boolean waitForCollision
+public float groundCheckDelay
+public float collisionCheckDelay
+public int groundNext
+public int collisionNext
+public float raycastDistance
+public float raycastHeightOffset
+public RaycastMode raycastMode

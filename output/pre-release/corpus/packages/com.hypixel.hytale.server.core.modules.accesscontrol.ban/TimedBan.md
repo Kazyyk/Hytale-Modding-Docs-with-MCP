@@ -16,3 +16,16 @@ public class TimedBan extends AbstractBan
 - public Instant getExpiresOn()
 - @Nonnull @Override public CompletableFuture<Optional<String>> getDisconnectReason(UUID uuid)
 - @Nonnull @Override public JsonObject toJsonObject()
+
+Also in this package: AbstractBan, Ban, BanParser, InfiniteBan
+
+Complete API:
+  public static TimedBan fromJsonObject(JsonObject object)
+  public boolean isInEffect()
+  public String getType()
+  public Instant getExpiresOn()
+  public CompletableFuture<Optional<Message>> getDisconnectReason(UUID uuid)
+  public JsonObject toJsonObject()
+
+Fields:
+private final Instant expiresOn

@@ -11,3 +11,15 @@ Abstract base for loaders that need cell jitter configuration. Provides methods 
 - `loadJitter()`
 - `loadDefaultJitter()`
 - `loadJitterX/Y/Z(double)`
+
+Known subclasses: BranchNoiseJsonLoader, MeshNoiseJsonLoader, PointEvaluatorJsonLoader
+
+Also in this package: BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  protected CellJitter loadJitter()
+  protected double loadDefaultJitter()
+  protected double loadJitterX(double defaultJitter)
+  protected double loadJitterY(double defaultJitter)
+  protected double loadJitterZ(double defaultJitter)
+  protected static double loadJitter(JsonLoader<?,?> loader, String key, double defaultJitter)

@@ -51,3 +51,20 @@ Replaces the leave message.
 - `AddPlayerToWorldEvent` -- the counterpart event for player addition
 - `World` -- the world the player was removed from
 - `EntityStore` -- store type parameter
+
+Also in this package: AddPlayerToWorldEvent, DrainPlayerFromWorldEvent, Formatter, PlayerChatEvent, PlayerConnectEvent, PlayerCraftEvent, PlayerDisconnectEvent, PlayerEvent, PlayerInteractEvent, PlayerMouseButtonEvent, PlayerMouseMotionEvent, PlayerReadyEvent, PlayerRefEvent, PlayerSetupConnectEvent, PlayerSetupDisconnectEvent
+
+Complete API:
+  public Holder<EntityStore> getHolder()
+  public World getWorld()
+  public boolean shouldBroadcastLeaveMessage()
+  public void setBroadcastLeaveMessage(boolean broadcastLeaveMessage)
+  public Message getLeaveMessage()
+  public void setLeaveMessage(Message leaveMessage)
+  public String toString()
+
+Fields:
+private final Holder<EntityStore> holder
+private final World world
+private boolean broadcastLeaveMessage
+private Message leaveMessage

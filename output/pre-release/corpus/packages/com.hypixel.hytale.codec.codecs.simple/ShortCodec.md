@@ -10,3 +10,11 @@ public class ShortCodec implements Codec<Short>, RawJsonCodec<Short>, PrimitiveC
 - @Nonnull public BsonValue encode(Short t, ExtraInfo extraInfo)
 - @Nonnull public Short decodeJson(@Nonnull RawJsonReader reader, ExtraInfo extraInfo)
 - @Nonnull @Override public Schema toSchema(@Nonnull SchemaContext context)
+
+Also in this package: BooleanCodec, ByteCodec, DoubleCodec, FloatCodec, IntegerCodec, LongCodec, StringCodec
+
+Complete API:
+  public Short decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Short t, ExtraInfo extraInfo)
+  public Short decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)

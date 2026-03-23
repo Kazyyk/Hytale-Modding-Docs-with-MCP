@@ -20,3 +20,16 @@ public class DiskResourceStorageProvider implements IResourceStorageProvider
 ## Inner Types
 
 - `DiskResourceStorageProvider.DiskResourceStorage`
+
+Also in this package: DefaultResourceStorageProvider, DiskResourceStorage, EmptyResourceStorageProvider, IResourceStorageProvider
+
+Complete API:
+  public String getPath()
+  public IResourceStorage getResourceStorage(World world)
+  public String toString()
+  public static void migrateFiles(World world)
+
+Fields:
+public static final String ID
+public static final BuilderCodec<DiskResourceStorageProvider> CODEC
+private String path

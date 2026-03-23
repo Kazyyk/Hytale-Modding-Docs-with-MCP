@@ -41,3 +41,19 @@ public String toString()
 
 - DamageEntityInteraction.TargetedDamage -- uses `TargetEntityEffect` in its configuration
 - `OverlapBehavior` -- defines how duplicate effects are handled
+
+Also in this package: DamageCalculator, DamageClass, DamageEffects, DirectionalKnockback, ForceKnockback, Knockback, PointKnockback, Type
+
+Complete API:
+  public float getDuration()
+  public double getChance()
+  public Object2DoubleMap<String> getEntityTypeDurationModifiers()
+  public OverlapBehavior getOverlapBehavior()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<TargetEntityEffect> CODEC
+protected float duration
+protected double chance
+protected Object2DoubleMap<String> entityTypeDurationModifiers
+protected OverlapBehavior overlapBehavior

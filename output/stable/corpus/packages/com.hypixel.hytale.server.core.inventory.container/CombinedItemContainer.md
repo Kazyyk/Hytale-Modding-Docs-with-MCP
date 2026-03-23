@@ -50,3 +50,38 @@ Returns the sum of all child container capacities.
 public boolean containsContainer(ItemContainer itemContainer)
 
 Returns `true` if this combined container or any of its children contains the given container.
+
+Also in this package: DelegateItemContainer, Dummy, EmptyItemContainer, InternalContainerUtilItemStack, InternalContainerUtilMaterial, InternalContainerUtilResource, InternalContainerUtilTag, ItemContainer, ItemContainerChangeEvent, ItemContainerUtil, ItemStackItemContainer, ItemType, SimpleItemContainer, SlotReplacementFunction, SortType, TempItemData, TestRemoveItemSlotResult
+
+Complete API:
+  public ItemContainer getContainer(int index)
+  public int getContainersSize()
+  public ItemContainer getContainerForSlot(short slot)
+  protected V readAction(Supplier<V> action)
+  private V readAction0(int i, Supplier<V> action)
+  protected V readAction(Function<X,V> action, X x)
+  private V readAction0(int i, Function<X,V> action, X x)
+  protected V writeAction(Supplier<V> action)
+  private V writeAction0(int i, Supplier<V> action)
+  protected V writeAction(Function<X,V> action, X x)
+  private V writeAction0(int i, Function<X,V> action, X x)
+  protected ClearTransaction internal_clear()
+  protected ItemStack internal_getSlot(short slot)
+  protected ItemStack internal_setSlot(short slot, ItemStack itemStack)
+  protected ItemStack internal_removeSlot(short slot)
+  protected boolean cantAddToSlot(short slot, ItemStack itemStack, ItemStack slotItemStack)
+  protected boolean cantRemoveFromSlot(short slot)
+  protected boolean cantDropFromSlot(short slot)
+  protected boolean cantMoveToSlot(ItemContainer fromContainer, short slotFrom)
+  public short getCapacity()
+  public CombinedItemContainer clone()
+  public EventRegistration registerChangeEvent(short priority, Consumer<ItemContainer.ItemContainerChangeEvent> consumer)
+  protected void sendUpdate(Transaction transaction)
+  public boolean containsContainer(ItemContainer itemContainer)
+  public boolean equals(Object o)
+  public int hashCode()
+  public void setGlobalFilter(FilterType globalFilter)
+  public void setSlotFilter(FilterActionType actionType, short slot, SlotFilter filter)
+
+Fields:
+protected final ItemContainer[] containers

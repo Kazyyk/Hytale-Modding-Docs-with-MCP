@@ -20,3 +20,8 @@ Registers the command with name `"importobj"`, alias `"obj"`, Creative permissio
 ## See Also
 
 - ObjImportPage
+
+Also in this package: MeshRotation, MeshVoxelizer, MtlMaterial, MtlParser, ObjImportPage, ObjMesh, ObjParseException, ObjParser, Origin, PageData, TextureSampler, VoxelResult, WeightedBlock
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)

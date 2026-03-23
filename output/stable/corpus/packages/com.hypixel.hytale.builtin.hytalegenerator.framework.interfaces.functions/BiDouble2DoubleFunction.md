@@ -10,3 +10,8 @@ Functional interface defining `apply` that returns `double`.
 ## Abstract Methods
 
 - apply | double | double var1, double var3
+
+Also in this package: BiCarta, QuadDoubleFunction, QuintoDoubleFunction, TriCarta, TriDoubleFunction, TriFunction
+
+Complete API:
+  double apply(double var1, double var3)

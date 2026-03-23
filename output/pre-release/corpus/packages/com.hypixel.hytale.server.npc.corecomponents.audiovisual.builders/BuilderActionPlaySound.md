@@ -17,3 +17,17 @@ public class BuilderActionPlaySound extends BuilderActionBase
 - @Nonnull public BuilderActionPlaySound readConfig(@Nonnull JsonElement data)
 - public String getSoundEventId(@Nonnull BuilderSupport support)
 - public int getSoundEventIndex(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionAppearance, BuilderActionDisplayName, BuilderActionModelAttachment, BuilderActionPlayAnimation, BuilderActionSpawnParticles, BuilderSensorAnimation
+
+Complete API:
+  public ActionPlaySound build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionPlaySound readConfig(JsonElement data)
+  public String getSoundEventId(BuilderSupport support)
+  public int getSoundEventIndex(BuilderSupport support)
+
+Fields:
+protected final AssetHolder soundEventId

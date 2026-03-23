@@ -19,3 +19,5 @@ Defines the lifecycle state of a builder type or attribute. Used by BuilderDescr
 - BuilderDescriptor -- uses this enum for builder-level state
 - BuilderAttributeDescriptor -- uses this enum for attribute-level state
 - Builder -- `isDeprecated()` checks against `Deprecated`
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)

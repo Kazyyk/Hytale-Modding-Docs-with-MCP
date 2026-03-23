@@ -14,3 +14,11 @@ Provider supplying QueueMaterial values based on context.
 
 - public QueueMaterialProvider(@Nonnull List<MaterialProvider<V>> queue)
 - @Nullable @Override public V getVoxelTypeAt(@Nonnull MaterialProvider.Context context)
+
+Also in this package: AllStoneMaterialProvider, ConstantMaterialProvider, Context, DownwardDepthMaterialProvider, DownwardSpaceMaterialProvider, FieldDelimiter, FieldDelimiter, FieldFunctionMaterialProvider, GrassTopMaterialProvider, HorizontalMaterialProvider, MaterialProvider, SolidityMaterialProvider, Stripe, StripedMaterialProvider, TerrainDensityMaterialProvider, UpwardDepthMaterialProvider, UpwardSpaceMaterialProvider, WeightedMaterialProvider
+
+Complete API:
+  public V getVoxelTypeAt(MaterialProvider.Context context)
+
+Fields:
+private final MaterialProvider<V>[] queue

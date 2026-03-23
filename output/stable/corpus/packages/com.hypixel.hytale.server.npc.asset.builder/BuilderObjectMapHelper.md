@@ -37,3 +37,13 @@ Iterates over elements, applying a test function to each resolved builder. Retur
 ## Related Types
 
 - BuilderObjectArrayHelper -- parent class
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 28 more)
+
+Complete API:
+  public Map<K,V> build(BuilderSupport builderSupport)
+  public void readConfig(JsonElement data, BuilderManager builderManager, BuilderParameters builderParameters, BuilderValidationHelper builderValidationHelper)
+  public T testEach(BiFunction<Builder<V>,U,T> test, BuilderManager builderManager, ExecutionContext executionContext, U meta, T successResult, T emptyResult, Builder<?> parentSpawnable)
+
+Fields:
+private Function<V,K> id

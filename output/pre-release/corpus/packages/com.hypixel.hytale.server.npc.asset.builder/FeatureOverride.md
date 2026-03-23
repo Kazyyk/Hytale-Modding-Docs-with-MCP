@@ -16,3 +16,12 @@ Three-state override for NPC builder features, allowing a feature to be forced o
 
 - get() | String | Returns the human-readable description of this override state.
 - evaluate(boolean defaultValue) | boolean | Resolves the override: `On` returns `true`, `Off` returns `false`, `Default` returns the provided default.
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public String get()
+  public boolean evaluate(boolean defaultValue)
+
+Fields:
+private final String description

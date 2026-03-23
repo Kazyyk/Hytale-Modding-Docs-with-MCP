@@ -36,3 +36,21 @@ public int getZ()
 public void load(Ref<ChunkStore> chunkReference, int x, int y, int z)
 
 Re-initializes this component with new coordinates and chunk reference (used during deserialization).
+
+Also in this package: BlockSection, ChunkLightData, ChunkLightDataBuilder, ChunkSectionReference, FluidSection, Res, TickRequest
+
+Complete API:
+  public static ComponentType<ChunkStore,ChunkSection> getComponentType()
+  public void load(Ref<ChunkStore> chunkReference, int x, int y, int z)
+  public Ref<ChunkStore> getChunkColumnReference()
+  public int getX()
+  public int getY()
+  public int getZ()
+  public Component<ChunkStore> clone()
+
+Fields:
+public static final BuilderCodec<ChunkSection> CODEC
+private Ref<ChunkStore> chunkColumnReference
+private int x
+private int y
+private int z

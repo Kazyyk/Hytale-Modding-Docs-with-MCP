@@ -14,3 +14,14 @@ public class Composite implements Transform
 - @Override public void apply(Vector3i vector3i)
 - @Nonnull @Override public String toString()
 - public static Transform of(Transform first, Transform second)
+
+Also in this package: Mirror, Rotate, Transform, Translate
+
+Complete API:
+  public void apply(Vector3i vector3i)
+  public String toString()
+  public static Transform of(Transform first, Transform second)
+
+Fields:
+private final Transform first
+private final Transform second

@@ -42,3 +42,10 @@ public class BlockCylinderUtil
         T t,
         @Nonnull TriIntObjPredicate<T> consumer)` |
 | `` | `return` | `forEachBlock(originX, originY, originZ, radiusX, height, radiusZ, t, consumer)` |
+
+Also in this package: BlockConeUtil, BlockCubeUtil, BlockDiamondUtil, BlockDomeUtil, BlockInvertedDomeUtil, BlockPyramidUtil, BlockSphereUtil, BlockTorusUtil, BlockUtil
+
+Complete API:
+  public static boolean forEachBlock(int originX, int originY, int originZ, int radiusX, int height, int radiusZ, T t, TriIntObjPredicate<T> consumer)
+  public static boolean forEachBlock(int originX, int originY, int originZ, int radiusX, int height, int radiusZ, int thickness, T t, TriIntObjPredicate<T> consumer)
+  public static boolean forEachBlock(int originX, int originY, int originZ, int radiusX, int height, int radiusZ, int thickness, boolean capped, T t, TriIntObjPredicate<T> consumer)

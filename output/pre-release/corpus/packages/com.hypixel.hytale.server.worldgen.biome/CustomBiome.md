@@ -29,3 +29,12 @@ public class CustomBiome extends Biome
 
 - public CustomBiomeGenerator getCustomBiomeGenerator()
 - @Nonnull @Override public String toString()
+
+Also in this package: Biome, BiomeInterpolation, BiomePatternGenerator, CustomBiomeGenerator, EmptyInt2IntMap, TileBiome
+
+Complete API:
+  public CustomBiomeGenerator getCustomBiomeGenerator()
+  public String toString()
+
+Fields:
+protected final CustomBiomeGenerator customBiomeGenerator

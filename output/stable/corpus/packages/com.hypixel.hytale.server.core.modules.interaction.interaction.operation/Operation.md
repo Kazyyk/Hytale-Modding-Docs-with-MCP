@@ -19,3 +19,16 @@ Core interface for interaction operations. An operation represents a single step
 ## Inner Interfaces
 
 - NestedOperation | Marks an operation that wraps another via `inner()`.
+
+Known implementors: Interaction, JumpOperation, LabelOperation
+
+Also in this package: JumpOperation, Label, LabelOperation, NestedOperation, OperationsBuilder
+
+Complete API:
+  void tick(Ref<EntityStore> var1, LivingEntity var2, boolean var3, float var4, InteractionType var5, InteractionContext var6, CooldownHandler var7)
+  void simulateTick(Ref<EntityStore> var1, LivingEntity var2, boolean var3, float var4, InteractionType var5, InteractionContext var6, CooldownHandler var7)
+  default void handle(Ref<EntityStore> ref, boolean firstRun, float time, InteractionType type, InteractionContext context)
+  WaitForDataFrom getWaitForDataFrom()
+  default InteractionRules getRules()
+  default Int2ObjectMap<IntSet> getTags()
+  default Operation getInnerOperation()

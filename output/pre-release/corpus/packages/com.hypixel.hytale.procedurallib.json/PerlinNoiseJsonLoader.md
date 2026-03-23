@@ -14,3 +14,9 @@ Loads Perlin noise configurations. Creates `PerlinNoise` with a configurable int
 ## Related Types
 
 - PerlinNoiseJsonLoader.Constants -- DEFAULT_INTERPOLATION_MODE = QUINTIC
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public NoiseFunction load()
+  protected GeneralNoise.InterpolationFunction loadInterpolationFunction()

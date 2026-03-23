@@ -27,3 +27,21 @@ Class in the markers subsystem.
 - withContextMenuItem(ContextMenuItem contextMenuItem) | MapMarkerBuilder | public method.
 - withComponent(MapMarkerComponent component) | MapMarkerBuilder | public method.
 - build() | MapMarker | public method.
+
+Also in this package: MapMarkerTracker, MarkersCollector, MarkersCollectorImpl
+
+Complete API:
+  public MapMarkerBuilder withName(Message name)
+  public MapMarkerBuilder withCustomName(String customName)
+  public MapMarkerBuilder withContextMenuItem(ContextMenuItem contextMenuItem)
+  public MapMarkerBuilder withComponent(MapMarkerComponent component)
+  public MapMarker build()
+
+Fields:
+private final String id
+private final String image
+private final Transform transform
+private Message name
+private String customName
+private List<ContextMenuItem> contextMenuItems
+private List<MapMarkerComponent> mapMarkerComponents

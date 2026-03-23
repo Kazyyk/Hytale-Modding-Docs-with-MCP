@@ -10,3 +10,9 @@ ECS system extending `TickingSystem<ChunkStore>`. Processes entities each tick.
 
 - tick(float dt, int systemIndex, @Nonnull Store<ChunkStore> store) | void | public method.
 - shouldRemoveWorld(@Nonnull Store<ChunkStore> store) | boolean | static public method.
+
+Also in this package: IdleTimeoutCondition, InstanceDataResource, RemovalCondition, TimeoutCondition, WorldEmptyCondition
+
+Complete API:
+  public void tick(float dt, int systemIndex, Store<ChunkStore> store)
+  public static boolean shouldRemoveWorld(Store<ChunkStore> store)

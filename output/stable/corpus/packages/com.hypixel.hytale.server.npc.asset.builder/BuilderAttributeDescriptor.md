@@ -106,3 +106,37 @@ Sets the minimum and maximum array length bounds.
 - BuilderDescriptor -- contains a list of these attribute descriptors
 - BuilderDescriptorState -- lifecycle state enum
 - BuilderBase -- uses attribute descriptors during schema generation
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 28 more)
+
+Complete API:
+  public BuilderAttributeDescriptor required()
+  public BuilderAttributeDescriptor requiredIfNotOverridden()
+  public BuilderAttributeDescriptor optional(String defaultValue)
+  public BuilderAttributeDescriptor optional(double[] defaultValue)
+  public BuilderAttributeDescriptor optional(int[] defaultValue)
+  public BuilderAttributeDescriptor optional(String[] defaultValue)
+  public BuilderAttributeDescriptor optional(boolean[] defaultValue)
+  public BuilderAttributeDescriptor computable()
+  public BuilderAttributeDescriptor setBasicEnum(Class<E> clazz)
+  public BuilderAttributeDescriptor setEnum(Class<E> clazz)
+  public BuilderAttributeDescriptor domain(String domain)
+  public BuilderAttributeDescriptor validator(Validator validator)
+  public BuilderAttributeDescriptor length(int size)
+  public BuilderAttributeDescriptor length(int minSize, int maxSize)
+  public String toString()
+
+Fields:
+private final String name
+private final String type
+private BuilderAttributeDescriptor.RequirementType required
+private boolean computable
+private final BuilderDescriptorState state
+private final String shortDescription
+private final String longDescription
+private String defaultValue
+private String domain
+private int minSize
+private int maxSize
+private Validator validator
+private Map<String,String> flagDescriptions

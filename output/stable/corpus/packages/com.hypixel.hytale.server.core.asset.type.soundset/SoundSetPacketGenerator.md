@@ -9,3 +9,8 @@ public class SoundSetPacketGenerator extends SimpleAssetPacketGenerator
 - @Nonnull public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,SoundSet> assetMap, Map<String,SoundSet> assets)
 - @Nonnull public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,SoundSet> assetMap, Map<String,SoundSet> loadedAssets)
 - @Nonnull public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,SoundSet> assetMap, Set<String> removed)
+
+Complete API:
+  public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,SoundSet> assetMap, Map<String,SoundSet> assets)
+  public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,SoundSet> assetMap, Map<String,SoundSet> loadedAssets)
+  public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,SoundSet> assetMap, Set<String> removed)

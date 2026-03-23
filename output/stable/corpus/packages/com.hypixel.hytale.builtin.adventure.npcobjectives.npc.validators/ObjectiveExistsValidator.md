@@ -20,3 +20,14 @@ Utility type in the `validators` subsystem.
 
 - test(String objective) | boolean | Instance method.
 - errorMessage(String objective, String attributeName) | String | Instance method.
+
+Complete API:
+  public String getDomain()
+  public boolean test(String objective)
+  public String errorMessage(String objective, String attributeName)
+  public String getAssetName()
+  public static ObjectiveExistsValidator required()
+  public static ObjectiveExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Fields:
+private static final ObjectiveExistsValidator DEFAULT_INSTANCE

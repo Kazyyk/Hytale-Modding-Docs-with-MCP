@@ -9,3 +9,10 @@ Marker interface for tags used during interaction data collection. Tags identify
 ## Fields
 
 - ROOT | CollectorTag | Static sentinel tag representing the root of a collection tree.
+
+Known implementors: ChainingTag, ChargingTag, MemoriesTag, ParallelTag, SerialTag, StringTag
+
+Also in this package: Collector, ListCollector, Node, SingleCollector, StringTag, TreeCollector
+
+Fields:
+CollectorTag ROOT

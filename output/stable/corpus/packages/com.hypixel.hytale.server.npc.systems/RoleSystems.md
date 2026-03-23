@@ -104,3 +104,8 @@ Renders debug visualizations for NPC roles when debug flags are enabled:
 - AvoidanceSystem -- avoidance after behaviour tick
 - SteeringSystem -- steering after avoidance
 - PositionCacheSystems -- populates cache before pre-behaviour tick
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 48 more)
+
+Fields:
+private static final ThreadLocal<List<Ref<EntityStore>>> ENTITY_LIST

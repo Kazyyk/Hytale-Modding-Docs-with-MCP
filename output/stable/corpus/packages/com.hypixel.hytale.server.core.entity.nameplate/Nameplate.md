@@ -22,3 +22,17 @@ public class Nameplate implements Component<EntityStore>
 - public void setText(@Nonnull String text)
 - public boolean consumeNetworkOutdated()
 - @Nonnull @Override public Component<EntityStore> clone()
+
+Also in this package: EntityTrackerRemove, EntityTrackerUpdate, NameplateSystems
+
+Complete API:
+  public static ComponentType<EntityStore,Nameplate> getComponentType()
+  public String getText()
+  public void setText(String text)
+  public boolean consumeNetworkOutdated()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<Nameplate> CODEC
+private String text
+private boolean isNetworkOutdated

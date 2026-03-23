@@ -33,3 +33,10 @@ Extends `TintContainerEntryJsonLoader` for the default entry. Falls back to red 
 *interface*
 
 JSON key constants: `Default`, `Entries`, `Colors`, `Weights`, `Noise`, `NoiseMask`. Default tint color is 16711680 (0xFF0000).
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CoverContainerEntryJsonLoader, CoverContainerJsonLoader, DefaultEnvironmentContainerEntryLoader, DefaultTintContainerEntryJsonLoader, DynamicLayerEntryJsonLoader, DynamicLayerJsonLoader, EnvironmentContainerEntryJsonLoader, EnvironmentContainerJsonLoader, FadeContainerJsonLoader, LayerContainerJsonLoader, LayerEntryJsonLoader, PrefabContainerEntryJsonLoader (and 8 more)
+
+Complete API:
+  public TintContainer load()
+  protected TintContainer.DefaultTintContainerEntry loadDefault()
+  protected List<TintContainer.TintContainerEntry> loadEntries()

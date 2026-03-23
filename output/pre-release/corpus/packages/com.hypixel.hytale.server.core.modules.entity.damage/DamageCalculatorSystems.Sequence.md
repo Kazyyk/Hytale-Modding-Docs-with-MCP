@@ -40,3 +40,13 @@ Returns a string representation: `"Sequence{hits=N}"`.
 
 - DamageCalculatorSystems.DamageSequence -- wraps this sequence
 - DamageCalculatorSystems -- parent class
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  public int getHits()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<DamageCalculatorSystems.Sequence> CODEC
+private int hits

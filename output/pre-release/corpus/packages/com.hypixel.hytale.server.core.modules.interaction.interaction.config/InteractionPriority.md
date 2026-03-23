@@ -20,3 +20,12 @@ Record holding per-slot priority values for interaction type precedence when mul
 - public record InteractionPriority(@Nullable Map<PrioritySlot, Integer> values)
 - public int getPriority(PrioritySlot slot)
 - public com.hypixel.hytale.protocol.InteractionPriority toPacket()
+
+Also in this package: Interaction, InteractionCamera, InteractionCameraSettings, InteractionConfiguration, InteractionEffects, InteractionPriorityCodec, InteractionRules, InteractionTypeUtils, RootInteraction, SimpleInstantInteraction, SimpleInteraction
+
+Complete API:
+  public int getPriority(PrioritySlot slot)
+  public com.hypixel.hytale.protocol.InteractionPriority toPacket()
+
+Fields:
+public static final Codec<InteractionPriority> CODEC

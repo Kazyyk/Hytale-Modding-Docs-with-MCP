@@ -40,3 +40,22 @@ Converts this emote to its protocol representation.
 
 - EmoteAssetPacketGenerator -- generates network packets for emote updates
 - `CosmeticRegistry` -- manages cosmetic assets
+
+Also in this package: BodyType, CosmeticAssetValidator, CosmeticRegistry, CosmeticType, CosmeticsModule, Emote, EmoteAssetPacketGenerator, HaircutType, HeadAccessoryType, InvalidSkinException, PlayerSkin, PlayerSkinGradient, PlayerSkinGradientSet, PlayerSkinPart, PlayerSkinPartId, PlayerSkinPartTexture, PlayerSkinPartType, PlayerSkinTintColor, Variant
+
+Complete API:
+  public static AssetStore<String,EmoteAsset,IndexedLookupTableAssetMap<String,EmoteAsset>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,EmoteAsset> getAssetMap()
+  public String getId()
+  public ProtocolEmote toPacket()
+
+Fields:
+public static final AssetBuilderCodec<String,EmoteAsset> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,EmoteAsset,IndexedLookupTableAssetMap<String,EmoteAsset>> ASSET_STORE
+protected AssetExtraInfo.Data data
+protected String id
+protected String name
+protected String animationPath
+protected String iconPath
+protected boolean isLooping

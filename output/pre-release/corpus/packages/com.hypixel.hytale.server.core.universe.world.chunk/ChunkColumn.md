@@ -42,3 +42,20 @@ Returns and clears the section holders array.
 public void putSectionHolders(Holder<ChunkStore>[] holders)
 
 Sets the section holders array (used during serialization or migration).
+
+Also in this package: AbstractCachedAccessor, BlockChunk, BlockComponentChunk, BlockComponentChunkLoadingSystem, BlockOperations, BlockRotationUtil, ChunkFlag, EntityChunk, EntityChunkLoadingSystem, LoadBlockChunkPacketSystem, LoadBlockComponentPacketSystem, UnloadBlockComponentPacketSystem, WorldChunk
+
+Complete API:
+  public static ComponentType<ChunkStore,ChunkColumn> getComponentType()
+  public Ref<ChunkStore> getSection(int section)
+  public Ref<ChunkStore>[] getSections()
+  public Holder<ChunkStore>[] getSectionHolders()
+  public Holder<ChunkStore>[] takeSectionHolders()
+  public void putSectionHolders(Holder<ChunkStore>[] holders)
+  public Component<ChunkStore> clone()
+  public Component<ChunkStore> cloneSerializable()
+
+Fields:
+public static final BuilderCodec<ChunkColumn> CODEC
+private final Ref<ChunkStore>[] sections
+private Holder<ChunkStore>[] sectionHolders

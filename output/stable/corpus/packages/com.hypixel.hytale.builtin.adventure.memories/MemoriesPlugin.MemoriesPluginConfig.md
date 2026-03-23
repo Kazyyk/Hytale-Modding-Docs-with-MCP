@@ -14,3 +14,12 @@ Configuration data for the memories plugin, holding a map of collection radius v
 ## Methods
 
 - public Object2DoubleMap<String> getCollectionRadius()
+
+Also in this package: MemoriesGameplayConfig, MemoriesPlugin, PlayerAddedSystem, RecordedMemories
+
+Complete API:
+  public Object2DoubleMap<String> getCollectionRadius()
+
+Fields:
+public static final BuilderCodec<MemoriesPlugin.MemoriesPluginConfig> CODEC
+private Object2DoubleMap<String> collectionRadius

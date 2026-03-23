@@ -45,3 +45,34 @@ On setup, this plugin:
 - BlockPhysics -- registered component for block physics/support data
 - `ItemModule` -- dependency
 - `LegacyModule` -- dependency
+
+Also in this package: FixFillerBlocksSystem, MigrateLegacySections
+
+Complete API:
+  public static BlockTypeModule get()
+  protected void setup()
+  public ComponentType<ChunkStore,BlockPhysics> getBlockPhysicsComponentType()
+  private static void onChunkPreLoadProcessEnsureBlockState(ChunkPreLoadProcessEvent event)
+  private static void onChunkPreLoadProcess(ChunkPreLoadProcessEvent event)
+  private static void onChunksectionPreLoadProcess(WorldChunk chunk, BlockSection section, int sectionIndex, BlockType[] blocks)
+  private static BlockType getBlockType(BlockTypeAssetMap<String,BlockType> blockTypeAssetMap, BlockType[] blocks, BlockSection section, int blockX, int blockY, int blockZ, boolean skipEmpty)
+  public static void breakOrSetFillerBlocks(BlockTypeAssetMap<String,BlockType> blockTypeAssetMap, IndexedLookupTableAssetMap<String,BlockBoundingBoxes> hitboxAssetMap, ChunkAccessor<?> accessor, BlockAccessor chunk, int finalX, int finalY, int finalZ, BlockType blockType, int rotation)
+  private static BlockType getOriginBlockType(BlockTypeAssetMap<String,BlockType> blockTypeAssetMap, ChunkAccessor<?> accessor, BlockAccessor section, int originX, int originY, int originZ)
+  private static void setFillerBlocks(BlockTypeAssetMap<String,BlockType> blockTypeAssetMap, IndexedLookupTableAssetMap<String,BlockBoundingBoxes> hitboxAssetMap, ChunkAccessor<?> accessor, BlockAccessor chunk, int finalX, int finalY, int finalZ, BlockType originBlockType, int rotation)
+  private static boolean isFillerValid(BlockTypeAssetMap<String,BlockType> blockTypeAssetMap, ChunkAccessor<?> accessor, BlockAccessor chunk, BlockType blockType, int filler, int x, int y, int z)
+
+Fields:
+public static final PluginManifest MANIFEST
+public static final int SET_BLOCK_SETTINGS
+public static final String DEBUG_CUBE_TEXTURE_UP
+public static final String DEBUG_CUBE_TEXTURE_DOWN
+public static final String DEBUG_CUBE_TEXTURE_NORTH
+public static final String DEBUG_CUBE_TEXTURE_SOUTH
+public static final String DEBUG_CUBE_TEXTURE_EAST
+public static final String DEBUG_CUBE_TEXTURE_WEST
+public static final String DEBUG_MODEL_MODEL
+public static final String DEBUG_MODEL_BLOCK_TEXTURE
+public static final String DEBUG_MODEL_ENTITY_TEXTURE
+private static final ThreadLocal<BlockType[]> TEMP_BLOCKS
+private static BlockTypeModule instance
+private ComponentType<ChunkStore,BlockPhysics> blockPhysicsComponentType

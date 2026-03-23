@@ -190,3 +190,67 @@ Returns `false` and sends a warning message if the player is currently in select
 
 - BuilderToolsPlugin.BuilderState -- the per-player builder state that works alongside these settings
 - BuilderToolsPacketHandler -- reads and writes these settings during packet handling
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem (and 2 more)
+
+Complete API:
+  public UUID getPlayer()
+  public String getPrototypeItemId()
+  public void setPrototypeItemId(String prototypeItemId)
+  public boolean isInSelectionTransformationMode()
+  public void setInSelectionTransformationMode(boolean inSelectionTransformationMode)
+  public void setBlockChangesForPlaySelectionToolPasteMode(BlockChange[] blockChangesForPlaySelectionToolPasteMode)
+  public String getCurrentlyLoadedBrushConfigName()
+  public void setCurrentlyLoadedBrushConfigName(String currentlyLoadedBrushConfigName)
+  public boolean isLoadingBrush()
+  public void setLoadingBrush(boolean loadingBrush)
+  public BlockChange[] getBlockChangesForPlaySelectionToolPasteMode()
+  public void setFluidChangesForPlaySelectionToolPasteMode(PrototypePlayerBuilderToolSettings.FluidChange[] fluidChanges)
+  public PrototypePlayerBuilderToolSettings.FluidChange[] getFluidChangesForPlaySelectionToolPasteMode()
+  public void setEntityChangesForPlaySelectionToolPasteMode(PrototypePlayerBuilderToolSettings.EntityChange[] entityChanges)
+  public PrototypePlayerBuilderToolSettings.EntityChange[] getEntityChangesForPlaySelectionToolPasteMode()
+  public void setBlockChangeOffsetOrigin(Vector3i blockChangeOffsetOrigin)
+  public Vector3i getBlockChangeOffsetOrigin()
+  public void setLastTransformEntityRefs(List<Ref<EntityStore>> refs)
+  public List<Ref<EntityStore>> getLastTransformEntityRefs()
+  public void clearLastTransformEntityRefs()
+  public LongOpenHashSet addIgnoredPaintOperation()
+  public void clearHistoryUntilFitMaxLength()
+  public boolean containsLocation(int x, int y, int z)
+  public LinkedList<LongOpenHashSet> getIgnoredPaintOperations()
+  public int getMaxLengthOfIgnoredPaintOperations()
+  public void setMaxLengthOfIgnoredPaintOperations(int maxLengthOfIgnoredPaintOperations)
+  public boolean usePrototypeBrushConfigurations()
+  public void setUsePrototypeBrushConfigurations(boolean usePrototypeBrushConfigurations)
+  public BrushConfig getBrushConfig()
+  public BrushConfigCommandExecutor getBrushConfigCommandExecutor()
+  public void setBrushConfig(BrushConfig brushConfig)
+  public boolean isShouldShowEditorSettings()
+  public void setShouldShowEditorSettings(boolean shouldShowEditorSettings)
+  public Vector3i getLastBrushPosition()
+  public void setLastBrushPosition(Vector3i lastBrushPosition)
+  public void clearLastBrushPosition()
+  public int getUndoGroupSize()
+  public void setUndoGroupSize(int undoGroupSize)
+  public static boolean isOkayToDoCommandsOnSelection(Ref<EntityStore> ref, Player player, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+private static final Message MESSAGE_BUILDER_TOOLS_CANNOT_PERFORM_COMMAND_IN_TRANSFORMATION_MODE
+private final UUID player
+private final LinkedList<LongOpenHashSet> ignoredPaintOperations
+private int maxLengthOfIgnoredPaintOperations
+private boolean shouldShowEditorSettings
+private boolean isLoadingBrush
+private boolean usePrototypeBrushConfigurations
+private String currentlyLoadedBrushConfigName
+private BrushConfig brushConfig
+private BrushConfigCommandExecutor brushConfigCommandExecutor
+private boolean isInSelectionTransformationMode
+private BlockChange[] blockChangesForPlaySelectionToolPasteMode
+private PrototypePlayerBuilderToolSettings.FluidChange[] fluidChangesForPlaySelectionToolPasteMode
+private PrototypePlayerBuilderToolSettings.EntityChange[] entityChangesForPlaySelectionToolPasteMode
+private String prototypeItemId
+private Vector3i lastBrushPosition
+private int undoGroupSize
+private Vector3i blockChangeOffsetOrigin
+private List<Ref<EntityStore>> lastTransformEntityRefs

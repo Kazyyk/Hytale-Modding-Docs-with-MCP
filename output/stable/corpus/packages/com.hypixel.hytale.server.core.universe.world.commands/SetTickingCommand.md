@@ -16,3 +16,11 @@ Registers the command as `setticking` with a required boolean `ticking` argument
 ## Inherited Behavior
 
 Overrides `execute(CommandContext, World, Store<EntityStore>)` from `AbstractWorldCommand`. Calls `world.setTicking(boolean)` and sends a translated status message to the command sender.
+
+Also in this package: ResetSubCommand, ResetSubCommand, SetSubCommand, SetSubCommand, WorldSettingsBox2DCommand, WorldSettingsCommand, WorldSettingsSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<Boolean> tickingArg

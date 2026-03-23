@@ -16,3 +16,5 @@ Container for ECS systems that handle entity respawn (DeathComponent removal). E
 - RespawnSystems.ReenableVoiceOnRespawn | Re-enables voice chat on respawn
 - RespawnSystems.ResetPlayerRespawnSystem | Records last spawn time
 - RespawnSystems.ResetStatsRespawnSystem | Resets all entity stat values to defaults
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)

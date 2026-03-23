@@ -21,3 +21,15 @@ Implementation of `CollectorTag`.
 - hashCode() | int | public method.
 - toString() | String | public method.
 - of(String tag) | StringTag | static public method.
+
+Also in this package: Collector, CollectorTag, ListCollector, Node, SingleCollector, TreeCollector
+
+Complete API:
+  public String getTag()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+  public static StringTag of(String tag)
+
+Fields:
+private final String tag

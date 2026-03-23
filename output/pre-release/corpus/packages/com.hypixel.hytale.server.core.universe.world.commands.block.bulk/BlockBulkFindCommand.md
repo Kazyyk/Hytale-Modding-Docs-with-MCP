@@ -21,3 +21,17 @@ public class BlockBulkFindCommand extends AbstractWorldCommand
 ## Methods
 
 - @Override protected void execute(@Nonnull CommandContext context, @Nonnull World world, @Nonnull Store<EntityStore> store)
+
+Also in this package: BlockBulkCommand, BlockBulkFindHereCommand, BlockBulkReplaceCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_BLOCK_FIND_TIME_OUT
+private static final Message MESSAGE_COMMANDS_BLOCK_FIND_DONE
+private final RequiredArg<IntCoord> chunkXArg
+private final RequiredArg<IntCoord> chunkZArg
+private final RequiredArg<String> blockTypeArg
+private final RequiredArg<Integer> countArg
+private final RequiredArg<Integer> timeoutArg

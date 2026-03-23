@@ -30,3 +30,26 @@ Implementation of `Component<EntityStore>`.
 - getLastTargetBlock() | Vector3i | public method.
 - clone() | Component<EntityStore> | public method.
 - toString() | String | public method.
+
+Also in this package: HiddenPlayersManager, HotbarManager
+
+Complete API:
+  public static ComponentType<EntityStore,CameraManager> getComponentType()
+  public void resetCamera(PlayerRef ref)
+  public void handleMouseButtonState(MouseButtonType mouseButtonType, MouseButtonState state, Vector3i targetBlock)
+  public MouseButtonState getMouseButtonState(MouseButtonType mouseButtonType)
+  public Vector3i getLastMouseButtonPressedPosition(MouseButtonType mouseButtonType)
+  public Vector3i getLastMouseButtonReleasedPosition(MouseButtonType mouseButtonType)
+  public void setLastScreenPoint(Vector2d lastScreenPoint)
+  public Vector2d getLastScreenPoint()
+  public void setLastBlockPosition(Vector3i targetBlock)
+  public Vector3i getLastTargetBlock()
+  public Component<EntityStore> clone()
+  public String toString()
+
+Fields:
+private final Map<MouseButtonType,MouseButtonState> mouseStates
+private final Map<MouseButtonType,Vector3i> mousePressedPosition
+private final Map<MouseButtonType,Vector3i> mouseReleasedPosition
+private Vector2d lastScreenPoint
+private Vector3i lastTargetBlock

@@ -34,3 +34,14 @@ Returns the human-readable description.
 - InstructionContextHelper -- uses this for context validation
 - ComponentContext -- the other context dimension
 - BuilderSupport -- tracks the current instruction context
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 28 more)
+
+Complete API:
+  public String get()
+
+Fields:
+private final String description
+public static final EnumSet<InstructionType> Any
+public static final EnumSet<InstructionType> MotionAllowedInstructions
+public static final EnumSet<InstructionType> StateChangeAllowedInstructions

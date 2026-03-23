@@ -9,3 +9,5 @@ Console command handling WorldGen operations.
 ## Methods
 
 - public WorldGenCommand()
+
+Also in this package: WorldGenBenchmarkCommand, WorldGenReloadCommand

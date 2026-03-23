@@ -40,3 +40,10 @@ public class Splitter
 
 - `Splitter.Area`
 - `Splitter.Range`
+
+Also in this package: Area, BitConverter, Calculator, CoPrimeGenerator, Combiner, InterpolatedCurve, Interpolation, IntersectionPolicy, Layer, MultipliedIteration, NodeFunction, Normalizer, Probability, Range, RegionGrid, SeedGenerator, Stepinizer
+
+Complete API:
+  public static Splitter.Range[] split(Splitter.Range range, int pieces)
+  public static Splitter.Area[] split(Splitter.Area area, int pieces)
+  public static Splitter.Area[] splitX(Splitter.Area area, int pieces)

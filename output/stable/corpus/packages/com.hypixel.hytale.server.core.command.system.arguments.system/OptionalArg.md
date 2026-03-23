@@ -9,3 +9,10 @@ public class OptionalArg<DataType> extends AbstractOptionalArg<OptionalArg<DataT
 - @Nonnull protected OptionalArg<DataType> getThis()
 - @Override @Nonnull public Message getUsageMessage()
 - @Override @Nonnull public Message getUsageOneLiner()
+
+Also in this package: AbstractOptionalArg, ArgWrapper, Argument, DefaultArg, DefaultValueArgument, FlagArg, RequiredArg, WrappedArg
+
+Complete API:
+  protected OptionalArg<DataType> getThis()
+  public Message getUsageMessage()
+  public Message getUsageOneLiner()

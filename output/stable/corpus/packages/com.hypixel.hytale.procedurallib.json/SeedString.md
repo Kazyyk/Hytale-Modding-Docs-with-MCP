@@ -41,3 +41,20 @@ public SeedString(String original, String seed, @Nonnull T t)
 
 - SeedResource -- the resource interface this wraps
 - Loader -- base loader using seed strings
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public SeedString<T> append(String suffix)
+  public SeedString<T> appendToOriginal(String suffix)
+  public SeedString<T> alternateOriginal(String suffix)
+  public T get()
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final SeedResource DEFAULT_RESOURCE
+protected final T t
+protected final String original
+protected final String seed
+protected final int hash

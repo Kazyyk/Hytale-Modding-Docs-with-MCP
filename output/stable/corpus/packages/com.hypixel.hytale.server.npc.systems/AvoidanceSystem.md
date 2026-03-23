@@ -47,3 +47,26 @@ Returns `EntityTickingSystem.maybeUseParallel(archetypeChunkSize, taskCount)`.
 - SteeringSystem -- applies final steering after avoidance
 - SteppableTickingSystem -- base class
 - RoleSystems -- behavior tick that precedes avoidance
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem, FilterDamageSystem (and 48 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public Query<EntityStore> getQuery()
+  public void steppedTick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  private static void renderDebugSteeringVector(Vector3d position, Vector3d direction, Vector3f color, World world)
+  private static void renderDebugSteeringVectorInverse(Vector3d position, Vector3d direction, Vector3f color, World world)
+
+Fields:
+public static final Vector3f DEBUG_COLOR_STEERING_POST
+public static final Vector3f DEBUG_COLOR_STEERING_PRE
+public static final Vector3f DEBUG_COLOR_AVOIDANCE
+public static final Vector3f DEBUG_COLOR_SEPARATION
+public static final double DEBUG_MIN_VECTOR_DRAW_LENGTH_SQUARED
+public static final double DEBUG_VECTORS_SCALE
+public static final float DEBUG_VECTORS_TIME
+private final ComponentType<EntityStore,NPCEntity> componentType
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final Query<EntityStore> query
+private final Set<Dependency<EntityStore>> dependencies

@@ -10,3 +10,13 @@ An ECS ref system that removes the `KnockbackSimulation` component when an entit
 
 - KnockbackPredictionSystems -- parent container class
 - KnockbackSimulation -- component removed by this system
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation (and 35 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onEntityAdded(Ref<EntityStore> ref, AddReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onEntityRemove(Ref<EntityStore> ref, RemoveReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final ComponentType<EntityStore,KnockbackSimulation> KNOCKBACK_SIMULATION_COMPONENT_TYPE

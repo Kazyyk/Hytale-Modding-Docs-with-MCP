@@ -13,3 +13,8 @@ Loads coordinate rotator configurations. Creates `CoordinateRotator` (or `Coordi
 ## Related Types
 
 - CoordinateRotatorJsonLoader.Constants -- KEY_PITCH, KEY_YAW, KEY_ORIGIN_X/Y/Z
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public CoordinateRotator load()

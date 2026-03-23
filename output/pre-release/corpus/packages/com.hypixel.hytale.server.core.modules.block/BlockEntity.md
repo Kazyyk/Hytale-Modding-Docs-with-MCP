@@ -14,3 +14,8 @@ Utility class for placing and removing block entities in the chunk store. The st
 
 - Dispatches BlockReplaceEvent
 - Works with BlockModule and `BlockComponentChunk`
+
+Also in this package: BlockEntityPreprocessor, BlockModule, BlockReplaceEvent, BlockStateInfo, BlockStateInfoNeedRebuild, BlockStateInfoRefSystem, ItemContainerStateRefSystem, MigrateItemContainer, MigrateLaunchPad, MigrationSystem
+
+Complete API:
+  public static void setBlockEntity(ComponentAccessor<ChunkStore> accessor, Ref<ChunkStore> chunkRef, BlockComponentChunk componentChunk, int x, int y, int z, BlockType blockType, int rotation, Holder<ChunkStore> holder)

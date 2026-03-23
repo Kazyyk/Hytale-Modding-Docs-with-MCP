@@ -10,3 +10,5 @@ Top-level server command collection for git-based asset and prefab management. R
 
 - UpdateAssetsCommand -- sub-command collection for git operations on game assets
 - UpdatePrefabsCommand -- sub-command collection for git operations on prefabs
+
+Also in this package: UpdateAssetsCommand, UpdateAssetsGitCommand, UpdateAssetsPullCommand, UpdateAssetsResetCommand, UpdateAssetsStatusCommand, UpdatePrefabsAllCommand, UpdatePrefabsCommand, UpdatePrefabsCommitCommand, UpdatePrefabsGitCommand, UpdatePrefabsPullCommand, UpdatePrefabsPushCommand, UpdatePrefabsStatusCommand

@@ -32,3 +32,24 @@ Class in the datastructures subsystem.
 - isImmutable() | boolean | public method.
 - forEach(@Nonnull BiConsumer<T, Double> consumer) | void | public method.
 - toString() | String | public method.
+
+Also in this package: CollectionFactory, TieredList
+
+Complete API:
+  public WeightedMap<T> add(T element, double weight)
+  public double get(T element)
+  public T pick(Random rand)
+  public int size()
+  public List<T> allElements()
+  public void makeImmutable()
+  public boolean isImmutable()
+  public void forEach(BiConsumer<T,Double> consumer)
+  public String toString()
+
+Fields:
+private final Set<T> elementSet
+private final List<T> elements
+private final List<Double> weights
+private final Map<T,Integer> indices
+private double totalWeight
+private boolean immutable

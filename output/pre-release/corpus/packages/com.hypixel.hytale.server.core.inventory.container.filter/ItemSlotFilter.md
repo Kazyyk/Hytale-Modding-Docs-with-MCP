@@ -19,3 +19,11 @@ Tests whether the given item is permitted. Returns `true` to allow, `false` to b
 - NoDuplicateFilter
 - ResourceFilter
 - TagFilter
+
+Known implementors: ArmorSlotAddFilter, NoDuplicateFilter, ResourceFilter, TagFilter
+
+Also in this package: ArmorSlotAddFilter, FilterActionType, FilterType, NoDuplicateFilter, ResourceFilter, SlotFilter, TagFilter
+
+Complete API:
+  default boolean test(FilterActionType actionType, ItemContainer container, short slot, ItemStack itemStack)
+  boolean test(Item var1)

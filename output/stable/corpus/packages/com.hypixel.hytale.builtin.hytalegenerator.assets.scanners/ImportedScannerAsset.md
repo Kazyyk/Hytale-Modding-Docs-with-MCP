@@ -12,3 +12,12 @@ public class ImportedScannerAsset extends ScannerAsset
 ## Methods
 
 - @Override public Scanner build(@Nonnull ScannerAsset.Argument argument)
+
+Also in this package: AreaScannerAsset, Argument, ColumnLinearScannerAsset, ColumnRandomScannerAsset, OriginScannerAsset, ScannerAsset
+
+Complete API:
+  public Scanner build(ScannerAsset.Argument argument)
+
+Fields:
+public static final BuilderCodec<ImportedScannerAsset> CODEC
+private String name

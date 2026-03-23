@@ -17,3 +17,19 @@ Defines the contract for IMetaStore operations.
 - default void forEachMetaObject(IMetaStore.MetaEntryConsumer consumer)
 - default void markMetaStoreDirty()
 - default boolean consumeMetaStoreDirty()
+
+Known implementors: Damage, IMetaStoreImpl
+
+Also in this package: AbstractMetaStore, ArrayMetaStore, DynamicMetaStore, IMetaRegistry, IMetaStoreImpl, MetaEntryConsumer, MetaEntryConsumer, MetaKey, MetaRegistry, MetaRegistryEntry, PersistentMetaKey
+
+Complete API:
+  IMetaStoreImpl<K> getMetaStore()
+  default T getMetaObject(MetaKey<T> key)
+  default T getIfPresentMetaObject(MetaKey<T> key)
+  default T putMetaObject(MetaKey<T> key, T obj)
+  default T removeMetaObject(MetaKey<T> key)
+  default T removeSerializedMetaObject(MetaKey<T> key)
+  default boolean hasMetaObject(MetaKey<?> key)
+  default void forEachMetaObject(IMetaStore.MetaEntryConsumer consumer)
+  default void markMetaStoreDirty()
+  default boolean consumeMetaStoreDirty()

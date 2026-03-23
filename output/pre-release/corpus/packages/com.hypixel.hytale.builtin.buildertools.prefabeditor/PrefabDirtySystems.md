@@ -26,3 +26,8 @@ Handles `PlaceBlockEvent` by marking prefabs dirty at the placed block's positio
 
 - PrefabEditSession
 - PrefabEditingMetadata
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabAnchor, PrefabEditSession, PrefabEditSessionManager, PrefabEditingMetadata, PrefabEditorCreationContext, PrefabEditorCreationSettings, PrefabLoadingState, PrefabMarkerProvider, PrefabSelectionInteraction, Tri
+
+Complete API:
+  private static void markDirtyAtPosition(Vector3i position)

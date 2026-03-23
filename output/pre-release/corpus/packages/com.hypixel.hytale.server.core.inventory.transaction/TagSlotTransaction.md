@@ -17,3 +17,16 @@ public class TagSlotTransaction extends SlotTransaction
 - public TagSlotTransaction toParent(ItemContainer parent, short start, ItemContainer container)
 - public TagSlotTransaction fromParent(ItemContainer parent, short start, @Nonnull ItemContainer container)
 - public String toString()
+
+Also in this package: ActionType, ClearTransaction, ItemStackSlotTransaction, ItemStackTransaction, ListTransaction, MaterialSlotTransaction, MaterialTransaction, MoveTransaction, MoveType, ResourceSlotTransaction, ResourceTransaction, SlotTransaction, TagTransaction, Transaction
+
+Complete API:
+  public int getQuery()
+  public int getRemainder()
+  public TagSlotTransaction toParent(ItemContainer parent, short start, ItemContainer container)
+  public TagSlotTransaction fromParent(ItemContainer parent, short start, ItemContainer container)
+  public String toString()
+
+Fields:
+private final int query
+private final int remainder

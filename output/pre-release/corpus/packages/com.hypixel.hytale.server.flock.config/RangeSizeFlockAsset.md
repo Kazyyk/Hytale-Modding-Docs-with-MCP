@@ -23,3 +23,17 @@ Concrete implementation extending `FlockAsset`.
 - pickFlockSize() | int | public method.
 - getUnknownFor(String id) | RangeSizeFlockAsset | static public method.
 - toString() | String | public method.
+
+Also in this package: FlockAsset, WeightedSizeFlockAsset
+
+Complete API:
+  public int[] getSize()
+  public int getMinFlockSize()
+  public int pickFlockSize()
+  public static RangeSizeFlockAsset getUnknownFor(String id)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<RangeSizeFlockAsset> CODEC
+private static final int[] DEFAULT_SIZE
+protected int[] size

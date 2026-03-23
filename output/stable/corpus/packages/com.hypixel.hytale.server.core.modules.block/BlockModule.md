@@ -61,3 +61,31 @@ Abstract base for block data migration systems.
 public static class MigrateLaunchPad extends MigrationSystem
 
 Deprecated migration system that moves legacy `launchPad` unknown component data into the typed `LaunchPad` component.
+
+Also in this package: BlockStateInfo, BlockStateInfoNeedRebuild, BlockStateInfoRefSystem, MigrateLaunchPad, MigrationSystem
+
+Complete API:
+  public static BlockModule get()
+  protected void setup()
+  public static Ref<ChunkStore> ensureBlockEntity(WorldChunk chunk, int x, int y, int z)
+  private static void onChunkPreLoadProcessEnsureBlockEntity(ChunkPreLoadProcessEvent event)
+  public SystemType<ChunkStore,BlockModule.MigrationSystem> getMigrationSystemType()
+  public ComponentType<ChunkStore,BlockModule.BlockStateInfo> getBlockStateInfoComponentType()
+  public ComponentType<ChunkStore,LaunchPad> getLaunchPadComponentType()
+  public ComponentType<ChunkStore,RespawnBlock> getRespawnBlockComponentType()
+  public ComponentType<ChunkStore,BlockMapMarker> getBlockMapMarkerComponentType()
+  public ResourceType<ChunkStore,BlockMapMarkersResource> getBlockMapMarkersResourceType()
+  public ResourceType<ChunkStore,BlockModule.BlockStateInfoNeedRebuild> getBlockStateInfoNeedRebuildResourceType()
+  public static Ref<ChunkStore> getBlockEntity(World world, int x, int y, int z)
+  public static T getComponent(ComponentType<ChunkStore,T> componentType, World world, int x, int y, int z)
+
+Fields:
+public static final PluginManifest MANIFEST
+private static BlockModule instance
+private SystemType<ChunkStore,BlockModule.MigrationSystem> migrationSystemType
+private ComponentType<ChunkStore,LaunchPad> launchPadComponentType
+private ComponentType<ChunkStore,RespawnBlock> respawnBlockComponentType
+private ComponentType<ChunkStore,BlockMapMarker> blockMapMarkerComponentType
+private ResourceType<ChunkStore,BlockMapMarkersResource> blockMapMarkersResourceType
+private ComponentType<ChunkStore,BlockModule.BlockStateInfo> blockStateInfoComponentType
+private ResourceType<ChunkStore,BlockModule.BlockStateInfoNeedRebuild> blockStateInfoNeedRebuildResourceType

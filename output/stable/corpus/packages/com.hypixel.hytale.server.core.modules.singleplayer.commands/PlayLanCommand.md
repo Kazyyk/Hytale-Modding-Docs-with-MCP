@@ -9,3 +9,5 @@ Server command extending `PlayCommandBase`.
 ## Constructors
 
 - PlayLanCommand(@Nonnull SingleplayerModule singleplayerModule) | Creates a new PlayLanCommand instance.
+
+Also in this package: PlayCommand, PlayCommandBase, PlayFriendCommand, PlayOnlineCommand

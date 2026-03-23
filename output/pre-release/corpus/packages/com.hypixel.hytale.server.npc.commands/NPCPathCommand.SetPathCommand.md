@@ -22,3 +22,12 @@ Registers as the default sub-command (empty name) with translation key `"server.
 - NPCPathCommand -- parent command collection
 - NPCPathCommand.PolygonPathCommand -- polygon variant
 - NPCWorldCommandBase -- base class
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, NPCEntity npc, World world, Store<EntityStore> store, Ref<EntityStore> ref)
+  private ArrayDeque<RelativeWaypointDefinition> parseInstructions(CommandContext context, String str)
+
+Fields:
+private final RequiredArg<String> instructionsArg

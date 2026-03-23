@@ -55,3 +55,45 @@ The primary ChunkGenerator implementation. Generates chunks by executing a seque
 - private static void setBoundsToWorldHeight_bufferGrid(@Nonnull Bounds3i bounds_bufferGrid)
 - private static boolean isColumnCached(@Nonnull BufferBundle.Access access, @Nonnull Vector3i position_bufferGrid, int stageIndex)
 - private static void updateTrackersForColumn(int stageIndex, @Nonnull BufferBundle.Access.View access, @Nonnull Vector3i position_bufferGrid)
+
+Also in this package: Arguments, Builder, ChunkGenerator, ChunkRequest, FallbackGenerator, GeneratorProfile
+
+Complete API:
+  public GeneratedChunk generate(ChunkRequest.Arguments arguments)
+  public PositionProvider getSpawnPositions()
+  private Map<BufferType,BufferBundle.Access> createAccesses(Bounds3i localChunkBounds_bufferGrid)
+  private Runnable createTileTask(int stageIndex, Vector3i position_bufferTileGrid, WorkerIndexer.Id workerId, Map<BufferType,BufferBundle.Access> accessMap)
+  private CompletableFuture<Void> transferBlockStates(ChunkRequest.Arguments arguments, GeneratedBlockStateChunk blockStateChunk, TimeInstrument.Probe transfer_timeProbe)
+  private CompletableFuture<Void> transferMaterials(ChunkRequest.Arguments arguments, GeneratedChunk generatedChunk, TimeInstrument.Probe transfer_timeProbe)
+  private CompletableFuture<Void> transferTints(ChunkRequest.Arguments arguments, GeneratedChunk generatedChunk, TimeInstrument.Probe transfer_timeProbe)
+  private CompletableFuture<Void> transferEnvironments(ChunkRequest.Arguments arguments, GeneratedChunk generatedChunk, TimeInstrument.Probe transfer_timeProbe)
+  private CompletableFuture<Void> transferEntities(ChunkRequest.Arguments arguments, GeneratedChunk generatedChunk, TimeInstrument.Probe transfer_timeProbe)
+  private String createBufferRequestCacheReport()
+  private String createContextDependencyReport(int indentation)
+  private static void setSupport(GeneratedChunk chunk, int x, int y, int z, int blockId, int supportValue)
+  private static void setBoundsToWorldHeight_bufferGrid(Bounds3i bounds_bufferGrid)
+  private static boolean isColumnCached(BufferBundle.Access access, Vector3i position_bufferGrid, int stageIndex)
+  private static void updateTrackersForColumn(int stageIndex, BufferBundle.Access.View access, Vector3i position_bufferGrid)
+
+Fields:
+public static final int WORLD_MIN_Y_BUFFER_GRID
+public static final int WORLD_MAX_Y_BUFFER_GRID
+public static final int WORLD_HEIGHT_BUFFER_GRID
+public static final Bounds3i CHUNK_BOUNDS_BUFFER_GRID
+public static final Bounds3i SINGLE_BUFFER_TILE_BOUNDS_BUFFER_GRID
+private BufferType materialOutput_bufferType
+private BufferType tintOutput_bufferType
+private BufferType environmentOutput_bufferType
+private BufferType entityOutput_bufferType
+private Stage[] stages
+private Bounds3i[] stagesOutputBounds_bufferGrid
+private BufferBundle bufferBundle
+private ExecutorService concurrentExecutor
+private MaterialCache materialCache
+private WorkerIndexer workerIndexer
+private PositionProvider spawnPositions
+private TimeInstrument timeInstrument
+private Set<Integer> statsCheckpoints
+private int generatedChunkCount
+private long totalCacheBufferRequests
+private long missedCacheBufferRequests

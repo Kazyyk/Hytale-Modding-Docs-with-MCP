@@ -22,3 +22,16 @@ Concrete implementation extending `TriCarta<R>`.
 - allPossibleValues() | List<R> | public method.
 - addLayer(@Nonnull TriCarta<R> layer) | LayeredCarta<R> | public method.
 - toString() | String | public method.
+
+Also in this package: Builder, ImageCarta, SingleElementCarta
+
+Complete API:
+  public R apply(int x, int y, int z, WorkerIndexer.Id id)
+  public List<R> allPossibleValues()
+  public LayeredCarta<R> addLayer(TriCarta<R> layer)
+  public String toString()
+
+Fields:
+private final List<TriCarta<R>> layers
+private final List<R> allValues
+private final R defaultValue

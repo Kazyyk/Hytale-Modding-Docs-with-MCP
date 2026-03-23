@@ -19,3 +19,18 @@ public class ResourceSlotTransaction extends SlotTransaction
 - public ResourceSlotTransaction toParent(ItemContainer parent, short start, ItemContainer container)
 - public ResourceSlotTransaction fromParent(ItemContainer parent, short start, @Nonnull ItemContainer container)
 - public String toString()
+
+Also in this package: ActionType, ClearTransaction, ItemStackSlotTransaction, ItemStackTransaction, ListTransaction, MaterialSlotTransaction, MaterialTransaction, MoveTransaction, MoveType, ResourceTransaction, SlotTransaction, TagSlotTransaction, TagTransaction, Transaction
+
+Complete API:
+  public ResourceQuantity getQuery()
+  public int getRemainder()
+  public int getConsumed()
+  public ResourceSlotTransaction toParent(ItemContainer parent, short start, ItemContainer container)
+  public ResourceSlotTransaction fromParent(ItemContainer parent, short start, ItemContainer container)
+  public String toString()
+
+Fields:
+private final ResourceQuantity query
+private final int remainder
+private final int consumed

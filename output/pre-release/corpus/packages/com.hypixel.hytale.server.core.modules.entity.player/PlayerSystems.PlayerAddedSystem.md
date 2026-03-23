@@ -9,3 +9,16 @@ An ECS ref system that performs full player initialization when a player entity 
 ## Related Types
 
 - PlayerSystems -- parent container class
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem (and 33 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public Set<Dependency<EntityStore>> getDependencies()
+  public void onEntityAdded(Ref<EntityStore> ref, AddReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onEntityRemove(Ref<EntityStore> ref, RemoveReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final Message MESSAGE_SERVER_GENERAL_KILLED_BY_UNKNOWN
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

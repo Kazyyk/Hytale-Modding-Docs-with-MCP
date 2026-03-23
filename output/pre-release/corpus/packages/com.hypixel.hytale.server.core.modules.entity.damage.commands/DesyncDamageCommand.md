@@ -9,3 +9,6 @@ Implements the `/desyncdamage` server command.
 ## Methods
 
 - executeSync(CommandContext context) | void | Instance method.
+
+Complete API:
+  protected void executeSync(CommandContext context)

@@ -18,3 +18,18 @@ public class HytaleFileHandler extends Thread
 - public void enable()
 - public void log(@Nonnull LogRecord logRecord)
 - public void shutdown()
+
+Also in this package: HytaleConsole, HytaleJdkLogger, HytaleLogFormatter, HytaleLogManager, HytaleLoggerBackend, HytaleUncaughtExceptionHandler, RawLogRecord
+
+Complete API:
+  public void run()
+  public FileHandler getFileHandler()
+  public void enable()
+  public void log(LogRecord logRecord)
+  public void shutdown()
+
+Fields:
+public static final DateTimeFormatter LOG_FILE_DATE_FORMAT
+public static final HytaleFileHandler INSTANCE
+private final BlockingQueue<LogRecord> logRecords
+private FileHandler fileHandler

@@ -39,3 +39,29 @@ A Buffer that stores 3D voxel data on an 8x8x8 grid. Uses a four-state storage s
 - private void dereference()
 - private static int index(int x, int y, int z)
 - private static int index(@Nonnull Vector3i position)
+
+Also in this package: ArrayContents, ArrayContents, Buffer, CountedArrayContents, CountedPixelBuffer, EntityBuffer, PixelBuffer, SimplePixelBuffer, State, State, State
+
+Complete API:
+  public T getVoxelContent(int x, int y, int z)
+  public T getVoxelContent(Vector3i position)
+  public Class<T> getVoxelType()
+  public void setVoxelContent(int x, int y, int z, T value)
+  public void setVoxelContent(Vector3i position, T value)
+  public void reference(VoxelBuffer<T> sourceBuffer)
+  private VoxelBuffer<T> lastReference(VoxelBuffer<T> sourceBuffer)
+  public MemInstrument.Report getMemoryUsage()
+  private void switchFromSingleValueToArray()
+  private void dereference()
+  private static int index(int x, int y, int z)
+  private static int index(Vector3i position)
+
+Fields:
+public static final int BUFFER_SIZE_BITS
+public static final Vector3i SIZE
+private static final Bounds3i bounds
+private final Class<T> voxelType
+private VoxelBuffer.State state
+private VoxelBuffer.ArrayContents<T> arrayContents
+private T singleValue
+private VoxelBuffer<T> referenceBuffer

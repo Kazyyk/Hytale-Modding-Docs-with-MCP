@@ -24,3 +24,12 @@ public class ZoneColorMappingJsonLoader extends JsonLoader<SeedStringResource, Z
 - public ZoneColorMapping load()
 - throw new IllegalArgumentException(String.format("Zone with name %s was not found for color %s!", zoneName, entry.getKey()
 - public static void collectZones(Set<String> zoneSet, @Nullable JsonElement json)
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, UniqueZoneEntryJsonLoader, ZoneBiomesJsonLoader, ZoneCustomBiomesJsonLoader, ZoneJsonLoader, ZonePatternProviderJsonLoader, ZoneRequirementJsonLoader
+
+Complete API:
+  public ZoneColorMapping load()
+  public static void collectZones(Set<String> zoneSet, JsonElement json)
+
+Fields:
+protected final Map<String,Zone> zoneLookup

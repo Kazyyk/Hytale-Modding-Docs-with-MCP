@@ -25,3 +25,8 @@ Returns a `Pair` of the entity reference and its `NPCEntity` component on succes
 - NPCFreezeCommand -- uses this utility for single-target freezing
 - NPCThawCommand -- uses this utility for single-target thawing
 - NPCMessageCommand -- uses this utility for message targeting
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCDebugCommand, NPCDescriptorsCommand, NPCDumpCommand (and 29 more)
+
+Complete API:
+  public static Pair<Ref<EntityStore>,NPCEntity> getTargetNpc(CommandContext context, EntityWrappedArg arg, Store<EntityStore> store)

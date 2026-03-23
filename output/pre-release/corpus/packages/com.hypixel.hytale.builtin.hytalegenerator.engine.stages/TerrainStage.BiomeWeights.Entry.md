@@ -10,3 +10,9 @@ A single entry in TerrainStage.BiomeWeights, pairing a biome ID with its normali
 
 - int biomeId
 - float weight
+
+Also in this package: BiomeDistanceCounter, BiomeDistanceEntries, BiomeDistanceEntry, BiomeDistanceStage, BiomeStage, BiomeWeights, ColumnData, Context, EnvironmentStage, PropStage, Stage, TerrainStage, TintStage
+
+Fields:
+int biomeId
+float weight

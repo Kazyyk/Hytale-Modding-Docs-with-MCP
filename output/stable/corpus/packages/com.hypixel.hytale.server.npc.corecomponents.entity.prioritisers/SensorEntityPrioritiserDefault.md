@@ -27,3 +27,17 @@ public class SensorEntityPrioritiserDefault implements ISensorEntityPrioritiser
 ## Inner Types
 
 - `SensorEntityPrioritiserDefault.DefaultPrioritiser`
+
+Also in this package: AttitudePrioritiser, DefaultPrioritiser, SensorEntityPrioritiserAttitude
+
+Complete API:
+  public IEntityByPriorityFilter getNPCPrioritiser()
+  public IEntityByPriorityFilter getPlayerPrioritiser()
+  public Ref<EntityStore> pickTarget(Ref<EntityStore> ref, Role role, Vector3d position, Ref<EntityStore> playerRef, Ref<EntityStore> npcRef, boolean useProjectedDistance, Store<EntityStore> store)
+  public boolean providesFilters()
+  public void buildProvidedFilters(List<IEntityFilter> filters)
+
+Fields:
+private static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE
+private final SensorEntityPrioritiserDefault.DefaultPrioritiser playerPrioritiser
+private final SensorEntityPrioritiserDefault.DefaultPrioritiser npcPrioritiser

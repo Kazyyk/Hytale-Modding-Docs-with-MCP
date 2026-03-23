@@ -21,3 +21,11 @@ Empty default implementation that inherits the interface's default method behavi
 
 - WorldConfig
 - World
+
+Known implementors: Default
+
+Also in this package: ChunkConfig, ClientEffectWorldSettings, Default, GenericBlockBulkUpdater, IWorldChunks, IWorldChunksAsync, ParticleUtil, PlaceBlockSettings, PlayerUtil, SetBlockSettings, SoundUtil, SpawnUtil, ValidationOption, World, WorldConfig, WorldMapTracker, WorldNotificationHandler, WorldProvider, ZoneDiscoveryInfo
+
+Complete API:
+  default CompletableFuture<WorldConfig> load(Path savePath, String name)
+  default CompletableFuture<Void> save(Path savePath, WorldConfig config, World world)

@@ -21,3 +21,17 @@ public class ItemModule extends JavaPlugin
 - private void flattenCategories(String parent, @Nonnull ItemCategory[] itemCategories, @Nonnull List<String> categoryIds)
 - @Nonnull public List<ItemStack> getRandomItemDrops(@Nullable String dropListId)
 - public static boolean exists(String key)
+
+Also in this package: CraftingRecipePacketGenerator, ItemPacketGenerator, ItemQualityPacketGenerator, ItemReticleConfigPacketGenerator, RecipePacketGenerator
+
+Complete API:
+  public static ItemModule get()
+  protected void setup()
+  public List<String> getFlatItemCategoryList()
+  private void flattenCategories(String parent, ItemCategory[] itemCategories, List<String> categoryIds)
+  public List<ItemStack> getRandomItemDrops(String dropListId)
+  public static boolean exists(String key)
+
+Fields:
+public static final PluginManifest MANIFEST
+private static ItemModule instance

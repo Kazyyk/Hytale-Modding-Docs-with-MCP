@@ -28,3 +28,26 @@ NPC behavior tree builder for a sensor node. Configures detection or query logic
 - isDefaultSubState() | boolean | public method.
 - getSubStateIndex() | int | public method.
 - isComponentLocal() | boolean | public method.
+
+Also in this package: BuilderActionParentState, BuilderActionState, BuilderActionToggleStateEvaluator, BuilderSensorIsBusy
+
+Complete API:
+  public SensorState build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Sensor> readConfig(JsonElement data)
+  public int getState()
+  public void setIndexes(int main, int sub)
+  public boolean isDefaultSubState()
+  public int getSubStateIndex()
+  public boolean isComponentLocal()
+
+Fields:
+protected String state
+protected String subState
+protected int stateIndex
+protected int subStateIndex
+protected boolean defaultSubState
+protected boolean ignoreMissingSetState
+protected boolean componentLocal

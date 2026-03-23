@@ -28,3 +28,11 @@ Registers as sub-command `"role"` with translation key `"server.commands.npc.rol
 - NPCRoleCommand.GetRoleCommand -- displays current role
 - NPCWorldCommandBase -- base class
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDumpCommand (and 28 more)
+
+Complete API:
+  protected void execute(CommandContext context, NPCEntity npc, World world, Store<EntityStore> store, Ref<EntityStore> ref)
+
+Fields:
+private final RequiredArg<BuilderInfo> roleArg

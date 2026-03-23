@@ -16,3 +16,16 @@ Abstract Buffer for 2D pixel data on an 8x1x8 grid (single Y-layer). Used to sto
 - @Nullable public abstract T getPixelContent(@Nonnull Vector3i var1)
 - public abstract void setPixelContent(@Nonnull Vector3i var1, @Nullable T var2)
 - @Nonnull public abstract Class<T> getPixelType()
+
+Known subclasses: CountedPixelBuffer, SimplePixelBuffer
+
+Also in this package: ArrayContents, ArrayContents, Buffer, CountedArrayContents, CountedPixelBuffer, EntityBuffer, SimplePixelBuffer, State, State, State, VoxelBuffer
+
+Complete API:
+  public abstract T getPixelContent(Vector3i var1)
+  public abstract void setPixelContent(Vector3i var1, T var2)
+  public abstract Class<T> getPixelType()
+
+Fields:
+public static final int BUFFER_SIZE_BITS
+public static final Vector3i SIZE

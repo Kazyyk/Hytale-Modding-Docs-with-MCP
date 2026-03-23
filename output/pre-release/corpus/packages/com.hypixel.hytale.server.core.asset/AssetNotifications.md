@@ -16,3 +16,17 @@ Constants for asset notification message keys, icon paths, and colors used when 
 - public static final String ASSET_ADDED_COLOR
 - public static final String ASSET_DELETED_COLOR
 - public static final String ASSET_RELOADED_COLOR
+
+Also in this package: AssetModule, AssetPackRegisterEvent, AssetPackUnregisterEvent, AssetRegistryLoader, AssetStoreMonitorHandler, Builder, HytaleAssetStore, LoadAssetEvent
+
+Fields:
+public static final String ASSET_ADDED_MESSAGE_KEY
+public static final String ASSET_DELETED_MESSAGE_KEY
+public static final String ASSET_RELOADED_MESSAGE_KEY
+public static final String ASSET_SECONDARY_GENERIC_MESSAGE_KEY
+public static final String ASSET_ADDED_ICON
+public static final String ASSET_DELETED_ICON
+public static final String ASSET_RELOADED_ICON
+public static final String ASSET_ADDED_COLOR
+public static final String ASSET_DELETED_COLOR
+public static final String ASSET_RELOADED_COLOR

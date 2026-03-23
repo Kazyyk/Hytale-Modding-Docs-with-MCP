@@ -23,3 +23,62 @@ Persistent, serializable settings for creating a prefab edit session. Stored as 
 
 - PrefabEditorCreationContext
 - PrefabEditSessionManager
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabAnchor, PrefabDirtySystems, PrefabEditSession, PrefabEditSessionManager, PrefabEditingMetadata, PrefabEditorCreationContext, PrefabLoadingState, PrefabMarkerProvider, PrefabSelectionInteraction, Tri
+
+Complete API:
+  public static AssetStore<String,PrefabEditorCreationSettings,DefaultAssetMap<String,PrefabEditorCreationSettings>> getAssetStore()
+  public static DefaultAssetMap<String,PrefabEditorCreationSettings> getAssetMap()
+  PrefabEditorCreationContext finishProcessing(Player editor, PlayerRef playerRef, boolean creatingNewPrefab)
+  private Path resolveRootPathForInput(String inputPath)
+  private String getRelativePathForInput(String inputPath)
+  public static boolean stringEndsWithPrefabPath(String input)
+  public static CompletableFuture<PrefabEditorCreationSettings> load(String name)
+  public static CompletableFuture<Void> save(String name, PrefabEditorCreationSettings settings)
+  public static CompletableFuture<Void> save(String name, PrefabEditorCreationSettings settings, AssetPack pack)
+  public Player getEditor()
+  public PlayerRef getEditorRef()
+  public List<Path> getPrefabPaths()
+  public int getBlocksBetweenEachPrefab()
+  public int getPasteLevelGoal()
+  public boolean loadChildPrefabs()
+  public boolean shouldLoadEntities()
+  public PrefabStackingAxis getStackingAxis()
+  public WorldGenType getWorldGenType()
+  public int getBlocksAboveSurface()
+  public PrefabAlignment getAlignment()
+  public String getId()
+  public PrefabRootDirectory getPrefabRootDirectory()
+  public List<String> getUnprocessedPrefabPaths()
+  public int getPasteYLevelGoal()
+  public boolean isRecursive()
+  public boolean isLoadChildren()
+  public boolean isWorldTickingEnabled()
+  public PrefabRowSplitMode getRowSplitMode()
+  public String getEnvironment()
+  public String getGrassTint()
+
+Fields:
+private static final int RECURSIVE_SEARCH_MAX_DEPTH
+public static final AssetBuilderCodec<String,PrefabEditorCreationSettings> CODEC
+private static AssetStore<String,PrefabEditorCreationSettings,DefaultAssetMap<String,PrefabEditorCreationSettings>> ASSET_STORE
+private String id
+private AssetExtraInfo.Data data
+private transient Player player
+private transient PlayerRef playerRef
+private PrefabRootDirectory prefabRootDirectory
+private final transient List<Path> prefabPaths
+private List<String> unprocessedPrefabPaths
+private int pasteYLevelGoal
+private int blocksBetweenEachPrefab
+private WorldGenType worldGenType
+private int blocksAboveSurface
+private PrefabStackingAxis stackingAxis
+private PrefabAlignment alignment
+private boolean recursive
+private boolean loadChildren
+private boolean loadEntities
+private boolean enableWorldTicking
+private PrefabRowSplitMode rowSplitMode
+private String environment
+private String grassTint

@@ -25,3 +25,13 @@ Returns the `VoiceCodec` for the given wire value. Throws `ProtocolException` if
 ## Related Types
 
 - VoiceConfig -- references this enum for codec selection
+
+Also in this package: RelayedVoiceData, VoiceConfig, VoiceData
+
+Complete API:
+  public int getValue()
+  public static VoiceCodec fromValue(int value)
+
+Fields:
+public static final VoiceCodec[] VALUES
+private final int value

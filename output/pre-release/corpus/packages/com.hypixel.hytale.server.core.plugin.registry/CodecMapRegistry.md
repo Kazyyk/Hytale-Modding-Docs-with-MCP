@@ -19,3 +19,16 @@ Plugin registry for registering codec entries into a `StringCodecMapCodec`. Each
 ## Inner Classes
 
 - Assets<T, C> | Subclass for `JsonAsset`-typed registrations using `AssetCodecMapCodec` and `BuilderCodec`.
+
+Known subclasses: Assets
+
+Also in this package: AssetRegistry, Assets, IRegistry, MapKeyMapRegistry
+
+Complete API:
+  public CodecMapRegistry<T,C> register(String id, Class<? extends T> aClass, C codec)
+  public CodecMapRegistry<T,C> register(Priority priority, String id, Class<? extends T> aClass, C codec)
+  public void shutdown()
+
+Fields:
+protected final StringCodecMapCodec<T,C> mapCodec
+protected final List<BooleanConsumer> unregister

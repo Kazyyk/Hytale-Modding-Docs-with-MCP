@@ -78,3 +78,22 @@ public class ConcurrentSizedTimeoutCache<K, V> implements Cache<K, V>
 - CleanupRunnable
 - SizedTimeoutCache
 - TimeoutCache
+
+Also in this package: Bucket, Cache, CacheEntry, CacheEntry, CacheEntry, CleanupFutureAction, CleanupRunnable, SizedTimeoutCache, TimeoutCache
+
+Complete API:
+  public void shutdown()
+  public void cleanup()
+  public V get(K key)
+  private static void noopDestroy(K key, V value)
+
+Fields:
+private static final int BUCKET_MIN_CAPACITY
+private static final float BUCKET_LOAD_FACTOR
+private final int bucketMask
+private final ConcurrentSizedTimeoutCache.Bucket<K,V>[] buckets
+private final Function<K,K> computeKey
+private final Function<K,V> computeValue
+private final BiConsumer<K,V> destroyer
+private final ScheduledFuture<?> future
+private final Cleanable cleanable

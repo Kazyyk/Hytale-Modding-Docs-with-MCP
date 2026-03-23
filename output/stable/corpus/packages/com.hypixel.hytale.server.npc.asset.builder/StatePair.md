@@ -39,3 +39,15 @@ Returns the sub-state index.
 - BuilderModifier -- creates state pairs from `_ExportStates`
 - BuilderSupport -- resolves mapped state pairs
 - StateMappingHelper -- produces the indices
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 28 more)
+
+Complete API:
+  public String getFullStateName()
+  public int getState()
+  public int getSubState()
+
+Fields:
+private final String fullStateName
+private final int state
+private final int subState

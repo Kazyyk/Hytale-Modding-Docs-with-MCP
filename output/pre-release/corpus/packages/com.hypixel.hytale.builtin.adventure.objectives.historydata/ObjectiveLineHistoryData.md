@@ -24,3 +24,18 @@ Concrete implementation extending `CommonObjectiveHistoryData`.
 - cloneForPlayers(@Nonnull Set<UUID> playerUUIDs) | Map<UUID, ObjectiveLineHistoryData> | public method.
 - completed(UUID playerUUID, @Nonnull ObjectiveLineHistoryData objectiveLineHistoryData) | void | public method.
 - toString() | String | public method.
+
+Also in this package: CommonObjectiveHistoryData, ItemObjectiveRewardHistoryData, ObjectiveHistoryData, ObjectiveRewardHistoryData
+
+Complete API:
+  public ObjectiveHistoryData[] getObjectiveHistoryDataArray()
+  public String[] getNextObjectiveLineIds()
+  public void addObjectiveHistoryData(ObjectiveHistoryData objectiveHistoryData)
+  public Map<UUID,ObjectiveLineHistoryData> cloneForPlayers(Set<UUID> playerUUIDs)
+  public void completed(UUID playerUUID, ObjectiveLineHistoryData objectiveLineHistoryData)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ObjectiveLineHistoryData> CODEC
+private ObjectiveHistoryData[] objectiveHistoryDataArray
+private String[] nextObjectiveLineIds

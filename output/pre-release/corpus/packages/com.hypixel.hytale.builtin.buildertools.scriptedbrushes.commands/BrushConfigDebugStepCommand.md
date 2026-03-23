@@ -10,3 +10,11 @@ Console command handling BrushConfigDebugStep operations.
 
 - public BrushConfigDebugStepCommand()
 - @Override protected void execute(@Nonnull CommandContext context, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world)
+
+Also in this package: BrushConfigClearCommand, BrushConfigCommand, BrushConfigExitCommand, BrushConfigListCommand, BrushConfigLoadCommand, LoadByNameCommand
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+
+Fields:
+private final DefaultArg<Integer> numStepsArg

@@ -57,3 +57,26 @@ Populates tab-completion suggestions. Default implementation provides no suggest
 
 - ArgTypes -- registry of built-in argument types
 - `AbstractCommand` -- commands use argument types for parameter definitions
+
+Known subclasses: BooleanFlagArgumentType, ListArgumentType, MultiArgumentType, ProcessedArgumentType, SingleArgumentType
+
+Also in this package: AbstractAssetArgumentType, ArgTypes, AssetArgumentType, BooleanFlagArgumentType, Coord, EntityWrappedArg, EnumArgumentType, GameModeArgumentType, IntCoord, IntegerComparisonOperator, IntegerOperation, ListArgumentType, MultiArgumentContext, MultiArgumentType, ProcessedArgumentType, RelativeChunkPosition, RelativeDirection, RelativeDoublePosition, RelativeFloat, RelativeIntPosition (and 5 more)
+
+Complete API:
+  public DataType processedGet(CommandSender sender, CommandContext context, Argument<?,DataType> argument)
+  public void suggest(CommandSender sender, String textAlreadyEntered, int numParametersTyped, SuggestionResult result)
+  public abstract DataType parse(String[] var1, ParseResult var2)
+  public Message getArgumentUsage()
+  public int getNumberOfParameters()
+  public Message getName()
+  public String[] getExamples()
+  public boolean isListArgument()
+  public boolean isGreedyString()
+  public String toString()
+
+Fields:
+public static final String[] EMPTY_EXAMPLES
+private final Message name
+private final Message argumentUsage
+protected final String[] examples
+protected int numberOfParameters

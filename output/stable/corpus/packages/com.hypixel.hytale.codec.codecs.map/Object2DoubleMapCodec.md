@@ -35,3 +35,17 @@ public class Object2DoubleMapCodec<T> implements Codec<Object2DoubleMap<T>>, Wra
 ## Related Types
 
 - MapCodec
+
+Also in this package: EnumMapCodec, Float2ObjectMapCodec, Int2ObjectMapCodec, MapCodec, MergedEnumMapCodec, Object2FloatMapCodec, Object2IntMapCodec, ObjectMapCodec, Short2ObjectMapCodec
+
+Complete API:
+  public Codec<T> getChildCodec()
+  public Object2DoubleMap<T> decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Object2DoubleMap<T> map, ExtraInfo extraInfo)
+  public Object2DoubleMap<T> decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+
+Fields:
+private final Codec<T> keyCodec
+private final Supplier<Object2DoubleMap<T>> supplier
+private final boolean unmodifiable

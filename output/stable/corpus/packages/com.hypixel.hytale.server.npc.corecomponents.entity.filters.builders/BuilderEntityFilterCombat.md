@@ -22,3 +22,22 @@ NPC entity filter builder: Check the target's combat state.
 - public String getSequence(@Nonnull BuilderSupport builderSupport)
 - public EntityFilterCombat.Mode getCombatMode(@Nonnull BuilderSupport builderSupport)
 - public double[] getTimeElapsedRange(@Nonnull BuilderSupport builderSupport)
+
+Also in this package: BuilderEntityFilterAltitude, BuilderEntityFilterAnd, BuilderEntityFilterAttitude, BuilderEntityFilterHeightDifference, BuilderEntityFilterInsideBlock, BuilderEntityFilterInventory, BuilderEntityFilterItemInHand, BuilderEntityFilterLineOfSight, BuilderEntityFilterMany, BuilderEntityFilterMovementState, BuilderEntityFilterNPCGroup, BuilderEntityFilterNot, BuilderEntityFilterOr, BuilderEntityFilterSpotsMe, BuilderEntityFilterStandingOnBlock, BuilderEntityFilterStat, BuilderEntityFilterViewSector
+
+Complete API:
+  public EntityFilterCombat build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<IEntityFilter> readConfig(JsonElement data)
+  public String getSequence(BuilderSupport builderSupport)
+  public EntityFilterCombat.Mode getCombatMode(BuilderSupport builderSupport)
+  public double[] getTimeElapsedRange(BuilderSupport builderSupport)
+
+Fields:
+public static final double MAX_ELAPSED_TIME
+public static final double[] DEFAULT_TIME_ELAPSED_RANGE
+protected final AssetHolder sequence
+protected final NumberArrayHolder elapsedTimeRange
+protected final EnumHolder<EntityFilterCombat.Mode> mode

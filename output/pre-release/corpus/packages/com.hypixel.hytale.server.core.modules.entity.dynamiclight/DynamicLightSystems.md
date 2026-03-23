@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.server.core.modules.entity.dynamicligh
 public class DynamicLightSystems
 
 ECS system.
+
+Also in this package: EntityTrackerRemove, Setup

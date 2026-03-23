@@ -55,3 +55,62 @@ Behavior state machine for NPC roles. Manages the primary state/sub-state pair, 
 - @Nullable public StateTransitionController getStateTransitionController()
 - public boolean runTransitionActions(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, double dt, @Nonnull Store<EntityStore> store)
 - public boolean isRunningTransitionActions()
+
+Also in this package: CombatSupport, DebugFlagsChangeListener, DebugSupport, EntityList, EntitySupport, EntityVisData, LineOfSightBuffer, LineOfSightEntityBuffer, MarkedEntitySupport, PathWaypointVisData, PositionCache, RangeType, RayPredicate, RoleStats, SensorVisData, WorldSupport
+
+Complete API:
+  public StateTransitionController getStateTransitionController()
+  public StateMappingHelper getStateHelper()
+  public void postRoleBuilt(BuilderSupport builderSupport)
+  public void update(ComponentAccessor<EntityStore> componentAccessor)
+  public boolean pollNeedClearOnce()
+  public boolean inState(int state)
+  public boolean inSubState(int subState)
+  public boolean inState(int state, int subState)
+  public boolean inState(String state, String subState)
+  public String getStateName()
+  public String getStateName(int state, int subState)
+  public int getStateIndex()
+  public int getSubStateIndex()
+  public void appendStateName(StringBuilder builder)
+  public void setState(int state, int subState, boolean clearOnce, boolean skipTransition)
+  public void setState(Ref<EntityStore> ref, String state, String subState, ComponentAccessor<EntityStore> componentAccessor)
+  public void setSubState(String subState)
+  public boolean isComponentInState(int componentIndex, int targetState)
+  public void setComponentState(int componentIndex, int targetState)
+  public void resetLocalStateMachines()
+  public void flockSetState(Ref<EntityStore> ref, String state, String subState, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean isInBusyState()
+  public void addContextualInteraction(Ref<EntityStore> playerRef, String context)
+  public boolean hasContextualInteraction(Ref<EntityStore> playerReference, String context)
+  public void addInteraction(Player player)
+  public boolean consumeInteraction(Ref<EntityStore> playerReference)
+  public void setInteractable(Ref<EntityStore> playerReference, boolean interactable)
+  public void setInteractable(Ref<EntityStore> entityRef, Ref<EntityStore> playerReference, boolean interactable, String hint, boolean showPrompt, Store<EntityStore> store)
+  private void sendInteractionHintToPlayer(Ref<EntityStore> entityRef, Ref<EntityStore> playerReference, String hint, Store<EntityStore> store)
+  public void setInteractionIterationTarget(Ref<EntityStore> playerReference)
+  public Ref<EntityStore> getInteractionIterationTarget()
+  public boolean willInteractWith(Ref<EntityStore> playerReference)
+  public boolean runTransitionActions(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public boolean isRunningTransitionActions()
+  public void activate()
+
+Fields:
+public static final int NO_STATE
+protected static final ComponentType<EntityStore,NPCEntity> NPC_COMPONENT_TYPE
+protected final StateMappingHelper stateHelper
+protected final int startState
+protected final int startSubState
+protected int state
+protected int subState
+protected Int2IntMap componentLocalStateMachines
+protected BitSet localStateMachineAutoResetStates
+protected final Int2ObjectMap<IntSet> busyStates
+protected final HashSet<String> missingStates
+protected boolean needClearOnce
+protected Set<Ref<EntityStore>> interactablePlayers
+protected Set<Ref<EntityStore>> interactedPlayers
+protected Map<Ref<EntityStore>,String> contextualInteractions
+protected String lastHint
+protected Ref<EntityStore> interactionIterationTarget
+protected final StateTransitionController stateTransitionController

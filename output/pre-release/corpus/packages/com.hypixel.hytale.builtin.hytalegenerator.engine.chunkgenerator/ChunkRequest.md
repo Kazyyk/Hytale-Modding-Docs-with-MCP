@@ -15,3 +15,5 @@ Pairs a ChunkRequest.GeneratorProfile with ChunkRequest.Arguments to represent a
 
 - @Nonnull ChunkRequest.GeneratorProfile generatorProfile
 - @Nonnull ChunkRequest.Arguments arguments
+
+Also in this package: Arguments, Builder, ChunkGenerator, FallbackGenerator, GeneratorProfile, StagedChunkGenerator

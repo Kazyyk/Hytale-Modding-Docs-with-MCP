@@ -19,3 +19,21 @@ Implementation of `JsonAssetWithMap<String, DefaultAssetMap<String, BlockMaskAss
 - build(@Nonnull MaterialCache materialCache) | BlockMask | public method.
 - getId() | String | public method.
 - cleanUp() | void | public method.
+
+Also in this package: BlockMaskEntryAsset, Exported
+
+Complete API:
+  public BlockMask build(MaterialCache materialCache)
+  public String getId()
+  public void cleanUp()
+
+Fields:
+private static final Map<String,BlockMaskAsset.Exported> exportedNodes
+public static final AssetBuilderCodec<String,BlockMaskAsset> CODEC
+private String id
+private AssetExtraInfo.Data data
+protected String exportName
+protected String importName
+private MaterialSetAsset dontPlaceMaterialSetAsset
+private MaterialSetAsset dontReplaceMaterialSetAsset
+private BlockMaskEntryAsset[] blockMaskEntries

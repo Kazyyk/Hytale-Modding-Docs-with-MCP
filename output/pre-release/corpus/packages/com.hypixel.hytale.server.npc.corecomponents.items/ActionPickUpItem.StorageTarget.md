@@ -12,3 +12,11 @@ public static enum StorageTarget implements Supplier<String>
 
 - private StorageTarget(String description)
 - public String get()
+
+Also in this package: ActionDropItem, ActionInventory, ActionPickUpItem, Operation, SensorDroppedItem
+
+Complete API:
+  public String get()
+
+Fields:
+private final String description

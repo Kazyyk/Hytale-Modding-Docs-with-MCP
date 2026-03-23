@@ -24,3 +24,20 @@ Extends `AbstractShortSectionPalette`.
 - @Override public ISectionPalette promote()
 - throw new UnsupportedOperationException("Short palette cannot be promoted.")
 - @Override protected boolean isValidInternalId(int internalId)
+
+Also in this package: AbstractByteSectionPalette, AbstractShortSectionPalette, ByteSectionPalette, EmptySectionPalette, HalfByteSectionPalette, ISectionPalette, KeySerializer, PaletteSetProvider, PaletteTypeEnum, SetResult
+
+Complete API:
+  public PaletteType getPaletteType()
+  protected short get0(int idx)
+  protected void set0(int idx, short s)
+  public boolean shouldDemote()
+  public ByteSectionPalette demote()
+  public ISectionPalette promote()
+  protected boolean isValidInternalId(int internalId)
+  public static ShortSectionPalette fromBytePalette(ByteSectionPalette section)
+
+Fields:
+private static final int KEY_MASK
+public static final int MAX_SIZE
+public static final int DEMOTE_SIZE

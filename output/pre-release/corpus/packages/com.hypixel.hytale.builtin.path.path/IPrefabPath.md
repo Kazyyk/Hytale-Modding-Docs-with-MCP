@@ -20,3 +20,21 @@ Interface defining: `registerNewWaypoint()`, `registerNewWaypointAt()`, `addLoad
 - getNearestWaypointPosition(@Nonnull Vector3d var1, @Nonnull ComponentAccessor<EntityStore> var2) | Vector3d | package-private method.
 - mergeInto(@Nonnull IPrefabPath var1, int var2, @Nonnull ComponentAccessor<EntityStore> var3) | void | package-private method.
 - compact(int var1) | void | package-private method.
+
+Known implementors: PatrolPath
+
+Also in this package: PatrolPath, TransientPath, TransientPathDefinition
+
+Complete API:
+  short registerNewWaypoint(IPrefabPathWaypoint var1, int var2)
+  void registerNewWaypointAt(int var1, IPrefabPathWaypoint var2, int var3)
+  void addLoadedWaypoint(IPrefabPathWaypoint var1, int var2, int var3, int var4)
+  void removeWaypoint(int var1, int var2)
+  void unloadWaypoint(int var1)
+  boolean hasLoadedWaypoints()
+  boolean isFullyLoaded()
+  int loadedWaypointCount()
+  int getWorldGenId()
+  Vector3d getNearestWaypointPosition(Vector3d var1, ComponentAccessor<EntityStore> var2)
+  void mergeInto(IPrefabPath var1, int var2, ComponentAccessor<EntityStore> var3)
+  void compact(int var1)

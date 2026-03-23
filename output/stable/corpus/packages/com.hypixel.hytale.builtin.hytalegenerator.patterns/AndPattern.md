@@ -23,3 +23,13 @@ public class AndPattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: CeilingPattern, Context, CuboidPattern, Delimiter, Facing, FieldFunctionPattern, GapPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, Pattern, PositionedPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public SpaceSize readSpace()
+
+Fields:
+private final Pattern[] patterns
+private final SpaceSize readSpaceSize

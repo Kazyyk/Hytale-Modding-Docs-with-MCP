@@ -16,3 +16,5 @@ Indicates why an entity is being removed from a Store. Passed to `RefSystem.onEn
 - AddReason -- the corresponding enum for entity addition
 - Store -- `removeEntity()` accepts a `RemoveReason`
 - CommandBuffer -- `removeEntity()` and `tryRemoveEntity()` accept a `RemoveReason`
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery (and 8 more)

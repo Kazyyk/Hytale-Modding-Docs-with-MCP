@@ -10,3 +10,5 @@ Controls how crafting input materials are removed from the player's inventory.
 
 - NORMAL | Standard material removal using `removeMaterials`.
 - ORDERED | Ordered material removal using `removeMaterialsOrdered`, preserving slot order.
+
+Also in this package: BenchBlock, BenchUpgradingJob, ChestLookupResult, CraftingJob, CraftingManager, ProcessingBenchBlock

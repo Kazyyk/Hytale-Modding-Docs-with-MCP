@@ -23,3 +23,17 @@ Provides NoiseBlockArray functionality within the util subsystem.
 - @Override public boolean equals(@Nullable Object o)
 - @Override public int hashCode()
 - @Nonnull @Override public String toString()
+
+Also in this package: ArrayUtli, BlockArray, BlockFluidEntry, ChunkThreadPoolExecutor, ChunkWorker, ChunkWorkerThreadFactory, ConstantNoiseProperty, Entry, ListPool, LogUtil, ObjectPool, ResolvedBlockArray, Resource
+
+Complete API:
+  public NoiseBlockArray.Entry[] getEntries()
+  public BlockFluidEntry getTopBlockAt(int seed, double x, double z)
+  public BlockFluidEntry getBottomBlockAt(int seed, double x, double z)
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final NoiseBlockArray EMPTY
+protected final NoiseBlockArray.Entry[] entries

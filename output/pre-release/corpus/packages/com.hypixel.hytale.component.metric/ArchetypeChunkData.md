@@ -14,3 +14,14 @@ public class ArchetypeChunkData
 
 - @Nonnull public String[] getComponentTypes()
 - public int getEntityCount()
+
+Also in this package: SystemMetricData
+
+Complete API:
+  public String[] getComponentTypes()
+  public int getEntityCount()
+
+Fields:
+public static final Codec<ArchetypeChunkData> CODEC
+private String[] componentTypes
+private int entityCount

@@ -17,3 +17,15 @@ A buffer used in the world generation pipeline for storing voxel or pixel data.
 - public void addEntity(@Nonnull EntityPlacementData entityPlacementData)
 - @Override public MemInstrument.Report getMemoryUsage()
 - public void copyFrom(@Nonnull NEntityBuffer sourceBuffer)
+
+Also in this package: ArrayContents, ArrayContents, CountedArrayContents, NBuffer, NCountedPixelBuffer, NPixelBuffer, NSimplePixelBuffer, NVoxelBuffer, State, State, State
+
+Complete API:
+  public void forEach(Consumer<EntityPlacementData> consumer)
+  public void addEntity(EntityPlacementData entityPlacementData)
+  public MemInstrument.Report getMemoryUsage()
+  public void copyFrom(NEntityBuffer sourceBuffer)
+
+Fields:
+private List<EntityPlacementData> entities
+private boolean isReference

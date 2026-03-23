@@ -60,3 +60,27 @@ public String toString()
 
 - `BlockSetModule` -- resolves block set IDs to block ID sets
 - `InteractionChain` -- represents a forked interaction chain
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction (and 11 more)
+
+Complete API:
+  public WaitForDataFrom getWaitForDataFrom()
+  protected void tick0(boolean firstRun, float time, InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected void simulateTick0(boolean firstRun, float time, InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public void compile(OperationsBuilder builder)
+  private List<Vector3i> searchBlocks(World world, Vector3d position)
+  private IntList getBlockIds()
+  public boolean needsRemoteSync()
+  protected com.hypixel.hytale.protocol.Interaction generatePacket()
+  protected void configurePacket(com.hypixel.hytale.protocol.Interaction packet)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<RunOnBlockTypesInteraction> CODEC
+private static final MetaKey<List<InteractionChain>> FORKED_CHAINS
+private static final MetaKey<Boolean> ANY_SUCCEEDED
+public static final String[] EMPTY_BLOCKSETS
+protected int range
+protected String[] blockSets
+protected int maxCount
+protected String interactions

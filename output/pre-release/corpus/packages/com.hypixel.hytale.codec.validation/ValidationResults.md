@@ -34,3 +34,25 @@ public class ValidationResults
 - `ValidationResults.Result`
 - `ValidationResults.ValidationResult`
 - `ValidationResults.ValidatorResultsHolder`
+
+Known subclasses: AssetValidationResults, CommandValidationResults, ThrowingValidationResults
+
+Also in this package: LateValidator, LegacyValidator, Result, ThrowingValidationResults, ValidatableCodec, ValidationResult, Validator, ValidatorCache, ValidatorResultsHolder, Validators
+
+Complete API:
+  public ExtraInfo getExtraInfo()
+  public void fail(String reason)
+  public void warn(String reason)
+  public void add(ValidationResults.ValidationResult result)
+  public void _processValidationResults()
+  public void logOrThrowValidatorExceptions(HytaleLogger logger)
+  public void logOrThrowValidatorExceptions(HytaleLogger logger, String msg)
+  public boolean hasFailed()
+  public List<ValidationResults.ValidationResult> getResults()
+  public void setResults(List<ValidationResults.ValidationResult> results)
+  public String toString()
+
+Fields:
+protected final ExtraInfo extraInfo
+protected List<ValidationResults.ValidatorResultsHolder> validatorExceptions
+protected List<ValidationResults.ValidationResult> results

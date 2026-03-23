@@ -21,3 +21,9 @@ Contains the ECS ticking system and cached accessor for block physics simulation
 - public Query<ChunkStore> getQuery()
 - public Set<Dependency<ChunkStore>> getDependencies()
 - public void tick(float dt, int index, @Nonnull ArchetypeChunk<ChunkStore> archetypeChunk, @Nonnull Store<ChunkStore> store, @Nonnull CommandBuffer<ChunkStore> commandBuffer)
+
+Also in this package: BlockPhysicsPlugin, BlockPhysicsUtil, CachedAccessor, PrefabBufferValidator, Result, Ticking, ValidateBlockEvent, WorldValidationUtil
+
+Fields:
+private static final HytaleLogger LOGGER
+public static final int MAX_SUPPORT_RADIUS

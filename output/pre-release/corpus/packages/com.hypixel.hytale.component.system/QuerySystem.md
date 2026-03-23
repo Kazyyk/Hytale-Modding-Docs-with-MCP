@@ -8,3 +8,11 @@ public interface QuerySystem<ECS_TYPE> extends ISystem<ECS_TYPE>
 
 - default boolean test(ComponentRegistry<ECS_TYPE> componentRegistry, Archetype<ECS_TYPE> archetype)
 - @Nullable Query<ECS_TYPE> getQuery()
+
+Known implementors: ArchetypeChunkSystem, ArchetypeDataSystem, ArchetypeTickingSystem, BlockPausedMovementSystem, EntityEventSystem, EntityHolderEventSystem, HolderSystem, RefChangeSystem, RefSystem, SpatialSystem
+
+Also in this package: ArchetypeChunkSystem, CancellableEcsEvent, Data, DelayedSystem, EcsEvent, EntityEventSystem, EntityHolderEventSystem, EventSystem, HolderSystem, ICancellableEcsEvent, ISystem, MetricSystem, RefChangeSystem, RefSystem, StoreSystem, System, WorldEventSystem
+
+Complete API:
+  default boolean test(ComponentRegistry<ECS_TYPE> componentRegistry, Archetype<ECS_TYPE> archetype)
+  Query<ECS_TYPE> getQuery()

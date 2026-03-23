@@ -17,3 +17,5 @@ public class TeleportCommand extends AbstractCommandCollection
 - TeleportHomeCommand
 - TeleportTopCommand
 - TeleportWorldCommand
+
+Also in this package: SpawnCommand, SpawnOtherCommand, SpawnSetCommand, SpawnSetDefaultCommand, TeleportAllCommand, TeleportBackCommand, TeleportForwardCommand, TeleportHistoryCommand, TeleportHomeCommand, TeleportTopCommand, TeleportWorldCommand

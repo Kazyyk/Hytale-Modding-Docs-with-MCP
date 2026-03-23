@@ -23,3 +23,25 @@ Handles sending block state change notifications, block particle effects, and bl
 ## See Also
 
 - [World
+
+Also in this package: ChunkConfig, ClientEffectWorldSettings, Default, GenericBlockBulkUpdater, IWorldChunks, IWorldChunksAsync, ParticleUtil, PlaceBlockSettings, PlayerUtil, SetBlockSettings, SoundUtil, SpawnUtil, ValidationOption, World, WorldConfig, WorldConfigProvider, WorldMapTracker, WorldProvider, ZoneDiscoveryInfo
+
+Complete API:
+  public void updateState(int x, int y, int z, BlockState state, BlockState oldState)
+  public void updateState(int x, int y, int z, BlockState state, BlockState oldState, Predicate<PlayerRef> skip)
+  public void updateChunk(long indexChunk)
+  public void sendBlockParticle(double x, double y, double z, int id, BlockParticleEvent particleType)
+  public void sendBlockParticle(PlayerRef playerRef, double x, double y, double z, int id, BlockParticleEvent particleType)
+  public void updateBlockDamage(int x, int y, int z, float health, float healthDelta)
+  public void updateBlockDamage(int x, int y, int z, float health, float healthDelta, Predicate<PlayerRef> filter)
+  public void sendPacketIfChunkLoaded(ToClientPacket packet, int x, int z)
+  public void sendPacketIfChunkLoaded(ToClientPacket packet, long indexChunk)
+  public void sendPacketIfChunkLoaded(ToClientPacket packet, int x, int z, Predicate<PlayerRef> filter)
+  public void sendPacketIfChunkLoaded(ToClientPacket packet, long indexChunk, Predicate<PlayerRef> filter)
+  private void sendPacketIfChunkLoaded(PlayerRef player, ToClientPacket packet, int x, int z)
+  private void sendPacketIfChunkLoaded(PlayerRef playerRef, ToClientPacket packet, long indexChunk)
+  public SpawnBlockParticleSystem getBlockParticlePacket(double x, double y, double z, int id, BlockParticleEvent particleType)
+  public UpdateBlockDamage getBlockDamagePacket(int x, int y, int z, float health, float healthDelta)
+
+Fields:
+private final World world

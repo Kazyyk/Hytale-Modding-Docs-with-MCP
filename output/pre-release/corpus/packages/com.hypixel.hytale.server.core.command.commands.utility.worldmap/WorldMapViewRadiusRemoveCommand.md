@@ -16,3 +16,8 @@ public class WorldMapViewRadiusRemoveCommand extends AbstractTargetPlayerCommand
         @Nonnull PlayerRef playerRef,
         @Nonnull World world,
         @Nonnull Store<EntityStore> store)` |
+
+Also in this package: QuantizeCommand, WorldMapClearMarkersCommand, WorldMapCommand, WorldMapDiscoverCommand, WorldMapReloadCommand, WorldMapUndiscoverCommand, WorldMapViewRadiusGetCommand, WorldMapViewRadiusSetCommand, WorldMapViewRadiusSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, Ref<EntityStore> sourceRef, Ref<EntityStore> ref, PlayerRef playerRef, World world, Store<EntityStore> store)

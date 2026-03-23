@@ -29,3 +29,9 @@ Builds all elements using `BuilderObjectStaticHelper.staticBuild()`.
 
 - BuilderObjectListHelper -- parent class
 - BuilderObjectStaticHelper -- per-element helper
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 28 more)
+
+Complete API:
+  protected BuilderObjectReferenceHelper<T> createReferenceHelper()
+  public List<T> staticBuild(BuilderManager manager)

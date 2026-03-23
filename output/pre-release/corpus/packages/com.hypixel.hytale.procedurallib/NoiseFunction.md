@@ -5,3 +5,7 @@ Type: interface | Package: com.hypixel.hytale.procedurallib | Extends: NoiseFunc
 public interface NoiseFunction extends NoiseFunction2d, NoiseFunction3d
 
 Utility type in the `procedurallib` subsystem.
+
+Known implementors: BranchNoise, CellNoise, ConstantNoise, DistanceNoise, GridNoise, HexMeshNoise, MeshNoise, NoiseFunctionPair, OldSimplexNoise, PerlinNoise, PointNoise, SimplexNoise, ValueNoise
+
+Also in this package: NoiseFunction2d, NoiseFunction3d, NoiseFunctionPair, NoiseType

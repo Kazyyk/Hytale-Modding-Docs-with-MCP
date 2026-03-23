@@ -22,3 +22,15 @@ public AssetEditorGamePacketHandler(IPacketHandler packetHandler)
 ## Permission
 
 Requires the `hytale.editor.asset` permission. Players without this permission receive an `AssetEditorAuthorization(false)` response or the `Messages.USAGE_DENIED` message.
+
+Also in this package: AssetEditorPacketHandler, AssetEditorPlugin, AssetPath, AssetSpecificFunctionality, AssetToDiscard, AssetTree, AssetTypeRegistry, DiscardResult, EditorClient, InitState, Messages, PlayerPreviewData, UndoRedoManager
+
+Complete API:
+  public void registerHandlers()
+  public void handle(AssetEditorInitialize packet)
+  public void handle(AssetEditorUpdateJsonAsset packet)
+  private boolean lacksPermission(Player player, boolean shouldShowDenialMessage)
+
+Fields:
+private static final HytaleLogger LOGGER
+private final IPacketHandler packetHandler

@@ -9,3 +9,8 @@ Utility for supplying values with caching or special behavior.
 ## Static Methods
 
 - cache(Supplier<T> delegate) | CachedSupplier<T> | Static utility method.
+
+Also in this package: CachedSupplier
+
+Complete API:
+  public static CachedSupplier<T> cache(Supplier<T> delegate)

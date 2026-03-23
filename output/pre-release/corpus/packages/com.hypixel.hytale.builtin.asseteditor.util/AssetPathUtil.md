@@ -21,3 +21,21 @@ public class AssetPathUtil
 - public static boolean isInvalidFileName(Path path)
 - public static String removeInvalidFileNameChars(String name)
 - @Nonnull private static String getIdFromPath(Path path)
+
+Also in this package: AssetStoreUtil, BsonTransformationUtil
+
+Complete API:
+  public static boolean isInvalidFileName(Path path)
+  public static String removeInvalidFileNameChars(String name)
+  private static String getIdFromPath(Path path)
+
+Fields:
+public static final String UNIX_FILE_SEPARATOR
+public static final String FILE_EXTENSION_JSON
+public static final String DIR_SERVER
+public static final String DIR_COMMON
+public static final Path PATH_DIR_COMMON
+public static final Path PATH_DIR_SERVER
+public static final Path EMPTY_PATH
+private static final Pattern INVALID_FILENAME_CHAR_REGEX
+private static final String[] RESERVED_NAMES

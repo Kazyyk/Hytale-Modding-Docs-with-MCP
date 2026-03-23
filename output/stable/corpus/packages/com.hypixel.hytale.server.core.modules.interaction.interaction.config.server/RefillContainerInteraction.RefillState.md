@@ -37,3 +37,17 @@ public String toString()
 ## See Also
 
 - RefillContainerInteraction
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction (and 13 more)
+
+Complete API:
+  public String[] getAllowedFluids()
+  public String getTransformFluid()
+  public double getDurability()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<RefillContainerInteraction.RefillState> CODEC
+protected String[] allowedFluids
+protected String transformFluid
+protected double durability

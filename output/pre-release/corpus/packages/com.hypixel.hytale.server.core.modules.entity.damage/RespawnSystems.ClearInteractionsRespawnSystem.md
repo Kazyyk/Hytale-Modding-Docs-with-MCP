@@ -11,3 +11,9 @@ Clears the entity's `InteractionManager` on respawn, cancelling any active inter
 - RespawnSystems -- parent class
 - DeathSystems.ClearInteractions -- similar system on death
 - RespawnSystems.OnRespawnSystem -- base class
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool, DamageCalculatorSystems (and 52 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onComponentRemoved(Ref<EntityStore> ref, DeathComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)

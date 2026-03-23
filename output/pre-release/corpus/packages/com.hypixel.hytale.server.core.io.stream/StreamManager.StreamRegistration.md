@@ -9,3 +9,5 @@ Record pairing a `StreamHandlerFactory` with a `QuicStreamPriority`. Fields: `fa
 ## Relationships
 
 - Inner type of StreamManager
+
+Also in this package: PendingStreamHandler, StreamHandlerFactory, StreamManager

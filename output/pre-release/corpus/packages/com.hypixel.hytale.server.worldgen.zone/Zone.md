@@ -23,3 +23,9 @@ public record Zone( int id, @Nonnull String name, @Nonnull ZoneDiscoveryConfig d
 - `Zone.Unique`
 - `Zone.UniqueCandidate`
 - `Zone.UniqueEntry`
+
+Also in this package: Unique, UniqueCandidate, UniqueEntry, ZoneColorMapping, ZoneDiscoveryConfig, ZoneGeneratorResult, ZonePatternGenerator, ZonePatternGeneratorCache, ZonePatternProvider
+
+Complete API:
+  public int hashCode()
+  public String toString()

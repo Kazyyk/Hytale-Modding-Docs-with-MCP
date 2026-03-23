@@ -196,3 +196,63 @@ Returns a shallow clone with copied requested velocity.
 ## Related Types
 
 - KnockbackPredictionSystems -- systems that operate on this component
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public static ComponentType<EntityStore,KnockbackSimulation> getComponentType()
+  public float getTickBuffer()
+  public void setTickBuffer(float tickBuffer)
+  public Vector3d getRequestedVelocity()
+  public void addRequestedVelocity(Vector3d velocity)
+  public void setRequestedVelocity(Vector3d velocity)
+  public ChangeVelocityType getRequestedVelocityChangeType()
+  public void setRequestedVelocityChangeType(ChangeVelocityType requestedVelocityChangeType)
+  public Vector3d getClientLastPosition()
+  public Vector3d getClientPosition()
+  public Vector3d getRelativeMovement()
+  public Vector3d getSimPosition()
+  public Vector3d getSimVelocity()
+  public float getRemainingTime()
+  public void setRemainingTime(float remainingTime)
+  public void reset()
+  public boolean consumeWasJumping()
+  public void setWasJumping(boolean wasJumping)
+  public boolean hadWishMovement()
+  public void setHadWishMovement(boolean hadWishMovement)
+  public boolean isClientFinished()
+  public void setClientFinished(boolean clientFinished)
+  public int getJumpCombo()
+  public void setJumpCombo(int jumpCombo)
+  public boolean wasOnGround()
+  public void setWasOnGround(boolean wasOnGround)
+  public MovementStates getClientMovementStates()
+  public void setClientMovementStates(MovementStates clientMovementStates)
+  public Vector3d getMovementOffset()
+  public CollisionResult getCollisionResult()
+  public Vector3d getCheckPosition()
+  public Vector3d getTempPosition()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final float KNOCKBACK_SIMULATION_TIME
+public static final float BLEND_DELAY
+private final Vector3d requestedVelocity
+private final Vector3d clientLastPosition
+private final Vector3d clientPosition
+private final Vector3d relativeMovement
+private final Vector3d simPosition
+private final Vector3d simVelocity
+private ChangeVelocityType requestedVelocityChangeType
+private MovementStates clientMovementStates
+private float remainingTime
+private boolean hadWishMovement
+private boolean clientFinished
+private boolean wasJumping
+private int jumpCombo
+private boolean wasOnGround
+private float tickBuffer
+private final Vector3d movementOffset
+private final CollisionResult collisionResult
+private final Vector3d checkPosition
+private final Vector3d tempPosition

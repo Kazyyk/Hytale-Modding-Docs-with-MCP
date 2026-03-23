@@ -32,3 +32,13 @@ Registers as sub-command `"freeze"` with translation key `"server.commands.npc.f
 - NPCStepCommand -- steps frozen NPCs one tick at a time
 - NPCCommandUtils -- used for single-target resolution
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private final FlagArg allArg
+private final FlagArg toggleArg
+private final EntityWrappedArg entityArg

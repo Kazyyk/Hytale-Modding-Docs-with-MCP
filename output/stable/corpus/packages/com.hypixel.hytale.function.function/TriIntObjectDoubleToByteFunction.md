@@ -10,3 +10,8 @@ Functional interface defining `apply` that returns `byte`.
 ## Abstract Methods
 
 - apply | byte | int var1, int var2, int var3, T var4, double var5
+
+Also in this package: BiDoubleToDoubleFunction, BiIntToDoubleFunction, BiLongToDoubleFunction, BiToFloatFunction, QuadBoolFunction, ToFloatFunction, TriBoolFunction, TriFunction, TriToIntFunction
+
+Complete API:
+  byte apply(int var1, int var2, int var3, T var4, double var5)

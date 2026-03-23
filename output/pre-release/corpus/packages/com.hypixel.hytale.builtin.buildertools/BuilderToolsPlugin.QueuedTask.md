@@ -34,3 +34,11 @@ This class has `private` visibility and is only accessible within BuilderToolsPl
 
 - BuilderToolsPlugin.BuilderState -- creates and dequeues these tasks
 - BuilderToolsPlugin -- enclosing class
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem (and 2 more)
+
+Complete API:
+  void execute(Ref<EntityStore> ref, BuilderToolsPlugin.BuilderState state, ComponentAccessor<EntityStore> defaultComponentAccessor)
+
+Fields:
+private final ThrowableTriConsumer<Ref<EntityStore>,BuilderToolsPlugin.BuilderState,ComponentAccessor<EntityStore>,? extends Throwable> task

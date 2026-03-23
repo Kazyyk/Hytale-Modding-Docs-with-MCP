@@ -24,3 +24,16 @@ public class OffsetPattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: AndPattern, CeilingPattern, Context, CuboidPattern, Delimiter, Facing, FieldFunctionPattern, GapPattern, MaterialPattern, MaterialSetPattern, NotPattern, OrPattern, Pattern, PositionedPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public SpaceSize readSpace()
+
+Fields:
+private final Pattern pattern
+private final Vector3i offset
+private final SpaceSize readSpaceSize
+private final Vector3i rChildPosition
+private final Pattern.Context rChildContext

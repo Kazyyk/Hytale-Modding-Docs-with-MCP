@@ -26,3 +26,15 @@ public class UseBlockObjectiveTaskAsset extends CountObjectiveTaskAsset
 - BlockTagOrItemIdField
 - CountObjectiveTaskAsset
 - ObjectiveTaskAsset
+
+Also in this package: BlockTagOrItemIdField, ChestConfig, CountObjectiveTaskAsset, CraftObjectiveTaskAsset, DialogOptions, GatherObjectiveTaskAsset, ObjectiveTaskAsset, ReachLocationTaskAsset, TaskScope, TaskSet, TreasureMapObjectiveTaskAsset, UseEntityObjectiveTaskAsset
+
+Complete API:
+  public ObjectiveTaskAsset.TaskScope getTaskScope()
+  public BlockTagOrItemIdField getBlockTagOrItemIdField()
+  protected boolean matchesAsset0(ObjectiveTaskAsset task)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<UseBlockObjectiveTaskAsset> CODEC
+protected BlockTagOrItemIdField blockTagOrItemIdField

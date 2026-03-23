@@ -12,3 +12,20 @@ Queries entities with `Player`, `TransformComponent`, and `HeadRotation`.
 
 - PlayerSavingSystems -- parent container class
 - PlayerSavingSystems.SaveDataResource -- timer resource
+
+Known subclasses: ArchetypeTickingSystem, BehaviourTickSystem, ChunkUnloadingSystem, DelayedSystem, LocalSpawnControllerSystem, NewSpawnStartTickingSystem, RemovalSystem, RoleChangeSystem, SpatialSystem, Ticking, Ticking, Ticking, TimeSystem, UpdateWorldSlumberSystem, WorldSpawningSystem
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public void tick(float dt, int systemIndex, Store<EntityStore> store)
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ResourceType<EntityStore,PlayerSavingSystems.SaveDataResource> dataResourceType
+private final ComponentType<EntityStore,Player> playerComponentType
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final ComponentType<EntityStore,HeadRotation> headRotationComponentType
+private final Query<EntityStore> query

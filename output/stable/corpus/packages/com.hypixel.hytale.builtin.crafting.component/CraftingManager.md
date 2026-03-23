@@ -52,3 +52,51 @@ Delegates to `CraftingPlugin.get().getCraftingManagerComponentType()`.
 - `CraftingPlugin` -- registers this component type
 - `CraftingRecipe` -- recipe asset driving crafting operations
 - `BenchState` -- block state for crafting benches
+
+Also in this package: BenchUpgradingJob, ChestLookupResult, CraftingJob, InputRemovalType
+
+Complete API:
+  public static ComponentType<EntityStore,CraftingManager> getComponentType()
+  public boolean hasBenchSet()
+  public void setBench(int x, int y, int z, BlockType blockType)
+  public boolean clearBench(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean craftItem(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, CraftingRecipe recipe, int quantity, ItemContainer itemContainer)
+  private static String getRecipeOutputTranslationKey(CraftingRecipe recipe)
+  public boolean queueCraft(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, CraftingWindow window, int transactionId, CraftingRecipe recipe, int quantity, ItemContainer inputItemContainer, CraftingManager.InputRemovalType inputRemovalType)
+  public void tick(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, float dt)
+  public boolean cancelAllCrafting(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  private boolean isValidBenchForRecipe(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, CraftingRecipe recipe)
+  private static void giveOutput(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, CraftingManager.CraftingJob job, int currentItemId)
+  private static void giveOutput(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, CraftingRecipe craftingRecipe, int quantity)
+  private static boolean removeInputFromInventory(CraftingManager.CraftingJob job, int currentItemId)
+  private static boolean removeInputFromInventory(ItemContainer itemContainer, CraftingRecipe craftingRecipe, int quantity)
+  private static void refundInputToInventory(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, CraftingManager.CraftingJob job, int currentItemId)
+  public static List<ItemStack> getOutputItemStacks(CraftingRecipe recipe)
+  public static List<ItemStack> getOutputItemStacks(CraftingRecipe recipe, int quantity)
+  public static ItemStack getOutputItemStack(MaterialQuantity outputMaterial, String id)
+  public static ItemStack getOutputItemStack(MaterialQuantity outputMaterial, int quantity)
+  public static List<MaterialQuantity> getInputMaterials(CraftingRecipe recipe)
+  private static List<MaterialQuantity> getInputMaterials(MaterialQuantity[] input)
+  public static List<MaterialQuantity> getInputMaterials(CraftingRecipe recipe, int quantity)
+  private static List<MaterialQuantity> getInputMaterials(MaterialQuantity[] input, int quantity)
+  public static boolean matches(MaterialQuantity craftingMaterial, ItemStack itemStack)
+  public static JsonArray generateInventoryHints(List<CraftingRecipe> recipes, int inputSlotIndex, ItemContainer container)
+  public static boolean matchesAnyRecipe(List<CraftingRecipe> recipes, int inputSlotIndex, ItemStack slotItemStack)
+  public boolean startTierUpgrade(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor, BenchWindow window)
+  private int finishTierUpgrade(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  private BenchTierLevel getBenchTierLevelData(int level)
+  private BenchUpgradeRequirement getBenchUpgradeRequirement(int tierLevel)
+  private int getBenchTierLevel(ComponentAccessor<EntityStore> componentAccessor)
+  public static int feedExtraResourcesSection(BenchState benchState, MaterialExtraResourcesSection extraResourcesSection)
+  protected static CraftingManager.ChestLookupResult getContainersAroundBench(BenchState benchState)
+  public String toString()
+  public Component<EntityStore> clone()
+
+Fields:
+private static final HytaleLogger LOGGER
+private final BlockingQueue<CraftingManager.CraftingJob> queuedCraftingJobs
+private CraftingManager.BenchUpgradingJob upgradingJob
+private int x
+private int y
+private int z
+private BlockType blockType

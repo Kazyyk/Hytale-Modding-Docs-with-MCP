@@ -18,3 +18,20 @@ Data class carrying event data from the prefab spawner settings UI page. Contain
 ## See Also
 
 - PrefabSpawnerBlock
+
+Also in this package: MigratePrefabSpawn, PrefabSpawnerBlock, PrefabSpawnerModule, PrefabSpawnerSettingsPage
+
+Fields:
+public static final String KEY_PREFAB_PATH
+public static final String KEY_FIT_HEIGHTMAP
+public static final String KEY_INHERIT_SEED
+public static final String KEY_INHERIT_HEIGHT_CONDITION
+public static final String KEY_DEFAULT_WEIGHT
+public static final String KEY_PREFAB_WEIGHTS
+public static final BuilderCodec<PrefabSpawnerBlock.PrefabSpawnerSettingsPageEventData> CODEC
+private String prefabPath
+private boolean fitHeightmap
+private boolean inheritSeed
+private boolean inheritHeightCondition
+private double defaultWeight
+private String prefabWeights

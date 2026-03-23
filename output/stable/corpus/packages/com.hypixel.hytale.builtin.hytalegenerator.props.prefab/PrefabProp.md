@@ -47,3 +47,36 @@ Extends `Prop` to provide PrefabProp functionality.
 | `@Override public` | `ContextDependency` | `getContextDependency()` |
 | `@Override public` | `Bounds3i` | `getReadBounds_voxelGrid()` |
 | `@Nonnull @Override public` | `Bounds3i` | `getWriteBounds_voxelGrid()` |
+
+Also in this package: MoldingDirection, PrefabMoldingConfiguration, PropPrefabUtil
+
+Complete API:
+  private Vector3i getWriteRange(PrefabBuffer.PrefabBufferAccessor prefabAccess)
+  public ScanResult scan(Vector3i position, VoxelSpace<Material> materialSpace, WorkerIndexer.Id id)
+  public void place(Prop.Context context)
+  private PrefabBuffer pickPrefab(Random rand)
+  private void place(RotatedPosition position, VoxelSpace<Material> materialSpace, EntityContainer entityBuffer, WorkerIndexer.Id id)
+  public ContextDependency getContextDependency()
+  public Bounds3i getReadBounds_voxelGrid()
+  public Bounds3i getWriteBounds_voxelGrid()
+
+Fields:
+private final WeightedMap<List<PrefabBuffer>> prefabPool
+private final Scanner scanner
+private ContextDependency contextDependency
+private final MaterialCache materialCache
+private final SeedGenerator seedGenerator
+private final BlockMask materialMask
+private final Directionality directionality
+private final Bounds3i readBounds_voxelGrid
+private final Bounds3i writeBounds_voxelGrid
+private final Bounds3i prefabBounds_voxelGrid
+private final List<PrefabProp> childProps
+private final List<RotatedPosition> childPositions
+private final Function<String,List<PrefabBuffer>> childPrefabLoader
+private final Scanner moldingScanner
+private final Pattern moldingPattern
+private final MoldingDirection moldingDirection
+private final boolean moldChildren
+private final int prefabId
+private boolean loadEntities

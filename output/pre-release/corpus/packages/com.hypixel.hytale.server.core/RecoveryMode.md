@@ -14,3 +14,5 @@ Inner enum of `Options` that controls how broken chunks are handled during world
 ## Related Types
 
 - `Options` -- parent class defining all CLI options
+
+Also in this package: AuthMode, AuthModeConverter, Constants, Defaults, HytaleServer, HytaleServerConfig, LevelValueConverter, MaybeBoolCodec, Message, Module, NameMatching, Options, ParamValueCodec, PathConverter, PathType, ShutdownReason, SocketAddressValueConverter, StringToPathMapConverter, TimeoutProfile, UUIDConverter

@@ -11,3 +11,16 @@ Interface for world-gen modifier content. Implementations provide JSON data to b
 
 @Nonnull
     JsonElement get()
+
+Known implementors: FileRef
+
+Also in this package: FileRef
+
+Complete API:
+  JsonElement get()
+
+Fields:
+String TYPE_KEY
+Content[] EMPTY_ARRAY
+CodecMapCodec<Content> TYPE_CODEC
+ArrayCodec<Content> ARRAY_CODEC

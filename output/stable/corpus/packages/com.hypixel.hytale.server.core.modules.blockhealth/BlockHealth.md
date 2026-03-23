@@ -25,3 +25,22 @@ The `NO_DAMAGE_INSTANCE` sentinel is immutable and represents a block at full he
 - public void deserialize(@Nonnull ByteBuf buf, byte version)
 - public void serialize(@Nonnull ByteBuf buf)
 - @Nonnull protected BlockHealth clone()
+
+Also in this package: BlockHealthChunk, BlockHealthModule, BlockHealthPacketSystem, BlockHealthSystem, EnsureBlockHealthSystem, FragileBlock, PlaceBlockEventSystem
+
+Complete API:
+  public float getHealth()
+  public void setHealth(float health)
+  public Instant getLastDamageGameTime()
+  public void setLastDamageGameTime(Instant lastDamageGameTime)
+  public boolean isDestroyed()
+  public boolean isFullHealth()
+  public void deserialize(ByteBuf buf, byte version)
+  public void serialize(ByteBuf buf)
+  protected BlockHealth clone()
+  public String toString()
+
+Fields:
+public static final BlockHealth NO_DAMAGE_INSTANCE
+private float health
+private Instant lastDamageGameTime

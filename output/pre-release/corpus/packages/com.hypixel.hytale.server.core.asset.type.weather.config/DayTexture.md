@@ -16,3 +16,15 @@ public class DayTexture
 - public int getDay()
 - public String getTexture()
 - public String toString()
+
+Also in this package: Cloud, FogOptions, TimeColor, TimeColorAlpha, TimeFloat, Weather
+
+Complete API:
+  public int getDay()
+  public String getTexture()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<DayTexture> CODEC
+protected int day
+protected String texture

@@ -32,3 +32,18 @@ public class SensorEntityPrioritiserAttitude implements ISensorEntityPrioritiser
 ## Inner Types
 
 - `SensorEntityPrioritiserAttitude.AttitudePrioritiser`
+
+Also in this package: AttitudePrioritiser, DefaultPrioritiser, SensorEntityPrioritiserDefault
+
+Complete API:
+  public void registerWithSupport(Role role)
+  public IEntityByPriorityFilter getNPCPrioritiser()
+  public IEntityByPriorityFilter getPlayerPrioritiser()
+  public Ref<EntityStore> pickTarget(Ref<EntityStore> ref, Role role, Vector3d position, Ref<EntityStore> playerRef, Ref<EntityStore> npcRef, boolean useProjectedDistance, Store<EntityStore> store)
+  public boolean providesFilters()
+  public void buildProvidedFilters(List<IEntityFilter> filters)
+  protected int getPriority(Ref<EntityStore> ref, WorldSupport support, Ref<EntityStore> targetRef, Store<EntityStore> store)
+
+Fields:
+private static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE
+private final Attitude[] attitudeByPriority

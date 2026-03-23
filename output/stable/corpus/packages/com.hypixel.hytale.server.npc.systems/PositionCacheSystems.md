@@ -65,3 +65,8 @@ Re-initializes the position cache when an NPC's `FlockMembership` component is a
 - NPCSpatialSystem -- NPC spatial index used by UpdateSystem
 - RoleSystems -- behavior tick that consumes position cache data
 - AvoidanceSystem -- uses position cache for avoidance/separation
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 48 more)
+
+Complete API:
+  public static void initialisePositionCache(Role role, StateEvaluator stateEvaluator, double flockInfluenceRange)

@@ -9,3 +9,15 @@ public class VoxelCoordinate
 - @Override public boolean equals(Object other)
 - @Nonnull public VoxelCoordinate clone()
 - @Override @Nonnull public String toString()
+
+Also in this package: BatchTransfer, BooleanVoxelSpace, NullSpace, VoxelConsumer, VoxelSpace, VoxelSpaceUtil, WindowVoxelSpace
+
+Complete API:
+  public boolean equals(Object other)
+  public VoxelCoordinate clone()
+  public String toString()
+
+Fields:
+int x
+int y
+int z

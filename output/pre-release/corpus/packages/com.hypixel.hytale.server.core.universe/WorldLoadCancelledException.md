@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.server.core.universe | Extends: Runtim
 public class WorldLoadCancelledException extends RuntimeException
 
 Thrown when a world load operation is cancelled before completion.
+
+Also in this package: PlayerRef, Universe

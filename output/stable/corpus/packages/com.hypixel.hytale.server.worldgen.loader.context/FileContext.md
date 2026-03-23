@@ -29,3 +29,19 @@ public class FileContext<T>
 
 - `FileContext.Constants`
 - `FileContext.Registry`
+
+Known subclasses: BiomeFileContext, FileLoadingContext, ZoneFileContext
+
+Also in this package: BiomeFileContext, Constants, Constants, Constants, Constants, FileContextLoader, FileLoadingContext, Registry, Type, ZoneFileContext
+
+Complete API:
+  public int getId()
+  public String getName()
+  public Path getPath()
+  public T getParentContext()
+
+Fields:
+private final int id
+private final String name
+private final Path filepath
+private final T parentContext

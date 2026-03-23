@@ -13,3 +13,10 @@ Utility type in the `migrations` subsystem.
 ## Methods
 
 - migrate(SpawnMarkerEntity entity) | boolean | Instance method.
+
+Complete API:
+  protected boolean migrate(SpawnMarkerEntity entity)
+
+Fields:
+public static HytaleLogger LOGGER
+private Map<String,SpawnMarker> idMigrations

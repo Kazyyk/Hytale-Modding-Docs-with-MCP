@@ -10,3 +10,9 @@ Provides ArrayUtli functionality within the util subsystem.
 
 - public static void shuffleArray(@Nonnull int[] ar, @Nonnull Random rnd)
 - public static <T> void shuffleArray(@Nonnull T[] ar, @Nonnull Random rnd)
+
+Also in this package: BlockArray, BlockFluidEntry, ChunkThreadPoolExecutor, ChunkWorker, ChunkWorkerThreadFactory, ConstantNoiseProperty, Entry, LogUtil, NoiseBlockArray, ObjectPool, ResolvedBlockArray
+
+Complete API:
+  public static void shuffleArray(int[] ar, Random rnd)
+  public static void shuffleArray(T[] ar, Random rnd)

@@ -18,3 +18,16 @@ An `EntityStore` component.
 - public void setColorLight(ColorLight colorLight)
 - public boolean consumeNetworkOutdated()
 - @Override public Component<EntityStore> clone()
+
+Also in this package: ActiveAnimationComponent, AudioComponent, BoundingBox, CachedStatsComponent, CollisionResultComponent, DisplayNameComponent, EntityScaleComponent, FromPrefab, FromWorldGen, HeadRotation, HiddenFromAdventurePlayers, Intangible, Interactable, Invulnerable, ModelComponent, MovementAudioComponent, NPCMarkerComponent, NewSpawnComponent, PersistentDynamicLight, PersistentModel (and 8 more)
+
+Complete API:
+  public static ComponentType<EntityStore,DynamicLight> getComponentType()
+  public ColorLight getColorLight()
+  public void setColorLight(ColorLight colorLight)
+  public boolean consumeNetworkOutdated()
+  public Component<EntityStore> clone()
+
+Fields:
+private ColorLight colorLight
+private boolean isNetworkOutdated

@@ -19,3 +19,15 @@ public class RemoveWorldEvent extends WorldEvent implements ICancellable
 ## Inner Types
 
 - `RemoveWorldEvent.RemovalReason`
+
+Also in this package: AddWorldEvent, AllWorldsLoadedEvent, ChunkEvent, ChunkPreLoadProcessEvent, RemovalReason, StartWorldEvent, WorldEvent
+
+Complete API:
+  public RemoveWorldEvent.RemovalReason getRemovalReason()
+  public boolean isCancelled()
+  public void setCancelled(boolean cancelled)
+  public String toString()
+
+Fields:
+private boolean cancelled
+private final RemoveWorldEvent.RemovalReason removalReason

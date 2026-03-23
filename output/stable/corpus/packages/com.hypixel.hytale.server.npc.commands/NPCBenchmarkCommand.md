@@ -33,3 +33,18 @@ Registers as sub-command `"benchmark"` with translation key `"server.commands.np
 
 - NPCCommand -- parent command collection
 - NPCSensorStatsCommand -- displays sensor detection range statistics
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDumpCommand, NPCFreezeCommand (and 28 more)
+
+Complete API:
+  protected void executeSync(CommandContext context)
+  private static void logRoleDistribution(TimeDistributionRecorder rec, StringBuilder sb, Formatter formatter, String name)
+  private static void logSensorSupportUpdateTime(SensorSupportBenchmark bm, StringBuilder sb, Formatter formatter, String name)
+  private static void logSensorSupportLoS(SensorSupportBenchmark bm, StringBuilder sb, Formatter formatter, String name)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_NPC_BENCHMARK_START_FAILED
+private static final Message MESSAGE_COMMANDS_NPC_BENCHMARK_DONE
+private final FlagArg roleArg
+private final FlagArg sensorSupportArg
+private final OptionalArg<Double> secondsArg

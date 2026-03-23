@@ -25,3 +25,5 @@ public class PairCodec
 
 - `PairCodec.IntegerPair`
 - `PairCodec.IntegerStringPair`
+
+Also in this package: BoolDoublePairCodec, IntegerPair, IntegerStringPair, LayerEntryCodec, ProtocolCodecs, ShapeCodecs, WeightedMapCodec

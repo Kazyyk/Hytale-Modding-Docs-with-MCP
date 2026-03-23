@@ -18,3 +18,15 @@ Abstract base for related commands.
 ## Methods
 
 - executeSync(@Nonnull CommandContext context) | void | protected method.
+
+Known subclasses: PlayFriendCommand, PlayLanCommand, PlayOnlineCommand
+
+Also in this package: PlayCommand, PlayFriendCommand, PlayLanCommand, PlayOnlineCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final SingleplayerModule singleplayerModule
+private final Access commandAccess
+private final OptionalArg<Boolean> enabledArg

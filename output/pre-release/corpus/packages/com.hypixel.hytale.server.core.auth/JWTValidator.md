@@ -49,3 +49,41 @@ Clears the cached JWKS key set, forcing a fresh fetch on the next validation.
 - JWTClaims -- parsed access token claims
 - IdentityTokenClaims -- parsed identity token claims
 - SessionTokenClaims -- parsed session token claims
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthConfigGenerated, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, HttpResponseException, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JwkKey, JwksResponse, LauncherDataResponse (and 9 more)
+
+Complete API:
+  private static String validateJwtStructure(String token, String tokenType)
+  public JWTValidator.JWTClaims validateToken(String accessToken, X509Certificate clientCert)
+  private boolean verifySignature(SignedJWT signedJWT, JWKSet jwkSet)
+  private JWKSet getJwkSet()
+  private JWKSet getJwkSet(boolean forceRefresh)
+  private JWKSet fetchJwksFromService()
+  private boolean verifySignatureWithRetry(SignedJWT signedJWT)
+  private boolean canForceRefreshJwks()
+  private JWK convertToJWK(SessionServiceClient.JwkKey key)
+  private void preSeedJwksCache()
+  private JWKSet loadEmbeddedJwks()
+  private JWKSet loadJwksCacheFromDisk()
+  private void saveJwksCacheToDisk(JWKSet jwkSet)
+  public JWTValidator.IdentityTokenClaims validateOfflineToken(String offlineToken)
+  public void invalidateJwksCache()
+  public JWTValidator.IdentityTokenClaims validateIdentityToken(String identityToken)
+  public JWTValidator.SessionTokenClaims validateSessionToken(String sessionToken)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final long CLOCK_SKEW_SECONDS
+private static final JWSAlgorithm SUPPORTED_ALGORITHM
+private static final int MIN_SIGNATURE_LENGTH
+private static final int MAX_SIGNATURE_LENGTH
+private static final Duration JWKS_REFRESH_MIN_INTERVAL
+private static final String JWKS_BUNDLED_RESOURCE
+private static final String JWKS_CACHE_FILE
+private final SessionServiceClient sessionServiceClient
+private final String expectedIssuer
+private final String expectedAudience
+private volatile JWKSet cachedJwkSet
+private final ReentrantLock jwksFetchLock
+private volatile CompletableFuture<JWKSet> pendingFetch
+private volatile Instant lastJwksRefresh

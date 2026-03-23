@@ -18,3 +18,16 @@ public class TreasureChestState extends ItemContainerState implements BreakValid
 - @Override public void onOpen(Ref<EntityStore> ref, World world, Store<EntityStore> store)
 - public void setOpened(boolean opened)
 - public void setObjectiveData(UUID objectiveUUID, UUID chestUUID, List<ItemStack> itemStacks)
+
+Complete API:
+  public boolean canOpen(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean canDestroy(Ref<EntityStore> playerRef, ComponentAccessor<EntityStore> componentAccessor)
+  public void onOpen(Ref<EntityStore> ref, World world, Store<EntityStore> store)
+  public void setOpened(boolean opened)
+  public void setObjectiveData(UUID objectiveUUID, UUID chestUUID, List<ItemStack> itemStacks)
+
+Fields:
+public static final BuilderCodec<TreasureChestState> CODEC
+protected UUID objectiveUUID
+protected UUID chestUUID
+protected boolean opened

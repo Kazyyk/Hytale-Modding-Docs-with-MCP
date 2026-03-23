@@ -11,3 +11,12 @@ public class DumpCommandsCommand extends CommandBase
 - private void extractCommand(AbstractCommand command, List<DumpCommandsCommand.CommandDef> defs)
 - private String formatNullable(T something, Function<T,String> func)
 - private String formatPermission(String permission)
+
+Also in this package: CommandDef, CommandsCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+  private List<DumpCommandsCommand.CommandDef> gatherCommandDefs()
+  private void extractCommand(AbstractCommand command, List<DumpCommandsCommand.CommandDef> defs)
+  private String formatNullable(T something, Function<T,String> func)
+  private String formatPermission(String permission)

@@ -13,3 +13,14 @@ Core interface for world generation implementations. Defines the contract for ge
 - Transform[] getSpawnPoints(int seed)
 - default ISpawnProvider getDefaultSpawnProvider(int seed)
 - default void shutdown()
+
+Known implementors: DummyWorldGen, FlatWorldGen, Handle, IBenchmarkableWorldGen, VoidWorldGen
+
+Also in this package: EntityWrapperEntry, GeneratedBlockChunk, GeneratedBlockStateChunk, GeneratedChunk, GeneratedChunkSection, GeneratedEntityChunk, IBenchmarkableWorldGen, IWorldGenBenchmark, ValidatableWorldGen, WorldGenLoadException, WorldGenTimingsCollector
+
+Complete API:
+  WorldGenTimingsCollector getTimings()
+  CompletableFuture<GeneratedChunk> generate(int var1, long var2, int var4, int var5, LongPredicate var6)
+  Transform[] getSpawnPoints(int var1)
+  default ISpawnProvider getDefaultSpawnProvider(int seed)
+  default void shutdown()

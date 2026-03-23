@@ -34,3 +34,17 @@ Block interaction for using a watering can on farmland. Waters the target `Tille
 - For each position, calls `waterBlockAt` which locates the `TilledSoilBlock` component (checking the targeted Y and Y-1 for soil below crops), sets `wateredUntil`, enables ticking, and schedules a section tick.
 - If no blocks are successfully watered, the interaction state is set to `Failed`.
 - The `simulateInteractWithBlock` override is a no-op.
+
+Also in this package: ChangeFarmingStageInteraction, FertilizeSoilInteraction, HarvestCropInteraction, UseCaptureCrateInteraction, UseCoopInteraction
+
+Complete API:
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack itemInHand, Vector3i targetBlock, CooldownHandler cooldownHandler)
+  private boolean waterBlockAt(World world, int x, int y, int z, Instant wateredUntil)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+
+Fields:
+public static final BuilderCodec<UseWateringCanInteraction> CODEC
+protected long duration
+protected String[] refreshModifiers
+protected int radiusX
+protected int radiusZ

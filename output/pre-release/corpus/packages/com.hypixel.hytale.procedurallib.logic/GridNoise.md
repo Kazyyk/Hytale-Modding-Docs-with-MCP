@@ -21,3 +21,18 @@ public GridNoise(double thicknessX, double thicknessY, double thicknessZ)
 
 - public double get(int seed, int offsetSeed, double x, double y)
 - public double get(int seed, int offsetSeed, double x, double y, double z)
+
+Also in this package: Bounds2d, BranchNoise, CellFunction, CellMode, CellNoise, CellularNoise, ConstantNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GeneralNoise, HexMeshNoise, InterpolationFunction, InterpolationMode, MeshNoise, OldSimplexNoise, PerlinNoise (and 6 more)
+
+Complete API:
+  public double get(int seed, int offsetSeed, double x, double y)
+  public double get(int seed, int offsetSeed, double x, double y, double z)
+  public String toString()
+
+Fields:
+protected final double thicknessX
+protected final double thicknessY
+protected final double thicknessZ
+protected final double thicknessX_m1
+protected final double thicknessY_m1
+protected final double thicknessZ_m1

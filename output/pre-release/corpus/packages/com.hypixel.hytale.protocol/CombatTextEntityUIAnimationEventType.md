@@ -31,3 +31,13 @@ Serialized as a single byte (`0`--`2`). The static `VALUES` array is used for O(
 ## Related Types
 
 - CombatTextEntityUIComponentAnimationEvent
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 381 more)
+
+Complete API:
+  public int getValue()
+  public static CombatTextEntityUIAnimationEventType fromValue(int value)
+
+Fields:
+public static final CombatTextEntityUIAnimationEventType[] VALUES
+private final int value

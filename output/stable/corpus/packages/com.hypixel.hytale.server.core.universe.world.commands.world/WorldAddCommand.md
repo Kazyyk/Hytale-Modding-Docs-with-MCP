@@ -16,3 +16,13 @@ Console command handling WorldAdd operations.
 
 - public WorldAddCommand()
 - @Override protected void executeSync(@Nonnull CommandContext context)
+
+Also in this package: CompactCommand, WorldCommand, WorldListCommand, WorldLoadCommand, WorldPruneCommand, WorldRemoveCommand, WorldRocksDbCommand, WorldSaveCommand, WorldSetDefaultCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final RequiredArg<String> nameArg
+private final DefaultArg<String> genArg
+private final DefaultArg<String> storageArg

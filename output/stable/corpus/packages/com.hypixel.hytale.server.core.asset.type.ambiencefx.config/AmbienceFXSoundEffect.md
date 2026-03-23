@@ -24,3 +24,23 @@ Implements `NetworkSerializable`.
 - public int getEqualizerEffectIndex()
 - public boolean isInstant()
 - @Override public String toString()
+
+Also in this package: AmbienceFX, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound
+
+Complete API:
+  protected void processConfig()
+  public com.hypixel.hytale.protocol.AmbienceFXSoundEffect toPacket()
+  public String getReverbEffectId()
+  public int getReverbEffectIndex()
+  public String getEqualizerEffectId()
+  public int getEqualizerEffectIndex()
+  public boolean isInstant()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<AmbienceFXSoundEffect> CODEC
+protected String reverbEffectId
+protected transient int reverbEffectIndex
+protected String equalizerEffectId
+protected transient int equalizerEffectIndex
+protected boolean isInstant

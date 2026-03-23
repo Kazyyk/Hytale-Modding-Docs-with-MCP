@@ -17,3 +17,16 @@ Tracks the remaining fragility duration for a block, in seconds. Used by `BlockH
 - public void deserialize(@Nonnull ByteBuf buf, byte version)
 - public void serialize(@Nonnull ByteBuf buf)
 - @Nonnull protected FragileBlock clone()
+
+Also in this package: BlockHealth, BlockHealthChunk, BlockHealthModule, BlockHealthPacketSystem, BlockHealthSystem, EnsureBlockHealthSystem, PlaceBlockEventSystem
+
+Complete API:
+  public float getDurationSeconds()
+  public void setDurationSeconds(float durationSeconds)
+  public void deserialize(ByteBuf buf, byte version)
+  public void serialize(ByteBuf buf)
+  protected FragileBlock clone()
+  public String toString()
+
+Fields:
+private float durationSeconds

@@ -13,3 +13,21 @@ Asset that defines a named list of block type keys, used by builder tools to con
 - public BlockPattern getBlockPattern()
 - public HashSet<String> getBlockTypeKeys()
 - public String getId()
+
+Also in this package: ArgData, BrushData, BuilderTool, BuilderToolData, PrefabListAsset, PrefabReference, PrefabRootDirectory, Values
+
+Complete API:
+  public static AssetStore<String,BlockTypeListAsset,DefaultAssetMap<String,BlockTypeListAsset>> getAssetStore()
+  public static DefaultAssetMap<String,BlockTypeListAsset> getAssetMap()
+  public BlockPattern getBlockPattern()
+  public HashSet<String> getBlockTypeKeys()
+  public String getId()
+
+Fields:
+public static final AssetBuilderCodec<String,BlockTypeListAsset> CODEC
+private static AssetStore<String,BlockTypeListAsset,DefaultAssetMap<String,BlockTypeListAsset>> ASSET_STORE
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private String id
+private final HashSet<String> blockTypeKeys
+private BlockPattern blockPattern
+private AssetExtraInfo.Data data

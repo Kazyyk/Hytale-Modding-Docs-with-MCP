@@ -13,3 +13,8 @@ JSON loader that deserializes configuration data from JSON files.
 - return new Vector2d()
 - return new Vector2d(value, value)
 - return new Vector2d(x, y)
+
+Also in this package: ColorUtil, Constants, Constants, Constants, EntryJsonLoader, FileMaskCache, NoiseBlockArrayJsonLoader, ResolvedBlockArrayJsonLoader, ResolvedVariantsBlockArrayLoader, Vector3dJsonLoader
+
+Complete API:
+  public Vector2d load()

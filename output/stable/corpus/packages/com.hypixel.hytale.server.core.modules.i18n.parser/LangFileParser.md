@@ -13,3 +13,10 @@ public class LangFileParser
 ## Inner Types
 
 - `LangFileParser.TranslationParseException`
+
+Also in this package: TranslationParseException
+
+Complete API:
+  private static String literal(String value)
+  private static String escape(StringBuilder builder)
+  public static Map<String,String> parse(BufferedReader reader)

@@ -24,3 +24,18 @@ A Stage that populates biome IDs into a `CountedPixelBuffer<Integer>` grid. For 
 - @Nonnull @Override public Map<BufferType, Bounds3i> getInputTypesAndBounds_bufferGrid()
 - @Nonnull @Override public List<BufferType> getOutputTypes()
 - @Nonnull @Override public String getName()
+
+Also in this package: BiomeDistanceCounter, BiomeDistanceEntries, BiomeDistanceEntry, BiomeDistanceStage, BiomeWeights, ColumnData, Context, Entry, EnvironmentStage, PropStage, Stage, TerrainStage, TintStage
+
+Complete API:
+  public void run(Stage.Context context)
+  public Map<BufferType,Bounds3i> getInputTypesAndBounds_bufferGrid()
+  public List<BufferType> getOutputTypes()
+  public String getName()
+
+Fields:
+public static final Class<CountedPixelBuffer> bufferClass
+public static final Class<Integer> biomeClass
+private final ParametrizedBufferType biomeOutputBufferType
+private final String stageName
+private final WorkerIndexer.Data<WorldStructure> worldStructure_workerData

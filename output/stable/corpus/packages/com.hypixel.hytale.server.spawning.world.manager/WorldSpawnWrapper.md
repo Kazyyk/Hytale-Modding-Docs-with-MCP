@@ -11,3 +11,8 @@ public class WorldSpawnWrapper extends SpawnWrapper<WorldNPCSpawn>
 ## Methods
 
 - public double getMoonPhaseWeightModifier(int moonPhase)
+
+Also in this package: EnvironmentSpawnParameters, WorldSpawnManager
+
+Complete API:
+  public double getMoonPhaseWeightModifier(int moonPhase)

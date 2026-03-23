@@ -22,3 +22,18 @@ Implementation of `JsonAssetWithMap<String, IndexedLookupTableAssetMap<String, I
 - getAssetMap() | IndexedLookupTableAssetMap<String, ItemAttitudeGroup> | static public method.
 - getId() | String | public method.
 - getAttitudes() | Map<Attitude, String[]> | public method.
+
+Also in this package: AttitudeGroup, Sentiment
+
+Complete API:
+  public static IndexedLookupTableAssetMap<String,ItemAttitudeGroup> getAssetMap()
+  public String getId()
+  public Map<Attitude,String[]> getAttitudes()
+
+Fields:
+public static final AssetBuilderCodec<String,ItemAttitudeGroup> CODEC
+private static IndexedLookupTableAssetMap<String,ItemAttitudeGroup> ASSET_MAP
+protected AssetExtraInfo.Data data
+protected String id
+protected Map<ItemAttitudeGroup.Sentiment,String[]> sentiments
+protected Map<Attitude,String[]> attitudes

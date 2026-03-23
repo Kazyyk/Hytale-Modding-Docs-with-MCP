@@ -20,3 +20,21 @@ Server-wide constants derived from command-line options and runtime checks. Prov
 
 - public static void init()
 - public static boolean shouldSkipModValidation()
+
+Also in this package: AuthMode, AuthModeConverter, Defaults, HytaleServer, HytaleServerConfig, LevelValueConverter, MaybeBoolCodec, Message, Module, NameMatching, Options, ParamValueCodec, PathConverter, PathType, ShutdownReason, SocketAddressValueConverter, StringToPathMapConverter, TimeoutProfile, UUIDConverter
+
+Complete API:
+  public static void init()
+  private static boolean checkFreshUniverse()
+  private static Path getUniversePath()
+  public static boolean shouldSkipModValidation()
+
+Fields:
+private static final OptionSet OPTION_SET
+public static final boolean DEBUG
+public static final boolean SINGLEPLAYER
+public static final boolean ALLOWS_SELF_OP_COMMAND
+public static final boolean FRESH_UNIVERSE
+public static final boolean FORCE_NETWORK_FLUSH
+public static final Path UNIVERSE_PATH
+public static final PluginManifest[] CORE_PLUGINS

@@ -20,3 +20,16 @@ Matches entities with `EntityTrackerSystems.Visible`.
 
 - MountSystems -- enclosing class
 - MountSystems.TrackerUpdate -- handles update packets
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove (and 8 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public ComponentType<EntityStore,MountedComponent> componentType()
+  public void onComponentAdded(Ref<EntityStore> ref, MountedComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentSet(Ref<EntityStore> ref, MountedComponent oldComponent, MountedComponent newComponent, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentRemoved(Ref<EntityStore> ref, MountedComponent component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,MountedComponent> mountedComponentType
+private final ComponentType<EntityStore,EntityTrackerSystems.Visible> visibleComponentType

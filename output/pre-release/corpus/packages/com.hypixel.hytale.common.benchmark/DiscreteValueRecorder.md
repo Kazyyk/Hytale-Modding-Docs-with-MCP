@@ -37,3 +37,31 @@ Class in the benchmark subsystem.
 - formatHeader(@Nonnull Formatter formatter, @Nonnull String columnFormatHeader) | void | public method.
 - formatValues(@Nonnull Formatter formatter) | void | public method.
 - formatValues(@Nonnull Formatter formatter, @Nonnull String columnFormatValue) | void | public method.
+
+Also in this package: ContinuousValueRecorder, TimeDistributionRecorder, TimeRecorder
+
+Complete API:
+  public void reset()
+  public long getMinValue(long def)
+  public long getMinValue()
+  public long getMaxValue(long def)
+  public long getMaxValue()
+  public long getCount()
+  public long getAverage(long def)
+  public long getAverage()
+  public void record(long value)
+  public String toString()
+  public void formatHeader(Formatter formatter)
+  public void formatHeader(Formatter formatter, String columnFormatHeader)
+  public void formatValues(Formatter formatter)
+  public void formatValues(Formatter formatter, String columnFormatValue)
+
+Fields:
+public static final String DEFAULT_COLUMN_SEPARATOR
+public static final String DEFAULT_COLUMN_FORMAT_HEADER
+public static final String DEFAULT_COLUMN_FORMAT_VALUE
+public static final String[] DEFAULT_COLUMNS
+protected long minValue
+protected long maxValue
+protected long sumValues
+protected long count

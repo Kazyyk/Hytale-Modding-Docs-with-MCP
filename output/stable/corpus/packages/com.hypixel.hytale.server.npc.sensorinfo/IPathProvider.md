@@ -12,3 +12,13 @@ Interface defining: `hasPath()`, `getPath()`, `clear()`.
 - getPath() | IPath<? extends IPathWaypoint> | package-private method.
 - clear() | void | package-private method.
 - getType() | Class<IPathProvider> | package-private method.
+
+Known implementors: PathProvider
+
+Also in this package: CachedPositionProvider, EntityPositionProvider, ExtraInfoProvider, IPositionProvider, InfoProvider, InfoProviderBase, PathProvider, PositionProvider, ValueWrappedInfoProvider, WrappedInfoProvider
+
+Complete API:
+  boolean hasPath()
+  IPath<? extends IPathWaypoint> getPath()
+  void clear()
+  default Class<IPathProvider> getType()

@@ -10,3 +10,11 @@ Record pairing a WorldGenModifier with its asset pack priority for sorting.
 
 
 WorldGenModifier modifier, int packPriority
+
+Also in this package: EventHandler, Modifier, Target, WorldGenModifier
+
+Complete API:
+  public int compareTo(EventHandler.PriorityEntry o)
+
+Fields:
+public static final EventHandler.PriorityEntry[] EMPTY_ARRAY

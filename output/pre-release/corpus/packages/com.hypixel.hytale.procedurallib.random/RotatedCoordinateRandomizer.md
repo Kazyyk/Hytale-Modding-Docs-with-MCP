@@ -20,3 +20,17 @@ Implements `ICoordinateRandomizer` to provide RotatedCoordinateRandomizer functi
 - @Override public double randomDoubleY(int seed, double x, double y, double z)
 - @Override public double randomDoubleZ(int seed, double x, double y, double z)
 - @Nonnull @Override public String toString()
+
+Also in this package: AmplitudeNoiseProperty, CoordinateOriginRotator, CoordinateRandomizer, CoordinateRotator, EmptyCoordinateRandomizer, ICoordinateRandomizer
+
+Complete API:
+  public double randomDoubleX(int seed, double x, double y)
+  public double randomDoubleY(int seed, double x, double y)
+  public double randomDoubleX(int seed, double x, double y, double z)
+  public double randomDoubleY(int seed, double x, double y, double z)
+  public double randomDoubleZ(int seed, double x, double y, double z)
+  public String toString()
+
+Fields:
+protected final ICoordinateRandomizer randomizer
+protected final CoordinateRotator rotation

@@ -10,3 +10,8 @@ public enum DamageClass
 - LIGHT
 - CHARGED
 - SIGNATURE
+
+Also in this package: DamageCalculator, DamageEffects, DirectionalKnockback, ForceKnockback, Knockback, PointKnockback, TargetEntityEffect, Type
+
+Fields:
+public static final EnumCodec<DamageClass> CODEC

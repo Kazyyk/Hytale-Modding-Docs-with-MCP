@@ -20,3 +20,21 @@ Routes voice packets from speakers to nearby listeners using cached position dat
 ## Inner Types
 
 - VoiceRouter.ListenerCandidate -- record holding listener routing data
+
+Also in this package: ListenerCandidate, PositionSnapshot, VoiceModule, VoiceModuleConfig, VoicePacketHandler, VoicePlayerState, VoiceStreamHandler
+
+Complete API:
+  public void updateSpeakerPositionCache(PlayerRef speaker, Vector3d position, boolean isUnderwater, long worldId, int networkId, boolean isDead)
+  public void removePlayerFromWorldSets(UUID playerId)
+  public void sendVoiceConfig(PlayerRef player)
+  public void routeVoiceFromCache(PlayerRef speaker, VoiceData packet)
+  private PacketHandler getPlayerHandler(UUID playerId)
+  private static RelayedVoiceData createPerRecipientRelay(RelayedVoiceData source)
+
+Fields:
+private static final int VERBOSE_LOG_PACKET_FREQUENCY
+private static final int MAX_SPEAKERS_PER_LISTENER
+private final VoiceModule voiceModule
+private final HytaleLogger logger
+private final ConcurrentHashMap<Long,Set<UUID>> worldPlayerSets
+private volatile boolean loggedFirstCacheRoute

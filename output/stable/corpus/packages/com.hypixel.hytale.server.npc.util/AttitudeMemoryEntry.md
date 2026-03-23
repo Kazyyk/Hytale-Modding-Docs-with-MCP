@@ -13,3 +13,17 @@ A tickable entry representing a temporary attitude override for an NPC. Tracks a
 - public double getInitialDuration()
 - public Attitude getAttitudeOverride()
 - public boolean isExpired()
+
+Also in this package: AimingData, AimingHelper, Alarm, BlockPlacementHelper, ComponentInfo, DamageData, Direction, IAnnotatedComponent, IAnnotatedComponentCollection, IComponentExecutionControl, IEntityByPriorityFilter, InventoryHelper, NPCPhysicsMath, PositionProbeAir, PositionProbeBase, PositionProbeWater, RayBlockHitTest, RootSolver, SensorSupportBenchmark, Timer (and 3 more)
+
+Complete API:
+  public void tick(float dt)
+  public double getRemainingDuration()
+  public double getInitialDuration()
+  public Attitude getAttitudeOverride()
+  public boolean isExpired()
+
+Fields:
+private final Attitude attitudeOverride
+private final double initialDuration
+private double remainingDuration

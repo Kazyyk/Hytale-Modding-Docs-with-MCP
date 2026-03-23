@@ -57,3 +57,19 @@ Returns the class type.
 
 - BuilderCombatConfig -- extends this for combat configuration
 - BuilderTemplateInteractionVars -- extends this for interaction variable maps
+
+Known subclasses: BuilderCombatConfig, BuilderTemplateInteractionVars
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  public T build()
+  public void readConfig(JsonElement data, ExtraInfo extraInfo)
+  public boolean hasValue()
+  public Class<?> getClassType()
+
+Fields:
+protected final Codec<T> codec
+protected final Class<?> classType
+protected final Validator<T> validator
+protected T value

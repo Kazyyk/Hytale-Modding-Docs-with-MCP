@@ -11,3 +11,14 @@ Loads cell distance function configurations. Supports SQUARE (`GridCellDistanceF
 - `load()`
 - `loadCellType()`
 - `loadDistanceFunction()`
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public CellDistanceFunction load()
+  protected CellType loadCellType()
+  protected CellDistanceFunction loadDistanceFunction()
+
+Fields:
+protected final MeasurementMode measurementMode
+protected final PointDistanceFunction pointDistanceFunction

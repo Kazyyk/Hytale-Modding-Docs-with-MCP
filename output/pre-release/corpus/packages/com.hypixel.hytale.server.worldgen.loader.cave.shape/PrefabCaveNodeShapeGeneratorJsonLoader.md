@@ -14,3 +14,10 @@ public class PrefabCaveNodeShapeGeneratorJsonLoader extends CaveNodeShapeGenerat
 ## Inner Types
 
 - `PrefabCaveNodeShapeGeneratorJsonLoader.Constants`
+
+Also in this package: CaveNodeShapeGeneratorJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CylinderCaveNodeShapeGeneratorJsonLoader, DistortedCaveNodeShapeGeneratorJsonLoader, EllipsoidCaveNodeShapeGeneratorJsonLoader, EmptyLineCaveNodeShapeGeneratorJsonLoader, PipeCaveNodeShapeGeneratorJsonLoader, ShapeDistortionJsonLoader
+
+Complete API:
+  public PrefabCaveNodeShape.PrefabCaveNodeShapeGenerator load()
+  protected List<WorldGenPrefabSupplier> loadPrefabs()
+  protected BlockMaskCondition loadMask()

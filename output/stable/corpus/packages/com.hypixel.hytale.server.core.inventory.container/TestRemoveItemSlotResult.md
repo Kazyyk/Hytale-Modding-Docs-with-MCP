@@ -31,3 +31,13 @@ Returns `true` if at least one slot was picked.
 public Set<Short> getPickedSlots()
 
 Returns the set of slot indices that contributed to the removal.
+
+Also in this package: CombinedItemContainer, DelegateItemContainer, Dummy, EmptyItemContainer, InternalContainerUtilItemStack, InternalContainerUtilMaterial, InternalContainerUtilResource, InternalContainerUtilTag, ItemContainer, ItemContainerChangeEvent, ItemContainerUtil, ItemStackItemContainer, ItemType, SimpleItemContainer, SlotReplacementFunction, SortType, TempItemData
+
+Complete API:
+  public boolean hasResult()
+  public Set<Short> getPickedSlots()
+
+Fields:
+Map<Short,Integer> picked
+int quantityRemaining

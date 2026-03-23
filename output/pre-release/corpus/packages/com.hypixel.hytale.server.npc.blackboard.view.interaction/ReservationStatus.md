@@ -11,3 +11,5 @@ Enumerates ReservationStatus values: `NOT_RESERVED`, `RESERVED_OTHER`, `RESERVED
 - NOT_RESERVED
 - RESERVED_OTHER
 - RESERVED_THIS
+
+Also in this package: InteractionView, ReservationProvider

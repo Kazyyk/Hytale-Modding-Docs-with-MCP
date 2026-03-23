@@ -30,3 +30,45 @@ Singleton store for loading, caching, and saving prefab `BlockSelection` instanc
 ## Inner Types
 
 - `PrefabStore.AssetPackPrefabPath` -- record linking an asset pack to its prefabs directory
+
+Also in this package: AssetPackPrefabPath, PrefabCopyableComponent, PrefabEntry, PrefabLoadException, PrefabRotation, PrefabSaveException, PrefabWeights, RotationExecutor, RotationExecutor_0, RotationExecutor_180, RotationExecutor_270, RotationExecutor_90, Type, Type, WeightMapValidator
+
+Complete API:
+  private static Path resolvePrefabKey(Path basePath, String key)
+  public BlockSelection getServerPrefab(String key)
+  public BlockSelection getPrefab(Path path)
+  public Path getServerPrefabsPath()
+  public Map<Path,BlockSelection> getServerPrefabDir(String key)
+  public Map<Path,BlockSelection> getPrefabDir(Path dir)
+  public void saveServerPrefab(String key, BlockSelection prefab)
+  public void saveWorldGenPrefab(String key, BlockSelection prefab, boolean overwrite)
+  public void savePrefab(Path path, BlockSelection prefab, boolean overwrite)
+  public Path getWorldGenPrefabsPath()
+  public Path getAssetRootPath()
+  public Path getWorldGenPrefabsPath(String name)
+  public void saveServerPrefab(String key, BlockSelection prefab, boolean overwrite)
+  public Path getAssetPrefabsPath()
+  public Path getAssetPrefabsPathForPack(AssetPack pack)
+  public List<PrefabStore.AssetPackPrefabPath> getAllAssetPrefabPaths()
+  public BlockSelection getAssetPrefabFromAnyPack(String key)
+  public Path findAssetPrefabPath(String key)
+  public AssetPack findAssetPackForPrefabPath(Path prefabPath)
+  public Path getRelativePrefabPath(Path absolutePrefabPath)
+  public BlockSelection getAssetPrefab(String key)
+  public Map<Path,BlockSelection> getAssetPrefabDir(String key)
+  public void saveAssetPrefab(String key, BlockSelection prefab)
+  public void saveAssetPrefab(String key, BlockSelection prefab, boolean overwrite)
+  public void savePrefabToPack(AssetPack pack, String key, BlockSelection prefab, boolean overwrite)
+  public Path getPrefabsPathForPack(AssetPack pack)
+  public BlockSelection getWorldGenPrefab(String key)
+  public BlockSelection getWorldGenPrefab(Path prefabsPath, String key)
+  public Map<Path,BlockSelection> getWorldGenPrefabDir(String key)
+  public void saveWorldGenPrefab(String key, BlockSelection prefab)
+  public static PrefabStore get()
+
+Fields:
+public static final Predicate<Path> PREFAB_FILTER
+public static final Path PREFABS_PATH
+private static final String DEFAULT_WORLDGEN_NAME
+private static final PrefabStore INSTANCE
+private final Map<Path,BlockSelection> PREFAB_CACHE

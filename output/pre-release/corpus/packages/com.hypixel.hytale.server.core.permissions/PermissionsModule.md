@@ -35,3 +35,33 @@ Server module providing core functionality.
 - hasPermission(@Nonnull UUID uuid, @Nonnull String id) | boolean | public method.
 - hasPermission(@Nonnull UUID uuid, @Nonnull String id, boolean def) | boolean | public method.
 - hasPermission(@Nullable Set<String> nodes, @Nonnull String id) | Boolean | static public method.
+
+Also in this package: HytalePermissions, PermissionHolder
+
+Complete API:
+  public static PermissionsModule get()
+  protected void setup()
+  protected void start()
+  public void addProvider(PermissionProvider permissionProvider)
+  public void removeProvider(PermissionProvider provider)
+  public List<PermissionProvider> getProviders()
+  public PermissionProvider getFirstPermissionProvider()
+  public boolean areProvidersTampered()
+  public void addUserPermission(UUID uuid, Set<String> permissions)
+  public void removeUserPermission(UUID uuid, Set<String> permissions)
+  public void addGroupPermission(String group, Set<String> permissions)
+  public void removeGroupPermission(String group, Set<String> permissions)
+  public void addUserToGroup(UUID uuid, String group)
+  public void removeUserFromGroup(UUID uuid, String group)
+  public void setVirtualGroups(Map<String,Set<String>> virtualGroups)
+  public Set<String> getGroupsForUser(UUID uuid)
+  public boolean hasPermission(UUID uuid, String id)
+  public boolean hasPermission(UUID uuid, String id, boolean def)
+  public static Boolean hasPermission(Set<String> nodes, String id)
+
+Fields:
+public static final PluginManifest MANIFEST
+private static PermissionsModule instance
+private final HytalePermissionsProvider standardProvider
+private Map<String,Set<String>> virtualGroups
+private final List<PermissionProvider> providers

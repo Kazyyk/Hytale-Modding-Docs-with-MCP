@@ -10,3 +10,9 @@ Holds the undo and redo command stacks for a single asset. Each stack is an `Arr
 
 - undoStack | Deque<JsonUpdateCommand> | Stack of undoable commands
 - redoStack | Deque<JsonUpdateCommand> | Stack of redoable commands
+
+Also in this package: AssetState, ModifiedAsset
+
+Fields:
+public final Deque<JsonUpdateCommand> undoStack
+public final Deque<JsonUpdateCommand> redoStack

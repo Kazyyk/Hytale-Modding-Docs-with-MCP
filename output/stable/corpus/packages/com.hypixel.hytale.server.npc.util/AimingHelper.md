@@ -10,3 +10,12 @@ Static utility class providing ballistic pitch computation for NPC aiming. Calcu
 
 - public static double ensurePossibleThrowSpeed(double distance, double y, double gravity, double throwSpeed)
 - public static boolean computePitch(double distance, double height, double velocity, double gravity, float[] resultingPitch)
+
+Also in this package: AimingData, Alarm, AttitudeMemoryEntry, BlockPlacementHelper, ComponentInfo, DamageData, Direction, IAnnotatedComponent, IAnnotatedComponentCollection, IComponentExecutionControl, IEntityByPriorityFilter, InventoryHelper, NPCPhysicsMath, PositionProbeAir, PositionProbeBase, PositionProbeWater, RayBlockHitTest, RootSolver, SensorSupportBenchmark, Timer (and 3 more)
+
+Complete API:
+  public static double ensurePossibleThrowSpeed(double distance, double y, double gravity, double throwSpeed)
+  public static boolean computePitch(double distance, double height, double velocity, double gravity, float[] resultingPitch)
+
+Fields:
+public static final int MIN_GRAVITY_FOR_PARABOLA

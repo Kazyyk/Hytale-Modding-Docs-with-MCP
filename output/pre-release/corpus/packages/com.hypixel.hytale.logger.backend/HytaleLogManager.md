@@ -24,3 +24,14 @@ public class HytaleLogManager extends LogManager
 ## Inner Types
 
 - `HytaleLogManager.HytaleJdkLogger`
+
+Also in this package: HytaleConsole, HytaleFileHandler, HytaleJdkLogger, HytaleLogFormatter, HytaleLoggerBackend, HytaleUncaughtExceptionHandler, RawLogRecord
+
+Complete API:
+  public void reset()
+  private void reset0()
+  public Logger getLogger(String name)
+  public static void resetFinally()
+
+Fields:
+public static HytaleLogManager instance

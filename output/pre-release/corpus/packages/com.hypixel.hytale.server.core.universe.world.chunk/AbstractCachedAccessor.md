@@ -31,3 +31,25 @@ Returns the section reference at the given chunk-section coordinates (cy must be
 protected <T extends Component<ChunkStore>> T getComponentSection(int cx, int cy, int cz, int typeIndex, @Nonnull ComponentType<ChunkStore, T> componentType)
 
 Returns a cached component from a section, lazily loading it on first access.
+
+Known subclasses: CachedAccessor, CachedAccessor, CachedAccessor
+
+Also in this package: BlockChunk, BlockComponentChunk, BlockComponentChunkLoadingSystem, BlockOperations, BlockRotationUtil, ChunkColumn, ChunkFlag, EntityChunk, EntityChunkLoadingSystem, LoadBlockChunkPacketSystem, LoadBlockComponentPacketSystem, UnloadBlockComponentPacketSystem, WorldChunk
+
+Complete API:
+  protected void init(ComponentAccessor<ChunkStore> commandBuffer, int cx, int cy, int cz, int radius)
+  protected void insertSection(Ref<ChunkStore> section, int cx, int cy, int cz)
+  protected void insertSectionComponent(int index, Component<ChunkStore> component, int cx, int cy, int cz)
+  public Ref<ChunkStore> getChunk(int cx, int cz)
+  public Ref<ChunkStore> getSection(int cx, int cy, int cz)
+  protected T getComponentSection(int cx, int cy, int cz, int typeIndex, ComponentType<ChunkStore,T> componentType)
+
+Fields:
+protected ComponentAccessor<ChunkStore> commandBuffer
+private int minX
+private int minY
+private int minZ
+private int length
+private Ref<ChunkStore>[] chunks
+private Ref<ChunkStore>[] sections
+private Component<ChunkStore>[][] sectionComponents

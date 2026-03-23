@@ -22,3 +22,11 @@ Creates a filter that checks for duplicates in the given container.
 public boolean test(@Nullable Item item)
 
 Returns `false` if the item is `null`, has no ID, or an item with the same ID already exists in the container.
+
+Also in this package: ArmorSlotAddFilter, FilterActionType, FilterType, ItemSlotFilter, ResourceFilter, SlotFilter, TagFilter
+
+Complete API:
+  public boolean test(Item item)
+
+Fields:
+private final SimpleItemContainer container

@@ -11,3 +11,14 @@ A persistent NPC parameter that stores an `Instant` timestamp. Used to set time-
 - public static final BuilderCodec<Alarm> CODEC = BuilderCodec.builder(Alarm.class, Alarm::new)
 - public boolean isSet()
 - public boolean hasPassed(Instant instant)
+
+Also in this package: AimingData, AimingHelper, AttitudeMemoryEntry, BlockPlacementHelper, ComponentInfo, DamageData, Direction, IAnnotatedComponent, IAnnotatedComponentCollection, IComponentExecutionControl, IEntityByPriorityFilter, InventoryHelper, NPCPhysicsMath, PositionProbeAir, PositionProbeBase, PositionProbeWater, RayBlockHitTest, RootSolver, SensorSupportBenchmark, Timer (and 4 more)
+
+Complete API:
+  protected void set0(Instant value)
+  public boolean isSet()
+  public boolean hasPassed(Instant instant)
+
+Fields:
+public static final BuilderCodec<Alarm> CODEC
+protected Instant alarmInstant

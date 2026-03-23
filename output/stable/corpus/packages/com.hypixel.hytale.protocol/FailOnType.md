@@ -28,3 +28,13 @@ Returns the `FailOnType` constant for the given wire value. Throws `ProtocolExce
 ## Serialization
 
 Serialized as a single byte (`0`--`3`). The static `VALUES` array is used for O(1) lookup by ordinal.
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 378 more)
+
+Complete API:
+  public int getValue()
+  public static FailOnType fromValue(int value)
+
+Fields:
+public static final FailOnType[] VALUES
+private final int value

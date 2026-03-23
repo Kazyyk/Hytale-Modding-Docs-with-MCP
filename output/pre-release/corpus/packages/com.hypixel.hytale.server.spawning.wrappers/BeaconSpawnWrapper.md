@@ -17,3 +17,17 @@ public class BeaconSpawnWrapper extends SpawnWrapper
 - public double getBeaconRadius()
 - public double getSpawnRadius()
 - @Nullable public RoleSpawnParameters pickRole(Random chanceProvider)
+
+Also in this package: SpawnWrapper
+
+Complete API:
+  public double getMinDistanceFromPlayerSquared()
+  public double getTargetDistanceFromPlayerSquared()
+  public double getBeaconRadius()
+  public double getSpawnRadius()
+  public RoleSpawnParameters pickRole(Random chanceProvider)
+
+Fields:
+private final IWeightedMap<RoleSpawnParameters> weightedRoles
+private final double minDistanceFromPlayerSquared
+private final double targetDistanceFromPlayerSquared

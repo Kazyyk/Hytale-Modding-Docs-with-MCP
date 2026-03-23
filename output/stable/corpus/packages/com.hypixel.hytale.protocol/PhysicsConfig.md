@@ -69,3 +69,46 @@ Returns the serialized size in bytes.
 
 - PhysicsType
 - RotationMode
+
+Known implementors: StandardPhysicsConfig
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 378 more)
+
+Complete API:
+  public static PhysicsConfig deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public PhysicsConfig clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public PhysicsType type
+public double density
+public double gravity
+public double bounciness
+public int bounceCount
+public double bounceLimit
+public boolean sticksVertically
+public boolean computeYaw
+public boolean computePitch
+public RotationMode rotationMode
+public double moveOutOfSolidSpeed
+public double terminalVelocityAir
+public double densityAir
+public double terminalVelocityWater
+public double densityWater
+public double hitWaterImpulseLoss
+public double rotationForce
+public float speedRotationFactor
+public double swimmingDampingFactor
+public boolean allowRolling
+public double rollingFrictionFactor
+public float rollingSpeed

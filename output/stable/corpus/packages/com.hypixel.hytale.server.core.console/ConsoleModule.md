@@ -23,3 +23,19 @@ Server module providing core functionality.
 - setup() | void | protected method.
 - shutdown() | void | protected method.
 - getTerminal() | Terminal | public method.
+
+Also in this package: ConsoleRunnable, ConsoleSender
+
+Complete API:
+  public static ConsoleModule get()
+  public static void initializeTerminal()
+  protected void setup()
+  protected void shutdown()
+  public Terminal getTerminal()
+
+Fields:
+private static final HytaleLogger LOGGER
+public static final PluginManifest MANIFEST
+private static ConsoleModule instance
+private static Terminal terminal
+private ConsoleModule.ConsoleRunnable consoleRunnable

@@ -15,3 +15,12 @@ Modifies the regeneration amount of an entity stat based on conditions. When all
 ## Methods
 
 - public float getModifier(ComponentAccessor<EntityStore> store, Ref<EntityStore> ref, Instant currentTime)
+
+Complete API:
+  public float getModifier(ComponentAccessor<EntityStore> store, Ref<EntityStore> ref, Instant currentTime)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<RegeneratingModifier> CODEC
+protected Condition[] conditions
+protected float amount

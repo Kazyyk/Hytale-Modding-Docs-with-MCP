@@ -24,3 +24,20 @@ public class DeployablesPlugin extends JavaPlugin
 - public ComponentType<EntityStore, DeployableOwnerComponent> getDeployableOwnerComponentType()
 - public ComponentType<EntityStore, DeployableProjectileShooterComponent> getDeployableProjectileShooterComponentType()
 - public ComponentType<EntityStore, DeployableProjectileComponent> getDeployableProjectileComponentType()
+
+Also in this package: DeployablesUtils
+
+Complete API:
+  public static DeployablesPlugin get()
+  protected void setup()
+  public ComponentType<EntityStore,DeployableComponent> getDeployableComponentType()
+  public ComponentType<EntityStore,DeployableOwnerComponent> getDeployableOwnerComponentType()
+  public ComponentType<EntityStore,DeployableProjectileShooterComponent> getDeployableProjectileShooterComponentType()
+  public ComponentType<EntityStore,DeployableProjectileComponent> getDeployableProjectileComponentType()
+
+Fields:
+private static DeployablesPlugin instance
+private ComponentType<EntityStore,DeployableComponent> deployableComponentType
+private ComponentType<EntityStore,DeployableOwnerComponent> deployableOwnerComponentType
+private ComponentType<EntityStore,DeployableProjectileShooterComponent> deployableProjectileShooterComponentType
+private ComponentType<EntityStore,DeployableProjectileComponent> deployableProjectileComponentType

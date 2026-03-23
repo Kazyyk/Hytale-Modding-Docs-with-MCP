@@ -24,3 +24,18 @@ public class InstructionRandomized extends Instruction
 ## Inner Types
 
 - `InstructionRandomized.InstructionHolder`
+
+Also in this package: Action, ActionList, BodyMotion, HeadMotion, Instruction, InstructionHolder, Motion, NullSensor, RoleStateChange, Sensor
+
+Complete API:
+  public void execute(Ref<EntityStore> ref, Role role, double dt, Store<EntityStore> store)
+  public void clearOnce()
+  public void reset()
+
+Fields:
+protected final IWeightedMap<InstructionRandomized.InstructionHolder> weightedInstructionMap
+protected final boolean resetOnStateChange
+protected final double minExecuteTime
+protected final double maxExecuteTime
+protected double timeout
+protected InstructionRandomized.InstructionHolder current

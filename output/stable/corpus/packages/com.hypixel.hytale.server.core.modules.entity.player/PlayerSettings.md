@@ -59,3 +59,13 @@ Returns a copy of this settings record with a cloned `PlayerCreativeSettings`.
 
 - PlayerCreativeSettings -- nested creative mode settings
 - PlayerSystems.PlayerSpawnedSystem -- uses settings for armor visibility
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public static ComponentType<EntityStore,PlayerSettings> getComponentType()
+  public static PlayerSettings defaults()
+  public Component<EntityStore> clone()
+
+Fields:
+private static final PlayerSettings INSTANCE

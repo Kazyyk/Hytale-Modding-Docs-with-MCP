@@ -19,3 +19,16 @@ Netty handler for newly opened auxiliary QUIC streams. Expects a `StreamOpen` pa
 
 - Extends `ChannelInboundHandlerAdapter`
 - Works with StreamManager and PacketHandler
+
+Also in this package: StreamHandlerFactory, StreamManager, StreamRegistration
+
+Complete API:
+  public void channelRead(ChannelHandlerContext ctx, Object msg)
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+  public void channelInactive(ChannelHandlerContext ctx)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final int MAX_AUXILIARY_STREAMS
+private final PacketHandler packetHandler
+private final StreamManager streamManager

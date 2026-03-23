@@ -46,3 +46,34 @@ Asset definition for Objective configuration data.
 | `public` | `boolean` | `isValidForPlayer()` |
 | `public` | `boolean` | `isValidForMarker()` |
 | `@Nonnull @Override public` | `String` | `toString()` |
+
+Also in this package: ObjectiveLineAsset, ObjectiveLocationMarkerAsset
+
+Complete API:
+  public static AssetStore<String,ObjectiveAsset,DefaultAssetMap<String,ObjectiveAsset>> getAssetStore()
+  public static DefaultAssetMap<String,ObjectiveAsset> getAssetMap()
+  public String getId()
+  public String getCategory()
+  public String getTitleKey()
+  public String getDescriptionKey()
+  public TaskSet[] getTaskSets()
+  public ObjectiveCompletionAsset[] getCompletionHandlers()
+  public String getObjectiveTitleKey()
+  public String getObjectiveDescriptionKey()
+  public boolean isRemoveOnItemDrop()
+  public boolean isValidForPlayer()
+  public boolean isValidForMarker()
+  public String toString()
+
+Fields:
+public static final AssetBuilderCodec<String,ObjectiveAsset> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,ObjectiveAsset,DefaultAssetMap<String,ObjectiveAsset>> ASSET_STORE
+protected AssetExtraInfo.Data extraData
+protected String id
+protected String category
+protected TaskSet[] taskSets
+protected ObjectiveCompletionAsset[] completionHandlers
+protected String objectiveTitleKey
+protected String objectiveDescriptionKey
+protected boolean removeOnItemDrop

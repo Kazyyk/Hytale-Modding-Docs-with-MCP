@@ -15,3 +15,16 @@ Utility type in the `iterators` subsystem.
 
 - nextInt() | int | Instance method.
 - next() | Integer | Instance method.
+
+Also in this package: BackwardIntIterator, IntIterators
+
+Complete API:
+  public boolean hasNext()
+  public int nextInt()
+  public Integer next()
+  public Integer getCurrent()
+  public ForwardIntIterator clone()
+
+Fields:
+private int max
+private int current

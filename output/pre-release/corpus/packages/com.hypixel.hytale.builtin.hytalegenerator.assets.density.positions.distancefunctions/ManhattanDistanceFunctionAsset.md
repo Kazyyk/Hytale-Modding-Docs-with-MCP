@@ -11,3 +11,11 @@ public class ManhattanDistanceFunctionAsset extends DistanceFunctionAsset
 ## Methods
 
 - @Nonnull @Override public DistanceFunction build(SeedBox parentSeed, double maxDistance)
+
+Also in this package: DistanceFunctionAsset, EuclideanDistanceFunctionAsset
+
+Complete API:
+  public DistanceFunction build(SeedBox parentSeed, double maxDistance)
+
+Fields:
+public static final BuilderCodec<ManhattanDistanceFunctionAsset> CODEC

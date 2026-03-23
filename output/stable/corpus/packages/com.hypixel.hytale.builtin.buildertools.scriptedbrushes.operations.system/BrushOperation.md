@@ -26,3 +26,24 @@ public abstract class BrushOperation
 - public String getName()
 - public String getDescription()
 - @Nonnull public Map<String, BrushOperationSetting<?>> getRegisteredOperationSettings()
+
+Known subclasses: GlobalBrushOperation, SequenceBrushOperation
+
+Also in this package: BrushOperationSetting, GlobalBrushOperation, SequenceBrushOperation
+
+Complete API:
+  public abstract void modifyBrushConfig(Ref<EntityStore> var1, BrushConfig var2, BrushConfigCommandExecutor var3, ComponentAccessor<EntityStore> var4)
+  public void resetInternalState()
+  public void preExecutionModifyBrushConfig(BrushConfigCommandExecutor brushConfigCommandExecutor, int operationIndex)
+  public BrushOperationSetting<T> createBrushSetting(String name, String description, T defaultValue, ArgumentType<T> argumentType)
+  public BrushOperationSetting<T> createBrushSetting(String name, String description, T defaultValue, ArgumentType<T> argumentType, Function<BrushOperationSetting<T>,String> toStringFunction)
+  public String getName()
+  public String getDescription()
+  public Map<String,BrushOperationSetting<?>> getRegisteredOperationSettings()
+
+Fields:
+public static final CodecMapCodec<BrushOperation> OPERATION_CODEC
+public static final Map<String,Supplier<BrushOperation>> BRUSH_OPERATION_REGISTRY
+private final String name
+private final String description
+private final Map<String,BrushOperationSetting<?>> registeredOperationSettings

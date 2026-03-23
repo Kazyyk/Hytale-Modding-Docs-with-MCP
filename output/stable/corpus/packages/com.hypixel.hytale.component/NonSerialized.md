@@ -17,3 +17,12 @@ Returns the singleton instance.
 
 - NonTicking -- the equivalent marker for disabling tick processing
 - Archetype -- checks for NonSerialized in `hasSerializableComponents()`
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)
+
+Complete API:
+  public static NonSerialized<ECS_TYPE> get()
+  public Component<ECS_TYPE> clone()
+
+Fields:
+private static final NonSerialized<?> INSTANCE

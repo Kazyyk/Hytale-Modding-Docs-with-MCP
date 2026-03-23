@@ -31,3 +31,14 @@ Always returns `false` -- simulation handlers never cancel charging.
 public float getChargeValue(boolean firstRun, float time, InteractionType type, InteractionContext context, Ref<EntityStore> ref, CooldownHandler cooldownHandler)
 
 Returns the elapsed time as the charge value.
+
+Also in this package: BlockHarvestUtils, BlockInteractionUtils, BlockPlaceUtils, IInteractionSimulationHandler, InteractionModule, Interactions
+
+Complete API:
+  public void setState(InteractionType type, boolean state)
+  public boolean isCharging(boolean firstRun, float time, InteractionType type, InteractionContext context, Ref<EntityStore> ref, CooldownHandler cooldownHandler)
+  public boolean shouldCancelCharging(boolean firstRun, float time, InteractionType type, InteractionContext context, Ref<EntityStore> ref, CooldownHandler cooldownHandler)
+  public float getChargeValue(boolean firstRun, float time, InteractionType type, InteractionContext context, Ref<EntityStore> ref, CooldownHandler cooldownHandler)
+
+Fields:
+private final boolean[] isDown

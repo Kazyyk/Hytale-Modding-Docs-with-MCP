@@ -13,3 +13,14 @@ Implementation of `IBlackboardView<ViewType>`.
 ## Methods
 
 - registerProvider(int priority, T provider) | void | public method.
+
+Known subclasses: AttitudeView, InteractionView
+
+Also in this package: BlockRegionView, BlockRegionViewManager, IBlackboardView, IBlackboardViewManager, PrioritisedProvider, SingletonBlackboardViewManager
+
+Complete API:
+  public void registerProvider(int priority, T provider)
+
+Fields:
+public static final int LOWEST_PRIORITY
+protected List<PrioritisedProviderView.PrioritisedProvider<T>> providers

@@ -34,3 +34,15 @@ Inner ECS system of `StashPlugin` that runs on the chunk store. Registered durin
 
 - StashPlugin -- the enclosing plugin class
 - StashGameplayConfig -- provides the `clearContainerDropList` configuration
+
+Also in this package: StashGameplayConfig, StashPlugin
+
+Complete API:
+  public Query<ChunkStore> getQuery()
+  public void onEntityAdded(Ref<ChunkStore> ref, AddReason reason, Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer)
+  public void onEntityRemove(Ref<ChunkStore> ref, RemoveReason reason, Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer)
+
+Fields:
+private final ComponentType<ChunkStore,ItemContainerBlock> itemContainerStateComponentType
+private final ComponentType<ChunkStore,BlockModule.BlockStateInfo> blockStateInfoComponentType
+private final Query<ChunkStore> query

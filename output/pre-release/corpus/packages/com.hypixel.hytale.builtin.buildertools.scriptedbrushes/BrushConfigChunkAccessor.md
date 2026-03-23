@@ -32,3 +32,17 @@ public int getBlockIgnoringHistory(int x, int y, int z)
 
 
 public int getFluidId(int x, int y, int z)
+
+Also in this package: BCExecutionStatus, BrushConfig, BrushConfigCommandExecutor, BrushConfigEditStore, DataGettingFlags, DataSettingFlags, DebugOutputTarget, HistoryMask, ScriptedBrushAsset
+
+Complete API:
+  public static BrushConfigChunkAccessor atWorldCoords(BrushConfigEditStore editOperation, ChunkAccessor<WorldChunk> delegate, int centerX, int centerZ, int blockRadius)
+  public static BrushConfigChunkAccessor atChunkCoords(BrushConfigEditStore editOperation, ChunkAccessor<WorldChunk> delegate, int centerX, int centerZ, int chunkRadius)
+  public int getBlock(Vector3i pos)
+  public int getBlock(int x, int y, int z)
+  public int getBlockIgnoringHistory(Vector3i pos)
+  public int getBlockIgnoringHistory(int x, int y, int z)
+  public int getFluidId(int x, int y, int z)
+
+Fields:
+private final BrushConfigEditStore editOperation

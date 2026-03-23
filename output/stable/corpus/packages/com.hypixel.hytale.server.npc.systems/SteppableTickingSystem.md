@@ -44,3 +44,15 @@ Called with the resolved tick length (either the frame `dt` or the step componen
 
 - StepCleanupSystem -- removes `StepComponent` at end of frame
 - AvoidanceSystem, SteeringSystem, ComputeVelocitySystem, MovementStatesSystem -- concrete subclasses
+
+Known subclasses: AvoidanceSystem, ComputeVelocitySystem, MessageSupportSystem, MovementStatesSystem, NPCPreTickSystem, PostBehaviourSupportTickSystem, PreBehaviourSupportTickSystem, RoleDebugSystem, SteeringSystem, TimerSystem, UpdateSystem
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 48 more)
+
+Complete API:
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public abstract void steppedTick(float var1, int var2, ArchetypeChunk<EntityStore> var3, Store<EntityStore> var4, CommandBuffer<EntityStore> var5)
+
+Fields:
+private final ComponentType<EntityStore,StepComponent> stepComponentType
+private final ComponentType<EntityStore,Frozen> frozenComponentType

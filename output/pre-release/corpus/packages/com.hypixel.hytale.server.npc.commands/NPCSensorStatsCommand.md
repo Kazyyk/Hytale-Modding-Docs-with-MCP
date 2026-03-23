@@ -25,3 +25,11 @@ Registers as sub-command `"sensorstats"` with translation key `"server.commands.
 
 - NPCBenchmarkCommand -- runtime performance benchmarking
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+  private static boolean isRangesEmpty(RoleStats roleStats, boolean isPlayer)
+  private static void formatBuckets(StringBuilder builder, RoleStats roleStats, String label, boolean isPlayer, int width)
+  private static void formatRanges(StringBuilder builder, RoleStats roleStats, String label, boolean isPlayer, RoleStats.RangeType rangeType, int width)

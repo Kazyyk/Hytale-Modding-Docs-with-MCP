@@ -17,3 +17,19 @@ Returns `true` if any block within the cached support region has changed since t
 public void rest(@Nonnull World world, @Nonnull Box boundingBox, @Nonnull Vector3d position)
 
 Captures the current block IDs beneath the entity's bounding box at the given position. Stores the support region bounds and block ID array for subsequent `hasChanged()` checks.
+
+Also in this package: ROTATION_MODE, STATE, SimplePhysicsProvider
+
+Complete API:
+  public boolean hasChanged(World world)
+  public void rest(World world, Box boundingBox, Vector3d position)
+  public void clear()
+
+Fields:
+protected int supportMinX
+protected int supportMaxX
+protected int supportMinZ
+protected int supportMaxZ
+protected int supportMinY
+protected int supportMaxY
+protected int[] supportBlocks

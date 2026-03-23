@@ -13,3 +13,16 @@ Checks whether a specified cooldown (by `Id`) is currently active. If the cooldo
 ## Related Types
 
 - Parent hierarchy types are in package `com.hypixel.hytale.server.core.modules.interaction.interaction.config`
+
+Also in this package: AddItemInteraction, AngledWielding, ApplyForceInteraction, BlockConditionInteraction, BlockIdMatcher, BlockMatcher, BreakBlockInteraction, ChainingInteraction, ChainingTag, ChangeBlockInteraction, ChangeStateInteraction, ChargingInteraction, ChargingTag, CostType, CycleBlockGroupInteraction, Data, DestroyBlockInteraction, ExplodeInteraction, FirstClickInteraction, Force (and 13 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  protected boolean checkCooldown(CooldownHandler cooldownHandler, String cooldownId)
+  protected Interaction generatePacket()
+  protected void configurePacket(Interaction packet)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<CooldownConditionInteraction> CODEC
+private String cooldown

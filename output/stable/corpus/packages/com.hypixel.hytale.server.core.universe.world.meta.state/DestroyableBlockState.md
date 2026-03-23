@@ -5,3 +5,10 @@ Type: class | Package: com.hypixel.hytale.server.core.universe.world.meta.state 
 public class DestroyableBlockState implements Component<ChunkStore>
 
 Block state component for blocks with a destroyable health system. Tracks remaining hit points and handles damage application. When health reaches zero, the block is destroyed.
+
+Known implementors: BenchState, ItemContainerState, ProcessingBenchState
+
+Also in this package: BlockMapMarker, BlockMapMarkerData, BlockMapMarkersResource, BreakValidatedBlockState, ItemContainerBlockState, ItemContainerState, ItemContainerStateData, LaunchPad, LaunchPadSettingsPage, LaunchPadSettingsPageEventData, MarkerBlockState, MarkerProvider, OnAddRemove, OnRemove, PlacedByBlockState, RespawnBlock, SendableBlockState
+
+Complete API:
+  void onDestroy()

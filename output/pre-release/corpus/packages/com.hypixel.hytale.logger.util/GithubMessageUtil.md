@@ -16,3 +16,15 @@ Utility type in the `util` subsystem.
 ## Accessors
 
 - isGithub() | boolean | Boolean accessor.
+
+Also in this package: LoggerPrintStream
+
+Complete API:
+  public static boolean isGithub()
+  public static String messageError(String file, int line, int column, String message)
+  public static String messageError(String file, String message)
+  public static String messageWarning(String file, int line, int column, String message)
+  public static String messageWarning(String file, String message)
+
+Fields:
+private static final String CI

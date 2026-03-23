@@ -108,3 +108,23 @@ The `setup()` method registers all of the following systems on the entity store:
 - DamageSystems -- the damage processing systems
 - DeathSystems -- the death processing systems
 - RespawnSystems -- the respawn processing systems
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  public static DamageModule get()
+  protected void setup()
+  public ComponentType<EntityStore,DeathComponent> getDeathComponentType()
+  public ComponentType<EntityStore,DeferredCorpseRemoval> getDeferredCorpseRemovalComponentType()
+  public SystemGroup<EntityStore> getGatherDamageGroup()
+  public SystemGroup<EntityStore> getFilterDamageGroup()
+  public SystemGroup<EntityStore> getInspectDamageGroup()
+
+Fields:
+public static final PluginManifest MANIFEST
+private static DamageModule instance
+private ComponentType<EntityStore,DeathComponent> deathComponentType
+private ComponentType<EntityStore,DeferredCorpseRemoval> deferredCorpseRemovalComponentType
+private SystemGroup<EntityStore> gatherDamageGroup
+private SystemGroup<EntityStore> filterDamageGroup
+private SystemGroup<EntityStore> inspectDamageGroup

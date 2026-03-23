@@ -12,3 +12,13 @@ Defines the contract for IMetaStoreImpl operations. Extends `IMetaStore` with en
 - void decode(BsonDocument var1, ExtraInfo var2)
 - BsonDocument encode(ExtraInfo var1)
 - void forEachUnknownEntry(BiConsumer<String, BsonValue> var1)
+
+Known implementors: AbstractMetaStore
+
+Also in this package: AbstractMetaStore, ArrayMetaStore, DynamicMetaStore, IMetaRegistry, IMetaStore, MetaEntryConsumer, MetaEntryConsumer, MetaKey, MetaRegistry, MetaRegistryEntry, PersistentMetaKey
+
+Complete API:
+  IMetaRegistry<K> getRegistry()
+  void decode(BsonDocument var1, ExtraInfo var2)
+  BsonDocument encode(ExtraInfo var1)
+  void forEachUnknownEntry(BiConsumer<String,BsonValue> var1)

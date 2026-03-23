@@ -60,3 +60,68 @@ Abstract base class in the `tooloperations` package.
 | `` | `throw new` | `IllegalStateException("No builder tool active on player")` |
 | `` | `throw new` | `Exception("No tool found matching id " + toolType)` |
 | `@Nullable public static` | `BlockMask` | `combineMasks(@Nullable BrushData.Values brush, @Nullable BlockMask globalMask)` |
+
+Known subclasses: FloodOperation, LaserPointerOperation, LayersOperation, NoiseOperation, PaintOperation, RevolveOperation, ScatterOperation, SculptOperation, SmoothOperation, SmootherOperation, TintOperation
+
+Also in this package: FloodOperation, LaserPointerOperation, LayersOperation, NoiseOperation, OperationFactory, PaintOperation, RevolveOperation, Sampling, ScatterOperation, SculptOperation, SmoothOperation, SmootherOperation, TintOperation
+
+Complete API:
+  public static PrototypePlayerBuilderToolSettings getOrCreatePrototypeSettings(UUID playerUuid)
+  public static List<Vector3i> calculateInterpolatedPositions(Vector3i lastPosition, Vector3i currentPosition, int brushWidth, int brushHeight, int brushSpacing)
+  public Vector3i getPosition()
+  public int getBrushWidth()
+  public int getBrushHeight()
+  public int getBrushSpacing()
+  public Transform getBrushRotation(ComponentAccessor<EntityStore> componentAccessor)
+  public void executeAsBrushConfig(PrototypePlayerBuilderToolSettings prototypePlayerBuilderToolSettings, BuilderToolOnUseInteraction packet, ComponentAccessor<EntityStore> componentAccessor)
+  private BlockPattern getPattern(BuilderToolOnUseInteraction packet, BlockPattern pattern)
+  public Vector3i getTargetBlockAvoidingPaint(Ref<EntityStore> ref, double maxDistance, ComponentAccessor<EntityStore> componentAccessor, float raycastOriginX, float raycastOriginY, float raycastOriginZ, float raycastDirectionX, float raycastDirectionY, float raycastDirectionZ)
+  public EditOperation getEditOperation()
+  public final boolean test(int x, int y, int z, Void aVoid)
+  public boolean showEditNotification()
+  abstract boolean execute0(int var1, int var2, int var3)
+  public void execute(ComponentAccessor<EntityStore> componentAccessor)
+  public void executeAt(int posX, int posY, int posZ, ComponentAccessor<EntityStore> componentAccessor)
+  public static void executeShapeOperation(int x, int y, int z, TriIntObjPredicate<Void> operation, BrushShape shape, int shapeRange, int shapeHeight, int shapeThickness, boolean capped)
+  private static Vector3i getOffsets(int width, int height, boolean originRotation, BrushOrigin origin, Transform transform, Vector3i vector, boolean applyBottomOriginFix)
+  private static Transform getTransform(Ref<EntityStore> ref, BuilderTool.ArgData args, Vector3i vector, ComponentAccessor<EntityStore> componentAccessor)
+  private static Transform getRotation(Ref<EntityStore> ref, BuilderTool.ArgData args, Vector3i vector, ComponentAccessor<EntityStore> componentAccessor)
+  private static Transform getMirror(Ref<EntityStore> ref, BuilderTool.ArgData args, Vector3i vector, ComponentAccessor<EntityStore> componentAccessor)
+  public static ToolOperation fromPacket(Ref<EntityStore> ref, Player player, BuilderToolOnUseInteraction packet, ComponentAccessor<EntityStore> componentAccessor)
+  public static BlockMask combineMasks(BuilderTool.ArgData args, BlockMask globalMask)
+
+Fields:
+private static final HytaleLogger LOGGER
+protected static final int RANDOM_MAX
+public static final Map<String,OperationFactory> OPERATIONS
+public static final Map<UUID,PrototypePlayerBuilderToolSettings> PROTOTYPE_TOOL_SETTINGS
+public static final double MAX_DISTANCE
+public static final int DEFAULT_BRUSH_SPACING
+private static final Pattern NEWLINES_PATTERN
+protected final int x
+protected final int y
+protected final int z
+protected final InteractionType interactionType
+protected final int shapeRange
+protected final int shapeHeight
+protected final int shapeThickness
+protected final boolean capped
+protected final int originOffsetX
+protected final int originOffsetY
+protected final int originOffsetZ
+protected final BrushShape shape
+protected final BlockPattern pattern
+protected final int density
+protected final int spacing
+protected final EditOperation edit
+protected final BuilderTool.ArgData args
+protected final Random random
+protected final Player player
+protected final Ref<EntityStore> playerRef
+protected final BuilderToolsPlugin.BuilderState builderState
+private Transform transform
+private final Vector3i vector
+protected int currentCenterX
+protected int currentCenterY
+protected int currentCenterZ
+private final BlockMask mask

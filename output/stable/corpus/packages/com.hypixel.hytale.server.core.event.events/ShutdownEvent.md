@@ -11,3 +11,13 @@ Server lifecycle event.
 - DISCONNECT_PLAYERS | short
 - UNBIND_LISTENERS | short
 - SHUTDOWN_WORLDS | short
+
+Also in this package: BootEvent, PrepareUniverseEvent
+
+Complete API:
+  public String toString()
+
+Fields:
+public static final short DISCONNECT_PLAYERS
+public static final short UNBIND_LISTENERS
+public static final short SHUTDOWN_WORLDS

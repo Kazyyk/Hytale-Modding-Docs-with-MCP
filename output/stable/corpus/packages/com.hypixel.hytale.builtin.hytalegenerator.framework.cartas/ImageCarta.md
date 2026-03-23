@@ -29,3 +29,23 @@ Concrete implementation extending `TriCarta<R>`.
 - blueFromRgb(int rgb) | int | static public method.
 - coloursToRgb(int red, int green, int blue) | int | static public method.
 - toString() | String | public method.
+
+Also in this package: Builder, LayeredCarta, SingleElementCarta
+
+Complete API:
+  public R apply(int x, int y, int z, WorkerIndexer.Id tHreadId)
+  public List<R> allPossibleValues()
+  public static int greenFromRgb(int rgb)
+  public static int redFromRgb(int rgb)
+  public static int blueFromRgb(int rgb)
+  public static int coloursToRgb(int red, int green, int blue)
+  public String toString()
+
+Fields:
+private int[] rgbArray
+private int width
+private int height
+private TriDoubleFunction<Double> functionX
+private TriDoubleFunction<Double> functionY
+private Map<Integer,R> rgbToTerrainMap
+private List<R> allPossibleValues

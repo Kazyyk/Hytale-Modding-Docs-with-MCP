@@ -20,3 +20,10 @@ Returns the camera effect asset index. Equivalent to `cameraEffectIndex()`.
 ## Related Types
 
 - Damage -- the damage event that carries camera effects via meta store
+
+Known subclasses: CameraShakeEffect, MissingCameraEffect
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool, DamageCalculatorSystems (and 49 more)
+
+Complete API:
+  public int getEffectIndex()

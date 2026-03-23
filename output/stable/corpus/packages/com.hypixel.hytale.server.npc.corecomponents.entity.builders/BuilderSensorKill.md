@@ -15,3 +15,16 @@ NPC sensor builder: Test if NPC made a kill.
 - @Override public BuilderDescriptorState getBuilderDescriptorState()
 - @Override public Builder<Sensor> readConfig(@Nonnull JsonElement data)
 - public int getTargetSlot(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionBeacon, BuilderActionIgnoreForAvoidance, BuilderActionNotify, BuilderActionOverrideAttitude, BuilderActionReleaseTarget, BuilderActionSetMarkedTarget, BuilderActionSetStat, BuilderHeadMotionWatch, BuilderSensorBeacon, BuilderSensorCount, BuilderSensorEntity, BuilderSensorEntityBase, BuilderSensorPlayer, BuilderSensorSelf, BuilderSensorTarget
+
+Complete API:
+  public SensorKill build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Sensor> readConfig(JsonElement data)
+  public int getTargetSlot(BuilderSupport support)
+
+Fields:
+protected final StringHolder targetSlot

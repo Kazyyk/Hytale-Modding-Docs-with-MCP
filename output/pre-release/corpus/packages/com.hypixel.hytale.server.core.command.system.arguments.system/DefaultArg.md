@@ -17,3 +17,17 @@ public class DefaultArg<DataType> extends AbstractOptionalArg<DefaultArg<DataTyp
 - @Override @Nonnull public Message getUsageMessage()
 - @Override @Nonnull public Message getUsageOneLiner()
 - @Nonnull public String getDefaultValueDescription()
+
+Also in this package: AbstractOptionalArg, ArgWrapper, Argument, DefaultValueArgument, FlagArg, OptionalArg, RequiredArg, WrappedArg
+
+Complete API:
+  protected DefaultArg<DataType> getThis()
+  public final DataType getDefaultValue()
+  public void validateDefaultValue(ParseResult parseResult)
+  public Message getUsageMessage()
+  public Message getUsageOneLiner()
+  public String getDefaultValueDescription()
+
+Fields:
+private final DataType defaultValue
+private final String defaultValueDescription

@@ -11,3 +11,13 @@ An `EntityStore` component.
 - public static ComponentType<EntityStore, NPCMarkerComponent> getComponentType()
 - public static NPCMarkerComponent get()
 - @Override public Component<EntityStore> clone()
+
+Also in this package: ActiveAnimationComponent, AudioComponent, BoundingBox, CollisionResultComponent, DisplayNameComponent, DynamicLight, EntityScaleComponent, FromPrefab, FromWorldGen, HeadRotation, HiddenFromAdventurePlayers, Intangible, Interactable, Invulnerable, ModelComponent, MovementAudioComponent, NewSpawnComponent, PersistentDynamicLight, PersistentModel, PositionDataComponent (and 7 more)
+
+Complete API:
+  public static ComponentType<EntityStore,NPCMarkerComponent> getComponentType()
+  public static NPCMarkerComponent get()
+  public Component<EntityStore> clone()
+
+Fields:
+private static final NPCMarkerComponent INSTANCE

@@ -41,3 +41,18 @@ public class TimeoutCache<K, V> implements Cache<K, V>
 - Cache
 - CleanupFutureAction
 - CleanupRunnable
+
+Also in this package: Bucket, Cache, CacheEntry, CacheEntry, CacheEntry, CleanupFutureAction, CleanupRunnable, ConcurrentSizedTimeoutCache, SizedTimeoutCache
+
+Complete API:
+  public void cleanup()
+  public void shutdown()
+  public V get(K key)
+
+Fields:
+private final Map<K,TimeoutCache.CacheEntry<V>> map
+private final long timeout
+private final Function<K,V> func
+private final BiConsumer<K,V> destroyer
+private final ScheduledFuture<?> future
+private final Cleanable cleanable

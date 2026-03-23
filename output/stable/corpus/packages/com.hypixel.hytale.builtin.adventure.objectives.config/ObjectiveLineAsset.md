@@ -35,3 +35,29 @@ Asset definition for ObjectiveLine configuration data.
 - public String getObjectiveDescriptionKey()
 - public String[] getNextObjectiveLineIds()
 - @Nonnull @Override public String toString()
+
+Also in this package: ObjectiveAsset, ObjectiveLocationMarkerAsset
+
+Complete API:
+  public static AssetStore<String,ObjectiveLineAsset,DefaultAssetMap<String,ObjectiveLineAsset>> getAssetStore()
+  public static DefaultAssetMap<String,ObjectiveLineAsset> getAssetMap()
+  public String getId()
+  public String getCategory()
+  public String[] getObjectiveIds()
+  public String getNextObjectiveId(String currentObjectiveId)
+  public String getObjectiveTitleKey()
+  public String getObjectiveDescriptionKey()
+  public String[] getNextObjectiveLineIds()
+  public String toString()
+
+Fields:
+public static AssetBuilderCodec<String,ObjectiveLineAsset> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,ObjectiveLineAsset,DefaultAssetMap<String,ObjectiveLineAsset>> ASSET_STORE
+protected AssetExtraInfo.Data extraData
+protected String id
+protected String category
+protected String[] objectiveIds
+protected String objectiveTitleKey
+protected String objectiveDescriptionKey
+protected String[] nextObjectiveLineIds

@@ -20,3 +20,17 @@ Class in the choices subsystem.
 - getElements() | ChoiceElement[] | protected method.
 - getPageLayout() | String | protected method.
 - handleDataEvent(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull ChoiceBasePage.ChoicePageEventData data) | void | public method.
+
+Known subclasses: ItemRepairPage, ShopPage
+
+Also in this package: ChoiceElement, ChoiceInteraction, ChoicePageEventData, ChoiceRequirement
+
+Complete API:
+  protected ChoiceElement[] getElements()
+  protected String getPageLayout()
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, ChoiceBasePage.ChoicePageEventData data)
+
+Fields:
+private final ChoiceElement[] elements
+private final String pageLayout

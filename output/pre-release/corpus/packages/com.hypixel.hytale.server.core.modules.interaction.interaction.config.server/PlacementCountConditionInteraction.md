@@ -36,3 +36,15 @@ Returns `WaitForDataFrom.Server`.
 ## See Also
 
 - `BlockCounter` -- resource that tracks block placement counts
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction (and 11 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public WaitForDataFrom getWaitForDataFrom()
+
+Fields:
+public static final BuilderCodec<PlacementCountConditionInteraction> CODEC
+private String blockType
+private int value
+private boolean lessThan

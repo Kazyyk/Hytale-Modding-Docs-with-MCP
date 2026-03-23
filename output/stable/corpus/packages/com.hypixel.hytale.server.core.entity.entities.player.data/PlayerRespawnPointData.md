@@ -20,3 +20,17 @@ Provides PlayerRespawnPointData functionality within the data subsystem.
 - public Vector3d getRespawnPosition()
 - public String getName()
 - public void setName(@Nonnull String name)
+
+Also in this package: PlayerConfigData, PlayerDeathPositionData, PlayerWorldData, UniqueItemUsagesComponent
+
+Complete API:
+  public Vector3i getBlockPosition()
+  public Vector3d getRespawnPosition()
+  public String getName()
+  public void setName(String name)
+
+Fields:
+public static final BuilderCodec<PlayerRespawnPointData> CODEC
+private Vector3i blockPosition
+private Vector3d respawnPosition
+private String name

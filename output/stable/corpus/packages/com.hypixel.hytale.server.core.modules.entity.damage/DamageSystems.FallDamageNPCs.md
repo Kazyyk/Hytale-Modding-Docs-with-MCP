@@ -17,3 +17,17 @@ Calculates and applies fall damage to non-player living entities. Part of the ga
 - DamageSystems -- parent class
 - DamageSystems.FallDamagePlayers -- equivalent system for players
 - DamageCause -- uses `FALL` cause
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)
+
+Complete API:
+  public SystemGroup<EntityStore> getGroup()
+  public Query<EntityStore> getQuery()
+  public void tick(float dt, int systemIndex, Store<EntityStore> store)
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+
+Fields:
+static final float CURVE_MODIFIER
+static final float CURVE_MULTIPLIER
+public static final double MIN_DAMAGE

@@ -24,3 +24,17 @@ Root dependency (runs first).
 - MountSystems -- enclosing class
 - MinecartComponent -- the query component
 - MountSystems.OnMinecartHit -- handles minecart damage
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public void onEntityAdd(Holder<EntityStore> holder, AddReason reason, Store<EntityStore> store)
+  public void onEntityRemoved(Holder<EntityStore> holder, RemoveReason reason, Store<EntityStore> store)
+  public Query<EntityStore> getQuery()
+  public Set<Dependency<EntityStore>> getDependencies()
+
+Fields:
+private final ComponentType<EntityStore,MinecartComponent> minecartComponentType
+private final ComponentType<EntityStore,Interactable> interactableComponentType
+private final ComponentType<EntityStore,NetworkId> networkIdComponentType
+private final ComponentType<EntityStore,PrefabCopyableComponent> prefabCopyableComponentType

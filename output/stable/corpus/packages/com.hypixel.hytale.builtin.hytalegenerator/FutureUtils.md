@@ -9,3 +9,8 @@ Utility for combining a list of CompletableFutures into a single all-of future.
 ## Key Methods
 
 - public static CompletableFuture<Void> allOf(@Nonnull List<CompletableFuture<T>> tasks)
+
+Also in this package: ArrayUtil, BiOperation3i, BlockMask, Indexer, LoggerUtil, MaterialSet, NakedOperation3i, Operation3i, PropField, Registry, Retriever, ReusableList, VectorUtil
+
+Complete API:
+  public static CompletableFuture<Void> allOf(List<CompletableFuture<T>> tasks)

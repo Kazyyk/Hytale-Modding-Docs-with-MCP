@@ -28,3 +28,23 @@ An `EntityStore` component.
 - public int getCurrentTickIndex()
 - public int getOldestTickIndex()
 - @Override public Component<EntityStore> clone()
+
+Also in this package: ActiveAnimationComponent, AudioComponent, BoundingBox, CollisionResultComponent, DisplayNameComponent, DynamicLight, EntityScaleComponent, FromPrefab, FromWorldGen, HeadRotation, HiddenFromAdventurePlayers, Intangible, Interactable, Invulnerable, ModelComponent, MovementAudioComponent, NPCMarkerComponent, NewSpawnComponent, PersistentDynamicLight, PersistentModel (and 7 more)
+
+Complete API:
+  public static ComponentType<EntityStore,SnapshotBuffer> getComponentType()
+  public EntitySnapshot getSnapshotClamped(int tickIndex)
+  public EntitySnapshot getSnapshot(int tickIndex)
+  private EntitySnapshot getSnapshotRelative(int relIndex)
+  public void storeSnapshot(int tickIndex, Vector3d position, Vector3f bodyRotation)
+  public void resize(int newLength)
+  public boolean isInitialized()
+  public int getCurrentTickIndex()
+  public int getOldestTickIndex()
+  public Component<EntityStore> clone()
+
+Fields:
+private EntitySnapshot[] snapshots
+private int currentTickIndex
+private int oldestTickIndex
+private int currentIndex

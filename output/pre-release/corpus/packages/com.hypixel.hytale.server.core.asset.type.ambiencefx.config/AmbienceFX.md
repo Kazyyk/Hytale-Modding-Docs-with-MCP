@@ -42,3 +42,38 @@ Implements `JsonAssetWithMap`, `NetworkSerializable`.
 - public int getPriority()
 - public String[] getBlockedAmbienceFxIds()
 - @Override public String toString()
+
+Also in this package: AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect
+
+Complete API:
+  public static AssetStore<String,AmbienceFX,IndexedAssetMap<String,AmbienceFX>> getAssetStore()
+  public static IndexedAssetMap<String,AmbienceFX> getAssetMap()
+  public com.hypixel.hytale.protocol.AmbienceFX toPacket()
+  public String getId()
+  public AmbienceFXConditions getConditions()
+  public AmbienceFXSound[] getSounds()
+  public AmbienceFXMusic getMusic()
+  public AmbienceFXAmbientBed getAmbientBed()
+  public AmbienceFXSoundEffect getSoundEffect()
+  public int getPriority()
+  public String[] getBlockedAmbienceFxIds()
+  public String toString()
+
+Fields:
+public static final ValidatorCache<String> VALIDATOR_CACHE
+public static final AssetBuilderCodec<String,AmbienceFX> CODEC
+public static final int EMPTY_ID
+public static final AmbienceFX EMPTY
+private static AssetStore<String,AmbienceFX,IndexedAssetMap<String,AmbienceFX>> ASSET_STORE
+protected AssetExtraInfo.Data data
+protected String id
+protected AmbienceFXConditions conditions
+protected AmbienceFXSound[] sounds
+protected AmbienceFXMusic music
+protected AmbienceFXAmbientBed ambientBed
+protected AmbienceFXSoundEffect soundEffect
+protected int priority
+protected String[] blockedAmbienceFxIds
+protected String audioCategoryId
+protected transient int audioCategoryIndex
+private SoftReference<com.hypixel.hytale.protocol.AmbienceFX> cachedPacket

@@ -8,3 +8,14 @@ public class OffsetPatternAsset extends PatternAsset
 
 - public Pattern build(@Nonnull PatternAsset.Argument argument)
 - public void cleanUp()
+
+Also in this package: AndPatternAsset, Argument, BlockSetPatternAsset, CeilingPatternAsset, ConstantPatternAsset, CuboidPatternAsset, DelimiterAsset, DensityPatternAsset, FloorPatternAsset, ImportedPatternAsset, MaterialPatternAsset, NotPatternAsset, OrPatternAsset, PatternAsset, RotatorPatternAsset, SurfacePatternAsset, WallPatternAsset
+
+Complete API:
+  public Pattern build(PatternAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<OffsetPatternAsset> CODEC
+private PatternAsset patternAsset
+private Vector3i offset

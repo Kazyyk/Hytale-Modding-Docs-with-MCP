@@ -9,3 +9,8 @@ Utility class providing interpolation functions for the world generator.
 ## Methods
 
 - public static double linear(double value0, double value1, double weight)
+
+Also in this package: Calculator, InterpolatedCurve, NodeFunction, Normalizer
+
+Complete API:
+  public static double linear(double value0, double value1, double weight)

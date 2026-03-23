@@ -60,3 +60,24 @@ public class TreasureMapObjectiveTask extends ObjectiveTask
 ## Related Types
 
 - ObjectiveTask
+
+Also in this package: CountObjectiveTask, CraftObjectiveTask, GatherObjectiveTask, ObjectiveTask, ObjectiveTaskRef, ReachLocationTask, UseBlockObjectiveTask, UseEntityObjectiveTask
+
+Complete API:
+  public TreasureMapObjectiveTaskAsset getAsset()
+  public String getChestMarkerIDFromUUID(UUID uuid)
+  protected TransactionRecord[] setup0(Objective objective, World world, Store<EntityStore> store)
+  public boolean checkCompletion()
+  private void onTreasureChestOpeningEvent(Objective objective, TreasureChestOpeningEvent event)
+  private TransactionRecord spawnChest(Objective objective, World world, TreasureMapObjectiveTaskAsset.ChestConfig chestConfig, ComponentAccessor<EntityStore> componentAccessor)
+  private TreasureChestState spawnChestBlock(World world, Vector3i conditionPosition, String chestBlockTypeKey, SpawnTreasureChestTransactionRecord transactionRecord)
+  private Vector3i calculateChestSpawnPosition(TreasureMapObjectiveTaskAsset.ChestConfig chestConfig, Objective objective, World world, ComponentAccessor<EntityStore> componentAccessor)
+  public com.hypixel.hytale.protocol.ObjectiveTask toPacket(Objective objective)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<TreasureMapObjectiveTask> CODEC
+public static final int CHEST_SPAWN_TRY
+private int currentCompletion
+private int chestCount
+private final List<UUID> chestUUIDs

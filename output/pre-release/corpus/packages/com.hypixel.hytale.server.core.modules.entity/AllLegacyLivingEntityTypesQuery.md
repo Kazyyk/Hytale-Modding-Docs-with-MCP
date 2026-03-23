@@ -49,3 +49,14 @@ No-op. No validation is performed.
 - EntityModule -- the module context where these queries are used
 - `EntityUtils` -- provides the `hasLivingEntity()` test
 - `Query` -- the ECS query interface this class implements
+
+Also in this package: AllLegacyEntityTypesQuery, BlockEntitySetupSystem, BlockEntitySystems, BlockEntityTrackerSystem, BlockMigrationExtraInfo, DespawnComponent, DespawnSystem, EntityModule, EntityRegistration, EntityRegistry, HiddenFromPlayerMigrationSystem, LegacyEntityHolderSystem, LegacyEntityRefSystem, LegacyProjectileSystems, LegacyTransformSystem, LegacyUUIDSystem, LegacyUUIDUpdateSystem, MigrationSystem, OnAddHolderSystem, OnAddRefSystem (and 4 more)
+
+Complete API:
+  public boolean test(Archetype<EntityStore> archetype)
+  public boolean requiresComponentType(ComponentType<EntityStore,?> componentType)
+  public void validateRegistry(ComponentRegistry<EntityStore> registry)
+  public void validate()
+
+Fields:
+public static final AllLegacyLivingEntityTypesQuery INSTANCE

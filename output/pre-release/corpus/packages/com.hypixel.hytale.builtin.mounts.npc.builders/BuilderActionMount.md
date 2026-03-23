@@ -20,3 +20,20 @@ Utility type in the `builders` subsystem.
 
 - build(BuilderSupport builderSupport) | ActionMount | Instance method.
 - readConfig(JsonElement data) | Builder<Action> | Instance method.
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public float getAnchorX(BuilderSupport support)
+  public float getAnchorY(BuilderSupport support)
+  public float getAnchorZ(BuilderSupport support)
+  public String getMovementConfig(BuilderSupport support)
+  public ActionMount build(BuilderSupport builderSupport)
+  public Builder<Action> readConfig(JsonElement data)
+
+Fields:
+protected final FloatHolder anchorX
+protected final FloatHolder anchorY
+protected final FloatHolder anchorZ
+protected final StringHolder movementConfig

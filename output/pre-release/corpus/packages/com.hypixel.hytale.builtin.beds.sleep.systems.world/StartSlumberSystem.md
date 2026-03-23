@@ -30,3 +30,22 @@ ECS system handling StartSlumber tick processing.
 | `private` | `boolean` | `isEveryoneReadyToSleep(@Nonnull ComponentAccessor<EntityStore> store)` |
 | `public static` | `boolean` | `isReadyToSleep(@Nonnull ComponentAccessor<EntityStore> store, @Nullable Ref<EntityStore> ref)` |
 | `public static` | `boolean` | `canNotifyOthersAboutTryingToSleep(@Nonnull ComponentAccessor<EntityStore> store, @Nullable Ref<EntityStore> ref)` |
+
+Also in this package: CanSleepInWorld, NotDuringSleepHoursRange, Result, Status, UpdateWorldSlumberSystem
+
+Complete API:
+  public void delayedTick(float dt, int systemIndex, Store<EntityStore> store)
+  private void checkIfEveryoneIsReadyToSleep(Store<EntityStore> store)
+  private Instant computeWakeupInstant(Instant now, float wakeUpHour)
+  private static float computeIrlSeconds(Instant startInstant, Instant targetInstant)
+  private boolean isEveryoneReadyToSleep(ComponentAccessor<EntityStore> store)
+  public static boolean isReadyToSleep(ComponentAccessor<EntityStore> store, Ref<EntityStore> ref)
+  public static boolean canNotifyOthersAboutTryingToSleep(ComponentAccessor<EntityStore> store, Ref<EntityStore> ref)
+
+Fields:
+private static final Duration NODDING_OFF_DURATION
+private static final Duration WAKE_UP_AUTOSLEEP_DELAY
+private static final float SYSTEM_INTERVAL_S
+private final ComponentType<EntityStore,PlayerSomnolence> playerSomnolenceComponentType
+private final ResourceType<EntityStore,WorldSomnolence> worldSomnolenceResourceType
+private final ResourceType<EntityStore,WorldTimeResource> worldTimeResourceType

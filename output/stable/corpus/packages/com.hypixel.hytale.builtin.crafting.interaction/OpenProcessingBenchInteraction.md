@@ -16,3 +16,12 @@ Block or entity interaction handler for OpenProcessingBench behavior.
         @Nonnull Vector3i pos,
         @Nonnull CooldownHandler cooldownHandler)` |
 | `@Override protected` | `void` | `simulateInteractWithBlock(@Nonnull InteractionType type, @Nonnull InteractionContext context, @Nullable ItemStack itemInHand, @Nonnull World world, @Nonnull Vector3i targetBlock)` |
+
+Also in this package: LearnRecipeInteraction, OpenBenchPageInteraction, PageType
+
+Complete API:
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack itemInHand, Vector3i pos, CooldownHandler cooldownHandler)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+
+Fields:
+public static final BuilderCodec<OpenProcessingBenchInteraction> CODEC

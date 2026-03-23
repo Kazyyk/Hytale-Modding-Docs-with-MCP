@@ -13,3 +13,9 @@ static final String DOMAIN = "hytale.com"
 
 
 static final String ENVIRONMENT = "release"
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, HttpResponseException, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse, LauncherDataResponse (and 9 more)
+
+Fields:
+static final String DOMAIN
+static final String ENVIRONMENT

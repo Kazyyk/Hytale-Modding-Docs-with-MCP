@@ -11,3 +11,12 @@ Interface for worldgen benchmark operations.
 - void start()
 - void stop()
 - CompletableFuture<String> buildReport()
+
+Known implementors: ChunkWorldgenBenchmark
+
+Also in this package: EntityWrapperEntry, GeneratedBlockChunk, GeneratedBlockStateChunk, GeneratedChunk, GeneratedChunkSection, GeneratedEntityChunk, IBenchmarkableWorldGen, IWorldGen, ValidatableWorldGen, WorldGenLoadException, WorldGenTimingsCollector
+
+Complete API:
+  void start()
+  void stop()
+  CompletableFuture<String> buildReport()

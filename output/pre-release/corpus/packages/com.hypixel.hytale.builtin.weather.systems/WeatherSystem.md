@@ -28,3 +28,9 @@ public class WeatherSystem
             @Nonnull CommandBuffer<EntityStore> commandBuffer)` |
 | `@Override public` | `void` | `onSystemAddedToStore(@Nonnull Store<EntityStore> store)` |
 | `@Override public` | `void` | `onSystemRemovedFromStore(@Nonnull Store<EntityStore> store)` |
+
+Also in this package: InvalidateWeatherAfterTeleport, PlayerAddedSystem, TickingSystem, WorldAddedSystem
+
+Fields:
+private static final float JOIN_TRANSITION_SECONDS
+private static final float WEATHERCHANGE_TRANSITION_SECONDS

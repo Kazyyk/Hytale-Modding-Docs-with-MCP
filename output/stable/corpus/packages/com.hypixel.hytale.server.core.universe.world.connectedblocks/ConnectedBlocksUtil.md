@@ -22,3 +22,14 @@ Vector3i coordinate, int depth
 - public boolean equals(Object obj)
 - public int hashCode()
 - public String toString()
+
+Also in this package: AdjacentSide, ConnectedBlockFaceTags, ConnectedBlockPatternRule, ConnectedBlockResult, ConnectedBlockRuleSet, ConnectedBlockShape, ConnectedBlocksModule, CustomConnectedBlockPattern, CustomConnectedBlockTemplateAsset, CustomTemplateConnectedBlockPattern, CustomTemplateConnectedBlockRuleSet, IncludeOrExclude, MirrorAxis, PatternRotationDefinition, Rotation3D
+
+Complete API:
+  public static void setConnectedBlockAndNotifyNeighbors(int blockTypeId, RotationTuple blockTypeRotation, Vector3i placementNormal, Vector3i blockPosition, WorldChunk worldChunkComponent, BlockChunk blockChunkComponent)
+  private static void updateNeighborsWithDepth(WorldChunk worldChunkComponent, Vector3i startCoordinate, Vector3i placementNormal, int settings)
+  public static void notifyNeighborsAndCollectChanges(World world, Vector3i origin, Map<Vector3i,ConnectedBlocksUtil.ConnectedBlockResult> desiredChanges, Vector3i placementNormal)
+  public static Optional<ConnectedBlocksUtil.ConnectedBlockResult> getDesiredConnectedBlockType(World world, Vector3i coordinate, BlockType currentBlockType, int currentRotation, Vector3i placementNormal, boolean isPlacement)
+
+Fields:
+private static final int MAX_UPDATE_DEPTH

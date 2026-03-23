@@ -22,3 +22,17 @@ ECS event fired when an inventory component's item container changes. Carries th
 - Extends `EcsEvent`
 - Dispatched by InventorySystems inner event systems
 - References InventoryComponent and `ItemContainer`
+
+Also in this package: Armor, ArmorChangeEventSystem, Backpack, BackpackChangeEventSystem, Combined, Hotbar, HotbarChangeEventSystem, Inventory, InventoryChangeEventSystem, InventoryComponent, InventorySystems, ItemContext, ItemPickupType, ItemStack, LegacyArmorChangeStatSystem, LegacyHotbarChangeStatSystem, LegacyUtilityChangeStatSystem, MaterialQuantity, Metadata, PlayerInventoryChangeEventSystem (and 7 more)
+
+Complete API:
+  public ComponentType<EntityStore,? extends InventoryComponent> getComponentType()
+  public InventoryComponent getInventory()
+  public ItemContainer getItemContainer()
+  public Transaction getTransaction()
+
+Fields:
+private final ComponentType<EntityStore,? extends InventoryComponent> componentType
+private final InventoryComponent inventory
+private final ItemContainer itemContainer
+private final Transaction transaction

@@ -17,3 +17,13 @@ public class DebugPlugin extends JavaPlugin
 
 - @Nullable public static DebugPlugin get()
 - @Override protected void setup()
+
+Also in this package: DebugUtils
+
+Complete API:
+  public static DebugPlugin get()
+  protected void setup()
+
+Fields:
+public static final PluginManifest MANIFEST
+private static DebugPlugin instance

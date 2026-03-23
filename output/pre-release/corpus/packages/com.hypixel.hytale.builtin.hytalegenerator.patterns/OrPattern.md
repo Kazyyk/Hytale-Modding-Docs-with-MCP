@@ -23,3 +23,13 @@ public class OrPattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: AndPattern, ConstantPattern, Context, CuboidPattern, Facing, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, Pattern, RotatorPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public Bounds3i getBounds_voxelGrid()
+
+Fields:
+private final Pattern[] patterns
+private final Bounds3i bounds_voxelGrid

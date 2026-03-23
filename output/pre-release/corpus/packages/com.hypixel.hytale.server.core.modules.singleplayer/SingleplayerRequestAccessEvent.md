@@ -12,3 +12,12 @@ public class SingleplayerRequestAccessEvent implements IEvent
 
 - public Access getAccess()
 - @Nonnull @Override public String toString()
+
+Also in this package: SingleplayerModule
+
+Complete API:
+  public Access getAccess()
+  public String toString()
+
+Fields:
+private final Access access

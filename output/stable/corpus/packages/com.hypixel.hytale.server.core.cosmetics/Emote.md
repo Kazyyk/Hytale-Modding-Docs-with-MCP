@@ -12,3 +12,16 @@ Represents an emote cosmetic with animation and display configuration.
 - public String getName()
 - public String getAnimation()
 - public String toString()
+
+Also in this package: BodyType, CosmeticAssetValidator, CosmeticRegistry, CosmeticType, CosmeticsModule, HaircutType, HeadAccessoryType, InvalidSkinException, PlayerSkin, PlayerSkinGradient, PlayerSkinGradientSet, PlayerSkinPart, PlayerSkinPartId, PlayerSkinPartTexture, PlayerSkinPartType, PlayerSkinTintColor, Variant
+
+Complete API:
+  public String getId()
+  public String getName()
+  public String getAnimation()
+  public String toString()
+
+Fields:
+protected String id
+protected String name
+protected String animation

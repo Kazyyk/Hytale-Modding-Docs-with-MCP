@@ -32,3 +32,20 @@ On each damage event:
 - MountSystems -- enclosing class
 - MinecartComponent -- the component tracking hit state
 - MountSystems.EnsureMinecartComponents -- ensures supporting components
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public Set<Dependency<EntityStore>> getDependencies()
+  public void handle(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, Damage damage)
+
+Fields:
+private static final Duration HIT_RESET_TIME
+private static final int NUMBER_OF_HITS
+private final ComponentType<EntityStore,MinecartComponent> minecartComponentType
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final ComponentType<EntityStore,Player> playerComponentType
+private final ResourceType<EntityStore,TimeResource> timeResourceType
+private final Query<EntityStore> query
+private final Set<Dependency<EntityStore>> dependencies

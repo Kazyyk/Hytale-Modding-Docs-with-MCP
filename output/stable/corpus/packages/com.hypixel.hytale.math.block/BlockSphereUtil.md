@@ -58,3 +58,13 @@ public class BlockSphereUtil
 - public static <T> boolean forEachBlock(int originX, int originY, int originZ, int radiusX, int radiusY, int radiusZ, int thickness, @Nullable T t, @Nonnull TriIntObjPredicate<T> consumer)
 - return forEachBlock(originX, originY, originZ, radiusX, radiusY, radiusZ, t, consumer)
 - private static <T> boolean test(int originX, int originY, int originZ, int x, int y, int z, T context, @Nonnull TriIntObjPredicate<T> consumer)
+
+Also in this package: BlockConeUtil, BlockCubeUtil, BlockCylinderUtil, BlockDiamondUtil, BlockDomeUtil, BlockInvertedDomeUtil, BlockPyramidUtil, BlockTorusUtil, BlockUtil
+
+Complete API:
+  public static void forEachBlockExact(int originX, int originY, int originZ, double radius, T t, TriIntObjPredicate<T> consumer)
+  public static void forEachBlock(int originX, int originY, int originZ, int radius, T t, TriIntObjPredicate<T> consumer)
+  public static boolean forEachBlock(int originX, int originY, int originZ, int radiusX, int radiusY, int radiusZ, T t, TriIntObjPredicate<T> consumer)
+  public static void forEachBlock(int originX, int originY, int originZ, int radius, int thickness, T t, TriIntObjPredicate<T> consumer)
+  public static boolean forEachBlock(int originX, int originY, int originZ, int radiusX, int radiusY, int radiusZ, int thickness, T t, TriIntObjPredicate<T> consumer)
+  private static boolean test(int originX, int originY, int originZ, int x, int y, int z, T context, TriIntObjPredicate<T> consumer)

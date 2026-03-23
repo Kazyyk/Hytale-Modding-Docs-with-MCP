@@ -31,3 +31,11 @@ Singleton standard library scope that serves as the root parent for all NPC expr
 
 - StdScope -- parent class providing the symbol table
 - Expression -- uses this as the root scope for NPC expressions
+
+Also in this package: ExecutionContext, Expression, Function, Instruction, Operand, Scope, StdScope, Symbol, SymbolBoolean, SymbolBooleanArray, SymbolFunction, SymbolNumber, SymbolNumberArray, SymbolString, SymbolStringArray, ValueType
+
+Complete API:
+  public static StdScope getInstance()
+
+Fields:
+private static final StdLib instance

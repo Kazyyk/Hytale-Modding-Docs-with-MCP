@@ -31,3 +31,16 @@ public class UseEntityObjectiveTask extends CountObjectiveTask
 
 - CountObjectiveTask
 - ObjectiveTask
+
+Also in this package: CountObjectiveTask, CraftObjectiveTask, GatherObjectiveTask, ObjectiveTask, ObjectiveTaskRef, ReachLocationTask, TreasureMapObjectiveTask, UseBlockObjectiveTask
+
+Complete API:
+  public UseEntityObjectiveTaskAsset getAsset()
+  protected TransactionRecord[] setup0(Objective objective, World world, Store<EntityStore> store)
+  public boolean increaseTaskCompletion(Store<EntityStore> store, Ref<EntityStore> ref, int qty, Objective objective, PlayerRef playerRef, UUID npcUUID)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<UseEntityObjectiveTask> CODEC
+private static final Message MESSAGE_SERVER_MODULES_OBJECTIVE_TASK_ALREADY_INTERACTED_WITH_NPC
+protected Set<UUID> npcUUIDs

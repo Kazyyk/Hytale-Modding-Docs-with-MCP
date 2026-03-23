@@ -14,3 +14,11 @@ Abstract base class for world-generation pattern matching. A pattern tests wheth
 
 - public abstract boolean matches(@Nonnull Pattern.Context var1)
 - @Nonnull public abstract Bounds3i getBounds_voxelGrid()
+
+Known subclasses: AndPattern, ConstantPattern, CuboidPattern, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, RotatorPattern, SurfacePattern, WallPattern
+
+Also in this package: AndPattern, ConstantPattern, Context, CuboidPattern, Facing, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, RotatorPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public abstract boolean matches(Pattern.Context var1)
+  public abstract Bounds3i getBounds_voxelGrid()

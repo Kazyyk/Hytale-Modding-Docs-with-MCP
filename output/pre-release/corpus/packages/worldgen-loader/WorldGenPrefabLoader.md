@@ -23,3 +23,19 @@ Manages loading and caching of world generation prefabs. Maintains a `TimeoutCac
 *class*
 
 Collects and deduplicates prefab paths across asset packs. Implements `Consumer<Path>` and `AutoCloseable`. Uses a path-based `ObjectOpenCustomHashSet` for deduplication.
+
+Also in this package: AssetFileSystem, ChunkGeneratorJsonLoader, Constants, Constants, MaskProviderJsonLoader, PrefabPathCollector, Resource, WorldGenPrefabSupplier, ZonesJsonLoader
+
+Complete API:
+  public PrefabStoreRoot getStore()
+  public Path getRootFolder()
+  public WorldGenPrefabSupplier[] get(String prefabName)
+  private WorldGenPrefabSupplier[] compute(String key)
+  private static PrefabLoader[] getPrefabLoaders(WorldGenConfig config, Path prefabStorePath)
+
+Fields:
+public static final String PREFAB_FOLDER
+private final Path root
+private final PrefabStoreRoot store
+private final PrefabLoader[] prefabLoaders
+private final TimeoutCache<String,WorldGenPrefabSupplier[]> cache

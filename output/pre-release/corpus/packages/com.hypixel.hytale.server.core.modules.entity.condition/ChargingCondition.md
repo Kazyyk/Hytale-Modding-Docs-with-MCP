@@ -13,3 +13,13 @@ Returns true when the entity is currently in a `ChargingInteraction` or has char
 ## Relationships
 
 - Extends Condition
+
+Also in this package: AliveCondition, CheckPlayerGameModeCondition, Condition, EntityStatBoundCondition, EnvironmentCondition, GlidingCondition, HasEffectCondition, InFluidCondition, IsPlayerCondition, LogicCondition, NoDamageTakenCondition, Operator, OutOfCombatCondition, RegenHealthCondition, SprintingCondition, StatComparisonType, StatCondition, SuffocatingCondition, WieldingCondition
+
+Complete API:
+  public boolean eval0(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> ref, Instant currentTime)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ChargingCondition> CODEC
+protected Duration delay

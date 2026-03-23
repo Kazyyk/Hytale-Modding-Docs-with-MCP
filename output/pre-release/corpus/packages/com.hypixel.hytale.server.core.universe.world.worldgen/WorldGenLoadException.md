@@ -10,3 +10,9 @@ Checked exception thrown when world generation data fails to load.
 
 - public String getTraceMessage()
 - public String getTraceMessage(String joiner)
+
+Also in this package: EntityWrapperEntry, GeneratedBlockChunk, GeneratedBlockStateChunk, GeneratedChunk, GeneratedChunkSection, GeneratedEntityChunk, IBenchmarkableWorldGen, IWorldGen, IWorldGenBenchmark, ValidatableWorldGen, WorldGenTimingsCollector
+
+Complete API:
+  public String getTraceMessage()
+  public String getTraceMessage(String joiner)

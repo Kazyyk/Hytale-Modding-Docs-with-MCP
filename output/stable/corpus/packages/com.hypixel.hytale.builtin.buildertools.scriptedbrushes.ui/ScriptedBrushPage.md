@@ -18,3 +18,13 @@ Concrete implementation extending `InteractiveCustomUIPage<FileBrowserEventData>
 
 - handleDataEvent(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull FileBrowserEventData data) | void | public method.
 - handleBrushSelection(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull String brushName) | void | private method.
+
+Also in this package: ScriptedBrushListProvider
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, FileBrowserEventData data)
+  private void handleBrushSelection(Ref<EntityStore> ref, Store<EntityStore> store, String brushName)
+
+Fields:
+private final ServerFileBrowser browser

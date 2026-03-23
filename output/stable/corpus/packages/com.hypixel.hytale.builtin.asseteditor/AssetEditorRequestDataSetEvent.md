@@ -17,3 +17,17 @@ public AssetEditorRequestDataSetEvent(EditorClient editorClient, String dataSet,
 - EditorClient getEditorClient() | Returns the requesting client
 - String[] getResults() | Returns the result array
 - void setResults(String[]) | Sets the result array
+
+Also in this package: AssetEditorActivateButtonEvent, AssetEditorAssetCreatedEvent, AssetEditorClientDisconnectEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorSelectAssetEvent, AssetEditorUpdateWeatherPreviewLockEvent, EditorClientEvent
+
+Complete API:
+  public String getDataSet()
+  public EditorClient getEditorClient()
+  public String[] getResults()
+  public void setResults(String[] results)
+  public String toString()
+
+Fields:
+private final EditorClient editorClient
+private final String dataSet
+private String[] results

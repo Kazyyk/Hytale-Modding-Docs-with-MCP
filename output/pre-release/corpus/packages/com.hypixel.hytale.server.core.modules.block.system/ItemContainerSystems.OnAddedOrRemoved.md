@@ -10,3 +10,15 @@ Handles block entity add and remove lifecycle. On add: adjusts item container ca
 
 - Inner class of ItemContainerSystems
 - Operates on ItemContainerBlock
+
+Also in this package: ItemContainerBlockSpatialSystem, ItemContainerSystems, OnReplaced, OnReplacedHolder
+
+Complete API:
+  public void onEntityAdded(Ref<ChunkStore> ref, AddReason reason, Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer)
+  public void onEntityRemove(Ref<ChunkStore> ref, RemoveReason reason, Store<ChunkStore> store, CommandBuffer<ChunkStore> commandBuffer)
+  public Query<ChunkStore> getQuery()
+
+Fields:
+private final ComponentType<ChunkStore,BlockModule.BlockStateInfo> blockStateInfoComponentType
+private final ComponentType<ChunkStore,ItemContainerBlock> itemContainerBlockComponentType
+private final Query<ChunkStore> query

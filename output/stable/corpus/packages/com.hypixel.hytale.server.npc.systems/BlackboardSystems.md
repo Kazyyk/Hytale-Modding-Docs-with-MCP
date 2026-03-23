@@ -58,3 +58,5 @@ Forwards `DamageBlockEvent` ECS events to the blackboard. Calls `Blackboard.onEn
 
 - RoleSystems -- uses blackboard data during behavior ticks
 - PositionCacheSystems -- spatial queries that complement blackboard views
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem, FilterDamageSystem (and 48 more)

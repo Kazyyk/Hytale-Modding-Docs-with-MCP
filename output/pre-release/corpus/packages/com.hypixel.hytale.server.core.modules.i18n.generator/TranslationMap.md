@@ -18,3 +18,15 @@ Utility type in the `generator` subsystem.
 - putAbsentKeys(TranslationMap other) | void | Instance method.
 - sortByKeyBeforeFirstDot() | void | Instance method.
 - asMap() | Map<String, String> | Instance method.
+
+Complete API:
+  public String get(String key)
+  public void put(String key, String value)
+  public void removeKeys(Collection<? extends String> keys)
+  public int size()
+  public void putAbsentKeys(TranslationMap other)
+  public void sortByKeyBeforeFirstDot()
+  public Map<String,String> asMap()
+
+Fields:
+private LinkedHashMap<String,String> map

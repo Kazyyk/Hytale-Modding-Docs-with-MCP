@@ -65,3 +65,51 @@ public class FluidFX implements JsonAssetWithMap<String, IndexedLookupTableAsset
 - @Override public int hashCode()
 - @Nonnull @Override public String toString()
 - @Nonnull public static FluidFX getUnknownFor(String unknownId)
+
+Also in this package: FluidParticle
+
+Complete API:
+  public static AssetStore<String,FluidFX,IndexedLookupTableAssetMap<String,FluidFX>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,FluidFX> getAssetMap()
+  public com.hypixel.hytale.protocol.FluidFX toPacket()
+  public String getId()
+  public FluidFog getFog()
+  public Color getFogColor()
+  public float[] getFogDistance()
+  public float getColorsSaturation()
+  public float[] getColorsFilter()
+  public float getDistortionAmplitude()
+  public float getDistortionFrequency()
+  public float getFogDepthStart()
+  public float getFogDepthFalloff()
+  public FluidParticle getParticle()
+  public FluidFXMovementSettings getMovementSettings()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+  public static FluidFX getUnknownFor(String unknownId)
+
+Fields:
+public static final AssetBuilderCodec<String,FluidFX> CODEC
+public static final Color DEFAULT_FOG_COLOR
+public static final float[] DEFAULT_FOG_DISTANCE
+public static final float[] DEFAULT_COLORS_FILTER
+public static final int EMPTY_ID
+public static final String EMPTY
+public static final FluidFX EMPTY_FLUID_FX
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,FluidFX,IndexedLookupTableAssetMap<String,FluidFX>> ASSET_STORE
+protected AssetExtraInfo.Data data
+protected String id
+protected FluidFog fog
+protected Color fogColor
+protected float[] fogDistance
+protected float fogDepthStart
+protected float fogDepthFalloff
+protected float colorsSaturation
+protected float[] colorsFilter
+protected float distortionAmplitude
+protected float distortionFrequency
+protected FluidParticle particle
+protected FluidFXMovementSettings movementSettings
+private SoftReference<com.hypixel.hytale.protocol.FluidFX> cachedPacket

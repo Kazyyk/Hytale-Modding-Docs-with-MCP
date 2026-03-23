@@ -18,3 +18,11 @@ Spatial system for efficient positional queries.
 ## Methods
 
 - tick(float dt, int systemIndex, Store<ChunkStore> store) | void | Instance method.
+
+Complete API:
+  public void tick(float dt, int systemIndex, Store<ChunkStore> store)
+  public Vector3d getPosition(ArchetypeChunk<ChunkStore> archetypeChunk, int index)
+  public Query<ChunkStore> getQuery()
+
+Fields:
+public static final Query<ChunkStore> QUERY

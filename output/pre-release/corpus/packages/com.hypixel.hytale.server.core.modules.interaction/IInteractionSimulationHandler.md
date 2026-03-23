@@ -27,3 +27,13 @@ Returns whether an in-progress charge should be cancelled.
 float getChargeValue(boolean var1, float var2, InteractionType var3, InteractionContext var4, Ref<EntityStore> var5, CooldownHandler var6)
 
 Returns the current charge progress value.
+
+Known implementors: InteractionSimulationHandler, NPCInteractionSimulationHandler
+
+Also in this package: BlockHarvestUtils, BlockInteractionUtils, BlockPlaceUtils, InteractionModule, InteractionSimulationHandler, Interactions
+
+Complete API:
+  void setState(InteractionType var1, boolean var2)
+  boolean isCharging(boolean var1, float var2, InteractionType var3, InteractionContext var4, Ref<EntityStore> var5, CooldownHandler var6)
+  boolean shouldCancelCharging(boolean var1, float var2, InteractionType var3, InteractionContext var4, Ref<EntityStore> var5, CooldownHandler var6)
+  float getChargeValue(boolean var1, float var2, InteractionType var3, InteractionContext var4, Ref<EntityStore> var5, CooldownHandler var6)

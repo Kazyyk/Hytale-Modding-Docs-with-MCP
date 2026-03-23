@@ -23,3 +23,19 @@ Utility class for finding valid spawn positions within portal fragment worlds. U
 *enum*
 
 Block material classification: `SOLID`, `FLUID`, `AIR`, `UNKNOWN`.
+
+Also in this package: CanSpawnPortal, Data, Data, Error, Error, InstanceKeyNotFound, Material, PortalDeviceActivePage, PortalDevicePageSupplier, PortalDeviceSummonPage, PortalIsOpen, PortalTypeNotFound, State, State
+
+Complete API:
+  public static Transform computeSpawnTransform(World world, List<Vector3d> hintedSpawns)
+  private static Vector3d guesstimateFromHints(World world, List<Vector3d> hintedSpawns)
+  private static Vector3d findGroundWithinChunk(WorldChunk chunk, int scanHeight, boolean checkIfPortalFitsNice)
+  private static Vector3d findWithGroundBelow(WorldChunk chunk, int x, int y, int z, int scanHeight, boolean fluidsAreAcceptable)
+  private static PortalSpawnFinder.Material getMaterial(ComponentAccessor<ChunkStore> chunkStore, ChunkColumn chunkColumnComponent, BlockChunk blockChunkComponent, double x, double y, double z)
+  private static Vector3d findFallbackPositionOnGround(World world)
+
+Fields:
+private static final int MAX_ATTEMPTS_PER_WORLD
+private static final int QUALITY_ATTEMPTS
+private static final int CHECKS_PER_CHUNK
+private static final Vector3d FALLBACK_POSITION

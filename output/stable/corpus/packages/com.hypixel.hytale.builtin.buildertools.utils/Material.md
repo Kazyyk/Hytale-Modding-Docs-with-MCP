@@ -34,3 +34,30 @@ public final class Material
 - public boolean equals(Object obj)
 - public int hashCode()
 - public static Material fromPattern(@Nonnull BlockPattern pattern, @Nonnull Random random)
+
+Also in this package: BlockSelectionLoader, DistinctCollector, FluidInfo, FluidPatternHelper, PasteToolUtil, RecursivePrefabLoader
+
+Complete API:
+  public static Material block(int blockId)
+  public static Material block(int blockId, int rotation)
+  public static Material fluid(int fluidId, byte fluidLevel)
+  public static Material fromKey(String key)
+  public boolean isFluid()
+  public boolean isBlock()
+  public boolean isEmpty()
+  public int getBlockId()
+  public int getFluidId()
+  public byte getFluidLevel()
+  public int getRotation()
+  public boolean hasRotation()
+  public String toString()
+  public boolean equals(Object obj)
+  public int hashCode()
+  public static Material fromPattern(BlockPattern pattern, Random random)
+
+Fields:
+public static final Material EMPTY
+private final int blockId
+private final int fluidId
+private final byte fluidLevel
+private final int rotation

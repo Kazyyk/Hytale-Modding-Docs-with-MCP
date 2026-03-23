@@ -9,3 +9,10 @@ public final class Main
 - public static void main(String[] args)
 - private static void launchWithTransformingClassLoader(String[] args)
 - private static URL[] getClasspathUrls()
+
+Also in this package: LateMain
+
+Complete API:
+  public static void main(String[] args)
+  private static void launchWithTransformingClassLoader(String[] args)
+  private static URL[] getClasspathUrls()

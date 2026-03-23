@@ -17,3 +17,9 @@ public class SensorPlayer extends SensorEntityBase
 
 - SensorEntity
 - SensorEntityBase
+
+Also in this package: ActionBeacon, ActionIgnoreForAvoidance, ActionNotify, ActionOverrideAttitude, ActionReleaseTarget, ActionSetMarkedTarget, ActionSetStat, HeadMotionWatch, SensorBeacon, SensorCount, SensorEntity, SensorEntityBase, SensorKill, SensorSelf, SensorTarget
+
+Complete API:
+  public boolean isGetPlayers()
+  public boolean isGetNPCs()

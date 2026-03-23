@@ -19,3 +19,15 @@ public class BlockTickPlugin extends JavaPlugin implements IBlockTickProvider
 ## Inner Types
 
 - BlockTickPlugin.Preprocessor -- thread-local helper for collecting ticking block IDs and indices during chunk processing
+
+Also in this package: Preprocessor
+
+Complete API:
+  public static BlockTickPlugin get()
+  protected void setup()
+  public TickProcedure getTickProcedure(int blockId)
+  private void discoverTickingBlocks(ChunkPreLoadProcessEvent event)
+  public int discoverTickingBlocks(Holder<ChunkStore> holder, WorldChunk worldChunk)
+
+Fields:
+private static BlockTickPlugin instance

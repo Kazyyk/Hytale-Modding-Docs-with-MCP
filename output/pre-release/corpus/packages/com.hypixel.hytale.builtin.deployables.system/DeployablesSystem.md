@@ -18,3 +18,8 @@ public class DeployablesSystem
 - `DeployablesSystem.DeployableOwnerTicker`
 - `DeployablesSystem.DeployableRegisterer`
 - `DeployablesSystem.DeployableTicker`
+
+Also in this package: DeployableOwnerTicker, DeployableRegisterer, DeployableTicker
+
+Complete API:
+  private static void spawnParticleEffect(Ref<EntityStore> sourceRef, CommandBuffer<EntityStore> commandBuffer, Vector3d position, ModelParticle particle)

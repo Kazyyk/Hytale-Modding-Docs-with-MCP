@@ -108,3 +108,73 @@ Returns the serialized size in bytes.
 - Hitbox
 - BlockRotation
 - BlockBreakingDecal
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 378 more)
+
+Complete API:
+  public static BlockType deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public BlockType clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public String item
+public String name
+public boolean unknown
+public DrawType drawType
+public BlockMaterial material
+public Opacity opacity
+public ShaderType[] shaderEffect
+public int hitbox
+public int interactionHitbox
+public String model
+public ModelTexture[] modelTexture
+public float modelScale
+public String modelAnimation
+public boolean looping
+public int maxSupportDistance
+public BlockSupportsRequiredForType blockSupportsRequiredFor
+public Map<BlockNeighbor,RequiredBlockFaceSupport[]> support
+public Map<BlockNeighbor,BlockFaceSupport[]> supporting
+public boolean requiresAlphaBlending
+public BlockTextures[] cubeTextures
+public String cubeSideMaskTexture
+public ShadingMode cubeShadingMode
+public RandomRotation randomRotation
+public VariantRotation variantRotation
+public Rotation rotationYawPlacementOffset
+public int blockSoundSetIndex
+public int ambientSoundEventIndex
+public ModelParticle[] particles
+public String blockParticleSetId
+public String blockBreakingDecalId
+public Color particleColor
+public ColorLight light
+public Tint tint
+public Tint biomeTint
+public int group
+public String transitionTexture
+public int[] transitionToGroups
+public BlockMovementSettings movementSettings
+public BlockFlags flags
+public String interactionHint
+public BlockGathering gathering
+public BlockPlacementSettings placementSettings
+public ModelDisplay display
+public RailConfig rail
+public boolean ignoreSupportWhenPlaced
+public Map<InteractionType,Integer> interactions
+public Map<String,Integer> states
+public int transitionToTag
+public int[] tagIndexes
+public Bench bench
+public ConnectedBlockRuleSet connectedBlockRuleSet

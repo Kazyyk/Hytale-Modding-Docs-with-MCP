@@ -11,3 +11,8 @@ public class DebugShapeShowForceCommand extends CommandBase
 ## Methods
 
 - @Override protected void executeSync(@Nonnull CommandContext context)
+
+Also in this package: DebugCommand, DebugShapeArrowCommand, DebugShapeClearCommand, DebugShapeConeCommand, DebugShapeCubeCommand, DebugShapeCylinderCommand, DebugShapeSphereCommand, DebugShapeSubCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)

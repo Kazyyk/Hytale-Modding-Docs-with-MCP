@@ -56,3 +56,19 @@ Returns a new `MinecartComponent` with the same source item. Hit count and last 
 - MountSystems.OnMinecartHit -- handles damage and destruction
 - MountSystems.EnsureMinecartComponents -- ensures supporting components on minecart entities
 - SpawnMinecartInteraction -- creates minecart entities with this component
+
+Complete API:
+  public static ComponentType<EntityStore,MinecartComponent> getComponentType()
+  public int getNumberOfHits()
+  public void setNumberOfHits(int numberOfHits)
+  public Instant getLastHit()
+  public void setLastHit(Instant lastHit)
+  public String getSourceItem()
+  public void setSourceItem(String sourceItem)
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<MinecartComponent> CODEC
+private int numberOfHits
+private Instant lastHit
+private String sourceItem

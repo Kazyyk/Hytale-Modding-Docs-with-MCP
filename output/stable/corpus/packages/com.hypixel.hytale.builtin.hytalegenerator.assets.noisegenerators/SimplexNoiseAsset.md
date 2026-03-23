@@ -16,3 +16,16 @@ public class SimplexNoiseAsset extends NoiseAsset
 ## Methods
 
 - @Nonnull public SimplexNoiseField build(SeedBox parentSeed)
+
+Also in this package: CellNoiseAsset, NoiseAsset
+
+Complete API:
+  public SimplexNoiseField build(SeedBox parentSeed)
+
+Fields:
+public static final BuilderCodec<SimplexNoiseAsset> CODEC
+private double lacunarity
+private double persistence
+private double scale
+private int octaves
+private String seedKey

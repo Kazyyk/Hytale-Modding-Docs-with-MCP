@@ -35,3 +35,9 @@ public class DoubleRange
 - `DoubleRange.Constant`
 - `DoubleRange.Multiple`
 - `DoubleRange.Normal`
+
+Also in this package: Constant, Constant, ConstantDoubleCoordinateHashSupplier, ConstantFloatCoordinateHashSupplier, DoubleRangeCoordinateHashSupplier, DoubleRangeNoiseSupplier, FloatRange, FloatRangeNoiseSupplier, FloatSupplier, IDoubleCoordinateHashSupplier, IDoubleCoordinateSupplier, IDoubleCoordinateSupplier2d, IDoubleCoordinateSupplier3d, IDoubleRange, IFloatCoordinateHashSupplier, IFloatCoordinateSupplier, IFloatRange, ISeedDoubleRange, Multiple, Normal (and 1 more)
+
+Fields:
+public static final DoubleRange.Constant ZERO
+public static final DoubleRange.Constant ONE

@@ -26,3 +26,26 @@ Concrete implementation extending `ContinuousValueRecorder`.
 - formatHeader(@Nonnull Formatter formatter, @Nonnull String columnFormatHeader) | void | public method.
 - formatValues(@Nonnull Formatter formatter) | void | public method.
 - formatValues(@Nonnull Formatter formatter, @Nonnull String columnFormatValue) | void | public method.
+
+Known subclasses: TimeDistributionRecorder
+
+Also in this package: ContinuousValueRecorder, DiscreteValueRecorder, TimeDistributionRecorder
+
+Complete API:
+  public long start()
+  public double end(long start)
+  public double recordNanos(long nanos)
+  public String toString()
+  public static String formatTime(double secs)
+  protected static String format(double val, String suffix)
+  public void formatHeader(Formatter formatter)
+  public void formatHeader(Formatter formatter, String columnFormatHeader)
+  public void formatValues(Formatter formatter)
+  public void formatValues(Formatter formatter, String columnFormatValue)
+
+Fields:
+public static final String DEFAULT_COLUMN_SEPARATOR
+public static final String DEFAULT_COLUMN_FORMAT_HEADER
+public static final String DEFAULT_COLUMN_FORMAT_VALUE
+public static final String[] DEFAULT_COLUMNS
+public static final double NANOS_TO_SECONDS

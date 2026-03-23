@@ -29,3 +29,14 @@ Returns the full response body string.
 
 - `ServerAuthManager` -- may throw this during authentication flows
 - `JWTValidator` -- may throw this during token validation
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthConfigGenerated, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse, LauncherDataResponse (and 9 more)
+
+Complete API:
+  public int getStatusCode()
+  public String getResponseBody()
+  private static String truncateBody(String body)
+
+Fields:
+private final int statusCode
+private final String responseBody

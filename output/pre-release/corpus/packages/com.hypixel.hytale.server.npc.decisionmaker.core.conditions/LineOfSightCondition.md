@@ -12,3 +12,13 @@ public class LineOfSightCondition extends SimpleCondition
 
 - @Override public int getSimplicity()
 - @Override protected boolean evaluate( int selfIndex, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk, @Nullable Ref<EntityStore> targetRef, @Nonnull CommandBuffer<EntityStore> commandBuffer, EvaluationContext context )
+
+Also in this package: HasTargetCondition, IsInStateCondition, NearbyCountCondition, RandomiserCondition, SelfHasEffectCondition, SelfStatAbsoluteCondition, SelfStatPercentageCondition, TargetDistanceCondition, TargetHasEffectCondition, TargetMovementStateCondition, TargetStatAbsoluteCondition, TargetStatPercentageCondition, TimeOfDayCondition, TimeSinceLastUsedCondition
+
+Complete API:
+  public int getSimplicity()
+  protected boolean evaluate(int selfIndex, ArchetypeChunk<EntityStore> archetypeChunk, Ref<EntityStore> targetRef, CommandBuffer<EntityStore> commandBuffer, EvaluationContext context)
+
+Fields:
+public static final BuilderCodec<LineOfSightCondition> CODEC
+protected static final ComponentType<EntityStore,NPCEntity> NPC_COMPONENT_TYPE

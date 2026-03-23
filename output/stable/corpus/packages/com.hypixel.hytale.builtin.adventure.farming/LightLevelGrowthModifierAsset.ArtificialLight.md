@@ -17,3 +17,17 @@ Holds the red, green, and blue `Range` thresholds for validating artificial ligh
 - public Range getRed()
 - public Range getGreen()
 - public Range getBlue()
+
+Also in this package: FertilizerGrowthModifierAsset, LightLevelGrowthModifierAsset, WaterGrowthModifierAsset
+
+Complete API:
+  public Range getRed()
+  public Range getGreen()
+  public Range getBlue()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<LightLevelGrowthModifierAsset.ArtificialLight> CODEC
+protected Range red
+protected Range green
+protected Range blue

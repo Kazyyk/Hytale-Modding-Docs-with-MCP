@@ -11,3 +11,11 @@ public class AssetEditorActivateButtonEvent extends EditorClientEvent
 ## Methods
 
 - public String getButtonId()
+
+Also in this package: AssetEditorAssetCreatedEvent, AssetEditorClientDisconnectEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorRequestDataSetEvent, AssetEditorSelectAssetEvent, AssetEditorUpdateWeatherPreviewLockEvent, EditorClientEvent
+
+Complete API:
+  public String getButtonId()
+
+Fields:
+private final String buttonId

@@ -18,3 +18,18 @@ public final class UserMapMarkerConfig
 - public int getMaxPersonalMarkersPerPlayer()
 - public int getMaxSharedMarkersPerPlayer()
 - public boolean isAllowDeleteOtherPlayersSharedMarkers()
+
+Also in this package: PlayersMapMarkerConfig
+
+Complete API:
+  public boolean isAllowCreatingMarkers()
+  public int getMaxPersonalMarkersPerPlayer()
+  public int getMaxSharedMarkersPerPlayer()
+  public boolean isAllowDeleteOtherPlayersSharedMarkers()
+
+Fields:
+public static final BuilderCodec<UserMapMarkerConfig> CODEC
+private boolean allowCreatingMarkers
+private int maxPersonalMarkersPerPlayer
+private int maxSharedMarkersPerPlayer
+private boolean allowDeleteOtherPlayersSharedMarkers

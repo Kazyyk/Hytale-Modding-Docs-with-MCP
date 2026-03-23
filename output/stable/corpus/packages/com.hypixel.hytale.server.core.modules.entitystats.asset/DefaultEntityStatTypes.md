@@ -15,3 +15,22 @@ Provides cached asset map indices for the built-in entity stat types: Health, Ox
 - public static int getSignatureEnergy()
 - public static int getAmmo()
 - public static void update()
+
+Also in this package: EntityStatEffects, EntityStatType, EntityStatTypePacketGenerator, RegenType, Regenerating
+
+Complete API:
+  public static int getHealth()
+  public static int getOxygen()
+  public static int getStamina()
+  public static int getMana()
+  public static int getSignatureEnergy()
+  public static int getAmmo()
+  public static void update()
+
+Fields:
+private static int HEALTH
+private static int OXYGEN
+private static int STAMINA
+private static int MANA
+private static int SIGNATURE_ENERGY
+private static int AMMO

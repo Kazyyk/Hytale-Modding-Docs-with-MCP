@@ -19,3 +19,8 @@ Lifecycle states for a plugin.
 ## Methods
 
 - public boolean isInactive()
+
+Also in this package: JavaPlugin, JavaPluginInit, MissingPluginDependencyException, PluginBase, PluginBridgeClassLoader, PluginClassLoader, PluginInit, PluginListPageManager, PluginManager, PluginType, SessionSettings
+
+Complete API:
+  public boolean isInactive()

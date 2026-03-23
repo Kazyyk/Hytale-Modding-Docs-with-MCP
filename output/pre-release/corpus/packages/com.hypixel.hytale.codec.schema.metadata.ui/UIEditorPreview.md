@@ -30,3 +30,11 @@ public static enum PreviewType
 - MODEL | 3D model preview.
 - REVERB_EFFECT | Audio reverb effect preview.
 - EQUALIZER_EFFECT | Audio equalizer effect preview.
+
+Also in this package: ClientCache, DisplayMode, Dropdown, EditorComponent, EditorFeature, FormattedNumber, Icon, LocalizationKeyField, MultilineTextField, PreviewType, TextField, Timeline, UIButton, UICreateButtons, UIDefaultCollapsedState, UIDisplayMode, UIEditor, UIEditorFeatures, UIEditorSectionStart, UIPropertyTitle (and 4 more)
+
+Complete API:
+  public void modify(Schema schema)
+
+Fields:
+private final UIEditorPreview.PreviewType previewType

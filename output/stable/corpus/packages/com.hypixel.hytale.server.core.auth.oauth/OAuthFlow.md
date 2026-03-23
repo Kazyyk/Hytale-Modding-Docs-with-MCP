@@ -21,3 +21,21 @@ public String getErrorMessage()
 public CompletableFuture<OAuthResult> getFuture()
 
 Returns the future that completes when the flow finishes.
+
+Known subclasses: OAuthBrowserFlow, OAuthDeviceFlow
+
+Also in this package: DeviceAuthResponse, OAuthBrowserFlow, OAuthClient, OAuthDeviceFlow, OAuthResult, TokenResponse
+
+Complete API:
+  final void onSuccess(OAuthClient.TokenResponse tokenResponse)
+  final void onFailure(String errorMessage)
+  public OAuthClient.TokenResponse getTokenResponse()
+  public OAuthResult getResult()
+  public String getErrorMessage()
+  public CompletableFuture<OAuthResult> getFuture()
+
+Fields:
+private OAuthClient.TokenResponse tokenResponse
+private final CompletableFuture<OAuthResult> future
+private OAuthResult result
+private String errorMessage

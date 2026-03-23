@@ -20,3 +20,15 @@ public class ZoneGeneratorResult
 - public void setBorderDistance(double borderDistance)
 - public Zone getZone()
 - public double getBorderDistance()
+
+Also in this package: Unique, UniqueCandidate, UniqueEntry, Zone, ZoneColorMapping, ZoneDiscoveryConfig, ZonePatternGenerator, ZonePatternGeneratorCache, ZonePatternProvider
+
+Complete API:
+  public void setZone(Zone zone)
+  public void setBorderDistance(double borderDistance)
+  public Zone getZone()
+  public double getBorderDistance()
+
+Fields:
+protected Zone zone
+protected double borderDistance

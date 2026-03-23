@@ -19,3 +19,14 @@ Deprecated synchronous chunk access interface. Provides blocking `getChunk` and 
 
 - IWorldChunksAsync
 - World
+
+Known implementors: World
+
+Also in this package: ChunkConfig, ClientEffectWorldSettings, Default, GenericBlockBulkUpdater, IWorldChunksAsync, ParticleUtil, PlaceBlockSettings, PlayerUtil, SetBlockSettings, SoundUtil, SpawnUtil, ValidationOption, World, WorldConfig, WorldConfigProvider, WorldMapTracker, WorldNotificationHandler, WorldProvider, ZoneDiscoveryInfo
+
+Complete API:
+  void consumeTaskQueue()
+  boolean isInThread()
+  default WorldChunk getChunk(long index)
+  default WorldChunk getNonTickingChunk(long index)
+  default T waitForFutureWithoutLock(CompletableFuture<T> future)

@@ -29,3 +29,26 @@ Provides the parameters needed to create a prefab editing session. Implemented b
 ## See Also
 
 - PrefabEditorCreationSettings
+
+Known implementors: PrefabEditorCreationSettings
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabAnchor, PrefabDirtySystems, PrefabEditSession, PrefabEditSessionManager, PrefabEditingMetadata, PrefabEditorCreationSettings, PrefabLoadingState, PrefabMarkerProvider, PrefabSelectionInteraction, Tri
+
+Complete API:
+  Player getEditor()
+  PlayerRef getEditorRef()
+  List<Path> getPrefabPaths()
+  int getBlocksBetweenEachPrefab()
+  int getPasteLevelGoal()
+  boolean loadChildPrefabs()
+  boolean shouldLoadEntities()
+  PrefabStackingAxis getStackingAxis()
+  WorldGenType getWorldGenType()
+  int getBlocksAboveSurface()
+  PrefabAlignment getAlignment()
+  PrefabRootDirectory getPrefabRootDirectory()
+  boolean isWorldTickingEnabled()
+  PrefabRowSplitMode getRowSplitMode()
+  List<String> getUnprocessedPrefabPaths()
+  String getEnvironment()
+  String getGrassTint()

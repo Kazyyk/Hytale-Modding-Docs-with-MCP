@@ -80,3 +80,22 @@ Standard `equals()` and `hashCode()` implementations based on the `selectionHist
 - BuilderToolsPlugin -- registers this component type during setup
 - BuilderToolsUserDataSystem -- ensures this component is present on all player entities
 - BuilderToolsPlugin.BuilderState -- reads `selectionHistory` to determine undo behavior
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  public static BuilderToolsUserData get(Player player)
+  public static ComponentType<EntityStore,BuilderToolsUserData> getComponentType()
+  public boolean isRecordingSelectionHistory()
+  public void setRecordSelectionHistory(boolean selectionHistory)
+  public String toString()
+  public boolean equals(Object o)
+  public int hashCode()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final String ID
+private static final String SELECTION_HISTORY_KEY
+private static final String SELECTION_HISTORY_DOC
+public static final BuilderCodec<BuilderToolsUserData> CODEC
+private boolean selectionHistory

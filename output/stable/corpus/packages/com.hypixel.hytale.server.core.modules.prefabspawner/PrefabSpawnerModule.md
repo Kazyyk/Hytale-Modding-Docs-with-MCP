@@ -13,3 +13,11 @@ Plugin module that registers the prefab spawner block state and its associated c
 ## Methods
 
 - protected void setup()
+
+Also in this package: PrefabSpawnerSettingsPage, PrefabSpawnerSettingsPageEventData, PrefabSpawnerState
+
+Complete API:
+  protected void setup()
+
+Fields:
+public static final PluginManifest MANIFEST

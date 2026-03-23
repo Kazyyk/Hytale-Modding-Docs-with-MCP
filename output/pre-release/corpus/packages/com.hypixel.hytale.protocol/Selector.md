@@ -29,3 +29,22 @@ Returns the total number of bytes consumed by this `Selector` starting at the gi
 public int computeSize()
 
 Returns the serialized size in bytes.
+
+Known subclasses: AOECircleSelector, AOECylinderSelector, HorizontalSelector, RaycastSelector, StabSelector
+
+Known implementors: ClientSourcedSelector, RuntimeSelector, RuntimeSelector, RuntimeSelector, RuntimeSelector, RuntimeSelector
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 381 more)
+
+Complete API:
+  public static Selector deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public int getTypeId()
+  public abstract int serialize(ByteBuf var1)
+  public abstract int computeSize()
+  public int serializeWithTypeId(ByteBuf buf)
+  public int computeSizeWithTypeId()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+
+Fields:
+public static final int MAX_SIZE

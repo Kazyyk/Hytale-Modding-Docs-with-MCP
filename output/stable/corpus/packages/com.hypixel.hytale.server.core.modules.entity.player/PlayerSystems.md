@@ -25,3 +25,8 @@ Top-level container class for the core ECS systems that manage player entity lif
 - PlayerSystems.PlayerSpawnedSystem -- sends initial entity state to client
 - PlayerSystems.ProcessPlayerInput -- drains and applies input queue
 - PlayerSystems.UpdatePlayerRef -- updates player ref position each tick
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Fields:
+public static final HytaleLogger LOGGER

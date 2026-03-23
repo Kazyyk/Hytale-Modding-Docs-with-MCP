@@ -18,3 +18,16 @@ Builder for `EntityFilterEntityEffect`. Reads an `"EffectId"` field from the NPC
 - getBuilderDescriptorState() | BuilderDescriptorState | Returns `Stable`.
 - readConfig(JsonElement) | Builder<IEntityFilter> | Reads the `"EffectId"` required asset field with validation.
 - getEntityEffectIndex(BuilderSupport) | int | Resolves the entity effect string to its asset map index.
+
+Also in this package: BuilderEntityFilterAltitude, BuilderEntityFilterAnd, BuilderEntityFilterAttitude, BuilderEntityFilterCombat, BuilderEntityFilterHeightDifference, BuilderEntityFilterInsideBlock, BuilderEntityFilterInventory, BuilderEntityFilterItemInHand, BuilderEntityFilterLineOfSight, BuilderEntityFilterMany, BuilderEntityFilterMovementState, BuilderEntityFilterNPCGroup, BuilderEntityFilterNot, BuilderEntityFilterOr, BuilderEntityFilterSpotsMe, BuilderEntityFilterStandingOnBlock, BuilderEntityFilterStat, BuilderEntityFilterViewSector
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public IEntityFilter build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<IEntityFilter> readConfig(JsonElement data)
+  public int getEntityEffectIndex(BuilderSupport support)
+
+Fields:
+protected final AssetHolder entityEffect

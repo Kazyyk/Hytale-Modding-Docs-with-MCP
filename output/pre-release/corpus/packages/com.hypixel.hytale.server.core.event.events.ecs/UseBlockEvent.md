@@ -20,3 +20,19 @@ Abstract base class extending `EcsEvent` that provides shared logic for UseBlock
 - @Nonnull public InteractionContext getContext()
 - @Nonnull public Vector3i getTargetBlock()
 - @Nonnull public BlockType getBlockType()
+
+Known subclasses: Post, Pre
+
+Also in this package: BreakBlockEvent, ChangeGameModeEvent, CraftRecipeEvent, DamageBlockEvent, DiscoverZoneEvent, Display, Drop, DropItemEvent, InteractivelyPickupItemEvent, PlaceBlockEvent, PlayerRequest, Post, Post, Pre, Pre, SwitchActiveSlotEvent
+
+Complete API:
+  public InteractionType getInteractionType()
+  public InteractionContext getContext()
+  public Vector3i getTargetBlock()
+  public BlockType getBlockType()
+
+Fields:
+private final InteractionType interactionType
+private final InteractionContext context
+private final Vector3i targetBlock
+private final BlockType blockType

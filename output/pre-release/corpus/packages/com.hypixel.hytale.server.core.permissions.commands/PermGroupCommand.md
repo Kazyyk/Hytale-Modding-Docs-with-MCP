@@ -11,3 +11,5 @@ Command collection under `perm group` for managing permission groups. Provides `
 - list: Lists all permissions for a group across all permission providers.
 - add: Adds permissions to a group.
 - remove: Removes permissions from a group.
+
+Also in this package: PermCommand, PermGroupAddCommand, PermGroupListCommand, PermGroupRemoveCommand, PermTestCommand, PermUserAddCommand, PermUserCommand, PermUserGroupAddCommand, PermUserGroupCommand, PermUserGroupListCommand, PermUserGroupRemoveCommand, PermUserListCommand, PermUserRemoveCommand

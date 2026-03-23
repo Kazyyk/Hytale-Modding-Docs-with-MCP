@@ -51,3 +51,13 @@ Returns the entity's position from its `TransformComponent`.
 - `SpatialSystem` -- abstract base class providing spatial indexing infrastructure
 - `Player` -- the player ECS component
 - `TransformComponent` -- provides entity position
+
+Also in this package: Add, AdventurePlayerSystem, AnimationEntityTrackerUpdate, ApplyRandomSkin, AssignNetworkIdToProps, AudioSystems, Capture, ClearFromPrefabMarker, ClearFromWorldGenMarker, ClearMarker, DynamicLightTracker, EnsurePropsPrefabCopyable, EntityInteractableSystems, EntitySpatialSystem, EntitySystems, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerUpdate (and 40 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void tick(float dt, int systemIndex, Store<EntityStore> store)
+  public Vector3d getPosition(ArchetypeChunk<EntityStore> archetypeChunk, int index)
+
+Fields:
+public static final Query<EntityStore> QUERY

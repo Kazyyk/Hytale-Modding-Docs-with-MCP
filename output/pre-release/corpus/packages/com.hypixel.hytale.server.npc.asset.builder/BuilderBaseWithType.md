@@ -47,3 +47,16 @@ Delegates to `BuilderBase.readCommonConfig`.
 
 - BuilderBase -- parent class
 - Builder -- root builder interface
+
+Known subclasses: BuilderMotionControllerBase
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  public Builder<T> readCommonConfig(JsonElement data)
+  protected void readTypeKey(JsonElement data, String typeKey)
+  protected void readTypeKey(JsonElement data)
+  public String getType()
+
+Fields:
+private String type

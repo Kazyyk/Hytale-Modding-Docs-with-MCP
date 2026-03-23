@@ -31,3 +31,18 @@ public class MapCodec<V, M extends Map<String, V>> implements Codec<Map<String, 
 - public Map<String, V> decodeJson(@Nonnull RawJsonReader reader, @Nonnull ExtraInfo extraInfo)
 - throw new CodecException("Failed to decode", reader, extraInfo, var9)
 - public Schema toSchema(@Nonnull SchemaContext context)
+
+Also in this package: EnumMapCodec, Float2ObjectMapCodec, Int2ObjectMapCodec, MergedEnumMapCodec, Object2DoubleMapCodec, Object2FloatMapCodec, Object2IntMapCodec, ObjectMapCodec, Short2ObjectMapCodec
+
+Complete API:
+  public Codec<V> getChildCodec()
+  public Map<String,V> decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Map<String,V> map, ExtraInfo extraInfo)
+  public Map<String,V> decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+
+Fields:
+public static final MapCodec<String,Map<String,String>> STRING_HASH_MAP_CODEC
+private final Codec<V> codec
+private final Supplier<M> supplier
+private final boolean unmodifiable

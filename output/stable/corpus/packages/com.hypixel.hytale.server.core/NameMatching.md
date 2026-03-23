@@ -22,3 +22,15 @@ Defines name matching strategies for finding entities/players by name. Each stra
 - public Comparator<String> getComparator()
 - @Nullable public <T> T find(@Nonnull Collection<T> players, String value, @Nonnull Function<T, String> getter)
 - @Nullable public static <T> T find(@Nonnull Collection<T> players, String value, @Nonnull Function<T, String> getter, @Nonnull Comparator<String> comparator, @Nonnull BiPredicate<String, String> equality)
+
+Also in this package: AuthMode, AuthModeConverter, Constants, Defaults, HytaleServer, HytaleServerConfig, LevelValueConverter, MaybeBoolCodec, Message, Module, Options, ParamValueCodec, PathConverter, PathType, ShutdownReason, SocketAddressValueConverter, StringToPathMapConverter, TimeoutProfile, UUIDConverter
+
+Complete API:
+  public Comparator<String> getComparator()
+  public T find(Collection<T> players, String value, Function<T,String> getter)
+  public static T find(Collection<T> players, String value, Function<T,String> getter, Comparator<String> comparator, BiPredicate<String,String> equality)
+
+Fields:
+public static NameMatching DEFAULT
+private final Comparator<String> comparator
+private final BiPredicate<String,String> equality

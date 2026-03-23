@@ -20,3 +20,14 @@ A read-only sub-view into a BufferBundle.Access bounded by a subset of the paren
 - @Nonnull public BufferBundle.Grid.TrackedBuffer getBuffer(int x_bufferGrid, int y_bufferGrid, int z_bufferGrid)
 - @Nonnull public BufferBundle.Grid.TrackedBuffer getBuffer(@Nonnull Vector3i position_bufferGrid)
 - @Nonnull public Bounds3i getBounds_bufferGrid()
+
+Also in this package: Access, BufferBundle, Grid, GridEntry, MemoryReport, TrackedBuffer, Tracker
+
+Complete API:
+  public BufferBundle.Grid.TrackedBuffer getBuffer(int x_bufferGrid, int y_bufferGrid, int z_bufferGrid)
+  public BufferBundle.Grid.TrackedBuffer getBuffer(Vector3i position_bufferGrid)
+  public Bounds3i getBounds_bufferGrid()
+
+Fields:
+private final BufferBundle.Access access
+private final Bounds3i bounds_bufferGrid

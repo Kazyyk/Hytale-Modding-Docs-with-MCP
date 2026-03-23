@@ -54,3 +54,20 @@ Stores the builder parameters. Subclasses override to perform actual reading.
 - BuilderContext -- implemented interface
 - BuilderObjectReferenceHelper -- single object subclass
 - BuilderObjectArrayHelper -- array subclass
+
+Known subclasses: BuilderObjectArrayHelper, BuilderObjectReferenceHelper
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  public abstract T build(BuilderSupport var1)
+  public abstract boolean validate(String var1, NPCLoadTimeValidationHelper var2, BuilderManager var3, ExecutionContext var4, Scope var5, List<String> var6)
+  public BuilderContext getOwner()
+  public final Class<?> getClassType()
+  public void readConfig(JsonElement data, BuilderManager builderManager, BuilderParameters builderParameters, BuilderValidationHelper builderValidationHelper)
+  public abstract boolean isPresent()
+
+Fields:
+protected final Class<?> classType
+protected BuilderParameters builderParameters
+protected final BuilderContext owner

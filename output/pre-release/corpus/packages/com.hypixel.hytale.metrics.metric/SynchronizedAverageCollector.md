@@ -14,3 +14,13 @@ Extends `AverageCollector` to provide SynchronizedAverageCollector functionality
 - @Override public synchronized void add(double v)
 - @Override public synchronized void remove(double v)
 - @Override public synchronized void clear()
+
+Also in this package: AverageCollector, Builder, HistoricMetric, Metric
+
+Complete API:
+  public synchronized double get()
+  public synchronized long size()
+  public synchronized double addAndGet(double v)
+  public synchronized void add(double v)
+  public synchronized void remove(double v)
+  public synchronized void clear()

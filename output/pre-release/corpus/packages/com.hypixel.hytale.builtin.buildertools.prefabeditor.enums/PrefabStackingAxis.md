@@ -10,3 +10,5 @@ Enumerates PrefabStackingAxis values: `X`, `Z`.
 
 - X
 - Z
+
+Also in this package: PrefabAlignment, PrefabRootDirectory, PrefabRowSplitMode, WorldGenType

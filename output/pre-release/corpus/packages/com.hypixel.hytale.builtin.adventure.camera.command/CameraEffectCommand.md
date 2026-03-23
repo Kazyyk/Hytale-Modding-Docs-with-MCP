@@ -16,3 +16,8 @@ public class CameraEffectCommand extends AbstractCommandCollection
 
 - `CameraEffectCommand.DamageCommand`
 - `CameraEffectCommand.DebugCommand`
+
+Also in this package: DamageCommand, DebugCommand
+
+Fields:
+protected static final ArgumentType<CameraEffect> CAMERA_EFFECT_ARGUMENT_TYPE

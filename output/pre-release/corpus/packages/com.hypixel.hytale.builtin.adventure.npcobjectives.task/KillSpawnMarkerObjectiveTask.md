@@ -18,3 +18,15 @@ Extends `KillObjectiveTask` to provide KillSpawnMarkerObjectiveTask functionalit
 - @Nonnull public KillSpawnMarkerObjectiveTaskAsset getAsset()
 - @Nonnull @Override protected TransactionRecord[] setup0(@Nonnull Objective objective, @Nonnull World world, @Nonnull Store<EntityStore> store)
 - @Nonnull @Override public String toString()
+
+Also in this package: BountyObjectiveTask, KillNPCObjectiveTask, KillObjectiveTask, KillSpawnBeaconObjectiveTask, KillTask
+
+Complete API:
+  public KillSpawnMarkerObjectiveTaskAsset getAsset()
+  protected TransactionRecord[] setup0(Objective objective, World world, Store<EntityStore> store)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<KillSpawnMarkerObjectiveTask> CODEC
+private static final ComponentType<EntityStore,SpawnMarkerEntity> SPAWN_MARKER_COMPONENT_TYPE
+private static final ComponentType<EntityStore,TransformComponent> TRANSFORM_COMPONENT_TYPE

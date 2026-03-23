@@ -38,3 +38,36 @@ Thread-safe cache for `Material`, `SolidMaterial`, and `FluidMaterial` instances
 - @Nullable public SolidMaterial getSolidMaterial(@Nonnull String solidString)
 - @Nonnull public SolidMaterial getSolidMaterialRotatedY(@Nonnull SolidMaterial solidMaterial, @Nonnull Rotation rotation)
 - @Nullable public SolidMaterial getSolidMaterial(int blockId, int support, int rotation, int filler, @Nullable Holder<ChunkStore> holder)
+
+Also in this package: FluidMaterial, Hash, Material, SolidMaterial
+
+Complete API:
+  public Material getMaterial(SolidMaterial solidMaterial, FluidMaterial fluidMaterial)
+  public Material getMaterialRotated(Material material, RotationTuple rotation)
+  public FluidMaterial getFluidMaterial(String fluidString)
+  public FluidMaterial getFluidMaterial(int fluidId, byte level)
+  private FluidMaterial getOrRegisterFluid(int fluidId, byte level)
+  public SolidMaterial getSolidMaterial(String solidString, RotationTuple rotation)
+  public SolidMaterial getSolidMaterial(String solidString)
+  public SolidMaterial getSolidMaterialRotatedY(SolidMaterial solidMaterial, Rotation rotation)
+  public SolidMaterial getSolidMaterial(int blockId, int support, int rotation, int filler, Holder<ChunkStore> holder)
+
+Fields:
+private final ConcurrentHashMap<Integer,SolidMaterial> hashToSolidMap
+private final ConcurrentHashMap<Integer,FluidMaterial> hashToFluidMap
+private final ConcurrentHashMap<Integer,Material> hashToMaterialMap
+public final SolidMaterial EMPTY_AIR
+public final SolidMaterial ROCK_STONE
+public final SolidMaterial SOIL_GRASS
+public final SolidMaterial SOIL_DIRT
+public final SolidMaterial SOIL_MUD
+public final SolidMaterial SOIL_NEEDLES
+public final SolidMaterial SOIL_GRAVEL
+public final SolidMaterial ROCK_QUARTZITE
+public final SolidMaterial ROCK_MARBLE
+public final SolidMaterial ROCK_SHALE
+public final SolidMaterial FLUID_WATER
+public final SolidMaterial BEDROCK
+public final FluidMaterial UNKNOWN_FLUID
+public final FluidMaterial EMPTY_FLUID
+public final Material EMPTY

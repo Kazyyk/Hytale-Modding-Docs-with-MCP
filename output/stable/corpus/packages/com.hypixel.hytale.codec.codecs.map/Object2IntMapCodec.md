@@ -35,3 +35,17 @@ public class Object2IntMapCodec<T> implements Codec<Object2IntMap<T>>, WrappedCo
 ## Related Types
 
 - MapCodec
+
+Also in this package: EnumMapCodec, Float2ObjectMapCodec, Int2ObjectMapCodec, MapCodec, MergedEnumMapCodec, Object2DoubleMapCodec, Object2FloatMapCodec, ObjectMapCodec, Short2ObjectMapCodec
+
+Complete API:
+  public Codec<T> getChildCodec()
+  public Object2IntMap<T> decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(Object2IntMap<T> map, ExtraInfo extraInfo)
+  public Object2IntMap<T> decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+
+Fields:
+private final Codec<T> keyCodec
+private final Supplier<Object2IntMap<T>> supplier
+private final boolean unmodifiable

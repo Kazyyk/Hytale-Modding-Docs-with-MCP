@@ -9,3 +9,11 @@ Server lifecycle event.
 ## Methods
 
 - putTranslationFile(String filename, TranslationMap translations) | void | Instance method.
+
+Also in this package: MessagesUpdated
+
+Complete API:
+  public void putTranslationFile(String filename, TranslationMap translations)
+
+Fields:
+private final ConcurrentHashMap<String,TranslationMap> translationFiles

@@ -19,3 +19,15 @@ public class PendingLoadJavaPlugin extends PendingLoadPlugin
 - @Override public boolean isInServerClassPath()
 - @Nonnull public JavaPlugin load()
 - @Nonnull @Override public String toString()
+
+Also in this package: EntryNode, PendingLoadPlugin
+
+Complete API:
+  public PendingLoadPlugin createSubPendingLoadPlugin(PluginManifest manifest)
+  public boolean isInServerClassPath()
+  public JavaPlugin load()
+  public String toString()
+
+Fields:
+private static final HytaleLogger LOGGER
+private final PluginClassLoader urlClassLoader

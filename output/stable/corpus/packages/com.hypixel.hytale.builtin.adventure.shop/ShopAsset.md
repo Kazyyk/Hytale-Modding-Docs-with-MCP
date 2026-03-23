@@ -25,3 +25,20 @@ Implementation of `JsonAssetWithMap<String, DefaultAssetMap<String, ShopAsset>>`
 - getId() | String | public method.
 - getElements() | ChoiceElement[] | public method.
 - toString() | String | public method.
+
+Also in this package: GiveItemInteraction, ShopElement, ShopPage, ShopPageSupplier, ShopPlugin
+
+Complete API:
+  public static AssetStore<String,ShopAsset,DefaultAssetMap<String,ShopAsset>> getAssetStore()
+  public static DefaultAssetMap<String,ShopAsset> getAssetMap()
+  public String getId()
+  public ChoiceElement[] getElements()
+  public String toString()
+
+Fields:
+public static final AssetBuilderCodec<String,ShopAsset> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,ShopAsset,DefaultAssetMap<String,ShopAsset>> ASSET_STORE
+protected AssetExtraInfo.Data extraData
+protected String id
+protected ChoiceElement[] elements

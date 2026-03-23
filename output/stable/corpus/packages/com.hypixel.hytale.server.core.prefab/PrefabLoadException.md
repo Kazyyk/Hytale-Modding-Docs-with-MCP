@@ -23,3 +23,11 @@ public static enum Type
 
 - ERROR
 - NOT_FOUND
+
+Also in this package: AssetPackPrefabPath, PrefabCopyableComponent, PrefabEntry, PrefabRotation, PrefabSaveException, PrefabStore, PrefabWeights, RotationExecutor, RotationExecutor_0, RotationExecutor_180, RotationExecutor_270, RotationExecutor_90, Type, Type, WeightMapValidator
+
+Complete API:
+  public PrefabLoadException.Type getType()
+
+Fields:
+private PrefabLoadException.Type type

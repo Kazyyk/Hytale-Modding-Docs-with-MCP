@@ -17,3 +17,15 @@ Loads noise-driven height threshold interpreter configurations. Combines a noise
 ## Related Types
 
 - NoiseHeightThresholdInterpreterJsonLoader.Constants -- KEY_NOISE, KEY_THRESHOLDS, KEY_KEYS
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public NoiseHeightThresholdInterpreter load()
+  protected NoiseProperty loadNoise()
+  protected IHeightThresholdInterpreter[] loadInterpreters()
+  protected float[] loadKeys()
+  public static boolean shouldHandle(JsonObject jsonObject)
+
+Fields:
+protected final int length

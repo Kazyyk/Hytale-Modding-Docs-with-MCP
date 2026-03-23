@@ -113,3 +113,38 @@ Returns the `DynamicMetaStore` backing this damage event's metadata.
 - DamageSystems -- collection of systems that process damage
 - DeathComponent -- component added when damage kills an entity
 - DamageModule -- module that registers all damage systems
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, DamageArmor, DamageAttackerTool, DamageCalculatorSystems (and 49 more)
+
+Complete API:
+  public int getDamageCauseIndex()
+  public void setDamageCauseIndex(int damageCauseIndex)
+  public DamageCause getCause()
+  public Damage.Source getSource()
+  public void setSource(Damage.Source source)
+  public float getAmount()
+  public void setAmount(float amount)
+  public float getInitialAmount()
+  public Message getDeathMessage(Ref<EntityStore> targetRef, ComponentAccessor<EntityStore> componentAccessor)
+  public IMetaStoreImpl<Damage> getMetaStore()
+
+Fields:
+private static final Message MESSAGE_GENERAL_DAMAGE_CAUSE_UNKNOWN
+public static final MetaRegistry<Damage> META_REGISTRY
+public static final MetaKey<Vector4d> HIT_LOCATION
+public static final MetaKey<Float> HIT_ANGLE
+public static final MetaKey<Damage.Particles> IMPACT_PARTICLES
+public static final MetaKey<Damage.SoundEffect> IMPACT_SOUND_EFFECT
+public static final MetaKey<Damage.SoundEffect> PLAYER_IMPACT_SOUND_EFFECT
+public static final MetaKey<Damage.CameraEffect> CAMERA_EFFECT
+public static final MetaKey<String> DEATH_ICON
+public static final MetaKey<Boolean> BLOCKED
+public static final MetaKey<Float> STAMINA_DRAIN_MULTIPLIER
+public static final MetaKey<Boolean> CAN_BE_PREDICTED
+public static final MetaKey<KnockbackComponent> KNOCKBACK_COMPONENT
+public static final Damage.Source NULL_SOURCE
+private final IMetaStoreImpl<Damage> metaStore
+private final float initialAmount
+private int damageCauseIndex
+private Damage.Source source
+private float amount

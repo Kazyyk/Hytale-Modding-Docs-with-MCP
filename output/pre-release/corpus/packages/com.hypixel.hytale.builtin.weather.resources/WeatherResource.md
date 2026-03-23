@@ -22,3 +22,21 @@ ECS resource attached to `EntityStore`.
 
 - consumeForcedWeatherChange() | boolean | Instance method.
 - compareAndSwapHour(int currentHour) | boolean | Instance method.
+
+Complete API:
+  public static ResourceType<EntityStore,WeatherResource> getResourceType()
+  public Int2IntMap getEnvironmentWeather()
+  public int getWeatherIndexForEnvironment(int environmentId)
+  public int getForcedWeatherIndex()
+  public void setForcedWeather(String forcedWeather)
+  public boolean consumeForcedWeatherChange()
+  public boolean compareAndSwapHour(int currentHour)
+  public Resource<EntityStore> clone()
+
+Fields:
+public static final float WEATHER_UPDATE_RATE_S
+private int forcedWeatherIndex
+private int previousForcedWeatherIndex
+private final Int2IntMap environmentWeather
+private int previousHour
+public float playerUpdateDelay

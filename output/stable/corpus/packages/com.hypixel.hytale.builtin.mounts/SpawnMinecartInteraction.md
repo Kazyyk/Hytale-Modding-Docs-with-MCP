@@ -50,3 +50,15 @@ No-op.
 - MinecartComponent -- the component added to spawned minecarts
 - MountSystems.EnsureMinecartComponents -- ensures supporting components post-spawn
 - MountPlugin -- registers this interaction
+
+Also in this package: MountInteraction, SeatingInteraction
+
+Complete API:
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack itemInHand, Vector3i targetBlock, CooldownHandler cooldownHandler)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+  private static void alignToRail(Vector3i targetBlock, Vector3d target, Vector3f rotation, float yaw, RailConfig config)
+
+Fields:
+public static final BuilderCodec<SpawnMinecartInteraction> CODEC
+private String modelId
+private Map<InteractionType,String> cartInteractions

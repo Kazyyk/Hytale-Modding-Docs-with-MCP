@@ -16,3 +16,13 @@ Condition evaluating HashSetInt criteria.
 - public IntSet getSet()
 - @Override public boolean eval(int i)
 - @Nonnull @Override public String toString()
+
+Also in this package: BlockMaskCondition, FilteredBlockFluidCondition, HashSetBlockFluidCondition, IntConditionBuilder, Mask, MaskEntry, RandomCoordinateCondition
+
+Complete API:
+  public IntSet getSet()
+  public boolean eval(int i)
+  public String toString()
+
+Fields:
+protected final IntSet set

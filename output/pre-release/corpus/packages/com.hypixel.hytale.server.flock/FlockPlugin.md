@@ -81,3 +81,30 @@ Returns a remapped UUID for flock references during prefab paste operations.
 - FlockAsset -- JSON configuration for flock definitions
 - FlockSystems -- flock entity lifecycle systems
 - FlockMembershipSystems -- membership processing systems
+
+Also in this package: EntityDeath, EntityRef, EntityRemoved, FilterPlayerFlockDamageSystem, Flock, FlockDeathSystems, FlockDebugSystem, FlockMembership, FlockMembershipSystems, FlockRemovedStatus, FlockSystems, NPCAddedFromWorldGen, OnDamageDealt, OnDamageReceived, PersistentFlockData, PlayerChangeGameModeEventSystem, PlayerDeath, PrefabPasteEventSystem, RefChange, StoredFlock (and 2 more)
+
+Complete API:
+  public static FlockPlugin get()
+  public void setup()
+  public void start()
+  public void shutdown()
+  public ComponentType<EntityStore,Flock> getFlockComponentType()
+  public ComponentType<EntityStore,FlockMembership> getFlockMembershipComponentType()
+  public ComponentType<EntityStore,PersistentFlockData> getPersistentFlockDataComponentType()
+  public UUID getPrefabRemappedFlockReference(int prefabId, UUID oldId)
+  public static Ref<EntityStore> trySpawnFlock(Ref<EntityStore> npcRef, NPCEntity npc, Store<EntityStore> store, int roleIndex, Vector3d position, Vector3f rotation, FlockAsset flockDefinition, TriConsumer<NPCEntity,Ref<EntityStore>,Store<EntityStore>> postSpawn)
+  public static Ref<EntityStore> trySpawnFlock(Ref<EntityStore> npcRef, NPCEntity npc, Store<EntityStore> store, int roleIndex, Vector3d position, Vector3f rotation, int flockSize, TriConsumer<NPCEntity,Ref<EntityStore>,Store<EntityStore>> postSpawn)
+  public static Ref<EntityStore> trySpawnFlock(Ref<EntityStore> npcRef, NPCEntity npc, int roleIndex, Vector3d position, Vector3f rotation, int flockSize, FlockAsset flockDefinition, TriConsumer<NPCEntity,Holder<EntityStore>,Store<EntityStore>> preAddToWorld, TriConsumer<NPCEntity,Ref<EntityStore>,Store<EntityStore>> postSpawn, Store<EntityStore> store)
+  public static Flock getFlock(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> reference)
+  public static Ref<EntityStore> createFlock(Store<EntityStore> store, Role role)
+  public static Ref<EntityStore> createFlock(Store<EntityStore> store, FlockAsset flockDefinition, String[] allowedRoles)
+  public static Ref<EntityStore> getFlockReference(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public static boolean isFlockMember(Ref<EntityStore> ref, Store<EntityStore> store)
+
+Fields:
+private static FlockPlugin instance
+private final Int2ObjectConcurrentHashMap<Map<UUID,UUID>> prefabFlockRemappings
+private ComponentType<EntityStore,Flock> flockComponentType
+private ComponentType<EntityStore,FlockMembership> flockMembershipComponentType
+private ComponentType<EntityStore,PersistentFlockData> persistentFlockDataComponentType

@@ -11,3 +11,20 @@ Queries entities with `Player`, `PlayerRef`, `TransformComponent`, `BoundingBox`
 ## Related Types
 
 - PlayerSystems.ProcessPlayerInput -- processes input before movement
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,Player> playerComponentType
+private final ComponentType<EntityStore,BoundingBox> boundingBoxComponentType
+private final ComponentType<EntityStore,Velocity> velocityComponentType
+private final ComponentType<EntityStore,CollisionResultComponent> collisionResultComponentType
+private final ComponentType<EntityStore,PlayerRef> playerRefComponentType
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final ComponentType<EntityStore,PositionDataComponent> positionDataComponentType
+private final Query<EntityStore> query

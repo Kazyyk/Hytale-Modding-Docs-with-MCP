@@ -21,3 +21,15 @@ public RegeneratingValue(@Nonnull EntityStatType.Regenerating regenerating)
 
 - EntityStatValue -- the stat value being regenerated
 - EntityStatType.Regenerating -- the asset definition for regeneration parameters
+
+Also in this package: Changes, ClearChanges, EntityStatMap, EntityStatValue, EntityStatsModule, EntityStatsSystems, EntityTrackerRemove, EntityTrackerUpdate, PlayerRegenerateStatsSystem, Predictable, Recalculate, Regenerate, Setup, StatModifyingSystem
+
+Complete API:
+  public boolean shouldRegenerate(ComponentAccessor<EntityStore> store, Ref<EntityStore> ref, Instant currentTime, float dt, EntityStatType.Regenerating regenerating)
+  public float regenerate(ComponentAccessor<EntityStore> store, Ref<EntityStore> ref, Instant currentTime, float dt, EntityStatValue value, float currentAmount)
+  public EntityStatType.Regenerating getRegenerating()
+  public String toString()
+
+Fields:
+private final EntityStatType.Regenerating regenerating
+private float remainingUntilRegen

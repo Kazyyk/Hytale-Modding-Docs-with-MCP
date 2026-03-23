@@ -14,3 +14,12 @@ Server command extending `CommandBase`.
 
 - executeSync(@Nonnull CommandContext context) | void | protected method.
 - formatMemoryUsage(@Nonnull MemoryUsage memoryUsage) | Message | static private method.
+
+Also in this package: ServerCommand, ServerDumpCommand, ServerGCCommand, ServerStatsCommand, ServerStatsCpuCommand, ServerStatsGcCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+  private static Message formatMemoryUsage(MemoryUsage memoryUsage)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_SERVER_STATS_FULL_INFO_UNAVAILABLE

@@ -27,3 +27,19 @@ Interface for seed-based procedural generation resources. Provides thread-local 
 
 - SeedString -- wraps this interface with seed string data
 - SeedResourcePointGenerator -- point generator delegating buffers to this resource
+
+Known implementors: SeedStringResource
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  default ResultBuffer.Bounds2d localBounds2d()
+  default ResultBuffer.ResultBuffer2d localBuffer2d()
+  default ResultBuffer.ResultBuffer3d localBuffer3d()
+  default boolean shouldReportSeeds()
+  default void reportSeeds(int seedVal, String original, String seed, String overwritten)
+  default void writeSeedReport(String seedReport)
+
+Fields:
+String INFO_SEED_REPORT
+String INFO_SEED_OVERWRITE_REPORT

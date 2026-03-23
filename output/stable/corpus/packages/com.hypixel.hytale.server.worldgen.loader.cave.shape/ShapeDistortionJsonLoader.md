@@ -15,3 +15,11 @@ public class ShapeDistortionJsonLoader<K extends SeedResource> extends JsonLoade
 ## Inner Types
 
 - `ShapeDistortionJsonLoader.Constants`
+
+Also in this package: CaveNodeShapeGeneratorJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CylinderCaveNodeShapeGeneratorJsonLoader, DistortedCaveNodeShapeGeneratorJsonLoader, EllipsoidCaveNodeShapeGeneratorJsonLoader, EmptyLineCaveNodeShapeGeneratorJsonLoader, PipeCaveNodeShapeGeneratorJsonLoader, PrefabCaveNodeShapeGeneratorJsonLoader
+
+Complete API:
+  public ShapeDistortion load()
+  private NoiseProperty loadWidth()
+  private NoiseProperty loadFloor()
+  private NoiseProperty loadCeiling()

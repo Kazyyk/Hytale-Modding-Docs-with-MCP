@@ -48,3 +48,8 @@ Creates the root `/npc` command with the translation key `"server.commands.npc"`
 - NPCCommandUtils -- shared NPC target resolution utility
 - NPCWorldCommandBase -- base class for world-scoped NPC commands
 - NPCMultiSelectCommandBase -- base class for multi-entity NPC commands
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommandUtils, NPCDebugCommand, NPCDumpCommand, NPCFreezeCommand (and 28 more)
+
+Fields:
+public static final SingleArgumentType<BuilderInfo> NPC_ROLE

@@ -17,3 +17,17 @@ public class AssetEditorSelectAssetEvent extends EditorClientEvent
 - public AssetPath getAssetFilePath()
 - public String getPreviousAssetType()
 - public AssetPath getPreviousAssetFilePath()
+
+Also in this package: AssetEditorActivateButtonEvent, AssetEditorAssetCreatedEvent, AssetEditorClientDisconnectEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorRequestDataSetEvent, AssetEditorUpdateWeatherPreviewLockEvent, EditorClientEvent
+
+Complete API:
+  public String getAssetType()
+  public AssetPath getAssetFilePath()
+  public String getPreviousAssetType()
+  public AssetPath getPreviousAssetFilePath()
+
+Fields:
+private final String assetType
+private final AssetPath assetFilePath
+private final String previousAssetType
+private final AssetPath previousAssetFilePath

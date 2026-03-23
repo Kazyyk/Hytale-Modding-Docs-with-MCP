@@ -37,3 +37,29 @@ public class UniquePrefabConfigurationJsonLoader extends JsonLoader<SeedStringRe
 ## Inner Types
 
 - `UniquePrefabConfigurationJsonLoader.Constants`
+
+Also in this package: Constants
+
+Complete API:
+  public UniquePrefabConfiguration load()
+  protected IBlockFluidCondition loadParent()
+  protected ICoordinateRndCondition loadHeightThresholds()
+  protected IIntCondition loadBiomeMask()
+  protected PrefabRotation[] loadRotations()
+  protected ICoordinateCondition loadMapCondition()
+  protected BlockMaskCondition loadMask()
+  protected Vector2d loadAnchor()
+  protected Vector3d loadSpawnOffset()
+  protected int loadEnvironment()
+  protected boolean loadFitHeightmap()
+  protected boolean loadSubmerge()
+  protected boolean loadOnWater()
+  protected double loadMaxDistance()
+  protected int loadMaxAttempts()
+  protected double loadExclusionRadius()
+  protected boolean loadIsSpawn()
+  protected double loadZoneBorderExclusion()
+  protected boolean loadShowOnMap()
+
+Fields:
+protected final ZoneFileContext zoneContext

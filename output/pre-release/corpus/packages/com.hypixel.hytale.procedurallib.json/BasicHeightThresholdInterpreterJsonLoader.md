@@ -15,3 +15,13 @@ Loads basic height threshold interpreter configurations. Creates a `BasicHeightT
 ## Related Types
 
 - BasicHeightThresholdInterpreterJsonLoader.Constants -- KEY_POSITIONS, KEY_VALUES
+
+Also in this package: AbstractCellJitterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public BasicHeightThresholdInterpreter load()
+  protected int[] loadPositions()
+  protected float[] loadValues()
+
+Fields:
+protected final int length

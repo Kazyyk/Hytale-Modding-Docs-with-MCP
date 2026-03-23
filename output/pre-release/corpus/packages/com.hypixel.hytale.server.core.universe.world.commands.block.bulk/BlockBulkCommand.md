@@ -7,3 +7,5 @@ public class BlockBulkCommand extends AbstractCommandCollection
 ## Constructors
 
 - public BlockBulkCommand()
+
+Also in this package: BlockBulkFindCommand, BlockBulkFindHereCommand, BlockBulkReplaceCommand

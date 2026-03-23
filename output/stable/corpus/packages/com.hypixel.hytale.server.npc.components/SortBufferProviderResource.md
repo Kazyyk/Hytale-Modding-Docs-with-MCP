@@ -13,3 +13,13 @@ public class SortBufferProviderResource implements Resource
 - public static ResourceType<EntityStore,SortBufferProviderResource> getResourceType()
 - @Nonnull public BucketList.SortBufferProvider getSortBufferProvider()
 - @Nonnull @Override public Resource<EntityStore> clone()
+
+Also in this package: FailedSpawnComponent, SpawnBeaconReference, SpawnMarkerReference, SpawnReference, StepComponent, Timers
+
+Complete API:
+  public static ResourceType<EntityStore,SortBufferProviderResource> getResourceType()
+  public BucketList.SortBufferProvider getSortBufferProvider()
+  public Resource<EntityStore> clone()
+
+Fields:
+private final BucketList.SortBufferProvider sortBufferProvider

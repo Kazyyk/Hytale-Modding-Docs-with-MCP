@@ -13,3 +13,8 @@ Server command extending `CommandBase`.
 ## Methods
 
 - executeSync(@Nonnull CommandContext context) | void | protected method.
+
+Also in this package: ServerCommand, ServerDumpCommand, ServerGCCommand, ServerStatsCommand, ServerStatsCpuCommand, ServerStatsMemoryCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)

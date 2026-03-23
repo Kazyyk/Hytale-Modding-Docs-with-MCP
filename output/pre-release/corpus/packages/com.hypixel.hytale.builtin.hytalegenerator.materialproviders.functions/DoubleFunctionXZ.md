@@ -10,3 +10,6 @@ Functional interface defining `apply` that returns `double`.
 ## Abstract Methods
 
 - apply | double | double var1, double var3
+
+Complete API:
+  double apply(double var1, double var3)

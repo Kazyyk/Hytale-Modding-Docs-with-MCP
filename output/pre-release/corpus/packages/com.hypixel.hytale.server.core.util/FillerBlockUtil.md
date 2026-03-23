@@ -31,3 +31,30 @@ Filler coordinates are packed into a single `int` using 5 bits per axis (x, z, y
 - ChangeReason | Enum: reason for filler change (NONE, NORMAL, BY_PHYSICS).
 - FillerFetcher | Functional interface for reading block, filler, and rotation data.
 - ValidationResult | Enum: OK, INVALID_BLOCK, INVALID_FILLER.
+
+Also in this package: AssetUtil, BsonUtil, ChangeReason, Config, ConsoleColorUtil, DumpUtil, EventTitleUtil, FillerFetcher, HashUtil, MessageUtil, NotificationUtil, PlayerTextData, PositionUtil, PrefabUtil, ProcessUtil, ServiceHttpClientFactory, TargetBuffer, TargetBufferLocation, TargetUtil, TempAssetIdUtil (and 4 more)
+
+Complete API:
+  public static void forEachFillerBlock(BlockBoundingBoxes.RotatedVariantBoxes blockBoundingBoxes, TriIntConsumer consumer)
+  public static void forEachFillerBlock(float threshold, BlockBoundingBoxes.RotatedVariantBoxes blockBoundingBoxes, TriIntConsumer consumer)
+  public static void forEachFillerBlock(float threshold, int expand, BlockBoundingBoxes.RotatedVariantBoxes blockBoundingBoxes, TriIntConsumer consumer)
+  public static void forEachFillerBlock(float threshold, int expandX, int expandY, int expandZ, BlockBoundingBoxes.RotatedVariantBoxes blockBoundingBoxes, TriIntConsumer consumer)
+  public static boolean testFillerBlocks(BlockBoundingBoxes.RotatedVariantBoxes blockBoundingBoxes, TriIntPredicate predicate)
+  public static boolean testFillerBlocks(float threshold, BlockBoundingBoxes.RotatedVariantBoxes blockBoundingBoxes, TriIntPredicate predicate)
+  public static FillerBlockUtil.ValidationResult validateBlock(int x, int y, int z, int blockId, int rotation, int filler, A a, B b, FillerBlockUtil.FillerFetcher<A,B> fetcher)
+  public static int pack(int x, int y, int z)
+  public static int unpackX(int val)
+  public static int unpackY(int val)
+  public static int unpackZ(int val)
+  private static void removeBlockEntity(ComponentAccessor<ChunkStore> accessor, BlockComponentChunk blockComponentChunk, int x, int y, int z)
+  private static void removeFiller(ComponentAccessor<ChunkStore> accessor, BlockSection blockSection, int x, int y, int z, FillerBlockUtil.ChangeReason changeReason)
+  public static void removeFillerBlocksAt(ComponentAccessor<ChunkStore> accessor, BlockSection blockSection, int x, int y, int z, int blockId, int filler, int rotation, FillerBlockUtil.ChangeReason changeReason)
+  private static void setFiller(ComponentAccessor<ChunkStore> accessor, Ref<ChunkStore> ref, BlockSection blockSection, int x, int y, int z, int blockId, BlockType blockType, int filler, int rotation, FillerBlockUtil.ChangeReason changeReason)
+  public static void setFillerBlocksAt(ComponentAccessor<ChunkStore> accessor, Ref<ChunkStore> ref, BlockSection blockSection, int x, int y, int z, int blockId, int filler, int rotation, FillerBlockUtil.ChangeReason changeReason)
+
+Fields:
+public static final float THRESHOLD
+public static final int NO_FILLER
+private static final int BITS_PER_AXIS
+private static final int MASK
+private static final int INVERT

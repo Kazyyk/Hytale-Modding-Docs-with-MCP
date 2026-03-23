@@ -13,3 +13,11 @@ Backing array storage for a VoxelBuffer in ARRAY state. Holds a flat array of si
 ## Methods
 
 - @Nonnull @Override public MemInstrument.Report getMemoryUsage()
+
+Also in this package: ArrayContents, Buffer, CountedArrayContents, CountedPixelBuffer, EntityBuffer, PixelBuffer, SimplePixelBuffer, State, State, State, VoxelBuffer
+
+Complete API:
+  public MemInstrument.Report getMemoryUsage()
+
+Fields:
+private final T[] array

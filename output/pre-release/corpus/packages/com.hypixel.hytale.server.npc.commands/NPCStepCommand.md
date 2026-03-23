@@ -29,3 +29,14 @@ Registers as sub-command `"step"` with translation key `"server.commands.npc.ste
 - NPCFreezeCommand -- freezes NPCs without stepping
 - NPCThawCommand -- unfreezes NPCs
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+  private NPCEntity getNPC(CommandContext context, Store<EntityStore> store)
+
+Fields:
+private final FlagArg allArg
+private final EntityWrappedArg entityArg
+private final OptionalArg<Float> dtArg

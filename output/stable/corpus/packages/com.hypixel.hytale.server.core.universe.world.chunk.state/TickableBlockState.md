@@ -13,3 +13,12 @@ Utility type in the `state` subsystem.
 - getBlockPosition | Vector3i
 - getChunk | WorldChunk
 - invalidate | void
+
+Known implementors: ProcessingBenchState
+
+Complete API:
+  void tick(float var1, int var2, ArchetypeChunk<ChunkStore> var3, Store<ChunkStore> var4, CommandBuffer<ChunkStore> var5)
+  Vector3i getPosition()
+  Vector3i getBlockPosition()
+  WorldChunk getChunk()
+  void invalidate()

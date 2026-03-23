@@ -21,3 +21,5 @@ Initializes `WorldTimeResource` from world config on system add; saves time back
 public static class WorldTimeSystems.Ticking extends TickingSystem<EntityStore>
 
 Advances world time each tick.
+
+Also in this package: Init, Ticking, TimeModule, TimePacketSystem, TimeResource, TimeSystem, WorldTimeResource

@@ -27,3 +27,10 @@ ECS event system that listens for `InventoryChangeEvent` on entities with a `Pla
 - ObjectivePlayerSetupSystem -- companion system for player setup
 - ObjectiveItemEntityRemovalSystem -- companion system for item entity removal
 - InventoryChangeAware -- interface for tasks that react to inventory changes
+
+Also in this package: ObjectiveItemEntityRemovalSystem, ObjectivePlayerSetupSystem
+
+Complete API:
+  public void handle(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, InventoryChangeEvent event)
+  private static void handleRemoveOnItemDrop(Ref<EntityStore> ref, Player playerComponent, Set<UUID> activeObjectiveUUIDs, ObjectiveDataStore objectiveDataStore, Store<EntityStore> store)
+  public Query<EntityStore> getQuery()

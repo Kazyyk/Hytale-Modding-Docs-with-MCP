@@ -23,3 +23,20 @@ NPC entity filter builder: Checks if the entity can view the NPC in a given view
 - public float getViewAngle()
 - public boolean testLineOfSight()
 - public ViewTest getViewTest()
+
+Also in this package: BuilderEntityFilterAltitude, BuilderEntityFilterAnd, BuilderEntityFilterAttitude, BuilderEntityFilterCombat, BuilderEntityFilterEntityEffect, BuilderEntityFilterHeightDifference, BuilderEntityFilterInsideBlock, BuilderEntityFilterInventory, BuilderEntityFilterItemInHand, BuilderEntityFilterLineOfSight, BuilderEntityFilterMany, BuilderEntityFilterMovementState, BuilderEntityFilterNPCGroup, BuilderEntityFilterNot, BuilderEntityFilterOr, BuilderEntityFilterStandingOnBlock, BuilderEntityFilterStat, BuilderEntityFilterViewSector
+
+Complete API:
+  public EntityFilterSpotsMe build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<IEntityFilter> readConfig(JsonElement data)
+  public float getViewAngle()
+  public boolean testLineOfSight()
+  public ViewTest getViewTest()
+
+Fields:
+protected float viewAngle
+protected boolean testLineOfSight
+protected ViewTest viewTest

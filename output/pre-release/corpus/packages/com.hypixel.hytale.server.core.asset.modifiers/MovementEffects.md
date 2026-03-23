@@ -21,3 +21,19 @@ public class MovementEffects implements NetworkSerializable
 - public boolean isDisableAll()
 - @Nonnull public com.hypixel.hytale.protocol.MovementEffects toPacket()
 - @Nonnull @Override public String toString()
+
+Complete API:
+  public boolean isDisableAll()
+  public com.hypixel.hytale.protocol.MovementEffects toPacket()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<MovementEffects> CODEC
+protected boolean disableAll
+protected boolean disableForward
+protected boolean disableBackward
+protected boolean disableLeft
+protected boolean disableRight
+protected boolean disableSprint
+protected boolean disableJump
+protected boolean disableCrouch

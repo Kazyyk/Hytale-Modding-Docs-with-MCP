@@ -14,3 +14,14 @@ public class NoiseThicknessAsset extends LayerAsset
 
 - @Nonnull @Override public SpaceAndDepthMaterialProvider.Layer<Material> build(@Nonnull MaterialProviderAsset.Argument argument)
 - @Override public void cleanUp()
+
+Also in this package: ConstantThicknessLayerAsset, LayerAsset, RangeThicknessAsset, WeightedThicknessAsset, WeightedThicknessLayerAsset
+
+Complete API:
+  public SpaceAndDepthMaterialProvider.Layer<Material> build(MaterialProviderAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final BuilderCodec<NoiseThicknessAsset> CODEC
+private DensityAsset densityAsset
+private MaterialProviderAsset materialProviderAsset

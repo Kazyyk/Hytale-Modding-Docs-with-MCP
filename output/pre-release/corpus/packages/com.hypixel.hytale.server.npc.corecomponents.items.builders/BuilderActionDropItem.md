@@ -34,3 +34,29 @@ NPC behavior action builder for ActionDropItem functionality.
 - public double[] getDropSectorRadians()
 - public double[] getDistance()
 - public boolean isHighPitch()
+
+Also in this package: BuilderActionInventory, BuilderActionPickUpItem, BuilderSensorDroppedItem
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public Action build(BuilderSupport builderSupport)
+  public BuilderActionDropItem readConfig(JsonElement data)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public boolean validate(String configName, NPCLoadTimeValidationHelper validationHelper, ExecutionContext context, Scope globalScope, List<String> errors)
+  public String getItem(BuilderSupport support)
+  public String getDropList(BuilderSupport support)
+  public float getThrowSpeed()
+  public double[] getDropSectorRadians()
+  public double[] getDistance()
+  public boolean isHighPitch()
+
+Fields:
+public static final double[] DEFAULT_THROW_DISTANCE
+public static final double[] DEFAULT_DROP_SECTOR
+protected final AssetHolder item
+protected final AssetHolder dropList
+protected float throwSpeed
+protected double[] distance
+protected double[] dropSector
+protected boolean highPitch

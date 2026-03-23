@@ -12,3 +12,12 @@ public class HomeOrSpawnPoint implements RespawnController
 ## Methods
 
 - @Override public CompletableFuture<Void> respawnPlayer(World world, Ref<EntityStore> playerReference, ComponentAccessor<EntityStore> commandBuffer)
+
+Also in this package: RespawnController, WorldSpawnPoint
+
+Complete API:
+  public CompletableFuture<Void> respawnPlayer(World world, Ref<EntityStore> playerReference, ComponentAccessor<EntityStore> commandBuffer)
+
+Fields:
+public static final HomeOrSpawnPoint INSTANCE
+public static final BuilderCodec<HomeOrSpawnPoint> CODEC

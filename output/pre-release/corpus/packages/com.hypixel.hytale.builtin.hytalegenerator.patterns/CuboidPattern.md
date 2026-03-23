@@ -27,3 +27,19 @@ public class CuboidPattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: AndPattern, ConstantPattern, Context, Facing, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, Pattern, RotatorPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public Bounds3i getBounds_voxelGrid()
+
+Fields:
+private final Pattern subPattern
+private final Vector3i min
+private final Vector3i max
+private final Bounds3i bounds_voxelGrid
+private final Vector3i rScanMin
+private final Vector3i rScanMax
+private final Vector3i rChildPosition
+private final Pattern.Context rChildContext

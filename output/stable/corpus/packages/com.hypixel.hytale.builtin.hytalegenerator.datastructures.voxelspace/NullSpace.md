@@ -36,3 +36,36 @@ public class NullSpace<V> implements VoxelSpace<V>
 - @Override public int sizeX()
 - @Override public int sizeY()
 - @Override public int sizeZ()
+
+Also in this package: BatchTransfer, BooleanVoxelSpace, VoxelConsumer, VoxelCoordinate, VoxelSpace, VoxelSpaceUtil, WindowVoxelSpace
+
+Complete API:
+  public static NullSpace<V> instance()
+  public static NullSpace<V> instance(Class<V> clazz)
+  public boolean set(V content, int x, int y, int z)
+  public boolean set(V content, Vector3i position)
+  public void set(V content)
+  public void setOrigin(int x, int y, int z)
+  public V getContent(int x, int y, int z)
+  public V getContent(Vector3i position)
+  public boolean replace(V replacement, int x, int y, int z, Predicate<V> mask)
+  public void pasteFrom(VoxelSpace<V> source)
+  public int getOriginX()
+  public int getOriginY()
+  public int getOriginZ()
+  public String getName()
+  public boolean isInsideSpace(int x, int y, int z)
+  public boolean isInsideSpace(Vector3i position)
+  public void forEach(VoxelConsumer<? super V> action)
+  public int minX()
+  public int maxX()
+  public int minY()
+  public int maxY()
+  public int minZ()
+  public int maxZ()
+  public int sizeX()
+  public int sizeY()
+  public int sizeZ()
+
+Fields:
+private static final NullSpace INSTANCE

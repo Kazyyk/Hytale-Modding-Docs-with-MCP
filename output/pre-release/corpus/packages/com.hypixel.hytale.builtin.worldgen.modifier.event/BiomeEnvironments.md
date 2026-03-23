@@ -12,3 +12,8 @@ ModifyEvent record for biome environment entries.
 @Nonnull BiomeFileContext file,
         @Nonnull List<EnvironmentContainer.EnvironmentContainerEntry> entries,
         @Nonnull ModifyEvent.ContentLoader<EnvironmentContainer.EnvironmentContainerEntry> loader
+
+Also in this package: BiomeCovers, BiomeDynamicLayers, BiomeFluids, BiomePrefabs, BiomeStaticLayers, BiomeTints, CaveCovers, CavePrefabs, CaveTypes, ContentLoader, EventType, ModifyEvent, ModifyEvents, SeedGenerator
+
+Complete API:
+  public EventType type()

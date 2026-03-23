@@ -22,3 +22,16 @@ Concrete implementation extending `Directionality`.
 - getReadRangeWith(@Nonnull Scanner scanner) | Vector3i | public method.
 - getPossibleRotations() | List<PrefabRotation> | public method.
 - getRotationAt(@Nonnull Pattern.Context context) | PrefabRotation | public method.
+
+Also in this package: Directionality, OrthogonalDirection, PatternDirectionality, RotatedPosition, RotatedPositionsScanResult, StaticDirectionality
+
+Complete API:
+  public Pattern getGeneralPattern()
+  public Vector3i getReadRangeWith(Scanner scanner)
+  public List<PrefabRotation> getPossibleRotations()
+  public PrefabRotation getRotationAt(Pattern.Context context)
+
+Fields:
+private final List<PrefabRotation> rotations
+private final Pattern pattern
+private final SeedGenerator seedGenerator

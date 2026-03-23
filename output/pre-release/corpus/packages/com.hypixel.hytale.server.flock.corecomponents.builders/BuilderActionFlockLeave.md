@@ -13,3 +13,12 @@ NPC behavior action builder for ActionFlockLeave functionality.
 - @Nonnull @Override public String getShortDescription()
 - @Nonnull @Override public String getLongDescription()
 - @Nonnull @Override public BuilderDescriptorState getBuilderDescriptorState()
+
+Also in this package: BuilderActionFlockBeacon, BuilderActionFlockJoin, BuilderActionFlockSetTarget, BuilderActionFlockState, BuilderBodyMotionFlock, BuilderEntityFilterFlock, BuilderSensorFlockCombatDamage, BuilderSensorFlockLeader, BuilderSensorInflictedDamage
+
+Complete API:
+  public ActionFlockLeave build(BuilderSupport builderSupport)
+  public BuilderActionFlockLeave readConfig(JsonElement data)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()

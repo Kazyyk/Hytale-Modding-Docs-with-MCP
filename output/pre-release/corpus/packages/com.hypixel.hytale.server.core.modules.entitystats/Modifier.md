@@ -24,3 +24,20 @@ Abstract base class for stat value modifiers. A modifier targets either the `MIN
 
 - StaticModifier -- concrete modifier with additive/multiplicative calculation
 - DefaultModifiers -- well-known modifier key constants
+
+Known subclasses: StaticModifier
+
+Also in this package: CalculationType, DefaultModifiers, ModifierTarget, StaticModifier
+
+Complete API:
+  public abstract float apply(float var1)
+  public Modifier.ModifierTarget getTarget()
+  public com.hypixel.hytale.protocol.Modifier toPacket()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final CodecMapCodec<Modifier> CODEC
+protected static final BuilderCodec<Modifier> BASE_CODEC
+protected Modifier.ModifierTarget target

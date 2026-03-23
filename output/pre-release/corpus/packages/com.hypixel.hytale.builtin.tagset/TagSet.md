@@ -12,3 +12,13 @@ Interface defining: `getIncludedTagSets()`, `getExcludedTagSets()`, `getIncluded
 - getExcludedTagSets() | String[] | package-private method.
 - getIncludedTags() | String[] | package-private method.
 - getExcludedTags() | String[] | package-private method.
+
+Known implementors: NPCGroup
+
+Also in this package: TagSetLookup, TagSetLookupTable, TagSetPlugin
+
+Complete API:
+  String[] getIncludedTagSets()
+  String[] getExcludedTagSets()
+  String[] getIncludedTags()
+  String[] getExcludedTags()

@@ -30,3 +30,25 @@ Abstract base class in the `positionproviders` package.
 - @Override public void cleanUp()
 - public Argument(@Nonnull SeedBox parentSeed, @Nonnull ReferenceBundle referenceBundle, @Nonnull WorkerIndexer.Id workerId)
 - public Argument(@Nonnull PositionProviderAsset.Argument argument)
+
+Known subclasses: AnchorPositionProviderAsset, BaseHeightPositionProviderAsset, BoundPositionProviderAsset, CachedPositionProviderAsset, FieldFunctionOccurrencePositionProviderAsset, FieldFunctionPositionProviderAsset, FrameworkPositionProviderAsset, ImportedPositionProviderAsset, ListPositionProviderAsset, Mesh2DPositionProviderAsset, Mesh3DPositionProviderAsset, OffsetPositionProviderAsset, SimpleHorizontalPositionProviderAsset, SpherePositionProviderAsset, UnionPositionProviderAsset
+
+Also in this package: AnchorPositionProviderAsset, Argument, BaseHeightPositionProviderAsset, BoundPositionProviderAsset, CachedPositionProviderAsset, DelimiterAsset, FieldFunctionOccurrencePositionProviderAsset, FieldFunctionPositionProviderAsset, FrameworkPositionProviderAsset, ImportedPositionProviderAsset, ListPositionProviderAsset, Mesh2DPositionProviderAsset, Mesh3DPositionProviderAsset, OffsetPositionProviderAsset, PositionAsset, SimpleHorizontalPositionProviderAsset, SpherePositionProviderAsset, UnionPositionProviderAsset
+
+Complete API:
+  public abstract PositionProvider build(PositionProviderAsset.Argument var1)
+  public boolean skip()
+  public static PositionProviderAsset getExportedAsset(String name)
+  public String getId()
+  public void cleanUp()
+
+Fields:
+public static final AssetCodecMapCodec<String,PositionProviderAsset> CODEC
+private static final Map<String,PositionProviderAsset> exportedNodes
+public static final Codec<String> CHILD_ASSET_CODEC
+public static final Codec<String[]> CHILD_ASSET_CODEC_ARRAY
+public static final BuilderCodec<PositionProviderAsset> ABSTRACT_CODEC
+private String id
+private AssetExtraInfo.Data data
+private boolean skip
+private String exportName

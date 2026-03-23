@@ -27,3 +27,24 @@ Class in the choices subsystem.
 - addButton(UICommandBuilder var1, UIEventBuilder var2, String var3, PlayerRef var4) | void | public method.
 - canFulfillRequirements(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef) | boolean | public method.
 - toString() | String | public method.
+
+Known subclasses: ItemRepairElement, ShopElement
+
+Also in this package: ChoiceBasePage, ChoiceInteraction, ChoicePageEventData, ChoiceRequirement
+
+Complete API:
+  public String getDisplayNameKey()
+  public String getDescriptionKey()
+  public ChoiceInteraction[] getInteractions()
+  public ChoiceRequirement[] getRequirements()
+  public abstract void addButton(UICommandBuilder var1, UIEventBuilder var2, String var3, PlayerRef var4)
+  public boolean canFulfillRequirements(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
+  public String toString()
+
+Fields:
+public static final CodecMapCodec<ChoiceElement> CODEC
+public static final BuilderCodec<ChoiceElement> BASE_CODEC
+protected String displayNameKey
+protected String descriptionKey
+protected ChoiceInteraction[] interactions
+protected ChoiceRequirement[] requirements

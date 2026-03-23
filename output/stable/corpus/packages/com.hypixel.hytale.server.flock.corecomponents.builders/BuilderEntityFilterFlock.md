@@ -24,3 +24,22 @@ NPC behavior filter builder for EntityFilterFlock functionality.
 - public FlockMembershipType getFlockMembership()
 - public FlockPlayerMembership getFlockPlayerMembership()
 - public boolean isCheckCanJoin()
+
+Also in this package: BuilderActionFlockBeacon, BuilderActionFlockJoin, BuilderActionFlockLeave, BuilderActionFlockSetTarget, BuilderActionFlockState, BuilderBodyMotionFlock, BuilderSensorFlockCombatDamage, BuilderSensorFlockLeader, BuilderSensorInflictedDamage
+
+Complete API:
+  public IEntityFilter build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<IEntityFilter> readConfig(JsonElement data)
+  public int[] getSize()
+  public FlockMembershipType getFlockMembership()
+  public FlockPlayerMembership getFlockPlayerMembership()
+  public boolean isCheckCanJoin()
+
+Fields:
+protected FlockMembershipType flockMembership
+protected FlockPlayerMembership flockPlayerMembership
+protected int[] size
+protected boolean checkCanJoin

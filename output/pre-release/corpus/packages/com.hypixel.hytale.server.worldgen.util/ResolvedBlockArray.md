@@ -27,3 +27,21 @@ Provides ResolvedBlockArray functionality within the util subsystem.
 - @Override public boolean equals(Object o)
 - @Override public int hashCode()
 - @Nonnull @Override public String toString()
+
+Also in this package: ArrayUtli, BlockArray, BlockFluidEntry, ChunkThreadPoolExecutor, ChunkWorker, ChunkWorkerThreadFactory, ConstantNoiseProperty, Entry, ListPool, LogUtil, NoiseBlockArray, ObjectPool, Resource
+
+Complete API:
+  public BlockFluidEntry[] getEntries()
+  public LongSet getEntrySet()
+  public int size()
+  public boolean contains(int block, int fluidId)
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final ResolvedBlockArray EMPTY
+public static final Long2ObjectMap<ResolvedBlockArray> RESOLVED_BLOCKS
+public static final Long2ObjectMap<ResolvedBlockArray> RESOLVED_BLOCKS_WITH_VARIANTS
+private final LongSet entrySet
+private final BlockFluidEntry[] entries

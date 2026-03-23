@@ -40,3 +40,35 @@ Implements `UserMapMarkersStore` to provide PlayerWorldData functionality.
 - @Nonnull public List<PlayerDeathPositionData> getDeathPositions()
 - public void addLastDeath(@Nonnull String markerId, @Nonnull Transform transform, int deathDay)
 - public boolean removeLastDeath(@Nonnull String markerId)
+
+Also in this package: PlayerConfigData, PlayerDeathPositionData, PlayerRespawnPointData, UniqueItemUsagesComponent
+
+Complete API:
+  public void setPlayerConfigData(PlayerConfigData playerConfigData)
+  public Transform getLastPosition()
+  public void setLastPosition(Transform lastPosition)
+  public SavedMovementStates getLastMovementStates()
+  public void setLastMovementStates(MovementStates lastMovementStates, boolean save)
+  private void setLastMovementStates_internal(MovementStates lastMovementStates)
+  public Collection<? extends UserMapMarker> getUserMapMarkers()
+  public Collection<? extends UserMapMarker> getUserMapMarkers(UUID placedByUuid)
+  public void setUserMapMarkers(Collection<? extends UserMapMarker> markers)
+  public UserMapMarker getUserMapMarker(String markerId)
+  public boolean isFirstSpawn()
+  public void setFirstSpawn(boolean firstSpawn)
+  public PlayerRespawnPointData[] getRespawnPoints()
+  public void setRespawnPoints(PlayerRespawnPointData[] respawnPoints)
+  public List<PlayerDeathPositionData> getDeathPositions()
+  public void addLastDeath(String markerId, Transform transform, int deathDay)
+  public boolean removeLastDeath(String markerId)
+
+Fields:
+public static final BuilderCodec<PlayerWorldData> CODEC
+private static final int DEATH_POSITIONS_COUNT_MAX
+private transient PlayerConfigData playerConfigData
+private Transform lastPosition
+private SavedMovementStates lastMovementStates
+private Map<String,UserMapMarker> mapMarkersById
+private boolean firstSpawn
+private PlayerRespawnPointData[] respawnPoints
+private List<PlayerDeathPositionData> deathPositions

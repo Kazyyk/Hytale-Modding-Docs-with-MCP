@@ -15,3 +15,11 @@ Property paths are represented as `String[]` arrays where each element is either
 - void insertProperty(BsonDocument, String[], BsonValue) | Inserts a value at the given path; for arrays, inserts at the specified index (shifting later elements)
 
 All three methods traverse the path depth-first, handling both `BsonDocument` (by key) and `BsonArray` (by numeric index) at each level. Throws `IllegalArgumentException` if a non-terminal path element is neither a document nor an array with a valid index.
+
+Also in this package: AssetPathUtil, AssetStoreUtil
+
+Complete API:
+  private static void actionOnProperty(BsonDocument entity, String[] propertyPath, BiConsumer<BsonValue,String> biConsumer, boolean create)
+  public static void removeProperty(BsonDocument entity, String[] propertyPath)
+  public static void setProperty(BsonDocument entity, String[] pathElements, BsonValue value)
+  public static void insertProperty(BsonDocument entity, String[] pathElements, BsonValue value)

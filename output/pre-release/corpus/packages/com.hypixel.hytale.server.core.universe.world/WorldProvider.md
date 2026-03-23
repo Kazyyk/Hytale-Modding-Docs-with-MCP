@@ -13,3 +13,10 @@ Simple provider interface for obtaining a `World` reference. Implemented by stor
 ## See Also
 
 - World
+
+Known implementors: ChunkStore, EntityStore
+
+Also in this package: ChunkConfig, ClientEffectWorldSettings, Default, GenericBlockBulkUpdater, IWorldChunks, IWorldChunksAsync, ParticleUtil, PlaceBlockSettings, PlayerUtil, SetBlockSettings, SoundUtil, SpawnUtil, ValidationOption, World, WorldConfig, WorldConfigProvider, WorldMapTracker, WorldNotificationHandler, ZoneDiscoveryInfo
+
+Complete API:
+  World getWorld()

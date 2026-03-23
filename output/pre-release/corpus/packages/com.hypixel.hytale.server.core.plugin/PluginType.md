@@ -13,3 +13,11 @@ Enumeration of plugin types.
 ## Methods
 
 - @Nonnull public String getDisplayName()
+
+Also in this package: JavaPlugin, JavaPluginInit, MissingPluginDependencyException, PluginBase, PluginBridgeClassLoader, PluginClassLoader, PluginInit, PluginListPageManager, PluginManager, PluginState, SessionSettings
+
+Complete API:
+  public String getDisplayName()
+
+Fields:
+private final String displayName

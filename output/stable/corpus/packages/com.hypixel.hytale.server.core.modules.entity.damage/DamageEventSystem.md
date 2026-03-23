@@ -19,3 +19,7 @@ Calls `super(Damage.class)` to register this system as a handler for `Damage` ev
 - DamageSystems -- contains the concrete implementations
 - DamageCalculatorSystems.SequenceModifier -- another subclass
 - DamageModule -- registers all damage event systems
+
+Known subclasses: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, CameraEffectSystem, CollectDamage, DamageArmor, DamageAttackerTool, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DamageStamina, EntityUIEvents, FilterDamageSystem, FilterNPCWorldConfig, FilterPlayerFlockDamageSystem, FilterPlayerWorldConfig, FilterUnkillable, HitAnimation, OnDamageDealt, OnDamageReceived, OnMinecartHit, PlayerDamageFilterSystem, PlayerHitIndicators, RecordLastCombat, ReticleEvents, SequenceModifier, TrackLastDamage, WieldingDamageReduction, WieldingKnockbackReduction
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 49 more)

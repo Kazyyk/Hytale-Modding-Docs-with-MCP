@@ -24,3 +24,19 @@ public class DeployableProjectileShooterComponent implements Component<EntitySto
 | `public` | `Ref<EntityStore>` | `getActiveTarget()` |
 | `public` | `void` | `setActiveTarget(Ref<EntityStore> target)` |
 | `@Override public` | `Component<EntityStore>` | `clone()` |
+
+Also in this package: DeployableComponent, DeployableFlag, DeployableOwnerComponent, DeployableProjectileComponent
+
+Complete API:
+  public static ComponentType<EntityStore,DeployableProjectileShooterComponent> getComponentType()
+  public void spawnProjectile(Ref<EntityStore> entityRef, CommandBuffer<EntityStore> commandBuffer, ProjectileConfig projectileConfig, UUID ownerUuid, Vector3d spawnPos, Vector3d direction)
+  public List<Ref<EntityStore>> getProjectiles()
+  public List<Ref<EntityStore>> getProjectilesForRemoval()
+  public Ref<EntityStore> getActiveTarget()
+  public void setActiveTarget(Ref<EntityStore> target)
+  public Component<EntityStore> clone()
+
+Fields:
+protected final List<Ref<EntityStore>> projectiles
+protected final List<Ref<EntityStore>> projectilesForRemoval
+protected Ref<EntityStore> activeTarget

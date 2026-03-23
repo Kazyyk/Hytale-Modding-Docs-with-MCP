@@ -11,3 +11,17 @@ Holds the UI identifiers and array of BuilderTool instances associated with an i
 - public String[] getUi()
 - public BuilderTool[] getTools()
 - public ItemBuilderToolData toPacket()
+
+Also in this package: ArgData, BlockTypeListAsset, BrushData, BuilderTool, PrefabListAsset, PrefabReference, PrefabRootDirectory, Values
+
+Complete API:
+  public String[] getUi()
+  public BuilderTool[] getTools()
+  public ItemBuilderToolData toPacket()
+  public String toString()
+
+Fields:
+public static final BuilderToolData DEFAULT
+public static final BuilderCodec<BuilderToolData> CODEC
+protected String[] ui
+protected BuilderTool[] tools

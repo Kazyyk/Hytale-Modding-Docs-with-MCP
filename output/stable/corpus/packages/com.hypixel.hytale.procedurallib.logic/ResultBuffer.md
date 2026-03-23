@@ -43,3 +43,10 @@ Accumulates nearest and second-nearest cell data for 3D cell queries.
 
 - void register(int hash, int ix, int iy, int iz, double distance, double x, double y, double z)
 - void register2(int hash, int ix, int iy, int iz, double distance, double x, double y, double z)
+
+Also in this package: Bounds2d, BranchNoise, CellFunction, CellMode, CellNoise, CellularNoise, ConstantNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GeneralNoise, GridNoise, HexMeshNoise, InterpolationFunction, InterpolationMode, MeshNoise, OldSimplexNoise (and 6 more)
+
+Fields:
+public static final ResultBuffer.Bounds2d bounds2d
+public static final ResultBuffer.ResultBuffer2d buffer2d
+public static final ResultBuffer.ResultBuffer3d buffer3d

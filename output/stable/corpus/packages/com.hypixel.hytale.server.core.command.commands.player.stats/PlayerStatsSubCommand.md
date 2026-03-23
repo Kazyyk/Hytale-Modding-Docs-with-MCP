@@ -9,3 +9,5 @@ Abstract base for related commands.
 ## Constructors
 
 - PlayerStatsSubCommand() | Creates a new PlayerStatsSubCommand instance.
+
+Also in this package: PlayerStatsAddCommand, PlayerStatsDumpCommand, PlayerStatsGetCommand, PlayerStatsResetCommand, PlayerStatsSetCommand, PlayerStatsSetToMaxCommand

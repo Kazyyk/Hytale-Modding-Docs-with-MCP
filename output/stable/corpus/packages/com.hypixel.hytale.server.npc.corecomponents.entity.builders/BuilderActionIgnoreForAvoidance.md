@@ -14,3 +14,16 @@ NPC action builder: Set the target slot of an entity that should be ignored duri
 - return new ActionIgnoreForAvoidance(this, builderSupport)
 - @Override public BuilderDescriptorState getBuilderDescriptorState()
 - public int getTargetSlot(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionBeacon, BuilderActionNotify, BuilderActionOverrideAttitude, BuilderActionReleaseTarget, BuilderActionSetMarkedTarget, BuilderActionSetStat, BuilderHeadMotionWatch, BuilderSensorBeacon, BuilderSensorCount, BuilderSensorEntity, BuilderSensorEntityBase, BuilderSensorKill, BuilderSensorPlayer, BuilderSensorSelf, BuilderSensorTarget
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public Action build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionIgnoreForAvoidance readConfig(JsonElement data)
+  public int getTargetSlot(BuilderSupport support)
+
+Fields:
+protected final StringHolder targetSlot

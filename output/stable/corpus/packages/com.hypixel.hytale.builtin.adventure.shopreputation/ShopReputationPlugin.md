@@ -7,3 +7,6 @@ public class ShopReputationPlugin extends JavaPlugin
 Server plugin that initializes the ShopReputation system and registers related features.
 
 ## Accessors
+
+Complete API:
+  protected void setup()

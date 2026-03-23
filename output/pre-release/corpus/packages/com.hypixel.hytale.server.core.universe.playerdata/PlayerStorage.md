@@ -12,3 +12,13 @@ Asynchronous interface for persisting and loading player entity data. All operat
 - save(@Nonnull UUID var1, @Nonnull Holder<EntityStore> var2) | CompletableFuture<Void> | Saves entity data for the given player UUID.
 - remove(@Nonnull UUID var1) | CompletableFuture<Void> | Removes stored data for the given player UUID.
 - getPlayers() | Set<UUID> | Returns the set of all stored player UUIDs. Throws `IOException` on I/O failure.
+
+Known implementors: DiskPlayerStorage
+
+Also in this package: DefaultPlayerStorageProvider, DiskPlayerStorage, DiskPlayerStorageProvider, PlayerStorageProvider
+
+Complete API:
+  CompletableFuture<Holder<EntityStore>> load(UUID var1)
+  CompletableFuture<Void> save(UUID var1, Holder<EntityStore> var2)
+  CompletableFuture<Void> remove(UUID var1)
+  Set<UUID> getPlayers()

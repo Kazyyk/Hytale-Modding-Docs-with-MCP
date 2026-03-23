@@ -20,3 +20,12 @@ Enumerates EntityEventType values: `DAMAGE`, `DEATH`, `INTERACTION`.
 ## Methods
 
 - public String get()
+
+Also in this package: EntityEventView
+
+Complete API:
+  public String get()
+
+Fields:
+public static final EntityEventType[] VALUES
+private final String description

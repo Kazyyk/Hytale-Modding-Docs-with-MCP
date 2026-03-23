@@ -54,3 +54,34 @@ public void registerSubPacketHandlers(@Nonnull Function<IPacketHandler, SubPacke
 
 
 public void populateSubPacketHandlers(@Nonnull GamePacketHandler packetHandler)
+
+Also in this package: DisconnectReason, NetworkSerializable, NetworkSerializer, NetworkSerializers, PacketHandler, PacketStatsEntry, PacketStatsRecorderImpl, PingInfo, ProtocolVersion, SizeRecord
+
+Complete API:
+  public static ServerManager get()
+  public void init()
+  protected void setup()
+  protected void start()
+  protected void shutdown()
+  public void unbindAllListeners()
+  public List<Channel> getListeners()
+  public boolean bind(InetSocketAddress address)
+  public boolean unbind(Channel channel)
+  public InetSocketAddress getLocalOrPublicAddress()
+  public InetSocketAddress getNonLoopbackAddress()
+  public InetSocketAddress getPublicAddress()
+  public void waitForBindComplete()
+  public void registerSubPacketHandlers(Function<IPacketHandler,SubPacketHandler> supplier)
+  public void populateSubPacketHandlers(GamePacketHandler packetHandler)
+  private Channel bind0(InetSocketAddress address)
+  private boolean unbind0(Channel channel)
+
+Fields:
+public static final PluginManifest MANIFEST
+private static final NetworkUtil.AddressType[] NON_PUBLIC_ADDRESS_TYPES
+private static ServerManager instance
+private final List<Channel> listeners
+private final List<Function<IPacketHandler,SubPacketHandler>> subPacketHandlers
+private Transport transport
+private CompletableFuture<Void> registerFuture
+private CompletableFuture<Void> bootFuture

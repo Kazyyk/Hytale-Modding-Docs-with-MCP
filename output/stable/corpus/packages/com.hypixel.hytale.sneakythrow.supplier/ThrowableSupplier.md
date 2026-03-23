@@ -10,3 +10,9 @@ Functional interface defining `getNow` that returns `T`.
 ## Abstract Methods
 
 - getNow | T
+
+Also in this package: ThrowableIntSupplier
+
+Complete API:
+  default T get()
+  T getNow()

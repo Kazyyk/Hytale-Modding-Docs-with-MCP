@@ -9,3 +9,5 @@ Console command handling PlayerEffect operations.
 ## Methods
 
 - public PlayerEffectSubCommand()
+
+Also in this package: PlayerEffectApplyCommand, PlayerEffectApplyOtherCommand, PlayerEffectClearCommand, PlayerEffectClearOtherCommand

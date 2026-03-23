@@ -18,3 +18,10 @@ Functional interface that converts a domain object into a network packet. Unlike
 Packet toPacket(Type var1)
 
 Converts the given domain object into its packet representation.
+
+Known implementors: ObjectiveTask
+
+Also in this package: DisconnectReason, NetworkSerializable, NetworkSerializers, PacketHandler, PacketStatsEntry, PacketStatsRecorderImpl, PingInfo, ProtocolVersion, ServerManager, SizeRecord
+
+Complete API:
+  Packet toPacket(Type var1)

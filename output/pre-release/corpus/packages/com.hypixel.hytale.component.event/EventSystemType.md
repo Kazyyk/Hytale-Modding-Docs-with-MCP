@@ -10,3 +10,14 @@ ECS event dispatched through the entity component system.
 
 - getEventClass() | Class<Event> | Accessor method.
 - isType(ISystem<ECS_TYPE> system) | boolean | Boolean accessor.
+
+Known subclasses: EntityEventType, EntityHolderEventType, WorldEventType
+
+Also in this package: EntityEventType, EntityHolderEventType, WorldEventType
+
+Complete API:
+  public Class<Event> getEventClass()
+  public boolean isType(ISystem<ECS_TYPE> system)
+
+Fields:
+private final Class<Event> eClass

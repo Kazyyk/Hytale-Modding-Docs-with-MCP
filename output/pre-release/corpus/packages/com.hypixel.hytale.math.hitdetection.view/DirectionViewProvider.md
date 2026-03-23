@@ -32,3 +32,30 @@ public class DirectionViewProvider implements MatrixProvider
 - @Nonnull public DirectionViewProvider setUp(double x, double y, double z)
 - @Override public Matrix4d getMatrix()
 - @Nonnull @Override public String toString()
+
+Complete API:
+  public Vector3d getPosition()
+  public DirectionViewProvider setPosition(Vector3d vec)
+  public DirectionViewProvider setPosition(Vector3d vec, double offsetX, double offsetY, double offsetZ)
+  public DirectionViewProvider setPosition(double x, double y, double z)
+  public DirectionViewProvider setPosition(double x, double y, double z, double offsetX, double offsetY, double offsetZ)
+  public Vector3d getDirection()
+  public DirectionViewProvider setDirection(Vector3d vec)
+  public DirectionViewProvider setDirection(double yaw, double pitch)
+  public DirectionViewProvider setDirection(double x, double y, double z)
+  public DirectionViewProvider setUp(double x, double y, double z)
+  public Matrix4d getMatrix()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<DirectionViewProvider> CODEC
+public static final Vector3d DEFAULT_UP
+protected final Matrix4d matrix
+protected final Vector3d position
+protected final Vector3d direction
+protected final Vector3d up
+protected double yaw
+protected double pitch
+protected double yawOffset
+protected double pitchOffset
+protected boolean invalid

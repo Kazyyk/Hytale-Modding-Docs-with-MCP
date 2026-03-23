@@ -34,3 +34,34 @@ Validates the client's access token JWT, verifies UUID and username match, then 
 protected abstract void onAuthenticated(byte[] var1)
 
 Called when authentication completes. Subclasses define the next step (e.g., password or game handler).
+
+Known subclasses: AuthenticationPacketHandler
+
+Also in this package: AuthHandlerSupplier, AuthState, AuthenticationPacketHandler, PasswordPacketHandler, SetupHandlerSupplier
+
+Complete API:
+  private static SessionServiceClient getSessionServiceClient()
+  private static JWTValidator getJwtValidator()
+  public void accept(ToServerPacket packet)
+  public void registered0(PacketHandler oldHandler)
+  private void requestAuthGrant()
+  public void handle(Disconnect packet)
+  public void handle(AuthToken packet)
+  private void exchangeServerAuthGrant(String serverAuthGrant)
+  private byte[] generatePasswordChallengeIfNeeded()
+  private void completeAuthentication(byte[] passwordChallenge)
+  protected abstract void onAuthenticated(byte[] var1)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static volatile SessionServiceClient sessionServiceClient
+private static volatile JWTValidator jwtValidator
+private volatile HandshakeHandler.AuthState authState
+private volatile boolean authTokenPacketReceived
+private volatile String authenticatedUsername
+private final ClientType clientType
+private final String identityToken
+private final UUID playerUuid
+private final String username
+private final byte[] referralData
+private final HostAddress referralSource

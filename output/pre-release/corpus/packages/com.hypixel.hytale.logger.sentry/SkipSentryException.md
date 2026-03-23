@@ -12,3 +12,8 @@ Exception thrown on SkipSentry errors.
 - public SkipSentryException(Throwable cause)
 - public SkipSentryException(String message, Throwable cause)
 - public static boolean hasSkipSentry(Throwable thrown)
+
+Also in this package: DropSentryFilter, HytaleSentryHandler
+
+Complete API:
+  public static boolean hasSkipSentry(Throwable thrown)

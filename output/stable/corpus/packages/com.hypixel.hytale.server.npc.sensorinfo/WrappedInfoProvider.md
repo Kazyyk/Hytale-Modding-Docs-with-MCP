@@ -29,3 +29,22 @@ Implementation of `InfoProvider`.
 - addMatch(Sensor sensor) | void | public method.
 - clearPositionMatch() | void | public method.
 - setPositionMatch(IPositionProvider provider) | void | public method.
+
+Also in this package: CachedPositionProvider, EntityPositionProvider, ExtraInfoProvider, IPathProvider, IPositionProvider, InfoProvider, InfoProviderBase, PathProvider, PositionProvider, ValueWrappedInfoProvider
+
+Complete API:
+  public E getExtraInfo(Class<E> clazz)
+  public void passExtraInfo(E provider)
+  public E getPassedExtraInfo(Class<E> clazz)
+  public boolean hasPosition()
+  public IPositionProvider getPositionProvider()
+  public ParameterProvider getParameterProvider(int parameter)
+  public void clearMatches()
+  public void addMatch(Sensor sensor)
+  public void clearPositionMatch()
+  public void setPositionMatch(IPositionProvider provider)
+
+Fields:
+private final List<Sensor> sensors
+private IPositionProvider positionMatch
+protected ExtraInfoProvider passedExtraInfo

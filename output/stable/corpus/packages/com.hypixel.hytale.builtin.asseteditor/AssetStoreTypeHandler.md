@@ -20,3 +20,16 @@ Automatically creates the `AssetEditorAssetType` config from the store's class n
 - AssetLoadResult unloadAsset(AssetPath, AssetUpdateQuery) | Removes the asset from the store
 - AssetLoadResult restoreOriginalAsset(AssetPath, AssetUpdateQuery) | Reloads the asset from disk via `loadAssetsFromPaths
 - AssetUpdateQuery getDefaultUpdateQuery() | Builds the rebuild cache from the schema's `uiRebuildCaches` (models, textures, icons, blocks, map geometry)
+
+Also in this package: AssetLoadResult, AssetTypeHandler, CommonAssetTypeHandler, JsonTypeHandler
+
+Complete API:
+  public AssetStore getAssetStore()
+  public AssetTypeHandler.AssetLoadResult loadAssetFromDocument(AssetPath path, Path dataPath, BsonDocument document, AssetUpdateQuery updateQuery, EditorClient editorClient)
+  public AssetTypeHandler.AssetLoadResult unloadAsset(AssetPath path, AssetUpdateQuery updateQuery)
+  public AssetTypeHandler.AssetLoadResult restoreOriginalAsset(AssetPath originalAssetPath, AssetUpdateQuery updateQuery)
+  public AssetUpdateQuery getDefaultUpdateQuery()
+
+Fields:
+private static final HytaleLogger LOGGER
+private final AssetStore assetStore

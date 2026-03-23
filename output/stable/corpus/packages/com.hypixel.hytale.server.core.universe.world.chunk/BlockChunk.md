@@ -141,3 +141,87 @@ Iterates over all ticking blocks, invoking the acceptor for each.
 ## Inner Classes
 
 - `LoadBlockChunkPacketSystem` -- Sends heightmap, tintmap, environments, and section data packets to clients on chunk load.
+
+Also in this package: AbstractCachedAccessor, BlockComponentChunk, BlockComponentChunkLoadingSystem, BlockRotationUtil, ChunkColumn, ChunkFlag, EntityChunk, EntityChunkLoadingSystem, LoadBlockChunkPacketSystem, LoadBlockComponentPacketSystem, UnloadBlockComponentPacketSystem, WorldChunk
+
+Complete API:
+  public static ComponentType<ChunkStore,BlockChunk> getComponentType()
+  public void load(int x, int z)
+  public Component<ChunkStore> clone()
+  public Component<ChunkStore> cloneSerializable()
+  public long getIndex()
+  public int getX()
+  public int getZ()
+  public EnvironmentChunk getEnvironmentChunk()
+  public void setEnvironmentChunk(EnvironmentChunk environmentChunk)
+  public short getHeight(int x, int z)
+  public short getHeight(int index)
+  public void setHeight(int x, int z, short height)
+  public void updateHeightmap()
+  public short updateHeight(int x, int z)
+  public short updateHeight(int x, int z, short startY)
+  public void loadFromHolder(Holder<ChunkStore> holder)
+  public BlockSection getSectionAtIndex(int index)
+  public BlockSection getSectionAtBlockY(int y)
+  public BlockSection[] getChunkSections()
+  public int getSectionCount()
+  public int getTint(int x, int z)
+  public void setTint(int x, int z, int tint)
+  public int getEnvironment(Vector3d position)
+  public int getEnvironment(Vector3i position)
+  public int getEnvironment(int x, int y, int z)
+  public EnvironmentColumn getEnvironmentColumn(int x, int z)
+  public void setEnvironment(int x, int y, int z, int environment)
+  public byte getRedBlockLight(int x, int y, int z)
+  public byte getGreenBlockLight(int x, int y, int z)
+  public byte getBlueBlockLight(int x, int y, int z)
+  public short getBlockLight(int x, int y, int z)
+  public byte getSkyLight(int x, int y, int z)
+  public byte getBlockLightIntensity(int x, int y, int z)
+  public int getBlock(int x, int y, int z)
+  public boolean setBlock(int x, int y, int z, int blockId, int rotation, int filler)
+  public boolean contains(int blockId)
+  public int count(int blockId)
+  public Int2IntMap blockCounts()
+  public IntSet blocks()
+  public int blockCount()
+  public void preTick(Instant gameTime)
+  public int forEachTicking(T t, V v, ObjectPositionBlockFunction<T,V,BlockTickStrategy> acceptor)
+  public void mergeTickingBlocks()
+  public boolean setTicking(int x, int y, int z, boolean ticking)
+  public boolean isTicking(int x, int y, int z)
+  public int getTickingBlocksCount()
+  public boolean setNeighbourBlocksTicking(int x, int y, int z)
+  public void markNeedsSaving()
+  public boolean getNeedsSaving()
+  public boolean consumeNeedsSaving()
+  public void markNeedsPhysics()
+  public boolean consumeNeedsPhysics()
+  public void invalidateChunkSection(int sectionIndex)
+  public BlockSection[] takeMigratedSections()
+  public BlockSection[] getMigratedSections()
+  private byte[] serialize(ExtraInfo extraInfo)
+  private void deserialize(byte[] bytes, ExtraInfo extraInfo)
+  private CompletableFuture<CachedPacket<SetChunkHeightmap>> getCachedHeightmapPacket()
+  private CompletableFuture<CachedPacket<SetChunkTintmap>> getCachedTintsPacket()
+  private CompletableFuture<CachedPacket<SetChunkEnvironments>> getCachedEnvironmentsPacket()
+
+Fields:
+public static final int VERSION
+public static final BuilderCodec<BlockChunk> CODEC
+private static final HytaleLogger LOGGER
+public static boolean SEND_LOCAL_LIGHTING_DATA
+public static boolean SEND_GLOBAL_LIGHTING_DATA
+private long index
+private int x
+private int z
+private final ShortBytePalette height
+private final IntBytePalette tint
+private BlockSection[] chunkSections
+private BlockSection[] migratedChunkSections
+private EnvironmentChunk environments
+private boolean needsPhysics
+private boolean needsSaving
+private transient SoftReference<CompletableFuture<CachedPacket<SetChunkHeightmap>>> cachedHeightmapPacket
+private transient SoftReference<CompletableFuture<CachedPacket<SetChunkTintmap>>> cachedTintmapPacket
+private transient SoftReference<CompletableFuture<CachedPacket<SetChunkEnvironments>>> cachedEnvironmentsPacket

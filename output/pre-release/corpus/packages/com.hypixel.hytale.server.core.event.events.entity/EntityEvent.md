@@ -12,3 +12,14 @@ public abstract class EntityEvent<EntityType, KeyType> implements IEvent
 
 - public EntityType getEntity()
 - @Nonnull @Override public String toString()
+
+Known subclasses: EntityRemoveEvent
+
+Also in this package: EntityRemoveEvent, LivingEntityUseBlockEvent
+
+Complete API:
+  public EntityType getEntity()
+  public String toString()
+
+Fields:
+private final EntityType entity

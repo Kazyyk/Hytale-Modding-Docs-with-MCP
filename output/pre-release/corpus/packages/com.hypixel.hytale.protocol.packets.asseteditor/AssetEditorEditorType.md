@@ -15,3 +15,13 @@ Enumeration used by the asset editor protocol.
 - Model(4)
 - Texture(5)
 - Animation(6)
+
+Also in this package: AssetEditorActivateButton, AssetEditorAsset, AssetEditorAssetListSetup, AssetEditorAssetListUpdate, AssetEditorAssetPackSetup, AssetEditorAssetType, AssetEditorAssetUpdated, AssetEditorAuthorization, AssetEditorCapabilities, AssetEditorCreateAsset, AssetEditorCreateAssetPack, AssetEditorCreateDirectory, AssetEditorDeleteAsset, AssetEditorDeleteAssetPack, AssetEditorDeleteDirectory, AssetEditorDiscardChanges, AssetEditorExportAssetFinalize, AssetEditorExportAssetInitialize, AssetEditorExportAssetPart, AssetEditorExportAssets (and 51 more)
+
+Complete API:
+  public int getValue()
+  public static AssetEditorEditorType fromValue(int value)
+
+Fields:
+public static final AssetEditorEditorType[] VALUES
+private final int value

@@ -17,3 +17,9 @@ If the container is a `SimpleItemContainer`, applies `ArmorSlotAddFilter` to the
 public static <T extends ItemContainer> T trySetSlotFilters(T container, SlotFilter filter)
 
 If the container is a `SimpleItemContainer`, applies the given filter to all slots for the `ADD` action type.
+
+Also in this package: CombinedItemContainer, DelegateItemContainer, Dummy, EmptyItemContainer, InternalContainerUtilItemStack, InternalContainerUtilMaterial, InternalContainerUtilResource, InternalContainerUtilTag, ItemContainer, ItemContainerChangeEvent, ItemStackItemContainer, ItemType, SimpleItemContainer, SlotReplacementFunction, SortType, TempItemData, TestRemoveItemSlotResult
+
+Complete API:
+  public static T trySetArmorFilters(T container)
+  public static T trySetSlotFilters(T container, SlotFilter filter)

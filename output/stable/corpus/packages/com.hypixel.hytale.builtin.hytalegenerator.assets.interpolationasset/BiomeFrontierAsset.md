@@ -10,3 +10,13 @@ Asset configuration loaded from JSON data packs.
 
 - getInterpolationRadius() | int | Accessor method.
 - getId() | String | Accessor method.
+
+Complete API:
+  public int getInterpolationRadius()
+  public String getId()
+
+Fields:
+public static final AssetBuilderCodec<String,BiomeFrontierAsset> CODEC
+private String id
+private AssetExtraInfo.Data data
+private int interpolationRadius

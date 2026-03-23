@@ -15,3 +15,13 @@ Marker component attached to anchor entities within a prefab edit session. Uses 
 
 - getComponentType() | ComponentType<EntityStore, PrefabAnchor> | Returns the component type from `BuilderToolsPlugin`.
 - clone() | Component<EntityStore> | Returns the singleton instance.
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabDirtySystems, PrefabEditSession, PrefabEditSessionManager, PrefabEditingMetadata, PrefabEditorCreationContext, PrefabEditorCreationSettings, PrefabLoadingState, PrefabMarkerProvider, PrefabSelectionInteraction, Tri
+
+Complete API:
+  public static ComponentType<EntityStore,PrefabAnchor> getComponentType()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final PrefabAnchor INSTANCE
+public static final BuilderCodec<PrefabAnchor> CODEC

@@ -13,3 +13,14 @@ Cycles the target block through its block group (set of related block types). Lo
 ## Related Types
 
 - Parent hierarchy types are in package `com.hypixel.hytale.server.core.modules.interaction.interaction.config`
+
+Also in this package: AddItemInteraction, AngledWielding, ApplyForceInteraction, BlockConditionInteraction, BlockIdMatcher, BlockMatcher, BreakBlockInteraction, ChainingInteraction, ChainingTag, ChangeBlockInteraction, ChangeStateInteraction, ChargingInteraction, ChargingTag, CooldownConditionInteraction, CostType, Data, DestroyBlockInteraction, ExplodeInteraction, FirstClickInteraction, Force (and 13 more)
+
+Complete API:
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack heldItemStack, Vector3i targetBlock, CooldownHandler cooldownHandler)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+  public String toString()
+
+Fields:
+private static final int SET_SETTINGS
+public static final BuilderCodec<CycleBlockGroupInteraction> CODEC

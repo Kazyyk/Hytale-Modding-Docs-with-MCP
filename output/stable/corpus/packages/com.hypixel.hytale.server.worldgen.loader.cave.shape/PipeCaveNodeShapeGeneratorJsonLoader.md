@@ -16,3 +16,12 @@ public class PipeCaveNodeShapeGeneratorJsonLoader extends CaveNodeShapeGenerator
 ## Inner Types
 
 - `PipeCaveNodeShapeGeneratorJsonLoader.Constants`
+
+Also in this package: CaveNodeShapeGeneratorJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CylinderCaveNodeShapeGeneratorJsonLoader, DistortedCaveNodeShapeGeneratorJsonLoader, EllipsoidCaveNodeShapeGeneratorJsonLoader, EmptyLineCaveNodeShapeGeneratorJsonLoader, PrefabCaveNodeShapeGeneratorJsonLoader, ShapeDistortionJsonLoader
+
+Complete API:
+  public PipeCaveNodeShape.PipeCaveNodeShapeGenerator load()
+  protected IDoubleRange loadRadius()
+  protected IDoubleRange loadMiddleRadius()
+  protected IDoubleRange loadLength()
+  protected boolean loadInheritParentRadius()

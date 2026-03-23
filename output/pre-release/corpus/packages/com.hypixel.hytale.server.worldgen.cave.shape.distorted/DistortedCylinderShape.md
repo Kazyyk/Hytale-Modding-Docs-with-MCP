@@ -88,3 +88,35 @@ public class DistortedCylinderShape extends AbstractDistortedExtrusion
 
 - AbstractDistortedExtrusion
 - DistortedShape
+
+Known subclasses: DistortedPipeShape
+
+Also in this package: AbstractDistortedBody, AbstractDistortedExtrusion, AbstractDistortedShape, DistortedEllipsoidShape, DistortedPipeShape, DistortedShape, DistortedShapes, Factory, Factory, Factory, Factory, Factory, ShapeDistortion
+
+Complete API:
+  public Vector3d getStart()
+  public Vector3d getEnd()
+  public Vector3d getAnchor(Vector3d vector, double t, double tv, double th)
+  public double getProjection(double x, double z)
+  public boolean isValidProjection(double t)
+  public double getYAt(double t)
+  public double getWidthAt(double t)
+  public double getHeightAt(double t)
+  public double getDistanceSq(double x, double z, double t)
+  public double getHeightComponent(double width, double width2, double dist2)
+  public String toString()
+  protected static double getDimAt(double t, double startDim, double midDim, double endDim, GeneralNoise.InterpolationFunction interpolation)
+  protected static double getCompensationFactor(Vector3d direction)
+  protected static double getHeightCompensation(double factor)
+
+Fields:
+protected static final double PITCH_COMPENSATION_MIN
+protected static final double PITCH_COMPENSATION_RANGE
+protected final Vector3d o
+protected final Vector3d v
+protected final double startWidth
+protected final double startHeight
+protected final double midWidth
+protected final double midHeight
+protected final double endWidth
+protected final double endHeight

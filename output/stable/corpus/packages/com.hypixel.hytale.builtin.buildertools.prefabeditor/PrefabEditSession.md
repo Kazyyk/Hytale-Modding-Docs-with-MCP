@@ -33,3 +33,36 @@ Represents an active prefab editing session, stored as an ECS resource. Tracks t
 
 - PrefabEditSessionManager
 - PrefabEditingMetadata
+
+Also in this package: BlockBreakDirtySystem, BlockPlaceDirtySystem, LoadingError, Phase, PrefabAnchor, PrefabDirtySystems, PrefabEditSessionManager, PrefabEditingMetadata, PrefabEditorCreationContext, PrefabEditorCreationSettings, PrefabLoadingState, PrefabMarkerProvider, PrefabSelectionInteraction, PrefabSetAnchorInteraction, Tri
+
+Complete API:
+  public static ResourceType<EntityStore,PrefabEditSession> getResourceType()
+  public void addPrefab(Path prefabPath, Vector3i minPoint, Vector3i maxPoint, Vector3i anchorPoint, Vector3i pastePosition)
+  public PrefabEditingMetadata updatePrefabBounds(UUID prefab, Vector3i newMin, Vector3i newMax)
+  public void setSelectedPrefab(Ref<EntityStore> ref, PrefabEditingMetadata prefabEditingMetadata, ComponentAccessor<EntityStore> componentAccessor)
+  public void hidePrefabAnchors(PacketHandler packetHandler)
+  public PrefabEditingMetadata getSelectedPrefab(UUID playerUuid)
+  public boolean clearSelectedPrefab(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public String getWorldName()
+  public UUID getWorldArrivedFrom()
+  public Transform getTransformArrivedFrom()
+  public UUID getWorldCreator()
+  public Vector3i getSpawnPoint()
+  public Map<UUID,PrefabEditingMetadata> getLoadedPrefabMetadata()
+  public void markPrefabsDirtyAtPosition(Vector3i position)
+  public void markPrefabsDirtyInBounds(Vector3i min, Vector3i max)
+  private static boolean boundsIntersect(Vector3i aMin, Vector3i aMax, Vector3i bMin, Vector3i bMax)
+  public MapMarker[] createPrefabMarkers()
+  public static MapMarker createPrefabMarker(PrefabEditingMetadata metadata)
+  public PrefabEditSession clone()
+
+Fields:
+public static final BuilderCodec<PrefabEditSession> CODEC
+private String worldName
+private UUID worldArrivedFrom
+private Transform transformArrivedFrom
+private UUID worldCreator
+private final Map<UUID,PrefabEditingMetadata> loadedPrefabMetadata
+private final Map<UUID,UUID> selectedPrefab
+private Vector3i spawnPoint

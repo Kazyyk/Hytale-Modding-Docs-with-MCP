@@ -43,3 +43,19 @@ No-op.
 
 - RoleBuilderSystem -- constructs the role before this system runs
 - RoleSystems -- behavior tick that uses the initialized stats
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem, FilterDamageSystem (and 48 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public Query<EntityStore> getQuery()
+  public void onEntityAdd(Holder<EntityStore> holder, AddReason reason, Store<EntityStore> store)
+  public void onEntityRemoved(Holder<EntityStore> holder, RemoveReason reason, Store<EntityStore> store)
+
+Fields:
+private static final String NPC_MAX_MODIFIER
+public static final String HEALTH_STAT_INDEX
+private final ComponentType<EntityStore,NPCEntity> npcComponentType
+private final ComponentType<EntityStore,EntityStatMap> entityStatMapComponentType
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

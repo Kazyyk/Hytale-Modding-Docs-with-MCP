@@ -13,3 +13,12 @@ public class ConstantPatternAsset extends PatternAsset
 - public Pattern build(@Nonnull PatternAsset.Argument argument)
 - public boolean matches(@Nonnull Pattern.Context context)
 - public SpaceSize readSpace()
+
+Also in this package: AndPatternAsset, Argument, BlockSetPatternAsset, CeilingPatternAsset, CuboidPatternAsset, DelimiterAsset, DensityPatternAsset, FloorPatternAsset, GapPatternAsset, ImportedPatternAsset, MaterialPatternAsset, NotPatternAsset, OffsetPatternAsset, OrPatternAsset, PatternAsset, SurfacePatternAsset, WallPatternAsset
+
+Complete API:
+  public Pattern build(PatternAsset.Argument argument)
+
+Fields:
+public static final BuilderCodec<ConstantPatternAsset> CODEC
+private boolean value

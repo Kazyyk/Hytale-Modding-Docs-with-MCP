@@ -38,3 +38,17 @@ Resolves and returns the override `BlockType` for the return portal, or `null` i
 ## Related Types
 
 - `PortalType` -- references this for spawn configuration
+
+Also in this package: PillTag, PortalDescription, PortalType
+
+Complete API:
+  public boolean isSpawningReturnPortal()
+  public ISpawnProvider getSpawnProviderOverride()
+  public String getReturnBlockOverrideId()
+  public BlockType getReturnBlockOverride()
+
+Fields:
+public static final BuilderCodec<PortalSpawnConfig> CODEC
+private boolean spawnReturnPortal
+private ISpawnProvider spawnProviderOverride
+private String returnBlockId

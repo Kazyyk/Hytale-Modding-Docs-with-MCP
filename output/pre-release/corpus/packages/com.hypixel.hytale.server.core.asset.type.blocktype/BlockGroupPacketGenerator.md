@@ -16,3 +16,10 @@ Generates `UpdateBlockGroups` network packets for synchronizing block group asse
 
 - `BlockGroup` -- the asset type this generator serializes
 - `UpdateBlockGroups` -- the packet type produced
+
+Also in this package: BlockTypePacketGenerator
+
+Complete API:
+  public ToClientPacket generateInitPacket(DefaultAssetMap<String,BlockGroup> assetMap, Map<String,BlockGroup> assets)
+  public ToClientPacket generateUpdatePacket(Map<String,BlockGroup> loadedAssets)
+  public ToClientPacket generateRemovePacket(Set<String> removed)

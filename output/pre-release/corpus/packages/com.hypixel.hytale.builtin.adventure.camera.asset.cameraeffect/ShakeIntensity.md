@@ -23,3 +23,19 @@ public class ShakeIntensity
 ## Inner Types
 
 - `ShakeIntensity.Modifier`
+
+Also in this package: CameraShakeEffect, Modifier
+
+Complete API:
+  public float getValue()
+  public AccumulationMode getAccumulationMode()
+  public ShakeIntensity.Modifier getModifier()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ShakeIntensity> CODEC
+static final AccumulationMode DEFAULT_ACCUMULATION_MODE
+public static final float DEFAULT_CONTEXT_VALUE
+protected float value
+protected AccumulationMode accumulationMode
+protected ShakeIntensity.Modifier modifier

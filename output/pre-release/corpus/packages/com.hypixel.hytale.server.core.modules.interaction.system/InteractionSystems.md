@@ -13,3 +13,5 @@ Container class for ECS systems that manage entity interactions. Houses systems 
 - **PlayerAddManagerSystem** -- `HolderSystem<EntityStore>` that adds an `InteractionManager` component to players on entity add.
 - **TickInteractionManagerSystem** -- `EntityTickingSystem<EntityStore>` that ticks interaction managers each frame and sends sync packets to players. Implements `StatModifyingSystem`.
 - **TrackerTickSystem** -- `EntityTickingSystem<EntityStore>` that queues interaction component updates to entity tracker viewers.
+
+Also in this package: CleanUpSystem, EntityTrackerRemove, PlayerAddManagerSystem, TickInteractionManagerSystem, TrackerTickSystem

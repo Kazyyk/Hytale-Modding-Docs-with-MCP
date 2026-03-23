@@ -53,3 +53,27 @@ Gradient vector with up to 4 components (`x`, `y`, `z`, `w`). Used internally by
 
 - SimplexNoiseField -- uses this class for per-octave noise sampling
 - NoiseField -- abstract base class for all noise fields
+
+Also in this package: Builder, CellNoiseField, Grad, NoiseField, SimplexNoiseField
+
+Complete API:
+  private static int fastfloor(double x)
+  private static double dot(Simplex.Grad g, double x, double y)
+  private static double dot(Simplex.Grad g, double x, double y, double z)
+  private static double dot(Simplex.Grad g, double x, double y, double z, double w)
+  public static double noise(double xin, double yin)
+  public static double noise(double xin, double yin, double zin)
+  public static double noise(double x, double y, double z, double w)
+
+Fields:
+private static final double F2
+private static final double G2
+private static final double F3
+private static final double G3
+private static final double F4
+private static final double G4
+private static final Simplex.Grad[] grad3
+private static final Simplex.Grad[] grad4
+private static final short[] p
+private static final short[] perm
+private static final short[] permMod12

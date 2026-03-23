@@ -40,3 +40,15 @@ Converts a protocol sort type to its server-side equivalent.
 static enum ItemType
 
 Internal enum used by the `TYPE` sort strategy. Classifies items into `WEAPON`, `ARMOR`, `TOOL`, `ITEM`, or `SPECIAL` based on which sub-config fields are present on the `Item`.
+
+Also in this package: CombinedItemContainer, DelegateItemContainer, Dummy, EmptyItemContainer, InternalContainerUtilItemStack, InternalContainerUtilMaterial, InternalContainerUtilResource, InternalContainerUtilTag, ItemContainer, ItemContainerChangeEvent, ItemContainerUtil, ItemStackItemContainer, ItemType, SimpleItemContainer, SlotReplacementFunction, TempItemData, TestRemoveItemSlotResult
+
+Complete API:
+  public Comparator<ItemStack> getComparator()
+  public com.hypixel.hytale.protocol.SortType toPacket()
+  public static SortType fromPacket(com.hypixel.hytale.protocol.SortType sortType_)
+  private static Comparator<ItemStack> comparatorFor(Function<ItemStack,U> key)
+
+Fields:
+public static SortType[] VALUES
+private final Comparator<ItemStack> comparator

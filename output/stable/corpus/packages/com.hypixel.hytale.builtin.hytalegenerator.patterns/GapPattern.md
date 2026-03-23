@@ -72,3 +72,26 @@ public class GapPattern extends Pattern
 ## Related Types
 
 - Pattern
+
+Also in this package: AndPattern, CeilingPattern, Context, CuboidPattern, Delimiter, Facing, FieldFunctionPattern, MaterialPattern, MaterialSetPattern, NotPattern, OffsetPattern, OrPattern, Pattern, PositionedPattern, SurfacePattern, WallDirection, WallPattern
+
+Complete API:
+  public boolean matches(Pattern.Context context)
+  public SpaceSize readSpace()
+  private List<GapPattern.PositionedPattern> renderDepths()
+  private List<GapPattern.PositionedPattern> renderPositions(float angle)
+  private List<GapPattern.PositionedPattern> renderHalfPositions(float angle)
+
+Fields:
+private List<List<GapPattern.PositionedPattern>> axisPositionedPatterns
+private List<GapPattern.PositionedPattern> depthPositionedPatterns
+private double gapSize
+private double anchorSize
+private double anchorRoughness
+private int depthDown
+private int depthUp
+private Pattern gapPattern
+private Pattern anchorPattern
+private SpaceSize readSpaceSize
+private final Vector3i rChildPosition
+private final Pattern.Context rChildContext

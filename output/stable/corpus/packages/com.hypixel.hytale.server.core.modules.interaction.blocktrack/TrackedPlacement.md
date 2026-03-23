@@ -19,3 +19,13 @@ Implementation of `Component<ChunkStore>`.
 
 - getComponentType() | ComponentType<ChunkStore, TrackedPlacement> | static public method.
 - clone() | Component<ChunkStore> | public method.
+
+Also in this package: BlockCounter, OnAddRemove
+
+Complete API:
+  public static ComponentType<ChunkStore,TrackedPlacement> getComponentType()
+  public Component<ChunkStore> clone()
+
+Fields:
+public static final BuilderCodec<TrackedPlacement> CODEC
+private String blockName

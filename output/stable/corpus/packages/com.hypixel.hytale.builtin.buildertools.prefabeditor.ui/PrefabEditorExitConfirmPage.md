@@ -40,3 +40,14 @@ Codec-backed data class for deserializing UI event payloads. Contains a single `
 
 - PrefabEditorSaveSettingsPage
 - PrefabTeleportPage
+
+Also in this package: Action, Action, Action, PageData, PageData, PageData, PageData, PrefabEditorLoadSettingsPage, PrefabEditorSaveSettingsPage, PrefabTeleportPage
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, PrefabEditorExitConfirmPage.PageData data)
+
+Fields:
+private final PrefabEditSession prefabEditSession
+private final World world
+private final List<PrefabEditingMetadata> dirtyPrefabs

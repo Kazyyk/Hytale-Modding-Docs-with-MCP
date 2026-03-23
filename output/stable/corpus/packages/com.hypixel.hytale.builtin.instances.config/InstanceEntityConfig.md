@@ -21,3 +21,21 @@ public class InstanceEntityConfig implements Component<EntityStore>
 - public WorldReturnPoint getReturnPointOverride()
 - public void setReturnPointOverride(WorldReturnPoint returnPointOverride)
 - @Nonnull public InstanceEntityConfig clone()
+
+Also in this package: ExitInstance, InstanceDiscoveryConfig, InstanceWorldConfig, WorldReturnPoint
+
+Complete API:
+  public static ComponentType<EntityStore,InstanceEntityConfig> getComponentType()
+  public static InstanceEntityConfig ensureAndGet(Holder<EntityStore> holder)
+  public static InstanceEntityConfig removeAndGet(Holder<EntityStore> holder)
+  public WorldReturnPoint getReturnPoint()
+  public void setReturnPoint(WorldReturnPoint returnPoint)
+  public WorldReturnPoint getReturnPointOverride()
+  public void setReturnPointOverride(WorldReturnPoint returnPointOverride)
+  public InstanceEntityConfig clone()
+
+Fields:
+public static final String ID
+public static final BuilderCodec<InstanceEntityConfig> CODEC
+private WorldReturnPoint returnPoint
+private transient WorldReturnPoint returnPointOverride

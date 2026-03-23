@@ -15,3 +15,17 @@ Protocol version constants. PROTOCOL_CRC=-1356075132, PROTOCOL_VERSION=2, PROTOC
 - STRUCT_COUNT | 339 | Total number of struct types.
 - ENUM_COUNT | 137 | Total number of enum types.
 - MAX_PACKET_SIZE | 1,677,721,600 | Maximum allowed packet size in bytes.
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 378 more)
+
+Complete API:
+  public static boolean validateCrc(int crc)
+
+Fields:
+public static final int PROTOCOL_CRC
+public static final int PROTOCOL_VERSION
+public static final int PROTOCOL_BUILD_NUMBER
+public static final int PACKET_COUNT
+public static final int STRUCT_COUNT
+public static final int ENUM_COUNT
+public static final int MAX_PACKET_SIZE

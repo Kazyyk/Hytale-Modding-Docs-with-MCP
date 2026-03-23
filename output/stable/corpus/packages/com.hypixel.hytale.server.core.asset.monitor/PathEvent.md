@@ -17,3 +17,14 @@ Provides PathEvent functionality within the monitor subsystem.
 - public EventKind getEventKind()
 - public long getTimestamp()
 - @Nonnull @Override public String toString()
+
+Also in this package: AssetMonitor, AssetMonitorHandler, DirectoryHandlerChangeTask, EventKind, FileChangeTask, PathWatcherThread
+
+Complete API:
+  public EventKind getEventKind()
+  public long getTimestamp()
+  public String toString()
+
+Fields:
+private final EventKind eventKind
+private final long timestamp

@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.server.core.modules.migrations | Exten
 public abstract class ChunkSectionMigrationSystem extends HolderSystem<ChunkStore>
 
 Abstract base class.
+
+Also in this package: ChunkColumnMigrationSystem, EntityMigration, Migration, MigrationModule

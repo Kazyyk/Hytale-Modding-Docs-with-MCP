@@ -17,3 +17,11 @@ Container holding a list of BiomeDistanceStage.BiomeDistanceEntry records for a 
 ## Methods
 
 - public double distanceToClosestOtherBiome(int thisBiomeId)
+
+Also in this package: BiomeDistanceCounter, BiomeDistanceEntry, BiomeDistanceStage, BiomeStage, BiomeWeights, ColumnData, Context, Entry, EnvironmentStage, PropStage, Stage, TerrainStage, TintStage
+
+Complete API:
+  public double distanceToClosestOtherBiome(int thisBiomeId)
+
+Fields:
+public final List<BiomeDistanceStage.BiomeDistanceEntry> entries

@@ -14,3 +14,15 @@ public class IsInStateCondition extends SimpleCondition
 - public String getState()
 - @Override protected boolean evaluate( int selfIndex, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk, Ref<EntityStore> target, CommandBuffer<EntityStore> commandBuffer, EvaluationContext context )
 - @Override @Nonnull public String toString()
+
+Also in this package: HasTargetCondition, LineOfSightCondition, NearbyCountCondition, RandomiserCondition, SelfStatAbsoluteCondition, SelfStatPercentageCondition, TargetDistanceCondition, TargetMovementStateCondition, TargetStatAbsoluteCondition, TargetStatPercentageCondition, TimeOfDayCondition, TimeSinceLastUsedCondition
+
+Complete API:
+  public String getState()
+  protected boolean evaluate(int selfIndex, ArchetypeChunk<EntityStore> archetypeChunk, Ref<EntityStore> target, CommandBuffer<EntityStore> commandBuffer, EvaluationContext context)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<IsInStateCondition> CODEC
+protected String state
+protected String subState

@@ -29,3 +29,24 @@ public class ArrayCodec<T> implements Codec<T[]>, RawJsonCodec<T[]>, WrappedCode
 - @Nullable protected T decodeElement(@Nonnull BsonValue value, ExtraInfo extraInfo)
 - @Nullable protected T decodeJsonElement(@Nonnull RawJsonReader reader, ExtraInfo extraInfo)
 - @Nonnull public static <T> ArrayCodec<T> ofBuilderCodec(@Nonnull BuilderCodec<T> codec, IntFunction<T[]> arrayConstructor)
+
+Also in this package: DoubleArrayCodec, FloatArrayCodec, IntArrayCodec, LongArrayCodec
+
+Complete API:
+  public Codec<T> getChildCodec()
+  public T[] decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  public BsonValue encode(T[] array, ExtraInfo extraInfo)
+  public T[] decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public ArrayCodec<T> metadata(Metadata metadata)
+  public Schema toSchema(SchemaContext context)
+  public Supplier<T> getDefaultSupplier()
+  protected T decodeElement(BsonValue value, ExtraInfo extraInfo)
+  protected T decodeJsonElement(RawJsonReader reader, ExtraInfo extraInfo)
+  public static ArrayCodec<T> ofBuilderCodec(BuilderCodec<T> codec, IntFunction<T[]> arrayConstructor)
+
+Fields:
+private final Codec<T> codec
+private final IntFunction<T[]> arrayConstructor
+private final Supplier<T> defaultValue
+private List<Metadata> metadata
+private T[] emptyArray

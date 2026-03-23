@@ -15,3 +15,11 @@ public class WorldMapReloadCommand extends AbstractWorldCommand
 ## Methods
 
 - @Override protected void execute(@Nonnull CommandContext context, @Nonnull World world, @Nonnull Store<EntityStore> store)
+
+Also in this package: WorldMapClearMarkersCommand, WorldMapCommand, WorldMapDiscoverCommand, WorldMapUndiscoverCommand, WorldMapViewRadiusGetCommand, WorldMapViewRadiusRemoveCommand, WorldMapViewRadiusSetCommand, WorldMapViewRadiusSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_WORLD_MAP_CLEAR_IMAGES

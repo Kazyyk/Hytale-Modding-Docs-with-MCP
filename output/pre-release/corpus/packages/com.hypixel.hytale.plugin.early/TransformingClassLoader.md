@@ -22,3 +22,17 @@ Concrete implementation extending `URLClassLoader`.
 - getCodeSourceUrl(URL resource, String internalName) | URL | static private method.
 - isPreloadedClass(@Nonnull String name) | boolean | static private method.
 - isSecureClass(@Nonnull String name) | boolean | static private method.
+
+Also in this package: ClassTransformer, EarlyPluginLoader
+
+Complete API:
+  protected Class<?> loadClass(String name, boolean resolve)
+  private Class<?> transformAndDefine(String name, String internalName, byte[] classBytes, URL resource)
+  private static URL getCodeSourceUrl(URL resource, String internalName)
+  private static boolean isPreloadedClass(String name)
+  private static boolean isSecureClass(String name)
+
+Fields:
+private static final Set<String> SECURE_PACKAGE_PREFIXES
+private final List<ClassTransformer> transformers
+private final ClassLoader appClassLoader

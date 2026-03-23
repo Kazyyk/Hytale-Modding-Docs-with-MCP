@@ -52,3 +52,16 @@ Creates a deep copy of the test data, copying the roles list, index, and failed 
 ## Related Types
 
 - NPCRunTestsCommand -- parent command using this component
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDescriptorsCommand (and 29 more)
+
+Complete API:
+  public static ComponentType<EntityStore,NPCRunTestsCommand.NPCTestData> getComponentType()
+  public Component<EntityStore> clone()
+
+Fields:
+private final IntList npcRoles
+private final IntList flockSizes
+private final IntSet failedRoles
+private int index
+private UUID targetUUID

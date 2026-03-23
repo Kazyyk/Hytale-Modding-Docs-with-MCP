@@ -28,3 +28,10 @@ private long toolExpireTime = 3600L
 
 - BuilderToolsPlugin -- loads and applies this configuration during `start()`
 - BuilderToolsPlugin.BuilderState -- uses `historyCount` to limit undo/redo queue size
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Fields:
+public static final BuilderCodec<BuilderToolsPlugin.BuilderToolsConfig> CODEC
+private int historyCount
+private long toolExpireTime

@@ -15,3 +15,15 @@ public class ScaledSwitchResponseCurve extends ScaledResponseCurve
 
 - @Override public double computeY(double x)
 - @Nonnull @Override public String toString()
+
+Also in this package: ScaledResponseCurve, ScaledXResponseCurve, ScaledXYResponseCurve
+
+Complete API:
+  public double computeY(double x)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ScaledSwitchResponseCurve> CODEC
+protected double initialState
+protected double finalState
+protected double switchPoint

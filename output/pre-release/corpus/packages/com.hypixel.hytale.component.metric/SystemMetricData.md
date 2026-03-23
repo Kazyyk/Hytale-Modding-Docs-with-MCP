@@ -12,3 +12,13 @@ public class SystemMetricData
 - private int entityCount
 - private HistoricMetric historicMetric
 - private MetricResults metrics
+
+Also in this package: ArchetypeChunkData
+
+Fields:
+public static final Codec<SystemMetricData> CODEC
+private String name
+private int archetypeChunkCount
+private int entityCount
+private HistoricMetric historicMetric
+private MetricResults metrics

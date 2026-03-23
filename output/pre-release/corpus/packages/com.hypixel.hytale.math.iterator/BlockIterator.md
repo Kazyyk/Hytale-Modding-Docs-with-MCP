@@ -9,3 +9,20 @@ Utility class for raycast-style block iteration through 3D voxel space. Uses a D
 ## Inner Types
 
 Defines `BlockIteratorProcedure` (functional interface with `apply(int x, int y, int z)`) and `BlockIteratorProcedurePlus1<T>` (variant carrying an extra context parameter).
+
+Also in this package: BlockIteratorProcedure, BlockIteratorProcedurePlus1, BoxBlockIterator, BoxIterationBuffer, BoxIterationConsumer, CircleIterator, CircleSpiralIterator, FastMath, LineIterator, SpiralIterator
+
+Complete API:
+  public static boolean iterateFromTo(Vector3d origin, Vector3d target, BlockIterator.BlockIteratorProcedure procedure)
+  public static boolean iterateFromTo(Vector3i origin, Vector3i target, BlockIterator.BlockIteratorProcedure procedure)
+  public static boolean iterateFromTo(double sx, double sy, double sz, double tx, double ty, double tz, BlockIterator.BlockIteratorProcedure procedure)
+  public static boolean iterateFromTo(double sx, double sy, double sz, double tx, double ty, double tz, BlockIterator.BlockIteratorProcedurePlus1<T> procedure, T t)
+  public static boolean iterate(Vector3d origin, Vector3d direction, double maxDistance, BlockIterator.BlockIteratorProcedure procedure)
+  public static boolean iterate(double sx, double sy, double sz, double dx, double dy, double dz, double maxDistance, BlockIterator.BlockIteratorProcedure procedure)
+  private static boolean iterate0(double sx, double sy, double sz, double dx, double dy, double dz, double maxDistance, BlockIterator.BlockIteratorProcedure procedure)
+  public static boolean iterate(double sx, double sy, double sz, double dx, double dy, double dz, double maxDistance, BlockIterator.BlockIteratorProcedurePlus1<T> procedure, T obj1)
+  private static boolean iterate0(double sx, double sy, double sz, double dx, double dy, double dz, double maxDistance, BlockIterator.BlockIteratorProcedurePlus1<T> procedure, T obj1)
+  private static void checkParameters(double sx, double sy, double sz, double dx, double dy, double dz)
+  public static boolean isNonValidNumber(double d)
+  public static boolean isZeroDirection(double dx, double dy, double dz)
+  private static double intersection(double px, double py, double pz, double dx, double dy, double dz)

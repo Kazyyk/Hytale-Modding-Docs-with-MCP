@@ -44,3 +44,38 @@ A Stage that places props (trees, rocks, vegetation, entities) into the world. R
 - @Nonnull @Override public Map<BufferType, Bounds3i> getInputTypesAndBounds_bufferGrid()
 - @Nonnull @Override public List<BufferType> getOutputTypes()
 - @Nonnull @Override public String getName()
+
+Also in this package: BiomeDistanceCounter, BiomeDistanceEntries, BiomeDistanceEntry, BiomeDistanceStage, BiomeStage, BiomeWeights, ColumnData, Context, Entry, EnvironmentStage, Stage, TerrainStage, TintStage
+
+Complete API:
+  private static Bounds3i toInputBounds_voxelGrid(Bounds3i readBounds_voxelGrid, Bounds3i writeBounds_voxelGrid)
+  private static Bounds3i toPositionsBounds_voxelGrid(Bounds3i writeBounds_voxelGrid)
+  public void run(Stage.Context context)
+  public Map<BufferType,Bounds3i> getInputTypesAndBounds_bufferGrid()
+  public List<BufferType> getOutputTypes()
+  public String getName()
+
+Fields:
+public static final double DEFAULT_BACKGROUND_DENSITY
+public static final Class<CountedPixelBuffer> biomeBufferClass
+public static final Class<Integer> biomeClass
+public static final Class<SimplePixelBuffer> biomeDistanceBufferClass
+public static final Class<BiomeDistanceStage.BiomeDistanceEntries> biomeDistanceClass
+public static final Class<VoxelBuffer> materialBufferClass
+public static final Class<Material> materialClass
+public static final Class<EntityBuffer> entityBufferClass
+private final ParametrizedBufferType biomeInputBufferType
+private final ParametrizedBufferType biomeDistanceInputBufferType
+private final ParametrizedBufferType materialInputBufferType
+private final BufferType entityInputBufferType
+private final ParametrizedBufferType materialOutputBufferType
+private final BufferType entityOutputBufferType
+private final Bounds3i materialInputBounds_bufferGrid
+private final Bounds3i materialInputBounds_voxelGrid
+private final Bounds3i biomeInputBounds_bufferGrid
+private final Bounds3i positionsBounds_voxelGrid
+private final Bounds3i positionsBounds_bufferGrid
+private final String stageName
+private final MaterialCache materialCache
+private final WorkerIndexer.Data<WorldStructure> worldStructure_workerData
+private final int runtimeIndex

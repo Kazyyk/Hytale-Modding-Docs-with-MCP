@@ -23,3 +23,17 @@ Provides PlayerDeathPositionData functionality within the data subsystem.
 - public String getMarkerId()
 - public Transform getTransform()
 - public int getDay()
+
+Also in this package: PlayerConfigData, PlayerRespawnPointData, PlayerWorldData, UniqueItemUsagesComponent
+
+Complete API:
+  public String getMarkerId()
+  public Transform getTransform()
+  public int getDay()
+
+Fields:
+public static final BuilderCodec<PlayerDeathPositionData> CODEC
+public static final ArrayCodec<PlayerDeathPositionData> ARRAY_CODEC
+private String markerId
+private Transform transform
+private int day

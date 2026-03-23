@@ -57,3 +57,28 @@ Throws `IllegalStateException` if this type has been invalidated (unregistered).
 - ComponentRegistration -- the full registration record
 - Archetype -- a set of ComponentTypes defining an entity shape
 - Store -- uses ComponentType for all component access
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)
+
+Complete API:
+  void init(ComponentRegistry<ECS_TYPE> registry, Class<? super T> tClass, int index)
+  public ComponentRegistry<ECS_TYPE> getRegistry()
+  public Class<? super T> getTypeClass()
+  public int getIndex()
+  void invalidate()
+  boolean isValid()
+  public boolean test(Archetype<ECS_TYPE> archetype)
+  public boolean requiresComponentType(ComponentType<ECS_TYPE,?> componentType)
+  public void validateRegistry(ComponentRegistry<ECS_TYPE> registry)
+  public void validate()
+  public int compareTo(ComponentType<ECS_TYPE,?> o)
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final ComponentType[] EMPTY_ARRAY
+private ComponentRegistry<ECS_TYPE> registry
+private Class<? super T> tClass
+private int index
+private boolean invalid

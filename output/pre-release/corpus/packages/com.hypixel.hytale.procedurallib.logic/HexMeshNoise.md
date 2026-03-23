@@ -28,3 +28,21 @@ public HexMeshNoise(IIntCondition density, double thickness, CellJitter jitter, 
 - protected double checkConnections(int offsetSeed, double x, double y, int cx, int cy, double nearest)
 - protected double checkDiagonalConnections(int offsetSeed, double x, double y, int cx, int cy, double nearest)
 - protected double dist2Cell(int offsetSeed, double x, double y, double adx, double ady, double ax, double ay, int cx, int cy)
+
+Also in this package: Bounds2d, BranchNoise, CellFunction, CellMode, CellNoise, CellularNoise, ConstantNoise, Distance2Function, Distance2Mode, DistanceNoise, Double2, Double3, DoubleArray, GeneralNoise, GridNoise, InterpolationFunction, InterpolationMode, MeshNoise, OldSimplexNoise, PerlinNoise (and 6 more)
+
+Complete API:
+  public double get(int seed, int offsetSeed, double x, double y)
+  public double get(int seed, int offsetSeed, double x, double y, double z)
+  protected double checkConnections(int offsetSeed, double x, double y, int cx, int cy, double nearest)
+  protected double checkDiagonalConnections(int offsetSeed, double x, double y, int cx, int cy, double nearest)
+  protected double dist2Cell(int offsetSeed, double x, double y, double adx, double ady, double ax, double ay, int cx, int cy)
+
+Fields:
+protected final IIntCondition density
+protected final double thickness
+protected final double thicknessSquared
+protected final CellJitter jitter
+protected final boolean linesX
+protected final boolean linesY
+protected final boolean linesZ

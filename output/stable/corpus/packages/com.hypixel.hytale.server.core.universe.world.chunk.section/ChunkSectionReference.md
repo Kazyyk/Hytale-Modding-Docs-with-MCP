@@ -21,3 +21,15 @@ public BlockSection getSection()
 
 
 public int getSectionIndex()
+
+Also in this package: BlockSection, ChunkLightData, ChunkLightDataBuilder, ChunkSection, FluidSection, Res, TickRequest
+
+Complete API:
+  public BlockChunk getChunk()
+  public BlockSection getSection()
+  public int getSectionIndex()
+
+Fields:
+private BlockChunk chunk
+private BlockSection section
+private int sectionIndex

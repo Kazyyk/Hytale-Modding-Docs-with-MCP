@@ -23,3 +23,25 @@ public class PhysicsBodyStateUpdater
 - protected void addAcceleration(@Nonnull PhysicsBodyState state, double scale)
 - protected void addAcceleration(@Nonnull PhysicsBodyState state)
 - protected void convertAccelerationToVelocity(@Nonnull PhysicsBodyState before, @Nonnull PhysicsBodyState after, double scale)
+
+Known subclasses: PhysicsBodyStateUpdaterMidpoint, PhysicsBodyStateUpdaterRK4, PhysicsBodyStateUpdaterSymplecticEuler
+
+Also in this package: ForceAccumulator, ForceProvider, ForceProviderEntity, ForceProviderStandard, ForceProviderStandardState, PhysicsBodyState, PhysicsBodyStateUpdaterMidpoint, PhysicsBodyStateUpdaterRK4, PhysicsBodyStateUpdaterSymplecticEuler, PhysicsConstants, PhysicsFlags, PhysicsMath
+
+Complete API:
+  public void update(PhysicsBodyState before, PhysicsBodyState after, double mass, double dt, boolean onGround, ForceProvider[] forceProvider)
+  protected static void updatePositionBeforeVelocity(PhysicsBodyState before, PhysicsBodyState after, double dt)
+  protected static void updatePositionAfterVelocity(PhysicsBodyState before, PhysicsBodyState after, double dt)
+  protected void updateAndClampVelocity(PhysicsBodyState before, PhysicsBodyState after, double dt)
+  protected void updateVelocity(PhysicsBodyState before, PhysicsBodyState after, double dt)
+  protected void computeAcceleration(double mass)
+  protected void computeAcceleration(PhysicsBodyState state, boolean onGround, ForceProvider[] forceProviders, double mass, double timeStep)
+  protected void assignAcceleration(PhysicsBodyState state)
+  protected void addAcceleration(PhysicsBodyState state, double scale)
+  protected void addAcceleration(PhysicsBodyState state)
+  protected void convertAccelerationToVelocity(PhysicsBodyState before, PhysicsBodyState after, double scale)
+
+Fields:
+protected static double MIN_VELOCITY
+protected Vector3d acceleration
+protected final ForceAccumulator accumulator

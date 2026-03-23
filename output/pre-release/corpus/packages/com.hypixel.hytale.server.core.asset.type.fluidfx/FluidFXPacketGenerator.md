@@ -11,3 +11,8 @@ Generates init, update, and remove network packets for `FluidFX` assets.
 - generateInitPacket(IndexedLookupTableAssetMap<String, FluidFX> assetMap, Map<String, FluidFX> assets) | ToClientPacket | Instance method.
 - generateUpdatePacket(IndexedLookupTableAssetMap<String, FluidFX> assetMap, Map<String, FluidFX> loadedAssets) | ToClientPacket | Instance method.
 - generateRemovePacket(IndexedLookupTableAssetMap<String, FluidFX> assetMap, Set<String> removed) | ToClientPacket | Instance method.
+
+Complete API:
+  public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,FluidFX> assetMap, Map<String,FluidFX> assets)
+  public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,FluidFX> assetMap, Map<String,FluidFX> loadedAssets)
+  public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,FluidFX> assetMap, Set<String> removed)

@@ -19,3 +19,16 @@ Extends `ToolArg` to provide StringArg functionality.
 - @Nonnull public BuilderToolStringArg toStringArgPacket()
 - @Override protected void setupPacket(@Nonnull BuilderToolArg packet)
 - @Nonnull @Override public String toString()
+
+Also in this package: BlockArg, BoolArg, BrushAxisArg, BrushOriginArg, BrushRotationArg, BrushShapeArg, FloatArg, IntArg, MaskArg, OptionArg, ToolArg, ToolArgException
+
+Complete API:
+  public Codec<String> getCodec()
+  public String fromString(String str)
+  public BuilderToolStringArg toStringArgPacket()
+  protected void setupPacket(BuilderToolArg packet)
+  public String toString()
+
+Fields:
+public static final StringArg[] EMPTY_ARRAY
+public static final BuilderCodec<StringArg> CODEC

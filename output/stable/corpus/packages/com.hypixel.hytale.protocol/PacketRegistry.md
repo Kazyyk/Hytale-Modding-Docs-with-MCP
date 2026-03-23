@@ -19,3 +19,19 @@ Record holding metadata for a registered packet: `id`, `name`, `channel`, `type`
 ### PacketDirection
 
 Enum with values `ToServer`, `ToClient`, `Both`.
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 378 more)
+
+Complete API:
+  private static void register(PacketRegistry.PacketDirection direction, NetworkChannel channel, int id, String name, Class<? extends Packet> type, int fixedBlockSize, int maxSize, boolean compressed, BiFunction<ByteBuf,Integer,ValidationResult> validate, BiFunction<ByteBuf,Integer,Packet> deserialize)
+  public static PacketRegistry.PacketInfo getToServerPacketById(int id)
+  public static PacketRegistry.PacketInfo getToClientPacketById(int id)
+  public static Integer getId(Class<? extends Packet> type)
+  public static Map<Integer,PacketRegistry.PacketInfo> all()
+
+Fields:
+private static final Map<Integer,PacketRegistry.PacketInfo> BY_ID
+private static final Map<Integer,PacketRegistry.PacketInfo> TO_SERVER_BY_ID
+private static final Map<Integer,PacketRegistry.PacketInfo> TO_CLIENT_BY_ID
+private static final Map<Integer,PacketRegistry.PacketInfo> BY_ID_UNMODIFIABLE
+private static final Map<Class<? extends Packet>,Integer> BY_TYPE

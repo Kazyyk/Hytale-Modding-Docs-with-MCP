@@ -31,3 +31,13 @@ Returns the entity's position from its `TransformComponent`.
 
 - PositionCacheSystems -- uses the NPC spatial resource to populate nearby-entity caches
 - AvoidanceSystem -- uses spatial data for avoidance steering
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, ComputeVelocitySystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem (and 48 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void tick(float dt, int systemIndex, Store<EntityStore> store)
+  public Vector3d getPosition(ArchetypeChunk<EntityStore> archetypeChunk, int index)
+
+Fields:
+public static final Query<EntityStore> QUERY

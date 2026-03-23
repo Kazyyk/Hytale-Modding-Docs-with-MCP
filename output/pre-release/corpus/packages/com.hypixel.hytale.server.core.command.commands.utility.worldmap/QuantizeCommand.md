@@ -18,3 +18,8 @@ When executed, toggles `ImageBuilder.toggleQuantization()` and sends a localized
 
 - `WorldMapCommand` -- parent command collection
 - `CommandBase` -- abstract base for simple commands
+
+Also in this package: WorldMapClearMarkersCommand, WorldMapCommand, WorldMapDiscoverCommand, WorldMapReloadCommand, WorldMapUndiscoverCommand, WorldMapViewRadiusGetCommand, WorldMapViewRadiusRemoveCommand, WorldMapViewRadiusSetCommand, WorldMapViewRadiusSubCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)

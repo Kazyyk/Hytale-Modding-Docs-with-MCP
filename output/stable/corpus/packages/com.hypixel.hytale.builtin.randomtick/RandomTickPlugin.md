@@ -14,3 +14,14 @@ public class RandomTickPlugin extends JavaPlugin
 - public static RandomTickPlugin get()
 - @Override protected void setup()
 - public ResourceType<ChunkStore,RandomTick> getRandomTickResourceType()
+
+Also in this package: RandomTick, RandomTickSystem
+
+Complete API:
+  public static RandomTickPlugin get()
+  protected void setup()
+  public ResourceType<ChunkStore,RandomTick> getRandomTickResourceType()
+
+Fields:
+private static RandomTickPlugin INSTANCE
+private ResourceType<ChunkStore,RandomTick> randomTickResourceType

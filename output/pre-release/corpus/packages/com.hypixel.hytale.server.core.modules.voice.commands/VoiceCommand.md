@@ -9,3 +9,5 @@ Command collection grouping all voice-related subcommands under `/voice`. Regist
 ## See Also
 
 - VoiceCommand
+
+Also in this package: VoiceEnabledCommand, VoiceFullVolumeDistanceCommand, VoiceMaxDistanceCommand, VoiceMuteCommand, VoiceMutedListCommand, VoiceStatusCommand, VoiceUnmuteCommand

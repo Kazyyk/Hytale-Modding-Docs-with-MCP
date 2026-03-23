@@ -14,3 +14,12 @@ Modifies block priority values during cave carving to handle transitions between
 
 - public byte modifyCurrent(byte current, byte target)
 - public byte modifyTarget(byte current, byte target)
+
+Also in this package: Cave, CaveBiomeMaskFlags, CaveGenerator, CaveNodeChildEntry, CaveNodeCoverEntry, CaveNodeCoverType, CaveNodeType, CavePrefabPlacement, CaveType, CaveYawMode, Defaults, Entry, FluidLevel, OrientationModifier, PrefabPlacementFunction
+
+Complete API:
+  public byte modifyCurrent(byte current, byte target)
+  public byte modifyTarget(byte current, byte target)
+
+Fields:
+public static final BlockPriorityModifier INSTANCE

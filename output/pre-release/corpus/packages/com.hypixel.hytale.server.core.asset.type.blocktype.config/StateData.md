@@ -38,3 +38,21 @@ Copies state data from another instance if this instance has no mapping defined.
 ## Related Types
 
 - BlockType -- uses this for block state variants
+
+Also in this package: BlockBreakingDropType, BlockFace, BlockFaceSupport, BlockFlipType, BlockGathering, BlockMigration, BlockMovementSettings, BlockPlacementSettings, BlockPreviewVisibility, BlockSupportsRequiredForType, BlockToolData, BlockType, BlockTypeTextures, ConditionalBlockSound, CustomModelTexture, FaceConnectionType, HarvestingDropType, Match, MergedBlockFaces, PhysicsDropType (and 8 more)
+
+Complete API:
+  public String getBlockForState(String state)
+  public String getStateForBlock(String blockTypeKey)
+  public Map<String,Integer> toPacket(BlockType current)
+  public String toString()
+  public void copyFrom(StateData state)
+  static void addDefinitions()
+  private static String generateBlockKey(AssetExtraInfo<String> extraInfo)
+
+Fields:
+public static final String NULL_STATE_ID
+public static final BuilderCodec.Builder<StateData> CODEC_BUILDER
+public static final BuilderCodec<StateData> CODEC
+private Map<String,String> stateToBlock
+private Map<String,String> blockToState

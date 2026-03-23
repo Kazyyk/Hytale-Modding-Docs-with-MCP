@@ -37,3 +37,30 @@ Implementation of `MemInstrument`.
 - isCorrect() | boolean | public method.
 - correct() | void | public method.
 - getMemoryUsage() | MemInstrument.Report | public method.
+
+Also in this package: Bounds3d, SpaceSize
+
+Complete API:
+  public boolean contains(Vector3i position)
+  public boolean contains(Bounds3i other)
+  public boolean intersects(Bounds3i other)
+  public boolean isZeroVolume()
+  public Vector3i getSize()
+  public Bounds3i assign(Bounds3i other)
+  public Bounds3i assign(Vector3i min, Vector3i max)
+  public Bounds3i offset(Vector3i vector)
+  public Bounds3i intersect(Bounds3i other)
+  public Bounds3i encompass(Bounds3i other)
+  public Bounds3i encompass(Vector3i position)
+  public Bounds3i stack(Bounds3i other)
+  public Bounds3i flipOnOriginPoint()
+  public Bounds3i flipOnOriginVoxel()
+  public Bounds3d toBounds3d()
+  public Bounds3i clone()
+  public boolean isCorrect()
+  public void correct()
+  public MemInstrument.Report getMemoryUsage()
+
+Fields:
+public final Vector3i min
+public final Vector3i max

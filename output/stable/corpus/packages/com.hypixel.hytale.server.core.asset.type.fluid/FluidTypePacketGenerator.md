@@ -15,3 +15,10 @@ Generates `UpdateFluids` network packets for synchronizing fluid asset definitio
 ## Related Types
 
 - Fluid -- the asset type serialized into packets
+
+Also in this package: Accessor, AliveStatus, CachedAccessor, ConversionResult, DefaultFluidTicker, FiniteFluidTicker, FireFluidTicker, FlammabilityConfig, Fluid, FluidCollisionConfig, FluidTicker, SpreadOutcome
+
+Complete API:
+  public ToClientPacket generateInitPacket(IndexedLookupTableAssetMap<String,Fluid> assetMap, Map<String,Fluid> assets)
+  public ToClientPacket generateUpdatePacket(IndexedLookupTableAssetMap<String,Fluid> assetMap, Map<String,Fluid> loadedAssets, AssetUpdateQuery query)
+  public ToClientPacket generateRemovePacket(IndexedLookupTableAssetMap<String,Fluid> assetMap, Set<String> removed, AssetUpdateQuery query)

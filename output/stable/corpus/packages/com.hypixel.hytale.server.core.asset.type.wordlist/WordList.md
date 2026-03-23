@@ -27,3 +27,25 @@ public class WordList implements JsonAssetWithMap
 - @Nonnull private static List<T> toListMinusSet(T[] array, Set<T> set)
 - @Nonnull private static List<String> toKeysListMinusTranslated(String[] translationKeys, Set<String> alreadyUsedTranslated, String language)
 - @Nonnull @Override public String toString()
+
+Complete API:
+  public static AssetStore<String,WordList,DefaultAssetMap<String,WordList>> getAssetStore()
+  public static DefaultAssetMap<String,WordList> getAssetMap()
+  public static WordList getWordList(String assetKey)
+  public String getId()
+  protected void processConfig()
+  public String pickDefaultLanguage(Random random, Set<String> alreadyUsedTranslated)
+  public String pickTranslationKey(Random random, Set<String> alreadyUsedTranslated, String languageForAlreadyUsed)
+  private static List<T> toListMinusSet(T[] array, Set<T> set)
+  private static List<String> toKeysListMinusTranslated(String[] translationKeys, Set<String> alreadyUsedTranslated, String language)
+  public String toString()
+
+Fields:
+private static final String WORDLISTS_TRANSLATION_FILE
+public static final AssetBuilderCodec<String,WordList> CODEC
+private static AssetStore<String,WordList,DefaultAssetMap<String,WordList>> ASSET_STORE
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static final WordList EMPTY
+protected AssetExtraInfo.Data data
+protected String id
+protected String[] translationKeys

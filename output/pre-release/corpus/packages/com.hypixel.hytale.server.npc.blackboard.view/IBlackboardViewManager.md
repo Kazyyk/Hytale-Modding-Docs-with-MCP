@@ -17,3 +17,18 @@ Interface defining: `get()`, `get()`, `get()`, `get()`....
 - onWorldRemoved() | void | package-private method.
 - forEachView(Consumer<View> var1) | void | package-private method.
 - clear() | void | package-private method.
+
+Known implementors: BlockRegionViewManager, SingletonBlackboardViewManager
+
+Also in this package: BlockRegionView, BlockRegionViewManager, IBlackboardView, PrioritisedProvider, PrioritisedProviderView, SingletonBlackboardViewManager
+
+Complete API:
+  View get(Ref<EntityStore> var1, Blackboard var2, ComponentAccessor<EntityStore> var3)
+  View get(Vector3d var1, Blackboard var2)
+  View get(int var1, int var2, Blackboard var3)
+  View get(long var1, Blackboard var3)
+  View getIfExists(long var1)
+  void cleanup()
+  void onWorldRemoved()
+  void forEachView(Consumer<View> var1)
+  void clear()

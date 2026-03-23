@@ -14,3 +14,16 @@ NPC head motion builder: Rotate to target.
 - @Override public String getLongDescription()
 - @Override public BuilderDescriptorState getBuilderDescriptorState()
 - public double getRelativeTurnSpeed(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionBeacon, BuilderActionIgnoreForAvoidance, BuilderActionNotify, BuilderActionOverrideAttitude, BuilderActionReleaseTarget, BuilderActionSetMarkedTarget, BuilderActionSetStat, BuilderSensorBeacon, BuilderSensorCount, BuilderSensorEntity, BuilderSensorEntityBase, BuilderSensorKill, BuilderSensorPlayer, BuilderSensorSelf, BuilderSensorTarget
+
+Complete API:
+  public HeadMotionWatch build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderHeadMotionWatch readConfig(JsonElement data)
+  public double getRelativeTurnSpeed(BuilderSupport support)
+
+Fields:
+protected final DoubleHolder relativeTurnSpeed

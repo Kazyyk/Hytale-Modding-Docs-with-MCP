@@ -42,3 +42,26 @@ public void validate()
 - ResourceRegistration -- the full registration record
 - Store -- uses ResourceType to access resources
 - IResourceStorage -- loads and saves resources by type
+
+Also in this package: AddReason, Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery (and 8 more)
+
+Complete API:
+  void init(ComponentRegistry<ECS_TYPE> registry, Class<? super T> tClass, int index)
+  public ComponentRegistry<ECS_TYPE> getRegistry()
+  public Class<? super T> getTypeClass()
+  public int getIndex()
+  public void validateRegistry(ComponentRegistry<ECS_TYPE> registry)
+  public void validate()
+  void invalidate()
+  boolean isValid()
+  public int compareTo(ResourceType<ECS_TYPE,?> o)
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+public static final ResourceType[] EMPTY_ARRAY
+private ComponentRegistry<ECS_TYPE> registry
+private Class<? super T> tClass
+private int index
+private boolean invalid

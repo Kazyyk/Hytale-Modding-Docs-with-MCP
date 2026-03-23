@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.component.event | Extends: EcsEvent> e
 public class EntityHolderEventType<ECS_TYPE, Event extends EcsEvent> extends EventSystemType<ECS_TYPE, Event, EntityHolderEventSystem<ECS_TYPE, Event>>
 
 A typed event registration for entity holder events in the ECS.
+
+Also in this package: EntityEventType, EventSystemType, WorldEventType

@@ -9,3 +9,14 @@ An ECS store system that runs when the system is removed from the store (i.e., w
 ## Related Types
 
 - PlayerSavingSystems -- parent container class
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem (and 33 more)
+
+Complete API:
+  public void onSystemAddedToStore(Store<EntityStore> store)
+  public void onSystemRemovedFromStore(Store<EntityStore> store)
+
+Fields:
+private final ComponentType<EntityStore,Player> playerComponentType
+private final ComponentType<EntityStore,PlayerRef> refComponentType
+private final Query<EntityStore> query

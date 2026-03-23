@@ -12,3 +12,12 @@ public class FitsAPortal implements PositionPredicate
 
 - @Override public boolean test(World world, Vector3d point)
 - public static boolean check(World world, Vector3d point)
+
+Also in this package: NotNearAnyInHashGrid, NotNearPoint, NotNearPointXZ
+
+Complete API:
+  public boolean test(World world, Vector3d point)
+  public static boolean check(World world, Vector3d point)
+
+Fields:
+private static final int[] THREES

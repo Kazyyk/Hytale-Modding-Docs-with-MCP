@@ -140,3 +140,8 @@ On each tick, compares the current and previously sent movement states. If crouc
 - `MovementStatesComponent` -- ECS component tracking crouching/sliding/sitting/sleeping
 - `EntityTrackerSystems.Visible` -- visibility tracking component
 - `CosmeticsModule` -- provides random skin generation
+
+Also in this package: Add, AdventurePlayerSystem, AnimationEntityTrackerUpdate, ApplyRandomSkin, AssignNetworkIdToProps, AudioSystems, Capture, ClearFromPrefabMarker, ClearFromWorldGenMarker, ClearMarker, DynamicLightTracker, EnsurePropsPrefabCopyable, EntityInteractableSystems, EntitySpatialSystem, EntitySystems, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerUpdate (and 40 more)
+
+Fields:
+private static final HytaleLogger LOGGER

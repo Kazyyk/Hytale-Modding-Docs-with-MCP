@@ -29,3 +29,24 @@ public class SettingsAsset implements JsonAssetWithMap<String, DefaultAssetMap<S
 - public static int getSampleBits(int v)
 - return switch(v)
 - public String getId()
+
+Also in this package: AssetManager, Cleanable, ValidatorUtil
+
+Complete API:
+  public List<Integer> getStatsCheckpoints()
+  public int getCustomConcurrency()
+  public double getBufferCapacityFactor()
+  public double getTargetViewDistance()
+  public double getTargetPlayerCount()
+  public static int getSampleBits(int v)
+  public String getId()
+
+Fields:
+public static final AssetBuilderCodec<String,SettingsAsset> CODEC
+private String id
+private AssetExtraInfo.Data data
+private Integer[] checkpoints
+private int customConcurrency
+private double bufferCapacityFactor
+private double targetViewDistance
+private double targetPlayerCount

@@ -40,3 +40,8 @@ Returns a BlockMountResult: either a Mounted record on success or a DidNotMount 
 - BlockMountComponent -- chunk-store component tracking block seats
 - MountedComponent -- entity-store component marking an entity as mounted
 - SeatingInteraction -- block interaction that calls `mountOnBlock`
+
+Also in this package: BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public static BlockMountAPI.BlockMountResult mountOnBlock(Ref<EntityStore> entity, CommandBuffer<EntityStore> commandBuffer, Vector3i targetBlock, Vector3f interactPos)

@@ -17,3 +17,5 @@ Inner record of PrototypePlayerBuilderToolSettings that stores an entity's posit
 
 - PrototypePlayerBuilderToolSettings -- enclosing class
 - PrototypePlayerBuilderToolSettings.FluidChange -- companion record for fluid data
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)

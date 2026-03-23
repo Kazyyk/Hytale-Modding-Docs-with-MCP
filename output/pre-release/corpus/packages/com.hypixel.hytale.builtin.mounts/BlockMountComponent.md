@@ -93,3 +93,28 @@ Returns a shallow copy with cloned seat maps.
 - BlockMountAPI -- creates and populates this component
 - MountSystems.RemoveBlockSeat -- dismounts seated entities when this chunk entity is removed
 - MountSystems.TrackerUpdate -- reads this component for network updates
+
+Also in this package: BlockMountAPI, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public static ComponentType<ChunkStore,BlockMountComponent> getComponentType()
+  public BlockMountType getType()
+  public Vector3i getBlockPos()
+  public BlockType getExpectedBlockType()
+  public int getExpectedRotation()
+  public boolean isDead()
+  private void clean()
+  public void putSeatedEntity(BlockMountPoint mountPoint, Ref<EntityStore> seatedEntity)
+  public void removeSeatedEntity(Ref<EntityStore> seatedEntity)
+  public BlockMountPoint getSeatBlockBySeatedEntity(Ref<EntityStore> seatedEntity)
+  public Collection<? extends Ref<EntityStore>> getSeatedEntities()
+  public BlockMountPoint findAvailableSeat(Vector3i targetBlock, BlockMountPoint[] choices, Vector3f whereWasClicked)
+  public Component<ChunkStore> clone()
+
+Fields:
+private BlockMountType type
+private Vector3i blockPos
+private BlockType expectedBlockType
+private int expectedRotation
+private Map<BlockMountPoint,Ref<EntityStore>> entitiesByMountPoint
+private Map<Ref<EntityStore>,BlockMountPoint> mountPointByEntity

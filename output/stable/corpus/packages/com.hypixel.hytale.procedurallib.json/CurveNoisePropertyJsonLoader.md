@@ -15,3 +15,14 @@ Loads curve noise property configurations. Applies a `PowerCurve(A, B)` transfor
 ## Related Types
 
 - CurveNoisePropertyJsonLoader.Constants -- DEFAULT_A = 2.0, DEFAULT_B = -2.0
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public CurveNoiseProperty load()
+  protected NoiseProperty loadNoise()
+  protected DoubleUnaryOperator loadDCurve()
+  protected double loadValue(String key, double def)
+
+Fields:
+protected final NoiseProperty noise

@@ -31,3 +31,28 @@ Plugin class that registers components, systems, and commands for the HytaleGene
 - private void loadExecutors(@Nonnull SettingsAsset settingsAsset)
 - private static int getConcurrency(@Nonnull SettingsAsset settingsAsset)
 - private void reloadGenerators()
+
+Also in this package: Handle, HandleProvider
+
+Complete API:
+  protected void start()
+  public List<Vector3d> getSpawnPositions(ChunkRequest.GeneratorProfile profile, int maxPositionsCount)
+  public CompletableFuture<GeneratedChunk> submitChunkRequest(ChunkRequest request)
+  protected void setup()
+  public StagedChunkGenerator createStagedChunkGenerator(ChunkRequest.GeneratorProfile generatorProfile, WorldStructureAsset worldStructureAsset, SettingsAsset settingsAsset)
+  private static Set<Integer> getAllPossibleRuntimeIndices(List<Biome> biomes)
+  private ChunkGenerator getGenerator(ChunkRequest.GeneratorProfile profile)
+  private void loadExecutors(SettingsAsset settingsAsset)
+  private static int getConcurrency(SettingsAsset settingsAsset)
+  private void reloadGenerators()
+
+Fields:
+private AssetManager assetManager
+private Runnable assetReloadListener
+private final Map<ChunkRequest.GeneratorProfile,ChunkGenerator> generators
+private final Semaphore chunkGenerationSemaphore
+private int concurrency
+private ExecutorService mainExecutor
+private ThreadPoolExecutor concurrentExecutor
+private int worldCounter
+public static Vector3d DEFAULT_SPAWN_POSITION

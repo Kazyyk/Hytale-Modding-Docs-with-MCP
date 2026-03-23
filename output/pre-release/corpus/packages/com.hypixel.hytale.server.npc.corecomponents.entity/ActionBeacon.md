@@ -50,3 +50,21 @@ public class ActionBeacon extends ActionBase
         @Nonnull Ref<EntityStore> targetRef,
         @Nonnull Ref<EntityStore> target,
         @Nonnull ComponentAccessor<EntityStore> componentAccessor)` |
+
+Also in this package: ActionIgnoreForAvoidance, ActionNotify, ActionOverrideAttitude, ActionReleaseTarget, ActionSetMarkedTarget, ActionSetStat, HeadMotionWatch, SensorBeacon, SensorCount, SensorEntity, SensorEntityBase, SensorKill, SensorPlayer, SensorSelf, SensorTarget
+
+Complete API:
+  public void registerWithSupport(Role role)
+  public boolean canExecute(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Store<EntityStore> store)
+  public boolean execute(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Store<EntityStore> store)
+  protected static boolean filterNPCs(Ref<EntityStore> ref, ActionBeacon _this, Role role, ComponentAccessor<EntityStore> componentAccessor)
+  protected void sendNPCMessage(Ref<EntityStore> self, Ref<EntityStore> targetRef, Ref<EntityStore> target, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+protected final String message
+protected final double range
+protected final int[] targetGroups
+protected final int targetToSendSlot
+protected final double expirationTime
+protected final int sendCount
+protected final List<Ref<EntityStore>> sendList

@@ -45,3 +45,25 @@ Sets the raw 16-bit light value at the given flat index. Performs octree travers
 public ChunkLightData build()
 
 Produces an immutable `ChunkLightData` with a compacted octree. The builder's internal octree may contain gaps from collapsed segments; `build()` produces a contiguous representation.
+
+Also in this package: BlockSection, ChunkLightData, ChunkSection, ChunkSectionReference, FluidSection, Res, TickRequest
+
+Complete API:
+  protected static void findSegments(ByteBuf light, int position, BitSet currentSegments)
+  public void setBlockLight(int x, int y, int z, byte red, byte green, byte blue)
+  public void setBlockLight(int index, byte red, byte green, byte blue)
+  public void setSkyLight(int x, int y, int z, byte light)
+  public void setSkyLight(int index, byte light)
+  public void setLight(int index, int channel, byte value)
+  public void setLightRaw(int index, short value)
+  public ChunkLightData build()
+  private int serializeOctree(ByteBuf to, int position, int segmentIndex)
+  private static ChunkLightDataBuilder.Res setTraverse(ByteBuf local, BitSet currentSegments, int index, int pointer, int depth, short value)
+  protected static int growSegment(ByteBuf local, BitSet currentSegments, short val)
+  public String toStringOctree()
+  public static String octreeToString(ByteBuf buffer)
+  public static void octreeToString(ByteBuf buffer, int pointer, StringBuffer out, int recursion)
+
+Fields:
+static boolean DEBUG
+protected BitSet currentSegments

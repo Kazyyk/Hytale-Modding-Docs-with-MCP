@@ -8,3 +8,12 @@ public interface Biome extends MaterialSource, PropsSource, EnvironmentSource, T
 
 - String getBiomeName()
 - @Nonnull Density getTerrainDensity()
+
+Known subclasses: CustomBiome, TileBiome
+
+Known implementors: SimpleBiome
+
+Also in this package: EnvironmentSource, MaterialSource, PropsSource, SimpleBiome, TintSource
+
+Complete API:
+  Density getTerrainDensity()

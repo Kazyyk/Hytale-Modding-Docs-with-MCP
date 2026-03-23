@@ -66,3 +66,22 @@ public ComponentContext getComponentContext()
 - InstructionType -- instruction context enum
 - ComponentContext -- sensor context enum
 - Builder -- `getInstructionContextHelper()` returns this
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 28 more)
+
+Complete API:
+  public boolean isComponent()
+  public void setComponentContext(ComponentContext context)
+  public boolean isInCorrectInstruction(EnumSet<InstructionType> validTypes)
+  public static boolean isInCorrectInstruction(EnumSet<InstructionType> validTypes, InstructionType instructionContext)
+  public boolean extraContextMatches(EnumSet<ComponentContext> contexts)
+  public static boolean extraContextMatches(EnumSet<ComponentContext> validContexts, ComponentContext context)
+  public void addComponentContextEvaluator(BiConsumer<InstructionType,ComponentContext> evaluator)
+  public void validateComponentContext(InstructionType instructionContext, ComponentContext componentContext)
+  public InstructionType getInstructionContext()
+  public ComponentContext getComponentContext()
+
+Fields:
+private final InstructionType context
+private ComponentContext componentContext
+private List<BiConsumer<InstructionType,ComponentContext>> componentContextEvaluators

@@ -7,3 +7,8 @@ Type: interface | Package: com.hypixel.hytale.server.core.modules.accesscontrol.
 ## Methods
 
 - Ban parse(JsonObject var1) throws JsonParseException
+
+Also in this package: AbstractBan, Ban, InfiniteBan, TimedBan
+
+Complete API:
+  Ban parse(JsonObject var1)

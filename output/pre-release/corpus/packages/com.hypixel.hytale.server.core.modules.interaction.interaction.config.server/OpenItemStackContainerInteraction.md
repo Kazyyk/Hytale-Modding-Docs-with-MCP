@@ -23,3 +23,11 @@ Gets the player component, verifies no custom page is open, retrieves the held i
 - `ItemStackContainerConfig` -- configuration for item-embedded containers
 - `ItemStackItemContainer` -- container implementation for items
 - `ItemStackContainerWindow` -- the window shown to the player
+
+Also in this package: AngledDamage, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction, ModifyInventoryInteraction (and 11 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+
+Fields:
+public static final BuilderCodec<OpenItemStackContainerInteraction> CODEC

@@ -16,3 +16,10 @@ JSON loader that deserializes configuration data from JSON files.
 - throw new IllegalArgumentException("BlockLayer does not exist in BlockTypes", var8)
 - @Nonnull public static ResolvedBlockArray loadSingleBlock(@Nonnull JsonObject obj)
 - throw new IllegalArgumentException("BlockLayer does not exist in BlockTypes", var9)
+
+Also in this package: ColorUtil, Constants, Constants, Constants, EntryJsonLoader, FileMaskCache, NoiseBlockArrayJsonLoader, ResolvedVariantsBlockArrayLoader, Vector2dJsonLoader, Vector3dJsonLoader
+
+Complete API:
+  public ResolvedBlockArray load()
+  public ResolvedBlockArray loadSingleBlock(String blockName)
+  public static ResolvedBlockArray loadSingleBlock(JsonObject obj)

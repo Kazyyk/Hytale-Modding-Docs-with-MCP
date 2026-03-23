@@ -9,3 +9,12 @@ Marker component identifying an entity as a local spawn beacon created by the lo
 ## Methods
 
 - public static ComponentType<EntityStore, LocalSpawnBeacon> getComponentType()
+
+Also in this package: LocalSpawnBeaconSystem, LocalSpawnController, LocalSpawnControllerSystem, LocalSpawnForceTriggerSystem, LocalSpawnSetupSystem, LocalSpawnState
+
+Complete API:
+  public static ComponentType<EntityStore,LocalSpawnBeacon> getComponentType()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<LocalSpawnBeacon> CODEC

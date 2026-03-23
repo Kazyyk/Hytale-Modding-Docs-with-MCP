@@ -23,3 +23,8 @@ public class VoxelSpaceUtil
 ## Inner Types
 
 - `VoxelSpaceUtil.BatchTransfer`
+
+Also in this package: BatchTransfer, BooleanVoxelSpace, NullSpace, VoxelConsumer, VoxelCoordinate, VoxelSpace, WindowVoxelSpace
+
+Complete API:
+  public static void parallelCopy(VoxelSpace<V> source, VoxelSpace<V> destination, int concurrency)

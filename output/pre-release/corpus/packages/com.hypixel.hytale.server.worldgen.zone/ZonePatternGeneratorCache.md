@@ -16,3 +16,12 @@ public class ZonePatternGeneratorCache
 ## Methods
 
 - public ZonePatternGenerator get(int seed)
+
+Also in this package: Unique, UniqueCandidate, UniqueEntry, Zone, ZoneColorMapping, ZoneDiscoveryConfig, ZoneGeneratorResult, ZonePatternGenerator, ZonePatternProvider
+
+Complete API:
+  public ZonePatternGenerator get(int seed)
+
+Fields:
+protected final Function<Integer,ZonePatternGenerator> compute
+protected final Map<Integer,ZonePatternGenerator> cache

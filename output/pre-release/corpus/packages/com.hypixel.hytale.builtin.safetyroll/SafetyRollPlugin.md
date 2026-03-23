@@ -7,3 +7,6 @@ public class SafetyRollPlugin extends JavaPlugin
 Server plugin that initializes the SafetyRoll system and registers related features.
 
 ## Accessors
+
+Complete API:
+  protected void setup()

@@ -25,3 +25,12 @@ Lifecycle and state flags for WorldChunk. Each flag occupies a single bit in a `
 public int mask()
 
 Returns the bitmask for this flag (1 shifted left by ordinal).
+
+Also in this package: AbstractCachedAccessor, BlockChunk, BlockComponentChunk, BlockComponentChunkLoadingSystem, BlockOperations, BlockRotationUtil, ChunkColumn, EntityChunk, EntityChunkLoadingSystem, LoadBlockChunkPacketSystem, LoadBlockComponentPacketSystem, UnloadBlockComponentPacketSystem, WorldChunk
+
+Complete API:
+  public int mask()
+
+Fields:
+public static final ChunkFlag[] VALUES
+private final int mask

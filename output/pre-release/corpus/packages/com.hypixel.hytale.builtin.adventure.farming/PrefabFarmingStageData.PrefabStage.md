@@ -15,3 +15,16 @@ A weighted entry in the PrefabFarmingStageData prefab selection map. Each entry 
 
 - public double getWeight()
 - @Nonnull public Path getResolvedPath()
+
+Also in this package: BlockStateFarmingStageData, BlockTypeFarmingStageData, PrefabFarmingStageData
+
+Complete API:
+  public double getWeight()
+  public Path getResolvedPath()
+  public String toString()
+
+Fields:
+public static final PrefabFarmingStageData.PrefabStage[] EMPTY_ARRAY
+public static final Codec<PrefabFarmingStageData.PrefabStage> CODEC
+protected int weight
+protected String path

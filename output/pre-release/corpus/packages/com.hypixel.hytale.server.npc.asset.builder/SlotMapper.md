@@ -52,3 +52,19 @@ Returns the slot-to-name reverse map, or `null` if name tracking is disabled.
 
 - ReferenceSlotMapper -- extends this with reference objects
 - BuilderSupport -- uses multiple instances
+
+Known subclasses: ReferenceSlotMapper
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public int getSlot(String name)
+  public int slotCount()
+  public Object2IntMap<String> getSlotMappings()
+  public Int2ObjectMap<String> getNameMap()
+
+Fields:
+public static final int NO_SLOT
+private final Object2IntMap<String> mappings
+private final Int2ObjectMap<String> nameMap
+private int nextSlot

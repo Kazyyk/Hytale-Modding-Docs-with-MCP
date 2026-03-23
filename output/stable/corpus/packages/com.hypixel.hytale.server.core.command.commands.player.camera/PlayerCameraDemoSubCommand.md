@@ -7,3 +7,5 @@ public class PlayerCameraDemoSubCommand extends AbstractCommandCollection
 ## Constructors
 
 - public PlayerCameraDemoSubCommand()
+
+Also in this package: CameraDemo, PlayerCameraDemoActivateCommand, PlayerCameraDemoDeactivateCommand, PlayerCameraResetCommand, PlayerCameraSideScrollerCommand, PlayerCameraSubCommand, PlayerCameraTopdownCommand

@@ -42,3 +42,16 @@ public class WarpListPage extends InteractiveCustomUIPage<WarpListPage.WarpListP
 ## Related Types
 
 - Warp
+
+Also in this package: TeleportPlugin, Warp, WarpComponent, WarpListPageEventData, WarpMarkerProvider
+
+Complete API:
+  private void buildWarpList(UICommandBuilder commandBuilder, UIEventBuilder eventBuilder)
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, WarpListPage.WarpListPageEventData eventData)
+
+Fields:
+private static final String PAGE_UI_FILE
+private final Consumer<String> callback
+private final Map<String,Warp> warps
+private String searchQuery

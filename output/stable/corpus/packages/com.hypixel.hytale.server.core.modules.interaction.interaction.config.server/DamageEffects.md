@@ -74,3 +74,37 @@ public String toString()
 
 - Knockback -- knockback force calculation
 - DamageEntityInteraction -- uses damage effects during combat
+
+Also in this package: DamageCalculator, DamageClass, DirectionalKnockback, ForceKnockback, Knockback, PointKnockback, TargetEntityEffect, Type
+
+Complete API:
+  public ModelParticle[] getModelParticles()
+  public WorldParticle[] getWorldParticles()
+  public String getWorldSoundEventId()
+  public int getWorldSoundEventIndex()
+  public String getLocalSoundEventId()
+  public int getLocalSoundEventIndex()
+  public double getViewDistance()
+  public Knockback getKnockback()
+  public String getCameraEffectId()
+  protected void processConfig()
+  public void addToDamage(Damage damageEvent)
+  public void spawnAtEntity(CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> ref)
+  public String toString()
+  public com.hypixel.hytale.protocol.DamageEffects toPacket()
+
+Fields:
+public static final BuilderCodec<DamageEffects> CODEC
+protected ModelParticle[] modelParticles
+protected WorldParticle[] worldParticles
+protected String localSoundEventId
+protected transient int localSoundEventIndex
+protected String worldSoundEventId
+protected transient int worldSoundEventIndex
+protected String playerSoundEventId
+protected transient int playerSoundEventIndex
+protected double viewDistance
+protected Knockback knockback
+protected String cameraEffectId
+protected int cameraEffectIndex
+protected float staminaDrainMultiplier

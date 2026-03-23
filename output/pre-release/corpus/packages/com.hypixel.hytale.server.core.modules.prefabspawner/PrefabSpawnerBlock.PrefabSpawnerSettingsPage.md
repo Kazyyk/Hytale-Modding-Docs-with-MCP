@@ -14,3 +14,13 @@ Custom UI page for editing prefab spawner block settings in-game. Displays text 
 ## See Also
 
 - PrefabSpawnerBlock
+
+Also in this package: MigratePrefabSpawn, PrefabSpawnerBlock, PrefabSpawnerModule, PrefabSpawnerSettingsPageEventData
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, PrefabSpawnerBlock.PrefabSpawnerSettingsPageEventData data)
+
+Fields:
+private final BlockModule.BlockStateInfo info
+private final PrefabSpawnerBlock state

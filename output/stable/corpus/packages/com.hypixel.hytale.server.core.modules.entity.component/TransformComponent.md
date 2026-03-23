@@ -27,3 +27,29 @@ An `EntityStore` component.
 - @Nullable public Ref<ChunkStore> getChunkRef()
 - public void markChunkDirty(@Nonnull ComponentAccessor<EntityStore> componentAccessor)
 - public void setChunkLocation(@Nullable Ref<ChunkStore> chunkRef, @Nullable WorldChunk chunk)
+
+Also in this package: ActiveAnimationComponent, AudioComponent, BoundingBox, CollisionResultComponent, DisplayNameComponent, DynamicLight, EntityScaleComponent, FromPrefab, FromWorldGen, HeadRotation, HiddenFromAdventurePlayers, Intangible, Interactable, Invulnerable, ModelComponent, MovementAudioComponent, NPCMarkerComponent, NewSpawnComponent, PersistentDynamicLight, PersistentModel (and 7 more)
+
+Complete API:
+  public static ComponentType<EntityStore,TransformComponent> getComponentType()
+  public Vector3d getPosition()
+  public void setPosition(Vector3d position)
+  public void teleportPosition(Vector3d position)
+  public Vector3f getRotation()
+  public void setRotation(Vector3f rotation)
+  public Transform getTransform()
+  public void teleportRotation(Vector3f rotation)
+  public ModelTransform getSentTransform()
+  public WorldChunk getChunk()
+  public Ref<ChunkStore> getChunkRef()
+  public void markChunkDirty(ComponentAccessor<EntityStore> componentAccessor)
+  public void setChunkLocation(Ref<ChunkStore> chunkRef, WorldChunk chunk)
+  public TransformComponent clone()
+
+Fields:
+public static final BuilderCodec<TransformComponent> CODEC
+private final Vector3d position
+private final Vector3f rotation
+private final ModelTransform sentTransform
+private WorldChunk chunk
+private Ref<ChunkStore> chunkRef

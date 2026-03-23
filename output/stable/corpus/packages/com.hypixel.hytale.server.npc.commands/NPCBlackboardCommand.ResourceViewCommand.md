@@ -21,3 +21,11 @@ Registers as sub-command `"resourceview"` with translation key `"server.commands
 
 - NPCBlackboardCommand -- parent command collection
 - NPCBlackboardCommand.ResourceViewsCommand -- lists all resource views
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDumpCommand (and 28 more)
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<RelativeChunkPosition> chunkArg

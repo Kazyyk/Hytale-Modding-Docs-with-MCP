@@ -39,3 +39,18 @@ Returns a diagnostic string including all configured fields.
 
 - `SimpleInstantInteraction` -- parent class
 - `EntityStatsModule` -- resolves stat asset IDs to indices
+
+Known subclasses: ChangeStatInteraction, ChangeStatWithModifierInteraction
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction, LaunchProjectileInteraction (and 13 more)
+
+Complete API:
+  public String toString()
+
+Fields:
+public static final BuilderCodec<ChangeStatBaseInteraction> CODEC
+protected Object2FloatMap<String> entityStatAssets
+protected Int2FloatMap entityStats
+protected ValueType valueType
+protected ChangeStatBehaviour changeStatBehaviour
+protected InteractionTarget entityTarget

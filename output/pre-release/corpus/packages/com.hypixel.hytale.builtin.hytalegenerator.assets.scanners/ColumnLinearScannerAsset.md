@@ -17,3 +17,17 @@ public class ColumnLinearScannerAsset extends ScannerAsset
 ## Methods
 
 - @Nonnull @Override public Scanner build(@Nonnull ScannerAsset.Argument argument)
+
+Also in this package: AreaScannerAsset, Argument, ColumnRandomScannerAsset, DirectScannerAsset, ImportedScannerAsset, LinearScannerAsset, QueueScannerAsset, RadialScannerAsset, RandomScannerAsset, ScannerAsset
+
+Complete API:
+  public Scanner build(ScannerAsset.Argument argument)
+
+Fields:
+public static final BuilderCodec<ColumnLinearScannerAsset> CODEC
+private int minY
+private int maxY
+private int resultCap
+private boolean topDownOrder
+private boolean isRelativeToPosition
+private String baseHeightName

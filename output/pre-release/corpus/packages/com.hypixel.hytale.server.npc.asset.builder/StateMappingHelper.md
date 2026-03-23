@@ -96,3 +96,58 @@ Tracks the depth and state name for parent state resolution.
 - BuilderParameters -- imports states via this helper
 - StatePair -- represents a main/sub-state pair
 - Builder -- `getStateMappingHelper()` returns this type
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public int[] getAllMainStates()
+  public int getHighestSubStateIndex(int mainStateIndex)
+  public void getAndPutSensorIndex(String state, String subState, BiConsumer<Integer,Integer> setter)
+  public void getAndPutSetterIndex(String state, String subState, BiConsumer<Integer,Integer> setter)
+  public void getAndPutStateRequirerIndex(String state, String subState, BiConsumer<Integer,Integer> setter)
+  private void getAndPutIndex(String state, String subState, BiConsumer<Integer,Integer> setter, Function<String,Integer> mainStateFunction, BiFunction<Integer,String,Integer> subStateFunction)
+  private StateMappingHelper.IStateMap initialiseDefaultSubStates(int index)
+  public void validate(String configName, List<String> errors)
+  public int getStateIndex(String state)
+  public int getSubStateIndex(int index, String subState)
+  public String getStateName(int index)
+  public String getSubStateName(int index, int subState)
+  public String getCurrentParentState()
+  public void increaseDepth()
+  public void decreaseDepth()
+  public void setDefaultSubState(String subState)
+  public String getDefaultSubState()
+  public void setNotComponent()
+  public boolean isComponent()
+  public boolean hasComponentStates()
+  public void initialiseComponentState(BuilderSupport support)
+  public void popComponentState(BuilderSupport support)
+  public void readComponentDefaultLocalState(JsonObject data)
+  public boolean hasDefaultLocalState()
+  public String getDefaultLocalState()
+  public void setComponentImportStateMappings(JsonArray states)
+  public int getComponentImportStateIndex(String state)
+  public int importedStateCount()
+  public void setRequiresStateEvaluator()
+  public void setHasStateEvaluator()
+  public void optimise()
+
+Fields:
+public static final String DEFAULT_STATE
+public static final String DEFAULT_SUB_STATE
+public static final String DEFAULT_STATE_PARAMETER
+public static final String STATE_CHANGE_RESET_PARAMETER
+private StateMappingHelper.StateMap mainStateMap
+private int[] allMainStates
+private Int2ObjectOpenHashMap<StateMappingHelper.IStateMap> subStateMap
+private int depth
+private ArrayDeque<StateMappingHelper.StateDepth> currentParentState
+private boolean component
+private boolean hasStateEvaluator
+private boolean requiresStateEvaluator
+private String defaultSubState
+private String defaultComponentLocalState
+private int defaultComponentLocalStateIndex
+private boolean componentLocalStateAutoReset
+private Object2IntOpenHashMap<String> componentImportStateMappings
+private StateMappingHelper.SingletonStateMap singletonDefaultStateMap

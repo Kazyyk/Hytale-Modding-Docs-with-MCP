@@ -11,3 +11,10 @@ Concrete implementation extending `DefaultAssetPacketGenerator<String, ResourceT
 - generateInitPacket(@Nonnull DefaultAssetMap<String, ResourceType> assetMap, @Nonnull Map<String, ResourceType> assets) | ToClientPacket | public method.
 - generateUpdatePacket(@Nonnull Map<String, ResourceType> loadedAssets) | ToClientPacket | public method.
 - generateRemovePacket(@Nonnull Set<String> removed) | ToClientPacket | public method.
+
+Also in this package: DroplistCommand, FieldcraftCategoryPacketGenerator, ItemCategoryPacketGenerator
+
+Complete API:
+  public ToClientPacket generateInitPacket(DefaultAssetMap<String,ResourceType> assetMap, Map<String,ResourceType> assets)
+  public ToClientPacket generateUpdatePacket(Map<String,ResourceType> loadedAssets)
+  public ToClientPacket generateRemovePacket(Set<String> removed)

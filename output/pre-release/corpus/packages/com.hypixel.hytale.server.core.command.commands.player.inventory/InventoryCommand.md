@@ -7,3 +7,5 @@ public class InventoryCommand extends AbstractCommandCollection
 ## Methods
 
 - public InventoryCommand()
+
+Also in this package: GiveArmorCommand, GiveCommand, GiveOtherCommand, InventoryBackpackCommand, InventoryClearCommand, InventoryItemCommand, InventorySeeCommand, ItemStateCommand

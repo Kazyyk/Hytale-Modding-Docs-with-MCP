@@ -10,3 +10,9 @@ Functional interface defining `applyNow` that returns `R`.
 ## Abstract Methods
 
 - applyNow | R | T var1
+
+Also in this package: ThrowableBiFunction
+
+Complete API:
+  default R apply(T t)
+  R applyNow(T var1)

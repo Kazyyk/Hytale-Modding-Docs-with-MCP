@@ -30,3 +30,8 @@ Immutable configuration record for the server file browser UI. Controls which UI
 
 - FileBrowserConfig.Builder -- fluent builder for constructing config instances
 - FileBrowserConfig.RootEntry -- root directory entry with display name and path
+
+Also in this package: ActionResult, AssetPackSaveBrowser, AssetPackSaveBrowserConfig, AssetPackSaveBrowserEventData, AssetPackSearchResult, Builder, CreatePackResult, FileBrowserEventData, FileEntry, FileListProvider, ModsDirectory, PackEntry, PendingPack, RootEntry, ServerFileBrowser
+
+Complete API:
+  public static FileBrowserConfig.Builder builder()

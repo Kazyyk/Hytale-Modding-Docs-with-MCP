@@ -30,3 +30,16 @@ Resolves the prefab path, loads the cached prefab buffer, determines the target 
 
 - `PrefabStore` -- resolves prefab asset paths
 - `PrefabUtil` -- handles prefab pasting into the world
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, InterruptInteraction, LaunchPadInteraction (and 13 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+
+Fields:
+public static final BuilderCodec<SpawnPrefabInteraction> CODEC
+private String prefabPath
+private Vector3i offset
+private Rotation rotationYaw
+private SpawnPrefabInteraction.OriginSource originSource
+private boolean force

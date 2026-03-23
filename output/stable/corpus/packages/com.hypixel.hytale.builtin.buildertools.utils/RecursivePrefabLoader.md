@@ -26,3 +26,26 @@ public abstract class RecursivePrefabLoader<T> implements BiFunction<String, Ran
 - protected BlockSelection loadPrefab(int x, int y, int z, String file, @Nonnull PrefabRotation rotation, @Nonnull Random random)
 - private static PrefabRotation getRotation(@Nonnull BlockType blockType)
 - public void accept(T t)
+
+Known subclasses: BlockSelectionLoader
+
+Also in this package: BlockSelectionLoader, DistinctCollector, FluidInfo, FluidPatternHelper, Material, PasteToolUtil
+
+Complete API:
+  public T apply(String name, Random random)
+  public T load(String name, Random random)
+  protected T load(int x, int y, int z, String name, PrefabRotation rotation, PrefabWeights weights, Random random)
+  protected T loadSinglePrefab(int x, int y, int z, Path file, PrefabRotation rotation, Random random)
+  protected T loadWeightedPrefab(int x, int y, int z, String name, List<Path> files, PrefabRotation rotation, PrefabWeights weights, Random random)
+  protected T loadRandomPrefab(int x, int y, int z, List<Path> files, PrefabRotation rotation, Random random)
+  protected abstract T loadPrefab(int var1, int var2, int var3, String var4, PrefabRotation var5, Random var6)
+  private static String stripSuffix(String path)
+  private static String appendSuffix(String path)
+
+Fields:
+private static final int MAX_RECURSION_DEPTH
+protected final Path rootPrefabsDir
+protected final Function<String,T> prefabsLoader
+protected final Set<Path> visitedFiles
+protected final ComponentType<ChunkStore,PrefabSpawnerState> prefabComponentType
+private int depthTracker

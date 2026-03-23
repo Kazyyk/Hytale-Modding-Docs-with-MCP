@@ -52,3 +52,53 @@ public class BooleanVoxelSpace implements VoxelSpace<Boolean>
 - @Override @Nonnull public String toString()
 - public static boolean isAlignedOriginZ(int z)
 - public static int getAlignedZ(int z)
+
+Also in this package: BatchTransfer, NullSpace, VoxelConsumer, VoxelCoordinate, VoxelSpace, VoxelSpaceUtil, WindowVoxelSpace
+
+Complete API:
+  public int sizeX()
+  public int sizeY()
+  public int sizeZ()
+  public void pasteFrom(VoxelSpace<Boolean> source)
+  private int primaryAddressIndex(int x, int y)
+  private int secondaryAddressIndex(int z)
+  private static int setBit(int bits, int index, boolean value)
+  private static boolean getBit(int bits, int index)
+  public boolean set(Boolean value, int x, int y, int z)
+  public boolean set(Boolean content, Vector3i position)
+  public Boolean getContent(int x, int y, int z)
+  public Boolean getContent(Vector3i position)
+  private int globalJ(int globalZ)
+  private int localJ(int globalJ)
+  public void deepCopyFrom(BooleanVoxelSpace other)
+  public void set(Boolean content)
+  public void setOrigin(int x, int y, int z)
+  public boolean replace(Boolean replacement, int x, int y, int z, Predicate<Boolean> mask)
+  VoxelCoordinate getOrigin()
+  public int getOriginX()
+  public int getOriginY()
+  public int getOriginZ()
+  public String getName()
+  public boolean isInsideSpace(int x, int y, int z)
+  public boolean isInsideSpace(Vector3i position)
+  public void forEach(VoxelConsumer<? super Boolean> action)
+  public int minX()
+  public int maxX()
+  public int minY()
+  public int maxY()
+  public int minZ()
+  public int maxZ()
+  public BooleanVoxelSpace clone()
+  private int arrayIndex(int x, int y, int z)
+  public String toString()
+  public static boolean isAlignedOriginZ(int z)
+  public static int getAlignedZ(int z)
+
+Fields:
+protected final int sizeX
+protected final int sizeY
+protected final int sizeZ
+protected final int[][] cells
+protected VoxelCoordinate origin
+private boolean alignedOriginZ
+private int originZOffset

@@ -18,3 +18,8 @@ Enum of world-gen modify event types: Biome_Covers, Biome_Environments, Biome_Fl
 - `Cave_Types`
 - `Cave_Covers`
 - `Cave_Prefabs`
+
+Also in this package: BiomeCovers, BiomeDynamicLayers, BiomeEnvironments, BiomeFluids, BiomePrefabs, BiomeStaticLayers, BiomeTints, CaveCovers, CavePrefabs, CaveTypes, ContentLoader, ModifyEvent, ModifyEvents, SeedGenerator
+
+Fields:
+public static final EventType[] VALUES

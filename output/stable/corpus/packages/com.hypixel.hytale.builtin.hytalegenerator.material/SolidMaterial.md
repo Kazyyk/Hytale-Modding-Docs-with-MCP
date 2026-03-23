@@ -23,3 +23,19 @@ public class SolidMaterial
 - @Override public int hashCode()
 - public static int contentHash(int blockId, int support, int rotation, int filler, @Nullable Holder<ChunkStore> holder)
 - @Nonnull @Override public String toString()
+
+Also in this package: FluidMaterial, Hash, Material, MaterialCache
+
+Complete API:
+  public boolean equals(Object o)
+  public int hashCode()
+  public static int contentHash(int blockId, int support, int rotation, int filler, Holder<ChunkStore> holder)
+  public String toString()
+
+Fields:
+private final MaterialCache materialCache
+public final int blockId
+public final int support
+public final int rotation
+public final int filler
+public final Holder<ChunkStore> holder

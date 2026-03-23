@@ -17,3 +17,14 @@ Implements `SemverSatisfies` to provide SemverComparator functionality.
 - @Override public boolean satisfies(Semver semver)
 - @Nonnull @Override public String toString()
 - @Nonnull public static SemverComparator fromString(String str)
+
+Also in this package: ComparisonType, Semver, SemverRange, SemverSatisfies
+
+Complete API:
+  public boolean satisfies(Semver semver)
+  public String toString()
+  public static SemverComparator fromString(String str)
+
+Fields:
+private final SemverComparator.ComparisonType comparisonType
+private final Semver compareTo

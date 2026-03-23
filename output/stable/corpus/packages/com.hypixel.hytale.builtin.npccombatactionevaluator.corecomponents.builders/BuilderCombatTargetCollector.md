@@ -14,3 +14,13 @@ NPC behavior tree component builder.
 - getShortDescription() | String | public method.
 - getLongDescription() | String | public method.
 - getBuilderDescriptorState() | BuilderDescriptorState | public method.
+
+Also in this package: BuilderActionAddToTargetMemory, BuilderActionCombatAbility, BuilderSensorCombatActionEvaluator, BuilderSensorHasHostileTargetMemory
+
+Complete API:
+  public ISensorEntityCollector build(BuilderSupport builderSupport)
+  public Class<ISensorEntityCollector> category()
+  public boolean isEnabled(ExecutionContext context)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()

@@ -66,3 +66,37 @@ Returns the serialized size in bytes.
 - LoopOption
 - SwitchTo
 - Vector2f
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 381 more)
+
+Complete API:
+  public static ModelVFX deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public ModelVFX clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public String id
+public SwitchTo switchTo
+public EffectDirection effectDirection
+public float animationDuration
+public Vector2f animationRange
+public LoopOption loopOption
+public CurveType curveType
+public Color highlightColor
+public float highlightThickness
+public boolean useBloomOnHighlight
+public boolean useProgessiveHighlight
+public Vector2f noiseScale
+public Vector2f noiseScrollSpeed
+public Color postColor
+public float postColorOpacity

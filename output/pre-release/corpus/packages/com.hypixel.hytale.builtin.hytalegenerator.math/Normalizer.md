@@ -10,3 +10,9 @@ Utility class for range normalization. Provides `normalizeNoise` as a convenienc
 
 - public static double normalizeNoise(double input)
 - public static double normalize(double fromMin, double fromMax, double toMin, double toMax, double input)
+
+Also in this package: Calculator, InterpolatedCurve, Interpolation, NodeFunction
+
+Complete API:
+  public static double normalizeNoise(double input)
+  public static double normalize(double fromMin, double fromMax, double toMin, double toMax, double input)

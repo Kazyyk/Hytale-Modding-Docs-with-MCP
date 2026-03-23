@@ -9,3 +9,8 @@ Functional interface for creating `ChannelHandler` instances for auxiliary strea
 ## Relationships
 
 - Inner type of StreamManager
+
+Also in this package: PendingStreamHandler, StreamManager, StreamRegistration
+
+Complete API:
+  ChannelHandler create(PacketHandler var1)

@@ -103,3 +103,67 @@ Returns the serialized size in bytes.
 - ItemResourceType
 - ItemAppearanceCondition
 - InteractionConfiguration
+
+Also in this package: AOECircleSelector, AOECylinderSelector, AbilityEffects, AccumulationMode, ActiveAnimationsUpdate, AmbienceFX, AmbienceFXAltitude, AmbienceFXAmbientBed, AmbienceFXBlockSoundSet, AmbienceFXConditions, AmbienceFXMusic, AmbienceFXSound, AmbienceFXSoundEffect, AmbienceFXSoundPlay3D, AmbienceTransitionSpeed, AngledDamage, AngledWielding, Animation, AnimationSet, AnimationSlot (and 378 more)
+
+Complete API:
+  public static ItemBase deserialize(ByteBuf buf, int offset)
+  public static int computeBytesConsumed(ByteBuf buf, int offset)
+  public void serialize(ByteBuf buf)
+  public int computeSize()
+  public static ValidationResult validateStructure(ByteBuf buffer, int offset)
+  public ItemBase clone()
+  public boolean equals(Object obj)
+  public int hashCode()
+
+Fields:
+public static final int NULLABLE_BIT_FIELD_SIZE
+public static final int FIXED_BLOCK_SIZE
+public static final int VARIABLE_FIELD_COUNT
+public static final int VARIABLE_BLOCK_START
+public static final int MAX_SIZE
+public String id
+public String model
+public float scale
+public String texture
+public String animation
+public String playerAnimationsId
+public boolean usePlayerAnimations
+public int maxStack
+public int reticleIndex
+public String icon
+public AssetIconProperties iconProperties
+public ItemTranslationProperties translationProperties
+public int itemLevel
+public int qualityIndex
+public ItemResourceType[] resourceTypes
+public boolean consumable
+public boolean variant
+public int blockId
+public ItemTool tool
+public ItemWeapon weapon
+public ItemArmor armor
+public ItemGlider gliderConfig
+public ItemUtility utility
+public BlockSelectorToolData blockSelectorTool
+public ItemBuilderToolData builderToolData
+public ItemEntityConfig itemEntity
+public String set
+public String[] categories
+public ModelParticle[] particles
+public ModelParticle[] firstPersonParticles
+public ModelTrail[] trails
+public ColorLight light
+public double durability
+public int soundEventIndex
+public int itemSoundSetIndex
+public Map<InteractionType,Integer> interactions
+public Map<String,Integer> interactionVars
+public InteractionConfiguration interactionConfig
+public String droppedItemAnimation
+public int[] tagIndexes
+public Map<Integer,ItemAppearanceCondition[]> itemAppearanceConditions
+public int[] displayEntityStatsHUD
+public ItemPullbackConfiguration pullbackConfig
+public boolean clipsGeometry
+public boolean renderDeployablePreview

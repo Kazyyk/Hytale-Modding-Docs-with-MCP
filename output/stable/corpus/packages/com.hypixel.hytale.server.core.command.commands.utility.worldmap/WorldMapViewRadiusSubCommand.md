@@ -7,3 +7,5 @@ public class WorldMapViewRadiusSubCommand extends AbstractCommandCollection
 ## Constructors
 
 - public WorldMapViewRadiusSubCommand()
+
+Also in this package: WorldMapClearMarkersCommand, WorldMapCommand, WorldMapDiscoverCommand, WorldMapReloadCommand, WorldMapUndiscoverCommand, WorldMapViewRadiusGetCommand, WorldMapViewRadiusRemoveCommand, WorldMapViewRadiusSetCommand

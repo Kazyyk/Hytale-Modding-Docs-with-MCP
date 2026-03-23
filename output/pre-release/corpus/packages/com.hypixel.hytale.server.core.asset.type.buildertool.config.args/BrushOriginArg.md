@@ -19,3 +19,16 @@ Extends `ToolArg` to provide BrushOriginArg functionality.
 - @Nonnull public BuilderToolBrushOriginArg toBrushOriginArgPacket()
 - @Override protected void setupPacket(@Nonnull BuilderToolArg packet)
 - @Nonnull @Override public String toString()
+
+Also in this package: BlockArg, BoolArg, BrushAxisArg, BrushRotationArg, BrushShapeArg, FloatArg, IntArg, MaskArg, OptionArg, StringArg, ToolArg, ToolArgException
+
+Complete API:
+  public Codec<BrushOrigin> getCodec()
+  public BrushOrigin fromString(String str)
+  public BuilderToolBrushOriginArg toBrushOriginArgPacket()
+  protected void setupPacket(BuilderToolArg packet)
+  public String toString()
+
+Fields:
+public static final EnumCodec<BrushOrigin> BRUSH_ORIGIN_CODEC
+public static final BuilderCodec<BrushOriginArg> CODEC

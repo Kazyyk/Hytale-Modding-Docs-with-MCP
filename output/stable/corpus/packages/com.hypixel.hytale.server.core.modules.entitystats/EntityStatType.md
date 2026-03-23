@@ -50,3 +50,44 @@ JSON asset defining a single entity stat type. Loaded from `Entity/Stats` path. 
 
 - EntityStatType.EntityStatEffects
 - EntityStatType.Regenerating
+
+Also in this package: DefaultEntityStatTypes, EntityStatEffects, EntityStatTypePacketGenerator, RegenType, Regenerating
+
+Complete API:
+  public static AssetStore<String,EntityStatType,IndexedLookupTableAssetMap<String,EntityStatType>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,EntityStatType> getAssetMap()
+  public String getId()
+  public boolean isUnknown()
+  public float getInitialValue()
+  public float getMin()
+  public float getMax()
+  public boolean getIgnoreInvulnerability()
+  public boolean isShared()
+  public EntityStatType.EntityStatEffects getMinValueEffects()
+  public EntityStatType.EntityStatEffects getMaxValueEffects()
+  public EntityStatType.Regenerating[] getRegenerating()
+  public EntityStatResetBehavior getResetBehavior()
+  public com.hypixel.hytale.protocol.EntityStatType toPacket()
+  public String toString()
+  public static EntityStatType getUnknownFor(String unknownId)
+
+Fields:
+public static final AssetBuilderCodec<String,EntityStatType> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,EntityStatType,IndexedLookupTableAssetMap<String,EntityStatType>> ASSET_STORE
+public static final EntityStatType UNKNOWN
+public static final int UNKNOWN_ID
+protected String id
+protected AssetExtraInfo.Data data
+protected boolean unknown
+protected float initialValue
+protected float min
+protected float max
+protected boolean shared
+protected EntityStatType.Regenerating[] regenerating
+protected boolean ignoreInvulnerability
+protected boolean hideFromTooltip
+protected EntityStatType.EntityStatEffects minValueEffects
+protected EntityStatType.EntityStatEffects maxValueEffects
+protected EntityStatResetBehavior resetBehavior
+private transient SoftReference<com.hypixel.hytale.protocol.EntityStatType> cachedPacket

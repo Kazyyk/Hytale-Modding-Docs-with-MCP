@@ -5,3 +5,8 @@ Type: class | Package: com.hypixel.hytale.server.worldgen.loader.context | Exten
 public static class RootContext extends FileContext<FileContext.RootContext>
 
 Singleton root context that serves as the base of the file context hierarchy. Uses `"."` as the path and `-1` as the ID.
+
+Also in this package: BiomeFileContext, CaveFileContext, Constants, Constants, Constants, Constants, FileContext, FileContextLoader, FileLoadingContext, Registry, Type, ZoneFileContext
+
+Fields:
+public static final FileContext.RootContext INSTANCE

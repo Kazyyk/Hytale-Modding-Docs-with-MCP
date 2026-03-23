@@ -29,3 +29,24 @@ public abstract class DirectionalityAsset implements Cleanable, JsonAssetWithMap
 ## Inner Types
 
 - `DirectionalityAsset.Argument`
+
+Known subclasses: ImportedDirectionalityAsset, PatternDirectionalityAsset, RandomDirectionalityAsset, StaticDirectionalityAsset
+
+Also in this package: Argument, ImportedDirectionalityAsset, PatternDirectionalityAsset, RandomDirectionalityAsset, StaticDirectionalityAsset
+
+Complete API:
+  public abstract Directionality build(DirectionalityAsset.Argument var1)
+  public void cleanUp()
+  public static DirectionalityAsset getExportedAsset(String name)
+  public String getId()
+  public static DirectionalityAsset.Argument argumentFrom(PropAsset.Argument argument)
+
+Fields:
+public static final AssetCodecMapCodec<String,DirectionalityAsset> CODEC
+private static final Map<String,DirectionalityAsset> exportedNodes
+public static final Codec<String> CHILD_ASSET_CODEC
+public static final Codec<String[]> CHILD_ASSET_CODEC_ARRAY
+public static final BuilderCodec<DirectionalityAsset> ABSTRACT_CODEC
+private String id
+private AssetExtraInfo.Data data
+private String exportName

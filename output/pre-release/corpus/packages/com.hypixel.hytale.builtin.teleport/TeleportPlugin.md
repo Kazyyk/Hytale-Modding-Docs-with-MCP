@@ -75,3 +75,31 @@ public class TeleportPlugin extends JavaPlugin
 ## Related Types
 
 - Warp
+
+Also in this package: Warp, WarpComponent, WarpListPage, WarpListPageEventData, WarpMarkerProvider
+
+Complete API:
+  public static TeleportPlugin get()
+  public ComponentType<EntityStore,TeleportHistory> getTeleportHistoryComponentType()
+  public boolean isWarpsLoaded()
+  protected void setup()
+  protected void start()
+  protected void shutdown()
+  public void loadWarps()
+  private void saveWarps0()
+  public void saveWarps()
+  public Map<String,Warp> getWarps()
+  private void onModelAssetChange(LoadedAssetsEvent<String,ModelAsset,DefaultAssetMap<String,ModelAsset>> event)
+  private void onChunkPreLoadProcess(ChunkPreLoadProcessEvent event)
+  public Holder<EntityStore> createWarp(Warp warp, Store<EntityStore> store)
+
+Fields:
+private static TeleportPlugin instance
+public static final String WARP_MODEL_ID
+private ComponentType<EntityStore,TeleportHistory> teleportHistoryComponentType
+private ComponentType<EntityStore,TeleportPlugin.WarpComponent> warpComponentType
+private final AtomicBoolean loaded
+private final ReentrantLock saveLock
+private final AtomicBoolean postSaveRedo
+private final Map<String,Warp> warps
+private Model warpModel

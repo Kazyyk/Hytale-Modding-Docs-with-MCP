@@ -102,3 +102,101 @@ public void close() throws IOException
 
 - `OffsetHelper` -- Utility for computing sequential byte offsets.
 - `SegmentRangeLock` -- Holds read or write locks on a contiguous range of segments.
+
+Also in this package: IndexedStorageFile, OffsetHelper, OffsetHelper, SegmentRangeLock, SegmentRangeWriteLock
+
+Complete API:
+  private static ByteBuffer getTempBuffer(int length)
+  private static ByteBuffer allocateDirect(int length)
+  public static IndexedStorageFile_v0 open(Path path, OpenOption options)
+  public static IndexedStorageFile_v0 open(Path path, Set<? extends OpenOption> options, FileAttribute<?> attrs)
+  public static IndexedStorageFile_v0 open(Path path, int blobCount, int segmentSize, OpenOption options)
+  public static IndexedStorageFile_v0 open(Path path, int blobCount, int segmentSize, Set<? extends OpenOption> options, FileAttribute<?> attrs)
+  public Path getPath()
+  public int getBlobCount()
+  public int getSegmentSize()
+  public int getCompressionLevel()
+  public void setCompressionLevel(int compressionLevel)
+  public boolean isContiguousBlobs()
+  public void setContiguousBlobs(boolean contiguousBlobs)
+  protected IndexedStorageFile_v0 create(int blobCount, int segmentSize)
+  protected void writeHeader(int blobCount, int segmentSize)
+  protected IndexedStorageFile_v0 open()
+  protected void readHeader()
+  protected void memoryMapBlobIndexes()
+  protected void readNextIndexes()
+  protected void processTempIndexes()
+  protected int clearSegments(int firstSegmentIndex, ByteBuffer tempIndexBuffer)
+  public long size()
+  public int segmentSize()
+  public int segmentCount()
+  public IntList keys()
+  public int readBlobLength(int blobIndex)
+  public int readBlobCompressedLength(int blobIndex)
+  public ByteBuffer readBlob(int blobIndex)
+  public void readBlob(int blobIndex, ByteBuffer dest)
+  protected ByteBuffer readBlobHeader(int firstSegmentIndex)
+  protected ByteBuffer readSegments(int firstSegmentIndex, int compressedLength, ByteBuffer tempHeaderBuffer)
+  public void writeBlob(int blobIndex, ByteBuffer src)
+  public void removeBlob(int blobIndex)
+  protected int writeSegments(int blobIndex, ByteBuffer data)
+  private IndexedStorageFile_v0.SegmentRangeLock findFreeSegment(int count)
+  protected int getNextIndex(int segmentIndex)
+  protected StampedLock getSegmentLock(int segmentIndex)
+  protected IndexedStorageFile_v0.SegmentRangeLock tryWriteLockSegmentRange(int start, int count)
+  protected int indexesLength()
+  protected long segmentsBase()
+  protected long segmentOffset(int segmentIndex)
+  protected long segmentPosition(int segmentIndex)
+  protected int positionToSegment(long position)
+  protected long blobHeaderPosition(int segmentIndex)
+  protected int requiredSegments(long dataLength)
+  public FileLock lock()
+  public void force(boolean metaData)
+  public void close()
+  public String toString()
+
+Fields:
+private static final HytaleLogger LOGGER
+public static final StampedLock[] EMPTY_STAMPED_LOCKS
+public static final MetricsRegistry<IndexedStorageFile_v0> METRICS_REGISTRY
+public static final String MAGIC_STRING
+public static final int VERSION
+public static final int DEFAULT_BLOB_COUNT
+public static final int DEFAULT_SEGMENT_SIZE
+public static final int DEFAULT_COMPRESSION_LEVEL
+public static final boolean DEFAULT_CONTIGUOUS_BLOBS
+static final IndexedStorageFile_v0.OffsetHelper HOH
+public static final int MAGIC_LENGTH
+public static final int MAGIC_OFFSET
+public static final int VERSION_OFFSET
+public static final int BLOB_COUNT_OFFSET
+public static final int SEGMENT_SIZE_OFFSET
+public static final int HEADER_LENGTH
+static final IndexedStorageFile_v0.OffsetHelper SOH
+public static final int NEXT_SEGMENT_OFFSET
+public static final int SEGMENT_HEADER_LENGTH
+static final IndexedStorageFile_v0.OffsetHelper BOH
+public static final int SRC_LENGTH_OFFSET
+public static final int COMPRESSED_LENGTH_OFFSET
+public static final int BLOB_HEADER_LENGTH
+public static final int INDEX_SIZE
+public static final int UNASSIGNED_INDEX
+public static final int END_BLOB_INDEX
+public static final int FIRST_SEGMENT_INDEX
+public static final FileAttribute<?>[] NO_ATTRIBUTES
+static final byte[] MAGIC_BYTES
+private static final ByteBuffer MAGIC_BUFFER
+private static final ThreadLocal<ByteBuffer> CACHED_TEMP_BUFFER
+private final Path path
+private final FileChannel fileChannel
+private int compressionLevel
+private boolean contiguousBlobs
+private int blobCount
+private int segmentSize
+private StampedLock[] indexLocks
+private MappedByteBuffer mappedBlobIndexes
+private final StampedLock segmentLocksLock
+private StampedLock[] segmentLocks
+private final StampedLock nextSegmentIndexesLock
+private int[] nextSegmentIndexes

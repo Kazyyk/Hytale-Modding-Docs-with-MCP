@@ -17,3 +17,11 @@ Inner class of BuilderState that accumulates block sampling data during editing 
 
 - BuilderToolsPlugin.BuilderState -- enclosing class
 - BuilderToolsPlugin.BuilderState.SmoothSampleData -- companion class for smooth sampling
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Fields:
+public int mainBlock
+public int mainBlockCount
+public int mainBlockNotAir
+public int mainBlockNotAirCount

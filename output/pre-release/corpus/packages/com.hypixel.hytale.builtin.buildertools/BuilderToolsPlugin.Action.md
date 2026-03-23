@@ -36,3 +36,13 @@ The `ROTATE` action has special handling during undo/redo: entity refs from the 
 
 - BuilderToolsPlugin.ActionEntry -- pairs an action with snapshots
 - BuilderToolsPlugin.BuilderState -- uses these actions in its undo/redo queues
+
+Known implementors: ActionBase, WeightedAction
+
+Also in this package: ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, CopyCutSettings, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Complete API:
+  public Message toMessage()
+
+Fields:
+private final String translationKey

@@ -56,3 +56,15 @@ public class DistortedPipeShape extends DistortedCylinderShape
 
 - DistortedCylinderShape
 - DistortedShape
+
+Also in this package: AbstractDistortedBody, AbstractDistortedExtrusion, AbstractDistortedShape, DistortedCylinderShape, DistortedEllipsoidShape, DistortedShape, DistortedShapes, Factory, Factory, Factory, Factory, Factory, ShapeDistortion
+
+Complete API:
+  public double getWidthAt(double t)
+  public double getHeightAt(double t)
+  public boolean isValidProjection(double t)
+  public String toString()
+  protected static double getCompensatedDim(double t, double startDim, double midDim, double endDim, double compensation, GeneralNoise.InterpolationFunction interpolation)
+
+Fields:
+private final double compensation

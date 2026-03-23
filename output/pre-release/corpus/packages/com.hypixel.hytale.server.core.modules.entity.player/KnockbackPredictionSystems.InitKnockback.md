@@ -12,3 +12,15 @@ Queries entities with `Player`, `TransformComponent`, `KnockbackSimulation`, and
 
 - KnockbackPredictionSystems -- parent container class
 - KnockbackSimulation -- component initialized/cleaned up by this system
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem, PlayerAddedSystem (and 33 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public ComponentType<EntityStore,KnockbackSimulation> componentType()
+  public void onComponentAdded(Ref<EntityStore> ref, KnockbackSimulation component, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentSet(Ref<EntityStore> ref, KnockbackSimulation oldComponent, KnockbackSimulation newComponent, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onComponentRemoved(Ref<EntityStore> ref, KnockbackSimulation knockbackSimulationComponent, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private static final Query<EntityStore> QUERY

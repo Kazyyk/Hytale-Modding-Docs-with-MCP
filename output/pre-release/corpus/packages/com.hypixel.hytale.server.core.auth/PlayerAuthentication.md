@@ -54,3 +54,22 @@ public HostAddress getReferralSource()
 
 
 public void setReferralSource(@Nullable HostAddress referralSource)
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthConfigGenerated, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, HttpResponseException, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse (and 9 more)
+
+Complete API:
+  public String getUsername()
+  public UUID getUuid()
+  public void setUsername(String username)
+  public void setUuid(UUID uuid)
+  public byte[] getReferralData()
+  public void setReferralData(byte[] referralData)
+  public HostAddress getReferralSource()
+  public void setReferralSource(HostAddress referralSource)
+
+Fields:
+public static final int MAX_REFERRAL_DATA_SIZE
+private UUID uuid
+private String username
+private byte[] referralData
+private HostAddress referralSource

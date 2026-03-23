@@ -16,3 +16,16 @@ public class EnvironmentExistsValidator extends AssetValidator
 - @Override @Nonnull public String getAssetName()
 - public static EnvironmentExistsValidator required()
 - @Nonnull public static EnvironmentExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Also in this package: AttitudeGroupExistsValidator, BeaconSpawnExistsValidator, BlockSetExistsValidator, CombatInteractionValidator, EntityEffectExistsValidator, EntityStatExistsValidator, FlockAssetExistsValidator, ItemAttitudeGroupExistsValidator, ItemDropListExistsValidator, ItemExistsValidator, ManualSpawnMarkerExistsValidator, ModelExistsValidator, ParticleSystemExistsValidator, RoleExistsValidator, RootInteractionValidator, SoundEventExistsValidator, WeatherExistsValidator
+
+Complete API:
+  public String getDomain()
+  public boolean test(String envName)
+  public String errorMessage(String envName, String attribute)
+  public String getAssetName()
+  public static EnvironmentExistsValidator required()
+  public static EnvironmentExistsValidator withConfig(EnumSet<AssetValidator.Config> config)
+
+Fields:
+public static final EnvironmentExistsValidator DEFAULT_INSTANCE

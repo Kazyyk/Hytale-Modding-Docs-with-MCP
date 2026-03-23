@@ -21,3 +21,15 @@ Abstract base class extending `AbstractAsyncCommand` that provides shared logic 
 - public AbstractAsyncWorldCommand(@Nonnull String description)
 - @Nonnull @Override protected final CompletableFuture<Void> executeAsync(@Nonnull CommandContext context)
 - @Nonnull protected abstract CompletableFuture<Void> executeAsync(@Nonnull CommandContext var1, @Nonnull World var2)
+
+Known subclasses: CompactCommand, StressTestStartCommand, WorldGenReloadCommand
+
+Also in this package: AbstractAsyncCommand, AbstractAsyncPlayerCommand, AbstractCommandCollection, AbstractPlayerCommand, AbstractTargetEntityCommand, AbstractTargetPlayerCommand, AbstractWorldCommand, CommandBase
+
+Complete API:
+  protected final CompletableFuture<Void> executeAsync(CommandContext context)
+  protected abstract CompletableFuture<Void> executeAsync(CommandContext var1, World var2)
+
+Fields:
+private static final Message MESSAGE_COMMANDS_ERRORS_NO_WORLD
+private final OptionalArg<World> worldArg

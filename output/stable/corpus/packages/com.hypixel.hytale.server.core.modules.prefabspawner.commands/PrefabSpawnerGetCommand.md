@@ -13,3 +13,8 @@ Server command extending `TargetPrefabSpawnerCommand`.
 ## Methods
 
 - execute(@Nonnull CommandContext context, @Nonnull WorldChunk chunk, @Nonnull PrefabSpawnerState prefabSpawner) | void | protected method.
+
+Also in this package: PrefabSpawnerCommand, PrefabSpawnerSetCommand, PrefabSpawnerWeightCommand, TargetPrefabSpawnerCommand
+
+Complete API:
+  protected void execute(CommandContext context, WorldChunk chunk, PrefabSpawnerState prefabSpawner)

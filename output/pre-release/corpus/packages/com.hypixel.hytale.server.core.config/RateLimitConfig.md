@@ -28,3 +28,23 @@ Configuration class for RateLimit settings.
 - public void setPacketsPerSecond(int packetsPerSecond)
 - public int getBurstCapacity()
 - public void setBurstCapacity(int burstCapacity)
+
+Also in this package: AutoApplyMode, BackupConfig, ModConfig, ServerWorldMapConfig, UpdateConfig, WorldMapConfig, WorldWorldMapConfig
+
+Complete API:
+  public void setHytaleServerConfig(HytaleServerConfig hytaleServerConfig)
+  public boolean isEnabled()
+  public void setEnabled(boolean enabled)
+  public int getPacketsPerSecond()
+  public void setPacketsPerSecond(int packetsPerSecond)
+  public int getBurstCapacity()
+  public void setBurstCapacity(int burstCapacity)
+
+Fields:
+public static final int DEFAULT_PACKETS_PER_SECOND
+public static final int DEFAULT_BURST_CAPACITY
+public static final Codec<RateLimitConfig> CODEC
+private Boolean enabled
+private Integer packetsPerSecond
+private Integer burstCapacity
+transient HytaleServerConfig hytaleServerConfig

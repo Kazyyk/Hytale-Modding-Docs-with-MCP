@@ -34,3 +34,32 @@ Central configuration constants for the Hytale authentication system. Contains O
 public static String getServerAudience()
 
 Returns the server audience string. Uses the `HYTALE_SERVER_AUDIENCE` environment variable if set, otherwise falls back to the server session ID from `ServerAuthManager`.
+
+Also in this package: AccessTokenResponse, AuthConfigGenerated, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, HttpResponseException, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse, LauncherDataResponse (and 9 more)
+
+Complete API:
+  public static String getServerAudience()
+  public static boolean isRejectedStatusCode(int statusCode)
+
+Fields:
+public static final String USER_AGENT
+public static final String OAUTH_AUTH_URL
+public static final String OAUTH_TOKEN_URL
+public static final String DEVICE_AUTH_URL
+public static final String CONSENT_REDIRECT_URL
+public static final String SESSION_SERVICE_URL
+public static final String ACCOUNT_DATA_URL
+public static final String BUILD_ENVIRONMENT
+public static final String CLIENT_ID
+public static final String[] SCOPES
+public static final String SCOPE_CLIENT
+public static final String SCOPE_SERVER
+public static final String SCOPE_EDITOR
+public static final String SCOPE_OFFLINE
+public static final Duration HTTP_TIMEOUT
+public static final int DEVICE_POLL_INTERVAL_SECONDS
+public static final String ENV_SERVER_AUDIENCE
+public static final String ENV_SERVER_IDENTITY_TOKEN
+public static final String ENV_SERVER_SESSION_TOKEN
+public static final String ENV_SERVER_OFFLINE_TOKEN
+private static final String SERVER_AUDIENCE_OVERRIDE

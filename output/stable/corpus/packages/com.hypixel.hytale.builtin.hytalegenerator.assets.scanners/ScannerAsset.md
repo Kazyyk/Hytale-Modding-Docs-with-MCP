@@ -31,3 +31,26 @@ public abstract class ScannerAsset implements Cleanable, JsonAssetWithMap<String
 ## Inner Types
 
 - `ScannerAsset.Argument`
+
+Known subclasses: AreaScannerAsset, ColumnLinearScannerAsset, ColumnRandomScannerAsset, ImportedScannerAsset, OriginScannerAsset
+
+Also in this package: AreaScannerAsset, Argument, ColumnLinearScannerAsset, ColumnRandomScannerAsset, ImportedScannerAsset, OriginScannerAsset
+
+Complete API:
+  public abstract Scanner build(ScannerAsset.Argument var1)
+  public boolean skip()
+  public static ScannerAsset getExportedAsset(String name)
+  public String getId()
+  public static ScannerAsset.Argument argumentFrom(PropAsset.Argument argument)
+  public void cleanUp()
+
+Fields:
+public static final AssetCodecMapCodec<String,ScannerAsset> CODEC
+private static final Map<String,ScannerAsset> exportedNodes
+public static final Codec<String> CHILD_ASSET_CODEC
+public static final Codec<String[]> CHILD_ASSET_CODEC_ARRAY
+public static final BuilderCodec<ScannerAsset> ABSTRACT_CODEC
+private String id
+private AssetExtraInfo.Data data
+private boolean skip
+private String exportName

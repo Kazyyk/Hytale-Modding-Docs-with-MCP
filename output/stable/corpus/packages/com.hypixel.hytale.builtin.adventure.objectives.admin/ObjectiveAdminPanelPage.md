@@ -9,3 +9,6 @@ Utility type in the `admin` subsystem.
 ## Methods
 
 - build(UICommandBuilder commandBuilder) | void | Instance method.
+
+Complete API:
+  public void build(UICommandBuilder commandBuilder)

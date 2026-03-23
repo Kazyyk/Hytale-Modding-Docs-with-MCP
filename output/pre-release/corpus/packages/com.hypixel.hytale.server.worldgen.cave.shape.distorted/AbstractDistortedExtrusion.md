@@ -28,3 +28,15 @@ public abstract class AbstractDistortedExtrusion extends AbstractDistortedShape
 - AbstractDistortedShape
 - DistortedShape
 - ShapeDistortion
+
+Known subclasses: DistortedCylinderShape
+
+Also in this package: AbstractDistortedBody, AbstractDistortedShape, DistortedCylinderShape, DistortedEllipsoidShape, DistortedPipeShape, DistortedShape, DistortedShapes, Factory, Factory, Factory, Factory, Factory, ShapeDistortion
+
+Complete API:
+  protected abstract double getDistanceSq(double var1, double var3, double var5)
+  protected abstract double getHeightComponent(double var1, double var3, double var5)
+  public double getHeightAtProjection(int seed, double x, double z, double t, double centerY, CaveType caveType, ShapeDistortion distortion)
+
+Fields:
+protected final GeneralNoise.InterpolationFunction interpolation

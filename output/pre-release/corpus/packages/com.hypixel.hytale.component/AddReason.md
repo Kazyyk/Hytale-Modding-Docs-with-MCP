@@ -16,3 +16,5 @@ Indicates why an entity is being added to a Store. Passed to `RefSystem.onEntity
 - RemoveReason -- the corresponding enum for entity removal
 - Store -- `addEntity()` accepts an `AddReason`
 - CommandBuffer -- `addEntity()` accepts an `AddReason`
+
+Also in this package: Archetype, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)

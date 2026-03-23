@@ -22,3 +22,16 @@ Interaction handler extending `ChoiceInteraction`.
 - getQuantity() | int | public method.
 - run(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef) | void | public method.
 - toString() | String | public method.
+
+Also in this package: ShopAsset, ShopElement, ShopPage, ShopPageSupplier, ShopPlugin
+
+Complete API:
+  public String getItemId()
+  public int getQuantity()
+  public void run(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<GiveItemInteraction> CODEC
+protected String itemId
+protected int quantity

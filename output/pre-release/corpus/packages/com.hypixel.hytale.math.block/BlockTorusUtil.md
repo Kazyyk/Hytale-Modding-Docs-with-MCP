@@ -31,3 +31,9 @@ public class BlockTorusUtil
         @Nullable T t,
         @Nonnull TriIntObjPredicate<T> consumer)` |
 | `` | `return` | `forEachBlock(originX, originY, originZ, outerRadius, minorRadius, t, consumer)` |
+
+Also in this package: BlockConeUtil, BlockCubeUtil, BlockCylinderUtil, BlockDiamondUtil, BlockDomeUtil, BlockInvertedDomeUtil, BlockPyramidUtil, BlockSphereUtil, BlockUtil
+
+Complete API:
+  public static boolean forEachBlock(int originX, int originY, int originZ, int outerRadius, int minorRadius, T t, TriIntObjPredicate<T> consumer)
+  public static boolean forEachBlock(int originX, int originY, int originZ, int outerRadius, int minorRadius, int thickness, boolean capped, T t, TriIntObjPredicate<T> consumer)

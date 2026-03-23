@@ -9,3 +9,10 @@ Interface defining: `run()`.
 ## Methods
 
 - run(WorldChunk var1) | void | package-private method.
+
+Known implementors: EntityMigration
+
+Also in this package: ChunkColumnMigrationSystem, ChunkSectionMigrationSystem, EntityMigration, MigrationModule
+
+Complete API:
+  void run(WorldChunk var1)

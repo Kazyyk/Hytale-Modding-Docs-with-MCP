@@ -53,3 +53,58 @@ World-interaction support for NPC roles. Manages the attitude system (default pl
 ## Related Types
 
 - CombatSupport -- uses `isGroupMember` for damage group filtering
+
+Also in this package: CombatSupport, DebugFlagsChangeListener, DebugSupport, EntityList, EntitySupport, EntityVisData, LineOfSightBuffer, LineOfSightEntityBuffer, MarkedEntitySupport, PathWaypointVisData, PositionCache, RangeType, RayPredicate, RoleStats, SensorVisData, StateSupport
+
+Complete API:
+  public void tick(float dt)
+  public void postRoleBuilt(BuilderSupport support)
+  public BlockTarget getCachedBlockTarget(int blockSet)
+  public void resetBlockSensorFoundBlock(int blockSet)
+  public void resetAllBlockSensors()
+  public Vector3d getCachedSearchRayPosition(int id)
+  public void resetCachedSearchRayPosition(int id)
+  public void resetAllCachedSearchRayPositions()
+  public void setBlockToPlace(String block)
+  public String getBlockToPlace()
+  public Attitude getDefaultPlayerAttitude()
+  public Attitude getDefaultNPCAttitude()
+  public int getAttitudeGroup()
+  public int getItemAttitudeGroup()
+  public Attitude getAttitude(Ref<EntityStore> ref, Ref<EntityStore> targetRef, ComponentAccessor<EntityStore> componentAccessor)
+  public Attitude getItemAttitude(ItemStack item)
+  public void overrideAttitude(Ref<EntityStore> target, Attitude attitude, double duration)
+  public Attitude getOverriddenAttitude(Ref<EntityStore> target)
+  public void requireAttitudeCache()
+  public void requestNewPath()
+  public boolean hasRequestedNewPath()
+  public boolean consumeNewPathRequested()
+  public int getEnvironmentId(ComponentAccessor<EntityStore> componentAccessor)
+  public int getCurrentWeatherIndex(ComponentAccessor<EntityStore> componentAccessor)
+  public static boolean hasTagInGroup(int group, int tag)
+  public static boolean isGroupMember(int parentRoleIndex, Ref<EntityStore> ref, int[] groups, ComponentAccessor<EntityStore> componentAccessor)
+  public static boolean isGroupMember(int parentRoleIndex, Ref<EntityStore> ref, int group, ComponentAccessor<EntityStore> componentAccessor)
+  public static int[] createTagSetIndexArray(String[] tagSets)
+  public void unloaded()
+
+Fields:
+public static final double ATTITUDE_CACHE_CLEAR_FREQUENCY
+protected static final ResourceType<EntityStore,Blackboard> BLACKBOARD_RESOURCE_TYPE
+protected final NPCEntity parent
+protected Int2ObjectMap<BlockTarget> blockSensorCachedTargets
+protected Vector3d[] searchRayCachedPositions
+protected String blockToPlace
+protected final Attitude defaultPlayerAttitude
+protected final Attitude defaultNPCAttitude
+protected final int attitudeGroup
+protected final int itemAttitudeGroup
+protected AttitudeView attitudeView
+protected Int2ObjectMap<Attitude> attitudeCache
+protected Int2ObjectMap<AttitudeMemoryEntry> attitudeOverrideMemory
+protected double nextAttitudeCacheClear
+protected boolean newPathRequested
+protected int changeCount
+protected int environmentIdChangeCount
+protected int cachedEnvironmentId
+protected int weatherChangeCount
+protected int cachedWeatherIndex

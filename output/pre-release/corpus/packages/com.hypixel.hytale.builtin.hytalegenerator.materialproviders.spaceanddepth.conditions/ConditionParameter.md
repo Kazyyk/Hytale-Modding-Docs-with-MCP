@@ -14,3 +14,8 @@ Enumerates ConditionParameter values: `SPACE_ABOVE_FLOOR`, `SPACE_BELOW_CEILING`
 ## Fields
 
 - public static final Codec<ConditionParameter> CODEC
+
+Also in this package: AlwaysTrueCondition, AndCondition, EqualsCondition, GreaterThanCondition, NotCondition, OrCondition, SmallerThanCondition
+
+Fields:
+public static final Codec<ConditionParameter> CODEC

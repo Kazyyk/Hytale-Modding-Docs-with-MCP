@@ -22,3 +22,15 @@ public class AppendMaskFromToolArgOperation extends SequenceBrushOperation
         @Nonnull BrushConfig brushConfig,
         @Nonnull BrushConfigCommandExecutor brushConfigCommandExecutor,
         @Nonnull ComponentAccessor<EntityStore> componentAccessor)` |
+
+Also in this package: AppendMaskOperation, HistoryMaskOperation, MaskOperation, UseBrushMaskOperation, UseOperationMaskOperation
+
+Complete API:
+  public void modifyBrushConfig(Ref<EntityStore> ref, BrushConfig brushConfig, BrushConfigCommandExecutor brushConfigCommandExecutor, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<AppendMaskFromToolArgOperation> CODEC
+public String argNameArg
+public boolean invertArg
+public BlockFilter.FilterType filterTypeArg
+public String additionalBlocksArg

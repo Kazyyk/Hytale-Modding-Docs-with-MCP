@@ -11,3 +11,9 @@ Utility class that provides a type token for `Map<String, MotionController>`. Ja
 - CLASS_REFERENCE | Class<Map<String, MotionController>> | Captured class token for the motion controller map type
 
 Used by BuilderMotionControllerMap in its `category()` method to return the correct class reference for factory registration.
+
+Also in this package: AppliedVelocity, AscentAnimationType, DescentAnimationType, MotionControllerBase, MotionControllerDive, MotionControllerFly, MotionControllerWalk, ProbeMoveData, Segment, Type
+
+Fields:
+private static final Map<String,MotionController> MAP_OBJECT_REFERENCE
+public static final Class<Map<String,MotionController>> CLASS_REFERENCE

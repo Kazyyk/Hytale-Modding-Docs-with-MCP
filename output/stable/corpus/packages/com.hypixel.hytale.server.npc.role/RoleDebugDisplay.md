@@ -18,3 +18,27 @@ The `display` method builds a string from all enabled debug flags and sets it as
 ## Display Flags
 
 Each boolean field corresponds to a RoleDebugFlags enum constant: `debugDisplayState`, `debugDisplayTime`, `debugDisplayFlock`, `debugDisplayAnim`, `debugDisplayLockedTarget`, `debugDisplayLightLevel`, `debugDisplayFreeSlots`, `debugDisplayCustom`, `debugDisplayPathFinder`, `debugDisplayHP`, `debugDisplayStamina`, `debugDisplaySpeed`, `debugDisplayInternalId`, `debugDisplayName`, `debugVisMarkedTargets`.
+
+Also in this package: AvoidanceMode, DeferredAction, Role, RoleDebugFlags, RoleDebugPreset, RoleUtils, SpawnEffect
+
+Complete API:
+  public void display(Role role, int index, ArchetypeChunk<EntityStore> archetypeChunk, CommandBuffer<EntityStore> commandBuffer)
+  public static RoleDebugDisplay create(EnumSet<RoleDebugFlags> debugFlags, RoleDebugDisplay existingDisplay)
+
+Fields:
+protected boolean debugDisplayState
+protected boolean debugDisplayTime
+protected boolean debugDisplayFlock
+protected boolean debugDisplayAnim
+protected boolean debugDisplayLockedTarget
+protected boolean debugDisplayLightLevel
+protected boolean debugDisplayFreeSlots
+protected boolean debugDisplayCustom
+protected boolean debugDisplayPathFinder
+protected boolean debugDisplayHP
+protected boolean debugDisplayStamina
+protected boolean debugDisplaySpeed
+protected boolean debugDisplayInternalId
+protected boolean debugDisplayName
+protected boolean debugVisMarkedTargets
+protected StringBuilder debugDisplay

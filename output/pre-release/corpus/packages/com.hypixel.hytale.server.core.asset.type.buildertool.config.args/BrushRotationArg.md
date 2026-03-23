@@ -19,3 +19,16 @@ Extends `ToolArg` to provide BrushRotationArg functionality.
 - @Nonnull public BuilderToolRotationArg toRotationArgPacket()
 - @Override protected void setupPacket(@Nonnull BuilderToolArg packet)
 - @Nonnull @Override public String toString()
+
+Also in this package: BlockArg, BoolArg, BrushAxisArg, BrushOriginArg, BrushShapeArg, FloatArg, IntArg, MaskArg, OptionArg, StringArg, ToolArg, ToolArgException
+
+Complete API:
+  public Codec<Rotation> getCodec()
+  public Rotation fromString(String str)
+  public BuilderToolRotationArg toRotationArgPacket()
+  protected void setupPacket(BuilderToolArg packet)
+  public String toString()
+
+Fields:
+public static final Codec<Rotation> ROTATION_CODEC
+public static final BuilderCodec<BrushRotationArg> CODEC

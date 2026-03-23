@@ -11,3 +11,15 @@ Component attached to player entities that tracks the countdown to the next loca
 - public static ComponentType<EntityStore, LocalSpawnController> getComponentType()
 - public void setTimeToNextRunSeconds(double seconds)
 - public boolean tickTimeToNextRunSeconds(float dt)
+
+Also in this package: LocalSpawnBeacon, LocalSpawnBeaconSystem, LocalSpawnControllerSystem, LocalSpawnForceTriggerSystem, LocalSpawnSetupSystem, LocalSpawnState
+
+Complete API:
+  public static ComponentType<EntityStore,LocalSpawnController> getComponentType()
+  public void setTimeToNextRunSeconds(double seconds)
+  public boolean tickTimeToNextRunSeconds(float dt)
+  public Component<EntityStore> clone()
+  public String toString()
+
+Fields:
+private double timeToNextRunSeconds

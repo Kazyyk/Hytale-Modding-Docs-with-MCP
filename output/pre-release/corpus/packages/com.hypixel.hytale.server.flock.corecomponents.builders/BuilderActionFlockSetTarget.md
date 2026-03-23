@@ -20,3 +20,18 @@ NPC behavior action builder for ActionFlockSetTarget functionality.
 - @Nonnull @Override public BuilderDescriptorState getBuilderDescriptorState()
 - public boolean isClear()
 - public String getTargetSlot(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionFlockBeacon, BuilderActionFlockJoin, BuilderActionFlockLeave, BuilderActionFlockState, BuilderBodyMotionFlock, BuilderEntityFilterFlock, BuilderSensorFlockCombatDamage, BuilderSensorFlockLeader, BuilderSensorInflictedDamage
+
+Complete API:
+  public ActionFlockSetTarget build(BuilderSupport builderSupport)
+  public BuilderActionFlockSetTarget readConfig(JsonElement data)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public boolean isClear()
+  public String getTargetSlot(BuilderSupport support)
+
+Fields:
+protected boolean clear
+protected final StringHolder targetSlot

@@ -18,3 +18,17 @@ An `EntityStore` component.
 - public Map<String, DetailBox[]> getDetailBoxes()
 - public void setDetailBoxes(Map<String, DetailBox[]> detailBoxes)
 - @Override public Component<EntityStore> clone()
+
+Also in this package: ActiveAnimationComponent, AudioComponent, CollisionResultComponent, DisplayNameComponent, DynamicLight, EntityScaleComponent, FromPrefab, FromWorldGen, HeadRotation, HiddenFromAdventurePlayers, Intangible, Interactable, Invulnerable, ModelComponent, MovementAudioComponent, NPCMarkerComponent, NewSpawnComponent, PersistentDynamicLight, PersistentModel, PositionDataComponent (and 7 more)
+
+Complete API:
+  public static ComponentType<EntityStore,BoundingBox> getComponentType()
+  public Box getBoundingBox()
+  public void setBoundingBox(Box boundingBox)
+  public Map<String,DetailBox[]> getDetailBoxes()
+  public void setDetailBoxes(Map<String,DetailBox[]> detailBoxes)
+  public Component<EntityStore> clone()
+
+Fields:
+private final Box boundingBox
+protected Map<String,DetailBox[]> detailBoxes

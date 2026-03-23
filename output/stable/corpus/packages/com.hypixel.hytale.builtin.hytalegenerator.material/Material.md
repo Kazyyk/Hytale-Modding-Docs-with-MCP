@@ -29,3 +29,21 @@ public final class Material
 ## Inner Types
 
 - `Material.Hash`
+
+Also in this package: FluidMaterial, Hash, MaterialCache, SolidMaterial
+
+Complete API:
+  public boolean equals(Object o)
+  public int hashCode()
+  public int hashMaterialIds()
+  public static int hashCode(SolidMaterial solid, FluidMaterial fluid)
+  public static int hashMaterialIds(SolidMaterial solid, FluidMaterial fluid)
+  public SolidMaterial solid()
+  public FluidMaterial fluid()
+  public String toString()
+
+Fields:
+private final SolidMaterial solid
+private final FluidMaterial fluid
+private Material.Hash hashCode
+private Material.Hash materialIdsHash

@@ -32,3 +32,12 @@ Generic sub-command that reads/writes a typed property from `WorldConfig` via ge
 private static class WorldSettingsBox2DCommand extends AbstractWorldCommand
 
 Specialized sub-command for `Box2D` region properties (pregenerate, keeploaded) that require four coordinate arguments (minX, minZ, maxX, maxZ).
+
+Also in this package: AddSubCommand, ClearSubCommand, RemoveSubCommand, ResetSubCommand, ResetSubCommand, SetSubCommand, SetSubCommand, SetTickingCommand, WorldSettingsBox2DCommand, WorldSettingsSetCommand, WorldSettingsSubCommand
+
+Complete API:
+  private void generateSubCommand(String command, String description, String arg, ArgumentType<T> argumentType, String display, Function<WorldConfig,T> getter, BiConsumer<WorldConfig,T> setter)
+  private void generateSubCommand(String command, String description, String arg, ArgumentType<T> argumentType, String display, Function<World,T> getter, Function<WorldConfig,T> defaultGetter, BiConsumer<World,T> setter)
+
+Fields:
+private final WorldConfig defaultWorldConfig

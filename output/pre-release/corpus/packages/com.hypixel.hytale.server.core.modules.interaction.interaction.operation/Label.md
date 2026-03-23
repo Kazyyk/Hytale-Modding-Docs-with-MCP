@@ -14,3 +14,12 @@ Represents a named position (index) within an operation sequence built by Operat
 
 - getIndex() | int | Returns the label's index position.
 - toString() | String | Returns a debug string representation.
+
+Also in this package: JumpOperation, LabelOperation, NestedOperation, Operation, OperationsBuilder
+
+Complete API:
+  public int getIndex()
+  public String toString()
+
+Fields:
+protected int index

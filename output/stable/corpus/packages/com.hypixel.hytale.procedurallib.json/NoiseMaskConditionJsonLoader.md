@@ -13,3 +13,11 @@ Loads noise mask condition configurations. Creates a `NoiseMaskCondition` that e
 ## Related Types
 
 - NoiseMaskConditionJsonLoader.Constants -- KEY_THRESHOLD
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public ICoordinateCondition load()
+
+Fields:
+protected final boolean defaultValue

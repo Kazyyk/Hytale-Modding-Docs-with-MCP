@@ -9,3 +9,10 @@ public class CacheThreadMemory
 - Map<Long,Vector3d[]> sections
 - LinkedList<Long> expirationList
 - int size
+
+Also in this package: CachedPositionProvider
+
+Fields:
+Map<Long,Vector3d[]> sections
+LinkedList<Long> expirationList
+int size

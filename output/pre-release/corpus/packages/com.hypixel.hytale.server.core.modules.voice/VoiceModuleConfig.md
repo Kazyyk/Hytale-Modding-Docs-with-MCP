@@ -27,3 +27,27 @@ Persistable configuration for the voice module. Stores voice enabled state, max 
 - boolean unmutePlayer(UUID playerId)
 - boolean isDeadPlayersCanHear()
 - void setDeadPlayersCanHear(boolean deadPlayersCanHear)
+
+Also in this package: ListenerCandidate, PositionSnapshot, VoiceModule, VoicePacketHandler, VoicePlayerState, VoiceRouter, VoiceStreamHandler
+
+Complete API:
+  public boolean isVoiceEnabled()
+  public void setVoiceEnabled(boolean voiceEnabled)
+  public float getMaxHearingDistance()
+  public void setMaxHearingDistance(float maxHearingDistance)
+  public float getFullVolumeDistance()
+  public void setFullVolumeDistance(float fullVolumeDistance)
+  public Set<UUID> getMutedPlayers()
+  public boolean isPlayerMuted(UUID playerId)
+  public boolean mutePlayer(UUID playerId)
+  public boolean unmutePlayer(UUID playerId)
+  public boolean isDeadPlayersCanHear()
+  public void setDeadPlayersCanHear(boolean deadPlayersCanHear)
+
+Fields:
+public static final BuilderCodec<VoiceModuleConfig> CODEC
+private boolean voiceEnabled
+private float maxHearingDistance
+private float fullVolumeDistance
+private boolean deadPlayersCanHear
+private final Set<UUID> mutedPlayers

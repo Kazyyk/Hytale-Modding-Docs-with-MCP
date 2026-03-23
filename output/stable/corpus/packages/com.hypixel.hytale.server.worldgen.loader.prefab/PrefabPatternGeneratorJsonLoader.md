@@ -29,3 +29,27 @@ JSON loader that deserializes configuration data from JSON files.
 - @Nullable public static PrefabRotation[] loadRotations(@Nullable JsonElement element)
 - throw new IllegalArgumentException("Array for rotations must be greater than 0 or left away to allow random rotation.")
 - throw new IllegalArgumentException("rotations is not an array nor a string, other types are not supported! Given: " + element)
+
+Also in this package: BlockPlacementMaskJsonLoader, BlockPlacementMaskRegistry, Constants, Constants, Constants, WeightedPrefabMapJsonLoader
+
+Complete API:
+  public PrefabPatternGenerator load()
+  protected IPointGenerator loadPattern()
+  protected PrefabCategory loadCategory()
+  protected IBlockFluidCondition loadParent()
+  protected IHeightThresholdInterpreter loadHeightThresholds()
+  protected ICoordinateRndCondition loadHeightCondition(IHeightThresholdInterpreter thresholdInterpreter)
+  protected ICoordinateCondition loadMapCondition()
+  protected BlockMaskCondition loadMask()
+  protected PrefabRotation[] loadRotations()
+  protected ICoordinateDoubleSupplier loadDisplacement()
+  protected boolean loadFitHeightmap()
+  protected boolean loadOnWater()
+  protected boolean loadDeepSearch(IHeightThresholdInterpreter interpreter)
+  protected boolean loadSubmerge()
+  protected int loadMaxSize()
+  protected int loadExclusionRadius()
+  public static PrefabRotation[] loadRotations(JsonElement element)
+
+Fields:
+private final FileLoadingContext context

@@ -9,3 +9,8 @@ public enum RemovalBehavior
 - COMPLETE
 - INFINITE
 - DURATION
+
+Also in this package: AbilityEffects, ApplicationEffects, EntityEffect, ModelOverride, OverlapBehavior
+
+Fields:
+public static final EnumCodec<RemovalBehavior> CODEC

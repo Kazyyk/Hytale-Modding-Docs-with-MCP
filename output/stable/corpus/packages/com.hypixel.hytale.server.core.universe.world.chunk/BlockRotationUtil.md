@@ -29,3 +29,12 @@ Computes the flipped filler offset (180-degree rotation around the axis).
 public static int getRotatedFiller(int filler, @Nonnull Axis axis, Rotation rotation)
 
 Computes the rotated filler offset around the given axis.
+
+Also in this package: AbstractCachedAccessor, BlockChunk, BlockComponentChunk, BlockComponentChunkLoadingSystem, ChunkColumn, ChunkFlag, EntityChunk, EntityChunkLoadingSystem, LoadBlockChunkPacketSystem, LoadBlockComponentPacketSystem, UnloadBlockComponentPacketSystem, WorldChunk
+
+Complete API:
+  public static RotationTuple getFlipped(RotationTuple blockRotation, BlockFlipType flipType, Axis axis, VariantRotation variantRotation)
+  public static RotationTuple getRotated(RotationTuple blockRotation, Axis axis, Rotation rotation, VariantRotation variantRotation)
+  private static RotationTuple get(Rotation rotationYaw, Rotation rotationPitch, Rotation rotationRoll, Axis axis, Rotation rotation, VariantRotation variantRotation, boolean preventPitchRotation)
+  public static int getFlippedFiller(int filler, Axis axis)
+  public static int getRotatedFiller(int filler, Axis axis, Rotation rotation)

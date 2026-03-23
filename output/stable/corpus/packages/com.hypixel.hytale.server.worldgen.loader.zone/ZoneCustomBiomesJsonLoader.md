@@ -34,3 +34,13 @@ public class ZoneCustomBiomesJsonLoader extends JsonLoader<SeedStringResource, C
 ## Inner Types
 
 - `ZoneCustomBiomesJsonLoader.Constants`
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, UniqueZoneEntryJsonLoader, ZoneBiomesJsonLoader, ZoneColorMappingJsonLoader, ZoneJsonLoader, ZonePatternProviderJsonLoader, ZoneRequirementJsonLoader
+
+Complete API:
+  public CustomBiome[] load()
+
+Fields:
+private static final Comparator<CustomBiome> PRIORITY_SORTER
+protected final ZoneFileContext zoneContext
+protected final Biome[] tileBiomes

@@ -60,3 +60,14 @@ public class NPCFlockCommand extends AbstractCommandCollection
 - `NPCFlockCommand.JoinCommand`
 - `NPCFlockCommand.LeaveCommand`
 - `NPCFlockCommand.PlayerLeaveCommand`
+
+Also in this package: GrabCommand, JoinCommand, LeaveCommand, PlayerLeaveCommand
+
+Complete API:
+  public static int forNpcEntitiesInViewCone(Ref<EntityStore> playerReference, Store<EntityStore> store, BiPredicate<Ref<EntityStore>,NPCEntity> predicate)
+  public static boolean anyEntityInViewCone(Ref<EntityStore> playerReference, Store<EntityStore> store, Predicate<Ref<EntityStore>> predicate)
+
+Fields:
+private static final double ENTITY_IN_VIEW_DISTANCE
+private static final float ENTITY_IN_VIEW_ANGLE
+private static final int ENTITY_IN_VIEW_HEIGHT

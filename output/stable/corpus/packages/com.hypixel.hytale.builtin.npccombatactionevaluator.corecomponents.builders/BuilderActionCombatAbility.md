@@ -12,3 +12,11 @@ NPC behavior tree builder for an action node. Configures execution logic.
 - getShortDescription() | String | public method.
 - getLongDescription() | String | public method.
 - getBuilderDescriptorState() | BuilderDescriptorState | public method.
+
+Also in this package: BuilderActionAddToTargetMemory, BuilderCombatTargetCollector, BuilderSensorCombatActionEvaluator, BuilderSensorHasHostileTargetMemory
+
+Complete API:
+  public ActionCombatAbility build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()

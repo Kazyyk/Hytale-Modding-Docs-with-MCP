@@ -29,3 +29,10 @@ Returns `null` if the array has no elements. Otherwise builds each non-excluded 
 
 - BuilderObjectArrayHelper -- parent class
 - BuilderObjectStaticListHelper -- variant for static builds
+
+Known subclasses: BuilderObjectStaticListHelper
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper, BuilderObjectStaticHelper (and 29 more)
+
+Complete API:
+  public List<T> build(BuilderSupport builderSupport)

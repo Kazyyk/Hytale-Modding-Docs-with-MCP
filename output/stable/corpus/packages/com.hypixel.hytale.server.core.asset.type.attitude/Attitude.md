@@ -17,3 +17,11 @@ Enumeration with values: `IGNORE`, `HOSTILE`, `NEUTRAL`, `FRIENDLY`, `REVERED`.
 ## Accessors
 
 - get() | String | Accessor method.
+
+Complete API:
+  public String get()
+
+Fields:
+public static final EnumCodec<Attitude> CODEC
+public static final Attitude[] VALUES
+private final String description

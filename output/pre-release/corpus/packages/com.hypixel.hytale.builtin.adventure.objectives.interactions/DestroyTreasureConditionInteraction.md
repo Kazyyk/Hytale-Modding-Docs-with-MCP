@@ -26,3 +26,13 @@ Server-authoritative block interaction that checks whether a treasure chest bloc
 
 - OpenTreasureContainerInteraction -- companion interaction for opening treasure containers
 - TreasureChestBlock -- the component this interaction queries
+
+Also in this package: CanBreakRespawnPointInteraction, OpenTreasureContainerInteraction, StartObjectiveInteraction
+
+Complete API:
+  public WaitForDataFrom getWaitForDataFrom()
+  protected void interactWithBlock(World world, CommandBuffer<EntityStore> commandBuffer, InteractionType type, InteractionContext context, ItemStack itemInHand, Vector3i pos, CooldownHandler cooldownHandler)
+  protected void simulateInteractWithBlock(InteractionType type, InteractionContext context, ItemStack itemInHand, World world, Vector3i targetBlock)
+
+Fields:
+public static final BuilderCodec<DestroyTreasureConditionInteraction> CODEC

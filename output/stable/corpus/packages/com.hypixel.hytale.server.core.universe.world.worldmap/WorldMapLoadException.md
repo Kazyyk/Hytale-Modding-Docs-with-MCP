@@ -25,3 +25,9 @@ Returns a comma-separated combined message from this exception and its cause cha
 public String getTraceMessage(@Nonnull String joiner)
 
 Returns combined messages from the exception chain joined by the specified delimiter.
+
+Also in this package: IWorldMap, ImageEntry, MarkerAndItsStore, MarkerProvider, MarkerReference, PlayerMarkerReference, WorldMapManager, WorldMapSettings
+
+Complete API:
+  public String getTraceMessage()
+  public String getTraceMessage(String joiner)

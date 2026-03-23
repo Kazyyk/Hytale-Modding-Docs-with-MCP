@@ -27,3 +27,23 @@ Defines a regeneration configuration for an entity stat: interval, amount, type,
 ## Inner Types
 
 - EntityStatType.Regenerating.RegenType
+
+Also in this package: DefaultEntityStatTypes, EntityStatEffects, EntityStatType, EntityStatTypePacketGenerator, RegenType
+
+Complete API:
+  public float getInterval()
+  public float getAmount()
+  public float clampAmount(float toAdd, float currentAmount, EntityStatValue statValue)
+  public EntityStatType.Regenerating.RegenType getRegenType()
+  public Condition[] getConditions()
+  public RegeneratingModifier[] getModifiers()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<EntityStatType.Regenerating> CODEC
+private float interval
+private float amount
+private boolean clampAtZero
+private EntityStatType.Regenerating.RegenType regenType
+private Condition[] conditions
+private RegeneratingModifier[] modifiers

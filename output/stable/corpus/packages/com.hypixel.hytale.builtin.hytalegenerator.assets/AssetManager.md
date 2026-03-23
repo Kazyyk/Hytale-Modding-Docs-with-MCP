@@ -42,3 +42,28 @@ public class AssetManager
 ## Related Types
 
 - SettingsAsset
+
+Also in this package: Cleanable, SettingsAsset, ValidatorUtil
+
+Complete API:
+  private void loadBlockMaskAssets(LoadedAssetsEvent<String,BlockMaskAsset,DefaultAssetMap<String,BlockMaskAsset>> event)
+  private void loadDensityAssets(LoadedAssetsEvent<String,DensityAsset,DefaultAssetMap<String,DensityAsset>> event)
+  private void loadAssignmentsAssets(LoadedAssetsEvent<String,AssignmentsAsset,DefaultAssetMap<String,AssignmentsAsset>> event)
+  private void loadBiomeAssets(LoadedAssetsEvent<String,BiomeAsset,DefaultAssetMap<String,BiomeAsset>> event)
+  private void loadWorldStructureAssets(LoadedAssetsEvent<String,WorldStructureAsset,DefaultAssetMap<String,WorldStructureAsset>> event)
+  private void loadSettingsAssets(LoadedAssetsEvent<String,SettingsAsset,DefaultAssetMap<String,SettingsAsset>> event)
+  public SettingsAsset getSettingsAsset()
+  public WorldStructureAsset getWorldStructureAsset(String id)
+  public void registerReloadListener(Runnable l)
+  public void unregisterReloadListener(Runnable l)
+  private void triggerReloadListeners()
+
+Fields:
+private final HashMap<String,DensityAsset> densityAssets
+private final HashMap<String,AssignmentsAsset> assigmentAssets
+private final HashMap<String,BiomeAsset> biomeAssets
+private final HashMap<String,WorldStructureAsset> worldStructureAssets
+private final HashMap<String,BlockMaskAsset> blockMaskAssets
+private SettingsAsset settingsAsset
+private final HytaleLogger logger
+private List<Runnable> reloadListeners

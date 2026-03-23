@@ -14,3 +14,15 @@ Abstract base class extending `TagPattern`.
 
 - toPacket() | com.hypixel.hytale.protocol.TagPattern | public method.
 - toString() | String | public method.
+
+Known subclasses: AndPatternOp, OrPatternOp
+
+Also in this package: AndPatternOp, EqualsTagOp, NotPatternOp, OrPatternOp, TagPattern
+
+Complete API:
+  public com.hypixel.hytale.protocol.TagPattern toPacket()
+  public String toString()
+
+Fields:
+public static BuilderCodec<MultiplePatternOp> CODEC
+protected TagPattern[] patterns

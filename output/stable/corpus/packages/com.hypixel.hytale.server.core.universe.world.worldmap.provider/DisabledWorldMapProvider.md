@@ -17,3 +17,13 @@ public class DisabledWorldMapProvider implements IWorldMapProvider
 ## Inner Types
 
 - `DisabledWorldMapProvider.DisabledWorldMap`
+
+Also in this package: DisabledWorldMap, IWorldMapProvider
+
+Complete API:
+  public IWorldMap getGenerator(World world)
+  public String toString()
+
+Fields:
+public static final String ID
+public static final BuilderCodec<DisabledWorldMapProvider> CODEC

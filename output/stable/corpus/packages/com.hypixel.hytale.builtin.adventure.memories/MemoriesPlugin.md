@@ -42,3 +42,33 @@ Persists recorded memories to `memories.json` in the universe directory using th
 
 - MemoriesPlugin.MemoriesPluginConfig -- codec config holding collection radius map
 - MemoriesPlugin.PlayerAddedSystem -- ECS system sending memories feature status on player add
+
+Also in this package: MemoriesGameplayConfig, MemoriesPluginConfig, PlayerAddedSystem, RecordedMemories
+
+Complete API:
+  public static MemoriesPlugin get()
+  protected void setup()
+  protected void start()
+  protected void shutdown()
+  private void onAssetsLoad()
+  public MemoriesPlugin.MemoriesPluginConfig getConfig()
+  public ComponentType<EntityStore,PlayerMemories> getPlayerMemoriesComponentType()
+  public void registerMemoryProvider(MemoryProvider<T> memoryProvider)
+  public Map<String,Set<Memory>> getAllMemories()
+  public int getMemoriesLevel(GameplayConfig gameplayConfig)
+  public boolean hasRecordedMemory(Memory memory)
+  public boolean recordPlayerMemories(PlayerMemories playerMemories)
+  public Set<Memory> getRecordedMemories()
+  public void clearRecordedMemories()
+  public void recordAllMemories()
+  public int setRecordedMemoriesCount(int count)
+
+Fields:
+public static final String MEMORIES_JSON_PATH
+private static MemoriesPlugin instance
+private final Config<MemoriesPlugin.MemoriesPluginConfig> config
+private final List<MemoryProvider<?>> providers
+private final Map<String,Set<Memory>> allMemories
+private ComponentType<EntityStore,PlayerMemories> playerMemoriesComponentType
+private MemoriesPlugin.RecordedMemories recordedMemories
+private boolean hasInitializedMemories

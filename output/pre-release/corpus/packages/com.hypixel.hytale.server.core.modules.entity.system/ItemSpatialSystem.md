@@ -54,3 +54,13 @@ Returns the entity's position from its `TransformComponent`.
 - `ItemComponent` -- marks an entity as an item
 - `PreventItemMerging` -- marker component that excludes items from merging
 - `TransformComponent` -- provides entity position
+
+Also in this package: Add, AdventurePlayerSystem, AnimationEntityTrackerUpdate, ApplyRandomSkin, AssignNetworkIdToProps, AudioSystems, Capture, ClearFromPrefabMarker, ClearFromWorldGenMarker, ClearMarker, DynamicLightTracker, EnsurePropsPrefabCopyable, EntityInteractableSystems, EntitySpatialSystem, EntitySystems, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerAddAndRemove, EntityTrackerUpdate (and 40 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void tick(float dt, int systemIndex, Store<EntityStore> store)
+  public Vector3d getPosition(ArchetypeChunk<EntityStore> archetypeChunk, int index)
+
+Fields:
+private static final AndQuery<EntityStore> QUERY

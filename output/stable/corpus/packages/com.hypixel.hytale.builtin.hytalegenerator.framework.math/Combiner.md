@@ -51,3 +51,13 @@ public class Combiner
 ## Related Types
 
 - Calculator
+
+Also in this package: Area, BitConverter, Calculator, CoPrimeGenerator, InterpolatedCurve, Interpolation, IntersectionPolicy, Layer, MultipliedIteration, NodeFunction, Normalizer, Probability, Range, RegionGrid, SeedGenerator, Splitter, Stepinizer
+
+Complete API:
+  public Combiner.Layer addLayer(double density)
+  public double getValue()
+
+Fields:
+private final double y
+private double value

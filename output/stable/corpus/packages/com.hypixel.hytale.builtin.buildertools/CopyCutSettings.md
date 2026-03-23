@@ -25,3 +25,15 @@ These flags are passed to `BuilderState.copyOrCut()` and related clipboard metho
 
 - BuilderToolsPlugin.BuilderState -- uses these flags in copy/cut operations
 - BuilderToolsPlugin -- owns the builder state that performs clipboard operations
+
+Also in this package: Action, ActionEntry, BlockColorEntry, BlockColorIndex, BlocksSampleData, BuilderState, BuilderToolsConfig, BuilderToolsPacketHandler, BuilderToolsPlugin, BuilderToolsSystems, BuilderToolsUserData, BuilderToolsUserDataSystem, CachedAccessor, EditOperation, EnsureBuilderTools, EntityChange, FluidChange, PrefabCopyException, PrefabPasteEventSystem, PrototypePlayerBuilderToolSettings (and 2 more)
+
+Fields:
+public static final int NONE
+public static final int CUT
+public static final int EMPTY
+public static final int BLOCKS
+public static final int ENTITIES
+public static final int TINT_MAP
+public static final int KEEP_ANCHORS
+public static final int FLUIDS

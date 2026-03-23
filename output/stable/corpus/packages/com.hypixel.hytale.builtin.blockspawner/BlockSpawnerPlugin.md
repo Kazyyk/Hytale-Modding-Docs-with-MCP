@@ -23,3 +23,16 @@ Plugin class that registers components, systems, and commands for the blockspawn
 - @Override public void onEntityRemove(@Nonnull Ref<ChunkStore> ref, @Nonnull RemoveReason reason, @Nonnull Store<ChunkStore> store, @Nonnull CommandBuffer<ChunkStore> commandBuffer)
 - @Override public void onEntityAdd(@Nonnull Holder<ChunkStore> holder, @Nonnull AddReason reason, @Nonnull Store<ChunkStore> store)
 - @Override public void onEntityRemoved(@Nonnull Holder<ChunkStore> holder, @Nonnull RemoveReason reason, @Nonnull Store<ChunkStore> store)
+
+Also in this package: BlockSpawnerEntry, BlockSpawnerSystem, BlockSpawnerTable, MigrateBlockSpawner, RotationMode
+
+Complete API:
+  public static BlockSpawnerPlugin get()
+  protected void setup()
+  private static void validatePrefabBlock(PrefabBufferValidator.ValidateBlockEvent validateBlockEvent)
+  public ComponentType<ChunkStore,BlockSpawner> getBlockSpawnerComponentType()
+
+Fields:
+private static final HytaleLogger LOGGER
+private ComponentType<ChunkStore,BlockSpawner> blockSpawnerComponentType
+private static BlockSpawnerPlugin INSTANCE

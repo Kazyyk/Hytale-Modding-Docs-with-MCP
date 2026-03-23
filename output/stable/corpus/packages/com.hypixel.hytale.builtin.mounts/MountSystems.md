@@ -39,3 +39,8 @@ Cleans up both sides of a mount relationship:
 
 - MountPlugin -- registers all systems
 - NPCMountSystems -- NPC-specific mount systems
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  private static void handleMountedRemoval(Ref<EntityStore> ref, CommandBuffer<EntityStore> commandBuffer, MountedComponent component)

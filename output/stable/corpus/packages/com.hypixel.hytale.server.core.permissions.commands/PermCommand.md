@@ -12,3 +12,5 @@ Root command collection registered under `perm` for permission management. Aggre
 public PermCommand()
 
 Registers subcommands: PermGroupCommand, PermUserCommand, PermTestCommand.
+
+Also in this package: PermGroupAddCommand, PermGroupCommand, PermGroupListCommand, PermGroupRemoveCommand, PermTestCommand, PermUserAddCommand, PermUserCommand, PermUserGroupAddCommand, PermUserGroupCommand, PermUserGroupListCommand, PermUserGroupRemoveCommand, PermUserListCommand, PermUserRemoveCommand

@@ -10,3 +10,13 @@ Utility type in the `waypoint` subsystem.
 
 - getRotation() | float | Accessor method.
 - getDistance() | double | Accessor method.
+
+Also in this package: IPrefabPathWaypoint
+
+Complete API:
+  public float getRotation()
+  public double getDistance()
+
+Fields:
+protected final float rotation
+protected final double distance

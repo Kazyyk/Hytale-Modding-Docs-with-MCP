@@ -18,3 +18,18 @@ public class PointYOutAsset implements JsonAssetWithMap
 - public double getY()
 - public double getOut()
 - public String getId()
+
+Also in this package: NodeFunctionYOutAsset
+
+Complete API:
+  public Vector2d build()
+  public double getY()
+  public double getOut()
+  public String getId()
+
+Fields:
+public static final AssetBuilderCodec<String,PointYOutAsset> CODEC
+private String id
+private AssetExtraInfo.Data data
+private double y
+private double out

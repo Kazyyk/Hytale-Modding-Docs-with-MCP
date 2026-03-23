@@ -16,3 +16,13 @@ Enumeration used by the asset editor protocol.
 ## Related Types
 
 - AssetEditorPopupNotification
+
+Also in this package: AssetEditorActivateButton, AssetEditorAsset, AssetEditorAssetListSetup, AssetEditorAssetListUpdate, AssetEditorAssetPackSetup, AssetEditorAssetType, AssetEditorAssetUpdated, AssetEditorAuthorization, AssetEditorCapabilities, AssetEditorCreateAsset, AssetEditorCreateAssetPack, AssetEditorCreateDirectory, AssetEditorDeleteAsset, AssetEditorDeleteAssetPack, AssetEditorDeleteDirectory, AssetEditorDiscardChanges, AssetEditorEditorType, AssetEditorExportAssetFinalize, AssetEditorExportAssetInitialize, AssetEditorExportAssetPart (and 51 more)
+
+Complete API:
+  public int getValue()
+  public static AssetEditorPopupNotificationType fromValue(int value)
+
+Fields:
+public static final AssetEditorPopupNotificationType[] VALUES
+private final int value

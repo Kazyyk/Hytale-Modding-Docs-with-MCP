@@ -11,3 +11,8 @@ public class WorldLocationConditionPlugin extends JavaPlugin
 ## Methods
 
 - @Override protected void setup()
+
+Also in this package: NeighbourBlockTagsLocationCondition, NeighbourDirection
+
+Complete API:
+  protected void setup()

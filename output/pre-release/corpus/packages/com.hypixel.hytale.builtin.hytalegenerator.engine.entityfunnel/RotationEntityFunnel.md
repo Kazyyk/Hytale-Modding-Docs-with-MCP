@@ -22,3 +22,16 @@ An EntityFunnel decorator that applies a rotation transform to entity placement 
 - public void setSource(@Nonnull EntityFunnel source, @Nonnull Vector3i anchor)
 - @Override public void addEntity(@Nonnull EntityPlacementData entityPlacementData)
 - @Override public Bounds3i getBounds()
+
+Also in this package: EntityFunnel
+
+Complete API:
+  public void setSource(EntityFunnel source, Vector3i anchor)
+  public void addEntity(EntityPlacementData entityPlacementData)
+  public Bounds3i getBounds()
+
+Fields:
+private final RotationTuple rotation_fromViewToSource
+private Bounds3i viewBounds
+private EntityFunnel source
+private final Vector3i anchor

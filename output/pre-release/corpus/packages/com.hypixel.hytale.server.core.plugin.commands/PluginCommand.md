@@ -26,3 +26,8 @@ public PluginCommand()
 - PluginUnloadCommand: Unloads a plugin, validates state before unloading.
 - PluginReloadCommand: Reloads an enabled plugin.
 - PluginManageCommand: Opens the plugin management page UI.
+
+Also in this package: PluginListCommand, PluginLoadCommand, PluginManageCommand, PluginReloadCommand, PluginUnloadCommand
+
+Fields:
+private static final SingleArgumentType<PluginIdentifier> PLUGIN_IDENTIFIER_ARG_TYPE

@@ -18,3 +18,14 @@ public class EnvironmentSpawnParameters
 - @Nonnull public Set<WorldSpawnWrapper> getSpawnWrappers()
 - public double getSpawnDensity()
 - public void setDensity(double density)
+
+Also in this package: WorldSpawnManager, WorldSpawnWrapper
+
+Complete API:
+  public Set<WorldSpawnWrapper> getSpawnWrappers()
+  public double getSpawnDensity()
+  public void setDensity(double density)
+
+Fields:
+private double density
+private final Set<WorldSpawnWrapper> spawnWrappers

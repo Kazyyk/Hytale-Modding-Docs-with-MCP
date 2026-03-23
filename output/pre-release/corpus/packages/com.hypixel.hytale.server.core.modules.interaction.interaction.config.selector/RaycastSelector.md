@@ -17,3 +17,20 @@ A selector that casts a ray from the attacker in their look direction to find th
 - public void tick(CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> ref, float time, float runTime)
 - public void selectTargetEntities( CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> attacker, BiConsumer<Ref<EntityStore>, Vector4d> consumer, Predicate<Ref<EntityStore>> filter )
 - public void selectTargetBlocks(CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> attacker, TriIntConsumer consumer)
+
+Also in this package: AOECircleSelector, AOECylinderSelector, ClientSourcedSelector, Direction, HorizontalSelector, PlayerMatcher, Result, RuntimeSelector, RuntimeSelector, RuntimeSelector, RuntimeSelector, RuntimeSelector, SelectorType, StabSelector, VulnerableMatcher
+
+Complete API:
+  public Selector newSelector()
+  public Vector3f getOffset()
+  public Vector3d selectTargetPosition(CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> attacker)
+  public com.hypixel.hytale.protocol.Selector toPacket()
+
+Fields:
+public static final BuilderCodec<RaycastSelector> CODEC
+protected Vector3d offset
+protected int distance
+protected boolean ignoreFluids
+protected boolean ignoreEmptyCollisionMaterial
+protected String blockTag
+protected int blockTagIndex

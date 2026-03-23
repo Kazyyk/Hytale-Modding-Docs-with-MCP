@@ -10,3 +10,12 @@ Inner class of `ItemCategory` that defines a sub-category within an item categor
 
 - `ItemCategory` -- parent class that contains sub-category definitions
 - `Item` -- items reference categories for inventory organization
+
+Also in this package: AssetIconProperties, BlockGroup, BlockSelectorToolData, BuilderToolItemReferenceAsset, CraftingRecipe, DurabilityLossBlockTypes, FieldcraftCategory, InteractionModifierId, Item, ItemAppearanceCondition, ItemArmor, ItemCategory, ItemDrop, ItemDropList, ItemEntityConfig, ItemGlider, ItemHudUI, ItemPullbackConfig, ItemQuality, ItemReticle (and 10 more)
+
+Fields:
+public static final Codec<ItemCategory.SubCategoryDefinition> CODEC
+protected String id
+protected String name
+protected String description
+protected int order

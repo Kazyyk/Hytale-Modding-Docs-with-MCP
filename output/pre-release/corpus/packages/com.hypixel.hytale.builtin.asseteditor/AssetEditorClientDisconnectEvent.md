@@ -14,3 +14,12 @@ public AssetEditorClientDisconnectEvent(EditorClient editorClient, PacketHandler
 ## Methods
 
 - PacketHandler.DisconnectReason getDisconnectReason() | Returns the reason for disconnection
+
+Also in this package: AssetEditorActivateButtonEvent, AssetEditorAssetCreatedEvent, AssetEditorFetchAutoCompleteDataEvent, AssetEditorRequestDataSetEvent, AssetEditorSelectAssetEvent, AssetEditorUpdateWeatherPreviewLockEvent, EditorClientEvent
+
+Complete API:
+  public PacketHandler.DisconnectReason getDisconnectReason()
+  public String toString()
+
+Fields:
+private final PacketHandler.DisconnectReason disconnectReason

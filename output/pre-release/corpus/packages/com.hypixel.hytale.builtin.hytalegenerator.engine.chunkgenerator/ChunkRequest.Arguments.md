@@ -13,3 +13,5 @@ Per-chunk generation parameters. Contains the world seed, chunk index, chunk coo
 - int x
 - int z
 - @Nullable LongPredicate stillNeeded
+
+Also in this package: Builder, ChunkGenerator, ChunkRequest, FallbackGenerator, GeneratorProfile, StagedChunkGenerator

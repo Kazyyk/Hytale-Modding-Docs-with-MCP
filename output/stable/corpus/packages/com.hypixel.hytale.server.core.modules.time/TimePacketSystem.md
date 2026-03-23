@@ -9,3 +9,12 @@ Broadcasts the current game time to all players at 1-second intervals when game 
 ## Methods
 
 - public void delayedTick(float dt, int systemIndex, Store<EntityStore> store)
+
+Also in this package: Init, Ticking, TimeModule, TimeResource, TimeSystem, WorldTimeResource, WorldTimeSystems
+
+Complete API:
+  public void delayedTick(float dt, int systemIndex, Store<EntityStore> store)
+
+Fields:
+private static final float BROADCAST_INTERVAL
+private final ResourceType<EntityStore,WorldTimeResource> worldTimeResourceType

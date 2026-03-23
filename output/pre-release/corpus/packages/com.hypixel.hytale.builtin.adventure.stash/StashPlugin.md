@@ -20,3 +20,12 @@ public class StashPlugin extends JavaPlugin
 ## Inner Types
 
 - StashPlugin.StashSystem -- chunk-store ECS system that populates container inventories from drop lists on entity add
+
+Also in this package: StashGameplayConfig, StashSystem
+
+Complete API:
+  protected void setup()
+  public static ListTransaction<ItemStackTransaction> stash(BlockModule.BlockStateInfo blockStateInfo, ItemContainerBlock containerState, boolean clearDropList)
+
+Fields:
+private static final HytaleLogger LOGGER

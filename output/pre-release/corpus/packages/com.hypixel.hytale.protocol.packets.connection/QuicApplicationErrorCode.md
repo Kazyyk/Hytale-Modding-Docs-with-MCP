@@ -15,3 +15,13 @@ Enum of QUIC application-level error codes.
 - `Timeout`
 - `ClientOutdated`
 - `ServerOutdated`
+
+Also in this package: ClientDisconnect, ClientDisconnectReason, ClientType, Connect, DisconnectType, Ping, Pong, PongType, ServerDisconnect
+
+Complete API:
+  public int getValue()
+  public static QuicApplicationErrorCode fromValue(int value)
+
+Fields:
+public static final QuicApplicationErrorCode[] VALUES
+private final int value

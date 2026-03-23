@@ -27,3 +27,13 @@ Asynchronously discovers and returns all points of interest as named map markers
 default void shutdown()
 
 Called when this generator is replaced or the world shuts down. Default implementation is a no-op.
+
+Known implementors: ChunkWorldMap, DisabledWorldMap
+
+Also in this package: ImageEntry, MarkerAndItsStore, MarkerProvider, MarkerReference, PlayerMarkerReference, WorldMapLoadException, WorldMapManager, WorldMapSettings
+
+Complete API:
+  WorldMapSettings getWorldMapSettings()
+  CompletableFuture<WorldMap> generate(World var1, int var2, int var3, LongSet var4)
+  CompletableFuture<Map<String,MapMarker>> generatePointsOfInterest(World var1)
+  default void shutdown()

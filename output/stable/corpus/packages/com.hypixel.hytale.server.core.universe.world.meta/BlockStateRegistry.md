@@ -24,3 +24,9 @@ Registers a block state class with a codec key. Checks preconditions before dele
 public <T extends BlockState, D extends StateData> BlockStateRegistration registerBlockState(@Nonnull Class<T> clazz, @Nonnull String key, Codec<T> codec, Class<D> dataClass, Codec<D> dataCodec)
 
 Registers a block state class along with its `StateData` class and codec.
+
+Also in this package: BlockState, BlockStateModule, BlockStateRegistration, ItemContainerStateRefSystem, LegacyBlockStateHolderSystem, LegacyBlockStateRefSystem, LegacyLateInitBlockStateSystem, LegacyLoadPacketBlockStateSystem, LegacyTickingBlockStateSystem, LegacyUnloadPacketBlockStateSystem
+
+Complete API:
+  public BlockStateRegistration registerBlockState(Class<T> clazz, String key, Codec<T> codec)
+  public BlockStateRegistration registerBlockState(Class<T> clazz, String key, Codec<T> codec, Class<D> dataClass, Codec<D> dataCodec)

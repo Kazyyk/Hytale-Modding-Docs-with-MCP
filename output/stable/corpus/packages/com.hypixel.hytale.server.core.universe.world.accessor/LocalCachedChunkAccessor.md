@@ -33,3 +33,35 @@ public class LocalCachedChunkAccessor implements OverridableChunkAccessor<WorldC
 - @Nullable public WorldChunk getChunkIfNonTicking(long index)
 - public WorldChunk getChunk(long index)
 - public WorldChunk getNonTickingChunk(long index)
+
+Known subclasses: BrushConfigChunkAccessor
+
+Also in this package: BlockAccessor, ChunkAccessor, EmptyBlockAccessor, IChunkAccessorSync, OverridableChunkAccessor, TestBlockFunction
+
+Complete API:
+  public static LocalCachedChunkAccessor atWorldCoords(ChunkAccessor<WorldChunk> delegate, int centerX, int centerZ, int blockRadius)
+  public static LocalCachedChunkAccessor atChunkCoords(ChunkAccessor<WorldChunk> delegate, int centerX, int centerZ, int chunkRadius)
+  public static LocalCachedChunkAccessor atChunk(ChunkAccessor<WorldChunk> delegate, WorldChunk chunk, int chunkRadius)
+  public ChunkAccessor getDelegate()
+  public int getMinX()
+  public int getMinZ()
+  public int getLength()
+  public int getCenterX()
+  public int getCenterZ()
+  public void cacheChunksInRadius()
+  public void overwrite(WorldChunk wc)
+  public WorldChunk getChunkIfInMemory(long index)
+  public WorldChunk getChunkIfInMemory(int x, int z)
+  public WorldChunk loadChunkIfInMemory(long index)
+  public WorldChunk getChunkIfLoaded(long index)
+  public WorldChunk getChunkIfLoaded(int x, int z)
+  public WorldChunk getChunkIfNonTicking(long index)
+  public WorldChunk getChunk(long index)
+  public WorldChunk getNonTickingChunk(long index)
+
+Fields:
+private final ChunkAccessor<WorldChunk> delegate
+private final int minX
+private final int minZ
+private final int length
+private final WorldChunk[] chunks

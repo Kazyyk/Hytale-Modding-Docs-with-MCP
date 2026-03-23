@@ -15,3 +15,13 @@ Spatial system that maintains a KD-tree index of block entities that have an `It
 
 - Extends `SpatialSystem<ChunkStore>`
 - Queries for ItemContainerBlock
+
+Also in this package: ItemContainerSystems, OnAddedOrRemoved, OnReplaced, OnReplacedHolder
+
+Complete API:
+  public void tick(float dt, int systemIndex, Store<ChunkStore> store)
+  public Vector3d getPosition(ArchetypeChunk<ChunkStore> archetypeChunk, int index)
+  public Query<ChunkStore> getQuery()
+
+Fields:
+public static final Query<ChunkStore> QUERY

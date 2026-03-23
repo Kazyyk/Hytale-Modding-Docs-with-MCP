@@ -16,3 +16,15 @@ Abstract base class extending `CancellableEcsEvent` that provides shared logic f
 - public CraftRecipeEvent(@Nonnull CraftingRecipe craftedRecipe, int quantity)
 - @Nonnull public CraftingRecipe getCraftedRecipe()
 - public int getQuantity()
+
+Known subclasses: Post, Pre
+
+Also in this package: BreakBlockEvent, ChangeGameModeEvent, DamageBlockEvent, DiscoverZoneEvent, Display, Drop, DropItemEvent, InteractivelyPickupItemEvent, PlaceBlockEvent, PlayerRequest, Post, Post, Pre, Pre, SwitchActiveSlotEvent, UseBlockEvent
+
+Complete API:
+  public CraftingRecipe getCraftedRecipe()
+  public int getQuantity()
+
+Fields:
+private final CraftingRecipe craftedRecipe
+private final int quantity

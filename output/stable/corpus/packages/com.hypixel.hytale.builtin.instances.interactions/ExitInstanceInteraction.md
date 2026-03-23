@@ -16,3 +16,12 @@ public class ExitInstanceInteraction extends SimpleInstantInteraction
 
 - public WaitForDataFrom getWaitForDataFrom()
 - protected void firstRun(@Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler)
+
+Also in this package: OriginSource, TeleportConfigInstanceInteraction, TeleportInstanceInteraction
+
+Complete API:
+  public WaitForDataFrom getWaitForDataFrom()
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+
+Fields:
+public static final BuilderCodec<ExitInstanceInteraction> CODEC

@@ -13,3 +13,12 @@ Exception extending `CommandException`.
 ## Methods
 
 - sendTranslatedMessage(CommandSender sender) | void | Instance method.
+
+Also in this package: CommandException, NoPermissionException, SenderTypeException
+
+Complete API:
+  public void sendTranslatedMessage(CommandSender sender)
+  public String getMessageText()
+
+Fields:
+private final Message message

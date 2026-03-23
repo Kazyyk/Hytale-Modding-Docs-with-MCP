@@ -11,3 +11,14 @@ Reference system that triggers forced rerun of local spawn controllers when a lo
 - public void onEntityAdded(Ref<EntityStore> reference, AddReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
 - public void onEntityRemove(Ref<EntityStore> reference, RemoveReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
 - public Query<EntityStore> getQuery()
+
+Also in this package: LocalSpawnBeacon, LocalSpawnController, LocalSpawnControllerSystem, LocalSpawnForceTriggerSystem, LocalSpawnSetupSystem, LocalSpawnState
+
+Complete API:
+  public void onEntityAdded(Ref<EntityStore> reference, AddReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public void onEntityRemove(Ref<EntityStore> reference, RemoveReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final ComponentType<EntityStore,LocalSpawnBeacon> componentType
+private final ResourceType<EntityStore,LocalSpawnState> localSpawnStateResourceType

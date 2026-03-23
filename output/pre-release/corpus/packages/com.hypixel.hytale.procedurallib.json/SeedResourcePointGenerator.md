@@ -21,3 +21,13 @@ public SeedResourcePointGenerator(int seedOffset, CellDistanceFunction cellDista
 
 - SeedResource -- provides the thread-local buffers
 - PointGeneratorJsonLoader -- creates instances of this class
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, CellNoiseJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  protected ResultBuffer.Bounds2d localBounds2d()
+  protected ResultBuffer.ResultBuffer2d localBuffer2d()
+  protected ResultBuffer.ResultBuffer3d localBuffer3d()
+
+Fields:
+private final SeedResource seedResource

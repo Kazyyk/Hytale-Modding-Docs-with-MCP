@@ -35,3 +35,37 @@ public class UserMapMarker
 - public UserMapMarker withCreatedByName(@Nullable String name)
 - public MapMarker toProtocolMarker()
 - private void invalidateCachedProto()
+
+Also in this package: CanRemove, CanSpawn, Fail, PlaceResult, RemoveResult, UserMapMarkersStore, UserMarkerValidator
+
+Complete API:
+  public String getId()
+  public void setId(String id)
+  public float getX()
+  public float getZ()
+  public void setPosition(float blockX, float blockZ)
+  public String getName()
+  public void setName(String name)
+  public String getIcon()
+  public void setIcon(String icon)
+  public Color getColorTint()
+  public void setColorTint(Color colorTint)
+  public UUID getCreatedByUuid()
+  public UserMapMarker withCreatedByUuid(UUID uuid)
+  public String getCreatedByName()
+  public UserMapMarker withCreatedByName(String name)
+  public MapMarker toProtocolMarker()
+  private void invalidateCachedProto()
+
+Fields:
+public static final BuilderCodec<UserMapMarker> CODEC
+public static final ArrayCodec<UserMapMarker> ARRAY_CODEC
+private String id
+private float x
+private float z
+private String name
+private String icon
+private Color colorTint
+private UUID createdByUuid
+private String createdByName
+private MapMarker cachedProto

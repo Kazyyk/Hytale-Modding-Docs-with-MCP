@@ -10,3 +10,14 @@ Interface for scan results returned by the deprecated scan-then-place pipeline. 
 
 
 boolean isNegative()
+
+Known implementors: FillerPropScanResult, PickedScanResult, PositionListScanResult, PositionScanResult, RotatedPositionsScanResult
+
+Also in this package: BoxProp, ClusterProp, ColumnProp, DensityProp, PositionListScanResult, PositionScanResult
+
+Complete API:
+  boolean isNegative()
+  static ScanResult noScanResult()
+
+Fields:
+ScanResult NONE

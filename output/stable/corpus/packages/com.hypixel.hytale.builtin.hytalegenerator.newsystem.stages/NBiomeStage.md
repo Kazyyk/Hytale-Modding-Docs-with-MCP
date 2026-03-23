@@ -12,3 +12,18 @@ Assigns biome IDs to a counted pixel buffer by sampling the world structure's bi
 - @Nonnull public Map<NBufferType, Bounds3i> getInputTypesAndBounds_bufferGrid()
 - @Nonnull public List<NBufferType> getOutputTypes()
 - @Nonnull public String getName()
+
+Also in this package: BiomeDistanceCounter, BiomeDistanceEntries, BiomeDistanceEntry, BiomeWeights, ColumnData, Context, Entry, NBiomeDistanceStage, NEnvironmentStage, NPropStage, NStage, NTerrainStage, NTestPropStage, NTestTerrainStage, NTintStage
+
+Complete API:
+  public void run(NStage.Context context)
+  public Map<NBufferType,Bounds3i> getInputTypesAndBounds_bufferGrid()
+  public List<NBufferType> getOutputTypes()
+  public String getName()
+
+Fields:
+public static final Class<NCountedPixelBuffer> bufferClass
+public static final Class<Integer> biomeClass
+private final NParametrizedBufferType biomeOutputBufferType
+private final String stageName
+private final WorkerIndexer.Data<WorldStructure> worldStructure_workerData

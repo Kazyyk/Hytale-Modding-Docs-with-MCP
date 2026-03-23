@@ -10,3 +10,7 @@ Utility type in the `client` subsystem.
 
 - register(ClientFeature feature) | void | Static utility method.
 - unregister(ClientFeature feature) | void | Static utility method.
+
+Complete API:
+  public static void register(ClientFeature feature)
+  public static void unregister(ClientFeature feature)

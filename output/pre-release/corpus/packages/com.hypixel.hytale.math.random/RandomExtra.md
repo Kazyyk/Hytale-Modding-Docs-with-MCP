@@ -34,3 +34,31 @@ Class in the random subsystem.
 - reservoirSample(@Nonnull List<T> input, @Nonnull Predicate<T> matcher, int count, @Nonnull List<T> picked) | void | static public method.
 - reservoirSample(E element, int count, @Nonnull T picked) | <E, T extends List<E>> void | static public method.
 - pickWeightedIndex(@Nonnull double[] weights) | int | static public method.
+
+Complete API:
+  public static double randomBinomial()
+  public static double randomRange(double[] range)
+  public static double randomRange(double from, double to)
+  public static float randomRange(float[] range)
+  public static float randomRange(float from, float to)
+  public static int randomRange(int bound)
+  public static int randomRange(int[] range)
+  public static int randomRange(int from, int to)
+  public static long randomRange(long from, long to)
+  public static Duration randomDuration(Duration from, Duration to)
+  public static boolean randomBoolean()
+  public static T randomElement(List<T> collection)
+  public static Vector3d jitter(Vector3d vec, double maxRange)
+  public static T randomWeightedElement(Collection<? extends T> elements, ToDoubleFunction<T> weight)
+  public static T randomWeightedElement(Collection<? extends T> elements, ToDoubleFunction<T> weight, double sumWeights)
+  public static T randomIntWeightedElement(Collection<? extends T> elements, ToIntFunction<T> weight)
+  public static T randomIntWeightedElement(Collection<? extends T> elements, ToIntFunction<T> weight, int sumWeights)
+  public static T randomWeightedElementFiltered(Collection<? extends T> elements, Predicate<T> filter, ToIntFunction<T> weight)
+  public static T randomWeightedElementFiltered(Collection<? extends T> elements, Predicate<T> filter, ToIntFunction<T> weight, int sumWeights)
+  public static T randomWeightedElement(Collection<? extends T> elements, Predicate<T> filter, ToDoubleFunction<T> weight)
+  public static T randomWeightedElement(Collection<? extends T> elements, Predicate<T> filter, ToDoubleFunction<T> weight, double sumWeights)
+  public static T randomWeightedElement(Collection<? extends T> elements, BiPredicate<T,U> filter, ToDoubleBiFunction<T,U> weight, double sumWeights, U meta)
+  public static void reservoirSample(List<T> input, Predicate<T> matcher, int count, List<T> picked)
+  public static void reservoirSample(S input, TriFunction<E,G,H,F> filter, int count, T picked, G g, H h)
+  public static void reservoirSample(E element, int count, T picked)
+  public static int pickWeightedIndex(double[] weights)

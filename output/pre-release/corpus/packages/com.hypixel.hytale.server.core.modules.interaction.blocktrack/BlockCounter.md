@@ -18,3 +18,16 @@ Implementation of `Resource<ChunkStore>`.
 - untrackBlock(String blockName) | void | public method.
 - getBlockPlacementCount(String blockName) | int | public method.
 - clone() | Resource<ChunkStore> | public method.
+
+Also in this package: OnAddRemove, TrackedPlacement
+
+Complete API:
+  public static ResourceType<ChunkStore,BlockCounter> getResourceType()
+  public void trackBlock(String blockName)
+  public void untrackBlock(String blockName)
+  public int getBlockPlacementCount(String blockName)
+  public Resource<ChunkStore> clone()
+
+Fields:
+public static final BuilderCodec<BlockCounter> CODEC
+private Object2IntMap<String> blockPlacementCounts

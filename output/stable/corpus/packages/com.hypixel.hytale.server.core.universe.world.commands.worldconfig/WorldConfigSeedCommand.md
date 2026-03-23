@@ -13,3 +13,8 @@ Abstract base for related commands.
 ## Methods
 
 - execute(@Nonnull CommandContext context, @Nonnull World world, @Nonnull Store<EntityStore> store) | void | protected method.
+
+Also in this package: WorldConfigCommand, WorldConfigPauseTimeCommand, WorldConfigSetPvpCommand, WorldConfigSetSpawnCommand, WorldConfigSetSpawnDefaultCommand, WorldPauseCommand
+
+Complete API:
+  protected void execute(CommandContext context, World world, Store<EntityStore> store)

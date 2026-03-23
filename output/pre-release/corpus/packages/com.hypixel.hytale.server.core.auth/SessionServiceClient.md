@@ -59,3 +59,22 @@ Terminates a game session via DELETE request.
 - JwkKey
 - JwksResponse
 - LauncherDataResponse
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthConfigGenerated, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, HttpResponseException, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse (and 9 more)
+
+Complete API:
+  public CompletableFuture<String> requestAuthorizationGrantAsync(String identityToken, String serverAudience, String bearerToken)
+  public CompletableFuture<String> exchangeAuthGrantForTokenAsync(String authorizationGrant, String x509Fingerprint, String bearerToken)
+  public SessionServiceClient.JwksResponse getJwks()
+  public SessionServiceClient.GameProfile[] getGameProfiles(String oauthAccessToken)
+  public SessionServiceClient.GameSessionResponse createGameSession(String oauthAccessToken, UUID profileUuid)
+  public CompletableFuture<SessionServiceClient.GameSessionResponse> refreshSessionAsync(String sessionToken)
+  public void terminateSession(String sessionToken)
+  private static String escapeJsonString(String value)
+  private static KeyedCodec<T> externalKey(String key, Codec<T> codec)
+
+Fields:
+private static final HytaleLogger LOGGER
+private static final ExecutorService HTTP_EXECUTOR
+private final HttpClient httpClient
+private final String sessionServiceUrl

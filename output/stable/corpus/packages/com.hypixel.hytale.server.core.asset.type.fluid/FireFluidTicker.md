@@ -40,3 +40,24 @@ Defines flammability for blocks matching a tag pattern.
 
 - FluidTicker -- base class
 - Fluid -- owns this ticker
+
+Also in this package: Accessor, AliveStatus, CachedAccessor, ConversionResult, DefaultFluidTicker, FiniteFluidTicker, FlammabilityConfig, Fluid, FluidCollisionConfig, FluidTicker, FluidTypePacketGenerator, SpreadOutcome
+
+Complete API:
+  protected FluidTicker.AliveStatus isAlive(FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, Fluid fluid, int fluidId, byte fluidLevel, int worldX, int worldY, int worldZ)
+  protected BlockTickStrategy spread(World world, long tick, FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, Fluid fluid, int fluidId, byte fluidLevel, int worldX, int worldY, int worldZ)
+  private FireFluidTicker.FlammabilityConfig getFlammabilityForBlock(BlockType block)
+  public boolean canOccupySolidBlocks()
+  private boolean tryBurn(World world, FluidTicker.Accessor accessor, FluidSection fluidSection, BlockSection blockSection, FireFluidTicker.FlammabilityConfig config, int blockX, int blockY, int blockZ)
+  public boolean isSelfFluid(int selfFluidId, int otherFluidId)
+  private int getSpreadFluidId(int fluidId)
+  public List<FireFluidTicker.FlammabilityConfig> getSortedFlammabilityConfigs()
+
+Fields:
+public static final BuilderCodec<FireFluidTicker> CODEC
+public static final FireFluidTicker INSTANCE
+private static final Vector3i[] OFFSETS
+private String spreadFluid
+private int spreadFluidId
+private FireFluidTicker.FlammabilityConfig[] rawFlammabilityConfigs
+private transient List<FireFluidTicker.FlammabilityConfig> sortedFlammabilityConfigs

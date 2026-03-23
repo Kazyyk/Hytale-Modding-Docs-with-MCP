@@ -32,3 +32,5 @@ Enumeration of cosmetic categories (skins, emotes, etc.).
 - `GLOVES`
 - `CAPES`
 - `SKIN_FEATURES`
+
+Also in this package: BodyType, CosmeticAssetValidator, CosmeticRegistry, CosmeticsModule, Emote, EmoteAsset, EmoteAssetPacketGenerator, HaircutType, HeadAccessoryType, InvalidSkinException, PlayerSkin, PlayerSkinGradient, PlayerSkinGradientSet, PlayerSkinPart, PlayerSkinPartId, PlayerSkinPartTexture, PlayerSkinPartType, PlayerSkinTintColor, Variant

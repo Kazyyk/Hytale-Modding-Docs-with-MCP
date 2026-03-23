@@ -35,3 +35,12 @@ public static enum ClientCache
 - MODEL_TEXTURES | Rebuild model texture cache.
 - MAP_GEOMETRY | Rebuild map geometry cache.
 - ITEM_ICONS | Rebuild item icon cache.
+
+Also in this package: ClientCache, DisplayMode, Dropdown, EditorComponent, EditorFeature, FormattedNumber, Icon, LocalizationKeyField, MultilineTextField, PreviewType, TextField, Timeline, UIButton, UICreateButtons, UIDefaultCollapsedState, UIDisplayMode, UIEditor, UIEditorFeatures, UIEditorPreview, UIEditorSectionStart (and 4 more)
+
+Complete API:
+  public void modify(Schema schema)
+
+Fields:
+private final UIRebuildCaches.ClientCache[] caches
+private final boolean appliesToChildProperties

@@ -18,3 +18,18 @@ public class VoidEvent implements Component
 - @Nullable public VoidEventStage getActiveStage()
 - public void setActiveStage(VoidEventStage activeStage)
 - @Nullable @Override public Component<EntityStore> clone()
+
+Also in this package: VoidSpawner
+
+Complete API:
+  public static ComponentType<EntityStore,VoidEvent> getComponentType()
+  public static VoidEventConfig getConfig(World world)
+  public SpatialHashGrid<Ref<EntityStore>> getVoidSpawners()
+  public VoidEventStage getActiveStage()
+  public void setActiveStage(VoidEventStage activeStage)
+  public Component<EntityStore> clone()
+
+Fields:
+public static final double MIN_BLOCKS_BETWEEN_SPAWNERS
+private SpatialHashGrid<Ref<EntityStore>> voidSpawners
+private VoidEventStage activeStage

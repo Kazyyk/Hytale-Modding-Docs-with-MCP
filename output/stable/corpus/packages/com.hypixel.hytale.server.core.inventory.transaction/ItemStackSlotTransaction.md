@@ -19,3 +19,18 @@ public class ItemStackSlotTransaction extends SlotTransaction
 - public ItemStackSlotTransaction toParent(ItemContainer parent, short start, ItemContainer container)
 - public ItemStackSlotTransaction fromParent(ItemContainer parent, short start, @Nonnull ItemContainer container)
 - public String toString()
+
+Also in this package: ActionType, ClearTransaction, ItemStackTransaction, ListTransaction, MaterialSlotTransaction, MaterialTransaction, MoveTransaction, MoveType, ResourceSlotTransaction, ResourceTransaction, SlotTransaction, TagSlotTransaction, TagTransaction, Transaction
+
+Complete API:
+  public boolean isAddToExistingSlot()
+  public ItemStack getQuery()
+  public ItemStack getRemainder()
+  public ItemStackSlotTransaction toParent(ItemContainer parent, short start, ItemContainer container)
+  public ItemStackSlotTransaction fromParent(ItemContainer parent, short start, ItemContainer container)
+  public String toString()
+
+Fields:
+private final boolean addToExistingSlot
+private final ItemStack query
+private final ItemStack remainder

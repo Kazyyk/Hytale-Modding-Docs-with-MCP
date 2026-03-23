@@ -44,3 +44,40 @@ public class NPixelBufferView<T> implements VoxelSpace<T>
 - @Override public int sizeX()
 - @Override public int sizeY()
 - @Override public int sizeZ()
+
+Also in this package: EntityContainer, NEntityBufferView, NVoxelBufferView
+
+Complete API:
+  public boolean set(T content, int x, int y, int z)
+  public boolean set(T value, Vector3i position_voxelGrid)
+  public void set(T content)
+  public void setOrigin(int x, int y, int z)
+  public T getContent(int x, int y, int z)
+  public T getContent(Vector3i position_voxelGrid)
+  private NPixelBuffer<T> getBuffer(Vector3i position_voxelGrid)
+  public boolean replace(T replacement, int x, int y, int z, Predicate<T> mask)
+  public void pasteFrom(VoxelSpace<T> source)
+  public int getOriginX()
+  public int getOriginY()
+  public int getOriginZ()
+  public String getName()
+  public boolean isInsideSpace(int x, int y, int z)
+  public boolean isInsideSpace(Vector3i position)
+  public void forEach(VoxelConsumer<? super T> action)
+  public int minX()
+  public int maxX()
+  public int minY()
+  public int maxY()
+  public int minZ()
+  public int maxZ()
+  public int sizeX()
+  public int sizeY()
+  public int sizeZ()
+
+Fields:
+public static final int Y_LEVEL_BUFFER_GRID
+public static final int Y_LEVEL_VOXEL_GRID
+private final Class<T> voxelType
+private final NBufferBundle.Access.View bufferAccess
+private final Bounds3i bounds_voxelGrid
+private final Vector3i size_voxelGrid

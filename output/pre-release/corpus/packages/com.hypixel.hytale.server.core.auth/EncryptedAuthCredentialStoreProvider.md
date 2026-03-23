@@ -22,3 +22,15 @@ public static final String DEFAULT_PATH = "auth.enc"
 public IAuthCredentialStore createStore()
 
 Creates an EncryptedAuthCredentialStore at the configured path. Throws `IllegalStateException` if the path is outside a trusted root directory.
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthConfigGenerated, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, GameProfile, GameSessionResponse, HttpResponseException, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse, LauncherDataResponse (and 9 more)
+
+Complete API:
+  public IAuthCredentialStore createStore()
+  public String toString()
+
+Fields:
+public static final String ID
+public static final String DEFAULT_PATH
+public static final BuilderCodec<EncryptedAuthCredentialStoreProvider> CODEC
+private String path

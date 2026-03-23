@@ -15,3 +15,21 @@ Queries entities with `Player`, `TransformComponent`, `KnockbackSimulation`, `Bo
 
 - KnockbackPredictionSystems -- parent container class
 - KnockbackSimulation -- simulation state managed by this system
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public Set<Dependency<EntityStore>> getDependencies()
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  private float convertWishMovement(KnockbackSimulation simulation, MovementStates movementStates, MovementSettings movementSettings)
+  private float computeMoveForce(KnockbackSimulation simulation, MovementStates movementStates, MovementSettings movementSettings)
+  private static float convertToNewRange(float value, float oldMinRange, float oldMaxRange, float newMinRange, float newMaxRange)
+  public void applyMovementOffset(World world, Box hitBox, KnockbackSimulation simulation, MovementStates movementStates, Vector3d movementOffset)
+  private void doMoveCycle(World world, Box hitBox, KnockbackSimulation simulation, MovementStates movementStates, Vector3d offset)
+  private boolean checkCollision(KnockbackSimulation simulation, World world, Box hitBox, Vector3d position, Vector3d moveOffset, KnockbackPredictionSystems.CollisionAxis axis, CollisionResult result)
+
+Fields:
+private static final ComponentType<EntityStore,BoundingBox> BOUNDING_BOX_COMPONENT_TYPE
+private static final Query<EntityStore> QUERY
+private static final Set<Dependency<EntityStore>> DEPENDENCIES

@@ -20,3 +20,18 @@ NPC behavior action builder for ActionApplyEntityEffect functionality.
 - @Nonnull public BuilderActionApplyEntityEffect readConfig(@Nonnull JsonElement data)
 - public int getEntityEffect(@Nonnull BuilderSupport support)
 - public boolean isUseTarget(@Nonnull BuilderSupport support)
+
+Also in this package: BuilderActionAttack, BuilderBodyMotionAimCharge, BuilderHeadMotionAim, BuilderSensorDamage, BuilderSensorIsBackingAway
+
+Complete API:
+  public ActionApplyEntityEffect build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionApplyEntityEffect readConfig(JsonElement data)
+  public int getEntityEffect(BuilderSupport support)
+  public boolean isUseTarget(BuilderSupport support)
+
+Fields:
+protected final AssetHolder entityEffect
+protected final BooleanHolder useTarget

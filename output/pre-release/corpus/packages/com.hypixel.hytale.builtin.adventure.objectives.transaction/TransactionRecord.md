@@ -21,3 +21,24 @@ Class in the transaction subsystem.
 - fail(String reason) | TransactionRecord | public method.
 - toString() | String | public method.
 - appendTransaction(@Nullable TransactionRecord[] transactions, @Nonnull T transaction) | TransactionRecord[] | static public method.
+
+Known subclasses: KillTaskTransaction, RegistrationTransactionRecord, SpawnEntityTransactionRecord, SpawnTreasureChestTransactionRecord, UseEntityTransactionRecord, WorldTransactionRecord
+
+Also in this package: RegistrationTransactionRecord, SpawnEntityTransactionRecord, SpawnTreasureChestTransactionRecord, TransactionStatus, TransactionUtil, UseEntityTransactionRecord, WorldTransactionRecord
+
+Complete API:
+  public TransactionStatus getStatus()
+  public abstract void revert()
+  public abstract void complete()
+  public abstract void unload()
+  public abstract boolean shouldBeSerialized()
+  public TransactionRecord fail(String reason)
+  public String toString()
+  public static TransactionRecord[] appendTransaction(TransactionRecord[] transactions, T transaction)
+  public static TransactionRecord[] appendFailedTransaction(TransactionRecord[] transactions, T transaction, String reason)
+
+Fields:
+public static final CodecMapCodec<TransactionRecord> CODEC
+public static final BuilderCodec<TransactionRecord> BASE_CODEC
+protected TransactionStatus status
+private String reason

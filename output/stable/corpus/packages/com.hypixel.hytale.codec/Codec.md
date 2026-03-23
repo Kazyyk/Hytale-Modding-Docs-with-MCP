@@ -35,3 +35,40 @@ Core serialization/deserialization interface for the Hytale codec system. Provid
 - BsonValue encode(T value, ExtraInfo extraInfo)
 - default T decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
 - static boolean isNullBsonValue(BsonValue bsonValue)
+
+Known implementors: ACodecMapCodec, AMapProvidedMapCodec, ArrayCodec, ArrayOrNull, BoolDoublePairCodec, BooleanCodec, BooleanOrSchema, BsonDocumentCodec, BsonFunctionCodec, BuilderCodec, ByteCodec, ColorAlphaCodec, ColorCodec, ContainedAssetCodec, DirectDecodeCodec, DoubleArrayCodec, DoubleCodec, DoubleOrSchema, EnumCodec, EnumMapCodec, Float2ObjectMapCodec, FloatArrayCodec, FloatCodec, FloatRangeArrayCodec, FunctionCodec, InetSocketAddressCodec, InheritCodec, Int2ObjectMapCodec, IntArrayCodec, IntRangeArrayCodec, IntegerCodec, IntegerOrSchema, InteractionPriorityCodec, ItemOrItems, LocalizableStringCodec, LongArrayCodec, LongCodec, MapCodec, MaybeBoolCodec, MergedEnumMapCodec, MetricResultsCodec, MetricsRegistry, Object2DoubleMapCodec, Object2FloatMapCodec, Object2IntMapCodec, ObjectMapCodec, ParamValueCodec, SetCodec, Short2ObjectMapCodec, ShortCodec, StoredCodec, StringCodec, StringIntegerCodec, StringOrBlank, UUIDBinaryCodec, ValidatableCodec, ValueCodec, Vector2dArrayCodec, Vector3dArrayCodec, Vector3iArrayCodec, WeightedMapCodec
+
+Also in this package: DirectDecodeCodec, DocumentContainingCodec, EmptyExtraInfo, ExtraInfo, InheritCodec, KeyedCodec, PrimitiveCodec, RawJsonCodec, RawJsonInheritCodec, VersionedExtraInfo, WrappedCodec
+
+Complete API:
+  default T decode(BsonValue bsonValue)
+  T decode(BsonValue var1, ExtraInfo var2)
+  default BsonValue encode(T t)
+  BsonValue encode(T var1, ExtraInfo var2)
+  default T decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  static boolean isNullBsonValue(BsonValue bsonValue)
+
+Fields:
+BsonDocumentCodec BSON_DOCUMENT
+StringCodec STRING
+BooleanCodec BOOLEAN
+DoubleCodec DOUBLE
+FloatCodec FLOAT
+ByteCodec BYTE
+ShortCodec SHORT
+IntegerCodec INTEGER
+LongCodec LONG
+Pattern BASE64_PATTERN
+Codec<byte[]> BYTE_ARRAY
+DoubleArrayCodec DOUBLE_ARRAY
+FloatArrayCodec FLOAT_ARRAY
+IntArrayCodec INT_ARRAY
+LongArrayCodec LONG_ARRAY
+ArrayCodec<String> STRING_ARRAY
+FunctionCodec<String,Path> PATH
+FunctionCodec<String,Instant> INSTANT
+FunctionCodec<String,Duration> DURATION
+FunctionCodec<Double,Duration> DURATION_SECONDS
+FunctionCodec<String,Level> LOG_LEVEL
+UUIDBinaryCodec UUID_BINARY
+FunctionCodec<String,UUID> UUID_STRING

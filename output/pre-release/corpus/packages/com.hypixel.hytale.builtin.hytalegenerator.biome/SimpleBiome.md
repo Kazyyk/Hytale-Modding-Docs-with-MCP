@@ -23,3 +23,22 @@ public class SimpleBiome implements Biome
 - @Nonnull @Override public EnvironmentProvider getEnvironmentProvider()
 - @Nonnull @Override public TintProvider getTintProvider()
 - @Nonnull @Override public List<Assignments> getAllPropDistributions()
+
+Also in this package: Biome, EnvironmentSource, MaterialSource, PropsSource, TintSource
+
+Complete API:
+  public void addPropFieldTo(PropRuntime propRuntime)
+  public MaterialProvider<Material> getMaterialProvider()
+  public Density getTerrainDensity()
+  public void getRuntimesWithIndex(int runtimeIndex, Consumer<PropRuntime> out)
+  public List<PropRuntime> getPropRuntimes()
+  public EnvironmentProvider getEnvironmentProvider()
+  public TintProvider getTintProvider()
+
+Fields:
+private final Density terrainDensity
+private final MaterialProvider<Material> materialProvider
+private final List<PropRuntime> propRuntimes
+private final EnvironmentProvider environmentProvider
+private final TintProvider tintProvider
+private final String biomeName

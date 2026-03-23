@@ -20,3 +20,18 @@ Extends `BuilderEntityFilterWithToggle`.
         Scope globalScope,
         @Nonnull List<String> errors)` |
 | `@Nullable public` | `IEntityFilter` | `getFilter(@Nonnull BuilderSupport support)` |
+
+Also in this package: BuilderEntityFilterAltitude, BuilderEntityFilterAnd, BuilderEntityFilterAttitude, BuilderEntityFilterCombat, BuilderEntityFilterHeightDifference, BuilderEntityFilterInsideBlock, BuilderEntityFilterInventory, BuilderEntityFilterItemInHand, BuilderEntityFilterLineOfSight, BuilderEntityFilterMany, BuilderEntityFilterMovementState, BuilderEntityFilterNPCGroup, BuilderEntityFilterOr, BuilderEntityFilterSpotsMe, BuilderEntityFilterStandingOnBlock, BuilderEntityFilterStat, BuilderEntityFilterViewSector
+
+Complete API:
+  public IEntityFilter build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public void registerTags(Set<String> tags)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<IEntityFilter> readConfig(JsonElement data)
+  public boolean validate(String configName, NPCLoadTimeValidationHelper validationHelper, ExecutionContext context, Scope globalScope, List<String> errors)
+  public IEntityFilter getFilter(BuilderSupport support)
+
+Fields:
+protected final BuilderObjectReferenceHelper<IEntityFilter> filter

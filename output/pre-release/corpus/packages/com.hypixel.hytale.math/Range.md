@@ -21,3 +21,14 @@ Class in the math subsystem.
 - getMin() | float | public method.
 - getMax() | float | public method.
 - toString() | String | public method.
+
+Also in this package: Axis
+
+Complete API:
+  public float getMin()
+  public float getMax()
+  public String toString()
+
+Fields:
+private float min
+private float max

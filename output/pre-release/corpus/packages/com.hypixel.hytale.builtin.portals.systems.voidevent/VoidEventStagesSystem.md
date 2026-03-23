@@ -12,3 +12,12 @@ Delayed entity system (1.5s interval) that manages progression through void even
 - public static void startStage(VoidEventStage stage, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
 - public static void stopStage(VoidEventStage stage, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
 - public Query<EntityStore> getQuery()
+
+Also in this package: Instantiate, StartVoidEventInFragmentSystem, VoidEventRefSystem, VoidInvasionData, VoidInvasionPortalsSpawnSystem, VoidSpawnerSystems
+
+Complete API:
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  private static VoidEventStage computeAppropriateStage(VoidEventConfig config, int elapsedSeconds)
+  public static void startStage(VoidEventStage stage, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public static void stopStage(VoidEventStage stage, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public Query<EntityStore> getQuery()

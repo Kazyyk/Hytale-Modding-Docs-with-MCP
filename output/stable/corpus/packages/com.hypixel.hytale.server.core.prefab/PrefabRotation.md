@@ -31,3 +31,24 @@ Represents one of four 90-degree rotation increments around the Y axis for prefa
 - public float getYaw()
 - public int getRotation(int rotation)
 - public int getFiller(int filler)
+
+Also in this package: AssetPackPrefabPath, PrefabCopyableComponent, PrefabEntry, PrefabLoadException, PrefabSaveException, PrefabStore, PrefabWeights, RotationExecutor, RotationExecutor_0, RotationExecutor_180, RotationExecutor_270, RotationExecutor_90, Type, Type, WeightMapValidator
+
+Complete API:
+  public static PrefabRotation fromRotation(Rotation rotation)
+  public static PrefabRotation valueOfExtended(String s)
+  public PrefabRotation add(PrefabRotation other)
+  public void rotate(Vector3d v)
+  public void rotate(Vector3i v)
+  public void rotate(Vector3l v)
+  public int getX(int x, int z)
+  public int getZ(int x, int z)
+  public float getYaw()
+  public int getRotation(int rotation)
+  public int getFiller(int filler)
+
+Fields:
+public static final PrefabRotation[] VALUES
+public static final String PREFIX
+private final Rotation rotation
+private final PrefabRotation.RotationExecutor executor

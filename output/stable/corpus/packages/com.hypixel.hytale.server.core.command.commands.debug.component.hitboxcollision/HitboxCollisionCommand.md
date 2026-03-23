@@ -5,3 +5,5 @@ Type: class | Package: com.hypixel.hytale.server.core.command.commands.debug.com
 public class HitboxCollisionCommand
 
 Parent debug command for managing hitbox collision components on entities.
+
+Also in this package: HitboxCollisionAddCommand, HitboxCollisionAddEntityCommand, HitboxCollisionAddSelfCommand, HitboxCollisionRemoveCommand, HitboxCollisionRemoveEntityCommand, HitboxCollisionRemoveSelfCommand

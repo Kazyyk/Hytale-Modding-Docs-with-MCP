@@ -17,3 +17,15 @@ Implementation of `IPathProvider`.
 - clear() | void | public method.
 - hasPath() | boolean | public method.
 - getPath() | IPath<? extends IPathWaypoint> | public method.
+
+Also in this package: CachedPositionProvider, EntityPositionProvider, ExtraInfoProvider, IPathProvider, IPositionProvider, InfoProvider, InfoProviderBase, PositionProvider, ValueWrappedInfoProvider, WrappedInfoProvider
+
+Complete API:
+  public void setPath(IPath<? extends IPathWaypoint> path)
+  public void clear()
+  public boolean hasPath()
+  public IPath<? extends IPathWaypoint> getPath()
+
+Fields:
+private IPath<? extends IPathWaypoint> path
+private boolean isValid

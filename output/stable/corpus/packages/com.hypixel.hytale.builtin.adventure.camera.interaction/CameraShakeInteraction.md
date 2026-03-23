@@ -14,3 +14,12 @@ public class CameraShakeInteraction extends SimpleInstantInteraction
 
 - @Override protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
 - @Nonnull @Override public String toString()
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<CameraShakeInteraction> CODEC
+protected String effectId
+protected int effectIndex

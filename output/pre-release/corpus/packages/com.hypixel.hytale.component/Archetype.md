@@ -61,3 +61,38 @@ Returns an exact-match query for this specific archetype.
 - ArchetypeChunk -- stores entities sharing the same archetype
 - ComponentType -- the component handles that compose an archetype
 - Holder -- carries an Archetype alongside component data
+
+Also in this package: AddReason, ArchetypeChunk, CommandBuffer, Component, ComponentAccessor, ComponentRegistration, ComponentRegistry, ComponentRegistryProxy, ComponentType, Data, DisableProcessingAssert, EmptyResourceStorage, Holder, IComponentRegistry, IResourceStorage, NonSerialized, NonTicking, ProcessingCounter, ReadWriteQuery, Ref (and 8 more)
+
+Complete API:
+  public static Archetype<ECS_TYPE> empty()
+  public int getMinIndex()
+  public int count()
+  public int length()
+  public ComponentType<ECS_TYPE,?> get(int index)
+  public boolean isEmpty()
+  public boolean contains(ComponentType<ECS_TYPE,?> componentType)
+  public boolean contains(Archetype<ECS_TYPE> archetype)
+  public void validateComponentType(ComponentType<ECS_TYPE,?> componentType)
+  public void validateComponents(Component<ECS_TYPE>[] components, ComponentType<ECS_TYPE,UnknownComponents<ECS_TYPE>> ignore)
+  public boolean hasSerializableComponents(ComponentRegistry.Data<ECS_TYPE> data)
+  public Archetype<ECS_TYPE> getSerializableArchetype(ComponentRegistry.Data<ECS_TYPE> data)
+  public ExactArchetypeQuery<ECS_TYPE> asExactQuery()
+  public static Archetype<ECS_TYPE> of(ComponentType<ECS_TYPE,?> componentTypes)
+  public static Archetype<ECS_TYPE> of(ComponentType<ECS_TYPE,?> componentTypes)
+  public static Archetype<ECS_TYPE> add(Archetype<ECS_TYPE> archetype, ComponentType<ECS_TYPE,T> componentType)
+  public static Archetype<ECS_TYPE> remove(Archetype<ECS_TYPE> archetype, ComponentType<ECS_TYPE,T> componentType)
+  public boolean test(Archetype<ECS_TYPE> archetype)
+  public boolean requiresComponentType(ComponentType<ECS_TYPE,?> componentType)
+  public void validateRegistry(ComponentRegistry<ECS_TYPE> registry)
+  public void validate()
+  public boolean equals(Object o)
+  public int hashCode()
+  public String toString()
+
+Fields:
+private static final Archetype EMPTY
+private final int minIndex
+private final int count
+private final ComponentType<ECS_TYPE,?>[] componentTypes
+private final ExactArchetypeQuery<ECS_TYPE> exactQuery

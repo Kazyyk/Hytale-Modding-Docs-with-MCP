@@ -25,3 +25,23 @@ public class ItemSoundSet implements JsonAssetWithMap, NetworkSerializable
 - public Object2IntMap<ItemSoundEvent> getSoundEventIndices()
 - protected void processConfig()
 - @Nonnull @Override public String toString()
+
+Complete API:
+  public static AssetStore<String,ItemSoundSet,IndexedLookupTableAssetMap<String,ItemSoundSet>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,ItemSoundSet> getAssetMap()
+  public com.hypixel.hytale.protocol.ItemSoundSet toPacket()
+  public String getId()
+  public Map<ItemSoundEvent,String> getSoundEventIds()
+  public Object2IntMap<ItemSoundEvent> getSoundEventIndices()
+  protected void processConfig()
+  public String toString()
+
+Fields:
+public static final AssetBuilderCodec<String,ItemSoundSet> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,ItemSoundSet,IndexedLookupTableAssetMap<String,ItemSoundSet>> ASSET_STORE
+protected AssetExtraInfo.Data data
+protected String id
+protected Map<ItemSoundEvent,String> soundEventIds
+protected transient Object2IntMap<ItemSoundEvent> soundEventIndices
+private SoftReference<com.hypixel.hytale.protocol.ItemSoundSet> cachedPacket

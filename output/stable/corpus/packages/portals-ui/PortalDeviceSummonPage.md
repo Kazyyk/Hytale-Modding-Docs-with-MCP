@@ -52,3 +52,23 @@ Record for missing portal type ID errors.
 *sealed interface*
 
 Sealed interface permitting `CanSpawnPortal`, `Error`, `InstanceKeyNotFound`, and `PortalTypeNotFound`.
+
+Also in this package: CanSpawnPortal, Data, Data, Error, Error, InstanceKeyNotFound, Material, PortalDeviceActivePage, PortalDevicePageSupplier, PortalIsOpen, PortalSpawnFinder, PortalTypeNotFound, State, State
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  private static void updateCustomPills(UICommandBuilder commandBuilder, PortalType portalType)
+  private static void updateBulletList(UICommandBuilder commandBuilder, String selector, String[] messageKeys)
+  public static Message createDescription(PortalType portalType, int timeLimitSeconds)
+  private static Message formatDurationCrudely(int seconds)
+  public void handleDataEvent(Ref<EntityStore> ref, Store<EntityStore> store, PortalDeviceSummonPage.Data data)
+  private static CompletableFuture<World> spawnReturnPortal(World world, PortalWorld portalWorld, UUID sampleUuid, String portalBlockType)
+  private static CompletableFuture<Transform> getSpawnTransform(World world, UUID sampleUuid)
+  private static List<Vector3d> fetchHintedSpawns(World world, UUID sampleUuid)
+  private PortalDeviceSummonPage.State computeState(Player player, ComponentAccessor<EntityStore> componentAccessor)
+  private static void decrementItemInHand(Inventory inventory, int amount)
+
+Fields:
+private final PortalDeviceConfig config
+private final Ref<ChunkStore> blockRef
+private final ItemStack offeredItemStack

@@ -18,3 +18,11 @@ Enumerates PrefabAlignment values: `ANCHOR`, `ZERO`.
 ## Methods
 
 - public String getLocalizationString()
+
+Also in this package: PrefabRootDirectory, PrefabRowSplitMode, PrefabStackingAxis, WorldGenType
+
+Complete API:
+  public String getLocalizationString()
+
+Fields:
+private final String localizationString

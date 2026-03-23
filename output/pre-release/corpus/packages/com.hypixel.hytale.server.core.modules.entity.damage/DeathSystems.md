@@ -24,3 +24,8 @@ Container for ECS systems that handle entity death. Each inner system extends `O
 - DeathSystems.SpawnedDeathAnimation | Plays death animation for entities that spawn already dead
 - DeathSystems.StopVoiceOnDeath | Silences voice chat on death
 - DeathSystems.TickCorpseRemoval | Ticks the deferred corpse removal timer
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  private static void playDeathAnimation(Ref<EntityStore> ref, DeathComponent deathComponent, ModelComponent modelComponent, MovementStatesComponent movementStatesComponent, ComponentAccessor<EntityStore> componentAccessor)

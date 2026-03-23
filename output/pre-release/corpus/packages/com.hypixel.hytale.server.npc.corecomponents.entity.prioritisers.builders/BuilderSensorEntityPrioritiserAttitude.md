@@ -17,3 +17,14 @@ Utility type in the `builders` subsystem.
 
 - build(BuilderSupport builderSupport) | SensorEntityPrioritiserAttitude | Instance method.
 - readConfig(JsonElement data) | BuilderSensorEntityPrioritiserAttitude | Instance method.
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public SensorEntityPrioritiserAttitude build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderSensorEntityPrioritiserAttitude readConfig(JsonElement data)
+  public Attitude[] getPrioritisedAttitudes(BuilderSupport support)
+
+Fields:
+protected final EnumArrayHolder<Attitude> prioritisedAttitudes

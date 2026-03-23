@@ -35,3 +35,27 @@ The deprecated constructor creates a mock client from a `PlayerRef`, used for le
 - sendSuccessReply(int) | void | Sends a success reply for a token
 - sendSuccessReply(int, Message) | void | Sends a success reply with a message
 - sendFailureReply(int, Message) | void | Sends a failure reply with a message
+
+Also in this package: AssetEditorGamePacketHandler, AssetEditorPacketHandler, AssetEditorPlugin, AssetPath, AssetSpecificFunctionality, AssetToDiscard, AssetTree, AssetTypeRegistry, DiscardResult, InitState, Messages, PlayerPreviewData, UndoRedoManager
+
+Complete API:
+  public String getLanguage()
+  public void setLanguage(String language)
+  public UUID getUuid()
+  public String getUsername()
+  public PlayerAuthentication getAuth()
+  public PacketHandler getPacketHandler()
+  public PlayerRef tryGetPlayer()
+  public boolean hasPermission(String id)
+  public boolean hasPermission(String id, boolean def)
+  public void sendPopupNotification(AssetEditorPopupNotificationType type, Message message)
+  public void sendSuccessReply(int token)
+  public void sendSuccessReply(int token, Message message)
+  public void sendFailureReply(int token, Message message)
+
+Fields:
+private String language
+private final UUID uuid
+private final String username
+private final PlayerAuthentication auth
+private final PacketHandler packetHandler

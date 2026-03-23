@@ -51,3 +51,47 @@ NPC behavior action builder for ActionAttack functionality.
 - public double getChargeDistance(@Nonnull BuilderSupport support)
 - public int getAttackParameterSlot(@Nonnull BuilderSupport support)
 - @Nullable public Map<String, String> getInteractionVars()
+
+Also in this package: BuilderActionApplyEntityEffect, BuilderBodyMotionAimCharge, BuilderHeadMotionAim, BuilderSensorDamage, BuilderSensorIsBackingAway
+
+Complete API:
+  public ActionAttack build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public BuilderActionAttack readConfig(JsonElement data)
+  public String getAttack(BuilderSupport builderSupport)
+  public ActionAttack.AttackType getAttackType(BuilderSupport support)
+  public float getChargeTime(BuilderSupport support)
+  public double[] getAttackPauseRange(BuilderSupport support)
+  public double[] getAimingTimeRange(BuilderSupport support)
+  public double getMeleeConeAngle()
+  public ActionAttack.BallisticMode getBallisticMode()
+  public boolean isCheckLineOfSight()
+  public boolean isAvoidFriendlyFire()
+  public boolean isDamageFriendlies()
+  public boolean isSkipAiming()
+  public double getChargeDistance(BuilderSupport support)
+  public int getAttackParameterSlot(BuilderSupport support)
+  public Map<String,String> getInteractionVars()
+
+Fields:
+private static final String ATTACK_PARAMETER
+public static final String[] ANTECEDENT
+public static final String[] SUBSEQUENT
+public static final double[] DEFAULT_ATTACK_PAUSE_RANGE
+public static final double[] DEFAULT_AIMING_TIME_RANGE
+protected final AssetHolder attack
+protected final EnumHolder<ActionAttack.AttackType> attackType
+protected final FloatHolder chargeFor
+protected final NumberArrayHolder attackPauseRange
+protected final NumberArrayHolder aimingTimeRange
+protected double meleeConeAngle
+protected ActionAttack.BallisticMode ballisticMode
+protected boolean checkLineOfSight
+protected boolean avoidFriendlyFire
+protected boolean damageFriendlies
+protected boolean skipAiming
+protected DoubleHolder chargeDistance
+protected final BuilderCodecObjectHelper<Map<String,String>> interactionVars
+protected boolean attackProvided

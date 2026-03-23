@@ -21,3 +21,17 @@ public class FluidMaterial
 - @Override public int hashCode()
 - public static int contentHash(int blockId, byte fluidLevel)
 - @Nonnull @Override public String toString()
+
+Also in this package: Hash, Material, MaterialCache, SolidMaterial
+
+Complete API:
+  public MaterialCache getVoxelCache()
+  public final boolean equals(Object o)
+  public int hashCode()
+  public static int contentHash(int blockId, byte fluidLevel)
+  public String toString()
+
+Fields:
+private final MaterialCache materialCache
+public final int fluidId
+public final byte fluidLevel

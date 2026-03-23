@@ -14,3 +14,14 @@ public class DiskDataStoreProvider implements DataStoreProvider
 
 - @Nonnull @Override public DataStore<T> create(BuilderCodec<T> builderCodec)
 - @Nonnull @Override public String toString()
+
+Also in this package: DataStore, DataStoreProvider, DiskDataStore
+
+Complete API:
+  public DataStore<T> create(BuilderCodec<T> builderCodec)
+  public String toString()
+
+Fields:
+public static final String ID
+public static final BuilderCodec<DiskDataStoreProvider> CODEC
+private String path

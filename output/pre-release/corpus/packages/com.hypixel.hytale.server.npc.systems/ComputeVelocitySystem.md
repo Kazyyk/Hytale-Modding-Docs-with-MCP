@@ -42,3 +42,18 @@ Returns `EntityTickingSystem.maybeUseParallel(archetypeChunkSize, taskCount)`.
 - NPCPreTickSystem -- stores tick start position used by this system
 - MovementStatesSystem -- runs after this to update movement state flags
 - SteppableTickingSystem -- base class
+
+Also in this package: AddSimulationManagerSystem, AddSpawnEntityEffectSystem, AddedFromExternalSystem, AddedFromWorldGenSystem, AddedSystem, AvoidanceSystem, BalancingInitialisationSystem, BeaconAddRemoveSystem, BeaconSystem, BehaviourTickSystem, BlackboardSystems, BreakBlockEventSystem, DamageBlockEventSystem, DamageDealtSystem, DamageReceivedEventViewSystem, DamageReceivedSystem, DropDeathItems, EntityViewSystem, FailedSpawnSystem, FilterDamageSystem (and 49 more)
+
+Complete API:
+  public Set<Dependency<EntityStore>> getDependencies()
+  public boolean isParallel(int archetypeChunkSize, int taskCount)
+  public void steppedTick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final ComponentType<EntityStore,NPCEntity> npcEntityComponentType
+private final ComponentType<EntityStore,Velocity> velocityComponentType
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final Set<Dependency<EntityStore>> dependencies
+private final Query<EntityStore> query

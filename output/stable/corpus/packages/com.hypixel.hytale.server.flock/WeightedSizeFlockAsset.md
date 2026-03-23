@@ -35,3 +35,17 @@ Picks a weighted random index from `sizeWeights` and returns `max(minSize, 1) + 
 
 - FlockAsset -- abstract base class
 - RangeSizeFlockAsset -- alternative implementation
+
+Also in this package: FlockAsset, RangeSizeFlockAsset
+
+Complete API:
+  public int getMinSize()
+  public double[] getSizeWeights()
+  public int getMinFlockSize()
+  public int pickFlockSize()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<WeightedSizeFlockAsset> CODEC
+protected int minSize
+protected double[] sizeWeights

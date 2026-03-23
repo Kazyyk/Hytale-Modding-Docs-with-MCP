@@ -23,3 +23,11 @@ public static enum Type
 
 - ERROR
 - ALREADY_EXISTS
+
+Also in this package: AssetPackPrefabPath, PrefabCopyableComponent, PrefabEntry, PrefabLoadException, PrefabRotation, PrefabStore, PrefabWeights, RotationExecutor, RotationExecutor_0, RotationExecutor_180, RotationExecutor_270, RotationExecutor_90, Type, Type, WeightMapValidator
+
+Complete API:
+  public PrefabSaveException.Type getType()
+
+Fields:
+private PrefabSaveException.Type type

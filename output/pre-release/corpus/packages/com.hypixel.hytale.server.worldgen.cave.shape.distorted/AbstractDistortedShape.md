@@ -33,3 +33,26 @@ public abstract class AbstractDistortedShape implements DistortedShape
 ## Related Types
 
 - DistortedShape
+
+Known subclasses: AbstractDistortedBody, AbstractDistortedExtrusion
+
+Also in this package: AbstractDistortedBody, AbstractDistortedExtrusion, DistortedCylinderShape, DistortedEllipsoidShape, DistortedPipeShape, DistortedShape, DistortedShapes, Factory, Factory, Factory, Factory, Factory, ShapeDistortion
+
+Complete API:
+  public int getLowBoundX()
+  public int getLowBoundZ()
+  public int getHighBoundX()
+  public int getHighBoundZ()
+  public int getLowBoundY()
+  public int getHighBoundY()
+  public static double clampPitch(double pitch)
+
+Fields:
+private static final double PITCH_MIN
+private static final double PITCH_MAX
+private final int lowBoundX
+private final int lowBoundY
+private final int lowBoundZ
+private final int highBoundX
+private final int highBoundY
+private final int highBoundZ

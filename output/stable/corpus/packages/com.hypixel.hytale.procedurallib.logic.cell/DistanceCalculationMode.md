@@ -34,3 +34,13 @@ public enum DistanceCalculationMode
 - private DistanceCalculationMode(PointDistanceFunction function)
 - public PointDistanceFunction getFunction()
 - public static DistanceCalculationMode from(PointDistanceFunction function)
+
+Also in this package: BorderDistanceFunction, CellDistanceFunction, CellPointFunction, CellType, GridCellDistanceFunction, HexCellDistanceFunction, MeasurementMode, PointDistanceFunction, SquirrelHash
+
+Complete API:
+  public PointDistanceFunction getFunction()
+  public static DistanceCalculationMode from(PointDistanceFunction function)
+
+Fields:
+protected static final DistanceCalculationMode[] VALUES
+private final PointDistanceFunction function

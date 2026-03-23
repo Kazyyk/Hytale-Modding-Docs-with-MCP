@@ -20,3 +20,26 @@ NPC action that controls named timers. Supports six operations: START, PAUSE, ST
 - SensorTimer -- sensor checking timer state
 - BuilderActionTimerStart -- builder for START action
 - BuilderActionTimerStop -- builder for STOP action
+
+Also in this package: ActionSetAlarm, BodyMotionTimer, HeadMotionTimer, MotionTimer, SensorAlarm, SensorTimer, State
+
+Complete API:
+  public boolean execute(Ref<EntityStore> ref, Role role, InfoProvider sensorInfo, double dt, Store<EntityStore> store)
+  protected void executeRestartAction()
+  protected void executeModifyAction()
+  protected void executeContinueAction()
+  protected void executePauseAction()
+  protected void executeStopAction()
+  protected void executeStartAction()
+
+Fields:
+protected final Timer timer
+protected final Timer.TimerAction action
+protected double minStartValue
+protected double maxStartValue
+protected double minRestartValue
+protected double maxValue
+protected double rate
+protected double increaseValue
+protected boolean modifyRepeating
+protected boolean repeating

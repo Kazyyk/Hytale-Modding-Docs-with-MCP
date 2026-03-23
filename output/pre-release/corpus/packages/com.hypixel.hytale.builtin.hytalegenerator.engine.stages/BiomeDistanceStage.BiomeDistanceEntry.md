@@ -10,3 +10,9 @@ Mutable pair of a biome ID and its closest distance in voxel-grid units. Used as
 
 - public int biomeId
 - public double distance_voxelGrid
+
+Also in this package: BiomeDistanceCounter, BiomeDistanceEntries, BiomeDistanceStage, BiomeStage, BiomeWeights, ColumnData, Context, Entry, EnvironmentStage, PropStage, Stage, TerrainStage, TintStage
+
+Fields:
+public int biomeId
+public double distance_voxelGrid

@@ -30,3 +30,30 @@ Data-driven asset defining the configuration for a farming coop block. Loaded fr
 - public int[] getAcceptedNpcGroupIndexes()
 - public float getWildCaptureRadius()
 - public boolean getCaptureWildNPCsInRange()
+
+Complete API:
+  public static AssetStore<String,FarmingCoopAsset,DefaultAssetMap<String,FarmingCoopAsset>> getAssetStore()
+  public static DefaultAssetMap<String,FarmingCoopAsset> getAssetMap()
+  public String getId()
+  public Map<String,String> getProduceDrops()
+  public int getMaxResidents()
+  public IntRange getResidentRoamTime()
+  public Vector3d getResidentSpawnOffset()
+  public int[] getAcceptedNpcGroupIndexes()
+  public float getWildCaptureRadius()
+  public boolean getCaptureWildNPCsInRange()
+  public String toString()
+
+Fields:
+public static final AssetBuilderCodec<String,FarmingCoopAsset> CODEC
+private static AssetStore<String,FarmingCoopAsset,DefaultAssetMap<String,FarmingCoopAsset>> ASSET_STORE
+private AssetExtraInfo.Data data
+protected String id
+protected int maxResidents
+protected Map<String,String> produceDrops
+protected IntRange residentRoamTime
+protected Vector3d residentSpawnOffset
+protected String[] acceptedNpcGroupIds
+protected int[] acceptedNpcGroupIndexes
+protected boolean captureWildNPCsInRange
+protected float wildCaptureRadius

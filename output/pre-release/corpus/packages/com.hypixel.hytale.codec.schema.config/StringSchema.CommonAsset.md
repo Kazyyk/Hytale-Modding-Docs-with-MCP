@@ -34,3 +34,18 @@ public boolean isUIAsset()
 ## See Also
 
 - StringSchema -- parent class
+
+Known subclasses: FileCommonAsset, ResourceCommonAsset
+
+Also in this package: ArrayOrNull, ArraySchema, BooleanOrSchema, BooleanSchema, DoubleOrSchema, HytaleMetadata, InheritSettings, IntegerOrSchema, IntegerSchema, ItemOrItems, NullSchema, NumberSchema, ObjectSchema, Schema, SchemaTypeField, StringOrBlank, StringSchema
+
+Complete API:
+  public String[] getRequiredRoots()
+  public String getRequiredExtension()
+  public boolean isUIAsset()
+
+Fields:
+public static final BuilderCodec<StringSchema.CommonAsset> CODEC
+private String[] requiredRoots
+private String requiredExtension
+private boolean isUIAsset

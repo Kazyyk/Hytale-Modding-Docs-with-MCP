@@ -14,3 +14,16 @@ NPC behavior tree builder for a sensor node. Configures detection or query logic
 - getBuilderDescriptorState() | BuilderDescriptorState | public method.
 - readConfig(@Nonnull JsonElement data) | Builder<Sensor> | public method.
 - getInteractionContext(@Nonnull BuilderSupport support) | String | public method.
+
+Also in this package: BuilderActionLockOnInteractionTarget, BuilderActionSetInteractable, BuilderSensorCanInteract, BuilderSensorHasInteracted
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public Sensor build(BuilderSupport builderSupport)
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Sensor> readConfig(JsonElement data)
+  public String getInteractionContext(BuilderSupport support)
+
+Fields:
+protected final StringHolder interactionContext

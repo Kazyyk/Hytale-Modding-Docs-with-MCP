@@ -33,3 +33,18 @@ Ordered `BEFORE` `PlayerSystems.ProcessPlayerInput`.
 
 - MountSystems -- enclosing class
 - MountSystems.PlayerMount -- sets mount IDs on player input
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnAdd, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  public Query<EntityStore> getQuery()
+  public Set<Dependency<EntityStore>> getDependencies()
+
+Fields:
+private final ComponentType<EntityStore,MountedComponent> mountedComponentType
+private final ComponentType<EntityStore,PlayerInput> playerInputComponentType
+private final ComponentType<EntityStore,MovementStatesComponent> movementStatesComponentType
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final Query<EntityStore> query
+private final Set<Dependency<EntityStore>> deps

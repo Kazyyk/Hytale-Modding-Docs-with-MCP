@@ -20,3 +20,19 @@ public static class GatherMemoriesSystem extends EntityTickingSystem<EntityStore
 - private static String findLocationZoneName(@Nonnull World world, @Nonnull Vector3d position)
 - private static void displayCatchEntityParticles( @Nonnull MemoriesGameplayConfig memoriesGameplayConfig, @Nonnull Vector3d targetPosition, @Nonnull Ref<EntityStore> targetRef, @Nonnull CommandBuffer<EntityStore> commandBuffer )
 - public Query<EntityStore> getQuery()
+
+Also in this package: NPCMemory, NPCMemoryProvider
+
+Complete API:
+  public void tick(float dt, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  private static String findLocationZoneName(World world, Vector3d position)
+  private static void displayCatchEntityParticles(MemoriesGameplayConfig memoriesGameplayConfig, Vector3d targetPosition, Ref<EntityStore> targetRef, CommandBuffer<EntityStore> commandBuffer)
+  public Query<EntityStore> getQuery()
+
+Fields:
+private final ComponentType<EntityStore,TransformComponent> transformComponentType
+private final ComponentType<EntityStore,Player> playerComponentType
+private final ComponentType<EntityStore,PlayerRef> playerRefComponentType
+private final ComponentType<EntityStore,PlayerMemories> playerMemoriesComponentType
+private final Query<EntityStore> query
+private final double radius

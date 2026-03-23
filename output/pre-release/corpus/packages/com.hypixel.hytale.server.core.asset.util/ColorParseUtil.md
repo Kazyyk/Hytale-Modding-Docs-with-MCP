@@ -46,3 +46,44 @@ public class ColorParseUtil
 - @Nonnull public static String toHexString(int rgb)
 - @Nonnull public static String toHexAlphaString(byte red, byte green, byte blue, byte alpha)
 - @Nonnull public static String toHexAlphaString(int rgba)
+
+Complete API:
+  public static ColorAlpha readColorAlpha(RawJsonReader reader)
+  public static ColorAlpha parseColorAlpha(String stringValue)
+  public static Color readColor(RawJsonReader reader)
+  public static Color parseColor(String stringValue)
+  public static Color readHexStringToColor(RawJsonReader reader)
+  public static Color hexStringToColor(String color)
+  public static ColorAlpha readHexStringToColorAlpha(RawJsonReader reader)
+  public static ColorAlpha hexStringToColorAlpha(String color)
+  public static int readHexAlphaStringToRGBAInt(RawJsonReader reader)
+  public static int hexAlphaStringToRGBAInt(String color)
+  public static int readHexStringToRGBInt(RawJsonReader reader)
+  public static int hexStringToRGBInt(String color)
+  public static String colorToHexString(Color color)
+  public static String colorToHexAlphaString(ColorAlpha color)
+  public static Color readRgbStringToColor(RawJsonReader reader)
+  public static Color rgbStringToColor(String color)
+  public static ColorAlpha readRgbaStringToColorAlpha(RawJsonReader reader)
+  public static ColorAlpha readRgbaDecimalStringToColor(RawJsonReader reader)
+  public static ColorAlpha readRgbaDecimalStringToColor(RawJsonReader reader, boolean readStart)
+  public static ColorAlpha rgbaDecimalStringToColor(String color)
+  public static ColorAlpha readRgbaHexStringToColor(RawJsonReader reader)
+  public static ColorAlpha readRgbaHexStringToColor(RawJsonReader reader, boolean readStart)
+  public static ColorAlpha rgbaHexStringToColor(String color)
+  public static String colorToHex(java.awt.Color color)
+  public static String colorToHexAlpha(java.awt.Color color)
+  public static int colorToARGBInt(Color color)
+  public static void hexStringToColorLightDirect(ColorLight colorLight, String color)
+  public static String colorLightToHexString(ColorLight colorLight)
+  public static String toHexString(byte red, byte green, byte blue)
+  public static String toHexString(int rgb)
+  public static String toHexAlphaString(byte red, byte green, byte blue, byte alpha)
+  public static String toHexAlphaString(int rgba)
+
+Fields:
+public static final Pattern HEX_COLOR_PATTERN
+public static final Pattern HEX_ALPHA_COLOR_PATTERN
+public static final Pattern RGB_COLOR_PATTERN
+public static final Pattern RGBA_COLOR_PATTERN
+public static final Pattern RGBA_HEX_COLOR_PATTERN

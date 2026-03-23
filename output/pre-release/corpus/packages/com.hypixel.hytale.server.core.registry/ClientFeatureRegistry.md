@@ -10,3 +10,9 @@ Registry for managing and tracking registered resources.
 
 - register(ClientFeature feature) | ClientFeatureRegistration | Instance method.
 - registerClientTag(String tag) | void | Instance method.
+
+Also in this package: ClientFeatureRegistration
+
+Complete API:
+  public ClientFeatureRegistration register(ClientFeature feature)
+  public void registerClientTag(String tag)

@@ -17,3 +17,23 @@ Collection of prefab paths within a single worldgen context. Stores paths by UUI
 - public void removePath(UUID id)
 - public boolean isEmpty()
 - public void forEach(BiConsumer<UUID, IPrefabPath> consumer)
+
+Also in this package: AddOrRemove, AddedFromWorldGen, NameplateHolderSystem, NameplateRefChangeSystem, PathPlugin, PathSet, PathSpatialSystem, PrefabPasteEventSystem, PrefabPathSystems, PrefabPlaceEntityEventSystem, WorldGenChangeSystem, WorldPathBuilder, WorldPathData
+
+Complete API:
+  public IPrefabPath getNearestPrefabPath(int nameIndex, Vector3d position, Set<UUID> disallowedPaths, ComponentAccessor<EntityStore> componentAccessor)
+  public IPrefabPath getPath(UUID id)
+  public IPrefabPath getOrConstructPath(UUID id, String name, IntBiObjFunction<UUID,String,IPrefabPath> pathGenerator)
+  public IPrefabPath getNearestPrefabPath(Vector3d position, Set<UUID> disallowedPaths, ComponentAccessor<EntityStore> componentAccessor)
+  public void removePathWaypoint(UUID id, int index)
+  public void unloadPathWaypoint(UUID id, int index)
+  private void removePathWaypoint(UUID id, int index, boolean unload)
+  public void removePath(UUID id)
+  public boolean isEmpty()
+  public void forEach(BiConsumer<UUID,IPrefabPath> consumer)
+
+Fields:
+private static final HytaleLogger LOGGER
+private final int worldgenId
+private final Map<UUID,IPrefabPath> paths
+private final Int2ObjectMap<PrefabPathCollection.PathSet> pathsByFriendlyName

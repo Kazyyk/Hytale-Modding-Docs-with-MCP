@@ -49,3 +49,39 @@ A `ChunkStore` component storing ConfigurableInstanceBlock-related data on chunk
 | `public` | `double` | `getRemoveBlockAfter()` |
 | `public` | `void` | `setRemoveBlockAfter(double removeBlockAfter)` |
 | `@Nullable @Override public` | `Component<ChunkStore>` | `clone()` |
+
+Also in this package: InstanceBlock, OnRemove, OnRemove
+
+Complete API:
+  public static ComponentType<ChunkStore,ConfigurableInstanceBlock> getComponentType()
+  public UUID getWorldUUID()
+  public void setWorldUUID(UUID worldUUID)
+  public CompletableFuture<World> getWorldFuture()
+  public void setWorldFuture(CompletableFuture<World> worldFuture)
+  public boolean isCloseOnRemove()
+  public void setCloseOnRemove(boolean closeOnRemove)
+  public String getInstanceName()
+  public void setInstanceName(String instanceName)
+  public String getInstanceKey()
+  public void setInstanceKey(String instanceKey)
+  public Vector3d getPositionOffset()
+  public void setPositionOffset(Vector3d positionOffset)
+  public Vector3f getRotation()
+  public void setRotation(Vector3f rotation)
+  public boolean isPersonalReturnPoint()
+  public void setPersonalReturnPoint(boolean personalReturnPoint)
+  public double getRemoveBlockAfter()
+  public void setRemoveBlockAfter(double removeBlockAfter)
+  public Component<ChunkStore> clone()
+
+Fields:
+public static final BuilderCodec<ConfigurableInstanceBlock> CODEC
+protected UUID worldUUID
+protected CompletableFuture<World> worldFuture
+protected boolean closeOnRemove
+private String instanceName
+private String instanceKey
+private Vector3d positionOffset
+private Vector3f rotation
+private boolean personalReturnPoint
+private double removeBlockAfter

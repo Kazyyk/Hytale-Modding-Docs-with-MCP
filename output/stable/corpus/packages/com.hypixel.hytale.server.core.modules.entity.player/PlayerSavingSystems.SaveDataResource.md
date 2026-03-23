@@ -10,3 +10,11 @@ An ECS resource that holds the countdown timer for periodic player data saving. 
 
 - PlayerSavingSystems -- parent container class
 - PlayerSavingSystems.TickingSystem -- system that decrements this timer
+
+Also in this package: AbsoluteMovement, AddSystem, ApplyRandomSkinPersistedComponent, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, EnsureEffectControllerSystem, EnsurePlayerInput, EnsureUniqueItemUsagesSystem, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems (and 35 more)
+
+Complete API:
+  public Resource<EntityStore> clone()
+
+Fields:
+private float delay

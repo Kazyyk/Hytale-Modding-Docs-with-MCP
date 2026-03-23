@@ -15,3 +15,10 @@ Migration system that moves legacy prefab spawner data from unknown components t
 ## See Also
 
 - PrefabSpawnerModule
+
+Also in this package: PrefabSpawnerBlock, PrefabSpawnerModule, PrefabSpawnerSettingsPage, PrefabSpawnerSettingsPageEventData
+
+Complete API:
+  public void onEntityAdd(Holder<ChunkStore> holder, AddReason reason, Store<ChunkStore> store)
+  public void onEntityRemoved(Holder<ChunkStore> holder, RemoveReason reason, Store<ChunkStore> store)
+  public Query<ChunkStore> getQuery()

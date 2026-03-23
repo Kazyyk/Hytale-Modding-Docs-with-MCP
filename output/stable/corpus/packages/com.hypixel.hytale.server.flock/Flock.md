@@ -101,3 +101,35 @@ public static enum FlockRemovedStatus
 - PersistentFlockData -- serialized flock metadata
 - FlockPlugin -- registers this component type
 - FlockSystems -- systems operating on flock entities
+
+Also in this package: EntityDeath, EntityRef, EntityRemoved, FilterPlayerFlockDamageSystem, FlockDeathSystems, FlockDebugSystem, FlockMembership, FlockMembershipSystems, FlockPlugin, FlockRemovedStatus, FlockSystems, NPCAddedFromWorldGen, OnDamageDealt, OnDamageReceived, PersistentFlockData, PlayerChangeGameModeEventSystem, PlayerDeath, PrefabPasteEventSystem, RefChange, StoredFlock (and 2 more)
+
+Complete API:
+  public static ComponentType<EntityStore,Flock> getComponentType()
+  public DamageData getDamageData()
+  public DamageData getNextDamageData()
+  public DamageData getLeaderDamageData()
+  public DamageData getNextLeaderDamageData()
+  public boolean isTrace()
+  public void setTrace(boolean trace)
+  public PersistentFlockData getFlockData()
+  public void setFlockData(PersistentFlockData flockData)
+  public Flock.FlockRemovedStatus getRemovedStatus()
+  public void setRemovedStatus(Flock.FlockRemovedStatus status)
+  public boolean hasVisFlockMember()
+  public void incrementVisFlockMemberCount()
+  public void decrementVisFlockMemberCount()
+  public void onTargetKilled(ComponentAccessor<EntityStore> componentAccessor, Ref<EntityStore> targetEntityReference)
+  public void swapDamageDataBuffers()
+  public Component<EntityStore> clone()
+  public String toString()
+
+Fields:
+private boolean trace
+private PersistentFlockData flockData
+private DamageData nextDamageData
+private DamageData currentDamageData
+private DamageData nextLeaderDamageData
+private DamageData currentLeaderDamageData
+private Flock.FlockRemovedStatus removedStatus
+private int visFlockMemberCount

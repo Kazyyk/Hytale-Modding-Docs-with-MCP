@@ -33,3 +33,13 @@ Extends `EnvironmentContainerEntryJsonLoader` to handle default entries with fal
 *interface*
 
 JSON key constants: `Default`, `Entries`, `Names`, `Weights`, `Noise`, `NoiseMask`.
+
+Also in this package: Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, CoverContainerEntryJsonLoader, CoverContainerJsonLoader, DefaultEnvironmentContainerEntryLoader, DefaultTintContainerEntryJsonLoader, DynamicLayerEntryJsonLoader, DynamicLayerJsonLoader, EnvironmentContainerEntryJsonLoader, FadeContainerJsonLoader, LayerContainerJsonLoader, LayerEntryJsonLoader, PrefabContainerEntryJsonLoader, PrefabContainerJsonLoader (and 8 more)
+
+Complete API:
+  public EnvironmentContainer load()
+  protected EnvironmentContainer.DefaultEnvironmentContainerEntry loadDefault()
+  protected EnvironmentContainer.EnvironmentContainerEntry[] loadEntries()
+
+Fields:
+protected final BiomeFileContext biomeContext

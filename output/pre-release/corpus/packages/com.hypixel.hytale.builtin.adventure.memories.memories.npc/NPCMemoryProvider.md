@@ -20,3 +20,15 @@ public class NPCMemoryProvider extends MemoryProvider<NPCMemory>
 - private static boolean isMemory(@Nonnull Builder<?> builder)
 - private static String getMemoriesNameOverride(@Nonnull Builder<?> builder)
 - private static String getNPCNameTranslationKey(@Nonnull Builder<?> builder)
+
+Also in this package: GatherMemoriesSystem, NPCMemory
+
+Complete API:
+  public Map<String,Set<Memory>> getAllMemories()
+  private static String getCategory(Builder<?> builder)
+  private static boolean isMemory(Builder<?> builder)
+  private static String getMemoriesNameOverride(Builder<?> builder)
+  private static String getNPCNameTranslationKey(Builder<?> builder)
+
+Fields:
+public static final double DEFAULT_RADIUS

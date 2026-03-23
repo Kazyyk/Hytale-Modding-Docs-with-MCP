@@ -11,3 +11,15 @@ Records the timestamp of the last combat action on both the damaged entity and t
 - DamageSystems -- parent class
 - Damage.EntitySource -- checked for bidirectional combat tracking
 - DamageEventSystem -- base class
+
+Also in this package: ApplyDamage, ApplyParticles, ApplySoundEffects, ArmorDamageReduction, ArmorKnockbackReduction, ArmorResistanceModifiers, CameraEffect, CanBreathe, CheckBrokenItemsRespawnSystem, ClearEntityEffects, ClearEntityEffectsRespawnSystem, ClearHealth, ClearInteractions, ClearInteractionsRespawnSystem, ClearRespawnUI, CommandSource, CorpseRemoval, Damage, DamageArmor, DamageAttackerTool (and 52 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void handle(int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, Damage damage)
+  public SystemGroup<EntityStore> getGroup()
+
+Fields:
+private static final ComponentType<EntityStore,DamageDataComponent> DAMAGE_DATA_COMPONENT_TYPE
+private static final ResourceType<EntityStore,TimeResource> TIME_RESOURCE_TYPE
+private static final Query<EntityStore> QUERY

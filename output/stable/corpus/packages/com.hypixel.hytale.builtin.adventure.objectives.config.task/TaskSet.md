@@ -26,3 +26,17 @@ public class TaskSet
 ## Related Types
 
 - ObjectiveTaskAsset
+
+Also in this package: BlockTagOrItemIdField, ChestConfig, CountObjectiveTaskAsset, CraftObjectiveTaskAsset, DialogOptions, GatherObjectiveTaskAsset, ObjectiveTaskAsset, ReachLocationTaskAsset, TaskScope, TreasureMapObjectiveTaskAsset, UseBlockObjectiveTaskAsset, UseEntityObjectiveTaskAsset
+
+Complete API:
+  public String getDescriptionId()
+  public String getDescriptionKey(String objectiveId, int taskSetIndex)
+  public ObjectiveTaskAsset[] getTasks()
+  public String toString()
+
+Fields:
+public static final BuilderCodec<TaskSet> CODEC
+public static final String TASKSET_DESCRIPTION_KEY
+protected String descriptionId
+protected ObjectiveTaskAsset[] tasks

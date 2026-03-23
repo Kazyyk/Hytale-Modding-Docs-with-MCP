@@ -9,3 +9,13 @@ ECS component stored in `EntityStore`. Serialized via `BuilderCodec`.
 ## Accessors
 
 - getComponentType() | ComponentType<EntityStore, Projectile> | Accessor method.
+
+Also in this package: PredictedProjectile
+
+Complete API:
+  public static ComponentType<EntityStore,Projectile> getComponentType()
+  public Component<EntityStore> clone()
+
+Fields:
+public static Projectile INSTANCE
+public static final BuilderCodec<Projectile> CODEC

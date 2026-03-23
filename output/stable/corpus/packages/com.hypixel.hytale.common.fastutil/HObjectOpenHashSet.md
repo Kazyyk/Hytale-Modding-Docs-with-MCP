@@ -8,3 +8,9 @@ public class HObjectOpenHashSet<K> extends ObjectOpenHashSet
 
 - @Nullable public K first()
 - public void pushInto(Collection<K> c)
+
+Also in this package: HLongOpenHashSet, HLongSet
+
+Complete API:
+  public K first()
+  public void pushInto(Collection<K> c)

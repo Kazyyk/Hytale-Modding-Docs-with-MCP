@@ -16,3 +16,16 @@ public class ItemStackContainerWindow extends Window implements ItemContainerWin
 - @Override public boolean onOpen0(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store)
 - @Override public void onClose0(@Nonnull Ref<EntityStore> ref, @Nonnull ComponentAccessor<EntityStore> componentAccessor)
 - @Override @Nonnull public ItemContainer getItemContainer()
+
+Also in this package: BlockWindow, ContainerBlockWindow, ContainerWindow, ItemContainerWindow, MaterialContainerWindow, MaterialExtraResourcesSection, ValidatedWindow, Window, WindowCloseEvent, WindowManager
+
+Complete API:
+  public JsonObject getData()
+  public boolean onOpen0(Ref<EntityStore> ref, Store<EntityStore> store)
+  public void onClose0(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public ItemContainer getItemContainer()
+
+Fields:
+private final JsonObject windowData
+private final ItemStackItemContainer itemStackItemContainer
+private EventRegistration eventRegistration

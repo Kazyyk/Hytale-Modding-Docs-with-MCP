@@ -10,3 +10,12 @@ ECS component stored in `ChunkStore`. Serialized via `BuilderCodec`.
 
 - getComponentType() | ComponentType<ChunkStore, PlacedByInteractionComponent> | Accessor method.
 - getWhoPlacedUuid() | UUID | Accessor method.
+
+Complete API:
+  public static ComponentType<ChunkStore,PlacedByInteractionComponent> getComponentType()
+  public UUID getWhoPlacedUuid()
+  public Component<ChunkStore> clone()
+
+Fields:
+public static final BuilderCodec<PlacedByInteractionComponent> CODEC
+private UUID whoPlacedUuid

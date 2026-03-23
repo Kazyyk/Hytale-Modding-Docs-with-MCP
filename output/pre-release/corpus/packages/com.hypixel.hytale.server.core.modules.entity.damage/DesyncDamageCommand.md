@@ -25,3 +25,6 @@ Toggles `DamageSystems.FilterUnkillable.CAUSE_DESYNC` and sends a feedback messa
 
 - DamageSystems.FilterUnkillable -- the system whose flag this command toggles
 - DamageModule -- registers this command
+
+Complete API:
+  protected void executeSync(CommandContext context)

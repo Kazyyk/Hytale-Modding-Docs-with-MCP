@@ -19,3 +19,5 @@ Enumeration with values: `SIMPLEX`, `OLD_SIMPLEX`, `VALUE`, `PERLIN`, `CELL`, ..
 - MESH | Enumeration constant.
 - BRANCH | Enumeration constant.
 - POINT | Enumeration constant.
+
+Also in this package: NoiseFunction, NoiseFunction2d, NoiseFunction3d, NoiseFunctionPair

@@ -34,3 +34,33 @@ Configurable settings for client-side visual effects in a world, including sun p
 - setSunshaftScaleFactor(float) | void | Sets the sunshaft scale factor.
 - createSunSettingsPacket() | UpdateSunSettings | Creates a packet with current sun height and angle.
 - createPostFxSettingsPacket() | UpdatePostFxSettings | Creates a packet with current bloom and sunshaft settings.
+
+Also in this package: ChunkConfig, Default, GenericBlockBulkUpdater, IWorldChunks, IWorldChunksAsync, ParticleUtil, PlaceBlockSettings, PlayerUtil, SetBlockSettings, SoundUtil, SpawnUtil, ValidationOption, World, WorldConfig, WorldConfigProvider, WorldMapTracker, WorldNotificationHandler, WorldProvider, ZoneDiscoveryInfo
+
+Complete API:
+  public float getSunHeightPercent()
+  public void setSunHeightPercent(float sunHeightPercent)
+  public float getSunAngleRadians()
+  public void setSunAngleRadians(float sunAngleRadians)
+  public float getBloomIntensity()
+  public void setBloomIntensity(float bloomIntensity)
+  public float getBloomPower()
+  public void setBloomPower(float bloomPower)
+  public float getSunIntensity()
+  public void setSunIntensity(float sunIntensity)
+  public float getSunshaftIntensity()
+  public void setSunshaftIntensity(float sunshaftIntensity)
+  public float getSunshaftScaleFactor()
+  public void setSunshaftScaleFactor(float sunshaftScaleFactor)
+  public UpdateSunSettings createSunSettingsPacket()
+  public UpdatePostFxSettings createPostFxSettingsPacket()
+
+Fields:
+public static BuilderCodec<ClientEffectWorldSettings> CODEC
+private float sunHeightPercent
+private float sunAngleRadians
+private float bloomIntensity
+private float bloomPower
+private float sunIntensity
+private float sunshaftIntensity
+private float sunshaftScaleFactor

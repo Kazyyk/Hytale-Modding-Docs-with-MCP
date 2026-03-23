@@ -14,3 +14,12 @@ Tracks which generation stage last wrote to a buffer column. Used by `StagedChun
 ## Methods
 
 - @Nonnull @Override public MemInstrument.Report getMemoryUsage()
+
+Also in this package: Access, BufferBundle, Grid, GridEntry, MemoryReport, TrackedBuffer, View
+
+Complete API:
+  public MemInstrument.Report getMemoryUsage()
+
+Fields:
+public final int INITIAL_STAGE_INDEX
+public int stageIndex

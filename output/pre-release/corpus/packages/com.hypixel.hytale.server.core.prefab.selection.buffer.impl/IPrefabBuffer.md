@@ -114,3 +114,40 @@ Returns the `ALL_COLUMNS` predicate cast to the required type.
 - FluidPredicate<T> | boolean test(int, int, int, int, byte, T) | Predicate for fluid data.
 - RawBlockConsumer<T> | void accept(int, int, int, int, int, float, Holder<ChunkStore>, int, int, int, T) | Consumer for raw block data (x, y, z, mask, blockId, chance, holder, support, rotation, filler, context).
 - RawBlockPredicate<T> | boolean test(int, int, int, int, float, Holder<ChunkStore>, int, int, int, T) | Predicate for raw block data.
+
+Known implementors: PrefabBufferAccessor
+
+Also in this package: BlockComparingPredicate, BlockComparingPrefabPredicate, BlockConsumer, BlockMaskConstants, Builder, ChildConsumer, ChildPrefab, ColumnPredicate, EntityConsumer, EntityPredicate, FluidConsumer, FluidPredicate, PrefabBuffer, PrefabBufferAccessor, PrefabBufferBlockEntry, PrefabBufferColumn, RawBlockConsumer, RawBlockPredicate
+
+Complete API:
+  int getAnchorX()
+  int getAnchorY()
+  int getAnchorZ()
+  int getMinX(PrefabRotation var1)
+  int getMinY()
+  int getMinZ(PrefabRotation var1)
+  int getMaxX(PrefabRotation var1)
+  int getMaxY()
+  int getMaxZ(PrefabRotation var1)
+  default int getMinX()
+  default int getMinZ()
+  default int getMaxX()
+  default int getMaxZ()
+  int getMinYAt(PrefabRotation var1, int var2, int var3)
+  int getMaxYAt(PrefabRotation var1, int var2, int var3)
+  int getColumnCount()
+  PrefabBuffer.ChildPrefab[] getChildPrefabs()
+  default int getMaximumExtend()
+  void forEach(IPrefabBuffer.ColumnPredicate<T> var1, IPrefabBuffer.BlockConsumer<T> var2, IPrefabBuffer.EntityConsumer<T> var3, IPrefabBuffer.ChildConsumer<T> var4, T var5)
+  void forEachRaw(IPrefabBuffer.ColumnPredicate<T> var1, IPrefabBuffer.RawBlockConsumer<T> var2, IPrefabBuffer.FluidConsumer<T> var3, IPrefabBuffer.EntityConsumer<T> var4, T var5)
+  boolean forEachRaw(IPrefabBuffer.ColumnPredicate<T> var1, IPrefabBuffer.RawBlockPredicate<T> var2, IPrefabBuffer.FluidPredicate<T> var3, IPrefabBuffer.EntityPredicate<T> var4, T var5)
+  void release()
+  default boolean compare(IPrefabBuffer.BlockComparingPredicate<T> blockComparingPredicate, T t)
+  default boolean compare(IPrefabBuffer.BlockComparingPrefabPredicate<T> blockComparingIterator, T t, IPrefabBuffer secondPrefab)
+  int getBlockId(int var1, int var2, int var3)
+  int getFiller(int var1, int var2, int var3)
+  int getRotationIndex(int var1, int var2, int var3)
+  static IPrefabBuffer.ColumnPredicate<T> iterateAllColumns()
+
+Fields:
+IPrefabBuffer.ColumnPredicate<?> ALL_COLUMNS

@@ -26,3 +26,21 @@ public class ZoneBiomeResult
 - public void setHeightThresholdContext(double heightThresholdContext)
 - public double getHeightmapNoise()
 - public void setHeightmapNoise(double heightmapNoise)
+
+Also in this package: BlockPriorityChunk, BlockPriorityModifier, ChunkGenerator, ChunkGeneratorExecution, HeightThresholdInterpolator, MaskProvider, ValidationUtil
+
+Complete API:
+  public ZoneGeneratorResult getZoneResult()
+  public void setZoneResult(ZoneGeneratorResult zoneResult)
+  public Biome getBiome()
+  public void setBiome(Biome biome)
+  public double getHeightThresholdContext()
+  public void setHeightThresholdContext(double heightThresholdContext)
+  public double getHeightmapNoise()
+  public void setHeightmapNoise(double heightmapNoise)
+
+Fields:
+public ZoneGeneratorResult zoneResult
+public Biome biome
+public double heightThresholdContext
+public double heightmapNoise

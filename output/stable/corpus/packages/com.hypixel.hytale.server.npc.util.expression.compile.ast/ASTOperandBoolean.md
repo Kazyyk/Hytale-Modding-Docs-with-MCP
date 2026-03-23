@@ -13,3 +13,13 @@ Extends `ASTOperand`.
 - @Override public boolean getBoolean()
 - @Override public boolean isConstant()
 - @Override public ExecutionContext.Operand asOperand()
+
+Also in this package: AST, ASTOperand, ASTOperandBooleanArray, ASTOperandEmptyArray, ASTOperandIdentifier, ASTOperandNumber, ASTOperandNumberArray, ASTOperandString, ASTOperandStringArray, ASTOperator, ASTOperatorBinary, ASTOperatorFunctionCall, ASTOperatorTuple, ASTOperatorUnary
+
+Complete API:
+  public boolean getBoolean()
+  public boolean isConstant()
+  public ExecutionContext.Operand asOperand()
+
+Fields:
+private final boolean constantBool

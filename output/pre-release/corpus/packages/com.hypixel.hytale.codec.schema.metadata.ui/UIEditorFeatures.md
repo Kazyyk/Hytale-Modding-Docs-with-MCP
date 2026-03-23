@@ -28,3 +28,11 @@ public static enum EditorFeature
 
 - WEATHER_DAYTIME_BAR | Enables a weather/daytime bar in the editor preview.
 - WEATHER_PREVIEW_LOCAL | Enables local weather preview in the editor.
+
+Also in this package: ClientCache, DisplayMode, Dropdown, EditorComponent, EditorFeature, FormattedNumber, Icon, LocalizationKeyField, MultilineTextField, PreviewType, TextField, Timeline, UIButton, UICreateButtons, UIDefaultCollapsedState, UIDisplayMode, UIEditor, UIEditorPreview, UIEditorSectionStart, UIPropertyTitle (and 4 more)
+
+Complete API:
+  public void modify(Schema schema)
+
+Fields:
+private final UIEditorFeatures.EditorFeature[] features

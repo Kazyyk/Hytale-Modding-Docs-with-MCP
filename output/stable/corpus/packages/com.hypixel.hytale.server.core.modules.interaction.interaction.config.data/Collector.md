@@ -13,3 +13,14 @@ Interface for collecting interaction configuration data during interaction tree 
 - collect(@Nonnull CollectorTag var1, @Nonnull InteractionContext var2, @Nonnull Interaction var3) | boolean | Collects data from an interaction node. Returns true if collection should continue.
 - outof() | void | Leaves the current interaction scope.
 - finished() | void | Called after traversal completes.
+
+Known implementors: ListCollector, SingleCollector, TreeCollector
+
+Also in this package: CollectorTag, ListCollector, Node, SingleCollector, StringTag, TreeCollector
+
+Complete API:
+  void start()
+  void into(InteractionContext var1, Interaction var2)
+  boolean collect(CollectorTag var1, InteractionContext var2, Interaction var3)
+  void outof()
+  void finished()

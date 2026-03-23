@@ -29,3 +29,11 @@ public record ZoneDiscoveryConfig( boolean display, String zone, @Nullable Strin
         @Nullable Float duration,
         @Nullable Float fadeInDuration,
         @Nullable Float fadeOutDuration)` |
+
+Also in this package: Unique, UniqueCandidate, UniqueEntry, Zone, ZoneColorMapping, ZoneGeneratorResult, ZonePatternGenerator, ZonePatternGeneratorCache, ZonePatternProvider
+
+Complete API:
+  public static ZoneDiscoveryConfig of(Boolean display, String zone, String soundEventId, String icon, Boolean major, Float duration, Float fadeInDuration, Float fadeOutDuration)
+
+Fields:
+public static final ZoneDiscoveryConfig DEFAULT

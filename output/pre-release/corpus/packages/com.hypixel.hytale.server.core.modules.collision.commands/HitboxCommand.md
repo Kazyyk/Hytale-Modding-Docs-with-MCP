@@ -16,3 +16,8 @@ public class HitboxCommand extends AbstractCommandCollection
 
 - `HitboxCommand.HitboxExtentsCommand`
 - `HitboxCommand.HitboxGetCommand`
+
+Also in this package: HitboxExtentsCommand, HitboxGetCommand
+
+Complete API:
+  private static Message formatBox(Box box)

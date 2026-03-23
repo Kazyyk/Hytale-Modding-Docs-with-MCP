@@ -9,3 +9,11 @@ Data class serialized via `BuilderCodec`.
 ## Methods
 
 - createParameter() | Alarm | Instance method.
+
+Also in this package: ParameterStore, PersistentParameter
+
+Complete API:
+  protected Alarm createParameter()
+
+Fields:
+public static final BuilderCodec<AlarmStore> CODEC

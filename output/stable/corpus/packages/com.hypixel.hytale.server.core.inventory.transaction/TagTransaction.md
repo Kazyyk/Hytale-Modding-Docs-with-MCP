@@ -25,3 +25,24 @@ public class TagTransaction extends ListTransaction<TagSlotTransaction>
 - public TagTransaction toParent(ItemContainer parent, short start, ItemContainer container)
 - public TagTransaction fromParent(ItemContainer parent, short start, @Nonnull ItemContainer container)
 - public String toString()
+
+Also in this package: ActionType, ClearTransaction, ItemStackSlotTransaction, ItemStackTransaction, ListTransaction, MaterialSlotTransaction, MaterialTransaction, MoveTransaction, MoveType, ResourceSlotTransaction, ResourceTransaction, SlotTransaction, TagSlotTransaction, Transaction
+
+Complete API:
+  public ActionType getAction()
+  public int getTagIndex()
+  public int getRemainder()
+  public boolean isAllOrNothing()
+  public boolean isExactAmount()
+  public boolean isFilter()
+  public TagTransaction toParent(ItemContainer parent, short start, ItemContainer container)
+  public TagTransaction fromParent(ItemContainer parent, short start, ItemContainer container)
+  public String toString()
+
+Fields:
+private final ActionType action
+private final int tagIndex
+private final int remainder
+private final boolean allOrNothing
+private final boolean exactAmount
+private final boolean filter

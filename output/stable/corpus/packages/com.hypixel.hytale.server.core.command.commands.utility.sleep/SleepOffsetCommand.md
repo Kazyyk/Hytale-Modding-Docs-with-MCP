@@ -12,3 +12,12 @@ public class SleepOffsetCommand extends CommandBase
 ## Methods
 
 - @Override protected void executeSync(CommandContext context)
+
+Also in this package: SleepCommand, SleepTestCommand
+
+Complete API:
+  protected void executeSync(CommandContext context)
+
+Fields:
+private final FlagArg percentFlag
+private final OptionalArg<Integer> offsetArg

@@ -34,3 +34,17 @@ public CompletableFuture<ProfileServiceClient.PublicGameProfile> getProfileByUse
 ## Inner Types
 
 - PublicGameProfile -- profile data returned by the service
+
+Also in this package: AccessTokenResponse, AuthConfig, AuthConfigGenerated, AuthCredentialStoreProvider, AuthGrantResponse, AuthMode, AuthResult, CertificateUtil, DefaultAuthCredentialStore, EncryptedAuthCredentialStore, EncryptedAuthCredentialStoreProvider, GameProfile, GameSessionResponse, IAuthCredentialStore, IdentityTokenClaims, JWTClaims, JWTValidator, JwkKey, JwksResponse, LauncherDataResponse (and 8 more)
+
+Complete API:
+  public ProfileServiceClient.PublicGameProfile getProfileByUuid(UUID uuid, String bearerToken)
+  public CompletableFuture<ProfileServiceClient.PublicGameProfile> getProfileByUuidAsync(UUID uuid, String bearerToken)
+  public ProfileServiceClient.PublicGameProfile getProfileByUsername(String username, String bearerToken)
+  public CompletableFuture<ProfileServiceClient.PublicGameProfile> getProfileByUsernameAsync(String username, String bearerToken)
+  private static KeyedCodec<T> externalKey(String key, Codec<T> codec)
+
+Fields:
+private static final HytaleLogger LOGGER
+private final HttpClient httpClient
+private final String profileServiceUrl

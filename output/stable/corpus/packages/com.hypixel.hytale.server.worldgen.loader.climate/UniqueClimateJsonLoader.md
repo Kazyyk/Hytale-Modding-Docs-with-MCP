@@ -19,3 +19,16 @@ JSON loader that deserializes configuration data from JSON files.
 - protected int loadDistance()
 - protected int loadMinDistance()
 - protected ClimateSearch.Rule loadRule()
+
+Also in this package: ClimateColorJsonLoader, ClimateGraphJsonLoader, ClimateGridJsonLoader, ClimateMaskJsonLoader, ClimateNoiseJsonLoader, ClimatePointJsonLoader, ClimateRuleJsonLoader, ClimateTypeJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, ContinentThresholdsJsonLoader, UniqueClimateGeneratorJsonLoader
+
+Complete API:
+  public UniqueClimateGenerator.Entry load()
+  protected String loadName()
+  protected String loadParent()
+  protected int loadColor()
+  protected int loadRadius()
+  protected Vector2i loadOrigin()
+  protected int loadDistance()
+  protected int loadMinDistance()
+  protected ClimateSearch.Rule loadRule()

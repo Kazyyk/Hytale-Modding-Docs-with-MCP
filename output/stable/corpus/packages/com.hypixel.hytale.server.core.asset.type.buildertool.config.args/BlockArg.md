@@ -23,3 +23,17 @@ Extends `ToolArg` to provide BlockArg functionality.
 - @Nonnull public BuilderToolBlockArg toBlockArgPacket()
 - @Override protected void setupPacket(@Nonnull BuilderToolArg packet)
 - @Nonnull @Override public String toString()
+
+Also in this package: BoolArg, BrushAxisArg, BrushOriginArg, BrushRotationArg, BrushShapeArg, FloatArg, IntArg, MaskArg, OptionArg, StringArg, ToolArg, ToolArgException
+
+Complete API:
+  public Codec<BlockPattern> getCodec()
+  public BlockPattern fromString(String str)
+  public BuilderToolBlockArg toBlockArgPacket()
+  protected void setupPacket(BuilderToolArg packet)
+  public String toString()
+
+Fields:
+public static final BlockArg[] EMPTY_ARRAY
+public static final BuilderCodec<BlockArg> CODEC
+protected boolean allowPattern

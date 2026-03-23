@@ -9,3 +9,10 @@ public class RecipePacketGenerator extends AssetPacketGenerator<String, Crafting
 - @Nonnull public ToClientPacket generateInitPacket(DefaultAssetMap<String, CraftingRecipe> assetMap, @Nonnull Map<String, CraftingRecipe> assets)
 - @Nonnull public ToClientPacket generateUpdatePacket(DefaultAssetMap<String, CraftingRecipe> assetMap, @Nonnull Map<String, CraftingRecipe> loadedAssets, @Nonnull AssetUpdateQuery query)
 - @Nonnull public ToClientPacket generateRemovePacket(DefaultAssetMap<String, CraftingRecipe> assetMap, @Nonnull Set<String> removed, @Nonnull AssetUpdateQuery query)
+
+Also in this package: CraftingRecipePacketGenerator, ItemModule, ItemPacketGenerator, ItemQualityPacketGenerator, ItemReticleConfigPacketGenerator
+
+Complete API:
+  public ToClientPacket generateInitPacket(DefaultAssetMap<String,CraftingRecipe> assetMap, Map<String,CraftingRecipe> assets)
+  public ToClientPacket generateUpdatePacket(DefaultAssetMap<String,CraftingRecipe> assetMap, Map<String,CraftingRecipe> loadedAssets, AssetUpdateQuery query)
+  public ToClientPacket generateRemovePacket(DefaultAssetMap<String,CraftingRecipe> assetMap, Set<String> removed, AssetUpdateQuery query)

@@ -9,3 +9,10 @@ Defines the contract for AssetMonitorHandler operations. Extends `BiPredicate<Pa
 ## Methods
 
 - Object getKey()
+
+Known implementors: AssetStoreMonitorHandler, BuilderAssetMonitorHandler, CommonAssetMonitorHandler, I18nAssetMonitorHandler
+
+Also in this package: AssetMonitor, DirectoryHandlerChangeTask, EventKind, FileChangeTask, PathEvent, PathWatcherThread
+
+Complete API:
+  Object getKey()

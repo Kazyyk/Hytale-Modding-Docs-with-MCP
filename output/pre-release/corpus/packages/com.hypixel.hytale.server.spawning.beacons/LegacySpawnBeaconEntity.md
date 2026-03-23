@@ -33,3 +33,50 @@ Provides static helper methods for managing spawn timers (`prepareNextSpawnTimer
 - public boolean prepareSpawnContext(@Nonnull Vector3d playerPosition, int spawnsThisRound, int roleIndex, @Nonnull SpawningContext spawningContext, @Nonnull CommandBuffer<EntityStore> commandBuffer)
 - @Nonnull public static Pair<Ref<EntityStore>, LegacySpawnBeaconEntity> create(@Nonnull BeaconSpawnWrapper spawnWrapper, @Nonnull Vector3d position, @Nonnull Vector3f rotation, @Nonnull ComponentAccessor<EntityStore> componentAccessor)
 - public static Holder<EntityStore> createHolder(@Nonnull BeaconSpawnWrapper spawnWrapper, @Nonnull Vector3d position, @Nonnull Vector3f rotation)
+
+Also in this package: CheckDespawn, ControllerTick, EntityAdded, InitialBeaconDelay, LegacyEntityAdded, LoadTimeDelay, PositionSelectorUpdate, SpawnBeacon, SpawnBeaconSystems, SpawnJobTick
+
+Complete API:
+  public static ComponentType<EntityStore,LegacySpawnBeaconEntity> getComponentType()
+  public String getSpawnConfigId()
+  public BeaconSpawnController getSpawnController()
+  public void setSpawnController(BeaconSpawnController spawnController)
+  public Instant getNextSpawnAfter()
+  public boolean isNextSpawnAfterRealtime()
+  public Instant getDespawnSelfAfter()
+  public void setSpawnAttempts(int spawnAttempts)
+  public BeaconSpawnWrapper getSpawnWrapper()
+  public void setSpawnWrapper(BeaconSpawnWrapper spawnWrapper)
+  public int getSpawnAttempts()
+  public int getLastPlayerCount()
+  public void setLastPlayerCount(int lastPlayerCount)
+  private void setSpawnConfiguration(BeaconSpawnWrapper spawn)
+  private void setSpawnConfigId(String spawnConfigId)
+  public UUID getObjectiveUUID()
+  public void setObjectiveUUID(UUID objectiveUUID)
+  public boolean isHiddenFromLivingEntity(Ref<EntityStore> ref, Ref<EntityStore> targetRef, ComponentAccessor<EntityStore> componentAccessor)
+  public boolean isCollidable()
+  public void moveTo(Ref<EntityStore> ref, double locX, double locY, double locZ, ComponentAccessor<EntityStore> componentAccessor)
+  public void notifyFailedSpawn()
+  public void notifySpawn(Player target, Ref<EntityStore> spawnedEntity, Store<EntityStore> store)
+  public static void prepareNextSpawnTimer(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public static void clearDespawnTimer(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  public static void setToDespawnAfter(Ref<EntityStore> ref, Duration duration, ComponentAccessor<EntityStore> componentAccessor)
+  public void markNPCUnspawnable(int roleIndex)
+  public boolean prepareSpawnContext(Vector3d playerPosition, int spawnsThisRound, int roleIndex, SpawningContext spawningContext, CommandBuffer<EntityStore> commandBuffer)
+  private void processSpawn(Ref<EntityStore> ref, Player target, Store<EntityStore> store)
+  public static Pair<Ref<EntityStore>,LegacySpawnBeaconEntity> create(BeaconSpawnWrapper spawnWrapper, Vector3d position, Vector3f rotation, ComponentAccessor<EntityStore> componentAccessor)
+  public static Holder<EntityStore> createHolder(BeaconSpawnWrapper spawnWrapper, Vector3d position, Vector3f rotation)
+  public String toString()
+
+Fields:
+public static final BuilderCodec<LegacySpawnBeaconEntity> CODEC
+private BeaconSpawnController spawnController
+protected UUID objectiveUUID
+private BeaconSpawnWrapper spawnWrapper
+private String spawnConfigId
+private Instant nextSpawnAfter
+private boolean nextSpawnAfterRealtime
+private Instant despawnSelfAfter
+private int spawnAttempts
+private int lastPlayerCount

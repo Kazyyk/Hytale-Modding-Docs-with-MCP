@@ -64,3 +64,22 @@ Releases the index and name maps after validation is complete.
 
 - BuilderObjectReferenceHelper -- uses this for local references
 - BuilderValidationHelper -- carries this resolver
+
+Also in this package: Builder, BuilderAssetMonitorHandler, BuilderAttributeDescriptor, BuilderBase, BuilderBaseWithType, BuilderCodecObjectHelper, BuilderCombatConfig, BuilderComponent, BuilderContext, BuilderDescriptor, BuilderDescriptorState, BuilderFactory, BuilderInfo, BuilderManager, BuilderModifier, BuilderObjectArrayHelper, BuilderObjectHelper, BuilderObjectListHelper, BuilderObjectMapHelper, BuilderObjectReferenceHelper (and 29 more)
+
+Complete API:
+  public int getOrCreateIndex(String name)
+  public void setRecordDependencies()
+  public IntSet getRecordedDependenices()
+  public void stopRecordingDependencies()
+  public void addBuilder(int index, BuilderInstructionReference builder)
+  public void validateInternalReferences(String configName, List<String> errors)
+  private void validateNoCycles(BuilderInstructionReference builder, int index, IntArrayList path)
+  public Builder<T> getBuilder(int index, Class<?> classType)
+  public void optimise()
+
+Fields:
+private final List<BuilderInstructionReference> builders
+private Object2IntMap<String> indexMap
+private Int2ObjectMap<String> nameMap
+private IntSet recordedDependencies

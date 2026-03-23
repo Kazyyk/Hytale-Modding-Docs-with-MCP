@@ -23,3 +23,17 @@ Matches entities with `NPCMountComponent`, `NPCEntity`, and `NetworkId`.
 - NPCMountSystems -- enclosing class
 - NPCMountComponent -- the component being watched
 - ActionMount -- the NPC action that creates the component
+
+Also in this package: BlockMountAPI, BlockMountComponent, BlockMountResult, DidNotMount, DismountOnMountDeath, DismountOnPlayerDeath, EnsureMinecartComponents, HandleMountInput, MountGamePacketHandler, MountPlugin, MountSystems, Mounted, MountedByComponent, MountedComponent, MountedEntityDeath, NPCMountComponent, NPCMountSystems, OnMinecartHit, OnPlayerRemove, PlayerMount (and 8 more)
+
+Complete API:
+  public Query<EntityStore> getQuery()
+  public void onEntityAdded(Ref<EntityStore> ref, AddReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+  private void resetOriginalRoleMount(Ref<EntityStore> ref, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, NPCMountComponent mountComponent)
+  public void onEntityRemove(Ref<EntityStore> ref, RemoveReason reason, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer)
+
+Fields:
+private final ComponentType<EntityStore,NPCMountComponent> mountComponentType
+private final ComponentType<EntityStore,NPCEntity> npcEntityComponentType
+private final ComponentType<EntityStore,NetworkId> networkIdComponentType
+private final Query<EntityStore> query

@@ -14,3 +14,12 @@ NPC sensor builder: Test if player matching specific attributes and filters is i
 - @Override public String getLongDescription()
 - @Override public BuilderDescriptorState getBuilderDescriptorState()
 - @Override public Builder<Sensor> readConfig(@Nonnull JsonElement data)
+
+Also in this package: BuilderActionBeacon, BuilderActionIgnoreForAvoidance, BuilderActionNotify, BuilderActionOverrideAttitude, BuilderActionReleaseTarget, BuilderActionSetMarkedTarget, BuilderActionSetStat, BuilderHeadMotionWatch, BuilderSensorBeacon, BuilderSensorCount, BuilderSensorEntity, BuilderSensorEntityBase, BuilderSensorKill, BuilderSensorSelf, BuilderSensorTarget
+
+Complete API:
+  public SensorPlayer build(BuilderSupport builderSupport)
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public Builder<Sensor> readConfig(JsonElement data)

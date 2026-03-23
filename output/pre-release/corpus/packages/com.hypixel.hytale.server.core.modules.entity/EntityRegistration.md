@@ -38,3 +38,12 @@ Returns a string representation including the entity class and the base `Registr
 - EntityModule -- creates registrations in `registerEntity()`
 - `Registration` -- base class providing enabled/unregister lifecycle
 - `Entity` -- the base entity type referenced by the registration
+
+Also in this package: AllLegacyEntityTypesQuery, AllLegacyLivingEntityTypesQuery, BlockEntitySetupSystem, BlockEntitySystems, BlockEntityTrackerSystem, BlockMigrationExtraInfo, DespawnComponent, DespawnSystem, EntityModule, EntityRegistry, HiddenFromPlayerMigrationSystem, LegacyEntityHolderSystem, LegacyEntityRefSystem, LegacyProjectileSystems, LegacyTransformSystem, LegacyUUIDSystem, LegacyUUIDUpdateSystem, MigrationSystem, OnAddHolderSystem, OnAddRefSystem (and 4 more)
+
+Complete API:
+  public Class<? extends Entity> getEntityClass()
+  public String toString()
+
+Fields:
+private final Class<? extends Entity> entityClass

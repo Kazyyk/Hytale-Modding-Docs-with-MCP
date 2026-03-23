@@ -10,3 +10,13 @@ Collection of gradients applied across different regions of a player skin.
 
 - public String getId()
 - public Map<String, PlayerSkinPartTexture> getGradients()
+
+Also in this package: BodyType, CosmeticAssetValidator, CosmeticRegistry, CosmeticType, CosmeticsModule, Emote, HaircutType, HeadAccessoryType, InvalidSkinException, PlayerSkin, PlayerSkinGradient, PlayerSkinPart, PlayerSkinPartId, PlayerSkinPartTexture, PlayerSkinPartType, PlayerSkinTintColor, Variant
+
+Complete API:
+  public String getId()
+  public Map<String,PlayerSkinPartTexture> getGradients()
+
+Fields:
+private final String id
+private final Map<String,PlayerSkinPartTexture> gradients

@@ -10,3 +10,13 @@ ECS component stored in `EntityStore`. Serialized via `BuilderCodec`.
 
 - getComponentType() | ComponentType<EntityStore, PredictedProjectile> | Accessor method.
 - getUuid() | UUID | Accessor method.
+
+Also in this package: Projectile
+
+Complete API:
+  public static ComponentType<EntityStore,PredictedProjectile> getComponentType()
+  public UUID getUuid()
+  public Component<EntityStore> clone()
+
+Fields:
+private final UUID uuid

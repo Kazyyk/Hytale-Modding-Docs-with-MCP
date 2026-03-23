@@ -20,3 +20,13 @@ Console command handling EntityStatsAdd operations.
         int statAmount,
         @Nonnull String entityStatName,
         @Nonnull Store<EntityStore> store)` |
+
+Also in this package: EntityStatsDumpCommand, EntityStatsGetCommand, EntityStatsResetCommand, EntityStatsSetCommand, EntityStatsSetToMaxCommand, EntityStatsSubCommand
+
+Complete API:
+  protected void execute(CommandContext context, List<Ref<EntityStore>> entities, World world, Store<EntityStore> store)
+  public static void addEntityStat(CommandContext context, List<Ref<EntityStore>> entityRefs, int statAmount, String entityStatName, Store<EntityStore> store)
+
+Fields:
+private final RequiredArg<String> entityStatNameArg
+private final RequiredArg<Integer> statAmountArg

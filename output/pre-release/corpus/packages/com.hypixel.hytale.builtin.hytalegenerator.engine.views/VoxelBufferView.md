@@ -30,3 +30,24 @@ Provides a `VoxelSpace<T>` view over 3D voxel buffers within a `BufferBundle.Acc
 - @Nonnull private VoxelBuffer<T> getBuffer_fromVoxelGrid(@Nonnull Vector3i position_voxelGrid)
 - @Nonnull private VoxelBuffer<T> getBuffer_fromBufferGrid(int x_bufferGrid, int y_bufferGrid, int z_bufferGrid)
 - @Nonnull private VoxelBuffer<T> getBuffer_fromBufferGrid(@Nonnull Vector3i position_bufferGrid)
+
+Also in this package: EntityBufferView, PixelBufferView
+
+Complete API:
+  public void copyFrom(VoxelBufferView<T> source)
+  public void set(T content, int x, int y, int z)
+  public void set(T content, Vector3i position_voxelGrid)
+  public void setAll(T content)
+  public T get(int x, int y, int z)
+  public T get(Vector3i position_voxelGrid)
+  public Bounds3i getBounds()
+  private VoxelBuffer<T> getBuffer_fromVoxelGrid(int x_voxelGrid, int y_voxelGrid, int z_voxelGrid)
+  private VoxelBuffer<T> getBuffer_fromVoxelGrid(Vector3i position_voxelGrid)
+  private VoxelBuffer<T> getBuffer_fromBufferGrid(int x_bufferGrid, int y_bufferGrid, int z_bufferGrid)
+  private VoxelBuffer<T> getBuffer_fromBufferGrid(Vector3i position_bufferGrid)
+
+Fields:
+private final Class<T> voxelType
+private final BufferBundle.Access.View bufferAccess
+private final Bounds3i bounds_voxelGrid
+private final Vector3i size_voxelGrid

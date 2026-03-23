@@ -42,3 +42,38 @@ public int hashCode()
 
 - Schema -- base class
 - IntegerSchema -- integer equivalent
+
+Also in this package: ArrayOrNull, ArraySchema, BooleanOrSchema, BooleanSchema, CommonAsset, DoubleOrSchema, HytaleMetadata, InheritSettings, IntegerOrSchema, IntegerSchema, ItemOrItems, NullSchema, ObjectSchema, Schema, SchemaTypeField, StringOrBlank, StringSchema
+
+Complete API:
+  public Object getMinimum()
+  public void setMinimum(double minimum)
+  public Object getExclusiveMinimum()
+  public void setExclusiveMinimum(double exclusiveMinimum)
+  public Object getMaximum()
+  public void setMaximum(double maximum)
+  public Object getExclusiveMaximum()
+  public void setExclusiveMaximum(double exclusiveMaximum)
+  public void setMinimum(Schema minimum)
+  public void setExclusiveMinimum(Schema exclusiveMinimum)
+  public void setMaximum(Schema maximum)
+  public void setExclusiveMaximum(Schema exclusiveMaximum)
+  public double[] getEnum()
+  public void setEnum(double[] enum_)
+  public Double getConst()
+  public void setConst(Double const_)
+  public Double getDefault()
+  public void setDefault(Double default_)
+  public boolean equals(Object o)
+  public int hashCode()
+  public static Schema constant(double c)
+
+Fields:
+public static final BuilderCodec<NumberSchema> CODEC
+private Object minimum
+private Object exclusiveMinimum
+private Object maximum
+private Object exclusiveMaximum
+private double[] enum_
+private Double const_
+private Double default_

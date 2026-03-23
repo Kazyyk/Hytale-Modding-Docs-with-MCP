@@ -62,3 +62,33 @@ Registers as sub-command `"spawn"` with translation key `"server.commands.npc.sp
 - NPCSpawnCommand.SpawnPageCommand -- UI page variant
 - NPCAllCommand -- spawns all roles at once
 - NPCCommand -- parent command collection
+
+Also in this package: BlockEventsCommand, ChunkCommand, ChunksCommand, ClearAttackCommand, ClearCommand, DefaultsCommand, DropCommand, EntityEventsCommand, GetRoleCommand, GiveNothingCommand, NPCAllCommand, NPCAppearanceCommand, NPCAttackCommand, NPCBenchmarkCommand, NPCBlackboardCommand, NPCCleanCommand, NPCCommand, NPCCommandUtils, NPCDebugCommand, NPCDumpCommand (and 28 more)
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)
+  private Vector3d parseVector3d(CommandContext context, String str)
+  private Vector3f parseVector3f(CommandContext context, String str)
+  private Integer parseFlockSize(CommandContext context, String str)
+
+Fields:
+private static final double PLAYER_FOOT_POINT_EPSILON
+private final RequiredArg<BuilderInfo> roleArg
+private final OptionalArg<Integer> countArg
+private final OptionalArg<Double> radiusArg
+private final OptionalArg<String> flagsArg
+private final OptionalArg<Double> speedArg
+private final FlagArg nonRandomArg
+private final OptionalArg<String> positionSetArg
+private final OptionalArg<String> posOffsetArg
+private final OptionalArg<String> headRotationArg
+private final OptionalArg<String> bodyRotationArg
+private final FlagArg randomRotationArg
+private final FlagArg facingRotationArg
+private final OptionalArg<String> flockArg
+private final FlagArg testArg
+private final FlagArg spawnOnGroundArg
+private final FlagArg frozenArg
+private final FlagArg randomModelArg
+private final OptionalArg<Float> scaleArg
+private final FlagArg bypassScaleLimitsArg

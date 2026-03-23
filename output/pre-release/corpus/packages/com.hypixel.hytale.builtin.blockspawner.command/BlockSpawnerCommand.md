@@ -9,3 +9,5 @@ Abstract base for related commands.
 ## Constructors
 
 - BlockSpawnerCommand() | Creates a new BlockSpawnerCommand instance.
+
+Also in this package: BlockSpawnerGetCommand, BlockSpawnerSetCommand

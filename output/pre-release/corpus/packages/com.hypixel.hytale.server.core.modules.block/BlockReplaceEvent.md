@@ -24,3 +24,23 @@ ECS event fired when a block entity is being replaced by a new one. Carries the 
 - Extends `EcsEvent`
 - Dispatched by BlockEntity
 - Handled by `ItemContainerSystems.OnReplaced` and `ItemContainerSystems.OnReplacedHolder`
+
+Also in this package: BlockEntity, BlockEntityPreprocessor, BlockModule, BlockStateInfo, BlockStateInfoNeedRebuild, BlockStateInfoRefSystem, ItemContainerStateRefSystem, MigrateItemContainer, MigrateLaunchPad, MigrationSystem
+
+Complete API:
+  public Ref<ChunkStore> getChunkRef()
+  public int getSelfX()
+  public int getSelfY()
+  public int getSelfZ()
+  public Holder<ChunkStore> getNewEntity()
+  public void next(int selfX, int selfY, int selfZ)
+
+Fields:
+private final Ref<ChunkStore> chunkRef
+private int selfX
+private int selfY
+private int selfZ
+private final Holder<ChunkStore> newEntity
+private final int baseX
+private final int baseY
+private final int baseZ

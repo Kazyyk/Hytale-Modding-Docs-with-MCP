@@ -22,3 +22,20 @@ Concrete implementation extending `Enum<EventType>, NotificationType extends Eve
 - getSetCount() | int | public method.
 - forEach(@Nonnull IntObjectConsumer<EventType> setConsumer, @Nonnull Consumer<Ref<EntityStore>> npcConsumer) | void | public method.
 - cleanup() | void | public method.
+
+Also in this package: EntityEventNotification, EventNotification, EventView, IEventCallback
+
+Complete API:
+  public void initialiseEntity(Ref<EntityStore> ref, IntSet changeSets)
+  public void relayEvent(int senderTypeId, NotificationType reusableEventNotification, Ref<EntityStore> skipEntityReference, ComponentAccessor<EntityStore> componentAccessor)
+  public int getSetCount()
+  public void forEach(IntObjectConsumer<EventType> setConsumer, Consumer<Ref<EntityStore>> npcConsumer)
+  public void cleanup()
+
+Fields:
+private static final ComponentType<EntityStore,NPCEntity> NPC_COMPONENT_TYPE
+private final EventType type
+private final BitSet eventSets
+private final Int2ObjectMap<List<Ref<EntityStore>>> entitiesBySet
+private final BiIntPredicate setTester
+private final IEventCallback<EventType,NotificationType> eventCallback

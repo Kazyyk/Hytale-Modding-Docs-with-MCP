@@ -9,3 +9,10 @@ Interface for types that can provide optional `BallisticData` for aim trajectory
 ## Methods
 
 - public BallisticData getBallisticData()
+
+Known implementors: LaunchProjectileInteraction, ProjectileInteraction
+
+Also in this package: BallisticData, BounceConsumer, ImpactConsumer, PhysicsConfig, ProjectileConfig, ProjectileConfigPacketGenerator, STATE, StandardPhysicsConfig, StandardPhysicsProvider
+
+Complete API:
+  BallisticData getBallisticData()

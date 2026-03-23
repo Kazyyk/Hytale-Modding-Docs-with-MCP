@@ -59,3 +59,53 @@ Class in the config subsystem.
 - getHighCutOff() | float | public method.
 - toString() | String | public method.
 - toPacket() | com.hypixel.hytale.protocol.EqualizerEffect | public method.
+
+Complete API:
+  public static AssetStore<String,EqualizerEffect,IndexedLookupTableAssetMap<String,EqualizerEffect>> getAssetStore()
+  public static IndexedLookupTableAssetMap<String,EqualizerEffect> getAssetMap()
+  public String getId()
+  public float getLowGain()
+  public float getLowCutOff()
+  public float getLowMidGain()
+  public float getLowMidCenter()
+  public float getLowMidWidth()
+  public float getHighMidGain()
+  public float getHighMidCenter()
+  public float getHighMidWidth()
+  public float getHighGain()
+  public float getHighCutOff()
+  public String toString()
+  public com.hypixel.hytale.protocol.EqualizerEffect toPacket()
+
+Fields:
+public static final int EMPTY_ID
+public static final String EMPTY
+public static final EqualizerEffect EMPTY_EQUALIZER_EFFECT
+public static final float MIN_GAIN_DB
+public static final float MAX_GAIN_DB
+public static final float MIN_WIDTH
+public static final float MAX_WIDTH
+public static final float LOW_FREQ_MIN
+public static final float LOW_FREQ_MAX
+public static final float LOW_MID_FREQ_MIN
+public static final float LOW_MID_FREQ_MAX
+public static final float HIGH_MID_FREQ_MIN
+public static final float HIGH_MID_FREQ_MAX
+public static final float HIGH_FREQ_MIN
+public static final float HIGH_FREQ_MAX
+public static final AssetBuilderCodec<String,EqualizerEffect> CODEC
+public static final ValidatorCache<String> VALIDATOR_CACHE
+private static AssetStore<String,EqualizerEffect,IndexedLookupTableAssetMap<String,EqualizerEffect>> ASSET_STORE
+protected AssetExtraInfo.Data data
+protected String id
+protected float lowGain
+protected float lowCutOff
+protected float lowMidGain
+protected float lowMidCenter
+protected float lowMidWidth
+protected float highMidGain
+protected float highMidCenter
+protected float highMidWidth
+protected float highGain
+protected float highCutOff
+private SoftReference<com.hypixel.hytale.protocol.EqualizerEffect> cachedPacket

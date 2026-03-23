@@ -40,3 +40,41 @@ public abstract class Window
 ## Inner Types
 
 - `Window.WindowCloseEvent`
+
+Known subclasses: BlockWindow, ContainerWindow, FieldCraftingWindow, ItemStackContainerWindow, MemoriesWindow
+
+Also in this package: BlockWindow, ContainerBlockWindow, ContainerWindow, ItemContainerWindow, ItemStackContainerWindow, MaterialContainerWindow, MaterialExtraResourcesSection, ValidatedWindow, WindowCloseEvent, WindowManager
+
+Complete API:
+  public void init(PlayerRef playerRef, WindowManager manager)
+  public abstract JsonObject getData()
+  protected boolean onOpen(Ref<EntityStore> ref, Store<EntityStore> store)
+  protected abstract boolean onOpen0(Ref<EntityStore> var1, Store<EntityStore> var2)
+  protected void onClose(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  protected abstract void onClose0(Ref<EntityStore> var1, ComponentAccessor<EntityStore> var2)
+  public void handleAction(Ref<EntityStore> ref, Store<EntityStore> store, WindowAction action)
+  public WindowType getType()
+  public void setId(int id)
+  public int getId()
+  public PlayerRef getPlayerRef()
+  public void close(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+  protected void invalidate()
+  protected void setNeedRebuild()
+  protected boolean consumeIsDirty()
+  protected void consumeNeedRebuild()
+  public EventRegistration registerCloseEvent(Consumer<Window.WindowCloseEvent> consumer)
+  public EventRegistration registerCloseEvent(short priority, Consumer<Window.WindowCloseEvent> consumer)
+  public EventRegistration registerCloseEvent(EventPriority priority, Consumer<Window.WindowCloseEvent> consumer)
+  public boolean equals(Object o)
+  public int hashCode()
+
+Fields:
+public static final Map<WindowType,Supplier<? extends Window>> CLIENT_REQUESTABLE_WINDOW_TYPES
+protected static final HytaleLogger LOGGER
+protected final SyncEventBusRegistry<Void,Window.WindowCloseEvent> closeEventRegistry
+protected final WindowType windowType
+protected final AtomicBoolean isDirty
+protected final AtomicBoolean needRebuild
+private int id
+private WindowManager manager
+private PlayerRef playerRef

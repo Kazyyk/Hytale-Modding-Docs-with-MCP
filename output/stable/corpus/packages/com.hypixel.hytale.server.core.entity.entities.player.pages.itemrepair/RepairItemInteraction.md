@@ -13,3 +13,13 @@ public class RepairItemInteraction extends ChoiceInteraction
 ## Methods
 
 - @Override public void run(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
+
+Also in this package: ItemRepairElement, ItemRepairPage
+
+Complete API:
+  public void run(Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef)
+
+Fields:
+protected final ItemContext itemContext
+protected final double repairPenalty
+protected final ItemContext heldItemContext

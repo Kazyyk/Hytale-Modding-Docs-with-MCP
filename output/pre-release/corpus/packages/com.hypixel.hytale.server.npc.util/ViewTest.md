@@ -9,3 +9,11 @@ Enum defining NPC view test modes: `NONE` (no view test), `VIEW_SECTOR` (2D hori
 ## Key Methods
 
 - public String get()
+
+Also in this package: AimingData, AimingHelper, Alarm, AttitudeMemoryEntry, BlockPlacementHelper, ComponentInfo, DamageData, Direction, IAnnotatedComponent, IAnnotatedComponentCollection, IComponentExecutionControl, IEntityByPriorityFilter, InventoryHelper, NPCPhysicsMath, PositionProbeAir, PositionProbeBase, PositionProbeWater, RayBlockHitTest, RootSolver, SensorSupportBenchmark (and 4 more)
+
+Complete API:
+  public String get()
+
+Fields:
+private final String name

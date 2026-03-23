@@ -19,3 +19,8 @@ Enumerates MoldingDirection values: `NONE`, `UP`, `DOWN`, `NORTH`, `SOUTH`, and 
 ## Constants
 
 - @Nonnull public static final Codec<MoldingDirection> CODEC
+
+Also in this package: PrefabMoldingConfiguration, PrefabProp, PropPrefabUtil
+
+Fields:
+public static final Codec<MoldingDirection> CODEC

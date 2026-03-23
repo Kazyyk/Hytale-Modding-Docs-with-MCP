@@ -31,3 +31,27 @@ Implementation of `Component<EntityStore>`.
 - onStateSwitched() | void | public method.
 - toString() | String | public method.
 - clone() | Component<EntityStore> | public method.
+
+Also in this package: SelfOptionHolder, StateOption
+
+Complete API:
+  public static ComponentType<EntityStore,StateEvaluator> getComponentType()
+  public boolean isActive()
+  public void setActive(boolean active)
+  public EvaluationContext getEvaluationContext()
+  public void prepareOptions(StateMappingHelper stateHelper)
+  public boolean shouldExecute(double interval)
+  public void prepareEvaluationContext(EvaluationContext context)
+  public void onStateSwitched()
+  public String toString()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final BuilderCodec<StateEvaluator> CODEC
+protected StateOption[] rawOptions
+protected double executeFrequency
+protected double stateChangeCooldown
+protected double minimumUtility
+private double timeUntilNextExecute
+private boolean active
+private final EvaluationContext evaluationContext

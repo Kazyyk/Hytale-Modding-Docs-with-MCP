@@ -43,3 +43,24 @@ Computes the effective view radius by applying the multiplier and clamping to th
 
 
 public String toString()
+
+Also in this package: IWorldMap, ImageEntry, MarkerAndItsStore, MarkerProvider, MarkerReference, PlayerMarkerReference, WorldMapLoadException, WorldMapManager
+
+Complete API:
+  public Box2D getWorldMapArea()
+  public float getImageScale()
+  public int getViewRadiusMin()
+  public int getViewRadiusMax()
+  public WorldMapSettings withViewRadiusLimits(int min, int max)
+  public UpdateWorldMapSettings getSettingsPacket()
+  public int getViewRadius(int viewRadius)
+  public String toString()
+
+Fields:
+public static final WorldMapSettings DISABLED
+private Box2D worldMapArea
+private float imageScale
+private float viewRadiusMultiplier
+private int viewRadiusMin
+private int viewRadiusMax
+private UpdateWorldMapSettings settingsPacket

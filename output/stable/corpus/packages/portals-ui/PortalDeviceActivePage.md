@@ -39,3 +39,14 @@ Record holding the destination `World`, `PortalWorld`, and `diedInside` flag.
 *sealed interface*
 
 Sealed interface permitting `PortalIsOpen` and `Error`.
+
+Also in this package: CanSpawnPortal, Data, Data, Error, Error, InstanceKeyNotFound, Material, PortalDevicePageSupplier, PortalDeviceSummonPage, PortalIsOpen, PortalSpawnFinder, PortalTypeNotFound, State, State
+
+Complete API:
+  public void build(Ref<EntityStore> ref, UICommandBuilder commandBuilder, UIEventBuilder eventBuilder, Store<EntityStore> store)
+  private static Message createPlayerCountMsg(World world)
+  private PortalDeviceActivePage.State computeState(Ref<EntityStore> ref, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+private final PortalDeviceConfig config
+private final Ref<ChunkStore> blockRef

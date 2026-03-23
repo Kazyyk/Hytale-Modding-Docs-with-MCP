@@ -11,3 +11,11 @@ public class ObjectiveMarkerProvider implements MarkerProvider
 ## Methods
 
 - @Override public void update(World world, Player player, MarkersCollector collector)
+
+Also in this package: ObjectiveTaskMarker
+
+Complete API:
+  public void update(World world, Player player, MarkersCollector collector)
+
+Fields:
+public static final ObjectiveMarkerProvider INSTANCE

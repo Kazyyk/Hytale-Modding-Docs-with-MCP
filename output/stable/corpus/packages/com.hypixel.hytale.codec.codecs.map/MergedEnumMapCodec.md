@@ -80,3 +80,29 @@ public class MergedEnumMapCodec<K extends Enum<K>, V, M extends Enum<M>> impleme
 
 - EnumMapCodec
 - MapCodec
+
+Also in this package: EnumMapCodec, Float2ObjectMapCodec, Int2ObjectMapCodec, MapCodec, Object2DoubleMapCodec, Object2FloatMapCodec, Object2IntMapCodec, ObjectMapCodec, Short2ObjectMapCodec
+
+Complete API:
+  public Codec<V> getChildCodec()
+  public Map<K,V> decode(BsonValue bsonValue, ExtraInfo extraInfo)
+  private void put0(Map<K,V> map, String key, V decode)
+  public BsonValue encode(Map<K,V> map, ExtraInfo extraInfo)
+  public Map<K,V> decodeJson(RawJsonReader reader, ExtraInfo extraInfo)
+  public Schema toSchema(SchemaContext context)
+  protected K getEnum(String value)
+  protected K[] getMergedEnum(String value)
+
+Fields:
+private final Class<K> clazz
+private final K[] enumConstants
+private final String[] enumKeys
+private final Class<M> mergeClazz
+private final M[] mergeEnumConstants
+private final String[] mergeEnumKeys
+private final Function<M,K[]> unmergeFunction
+private final BiFunction<V,V,V> mergeResultFunction
+private final EnumCodec.EnumStyle enumStyle
+private final Codec<V> codec
+private final Supplier<EnumMap<K,V>> supplier
+private final boolean unmodifiable

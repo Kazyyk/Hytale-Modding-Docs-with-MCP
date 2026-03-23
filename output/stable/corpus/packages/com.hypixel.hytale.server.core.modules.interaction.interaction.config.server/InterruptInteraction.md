@@ -34,3 +34,17 @@ Retrieves the `InteractionManager` from the target entity, iterates all active c
 
 - `InteractionManager` -- manages active interaction chains on entities
 - `InteractionChain` -- represents an active chain of interactions
+
+Also in this package: AngledDamage, BlockCustomPageSupplier, BlockEntityCustomPageSupplier, BlockSearchConsumer, ChangeStatBaseInteraction, ChangeStatInteraction, ChangeStatWithModifierInteraction, CheckUniqueItemUsageInteraction, ClearEntityEffectInteraction, CustomPageSupplier, DamageEntityInteraction, DestroyConditionInteraction, DoorInfo, DoorInteraction, DoorState, EntityStatOnHit, EquipItemInteraction, IncreaseBackpackCapacityInteraction, LaunchPadInteraction, LaunchProjectileInteraction (and 13 more)
+
+Complete API:
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+
+Fields:
+public static final BuilderCodec<InterruptInteraction> CODEC
+private InteractionTarget entityTarget
+private Set<InteractionType> interruptTypes
+private String requiredTag
+private int requiredTagIndex
+private String excludedTag
+private int excludedTagIndex

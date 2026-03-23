@@ -18,3 +18,12 @@ Loads cell noise configurations. Creates `CellNoise` instances by loading cell d
 
 - CellNoiseJsonLoader.LoadedCellNoise -- inner class extending CellNoise with SeedResource buffer delegation
 - CellNoiseJsonLoader.Constants -- JSON keys and defaults (DEFAULT_CELL_MODE = CELL_VALUE, DEFAULT_CELL_TYPE = SQUARE)
+
+Also in this package: AbstractCellJitterJsonLoader, BasicHeightThresholdInterpreterJsonLoader, BlendNoisePropertyJsonLoader, BranchNoiseJsonLoader, CellBorderDistanceFunctionJsonLoader, CellDistanceFunctionJsonLoader, Constant, ConstantNoiseJsonLoader, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants, Constants (and 48 more)
+
+Complete API:
+  public NoiseFunction load()
+  protected CellDistanceFunction loadCellDistanceFunction()
+  protected PointEvaluator loadPointEvaluator()
+  protected CellNoise.CellFunction loadCellFunction()
+  protected NoiseProperty loadNoiseLookup()

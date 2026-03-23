@@ -10,3 +10,8 @@ Functional interface defining `test` that returns `boolean`.
 ## Abstract Methods
 
 - test | boolean | float var1, float var2
+
+Also in this package: BiIntPredicate, LongTriIntBiObjPredicate, ObjectPositionBlockFunction, QuadObjectDoublePredicate, QuadPredicate, TriIntObjPredicate, TriIntPredicate, TriObjectDoublePredicate, TriPredicate, UnaryBiPredicate
+
+Complete API:
+  boolean test(float var1, float var2)

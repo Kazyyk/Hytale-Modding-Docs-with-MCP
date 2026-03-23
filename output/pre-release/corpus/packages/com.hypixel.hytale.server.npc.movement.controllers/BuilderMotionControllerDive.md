@@ -38,3 +38,53 @@ Requires the spawn position to be in water at the configured swim depth (`isInWa
 
 - MotionControllerDive build(BuilderSupport) | Constructs a `MotionControllerDive
 - Class<? extends MotionController> getClassType() | Returns `MotionControllerDive.class
+
+Also in this package: BuilderMotionControllerBase, BuilderMotionControllerFly, BuilderMotionControllerMap, BuilderMotionControllerWalk
+
+Complete API:
+  public String getShortDescription()
+  public String getLongDescription()
+  public BuilderDescriptorState getBuilderDescriptorState()
+  public MotionControllerDive build(BuilderSupport builderSupport)
+  public BuilderMotionControllerDive readConfig(JsonElement data)
+  public Class<MotionController> category()
+  public double getMinHorizontalSpeed()
+  public double getAcceleration()
+  public double getMaxVerticalSpeed()
+  public double getGravity()
+  public double getMaxFallSpeed()
+  public double getMaxSinkSpeed()
+  public float getMaxMoveTurnAngle()
+  public double getMaxRotationSpeed()
+  public double getMinDiveDepth()
+  public double getMaxDiveDepth()
+  public double getMinWaterDepth()
+  public double getMaxWaterDepth()
+  public double getMinDepthAboveGround()
+  public double getMinDepthBelowSurface()
+  public double getSwimDepth()
+  public double getSinkRatio()
+  public double getFastDiveThreshold()
+  public double getDesiredDepthWeight()
+  public SpawnTestResult canSpawn(SpawningContext context)
+  public Class<? extends MotionController> getClassType()
+
+Fields:
+private double minHorizontalSpeed
+private double maxVerticalSpeed
+private double acceleration
+private double gravity
+private double maxFallSpeed
+private double maxSinkSpeed
+private double maxRotationSpeed
+private float maxMoveTurnAngle
+private double minDiveDepth
+private double maxDiveDepth
+private double minWaterDepth
+private double maxWaterDepth
+private double minDepthAboveGround
+private double minDepthBelowSurface
+private double swimDepth
+private double sinkRatio
+private double fastDiveThreshold
+private double desiredDepthWeight

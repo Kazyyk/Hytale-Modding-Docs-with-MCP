@@ -70,3 +70,56 @@ Abstract base for all inventory section components (hotbar, storage, armor, util
 
 - Implements `Component<EntityStore>`
 - Change events dispatched as InventoryChangeEvent by InventorySystems
+
+Known subclasses: Armor, Backpack, Hotbar, Storage, Tool, Utility
+
+Also in this package: Armor, ArmorChangeEventSystem, Backpack, BackpackChangeEventSystem, Combined, Hotbar, HotbarChangeEventSystem, Inventory, InventoryChangeEvent, InventoryChangeEventSystem, InventorySystems, ItemContext, ItemPickupType, ItemStack, LegacyArmorChangeStatSystem, LegacyHotbarChangeStatSystem, LegacyUtilityChangeStatSystem, MaterialQuantity, Metadata, PlayerInventoryChangeEventSystem (and 7 more)
+
+Complete API:
+  public void ensureCapacity(short capacity, List<ItemStack> remainder)
+  protected void registerChangeEvent()
+  protected void unregisterChangeEvent()
+  protected void markChanged()
+  public void markDirty()
+  public boolean consumeIsDirty()
+  public boolean consumeNeedsSaving()
+  public ItemContainer getInventory()
+  private void postDecode()
+  public ConcurrentLinkedQueue<ItemContainer.ItemContainerChangeEvent> getChangeEvents()
+  public abstract Component<EntityStore> clone()
+  public static void setupCombined(ComponentType<EntityStore,InventoryComponent.Storage> storageInventoryComponentType, ComponentType<EntityStore,InventoryComponent.Armor> armorInventoryComponentType, ComponentType<EntityStore,InventoryComponent.Hotbar> hotbarInventoryComponentType, ComponentType<EntityStore,InventoryComponent.Utility> utilityInventoryComponentType, ComponentType<EntityStore,InventoryComponent.Backpack> backpackInventoryComponentType, ComponentType<EntityStore,InventoryComponent.Tool> toolInventoryComponentType)
+  public static ComponentType<EntityStore,? extends InventoryComponent> getComponentTypeById(int id)
+  public static CombinedItemContainer getCombined(ComponentAccessor<EntityStore> accessor, Ref<EntityStore> ref, ComponentType<EntityStore,? extends InventoryComponent> types)
+  public static CombinedItemContainer getCombined(CommandBuffer<EntityStore> commandBuffer, ArchetypeChunk<EntityStore> archetypeChunk, int index, ComponentType<EntityStore,? extends InventoryComponent> types)
+  public static ItemStack getItemInHand(ComponentAccessor<EntityStore> accessor, Ref<EntityStore> ref)
+
+Fields:
+public static final byte INACTIVE_SLOT_INDEX
+public static final short DEFAULT_HOTBAR_CAPACITY
+public static final short DEFAULT_UTILITY_CAPACITY
+public static final short DEFAULT_TOOLS_CAPACITY
+public static final short DEFAULT_ARMOR_CAPACITY
+public static final short DEFAULT_STORAGE_ROWS
+public static final short DEFAULT_STORAGE_COLUMNS
+public static final short DEFAULT_STORAGE_CAPACITY
+public static final int HOTBAR_SECTION_ID
+public static final int STORAGE_SECTION_ID
+public static final int ARMOR_SECTION_ID
+public static final int UTILITY_SECTION_ID
+public static final int TOOLS_SECTION_ID
+public static final int BACKPACK_SECTION_ID
+public static final BuilderCodec<InventoryComponent> CODEC
+protected final AtomicBoolean isDirty
+protected final AtomicBoolean needsSaving
+protected ItemContainer inventory
+protected EventRegistration<Void,ItemContainer.ItemContainerChangeEvent> changeEvent
+protected ConcurrentLinkedQueue<ItemContainer.ItemContainerChangeEvent> changeEvents
+public static ComponentType<EntityStore,? extends InventoryComponent>[] HOTBAR_STORAGE_BACKPACK
+public static ComponentType<EntityStore,? extends InventoryComponent>[] HOTBAR_FIRST
+public static ComponentType<EntityStore,? extends InventoryComponent>[] STORAGE_FIRST
+public static ComponentType<EntityStore,? extends InventoryComponent>[] BACKPACK_STORAGE_HOTBAR
+public static ComponentType<EntityStore,? extends InventoryComponent>[] BACKPACK_HOTBAR_STORAGE
+public static ComponentType<EntityStore,? extends InventoryComponent>[] STORAGE_HOTBAR_BACKPACK
+public static ComponentType<EntityStore,? extends InventoryComponent>[] ARMOR_HOTBAR_UTILITY_STORAGE
+public static ComponentType<EntityStore,? extends InventoryComponent>[] HOTBAR_UTILITY_CONSUMABLE_STORAGE
+public static ComponentType<EntityStore,? extends InventoryComponent>[] EVERYTHING

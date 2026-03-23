@@ -30,3 +30,13 @@ Returns `this` since the component is a stateless singleton.
 ## Related Types
 
 - PlayerSkinComponent -- holds the actual player skin data
+
+Also in this package: AbsoluteMovement, AddSystem, AssignmentSystem, BlockPausedMovementSystem, CaptureKnockbackInput, ChunkTracker, ChunkVisibility, ClearOnRemove, ClearOnTeleport, CollisionAxis, InitKnockback, InitializeSystem, InputUpdate, KillFeedDecedentEventSystem, KillFeedKillerEventSystem, KnockbackPredictionSystems, KnockbackSimulation, NameplateRefChangeSystem, NameplateRefSystem, PlayerAddedSystem (and 33 more)
+
+Complete API:
+  public static ComponentType<EntityStore,ApplyRandomSkinPersistedComponent> getComponentType()
+  public Component<EntityStore> clone()
+
+Fields:
+public static final ApplyRandomSkinPersistedComponent INSTANCE
+public static final BuilderCodec<ApplyRandomSkinPersistedComponent> CODEC

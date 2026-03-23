@@ -69,3 +69,23 @@ public class TeleportInstanceInteraction extends SimpleInstantInteraction
 ## Inner Types
 
 - `TeleportInstanceInteraction.OriginSource`
+
+Also in this package: ExitInstanceInteraction, OriginSource, TeleportConfigInstanceInteraction
+
+Complete API:
+  public WaitForDataFrom getWaitForDataFrom()
+  protected void firstRun(InteractionType type, InteractionContext context, CooldownHandler cooldownHandler)
+  private Transform getPersonalReturnPoint(Ref<EntityStore> playerRef, InteractionContext context, Transform returnPoint, ComponentAccessor<EntityStore> componentAccessor)
+  private Transform makeReturnPoint(Ref<EntityStore> playerRef, InteractionContext context, ComponentAccessor<EntityStore> componentAccessor)
+
+Fields:
+public static final BuilderCodec<TeleportInstanceInteraction> CODEC
+private static final int SET_BLOCK_SETTINGS
+private String instanceName
+private String instanceKey
+private Vector3d positionOffset
+private Vector3f rotation
+private TeleportInstanceInteraction.OriginSource originSource
+private boolean personalReturnPoint
+private boolean closeOnBlockRemove
+private double removeBlockAfter

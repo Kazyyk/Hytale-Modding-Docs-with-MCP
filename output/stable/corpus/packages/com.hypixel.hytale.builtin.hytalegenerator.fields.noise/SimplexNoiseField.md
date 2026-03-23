@@ -34,3 +34,24 @@ Extends `NoiseField`.
 - @Nonnull public SimplexNoiseField.Builder withFrequencyMultiplier(double f)
 - @Nonnull public SimplexNoiseField.Builder withAmplitudeMultiplier(double a)
 - @Nonnull public SimplexNoiseField.Builder withSeed(long s)
+
+Also in this package: Builder, CellNoiseField, Grad, NoiseField, Simplex
+
+Complete API:
+  public static SimplexNoiseField.Builder builder()
+  public double valueAt(double x, double y, double z, double w)
+  public double valueAt(double x, double y, double z)
+  public double valueAt(double x, double y)
+  public double valueAt(double x)
+  public long getSeed()
+
+Fields:
+private final long seed
+private final double[] offsetX
+private final double[] offsetY
+private final double[] offsetZ
+private final double[] offsetW
+private final int numberOfOctaves
+private final double[] octaveFrequency
+private final double[] octaveAmplitude
+private final double normalizer

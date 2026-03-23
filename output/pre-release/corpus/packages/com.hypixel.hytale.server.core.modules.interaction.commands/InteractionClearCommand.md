@@ -9,3 +9,8 @@ Abstract base for related commands.
 ## Constructors
 
 - InteractionClearCommand() | Creates a new InteractionClearCommand instance.
+
+Also in this package: InteractionCommand, InteractionRunCommand, InteractionRunSpecificCommand, InteractionSetSnapshotSourceCommand, InteractionSnapshotSourceCommand
+
+Complete API:
+  protected void execute(CommandContext context, Store<EntityStore> store, Ref<EntityStore> ref, PlayerRef playerRef, World world)

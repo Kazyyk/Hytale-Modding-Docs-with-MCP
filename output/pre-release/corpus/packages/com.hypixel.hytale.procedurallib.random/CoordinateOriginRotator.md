@@ -21,3 +21,18 @@ Extends `CoordinateRotator` to provide CoordinateOriginRotator functionality.
 - @Override public double randomDoubleY(int seed, double x, double y, double z)
 - @Override public double randomDoubleZ(int seed, double x, double y, double z)
 - @Nonnull @Override public String toString()
+
+Also in this package: AmplitudeNoiseProperty, CoordinateRandomizer, CoordinateRotator, EmptyCoordinateRandomizer, ICoordinateRandomizer, RotatedCoordinateRandomizer
+
+Complete API:
+  public double randomDoubleX(int seed, double x, double y)
+  public double randomDoubleY(int seed, double x, double y)
+  public double randomDoubleX(int seed, double x, double y, double z)
+  public double randomDoubleY(int seed, double x, double y, double z)
+  public double randomDoubleZ(int seed, double x, double y, double z)
+  public String toString()
+
+Fields:
+private final double originX
+private final double originY
+private final double originZ
