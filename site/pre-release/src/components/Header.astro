@@ -1,0 +1,20 @@
+---
+import Default from '@astrojs/starlight/components/Header.astro';
+---
+
+<Default><slot /></Default>
+
+<script>
+  // Add branch switcher text link to the header right group
+  const rightGroup = document.querySelector('.header .right-group');
+  if (rightGroup) {
+    const link = document.createElement('a');
+    link.href = 'https://hydex.dev';
+    link.textContent = 'Stable ↗';
+    link.className = 'branch-switcher';
+    link.style.cssText = 'color: var(--sl-color-gray-2); text-decoration: none; font-size: var(--sl-text-sm); white-space: nowrap; padding: 0.25rem 0.5rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.25rem;';
+    link.addEventListener('mouseenter', () => link.style.color = 'var(--sl-color-white)');
+    link.addEventListener('mouseleave', () => link.style.color = 'var(--sl-color-gray-2)');
+    rightGroup.insertBefore(link, rightGroup.firstChild);
+  }
+</script>
