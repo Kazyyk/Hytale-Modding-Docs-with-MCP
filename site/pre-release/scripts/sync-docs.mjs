@@ -1,5 +1,5 @@
 /**
- * Syncs generated markdown from output/docs/ into the Starlight content directory.
+ * Syncs generated markdown from output/pre-release/docs/ into the Starlight content directory.
  *
  * - Copies all .md files preserving directory structure
  * - Rewrites internal .md links to Starlight-compatible clean URLs
@@ -170,20 +170,9 @@ function patchLandingPage(content) {
   return content;
 }
 
-// Clean synced content from target directory, but preserve manually-placed
-// files (like mcp.md) that live in site/src/content/docs/ directly.
-// Only remove the packages/ and schemas/ subdirectories that the sync creates.
-for (const subdir of ["packages", "schemas"]) {
-  const fullPath = join(TARGET_DIR, subdir);
-  if (existsSync(fullPath)) {
-    rmSync(fullPath, { recursive: true });
-  }
-}
-// Also remove the synced index.md (will be re-created from output/docs/index.md)
-const syncedIndex = join(TARGET_DIR, "index.md");
-if (existsSync(syncedIndex)) {
-  rmSync(syncedIndex);
-}
+// Incremental sync: instead of nuking and recreating, we compare content
+// and only write files that changed. This lets Astro's build cache skip
+// unchanged pages, dramatically reducing build times for non-content changes.
 
 if (!existsSync(SOURCE_DIR)) {
   console.error(`ERROR: Source directory not found: ${SOURCE_DIR}`);
@@ -198,6 +187,7 @@ const rewrittenFileSet = new Set(files.map(f => rewritePackagePath(f)));
 console.log(`Syncing ${files.length} markdown files from output/pre-release/docs/ → site/pre-release/src/content/docs/`);
 
 let synced = 0;
+let skipped = 0;
 let linksRewritten = 0;
 let danglingTotal = 0;
 const danglingTargets = new Set();
@@ -251,11 +241,54 @@ for (const relPath of files) {
     content = patchLandingPage(content);
   }
 
-  writeFileSync(dest, content);
-  synced++;
+  // Only write if content changed (preserves Astro build cache for unchanged pages)
+  let existing = null;
+  try { existing = readFileSync(dest, "utf-8"); } catch {}
+  if (existing !== content) {
+    writeFileSync(dest, content);
+    synced++;
+  } else {
+    skipped++;
+  }
 }
 
-console.log(`Synced ${synced} files, rewrote ${linksRewritten} internal links, stripped ${danglingTotal} dangling links.`);
+// Remove stale files in target that no longer exist in source
+const destFiles = walkFiles(TARGET_DIR);
+let removed = 0;
+for (const destRel of destFiles) {
+  // Skip manually-placed files (not under packages/ or schemas/)
+  if (!destRel.startsWith("packages/") && !destRel.startsWith("schemas/") && destRel !== "index.md") continue;
+  // Check if this dest file has a corresponding source file.
+  // The dest uses hyphenated package dirs; source uses dotted.
+  // Build a lookup: try the dest path as-is first, then with hyphens→dots.
+  let sourceRel = destRel;
+  let found = fileSet.has(sourceRel);
+  if (!found && destRel.startsWith("packages/")) {
+    const parts = destRel.split("/");
+    parts[1] = parts[1].replace(/-/g, ".");
+    sourceRel = parts.join("/");
+    found = fileSet.has(sourceRel);
+  }
+  if (!found) {
+    const fullDest = join(TARGET_DIR, destRel);
+    rmSync(fullDest);
+    removed++;
+  }
+}
+// Clean up empty directories
+for (const subdir of ["packages", "schemas"]) {
+  const fullPath = join(TARGET_DIR, subdir);
+  if (existsSync(fullPath)) {
+    for (const d of readdirSync(fullPath)) {
+      const dirPath = join(fullPath, d);
+      if (statSync(dirPath).isDirectory() && readdirSync(dirPath).length === 0) {
+        rmSync(dirPath, { recursive: true });
+      }
+    }
+  }
+}
+
+console.log(`Synced ${synced} changed, ${skipped} unchanged, ${removed} removed. Rewrote ${linksRewritten} links, stripped ${danglingTotal} dangling.`);
 
 if (danglingTargets.size > 0) {
   console.log(`\n=== DANGLING LINKS: ${danglingTargets.size} missing targets ===`);
