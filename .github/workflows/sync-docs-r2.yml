@@ -1,5 +1,5 @@
 # Syncs documentation to R2 buckets for Cloudflare AI Search indexing.
-# Triggers on pushes to main that modify the docs directories.
+# Each job only runs when its respective docs directory changes.
 #
 # Required GitHub secrets:
 #   R2_ACCOUNT_ID       - Cloudflare account ID
@@ -14,11 +14,24 @@ on:
     paths:
       - "output/docs/**"
       - "output/pre-release/docs/**"
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Which branch to sync (stable, pre-release, both)"
+        required: true
+        default: "both"
+        type: choice
+        options:
+          - stable
+          - pre-release
+          - both
 
 jobs:
   sync-stable:
     runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'workflow_dispatch' && (github.event.inputs.branch == 'stable' || github.event.inputs.branch == 'both') ||
+      github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'output/docs/')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,11 +45,15 @@ jobs:
           aws s3 sync output/docs/ s3://hydex-corpus-stable/ \
             --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
             --delete \
+            --size-only \
             --exclude ".gitkeep" \
             --exclude "*.json"
 
   sync-pre-release:
     runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'workflow_dispatch' && (github.event.inputs.branch == 'pre-release' || github.event.inputs.branch == 'both') ||
+      github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'output/pre-release/')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,5 +67,6 @@ jobs:
           aws s3 sync output/pre-release/docs/ s3://hydex-corpus-pre/ \
             --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
             --delete \
+            --size-only \
             --exclude ".gitkeep" \
             --exclude "*.json"

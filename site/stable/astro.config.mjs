@@ -11,6 +11,11 @@ export default defineConfig({
         "Comprehensive documentation for the Hytale source — every type, every method, every system.",
       social: [
         {
+          icon: "rocket",
+          label: "Pre-release",
+          href: "https://pre.hydex.dev",
+        },
+        {
           icon: "email",
           label: "Contact",
           href: "mailto:contact@hydex.dev",
