@@ -1,0 +1,53 @@
+---
+title: "WorldSettingsCommand"
+kind: "class"
+package: "com.hypixel.hytale.server.core.universe.world.commands"
+fqcn: "com.hypixel.hytale.server.core.universe.world.commands.WorldSettingsCommand"
+api_surface: false
+extends: "AbstractCommandCollection"
+implements: []
+generator_version: "2.0.0"
+generated_at: "2026-03-21T00:00:00Z"
+tags:
+  - "command"
+  - "world"
+  - "settings"
+---
+
+**Package:** `com.hypixel.hytale.server.core.universe.world.commands`
+
+```java
+public class WorldSettingsCommand extends AbstractCommandCollection
+```
+
+Command collection providing sub-commands to view and modify world configuration settings at runtime. Registered under the name `settings` with alias `ws`. Each sub-command exposes a `WorldConfig` property with `set` and `reset` operations.
+
+## Constructors
+
+```java
+public WorldSettingsCommand()
+```
+
+Registers all sub-commands covering: `worldgentype`, `worldmaptype`, `chunkstoragetype`, `ticking`, `blockticking`, `pvp`, `timepaused`, `spawningnpc`, `spawnmarkers`, `freezeallnpcs`, `compassupdating`, `playersaving`, `chunksaving`, `chunkunloading`, `gamemode`, `gameplayconfig`, `pregenerate`, and `keeploaded`.
+
+## Sub-Command Structure
+
+Each setting sub-command displays the current value when invoked without arguments, and provides nested `set` and `reset` sub-commands. The `reset` sub-command reverts to the default `WorldConfig` value.
+
+## Inner Classes
+
+### WorldSettingsSubCommand
+
+```java
+private static class WorldSettingsSubCommand<T> extends AbstractWorldCommand
+```
+
+Generic sub-command that reads/writes a typed property from `WorldConfig` via getter/setter functions.
+
+### WorldSettingsBox2DCommand
+
+```java
+private static class WorldSettingsBox2DCommand extends AbstractWorldCommand
+```
+
+Specialized sub-command for `Box2D` region properties (pregenerate, keeploaded) that require four coordinate arguments (minX, minZ, maxX, maxZ).

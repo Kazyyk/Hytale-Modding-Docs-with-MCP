@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "branch": "pre-release",
+  "jar_hash": "sha256:f38284dbcc322a5a90bc7f63850adbf2489bff8cd8b27b2ac86b8f2cc5c9b7f6",
+  "generated_at": "2026-03-23T15:14:26Z",
+  "generator_version": "2.0.0",
+  "total_types": 5838,
+  "total_packages": 924,
+  "api_surface_types": 681,
+  "internal_types": 5157
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "account_id": "592597b00976adc8425630b281ecbf86",
+  "name": "hydex-mcp-pre",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-06-09",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Workers AI binding — provides env.AI and env.AI.autorag()
+  "ai": {
+    "binding": "AI"
+  },
+
+  // Durable Object backing the McpAgent sessions
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "MCP_OBJECT",
+        "class_name": "HydexMCPPre"
+      }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["HydexMCPPre"]
+    }
+  ],
+
+  "observability": {
+    "enabled": true
+  }
+}

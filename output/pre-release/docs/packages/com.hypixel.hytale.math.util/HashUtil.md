@@ -1,0 +1,41 @@
+---
+title: "HashUtil"
+kind: "class"
+package: "com.hypixel.hytale.math.util"
+fqcn: "com.hypixel.hytale.math.util.HashUtil"
+api_surface: false
+extends: null
+implements: []
+generator_version: "2.0.0"
+generated_at: "2026-03-21T12:00:00Z"
+tags:
+  - "math"
+  - "util"
+  - "class"
+---
+
+**Package:** `com.hypixel.hytale.math.util`
+
+```java
+public class HashUtil
+```
+
+## Methods
+
+| Modifier | Return Type | Signature |
+|---|---|---|
+| `` | `public static long` | `hash(long v)` |
+| `` | `public static long` | `hash(long l1, long l2)` |
+| `` | `public static long` | `hash(long l1, long l2, long l3)` |
+| `` | `public static long` | `hash(long l1, long l2, long l3, long l4)` |
+| `` | `public static long` | `rehash(long l1)` |
+| `` | `public static long` | `rehash(long l1, long l2)` |
+| `` | `public static long` | `rehash(long l1, long l2, long l3)` |
+| `` | `public static long` | `rehash(long l1, long l2, long l3, long l4)` |
+| `` | `public static double` | `random(long l1)` |
+| `` | `public static double` | `random(long l1, long l2)` |
+| `` | `public static double` | `random(long l1, long l2, long l3)` |
+| `` | `public static double` | `random(long l1, long l2, long l3, long l4)` |
+| `` | `public static int` | `randomInt(long l1, long l2, long l3, int bound)` |
+| `` | `private static double` | `hashToRandomDouble(long hash)` |
+| `` | `public static long` | `hashUuid(@Nonnull UUID uuid)` |

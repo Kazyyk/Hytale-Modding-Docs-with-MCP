@@ -1,0 +1,805 @@
+{
+  "_metadata": {
+    "subsystem": "server_core",
+    "scope": "incremental pre-release delta from stable",
+    "generated_at": "2026-03-22",
+    "source": "artifacts/pre-release/decompiled/com/hypixel/hytale/server/core/",
+    "stable_reference": "artifacts/systems.json + artifacts/systems-events-ecs-registries.json + artifacts/systems-commands-codecs.json",
+    "file_counts": {
+      "total_pre_release_files": 1549,
+      "added": 58,
+      "removed": 41,
+      "modified": 278,
+      "unchanged": 1172,
+      "files_read": 377,
+      "note": "All 58 added files read in full. All 278 modified files diffed against stable. 41 removed files catalogued from stable."
+    }
+  },
+
+  "summary": {
+    "overview": "Major pre-release changes to server_core: (1) New proximity voice chat system, (2) Inventory decomposed from monolithic Inventory class into ECS InventoryComponent subclasses, (3) Entity condition system relocated from entitystats to entity module, (4) Block entity/state system refactored from BlockState registry to BlockEntity/component pattern, (5) QUIC multi-stream networking with StreamManager, (6) Emote cosmetic asset system, (7) JSON schema generation tooling, (8) Asset pack save browser UI, (9) i18n-ified disconnect/shutdown messages (Message vs raw String), (10) World map config hierarchy, (11) Auth offline mode for singleplayer, (12) Greedy string arguments in command system, (13) World recovery/verification mode.",
+    "breaking_changes": [
+      "Inventory class deprecated (forRemoval=true) — replaced by InventoryComponent ECS subclasses (Hotbar, Storage, Armor, Utility, Backpack, Tool, Combined)",
+      "LivingEntityInventoryChangeEvent removed — replaced by ECS InventoryChangeEvent",
+      "BlockState/BlockStateModule/BlockStateRegistry removed entirely — replaced by BlockEntity + BlockModule.BlockStateInfo + ItemContainerBlock components",
+      "PacketHandler.disconnect() now takes Message/FormattedMessage instead of String",
+      "ShutdownReason.withMessage() now takes Message instead of String (old String overload deprecated)",
+      "PlayerSetupConnectEvent.reason changed from String to Message",
+      "AddPlayerToWorldEvent constructor now requires Message joinMessage parameter",
+      "Disconnect packet renamed to ClientDisconnect/ServerDisconnect (directional)",
+      "Condition classes moved from modules.entitystats.asset.condition to modules.entity.condition",
+      "GitCommand, UpdateAssetsCommand, UpdatePrefabsCommand removed from command tree",
+      "DestroyConditionInteraction removed from interaction registry",
+      "Constants.shouldSkipModValidation() removed; replaced by Options.IGNORE_BROKEN_MODS"
+    ]
+  },
+
+  "new_systems": {
+    "voice_chat": {
+      "description": "New proximity voice chat system. Extends JavaPlugin, depends on Universe and EntityModule. Uses Opus codec over dedicated QUIC voice streams. Spatially attenuated with configurable max hearing distance and full volume distance. 4-thread pool for voice routing. Position cache updated every 100ms. Max 12 simultaneous speakers per listener. Dead players optionally excluded. Underwater detection affects audio. Per-player muting and silencing. Auto-enables in multiplayer singleplayer sessions.",
+      "types": {
+        "VoiceModule": {
+          "package": "modules.voice",
+          "extends": "JavaPlugin",
+          "status": "added",
+          "purpose": "Core voice chat plugin. Manages player voice states, position caching, and configuration. Registered as a core plugin in Constants.CORE_PLUGINS.",
+          "key_config": {
+            "maxHearingDistance": "32.0 (default)",
+            "fullVolumeDistance": "4.0 (default)",
+            "deadPlayersCanHear": false,
+            "voiceEnabled": true,
+            "mutedPlayers": "Set<UUID>"
+          },
+          "key_methods": [
+            "isVoiceEnabled() / setVoiceEnabled(boolean)",
+            "getMaxHearingDistance() / setMaxHearingDistance(float)",
+            "getReferenceDistance() / setReferenceDistance(float)",
+            "mutePlayer(UUID) / unmutePlayer(UUID) / isPlayerMuted(UUID)",
+            "getPlayerState(UUID) -> VoicePlayerState",
+            "updatePositionCache(UUID, Vector3d, isUnderwater, worldId, networkId, isDead)"
+          ]
+        },
+        "VoiceModuleConfig": {
+          "package": "modules.voice",
+          "status": "added",
+          "purpose": "Serializable config for VoiceModule. Uses BuilderCodec for JSON persistence."
+        },
+        "VoiceRouter": {
+          "package": "modules.voice",
+          "status": "added",
+          "purpose": "Routes voice data from speaker to nearby listeners. Uses cached position snapshots for distance calculations. World isolation (no cross-world voice). Caps at MAX_SPEAKERS_PER_LISTENER=12, sorted by distance. Sends RelayedVoiceData over dedicated voice stream channel.",
+          "key_constants": {
+            "MAX_SPEAKERS_PER_LISTENER": 12,
+            "VERBOSE_LOG_PACKET_FREQUENCY": 50
+          }
+        },
+        "VoicePacketHandler": {
+          "package": "modules.voice",
+          "status": "added",
+          "purpose": "SubPacketHandler for the game stream. Rejects voice data sent on game stream (should use dedicated voice stream). Packet ID 450.",
+          "note": "This is a fallback handler — voice data should flow through VoiceStreamHandler on the dedicated voice stream."
+        },
+        "VoicePlayerState": {
+          "package": "modules.voice",
+          "status": "added",
+          "purpose": "Per-player voice state tracking. Token bucket rate limiting (60 packets/sec, burst 25). Tracks speaking state, silenced state, consecutive errors (max 10 before routing disabled).",
+          "key_fields": [
+            "isSpeaking: boolean",
+            "silenced: boolean",
+            "tokenBucket: double (rate limiting)",
+            "routingDisabled: boolean (after MAX_CONSECUTIVE_ERRORS=10)"
+          ]
+        },
+        "VoiceStreamHandler": {
+          "package": "modules.voice",
+          "status": "added",
+          "purpose": "ChannelHandler for dedicated voice QUIC streams. Processes VoiceData packets and delegates to VoiceRouter. Registered with StreamManager for StreamType.Voice."
+        },
+        "VoiceCommand": {
+          "package": "modules.voice.commands",
+          "status": "added",
+          "purpose": "Admin command for voice chat management. Subcommands for enable/disable, distance config, mute/unmute, status."
+        }
+      },
+      "cross_references": {
+        "events_listened": ["PlayerConnectEvent", "PlayerDisconnectEvent", "SingleplayerRequestAccessEvent"],
+        "depends_on": ["Universe", "EntityModule", "TransformComponent", "DeathComponent", "NetworkId"],
+        "protocols": ["VoiceData (packet 450)", "RelayedVoiceData", "VoiceConfig", "VoiceCodec.Opus"],
+        "streams": ["StreamType.Voice (dedicated QUIC stream)"],
+        "systems_integrated": ["DamageModule registers StopVoiceOnDeath and ReenableVoiceOnRespawn death/respawn systems"]
+      }
+    },
+
+    "multi_stream_networking": {
+      "description": "New QUIC multi-stream support. Auxiliary streams (beyond game stream 0) are managed by StreamManager. PendingStreamHandler negotiates stream type on new QUIC streams. Max 4 auxiliary streams per connection.",
+      "types": {
+        "StreamManager": {
+          "package": "io.stream",
+          "status": "added",
+          "purpose": "Singleton registry for auxiliary stream type handlers. Maps StreamType to factory + priority. Game stream cannot be registered explicitly. Stream priority via QuicStreamPriority.",
+          "key_methods": [
+            "registerHandler(StreamType, StreamHandlerFactory)",
+            "registerHandler(StreamType, StreamHandlerFactory, QuicStreamPriority)",
+            "isSupported(StreamType) -> boolean",
+            "createHandler(StreamType, PacketHandler) -> ChannelHandler"
+          ],
+          "constants": {
+            "GAME_STREAM_PRIORITY": "QuicStreamPriority(0, false)",
+            "DEFAULT_AUXILIARY_PRIORITY": "QuicStreamPriority(64, false)"
+          }
+        },
+        "PendingStreamHandler": {
+          "package": "io.stream",
+          "status": "added",
+          "purpose": "Netty ChannelInboundHandlerAdapter. First packet on auxiliary stream must be StreamOpen. Validates stream type, rate limits, replaces stale streams, creates typed handler via StreamManager, enforces MAX_AUXILIARY_STREAMS=4.",
+          "protocol_flow": "Client sends StreamOpen -> server validates -> StreamOpenResponse(success/fail) -> replaces handler with typed handler"
+        }
+      },
+      "cross_references": {
+        "modified_types": [
+          "PacketHandler: added auxiliaryChannels Map<StreamType,Channel>, getChannel(StreamType), setChannel(StreamType,Channel), getAuxiliaryChannelCount(), checkStreamOpenRateLimit()",
+          "HytaleChannelInitializer: adds GAME_PACKET_HANDLER_ATTR, initAuxiliaryStream(), identifies stream 0 vs auxiliary",
+          "QUICTransport: initialMaxStreamsBidirectional changed from 1 to 8"
+        ]
+      }
+    },
+
+    "inventory_ecs_decomposition": {
+      "description": "Major refactor: monolithic Inventory class decomposed into ECS InventoryComponent subclasses. Each inventory section (Hotbar, Storage, Armor, Utility, Backpack, Tool) is now a separate Component<EntityStore> registered in the entity store. Combined views are lazy-created via InventoryComponent.getCombined(). The old Inventory class is @Deprecated(forRemoval=true).",
+      "types": {
+        "InventoryComponent": {
+          "package": "inventory",
+          "status": "added",
+          "purpose": "Abstract base for all ECS inventory components. Holds an ItemContainer, dirty/needsSaving flags, change event registration. Defines SECTION_IDs matching the old Inventory section constants.",
+          "subclasses": {
+            "Hotbar": "Component for hotbar slots. Has activeSlot, getActiveItem(). DEFAULT_HOTBAR_CAPACITY=9.",
+            "Storage": "Component for main storage inventory. DEFAULT_STORAGE_CAPACITY=36.",
+            "Armor": "Component for armor slots. DEFAULT_ARMOR_CAPACITY=ItemArmorSlot.VALUES.length.",
+            "Utility": "Component for utility/offhand slots. DEFAULT_UTILITY_CAPACITY=4. Has activeSlot, getActiveItem().",
+            "Backpack": "Component for backpack inventory.",
+            "Tool": "Component for tools inventory. DEFAULT_TOOLS_CAPACITY=23. Has isUsingToolsItem(), getActiveItem().",
+            "Combined": "Cache component holding lazy CombinedItemContainer views keyed by ComponentType[] combinations."
+          },
+          "static_helpers": [
+            "setupCombined(...) — initializes HOTBAR_FIRST, STORAGE_FIRST, etc. component type arrays",
+            "getCombined(accessor, ref, types...) — lazy creates CombinedItemContainer views",
+            "getItemInHand(accessor, ref) — returns active tool item or hotbar item",
+            "getComponentTypeById(int) — maps section ID to component type"
+          ]
+        },
+        "InventoryChangeEvent": {
+          "package": "inventory",
+          "status": "added",
+          "purpose": "ECS event (extends EcsEvent) fired when an inventory component changes. Carries componentType, InventoryComponent, ItemContainer, and Transaction. Replaces the removed LivingEntityInventoryChangeEvent.",
+          "dispatched_via": "EntityStore ECS event system (not EventBus)"
+        },
+        "InventorySystems": {
+          "package": "inventory",
+          "status": "added",
+          "purpose": "ECS systems for inventory synchronization and persistence. Registered in EntityModule."
+        },
+        "FetchedItemContainer": {
+          "package": "inventory.container",
+          "status": "added",
+          "purpose": "ItemContainer wrapper that lazily fetches the underlying container via a Supplier. Used by CombinedItemContainer to support the InventoryComponent decomposition."
+        }
+      },
+      "removed_types": [
+        "LivingEntityInventoryChangeEvent (event.events.entity) — replaced by InventoryChangeEvent",
+        "Inventory.toPacket() and NetworkSerializable implementation removed"
+      ],
+      "impact": {
+        "LivingEntity": "Removed createDefaultInventory(), setInventory(Inventory, boolean), setInventory(Inventory, boolean, List), StatModifiersManager field, armorInventoryChangeEventRegistration. setInventory now private. Inventory creation simplified.",
+        "Player": "Removed createDefaultInventory(), setInventory(), sendInventory(), canDecreaseItemStackDurability(), canApplyItemStackPenalties(). Game mode-dependent durability/penalty checks moved elsewhere.",
+        "InteractionContext": "All inventory access via InventoryComponent.Hotbar/Utility/Armor/Tool components instead of entity.getInventory()",
+        "InteractionModule": "Accesses inventory via InventoryComponent ECS components",
+        "EntityStatsSystems": "Armor iteration now via InventoryComponent.Armor instead of entity.getInventory().getArmor()",
+        "DamageSystems": "Accesses inventory via InventoryComponent components"
+      }
+    },
+
+    "entity_condition_relocation": {
+      "description": "Entity condition system relocated from modules.entitystats.asset.condition to modules.entity.condition. Expanded with new condition types. Now registered in EntityModule instead of EntityStatsModule.",
+      "types": {
+        "Condition": {
+          "package": "modules.entity.condition",
+          "status": "added (relocated from modules.entitystats.asset.condition)",
+          "purpose": "Abstract base for data-driven entity conditions. Has CodecMapCodec for polymorphic deserialization. Supports inverse flag. eval() applies inverse logic over abstract eval0().",
+          "key_methods": [
+            "eval(ComponentAccessor<EntityStore>, Ref<EntityStore>, Instant) -> boolean",
+            "eval0(...) -> boolean (abstract, concrete condition logic)",
+            "allConditionsMet(accessor, ref, currentTime, regenerating) -> boolean"
+          ]
+        },
+        "new_conditions": [
+          "CheckPlayerGameModeCondition — checks if player is in a specific GameMode (new, not in stable)",
+          "HasEffectCondition — checks if entity has a specific effect (new, not in stable)",
+          "InFluidCondition — checks if entity is in a fluid (new, not in stable)",
+          "IsPlayerCondition — checks if entity is a player (new, not in stable; replaces old PlayerCondition)",
+          "EntityStatBoundCondition — checks stat against bounds (new, not in stable)"
+        ],
+        "relocated_conditions": [
+          "AliveCondition",
+          "ChargingCondition",
+          "EnvironmentCondition",
+          "GlidingCondition",
+          "LogicCondition",
+          "NoDamageTakenCondition",
+          "OutOfCombatCondition",
+          "RegenHealthCondition",
+          "SprintingCondition",
+          "StatCondition",
+          "SuffocatingCondition",
+          "WieldingCondition"
+        ]
+      },
+      "removed_types": [
+        "modules.entitystats.asset.condition.AliveCondition",
+        "modules.entitystats.asset.condition.ChargingCondition",
+        "modules.entitystats.asset.condition.Condition",
+        "modules.entitystats.asset.condition.EntityStatBoundCondition",
+        "modules.entitystats.asset.condition.EnvironmentCondition",
+        "modules.entitystats.asset.condition.GlidingCondition",
+        "modules.entitystats.asset.condition.LogicCondition",
+        "modules.entitystats.asset.condition.NoDamageTakenCondition",
+        "modules.entitystats.asset.condition.OutOfCombatCondition",
+        "modules.entitystats.asset.condition.PlayerCondition (renamed to IsPlayerCondition)",
+        "modules.entitystats.asset.condition.RegenHealthCondition",
+        "modules.entitystats.asset.condition.SprintingCondition",
+        "modules.entitystats.asset.condition.StatCondition",
+        "modules.entitystats.asset.condition.SuffocatingCondition",
+        "modules.entitystats.asset.condition.WieldingCondition"
+      ],
+      "impact": {
+        "EntityStatsModule": "No longer registers conditions — done in EntityModule instead",
+        "EntityStatType": "Import changed to modules.entity.condition.Condition",
+        "RegeneratingModifier": "Import changed to modules.entity.condition.Condition"
+      }
+    },
+
+    "block_entity_refactor": {
+      "description": "Block state system refactored from BlockState registry pattern to ECS component pattern. BlockState/BlockStateModule/BlockStateRegistry removed entirely. Replaced by BlockEntity helper, BlockReplaceEvent, ItemContainerBlock component, and associated spatial/event systems.",
+      "types": {
+        "BlockEntity": {
+          "package": "modules.block",
+          "status": "added",
+          "purpose": "Static utility for setting block entities. Handles placement, filler block iteration for multi-block entities, cross-chunk entity references, BlockReplaceEvent dispatch to existing entities."
+        },
+        "BlockReplaceEvent": {
+          "package": "modules.block",
+          "status": "added",
+          "purpose": "EcsEvent dispatched to existing block entities when a new block entity is placed at or near their position. Carries chunk ref, position coordinates, and the new entity holder.",
+          "dispatched_via": "ChunkStore ECS system"
+        },
+        "ItemContainerBlock": {
+          "package": "modules.block.components",
+          "status": "added",
+          "purpose": "Component<ChunkStore> for blocks that contain item inventories (chests, etc.). Has droplist, SimpleItemContainer, capacity. Replaces old ItemContainerBlockState/ItemContainerState.",
+          "key_fields": ["droplist: String", "itemContainer: SimpleItemContainer", "capacity: short (default 20)"]
+        },
+        "ItemContainerBlockSpatialSystem": {
+          "package": "modules.block.system",
+          "status": "added",
+          "purpose": "SpatialSystem for ItemContainerBlock. Provides position lookup from BlockStateInfo for spatial queries."
+        },
+        "ItemContainerSystems": {
+          "package": "modules.block.system",
+          "status": "added",
+          "purpose": "ECS systems for item container block lifecycle. OnAddedOrRemoved handles entity spawn/despawn with item drops. OnReplaced handles item transfer between replaced containers. OnReplacedHolder handles holder-based replacement."
+        }
+      },
+      "removed_types": [
+        "universe.world.meta.BlockState",
+        "universe.world.meta.BlockStateModule",
+        "universe.world.meta.BlockStateRegistration",
+        "universe.world.meta.BlockStateRegistry",
+        "universe.world.meta.state.BreakValidatedBlockState",
+        "universe.world.meta.state.DestroyableBlockState",
+        "universe.world.meta.state.ItemContainerBlockState",
+        "universe.world.meta.state.ItemContainerState",
+        "universe.world.meta.state.MarkerBlockState",
+        "universe.world.meta.state.PlacedByBlockState",
+        "universe.world.meta.state.SendableBlockState",
+        "universe.world.chunk.state.TickableBlockState",
+        "modules.block.system.ItemContainerStateSpatialSystem",
+        "modules.prefabspawner.PrefabSpawnerState"
+      ],
+      "impact": {
+        "BlockModule": "Registers ItemContainerBlock component, ItemContainerSystems, ItemContainerBlockSpatialSystem. Block entity preprocessor replaces per-block BlockState creation. PluginBase.getBlockStateRegistry() removed.",
+        "PluginBase": "blockStateRegistry field and getBlockStateRegistry() method removed. BlockState shutdown removed.",
+        "PrefabSpawnerModule": "PrefabSpawnerState replaced by PrefabSpawnerBlock (Component<ChunkStore>)"
+      }
+    },
+
+    "emote_cosmetics": {
+      "description": "New emote asset system added to cosmetics. EmoteAsset is a JSON-driven asset type with animation, icon, looping support. Registered in the asset store with packet generation for client sync.",
+      "types": {
+        "EmoteAsset": {
+          "package": "cosmetics",
+          "status": "added",
+          "purpose": "Asset type for emotes. Has id, name (localization key), animationPath, iconPath, isLooping. Implements JsonAssetWithMap and NetworkSerializable<ProtocolEmote>."
+        },
+        "EmoteAssetPacketGenerator": {
+          "package": "cosmetics",
+          "status": "added",
+          "purpose": "Generates UpdateEmotes packets for init/update/remove operations on EmoteAsset."
+        }
+      },
+      "impact": {
+        "CosmeticsModule": "Registers EmoteAsset in AssetRegistry with IndexedLookupTableAssetMap.",
+        "CosmeticRegistry": "Added emotesInGame map. EMOTES_INGAME case in loader.",
+        "GamePacketHandler": "Registers handlePlayEmote handler (packet 167). PlayEmote packet processing added."
+      }
+    },
+
+    "schema_generator": {
+      "description": "New JSON schema generation tooling. Generates schemas for both asset types and config types. Outputs to directories with VS Code settings integration.",
+      "types": {
+        "SchemaGenerator": {
+          "package": "schema",
+          "status": "added",
+          "purpose": "Collects all registered asset stores and config codecs, generates JSON schemas via BuilderCodec.toSchema(). Writes schema files and VS Code settings.json for intellisense."
+        }
+      },
+      "impact": {
+        "HytaleServer": "Registers HytaleServerConfig and WorldConfig schemas. Checks --generate-asset-schema and --generate-config-schema options, runs generation and shuts down.",
+        "PluginBase": "withConfig() now registers config schemas via SchemaGenerator.registerConfig().",
+        "Options": "GENERATE_SCHEMA replaced by GENERATE_ASSET_SCHEMA and GENERATE_CONFIG_SCHEMA (both take Path args)"
+      }
+    },
+
+    "asset_pack_save_browser": {
+      "description": "New UI system for browsing and creating asset packs in-game. Supports search, directory filtering, pack creation with validation.",
+      "types": {
+        "AssetPackSaveBrowser": {
+          "package": "ui.browser",
+          "status": "added",
+          "purpose": "Full asset pack browser UI component. Search, selection, creation with manifest generation, validation against duplicate packs. Supports multiple mods directories."
+        },
+        "AssetPackSaveBrowserConfig": {
+          "package": "ui.browser",
+          "status": "added",
+          "purpose": "Record configuring the browser's DOM selectors."
+        },
+        "AssetPackSaveBrowserEventData": {
+          "package": "ui.browser",
+          "status": "added",
+          "purpose": "Data transfer object for all browser UI events (pack select, search, create form fields, directory filter)."
+        }
+      }
+    }
+  },
+
+  "modified_systems": {
+    "events": {
+      "added_events": [
+        {
+          "name": "RemovedPlayerFromWorldEvent",
+          "package": "event.events.player",
+          "type": "IEvent<String> (standard keyed event)",
+          "purpose": "Fired when a player is removed from a world. Carries Holder<EntityStore>, World, optional leave message. Allows suppressing broadcast via setBroadcastLeaveMessage().",
+          "note": "Counterpart to AddPlayerToWorldEvent. Previously there was no explicit event for world removal."
+        },
+        {
+          "name": "InventoryChangeEvent",
+          "package": "inventory",
+          "type": "EcsEvent (ECS event)",
+          "purpose": "Replaces LivingEntityInventoryChangeEvent. Carries ComponentType, InventoryComponent, ItemContainer, Transaction."
+        },
+        {
+          "name": "BlockReplaceEvent",
+          "package": "modules.block",
+          "type": "EcsEvent (ECS event, ChunkStore)",
+          "purpose": "Dispatched when a block entity is replaced by another at/near the same position."
+        }
+      ],
+      "removed_events": [
+        {
+          "name": "LivingEntityInventoryChangeEvent",
+          "package": "event.events.entity",
+          "replaced_by": "InventoryChangeEvent (ECS event)"
+        },
+        {
+          "name": "GenerateSchemaEvent",
+          "package": "asset",
+          "replaced_by": "SchemaGenerator static methods"
+        }
+      ],
+      "modified_events": [
+        {
+          "name": "AddPlayerToWorldEvent",
+          "changes": "Constructor now requires Message joinMessage parameter. getJoinMessage()/setJoinMessage() added. shouldBroadcastJoinMessage() now checks joinMessage != null."
+        },
+        {
+          "name": "PlayerSetupConnectEvent",
+          "changes": "reason field changed from String to Message. DEFAULT_REASON changed to Message.translation(). getReason() returns Message, setReason() takes Message."
+        }
+      ]
+    },
+
+    "commands": {
+      "greedy_string_arguments": {
+        "description": "AbstractCommand now supports greedy string arguments — a required arg that consumes all remaining input. When an argument type returns isGreedyString()=true, the parser collects the raw tail of the input rather than tokenizing.",
+        "changes": [
+          "AbstractCommand.hasGreedyStringArg field added",
+          "extractGreedyRawTail() parses raw input to skip preceding args and return the rest",
+          "Registration validation: no args allowed after greedy string, greedy enables allowsExtraArguments",
+          "ParserContext.of() now takes rawInput (commandInput) as third parameter"
+        ]
+      },
+      "removed_commands": [
+        "GitCommand (command.commands.utility.git)",
+        "UpdateAssetsCommand (command.commands.utility.git)",
+        "UpdatePrefabsCommand (command.commands.utility.git)"
+      ],
+      "added_commands": [
+        "VoiceCommand (modules.voice.commands) — voice chat admin command",
+        "UpdateSetupCommand (update.command) — new update setup subcommand"
+      ],
+      "impact_on_command_manager": "CommandManager no longer registers GitCommand. ParserContext.of() signature changed to include rawInput for greedy args."
+    },
+
+    "networking_and_protocol": {
+      "disconnect_messages": {
+        "description": "Disconnect messages fully i18n-ified. All disconnect/shutdown messages changed from raw String to Message (with translation keys).",
+        "changes": [
+          "PacketHandler.disconnect() now takes Message or FormattedMessage instead of String",
+          "ShutdownReason.withMessage() takes Message (String overload deprecated)",
+          "ShutdownReason stores FormattedMessage instead of String",
+          "Disconnect packet split into ClientDisconnect and ServerDisconnect",
+          "All hardcoded English disconnect strings replaced with Message.translation() calls"
+        ]
+      },
+      "quic_transport": {
+        "changes": [
+          "initialMaxStreamsBidirectional changed from 1 to 8 (supports voice + future streams)",
+          "ALPN_REJECT_ERROR_CODE_ATTR type changed from Integer to QuicApplicationErrorCode enum",
+          "Disconnect messages use FormattedMessage"
+        ]
+      },
+      "channel_initializer": {
+        "changes": [
+          "GAME_PACKET_HANDLER_ATTR added to parent QuicChannel for stream multiplexing",
+          "initAuxiliaryStream() method added — sets up PendingStreamHandler with 5-second read timeout",
+          "Stream 0 identified as game stream; subsequent streams are auxiliary",
+          "Stream logging includes stream ID"
+        ]
+      },
+      "packet_handler": {
+        "changes": [
+          "auxiliaryChannels: Map<StreamType, Channel> field added",
+          "getChannel(StreamType) / setChannel(StreamType, Channel) / getAuxiliaryChannelCount() added",
+          "Stream open rate limiting (lastStreamOpenTimeNanos, STREAM_OPEN_MIN_INTERVAL_NANOS = 1 second)",
+          "Compression methods removed (compression now handled by encoder)",
+          "GamePacketHandler: MAX_INTERACTION_QUEUE_SIZE=1000 added, handlePlayEmote added, packet IDs changed (ClientDisconnect=1, Pong=4, CancelInteractionChain handler added)"
+        ]
+      }
+    },
+
+    "world_map_config": {
+      "description": "World map view radius now configurable at server and per-world levels. Three-tier config hierarchy: generator defaults -> per-world overrides -> server-wide limits.",
+      "types": {
+        "WorldMapConfig": {
+          "package": "config",
+          "status": "added",
+          "purpose": "Abstract base for world map configuration. Defines viewRadiusMin/Max with validation. ABSOLUTE_MAX_VIEW_RADIUS=512."
+        },
+        "ServerWorldMapConfig": {
+          "package": "config",
+          "status": "added",
+          "extends": "WorldMapConfig",
+          "purpose": "Server-level world map config. Default min=1, max=512. Persisted in HytaleServerConfig."
+        },
+        "WorldWorldMapConfig": {
+          "package": "config",
+          "status": "added",
+          "extends": "WorldMapConfig",
+          "purpose": "Per-world world map config. Default min=3, max=32. Persisted in WorldConfig."
+        }
+      },
+      "impact": {
+        "HytaleServerConfig": "Added worldMapConfig (ServerWorldMapConfig) and fallbackServer (HostAddress). Removed skipModValidationForVersion/shouldSkipModValidation().",
+        "WorldConfig": "Added worldMapConfig (WorldWorldMapConfig), disabledFluidTickers (Set<String>), setPvpEnabled(), setFallDamageEnabled().",
+        "WorldMapManager": "applyWorldMapOverrides() computes effective view radius from generator + per-world + server limits.",
+        "WorldMapSettings": "Added getViewRadiusMin(), getViewRadiusMax(), withViewRadiusLimits()."
+      }
+    },
+
+    "auth_system": {
+      "description": "Auth system updated with offline mode for singleplayer and improved error handling.",
+      "changes": [
+        "ServerAuthManager: New offline token auth flow for singleplayer (HYTALE_SERVER_OFFLINE_TOKEN env var, Options.AuthMode.OFFLINE)",
+        "ServerAuthManager: REFRESH_MAX_RETRIES=3, REFRESH_RETRY_BASE_DELAY_SECONDS=30 constants added",
+        "AuthConfig: Added SCOPE_OFFLINE and ENV_SERVER_OFFLINE_TOKEN constants, isRejectedStatusCode() helper",
+        "HttpResponseException: New exception class for HTTP errors with status code and response body (added in auth package)",
+        "JWTValidator, SessionServiceClient, OAuthClient: Modified with improved error handling"
+      ]
+    },
+
+    "entity_stats": {
+      "description": "EntityStatMap now owns StatModifiersManager (moved from LivingEntity). Condition registration moved to EntityModule. Armor stat modifiers accessed via InventoryComponent.",
+      "changes": [
+        "EntityStatsModule: Condition.CODEC registrations moved to EntityModule",
+        "EntityStatsModule: StatModifiersManager recalculation now via EntityStatMap instead of LivingEntity",
+        "EntityStatsSystems: Armor access via InventoryComponent.Armor instead of entity.getInventory().getArmor()",
+        "CachedStatsComponent: New component for caching entity stat-derived state (e.g., canBreathe). Registered in EntityModule."
+      ]
+    },
+
+    "interaction_system": {
+      "added_interactions": [
+        {
+          "name": "CommandInteraction",
+          "package": "modules.interaction.interaction.config.none.simple",
+          "purpose": "Interaction that executes a server command as the owning player. Has 'Command' string field. Registered as 'Command' in Interaction.CODEC."
+        }
+      ],
+      "removed_interactions": [
+        "DestroyConditionInteraction (modules.interaction.interaction.config.server)"
+      ],
+      "changes": [
+        "InteractionModule: All inventory access migrated to InventoryComponent ECS components",
+        "InteractionContext: forProxyEntity() signature changed — takes Ref<EntityStore> instead of LivingEntity",
+        "InteractionContext: forEntity() accesses Hotbar/Utility/Armor/Tool components directly"
+      ]
+    },
+
+    "damage_system": {
+      "changes": [
+        "DamageModule: Registers StopVoiceOnDeath and TickCorpseRemoval death systems, ReenableVoiceOnRespawn respawn system",
+        "DamageSystems: Uses InventoryComponent.* instead of entity.getInventory(). CachedStatsComponent used. Sound improvements: local player sound events split from world sound (playLocalPlayerSoundEvent). SoundCategory.SFX to SoundCategory.UI for player hotbar sounds.",
+        "DeferredCorpseRemoval: System registered for deferred corpse removal (entity store level)"
+      ]
+    },
+
+    "block_type_asset": {
+      "added_types": [
+        {
+          "name": "ConditionalBlockSound",
+          "package": "asset.type.blocktype.config",
+          "purpose": "Block sound that plays conditionally based on SoundEvent + AmbienceFX. NetworkSerializable."
+        }
+      ],
+      "modified_types": [
+        "BlockType: Config changes (block entity support via getBlockEntity())",
+        "BlockSoundSet (asset.type.blocksound.config): Modified"
+      ]
+    },
+
+    "item_config": {
+      "added_types": [
+        {
+          "name": "ItemHudUI",
+          "package": "asset.type.item.config",
+          "purpose": "Defines a HUD UI to display when an item is held. Has path and ItemHudUIType (Hud enum). NetworkSerializable."
+        }
+      ],
+      "modified_types": [
+        "Item: Modified to include ItemHudUI reference",
+        "ItemStack.MetadataKey.BLOCK_STATE renamed to BLOCK_HOLDER"
+      ]
+    },
+
+    "portal_world": {
+      "added_types": [
+        {
+          "name": "PortalSpawnConfig",
+          "package": "asset.type.portalworld",
+          "purpose": "Configures portal spawn behavior. Has spawnReturnPortal, spawnProviderOverride, returnBlockId. Replaces removed PortalSpawn."
+        }
+      ],
+      "removed_types": ["PortalSpawn"]
+    },
+
+    "response_curve": {
+      "added_types": [
+        {
+          "name": "SwitchResponseCurve",
+          "package": "asset.type.responsecurve.config",
+          "extends": "ResponseCurve",
+          "purpose": "Binary response curve: returns initialState below switchPoint, finalState at/above. All values range 0.0-1.0."
+        }
+      ]
+    },
+
+    "server_options": {
+      "changes": [
+        "GENERATE_SCHEMA replaced by GENERATE_ASSET_SCHEMA (Path arg) and GENERATE_CONFIG_SCHEMA (Path arg)",
+        "SKIP_MOD_VALIDATION renamed to IGNORE_BROKEN_MODS",
+        "VERIFY_WORLDS added — server enters verification mode, checks all worlds, then exits",
+        "RECOVERY_MODE added (enum: FROM_BACKUP_OR_REGENERATE, REGENERATE) — available with VERIFY_WORLDS",
+        "Constants.shouldSkipModValidation() removed"
+      ]
+    },
+
+    "prefab_spawner": {
+      "refactor": "PrefabSpawnerState replaced by PrefabSpawnerBlock (Component<ChunkStore>). PrefabSpawnerBlock includes UI page (PrefabSpawnerSettingsPage) for in-game editing of prefab spawner settings.",
+      "added_types": ["PrefabSpawnerBlock (modules.prefabspawner)"],
+      "removed_types": ["PrefabSpawnerState (modules.prefabspawner)"]
+    },
+
+    "world_storage": {
+      "added_types": [
+        {
+          "name": "BackupChunkLoader",
+          "package": "universe.world.storage.provider",
+          "purpose": "Chunk storage provider for loading chunks from backup files. Used in recovery/verification mode."
+        },
+        {
+          "name": "BlockOperations",
+          "package": "universe.world.chunk",
+          "purpose": "Static utility methods for common block operations: updateBlockArea (ticking flag management), updateBlockHeight, spawnBlockParticles."
+        },
+        {
+          "name": "PaletteSetProvider",
+          "package": "universe.world.chunk.section.palette",
+          "purpose": "ThreadLocal provider for reusable byte/short hash sets used in palette operations. Avoids allocation during section processing."
+        }
+      ]
+    },
+
+    "world_map_markers": {
+      "removed_types": [
+        "PerWorldDataMarkerProvider (universe.world.worldmap.markers.providers)",
+        "PlayerIconMarkerProvider (universe.world.worldmap.markers.providers)"
+      ],
+      "note": "These marker providers were removed. Remaining providers (OtherPlayersMarkerProvider, PersonalMarkersProvider, SharedMarkersProvider) were modified."
+    },
+
+    "server_core_misc": {
+      "HytaleServer": [
+        "Schema generation integrated into startup",
+        "Config save guarded by isShuttingDown() check",
+        "ShutdownReason messages use Message.translation()"
+      ],
+      "ShutdownReason": [
+        "VERIFY_ERROR exit code 10 added",
+        "Stores FormattedMessage instead of String",
+        "withMessage(Message) is primary, withMessage(String) deprecated"
+      ],
+      "Constants": [
+        "VoiceModule.MANIFEST added to CORE_PLUGINS",
+        "BlockStateModule.MANIFEST removed from CORE_PLUGINS",
+        "shouldSkipModValidation() removed"
+      ],
+      "inventory_container_locking": [
+        "ItemContainer: Added abstract lockForRead/unlockForRead/lockForWrite/unlockForWrite methods",
+        "SimpleItemContainer: Implements locking via ReadWriteLock"
+      ]
+    }
+  },
+
+  "removed_types_summary": {
+    "block_state_system": {
+      "count": 12,
+      "types": [
+        "universe.world.meta.BlockState",
+        "universe.world.meta.BlockStateModule",
+        "universe.world.meta.BlockStateRegistration",
+        "universe.world.meta.BlockStateRegistry",
+        "universe.world.meta.state.BreakValidatedBlockState",
+        "universe.world.meta.state.DestroyableBlockState",
+        "universe.world.meta.state.ItemContainerBlockState",
+        "universe.world.meta.state.ItemContainerState",
+        "universe.world.meta.state.MarkerBlockState",
+        "universe.world.meta.state.PlacedByBlockState",
+        "universe.world.meta.state.SendableBlockState",
+        "universe.world.chunk.state.TickableBlockState"
+      ],
+      "replaced_by": "BlockEntity + BlockModule.BlockStateInfo + ItemContainerBlock component system"
+    },
+    "entity_condition_relocated": {
+      "count": 15,
+      "types": [
+        "modules.entitystats.asset.condition.AliveCondition",
+        "modules.entitystats.asset.condition.ChargingCondition",
+        "modules.entitystats.asset.condition.Condition",
+        "modules.entitystats.asset.condition.EntityStatBoundCondition",
+        "modules.entitystats.asset.condition.EnvironmentCondition",
+        "modules.entitystats.asset.condition.GlidingCondition",
+        "modules.entitystats.asset.condition.LogicCondition",
+        "modules.entitystats.asset.condition.NoDamageTakenCondition",
+        "modules.entitystats.asset.condition.OutOfCombatCondition",
+        "modules.entitystats.asset.condition.PlayerCondition",
+        "modules.entitystats.asset.condition.RegenHealthCondition",
+        "modules.entitystats.asset.condition.SprintingCondition",
+        "modules.entitystats.asset.condition.StatCondition",
+        "modules.entitystats.asset.condition.SuffocatingCondition",
+        "modules.entitystats.asset.condition.WieldingCondition"
+      ],
+      "relocated_to": "modules.entity.condition (with expanded set)"
+    },
+    "git_commands": {
+      "count": 3,
+      "types": [
+        "command.commands.utility.git.GitCommand",
+        "command.commands.utility.git.UpdateAssetsCommand",
+        "command.commands.utility.git.UpdatePrefabsCommand"
+      ],
+      "note": "Dev tooling commands removed from server."
+    },
+    "other_removals": {
+      "count": 11,
+      "types": [
+        "asset.GenerateSchemaEvent — replaced by SchemaGenerator",
+        "asset.type.buildertool.config.BrushData — refactored",
+        "asset.type.buildertool.config.BuilderToolData — refactored",
+        "asset.type.gameplay.SleepConfig — likely merged into GameplayConfig",
+        "asset.type.portalworld.PortalSpawn — replaced by PortalSpawnConfig",
+        "event.events.entity.LivingEntityInventoryChangeEvent — replaced by InventoryChangeEvent",
+        "modules.block.system.ItemContainerStateSpatialSystem — replaced by ItemContainerBlockSpatialSystem",
+        "modules.interaction.interaction.config.server.DestroyConditionInteraction — removed",
+        "modules.prefabspawner.PrefabSpawnerState — replaced by PrefabSpawnerBlock",
+        "universe.world.worldmap.markers.providers.PerWorldDataMarkerProvider — removed",
+        "universe.world.worldmap.markers.providers.PlayerIconMarkerProvider — removed"
+      ]
+    }
+  },
+
+  "plugin_api_impact": {
+    "high_impact": [
+      {
+        "area": "Inventory access",
+        "change": "Plugins accessing LivingEntity.getInventory() must migrate to InventoryComponent ECS components. The Inventory class is @Deprecated(forRemoval=true).",
+        "migration": "Use InventoryComponent.Hotbar/Storage/Armor/Utility/Backpack/Tool components via component accessor. Use InventoryComponent.getItemInHand() for active item."
+      },
+      {
+        "area": "Disconnect messages",
+        "change": "PacketHandler.disconnect(String) replaced by disconnect(Message). All disconnect reasons should use Message.translation() for i18n.",
+        "migration": "Replace disconnect(\"reason\") with disconnect(Message.translation(\"key\")) or disconnect(Message.raw(\"reason\"))."
+      },
+      {
+        "area": "Block state access",
+        "change": "BlockState/BlockStateRegistry/BlockStateModule removed entirely. Plugins using getBlockStateRegistry() must migrate.",
+        "migration": "Use BlockModule's component registration for custom block components."
+      },
+      {
+        "area": "Event changes",
+        "change": "LivingEntityInventoryChangeEvent removed, AddPlayerToWorldEvent constructor changed, PlayerSetupConnectEvent.reason is now Message.",
+        "migration": "Listen for InventoryChangeEvent (ECS event) instead. Update event constructors."
+      }
+    ],
+    "medium_impact": [
+      {
+        "area": "Voice chat integration",
+        "change": "VoiceModule is a new core plugin. Plugins can access voice state, mute players, adjust distance settings.",
+        "api": "VoiceModule.get().mutePlayer(uuid), isPlayerMuted(uuid), setMaxHearingDistance(), etc."
+      },
+      {
+        "area": "Command system",
+        "change": "Greedy string arguments supported. ParserContext requires raw input. GitCommand removed.",
+        "api": "ArgumentType.isGreedyString() for custom greedy args."
+      },
+      {
+        "area": "Condition system",
+        "change": "Condition base class and all conditions relocated from entitystats to entity module. New conditions added.",
+        "migration": "Update imports from modules.entitystats.asset.condition to modules.entity.condition."
+      }
+    ],
+    "low_impact": [
+      {
+        "area": "World config",
+        "change": "WorldConfig gains worldMapConfig, disabledFluidTickers, fallDamageEnabled setter. HytaleServerConfig gains worldMapConfig, fallbackServer, loses skipModValidation."
+      },
+      {
+        "area": "QUIC streams",
+        "change": "Multi-stream support. Plugins could potentially register custom stream handlers via StreamManager."
+      },
+      {
+        "area": "Schema generation",
+        "change": "SchemaGenerator auto-registers plugin configs for schema output."
+      }
+    ]
+  },
+
+  "cross_references": {
+    "voice_to_death": "DamageModule registers StopVoiceOnDeath/ReenableVoiceOnRespawn systems that interact with VoiceModule",
+    "voice_to_networking": "VoiceModule registers VoiceStreamHandler with StreamManager, VoicePacketHandler with ServerManager",
+    "inventory_to_interaction": "InteractionModule/InteractionContext fully migrated to InventoryComponent ECS access",
+    "inventory_to_entity_stats": "EntityStatsSystems accesses armor via InventoryComponent.Armor, stat modifiers via EntityStatMap",
+    "inventory_to_damage": "DamageSystems accesses inventory via InventoryComponent for death drops",
+    "block_entity_to_block_module": "BlockModule registers all ItemContainerBlock systems and spatial resources",
+    "condition_to_entity_module": "EntityModule now registers all Condition codecs in CODEC map",
+    "schema_to_plugins": "PluginBase.withConfig() auto-registers with SchemaGenerator"
+  }
+}

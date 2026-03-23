@@ -1,0 +1,15 @@
+---
+title: "com.hypixel.hytale.builtin.blocktick"
+package: "com.hypixel.hytale.builtin.blocktick"
+generator_version: "2.0.0"
+generated_at: "2026-03-21T12:00:00Z"
+---
+
+**Package:** `com.hypixel.hytale.builtin.blocktick`
+
+## Classes
+
+| Type | Description |
+|---|---|
+| [BlockTickPlugin](BlockTickPlugin.md) | |
+| [BlockTickPlugin.Preprocessor](BlockTickPlugin.Preprocessor.md) | Thread-local helper for collecting ticking block IDs and indices. |

@@ -1,0 +1,74 @@
+---
+title: "Color"
+kind: "class"
+package: "com.hypixel.hytale.protocol"
+fqcn: "com.hypixel.hytale.protocol.Color"
+api_surface: false
+extends: ~
+implements: []
+generator_version: "2.0.0"
+generated_at: "2026-03-20T12:00:00Z"
+tags:
+  - "protocol"
+  - "networking"
+---
+
+**Package:** `com.hypixel.hytale.protocol`
+
+```java
+public class Color
+```
+
+RGB color value with byte-precision components.
+
+## Fields
+
+| Type | Name | Nullable | Description |
+|---|---|---|---|
+| `byte` | `red` | No |  |
+| `byte` | `green` | No |  |
+| `byte` | `blue` | No |  |
+
+## Serialization Layout
+
+| Constant | Value |
+|---|---|
+| `NULLABLE_BIT_FIELD_SIZE` | 0 |
+| `FIXED_BLOCK_SIZE` | 3 |
+| `VARIABLE_FIELD_COUNT` | 0 |
+| `VARIABLE_BLOCK_START` | 3 |
+| `MAX_SIZE` | 3 |
+
+Binary layout: 3 bytes of fixed fields. All multi-byte primitives use little-endian encoding.
+
+## Methods
+
+```java
+@Nonnull
+public static Color deserialize(@Nonnull ByteBuf buf, int offset)
+```
+
+Deserializes a `Color` from the given buffer at the specified offset.
+
+```java
+public static int computeBytesConsumed(@Nonnull ByteBuf buf, int offset)
+```
+
+Returns the total number of bytes consumed by this `Color` starting at the given offset.
+
+```java
+public void serialize(@Nonnull ByteBuf buf)
+```
+
+Serializes this `Color` into the given buffer.
+
+```java
+public int computeSize()
+```
+
+Returns the serialized size in bytes.
+
+## Related Types
+
+- [ColorAlpha](ColorAlpha.md)
+- [ColorLight](ColorLight.md)

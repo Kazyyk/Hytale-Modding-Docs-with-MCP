@@ -1,0 +1,21 @@
+---
+title: "com.hypixel.hytale.server.core.modules.entitystats.asset.modifier"
+package: "com.hypixel.hytale.server.core.modules.entitystats.asset.modifier"
+generator_version: "2.0.0"
+generated_at: "2026-03-21T00:00:00Z"
+tags:
+  - "entitystats"
+  - "asset"
+  - "modifier"
+  - "package-index"
+---
+
+**Package:** `com.hypixel.hytale.server.core.modules.entitystats.asset.modifier`
+
+Types in the `modifier` subsystem.
+
+## Types
+
+| Type | Kind | API Surface | Description |
+|---|---|---|---|
+| [RegeneratingModifier](RegeneratingModifier.md) | class | Yes | Data class serialized via `BuilderCodec` |

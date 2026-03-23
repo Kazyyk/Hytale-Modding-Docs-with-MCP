@@ -1,0 +1,22 @@
+---
+title: "SpawnBeaconsCommand"
+kind: "class"
+package: "com.hypixel.hytale.server.spawning.commands"
+fqcn: "com.hypixel.hytale.server.spawning.commands.SpawnBeaconsCommand"
+api_surface: false
+extends: ~
+implements: []
+generator_version: "2.0.0"
+generated_at: "2026-03-21T00:00:00Z"
+tags:
+  - "spawning"
+  - "command"
+---
+
+**Package:** `com.hypixel.hytale.server.spawning.commands`
+
+```java
+public class SpawnBeaconsCommand
+```
+
+Subcommand collection for managing spawn beacons. Provides `add` (places a beacon at the player's position) and `trigger` (manually triggers beacon spawning on targeted entities).

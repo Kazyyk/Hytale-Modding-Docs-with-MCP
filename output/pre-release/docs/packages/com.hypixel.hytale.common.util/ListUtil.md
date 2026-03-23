@@ -1,0 +1,23 @@
+---
+title: "ListUtil"
+kind: "class"
+package: "com.hypixel.hytale.common.util"
+fqcn: "com.hypixel.hytale.common.util.ListUtil"
+api_surface: false
+extends: null
+implements: []
+generator_version: "2.0.0"
+generated_at: "2026-03-21T05:44:26Z"
+tags:
+  - "util"
+  - "class"
+  - "internal"
+---
+
+**Package:** `com.hypixel.hytale.common.util`
+
+```java
+public class ListUtil
+```
+
+List manipulation utilities: random element selection, shuffled copies, immutable list creation.

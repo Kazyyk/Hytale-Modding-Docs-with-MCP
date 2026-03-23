@@ -1,0 +1,471 @@
+{
+  "_meta": {
+    "generatedBy": "Phase 3 incremental mapping agent",
+    "scope": "commands, ecs, events, spawning, math, common, procedurallib",
+    "comparedAgainst": "stable (Feb 2026 JAR)",
+    "totalFilesRead": 48,
+    "subsystemBreakdown": {
+      "commands": {
+        "frameworkFilesRead": 10,
+        "builtinFilesRead": 6,
+        "note": "All 30 modified builtin commands follow the same ObjectList->List pattern; 6 sampled for pattern confirmation"
+      },
+      "ecs": 11,
+      "events": 4,
+      "spawning": 17,
+      "math": 3,
+      "common": 3,
+      "procedurallib": 2
+    }
+  },
+
+  "commands": {
+    "summary": "22 changed types: 1 new argument type (GREEDY_STRING), 3 removed commands (GitCommand tree), 4 framework files modified (AbstractCommand, Tokenizer, ParserContext, AbbreviationMap), 4 argument/type files modified (ArgumentType, ArgTypes, AbstractTargetEntityCommand, CommandListPage), ~30 builtin commands updated to use java.util.List instead of ObjectList. Greedy string argument is a notable new feature.",
+
+    "added": {
+      "GREEDY_STRING_argument_type": {
+        "class": "ArgTypes.GREEDY_STRING",
+        "package": "com.hypixel.hytale.server.core.command.system.arguments.types",
+        "type": "SingleArgumentType<String>",
+        "description": "New argument type that consumes all remaining input as a single string. When a RequiredArg uses GREEDY_STRING, AbstractCommand.processRequiredArguments() extracts the raw tail of the command input (everything after the subcommand path and preceding required args) and passes it as one string to the argument parser.",
+        "related_changes": {
+          "ArgumentType.isGreedyString()": "New method returning false by default; GREEDY_STRING overrides to return true.",
+          "AbstractCommand.hasGreedyStringArg": "New boolean field. Set to true when a greedy string arg is registered. Prevents registering additional required args after it. Also sets allowsExtraArguments=true automatically.",
+          "AbstractCommand.extractGreedyRawTail()": "New method. Uses ParserContext.getRawInput() and subCommandIndex to strip preceding tokens and return the remaining raw input.",
+          "ParserContext.rawInput": "New field storing the original raw command input string. Exposed via getRawInput().",
+          "ParserContext.getSubCommandIndex()": "New accessor for the subcommand depth counter."
+        },
+        "first_consumer": "SudoCommand now uses GREEDY_STRING for its command argument instead of manual raw string parsing with CommandUtil.stripCommandName()"
+      }
+    },
+
+    "removed": {
+      "GitCommand": {
+        "package": "com.hypixel.hytale.server.core.command.commands.utility.git",
+        "type": "AbstractCommandCollection",
+        "subcommands": ["UpdateAssetsCommand", "UpdatePrefabsCommand"],
+        "description": "Git-based asset/prefab update command tree removed entirely. GitCommand was a collection with two subcommands for pulling asset and prefab updates via git."
+      },
+      "UpdateAssetsCommand": {
+        "package": "com.hypixel.hytale.server.core.command.commands.utility.git",
+        "description": "Subcommand of GitCommand. Removed with parent."
+      },
+      "UpdatePrefabsCommand": {
+        "package": "com.hypixel.hytale.server.core.command.commands.utility.git",
+        "description": "Subcommand of GitCommand. Removed with parent."
+      }
+    },
+
+    "modified": {
+      "framework": {
+        "AbstractCommand": {
+          "changes": [
+            "Added hasGreedyStringArg field and validation preventing args after greedy string",
+            "Added extractGreedyRawTail() method for greedy string support",
+            "processRequiredArguments() now short-circuits for greedy string args",
+            "Registration validation logic restructured (condition order inverted)"
+          ]
+        },
+        "ParserContext": {
+          "changes": [
+            "Constructor now takes rawInput:String parameter",
+            "Static factory ParserContext.of() updated accordingly",
+            "Added getRawInput() and getSubCommandIndex() accessors",
+            "Optional arg name regex changed from --(\\w*) to --([\\w-]*) — now allows hyphens in arg names",
+            "Matchers are now local variables instead of static fields (thread-safety improvement)"
+          ]
+        },
+        "CommandManager": {
+          "changes": [
+            "Removed GitCommand registration from registerSystemCommand() calls",
+            "ParserContext.of() call updated to pass rawInput"
+          ]
+        },
+        "Tokenizer": {
+          "changes": [
+            "Quote handling fix: tokenStart==i check added when opening a quoted string at position i (prevents treating mid-token quotes as string delimiters)"
+          ]
+        },
+        "AbbreviationMap": {
+          "changes": [
+            "Complete rewrite of abbreviation lookup algorithm",
+            "Old: HashMap with pre-computed prefix entries; ambiguous prefixes nulled out",
+            "New: Linear scan over List<Pair<String,Value>> with three-tier matching: exact match (immediate return) > unambiguous prefix match > unambiguous substring match",
+            "Builder simplified: no longer generates prefix entries, just stores key-value pairs",
+            "Adds substring matching as a fallback — commands can now match by substring, not just prefix"
+          ]
+        }
+      },
+
+      "argument_types": {
+        "ArgumentType": {
+          "change": "Added isGreedyString() method returning false by default"
+        },
+        "ArgTypes": {
+          "changes": [
+            "Added GREEDY_STRING static final field",
+            "BLOCK_MASK type now validates for invalid blocks via BlockFilter.parseComponents() and reports which blocks are invalid"
+          ]
+        }
+      },
+
+      "base_commands": {
+        "AbstractTargetEntityCommand": {
+          "change": "Changed execute() signature from ObjectList<Ref<EntityStore>> to java.util.List<Ref<EntityStore>>. Internal list creation changed from ObjectArrayList to ReferenceArrayList. ObjectLists.singleton() to ReferenceLists.singleton()."
+        }
+      },
+
+      "ui": {
+        "CommandListPage": {
+          "changes": [
+            "Description display moved from subcommand/variant rendering to the shared command display method (was being set before, now centralized)",
+            "Variant suffix now uses i18n translation key 'server.customUI.commandListPage.variantSuffix' instead of hardcoded '[Variant]' string"
+          ]
+        }
+      },
+
+      "builtin_commands_pattern": {
+        "description": "~30 builtin commands changed uniformly due to AbstractTargetEntityCommand signature change (ObjectList->List). All entity-targeting commands (EntityIntangible, EntityInvulnerable, EntityHideFromAdventurePlayers, EntityMakeInteractable, EntityEffect, EntityStats*, EntitySnapshotHistory, etc.) updated their execute() signatures and iterator usage.",
+        "affected_commands": [
+          "EntityIntangibleCommand", "EntityInvulnerableCommand", "EntityHideFromAdventurePlayersCommand",
+          "EntityMakeInteractableCommand", "EntityEffectCommand", "EntitySnapshotHistoryCommand",
+          "EntityStatsGetCommand", "EntityStatsSetCommand", "EntityStatsSetToMaxCommand",
+          "EntityStatsDumpCommand", "EntityStatsResetCommand", "EntityStatsAddCommand",
+          "ChunkFixHeightMapCommand", "KickCommand", "MaxPlayersCommand",
+          "StressTestStartCommand", "Bot",
+          "InventoryBackpackCommand", "ItemStateCommand", "GiveArmorCommand",
+          "InventoryItemCommand", "InventoryClearCommand", "InventorySeeCommand",
+          "SudoCommand", "NetworkCommand", "StashCommand",
+          "ConvertPrefabsCommand", "NotifyCommand",
+          "WorldMapViewRadiusSetCommand", "WorldMapCommand"
+        ],
+        "typical_change_pattern": "ObjectList<Ref<EntityStore>> -> List<Ref<EntityStore>>, ObjectListIterator removal, explicit casts removed, for-each loop style modernized"
+      },
+
+      "sudo_command_specific": {
+        "SudoCommand": {
+          "description": "Beyond the List pattern change, SudoCommand was significantly refactored to use the new GREEDY_STRING argument type.",
+          "changes": [
+            "Uses new RequiredArg<String> with ArgTypes.GREEDY_STRING instead of manual CommandUtil.stripCommandName() raw parsing",
+            "Removed setAllowsExtraArguments(true) — now automatically set by greedy string registration",
+            "Simplified control flow: removed nested if blocks, flattened the execution logic",
+            "Removed CommandUtil import dependency"
+          ]
+        }
+      }
+    }
+  },
+
+  "ecs": {
+    "summary": "7 changed types: 2 new types (EntityHolderEventType, EntityHolderEventSystem), 5 modified types (Ref, Holder, ComponentAccessor, ComponentRegistry, Store, CommandBuffer, ArchetypeChunk, SpatialResource). The major addition is a new 'holder-scoped' ECS event dispatch mechanism alongside the existing entity and world event types.",
+
+    "added": {
+      "EntityHolderEventType": {
+        "package": "com.hypixel.hytale.component.event",
+        "extends": "EventSystemType<ECS_TYPE, Event, EntityHolderEventSystem<ECS_TYPE, Event>>",
+        "description": "New event dispatch type for ECS events scoped to a Holder rather than a Ref. Unlike EntityEventType which dispatches to entities already in a Store, EntityHolderEventType dispatches using Holder<ECS_TYPE> — suitable for events on entities not yet fully committed to the store or in a transitional state."
+      },
+      "EntityHolderEventSystem": {
+        "package": "com.hypixel.hytale.component.system",
+        "extends": "EventSystem<EventType>",
+        "implements": "QuerySystem<ECS_TYPE>",
+        "abstract_method": "void handle(Holder<ECS_TYPE>, Store<ECS_TYPE>, CommandBuffer<ECS_TYPE>, EventType)",
+        "description": "Handler for EntityHolderEventType events. Receives the Holder directly instead of an index+ArchetypeChunk pair. Query-based archetype matching still applies (tests Holder.getArchetype()). handleInternal() checks shouldProcessEvent() for cancellation before calling handle()."
+      }
+    },
+
+    "modified": {
+      "Ref": {
+        "change": "validate() now returns int (the entity index) instead of void. Validation order changed: checks for MIN_VALUE index first, then checks store equality. Callers can now use the returned index directly instead of calling getIndex() separately — avoids a redundant volatile read."
+      },
+      "Holder": {
+        "change": "addComponent() refactored: extracted addComponentInternal() which returns boolean (true if component was added, false if archetype already contained it). addComponent() calls addComponentInternal() and throws on false. This supports Store.addComponent() which needs rollback on duplicate."
+      },
+      "ComponentAccessor": {
+        "change": "Added two new invoke methods for holder-scoped events: invoke(Holder, Event) and invoke(EntityHolderEventType, Holder, Event)."
+      },
+      "CommandBuffer": {
+        "change": "Added invoke(Holder, Event) and invoke(EntityHolderEventType, Holder, Event) which delegate to Store.internal_invoke(). These mirror the ComponentAccessor additions."
+      },
+      "ComponentRegistry": {
+        "changes": [
+          "Added entityHolderEventTypeClassToIndex map (Object2IntMap)",
+          "Added registerEntityHolderEventType0() and unregisterEntityHolderEventType0() private methods — manages EntityHolderEventType lifecycle with index reuse from the shared systemType pool",
+          "Auto-registration: when registering a system that is an EntityHolderEventSystem, auto-registers its event type if not already present",
+          "Added unregisterEntityHolderEventType() public method",
+          "Added getEntityHolderEventTypeForClass() public lookup method"
+        ]
+      },
+      "Store": {
+        "changes": [
+          "Added internal_invoke(CommandBuffer, Holder, Event) — dispatches to all matching EntityHolderEventSystems based on Holder's archetype",
+          "Added internal_invoke(CommandBuffer, EntityHolderEventType, Holder, Event) — dispatches to specific EntityHolderEventType systems",
+          "validate() calls now use returned index directly (Ref.validate() return value change)",
+          "Thread equality checks changed from .equals() to == (reference identity, faster)",
+          "addComponent() refactored: uses Holder.addComponentInternal(), on failure (duplicate component) rolls back the archetype chunk removal and re-adds the entity to its original archetype before throwing"
+        ]
+      },
+      "ArchetypeChunk": {
+        "changes": [
+          "Array indexing throughout refactored from componentType.getIndex() to loop variable i — avoids redundant virtual calls",
+          "removeEntityAndProvideComponents() now fills sub-minIndex range with null via Arrays.fill()",
+          "Minor: raw type usage for Component[] array initialization"
+        ]
+      },
+      "SpatialResource": {
+        "change": "ThreadLocal<ObjectList<Ref<?>>> changed to ThreadLocal<List<Ref<?>>>. ObjectArrayList replaced with ReferenceArrayList (identity-based equality for Ref objects). Return type of getThreadLocalReferenceList() changed from ObjectList to List."
+      }
+    }
+  },
+
+  "events": {
+    "summary": "3 changed types: 1 new event (RemovedPlayerFromWorldEvent), 1 removed event (LivingEntityInventoryChangeEvent), 1 modified event (AddPlayerToWorldEvent). Also: EventBus dispatch safety fix and PlayerSetupConnectEvent reason type change.",
+
+    "added": {
+      "RemovedPlayerFromWorldEvent": {
+        "package": "com.hypixel.hytale.server.core.event.events.player",
+        "implements": "IEvent<String>",
+        "keyed_by": "String (player name/UUID)",
+        "fields": [
+          "Holder<EntityStore> holder (final)",
+          "World world (final)",
+          "boolean broadcastLeaveMessage (default true)",
+          "Message leaveMessage (nullable)"
+        ],
+        "methods": [
+          "getHolder()", "getWorld()",
+          "shouldBroadcastLeaveMessage() — returns broadcastLeaveMessage && leaveMessage != null",
+          "setBroadcastLeaveMessage(boolean)",
+          "getLeaveMessage()", "setLeaveMessage(Message)"
+        ],
+        "description": "New event fired when a player is removed from a world. Mirrors AddPlayerToWorldEvent structure. Provides the Holder (not Ref) since the entity may already be removed from the store. Supports mutable leave message and broadcast toggle."
+      }
+    },
+
+    "removed": {
+      "LivingEntityInventoryChangeEvent": {
+        "package": "com.hypixel.hytale.server.core.event.events.entity",
+        "extends": "EntityEvent<LivingEntity, String>",
+        "description": "Event fired when a living entity's inventory changed, providing ItemContainer and Transaction. Removed entirely — inventory change tracking likely moved to an ECS event or handled differently."
+      }
+    },
+
+    "modified": {
+      "AddPlayerToWorldEvent": {
+        "changes": [
+          "Added nullable Message joinMessage field",
+          "Constructor now takes joinMessage parameter",
+          "Added getJoinMessage() and setJoinMessage(Message) accessors",
+          "shouldBroadcastJoinMessage() now also checks joinMessage != null (was only checking broadcastJoinMessage boolean)"
+        ]
+      },
+      "EventBus": {
+        "change": "dispatchFor() and dispatchForAsync() now check registry.isAlive() in addition to null check before dispatching. Returns NO_OP dispatcher for dead registries. Prevents dispatching events to registries that have been shut down."
+      },
+      "PlayerSetupConnectEvent": {
+        "changes": [
+          "reason field type changed from String to Message (i18n support)",
+          "DEFAULT_REASON changed from raw string to Message.translation('client.general.disconnect.setupCancelled')",
+          "getReason() returns Message instead of String",
+          "setReason() takes Message instead of String",
+          "UUID parameter annotated @Nonnull"
+        ]
+      }
+    }
+  },
+
+  "spawning": {
+    "summary": "6 changed types: SpawnMarkerBlockState replaced by SpawnMarkerBlock (block-state to ECS component migration), plus widespread collection type modernization (Object2DoubleMap->Reference2DoubleMap, ObjectArrayList->ReferenceArrayList, Set->List for chunk refs). Several null-safety improvements in world spawning.",
+
+    "added": {
+      "SpawnMarkerBlock": {
+        "package": "com.hypixel.hytale.server.spawning.blockstates",
+        "implements": "Component<ChunkStore>",
+        "codec": "BuilderCodec<SpawnMarkerBlock>",
+        "fields": [
+          "PersistentRef spawnMarkerReference",
+          "float markerLostTimeout (default 30.0)",
+          "SpawnMarkerBlock.Data config (nullable)"
+        ],
+        "inner_class_Data": {
+          "codec": "BuilderCodec with SpawnMarker (string) and MarkerOffset (Vector3i)",
+          "fields": ["String spawnMarker", "Vector3i markerOffset"],
+          "inherits_from_parent": true
+        },
+        "description": "Replacement for SpawnMarkerBlockState. Migrated from the BlockState metadata system to a regular ECS Component<ChunkStore>. The config (spawn marker ID and offset) is now stored in the Data inner class with its own BuilderCodec, rather than being embedded in the block type's state data."
+      }
+    },
+
+    "removed": {
+      "SpawnMarkerBlockState": {
+        "package": "com.hypixel.hytale.server.spawning.blockstates",
+        "extends": "BlockState",
+        "description": "Replaced by SpawnMarkerBlock component. SpawnMarkerBlockState extended BlockState (part of the block metadata system); the new SpawnMarkerBlock implements Component<ChunkStore> directly. The Data inner class similarly changed from extending StateData to a standalone codec class."
+      }
+    },
+
+    "modified": {
+      "SpawningPlugin": {
+        "changes": [
+          "Added spawnMarkerBlockComponentType field (ComponentType<ChunkStore, SpawnMarkerBlock>)",
+          "Registration changed from BlockStateModule.registerBlockState(SpawnMarkerBlockState) to getChunkStoreRegistry().registerComponent(SpawnMarkerBlock)",
+          "SpawnMarkerBlockStateSystems now initialized with the new component type instead of BlockStateModule lookup",
+          "Added getSpawnMarkerBlockComponentType() accessor"
+        ]
+      },
+      "SpawnMarkerBlockStateSystems": {
+        "changes": [
+          "Major refactor of AddOrRemove system to work with SpawnMarkerBlock component instead of SpawnMarkerBlockState",
+          "Block state data now resolved via BlockChunk block lookup -> BlockType.getBlockEntity() -> getComponent(SpawnMarkerBlock.getComponentType()) chain instead of direct state cast",
+          "Block position now computed from chunk-local coordinates via ChunkUtil.worldCoordFromLocalCoord() instead of from the old BlockState.getBlockPosition()",
+          "Added BlockModule.BlockStateInfo parameter to spawn marker creation flow",
+          "Null-safety: added checks for null blockChunk, blockType, blockEntity, configType, and data"
+        ]
+      },
+      "WorldEnvironmentSpawnData": {
+        "change": "chunkRefSet:Set<Ref<ChunkStore>> replaced with chunkRefList:List<Ref<ChunkStore>> using ReferenceArrayList. Renamed accessor from getChunkRefSet() to getChunkRefList()."
+      },
+      "WorldSpawningSystem": {
+        "changes": [
+          "Updated to use chunkRefList instead of chunkRefSet",
+          "Multiple assert-then-use patterns replaced with null checks returning safe defaults (false or 0.0). Specifically: ChunkSpawnData null check returns false for isRoleSpawnable, SpawnChunkData null check returns 0.0 for spawn weight calculation"
+        ]
+      },
+      "WorldSpawnTrackingSystem": {
+        "change": "Updated references from getChunkRefSet() to getChunkRefList()"
+      },
+      "SpawnStatsCommand": {
+        "change": "Updated reference from getChunkRefSet() to getChunkRefList()"
+      },
+      "BeaconSpawnController": {
+        "changes": [
+          "spawnedEntities: ObjectArrayList -> ReferenceArrayList",
+          "entityTimeoutCounter: Object2DoubleOpenHashMap -> Reference2DoubleOpenHashMap",
+          "Return type of getEntityTimeoutCounter() changed to Reference2DoubleMap"
+        ]
+      },
+      "SpawnBeaconSystems": {
+        "changes": [
+          "Object2DoubleMap -> Reference2DoubleMap for entity timeout counter access",
+          "ObjectList -> List for SpatialResource results",
+          "Removed explicit ObjectList casts in favor of generic List usage"
+        ]
+      },
+      "LocalSpawnControllerSystem": {
+        "change": "ObjectList -> List for SpatialResource beacon query results, removed explicit casts"
+      },
+      "LocalSpawnState": {
+        "change": "localControllerList: ObjectArrayList -> ReferenceArrayList"
+      },
+      "SpawnMarkerEntity": {
+        "change": "ObjectList -> List for SpatialResource results (minor import cleanup)"
+      },
+      "SpawnMarkerSystems": {
+        "change": "ObjectList -> List for SpatialResource results in multiple methods, removed explicit casts"
+      },
+      "SpawnSuppressionSystems": {
+        "changes": [
+          "ObjectList -> List for SpatialResource results",
+          "Added null check for oldEntry before processing suppression removal (prevents NPE when suppression zone entry is already gone)"
+        ]
+      },
+      "ChunkSuppressionQueue": {
+        "change": "toRemove list: ObjectArrayList -> ReferenceArrayList"
+      },
+      "SpawnBeaconsCommand": {
+        "change": "ObjectList -> List for entity parameter type, removed ObjectListIterator in favor of enhanced for-each"
+      },
+      "TriggerSpawnMarkersInteraction": {
+        "change": "ObjectArrayList -> ReferenceArrayList for spawner and trigger lists"
+      }
+    },
+
+    "collection_migration_rationale": "Widespread replacement of fastutil Object-based collections (ObjectArrayList, Object2DoubleOpenHashMap, ObjectList) with Reference-based equivalents (ReferenceArrayList, Reference2DoubleOpenHashMap). This is a performance optimization: Ref objects use reference identity (==) rather than value equality (.equals()), and Reference-based collections exploit this for faster lookups and comparisons. This aligns with the Store.java changes where Thread.equals() was replaced with == throughout."
+  },
+
+  "math": {
+    "summary": "7 changed types: 5 removed (Mat4f, Quatf, Vec2f, Vec3f, Vec4f), 2 modified (Box.forEachBlock overflow fix, ChunkUtil validation methods, Vector3d.assign(Vector3i) overload).",
+
+    "removed": {
+      "Mat4f": {
+        "package": "com.hypixel.hytale.math",
+        "description": "Immutable 4x4 float matrix for ByteBuf network serialization (16 float fields, SIZE=64). Removed — network serialization likely refactored or the type consolidated."
+      },
+      "Quatf": {
+        "package": "com.hypixel.hytale.math",
+        "description": "Immutable quaternion (x,y,z,w floats) for ByteBuf network serialization. Removed alongside other network-serialization math types."
+      },
+      "Vec2f": {
+        "package": "com.hypixel.hytale.math",
+        "description": "Lightweight 2D float vector for ByteBuf serialization. Removed."
+      },
+      "Vec3f": {
+        "package": "com.hypixel.hytale.math",
+        "description": "Lightweight 3D float vector for ByteBuf serialization. Removed."
+      },
+      "Vec4f": {
+        "package": "com.hypixel.hytale.math",
+        "description": "Immutable 4D float vector for ByteBuf serialization. Removed."
+      },
+      "removal_rationale": "All five removed types were lightweight ByteBuf-serialization wrappers with no arithmetic operations. They were used purely for network protocol encoding. Their removal suggests the network protocol was refactored to use different serialization types or inline byte writing."
+    },
+
+    "modified": {
+      "Box": {
+        "change": "forEachBlock() iteration loops now include overflow guards: 'for (int _x = minX; _x <= maxX && _x >= minX; _x++)'. The '&& _x >= minX' clause prevents integer overflow when maxX is near Integer.MAX_VALUE causing _x to wrap to Integer.MIN_VALUE and loop infinitely. Applied to all three nested loops in both forEachBlock overloads."
+      },
+      "ChunkUtil": {
+        "changes": [
+          "Added MIN_CHUNK_COORD (-67108864) and MAX_CHUNK_COORD (67108863) constants",
+          "Added isValidChunkIndex(long) — validates both x and z coordinates of a packed chunk index",
+          "Added isValidChunkCoords(int, int) — validates a pair of chunk coordinates",
+          "Added isValidChunkCoord(int) — checks that a single coordinate is within [-67108864, 67108863]",
+          "These bounds correspond to a 26-bit signed range, consistent with the chunk index packing format"
+        ]
+      },
+      "Vector3d": {
+        "change": "Added assign(Vector3i) overload — assigns this Vector3d's x/y/z from a Vector3i's integer components. Drops cached hash. Returns this for fluent chaining."
+      }
+    }
+  },
+
+  "common": {
+    "summary": "2 changed types (content modifications only, no adds/removes): BucketItemPool performance rewrite, StringUtil deprecated method removal, Semver build metadata validation fix.",
+
+    "modified": {
+      "BucketItemPool": {
+        "changes": [
+          "Internal pool changed from ObjectArrayList (List-based) to raw BucketItem[] array with manual size tracking",
+          "addAll() now uses System.arraycopy with dynamic array growth instead of List.addAll",
+          "acquire() uses direct array index decrement instead of List.remove(size-1)",
+          "Nulls out released slots explicitly (pool[--size] = null)",
+          "Performance optimization: eliminates List overhead for this hot-path object pool"
+        ]
+      },
+      "StringUtil": {
+        "changes": [
+          "Removed deprecated parseArgs(String, Map<String,String>) method (~100 lines) — was marked @Deprecated(forRemoval=true)",
+          "Removed parseArgs(String) method (~70 lines)",
+          "Removed removeQuotes(String) helper method",
+          "These methods handled command-line argument parsing with quote/escape handling — functionality now fully handled by the command system's Tokenizer"
+        ]
+      },
+      "Semver": {
+        "change": "Build metadata validation rewritten. Old: simple isAlphaNumericHyphenString() check. New: character-by-character validation allowing dot-separated identifiers per SemVer 2.0.0 spec. Each identifier must be [0-9A-Za-z-], dots separate identifiers, no empty identifiers (no leading/trailing/consecutive dots). Error messages updated to reference the spec: 'Build identifiers must only contain ASCII alphanumerics and hyphens [0-9A-Za-z-]'"
+      }
+    }
+  },
+
+  "procedurallib": {
+    "summary": "1 changed type: JsonLoader base class gains shared static constants; BlendNoisePropertyJsonLoader updated to use them.",
+
+    "modified": {
+      "JsonLoader": {
+        "change": "Added two protected static final fields: EMPTY_OBJECT (new JsonObject()) and EMPTY_ARRAY (new JsonArray()). These provide shared empty default values for subclasses to use in mustGet calls, avoiding repeated allocation."
+      },
+      "BlendNoisePropertyJsonLoader": {
+        "change": "mustGetArray() calls changed from BlendNoisePropertyJsonLoader.Constants.EMPTY_ARRAY to the inherited EMPTY_ARRAY constant. The inner Constants class (which presumably held EMPTY_ARRAY) is no longer referenced — the constant was hoisted to the base class."
+      }
+    }
+  }
+}

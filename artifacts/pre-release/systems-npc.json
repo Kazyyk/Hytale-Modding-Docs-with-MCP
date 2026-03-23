@@ -1,0 +1,681 @@
+{
+  "version": "1.0.0-pre",
+  "generated_at": "2026-03-22T00:00:00Z",
+  "domain": "npc",
+  "baseline": "stable",
+  "overview": "Pre-release incremental update to the NPC subsystem. Major themes: (1) new Push-mode separation steering system alongside Legacy, with extensive tunability; (2) entity effect awareness (new filter + conditions); (3) enhanced debug visualization (path waypoints, separation vectors, steering vectors, orientation hints); (4) inventory system migration from NPCEntity-owned to ECS InventoryComponent; (5) death system improvements (configurable death particles, instant item drops, deferred corpse removal timing); (6) spawn particles now support model-attached particles with target nodes; (7) performance optimizations via Reference-based collections replacing identity-hashing HashMap/HashSet; (8) schema generation refactored from event to static registration.",
+  "confidence": "high",
+  "change_summary": {
+    "added_types": 10,
+    "removed_types": 0,
+    "modified_types": 25,
+    "total_files_read": 68
+  },
+  "subsections": {
+    "new_types": {
+      "overview": "10 new types added across the NPC subsystem.",
+      "types": [
+        {
+          "name": "FeatureOverride",
+          "package": "asset.builder",
+          "kind": "enum implements Supplier<String>",
+          "status": "ADDED",
+          "purpose": "Tri-state enum (On/Off/Default) for overriding boolean feature flags in role configuration. evaluate(boolean defaultValue) resolves the override against a default. Used by the new separation system to control orientation hints, always-separate, and normalize-distances features.",
+          "values": ["On", "Off", "Default"],
+          "key_methods": ["evaluate(boolean defaultValue): boolean", "get(): String"]
+        },
+        {
+          "name": "NPCDescriptorsCommand",
+          "package": "commands",
+          "kind": "class extends AbstractAsyncPlayerCommand",
+          "status": "ADDED",
+          "purpose": "New /npc descriptors command that generates and saves NPC role descriptors to npc_descriptors.json. Calls NPCPlugin.generateDescriptors() and saveDescriptors() (both now public)."
+        },
+        {
+          "name": "EntityFilterEntityEffect",
+          "package": "corecomponents.entity.filters",
+          "kind": "class extends EntityFilterBase",
+          "status": "ADDED",
+          "purpose": "Entity filter that checks whether a target entity has a specific active entity effect via EffectControllerComponent.hasEffect(). Cost tier: LOW (100).",
+          "fields": ["entityEffectIndex: int"],
+          "cost": "LOW (100)"
+        },
+        {
+          "name": "BuilderEntityFilterEntityEffect",
+          "package": "corecomponents.entity.filters.builders",
+          "kind": "class extends BuilderEntityFilterBase",
+          "status": "ADDED",
+          "purpose": "JSON builder for EntityFilterEntityEffect. Reads 'EffectId' asset reference, validates via EntityEffectExistsValidator. Descriptor state: Stable."
+        },
+        {
+          "name": "SelfHasEffectCondition",
+          "package": "decisionmaker.core.conditions",
+          "kind": "class extends SimpleCondition",
+          "status": "ADDED",
+          "purpose": "Decision-making condition that checks whether the NPC itself has a specific active entity effect. Uses BuilderCodec with 'EffectId' string field and EntityEffect.VALIDATOR_CACHE. Resolves effect index in afterDecode hook.",
+          "codec_type": "SelfHasEffect"
+        },
+        {
+          "name": "TargetHasEffectCondition",
+          "package": "decisionmaker.core.conditions",
+          "kind": "class extends SimpleCondition",
+          "status": "ADDED",
+          "purpose": "Decision-making condition that checks whether the NPC's current target entity has a specific active entity effect. Null-safe: returns false if target is null or invalid.",
+          "codec_type": "TargetHasEffect"
+        },
+        {
+          "name": "VisHelper",
+          "package": "util",
+          "kind": "class",
+          "status": "ADDED",
+          "purpose": "Centralized debug visualization utility. Provides renderDebugVector(), renderDebugVectorTo(), renderDebugSphere() methods with configurable color and opacity. Replaces inline debug rendering constants that were previously scattered across AvoidanceSystem. Constants: DEBUG_COLOR_STEERING_POST (green), DEBUG_COLOR_STEERING_PRE (red), DEBUG_COLOR_AVOIDANCE (white), DEBUG_COLOR_SEPARATION (blue), DEBUG_MIN_VECTOR_DRAW_LENGTH_SQUARED (0.01), DEBUG_VECTORS_SCALE (4.0), DEBUG_VECTORS_TIME (0.05), DEBUG_TRANSPARENT (0.24)."
+        },
+        {
+          "name": "Role.SeparationMode",
+          "package": "role (inner enum)",
+          "kind": "enum (inner to Role)",
+          "status": "ADDED",
+          "purpose": "New enum within Role defining separation calculation modes: Legacy (original behavior) and Push (new distance-weighted push-based separation). Governs which algorithm blendSeparation() uses."
+        },
+        {
+          "name": "DebugSupport.PathWaypointVisData",
+          "package": "role.support (inner record)",
+          "kind": "record (inner to DebugSupport)",
+          "status": "ADDED",
+          "purpose": "Record(position: Vector3d, isCurrentTarget: boolean, isEndNode: boolean, isSeekTarget: boolean) for storing path visualization waypoint data. Collected by BodyMotionFindBase, rendered by RoleSystems.RoleDebugSystem."
+        },
+        {
+          "name": "NPCSystems.OnNPCAdded",
+          "package": "systems (inner class)",
+          "kind": "class extends HolderSystem<EntityStore>",
+          "status": "ADDED",
+          "purpose": "New ECS system registered by NPCPlugin. On NPC entity add, migrates inventory to ECS InventoryComponent system: ensures Storage, Armor (DEFAULT_ARMOR_CAPACITY), Hotbar (3), and Utility (0) components exist. Calls inventory.migrateToComponents() and backwardsCompatHook()."
+        }
+      ]
+    },
+    "separation_system_overhaul": {
+      "overview": "The NPC separation/avoidance steering system has been substantially reworked. A new 'Push' mode has been added alongside the existing 'Legacy' mode, with extensive new configuration fields. The separation computation is now split into distinct phases: distance accumulation, distance scaling, and optional orientation hint application.",
+      "changed_types": [
+        {
+          "name": "Role",
+          "status": "MODIFIED",
+          "changes": [
+            "New enum SeparationMode { Legacy, Push }",
+            "New fields: separationMode, avoidanceFallCheck, useOrientationHint, alwaysApplySeparation, normalizeDistances",
+            "New separation tuning fields: separationSafeDistanceMultiplier, separationLegacySteeringStrength, separationPushSteeringStrength, separationPushDistanceWeightDefault/Target/Attacker, separationPushSpeedScale",
+            "Temp vectors renamed: separation -> separationTempDistanceVector + separationTempSteeringVector",
+            "New tracking: separationSummedCount, separationSummedDistances (Vector3d)",
+            "New steeringChanged flag with clearSteeringChanged()/setSteeringChanged()/avoidanceFallCheckRequired()",
+            "blendSeparation() now accepts rotation parameter, dispatches to computeSummedDistanceLegacy() or computeSummedDistancePush(), then scaleSummedDistanceLegacy() or scaleSummedDistancesPush()",
+            "New RANDOMIZE_OFFSET_MAX_DISTANCE (0.001) and MIN_SEPARATION_SUMMED_SQUARED (0.01) constants",
+            "ignoredEntitiesForAvoidance changed from HashSet to ReferenceOpenHashSet",
+            "Death instruction now checks matches() before executing",
+            "Interaction instruction now checks matches() before executing",
+            "New fields: deathParticles, dropDeathItemsInstantly, deathItemsDropped flag"
+          ]
+        },
+        {
+          "name": "BuilderRole",
+          "status": "MODIFIED",
+          "changes": [
+            "13 new JSON configuration fields for separation: AvoidanceFallCheck, SeparationMode, SeparationPushSafeDistanceMultiplier, SeparationLegacySteeringStrength, SeparationPushSteeringStrength, SeparationPushDistanceWeightDefault/Target/Attacker, SeparationPushSpeedScale, SeparationOverrideOrientation/AlwaysSeparate/NormalizeDistances",
+            "DeathAnimationTime changed from raw double to DoubleHolder (expression-evaluatable), default changed from 5.0 to 1.5",
+            "New fields: DeathParticles (default 'Effect_Death'), DropDeathItemsInstantly (default false)",
+            "SpawnParticles/SpawnParticleOffset changed from raw types to AssetHolder/NumberArrayHolder",
+            "New: SpawnParticlesTargetNode, SpawnParticlesDetached fields",
+            "avoidanceMode changed from direct field to EnumHolder (expression-evaluatable)",
+            "generateDescriptors()/saveDescriptors() changed from protected to public",
+            "New getOverride() helper methods added to BuilderBase for FeatureOverride enum"
+          ]
+        },
+        {
+          "name": "Steering",
+          "status": "MODIFIED",
+          "changes": [
+            "New directionHint (Vector3f) and hasDirectionHint fields for orientation-aware steering",
+            "New methods: setDirectionHint(direction, rotation, forceOverwrite), setDirectionHint(rotation), getDirectionHint(), hasDirectionHint()",
+            "New fallback accessors: hasYawOrDirection(), getYawOrDirection(), hasPitchOrDirection(), getPitchOrDirection(), hasRollOrDirection()",
+            "New constant: DIRECTION_VECTOR_MIN_LENGTH_SQUARED = 0.1",
+            "assign(), equals(), hashCode(), clear() all updated to include directionHint"
+          ]
+        },
+        {
+          "name": "GroupSteeringAccumulator",
+          "status": "MODIFIED",
+          "changes": [
+            "New normalizeDistances mode: when true, distances are normalized before accumulation, overlapping entities get random jitter direction, and final sum is normalized if > 1.0",
+            "When normalizeDistances=false, retains original averaging behavior",
+            "New setNormalizeDistances() method"
+          ]
+        },
+        {
+          "name": "AvoidanceSystem",
+          "status": "MODIFIED",
+          "changes": [
+            "Debug color constants moved to VisHelper (centralized)",
+            "Null-safety: added role != null check before processing",
+            "Added clearSteeringChanged() call before avoidance/separation processing",
+            "blendAvoidance/blendSeparation now receive rotation parameter",
+            "New VisSteeringPre debug visualization (steering vector before avoidance)",
+            "VisOrientation debug flag for orientation hint visualization",
+            "Obstructed check moved inside the avoidance/separation block"
+          ]
+        }
+      ]
+    },
+    "debug_visualization": {
+      "overview": "Significant expansion of debug visualization capabilities, including path waypoint rendering, separation vector visualization, and steering pre/post visualization.",
+      "changed_types": [
+        {
+          "name": "RoleDebugFlags",
+          "status": "MODIFIED",
+          "changes": [
+            "6 new debug flags: VisSeparationSummed, VisSeparationTargets, VisOrientation, VisSteeringPre, VisSteeringPost, VisTranslation, VisPath",
+            "New preset 'visMove' = {VisSteeringPost, VisTranslation}",
+            "Updated 'visDist' preset to include VisSteeringPre, VisSteeringPost, VisSeparationTargets, VisSeparationSummed"
+          ]
+        },
+        {
+          "name": "DebugSupport",
+          "status": "MODIFIED",
+          "changes": [
+            "New visPath cached flag and pathVisDataList for path waypoint visualization",
+            "New methods: clearPathVisualization(), recordPathWaypoint(position, isCurrentTarget, isEndNode, isSeekTarget), getPathVisData(), hasPathVisData(), isVisPath()",
+            "New inner record: PathWaypointVisData(position, isCurrentTarget, isEndNode, isSeekTarget)",
+            "entityVisDataMap changed from HashMap to Reference2ObjectOpenHashMap",
+            "setDisplayCustomString/setDisplayPathfinderString now accept @Nullable"
+          ]
+        },
+        {
+          "name": "RoleSystems.RoleDebugSystem",
+          "status": "MODIFIED",
+          "changes": [
+            "New renderPathVisualization() method renders path waypoints as colored spheres with connecting lines",
+            "Path visualization shows: waypoints (small spheres), current target (medium sphere), end node (large sphere), seek target (red sphere), connecting lines between waypoints, line from NPC to first waypoint",
+            "DebugUtils.addArrow/addDisc/addLine calls updated from boolean to int flag parameter (FLAG_FADE)"
+          ]
+        },
+        {
+          "name": "MotionControllerBase",
+          "status": "MODIFIED",
+          "changes": [
+            "DOT_PRODUCT_EPSILON changed from 0.001 to 0.1",
+            "Debug steer log now includes 'obstr=' obstruction state",
+            "New debug move log with position, motion, and obstruction state",
+            "VisTranslation rendering via VisHelper after executeMove",
+            "Math validation restructured: abnormal speed now throws IllegalStateException (was warning log)",
+            "Non-debug abnormal speed still silently zeroes translation"
+          ]
+        }
+      ]
+    },
+    "entity_effect_system": {
+      "overview": "New entity effect awareness added to the NPC system at three levels: entity filter (for sensors), decision-making conditions (for state evaluation), and plugin registration.",
+      "changed_types": [
+        {
+          "name": "NPCPlugin",
+          "status": "MODIFIED",
+          "changes": [
+            "Registered new 'EntityEffect' entity filter type (BuilderEntityFilterEntityEffect)",
+            "Registered new 'SelfHasEffect' and 'TargetHasEffect' conditions (via Condition.java static initializer)",
+            "EntityEffect.class added to loadsAfter dependencies for role asset loading",
+            "Schema generation refactored: GenerateSchemaEvent replaced with SchemaGenerator.registerAssetSchema() static registration",
+            "New NPCSystems.OnNPCAdded system registered",
+            "onSchemaGenerate() method removed"
+          ]
+        },
+        {
+          "name": "Condition (base)",
+          "status": "MODIFIED",
+          "changes": [
+            "Registered 'SelfHasEffect' -> SelfHasEffectCondition.CODEC",
+            "Registered 'TargetHasEffect' -> TargetHasEffectCondition.CODEC"
+          ]
+        }
+      ]
+    },
+    "inventory_migration": {
+      "overview": "The inventory system is being migrated from NPCEntity-owned Inventory to ECS-based InventoryComponent. NPCEntity.createDefaultInventory() and setInventorySize() are removed. A new OnNPCAdded system ensures InventoryComponent sub-components exist.",
+      "changed_types": [
+        {
+          "name": "NPCEntity",
+          "status": "MODIFIED",
+          "changes": [
+            "Removed createDefaultInventory() method",
+            "Removed setInventorySize(int, int, int) method",
+            "Removed import of Inventory class"
+          ]
+        },
+        {
+          "name": "NPCSystems.OnNPCAdded",
+          "status": "ADDED",
+          "changes": [
+            "Calls npc.getInventory().migrateToComponents(holder)",
+            "Ensures InventoryComponent.Storage, Armor, Hotbar, Utility components exist",
+            "Calls inventory.backwardsCompatHook(holder)"
+          ]
+        },
+        {
+          "name": "EntityFilterInventory",
+          "status": "MODIFIED",
+          "changes": [
+            "No longer accesses entity.getInventory() directly",
+            "Uses InventoryComponent.getCombined(store, targetRef, HOTBAR_UTILITY_CONSUMABLE_STORAGE) instead"
+          ]
+        },
+        {
+          "name": "ActionInventory",
+          "status": "MODIFIED",
+          "changes": [
+            "All inventory operations (clearItemInHand, useItem, setActiveHotbarSlot, setOffHandSlot) now pass Ref<EntityStore> and Store parameters",
+            "Reflects InventoryComponent-based API requiring entity reference for component access"
+          ]
+        },
+        {
+          "name": "InventoryHelper",
+          "status": "MODIFIED",
+          "changes": [
+            "clearItemInHand(), setHotbarSlot(), setOffHandSlot() all now take Ref<EntityStore> and ComponentAccessor<EntityStore> parameters",
+            "Inventory.setActiveHotbarSlot(), setActiveUtilitySlot() calls updated to pass ref+store"
+          ]
+        },
+        {
+          "name": "RoleUtils",
+          "status": "MODIFIED",
+          "changes": [
+            "setItemInHand() now takes ref and store parameters"
+          ]
+        },
+        {
+          "name": "NPCGiveCommand",
+          "status": "MODIFIED",
+          "changes": [
+            "RoleUtils.setItemInHand calls updated with ref and store parameters"
+          ]
+        },
+        {
+          "name": "RoleBuilderSystem",
+          "status": "MODIFIED",
+          "changes": [
+            "Now depends on NPCSystems.OnNPCAdded (AFTER) and ModelSystems.ModelSpawned (BEFORE)",
+            "Ensures CachedStatsComponent on NPC entity add",
+            "spawnEffect() now passes holder and builderSupport parameters"
+          ]
+        }
+      ]
+    },
+    "death_system_improvements": {
+      "overview": "Death item drops can now be deferred to corpse removal time rather than happening instantly on death. Death particles are now configurable per-role.",
+      "changed_types": [
+        {
+          "name": "NPCDamageSystems.DropDeathItems",
+          "status": "MODIFIED",
+          "changes": [
+            "Changed from DeathSystems.OnDeathSystem to EntityTickingSystem<EntityStore>",
+            "Now ticks every frame checking DeferredCorpseRemoval.shouldRemove()",
+            "Added system dependencies: AFTER DeathSystems.TickCorpseRemoval, BEFORE DeathSystems.CorpseRemoval",
+            "Respects role.isDropDeathItemsInstantly() - if false, waits for corpse removal timer",
+            "Tracks deathItemsDropped flag to prevent double-dropping",
+            "Query now includes DeathComponent.getComponentType()"
+          ]
+        },
+        {
+          "name": "NPCSystems.OnDeathSystem",
+          "status": "MODIFIED",
+          "changes": [
+            "Null-safety: added role != null check",
+            "DeferredCorpseRemoval constructor now receives deathParticles string"
+          ]
+        }
+      ]
+    },
+    "spawn_effect_improvements": {
+      "overview": "Spawn particle effects now support model-attached particles via the new SpawnModelParticles protocol packet.",
+      "changed_types": [
+        {
+          "name": "SpawnEffect",
+          "status": "MODIFIED",
+          "changes": [
+            "Interface methods now take BuilderSupport parameter for expression evaluation",
+            "New methods: getSpawnParticleTargetNode(BuilderSupport), isSpawnParticleDetached(BuilderSupport)",
+            "spawnEffect() now takes Holder<EntityStore> and BuilderSupport parameters",
+            "Creates ModelParticle with systemId, positionOffset, targetNodeName, detachedFromModel",
+            "Sends SpawnModelParticles packet to nearby players via NetworkId"
+          ]
+        }
+      ]
+    },
+    "motion_controller_changes": {
+      "overview": "Motion controllers updated for new steering direction hints, path visualization, and improved debug logging.",
+      "changed_types": [
+        {
+          "name": "MotionController",
+          "status": "MODIFIED",
+          "changes": [
+            "New method: canActFailReason(Ref, ComponentAccessor) -> String (returns reason why NPC cannot act, or null)",
+            "isMovementState() simplified: removed Velocity component dependency for IDLE/WALKING checks",
+            "DebugUtils.addArrow boolean parameter changed to int flags"
+          ]
+        },
+        {
+          "name": "MotionControllerWalk",
+          "status": "MODIFIED",
+          "changes": [
+            "New canActFailReason() implementation: returns 'OFF_GROUND', 'NO_BLOCK_BELOW', 'NO_SOLID_BLOCK_BELOW'",
+            "Heading computation uses steering.hasYawOrDirection() and getYawOrDirection() instead of hasYaw()/getYaw()",
+            "Depth probing condition now includes role.avoidanceFallCheckRequired()",
+            "Debug collision log improved to show 'is/was' ground state"
+          ]
+        },
+        {
+          "name": "MotionControllerFly",
+          "status": "MODIFIED",
+          "changes": [
+            "Uses steering.hasYawOrDirection()/hasPitchOrDirection() for direction hint fallback"
+          ]
+        },
+        {
+          "name": "MotionControllerDive",
+          "status": "MODIFIED",
+          "changes": [
+            "Uses steering.hasYawOrDirection()/hasPitchOrDirection() for direction hint fallback"
+          ]
+        },
+        {
+          "name": "BodyMotionFindBase",
+          "status": "MODIFIED",
+          "changes": [
+            "Now implements DebugSupport.DebugFlagsChangeListener",
+            "New visPath flag and cachedDebugSupport reference",
+            "Records path waypoint visualization data when visPath is enabled",
+            "New getSteeringTargetPosition() virtual method for seek target visualization",
+            "Clears path visualization on deactivate and path recalculation"
+          ]
+        },
+        {
+          "name": "BodyMotionFind",
+          "status": "MODIFIED",
+          "changes": [
+            "New getDesiredTargetDistance() returns this.distance",
+            "New getDesiredTargetEntity() returns this.lastDesiredTargetEntity"
+          ]
+        },
+        {
+          "name": "BodyMotionFindWithTarget",
+          "status": "MODIFIED",
+          "changes": [
+            "New lastDesiredTargetEntity field tracking the target entity reference",
+            "Cleared on deactivate and reset, set when valid target position found",
+            "New getSteeringTargetPosition() override returning lastTargetPosition"
+          ]
+        },
+        {
+          "name": "BodyMotionMaintainDistance",
+          "status": "MODIFIED",
+          "changes": [
+            "New minThresholdDistance field tracking current minimum distance threshold",
+            "New lastTargetEntity field",
+            "Strafing logic restructured: null-safe for targetRef",
+            "New getDesiredTargetDistance() and getDesiredTargetEntity() overrides"
+          ]
+        },
+        {
+          "name": "BodyMotion (interface)",
+          "status": "MODIFIED",
+          "changes": [
+            "New default methods: getDesiredTargetDistance() returns Double.MAX_VALUE, getDesiredTargetEntity() returns null"
+          ]
+        }
+      ]
+    },
+    "performance_optimizations": {
+      "overview": "Systematic replacement of identity-based collections with reference-based fastutil variants for entity references, reducing hash computation overhead.",
+      "changed_types": [
+        {
+          "name": "PositionCache",
+          "status": "MODIFIED",
+          "changes": [
+            "droppedItems, spawnMarkers, spawnBeacons changed from ObjectArrayList to ReferenceArrayList",
+            "lineOfSightCache, inverseLineOfSightCache, friendlyFireCache changed from Object2ByteOpenHashMap to Reference2ByteOpenHashMap"
+          ]
+        },
+        {
+          "name": "StateSupport",
+          "status": "MODIFIED",
+          "changes": [
+            "interactedPlayers, interactablePlayers changed from HashSet to ReferenceOpenHashSet",
+            "contextualInteractions changed from HashMap to Reference2ObjectOpenHashMap"
+          ]
+        },
+        {
+          "name": "DamageData",
+          "status": "MODIFIED",
+          "changes": [
+            "kills changed from HashMap to Reference2ObjectOpenHashMap",
+            "damageInflicted, damageSuffered changed from Object2DoubleOpenHashMap to Reference2DoubleOpenHashMap"
+          ]
+        },
+        {
+          "name": "RoleSystems",
+          "status": "MODIFIED",
+          "changes": [
+            "ENTITY_LIST ThreadLocal changed from ArrayList to ReferenceArrayList"
+          ]
+        },
+        {
+          "name": "NewSpawnStartTickingSystem",
+          "status": "MODIFIED",
+          "changes": [
+            "Queue changed from ObjectArrayList/ObjectList to ReferenceArrayList/ReferenceList"
+          ]
+        },
+        {
+          "name": "BlockTypeView",
+          "status": "MODIFIED",
+          "changes": [
+            "entities Set changed from HashSet to ReferenceOpenHashSet"
+          ]
+        },
+        {
+          "name": "EventTypeRegistration",
+          "status": "MODIFIED",
+          "changes": [
+            "Entity lists changed from ObjectArrayList to ReferenceArrayList"
+          ]
+        },
+        {
+          "name": "ResourceView",
+          "status": "MODIFIED",
+          "changes": [
+            "reservationsByEntity changed from HashMap to Reference2ObjectOpenHashMap"
+          ]
+        },
+        {
+          "name": "NPCMultiSelectCommandBase",
+          "status": "MODIFIED",
+          "changes": [
+            "refs list changed from ArrayList to ReferenceArrayList"
+          ]
+        },
+        {
+          "name": "NPCRunTestsCommand",
+          "status": "MODIFIED",
+          "changes": [
+            "members list changed from ObjectArrayList to ReferenceArrayList"
+          ]
+        },
+        {
+          "name": "ActionBeacon",
+          "status": "MODIFIED",
+          "changes": [
+            "sendList changed from ObjectArrayList to ReferenceArrayList",
+            "DebugUtils.addArrow boolean -> FLAG_FADE int"
+          ]
+        },
+        {
+          "name": "ActionTriggerSpawners",
+          "status": "MODIFIED",
+          "changes": [
+            "triggerList changed from ObjectArrayList to ReferenceArrayList"
+          ]
+        }
+      ]
+    },
+    "other_changes": {
+      "overview": "Miscellaneous changes across the NPC subsystem.",
+      "changed_types": [
+        {
+          "name": "BuilderActionBase",
+          "status": "MODIFIED",
+          "changes": [
+            "New 'Enabled' boolean field (default true) - allows actions to be disabled in JSON config",
+            "isEnabled() now reads from enabled BooleanHolder instead of always returning true"
+          ]
+        },
+        {
+          "name": "BuilderWeightedAction",
+          "status": "MODIFIED",
+          "changes": [
+            "build() now returns @Nullable (was @Nonnull)",
+            "Returns null if inner action is null, avoiding null-wrapping"
+          ]
+        },
+        {
+          "name": "WeightedAction",
+          "status": "MODIFIED",
+          "changes": [
+            "Constructor now takes explicit Action parameter instead of building from builder",
+            "action field no longer @Nullable (caller handles null filtering)"
+          ]
+        },
+        {
+          "name": "ActionToggleStateEvaluator",
+          "status": "MODIFIED",
+          "changes": [
+            "Field renamed from 'enable' to 'on'"
+          ]
+        },
+        {
+          "name": "BuilderActionToggleStateEvaluator",
+          "status": "MODIFIED",
+          "changes": [
+            "JSON field renamed from 'Enabled' to 'On'",
+            "Accessor renamed from isEnable() to isOn()"
+          ]
+        },
+        {
+          "name": "EntityFilterViewSector",
+          "status": "MODIFIED",
+          "changes": [
+            "viewCone of 0 now treated as 360 degrees (always matches), avoiding unnecessary math"
+          ]
+        },
+        {
+          "name": "SensorEntityPrioritiserAttitude",
+          "status": "MODIFIED",
+          "changes": [
+            "New attitudeToPriority lookup array for O(1) priority resolution (was O(n) linear scan)",
+            "AttitudePrioritiser inner class now uses the pre-computed array"
+          ]
+        },
+        {
+          "name": "Option (decision maker)",
+          "status": "MODIFIED",
+          "changes": [
+            "NPCEntity and UUIDComponent lookups now lazy (only resolved when logging is active)",
+            "Reduces component access overhead for non-debug evaluations"
+          ]
+        },
+        {
+          "name": "MarkedEntitySupport",
+          "status": "MODIFIED",
+          "changes": [
+            "targetSlotToIgnoreForAvoidance now defaults to defaultTargetSlot in constructor",
+            "setTargetSlotToIgnoreForAvoidance: negative values fall back to defaultTargetSlot (was stored as-is)",
+            "getTargetReferenceToIgnoreForAvoidance simplified"
+          ]
+        },
+        {
+          "name": "NPCAllCommand",
+          "status": "MODIFIED",
+          "changes": [
+            "Added null check for npcPair before accessing"
+          ]
+        },
+        {
+          "name": "SpawnNPCInteraction",
+          "status": "MODIFIED",
+          "changes": [
+            "rotationTuple.rotate() renamed to rotationTuple.rotatedVector()"
+          ]
+        },
+        {
+          "name": "PositionCacheSystems",
+          "status": "MODIFIED",
+          "changes": [
+            "Breathing check now uses CachedStatsComponent.isCanBreathe() instead of computing inline",
+            "Query updated to require CachedStatsComponent"
+          ]
+        },
+        {
+          "name": "SpawnReferenceSystems",
+          "status": "MODIFIED",
+          "changes": [
+            "Defensive: spawnCount going negative now logs warning and clamps to 0",
+            "Defensive: NPC not found in marker references now logs warning",
+            "Array sizing now computed from remaining count rather than spawnCount"
+          ]
+        },
+        {
+          "name": "BlockPositionEntryGenerator",
+          "status": "MODIFIED",
+          "changes": [
+            "Removed internalIdHolder IntOpenHashSet intermediate - section.find() simplified to 2-param version"
+          ]
+        },
+        {
+          "name": "ActionSpawnParticles",
+          "status": "MODIFIED",
+          "changes": [
+            "ObjectList -> List, ObjectListIterator -> for-each loop"
+          ]
+        },
+        {
+          "name": "SensorPath",
+          "status": "MODIFIED",
+          "changes": [
+            "ObjectList -> List, explicit cast removed"
+          ]
+        },
+        {
+          "name": "HeadMotionAim",
+          "status": "MODIFIED",
+          "changes": [
+            "DebugUtils.addArrow boolean parameter changed to DebugUtils.FLAG_FADE"
+          ]
+        },
+        {
+          "name": "NPCPhysicsMath",
+          "status": "MODIFIED",
+          "changes": [
+            "New methods: dotProductWithSelector(Vector3d, Vector3d, Vector3d), distanceWithSelector(Vector3d, Vector3d, Vector3d), distanceSquaredWithSelector(Vector3d, Vector3d, Vector3d) - component-selective distance calculations using componentSelector masking"
+          ]
+        },
+        {
+          "name": "BuilderBase",
+          "status": "MODIFIED",
+          "changes": [
+            "New getOverride() helper methods for reading FeatureOverride enum from JSON config"
+          ]
+        },
+        {
+          "name": "BuilderEntityFilterViewSector",
+          "status": "MODIFIED",
+          "changes": [
+            "Description updated: '(0 is treated as 360)'"
+          ]
+        }
+      ]
+    }
+  }
+}
